@@ -1,5 +1,6 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { composition } from "./composition";
 import { encode } from "./encode";
 import { functionMachine } from "./function_machine";
 import { trace } from "./trace";
@@ -22,7 +23,7 @@ export const transformer = defineFamily({
   modes: {
     function_machine: functionMachine,
     inverse: s("inverse", "Inverse", "Run the machine backward to recover the input.", "pick"),
-    composition: s("composition", "Composition", "Order the machines to reach a target; code proves the order is unique.", "order"),
+    composition,
     domain_filter: s("domain_filter", "Domain filter", "Which inputs are valid.", "pick"),
     encode,
     trace,

@@ -4,6 +4,7 @@ import { asymptote } from "./asymptote";
 import { continuity } from "./continuity";
 import { limit } from "./limit";
 import { roots } from "./roots";
+import { secant } from "./secant";
 import { slope } from "./slope";
 
 const s = (id: string, name: string, blurb: string, widget: "dial" | "place" | "pick" = "place") =>
@@ -26,7 +27,7 @@ export const functionWorld = defineFamily({
     continuity,
     asymptote,
     slope,
-    secant: s("secant", "Secant", "Shrink Δx toward the derivative at a.", "dial"),
+    secant,
     roots,
     squeeze: s("squeeze", "Squeeze", "Bounds converge at a; predict where the trapped orb ends.", "pick"),
     epsilon_delta: s("epsilon_delta", "Epsilon-delta", "Choose δ for a given ε (catalog-only).", "dial"),
