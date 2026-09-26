@@ -65,7 +65,7 @@ export const GENRE_INFO: Record<Genre, GenreInfo> = {
 };
 
 /** Genre hosts that exist in src/game/hosts. Flip a genre on when its host lands. */
-export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon"];
+export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon", "mystery"];
 
 /** LIBRARY §1.1: knowledge type → genre weight. */
 export const GENRE_WEIGHTS: Record<KnowledgeType, Record<Genre, number>> = {

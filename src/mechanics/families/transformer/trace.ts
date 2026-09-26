@@ -170,13 +170,13 @@ export const trace = defineMode({
     if (input.optionIndex === s.correctIndex) return { correct: true, feedback: "That is exactly what the machine produced." };
     const picked = p.options[input.optionIndex];
     // Informative failure: show the state after the first few lines so the player can re-trace.
-    const partial = runProgram(p.program.slice(0, Math.max(1, Math.ceil(p.program.length / 2))));
+    const partial = runProgram(p.program.slice(0, Math.max(1, Math.floor(p.program.length / 3))));
     const snapshot = Object.entries(partial.state)
       .map(([k, v]) => `${k} = ${fmt(v)}`)
       .join(", ");
     return {
       correct: false,
-      feedback: `${picked === undefined ? "Pick an option." : `"${picked}" isn't what the program produces.`} Trace it line by line: halfway through, ${snapshot || "nothing has been assigned yet"}.`,
+      feedback: `${picked === undefined ? "Pick an option." : `"${picked}" isn't what the program produces.`} Trace it line by line: after the first few lines, ${snapshot || "nothing has been assigned yet"}.`,
     };
   },
   solutionInput: (_p, s) => ({ optionIndex: s.correctIndex }),

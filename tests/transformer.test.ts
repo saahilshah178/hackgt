@@ -109,7 +109,7 @@ describe("transformer.trace", () => {
     expect(trace.grade(p, trace.solutionInput(p, s)).correct).toBe(true);
     const miss = trace.grade(p, { optionIndex: 1 });
     expect(miss.correct).toBe(false);
-    expect(miss.feedback).toMatch(/halfway through, x = 3, y = 7/);
+    expect(miss.feedback).toMatch(/first few lines, x = 3, y = 7/);
     expect(runProgram(["i = 0", "while i < 5: i = i + 2", "print i"]).output).toEqual(["6"]);
     const fv = { ...p, ask: "final_value" as const, variable: "x", options: ["13", "3", "0"] };
     expect(trace.resolve(fv).answer).toBe("13");

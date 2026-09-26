@@ -60,7 +60,8 @@ describe("genres", () => {
   });
 
   it("auto-selects the genre from knowledge-type weights, restricted to implemented genres", () => {
-    expect(autoSelectGenre({ argument: 10 }).genre).toBe("dungeon"); // only dungeon is implemented tonight
+    expect(autoSelectGenre({ argument: 10 }).genre).toBe("mystery"); // dungeon + mystery hosts exist
+    expect(autoSelectGenre({ quantitative: 10 }).genre).toBe("dungeon"); // platformer would win, but its host isn't built
     expect(autoSelectGenre({ argument: 10 }, GENRES).genre).toBe("mystery");
     expect(autoSelectGenre({ quantitative: 10 }, GENRES).genre).toBe("platformer");
     expect(autoSelectGenre({ fact: 4, category: 4 }, GENRES).genre).toBe("dungeon");

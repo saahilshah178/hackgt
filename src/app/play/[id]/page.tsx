@@ -1,14 +1,28 @@
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import type { GameSpec } from "@/contracts/gamespec";
 import { validateGameSpec, type ValidationResult } from "@/pipeline/validate/validate-gamespec";
 import { getGameSpecById } from "@/server/storage";
 import { PlayClient } from "./PlayClient";
 
+/** `fixture-<name>` resolves to `fixtures/<name>.json` when it exists (e.g. mystery/puzzle fixtures
+ * authored directly in that genre), else falls back to `fixtures/<name>-dungeon.json` (every sample
+ * still ships a dungeon build). So both /play/fixture-civil-rights-mystery and
+ * /play/fixture-civil-rights-dungeon work. */
+async function resolveFixtureFile(name: string): Promise<string> {
+  const direct = path.join(process.cwd(), "fixtures", `${name}.json`);
+  try {
+    await stat(direct);
+    return direct;
+  } catch {
+    return path.join(process.cwd(), "fixtures", `${name}-dungeon.json`);
+  }
+}
+
 async function loadAndValidate(id: string): Promise<ValidationResult> {
   if (id.startsWith("fixture-")) {
     try {
-      const file = path.join(process.cwd(), "fixtures", `${id.slice("fixture-".length)}-dungeon.json`);
+      const file = await resolveFixtureFile(id.slice("fixture-".length));
       const raw = await readFile(file, "utf8");
       return validateGameSpec(JSON.parse(raw));
     } catch (err) {
