@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { blockers, clampX, edgeHit, sheerEdges, stepBlocked, BLOCKER_MARGIN } from "./terrain";
+import { blockers, clampX, edgeHit, exitReachX, sheerEdges, stepBlocked, BLOCKER_MARGIN, BOUNDS_MARGIN } from "./terrain";
 import { buildSurfaces } from "./surfaces";
 import { reqCtxOf } from "./requirements";
 import { TEST_ZONE } from "./test-zone";
@@ -84,5 +84,16 @@ describe("terrain", () => {
     expect(blockers(stations, new Set()).map((b) => b.encounterId)).toEqual(["e1", "e2", "e3"]);
     expect(blockers(stations, new Set(["e1"]), "z_test").map((b) => b.encounterId)).toEqual(["e2"]);
     expect(blockers(stations, new Set(["e1", "e2"]), "z_test")).toEqual([]);
+  });
+});
+
+describe("zone exits (H2)", () => {
+  it("an exit inside the walkable range fires at its x; one closer to the edge than the clamp fires at the clamp", () => {
+    expect(exitReachX(5000, 8000)).toBe(4999);
+    expect(exitReachX(7990, 8000)).toBe(8000 - BOUNDS_MARGIN - 1);
+    // walking right on a platform stops at width − BOUNDS_MARGIN, which is past the reach point
+    const walkMax = clampX({ x0: 3900, x1: 4100, surface: "ledge", model: { ...model, width: 4000 }, edges: [], blockers: [] }).x;
+    expect(walkMax).toBe(4000 - BOUNDS_MARGIN);
+    expect(walkMax).toBeGreaterThanOrEqual(exitReachX(3995, 4000));
   });
 });

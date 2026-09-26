@@ -1,0 +1,3833 @@
+{
+  "trig-webgl": {
+    "url": "/play/fixture-trig?debug=1",
+    "steps": [
+      {
+        "shot": "trig-webgl-01-boot.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 360,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 4800,
+            "cameraY": -100,
+            "zoom": 0.5,
+            "textures": 61,
+            "near": null,
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 21,
+            "drawObjects": 65
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "cutscene-skip",
+          "dialogue-bar",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "phaser-host",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "trig-webgl-02-explore.png",
+        "reached": null,
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 360,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 520,
+            "zoom": 0.8333333333333334,
+            "textures": 61,
+            "near": null,
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 19,
+            "drawObjects": 65
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "cutscene-skip",
+          "dialogue-bar",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "phaser-host",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "trig-webgl-03-walked.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 933.6789641445431,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 520,
+            "zoom": 0.8333333333333334,
+            "textures": 61,
+            "near": null,
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 18,
+            "drawObjects": 65
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      },
+      {
+        "shot": "trig-webgl-04-panel.png",
+        "reached": "panel",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 4230,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 4160,
+            "cameraY": 372.0743534482758,
+            "zoom": 0.6676258992805755,
+            "textures": 61,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_radians"
+            },
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 15,
+            "drawObjects": 65
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "card-graph",
+          "card-stack",
+          "card-unit_circle",
+          "dialogue-bar",
+          "dialogue-emblem",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "dialogue-pin-primary",
+          "dialogue-pin-secondary",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hint-button",
+          "hud",
+          "instrument-panel",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "panel-announce",
+          "panel-back",
+          "panel-instrument",
+          "panel-sr",
+          "phaser-host",
+          "scrub-line",
+          "scrubber",
+          "scrubber-readout",
+          "scrubber-row",
+          "scrubber-tab",
+          "value-chip",
+          "verify-row",
+          "widget-submit",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "trig-webgl-05-scrub.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 4230,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 4160,
+            "cameraY": 372.0743534482758,
+            "zoom": 0.6676258992805755,
+            "textures": 61,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_radians"
+            },
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 17,
+            "drawObjects": 65
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      }
+    ],
+    "consoleErrors": [],
+    "warnings": [
+      "[.WebGL-0x11400450a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x11400441400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x1140043d200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[art] zone z1_sunward: 54 referenced asset(s) have no manifest entry yet: orrery_terraces.companion.cog, orrery_terraces.costume.wren_hair_bun, orrery_terraces.costume.wren_satchel, orrery_terraces.co"
+    ]
+  },
+  "trig-dom": {
+    "url": "/play/fixture-trig?debug=1&renderer=dom",
+    "steps": [
+      {
+        "shot": "trig-dom-01-boot.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "dom",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 360,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 5599.999682684398,
+            "cameraY": -599.9999365368797,
+            "zoom": 0.5000000188878334,
+            "textures": 42,
+            "near": null,
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 42,
+            "drawObjects": 49
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "cutscene-skip",
+          "dialogue-bar",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "dom-host",
+          "dom-layer",
+          "dom-player",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "snapshot-e1_radians",
+          "snapshot-e2_period",
+          "title-card",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "trig-dom-02-explore.png",
+        "reached": null,
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "dom",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 1397.1092980010387,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 39.99999999999999,
+            "cameraY": 559.9999999999999,
+            "zoom": 0.8333333333333334,
+            "textures": 42,
+            "near": null,
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 60,
+            "drawObjects": 49
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "cutscene-skip",
+          "dialogue-bar",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "dom-host",
+          "dom-layer",
+          "dom-player",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "interact-prompt",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "snapshot-e1_radians",
+          "snapshot-e2_period",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "trig-dom-03-walked.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "dom",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 1399.8620743323313,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 39.99999999999999,
+            "cameraY": 559.9999999999999,
+            "zoom": 0.8333333333333334,
+            "textures": 42,
+            "near": null,
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 60,
+            "drawObjects": 49
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      },
+      {
+        "shot": "trig-dom-04-panel.png",
+        "reached": "panel",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "dom",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 4230,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 4159.992630034505,
+            "cameraY": 372.0746896146668,
+            "zoom": 0.6676261957024374,
+            "textures": 42,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_radians"
+            },
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 29,
+            "drawObjects": 49
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "card-graph",
+          "card-stack",
+          "card-unit_circle",
+          "dialogue-bar",
+          "dialogue-emblem",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "dialogue-pin-primary",
+          "dialogue-pin-secondary",
+          "dom-host",
+          "dom-layer",
+          "dom-player",
+          "expedition-layout",
+          "expedition-stage",
+          "hint-button",
+          "hud",
+          "instrument-panel",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "panel-announce",
+          "panel-back",
+          "panel-instrument",
+          "panel-sr",
+          "scrub-line",
+          "scrubber",
+          "scrubber-readout",
+          "scrubber-row",
+          "scrubber-tab",
+          "snapshot-e1_radians",
+          "snapshot-e2_period",
+          "value-chip",
+          "verify-row",
+          "widget-submit",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "trig-dom-05-scrub.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "dom",
+          "layers": [
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.04
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.25,
+              "scrollFactor": 1
+            },
+            {
+              "set": "sunward_day",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "z1_sunward",
+            "segmentId": "sunward_day",
+            "playerX": 4230,
+            "playerY": 1440,
+            "surface": "ground",
+            "cameraX": 4159.999999999256,
+            "cameraY": 372.07435344830975,
+            "zoom": 0.6676258992806055,
+            "textures": 42,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_radians"
+            },
+            "links": [
+              {
+                "id": "s0_stepup",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_stone_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_in",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s0_canal_rungs",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_up",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_ledge_down",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 59,
+            "drawObjects": 49
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_radians",
+            "mastery": {
+              "c_radians": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_period": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_amplitude": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_solve": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      }
+    ],
+    "consoleErrors": [],
+    "warnings": []
+  },
+  "cell-webgl": {
+    "url": "/play/fixture-cell-transport?debug=1",
+    "steps": [
+      {
+        "shot": "cell-webgl-01-boot.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.05
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "shore",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "shore",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            },
+            {
+              "set": "shore",
+              "alpha": 0.15,
+              "scrollFactor": 0.2
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "zone_a",
+            "segmentId": "shore_morning",
+            "playerX": 420,
+            "playerY": 983,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 253.42478205734113,
+            "zoom": 0.9553526728424235,
+            "textures": 54,
+            "near": null,
+            "links": [
+              {
+                "id": "a_root_ledge",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_root_hump",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_stud_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 20,
+            "drawObjects": 48
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_bilayer",
+            "mastery": {
+              "c_bilayer": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selectivity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_diffusion": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_osmosis": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_tonicity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_facilitated": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_active_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sodium_potassium": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_bulk_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "cutscene-skip",
+          "dialogue-bar",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "key-legend-button",
+          "meter",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "phaser-host",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "cell-webgl-02-explore.png",
+        "reached": "explore",
+        "dbg": {
+          "expedition": true,
+          "phase": "explore",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.05
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "shore",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "shore",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            },
+            {
+              "set": "shore",
+              "alpha": 0.15,
+              "scrollFactor": 0.2
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "zone_a",
+            "segmentId": "shore_morning",
+            "playerX": 520,
+            "playerY": 983,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 161.79999999999995,
+            "zoom": 0.8333333333333334,
+            "textures": 54,
+            "near": null,
+            "links": [
+              {
+                "id": "a_root_ledge",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_root_hump",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_stud_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 21,
+            "drawObjects": 48
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_bilayer",
+            "mastery": {
+              "c_bilayer": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selectivity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_diffusion": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_osmosis": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_tonicity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_facilitated": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_active_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sodium_potassium": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_bulk_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "dialogue-bar",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "key-legend-button",
+          "meter",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "phaser-host",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "cell-webgl-03-walked.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "explore",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.05
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "shore",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "shore",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            },
+            {
+              "set": "shore",
+              "alpha": 0.15,
+              "scrollFactor": 0.2
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "zone_a",
+            "segmentId": "shore_morning",
+            "playerX": 974.9455537875438,
+            "playerY": 983,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 161.79999999999995,
+            "zoom": 0.8333333333333334,
+            "textures": 54,
+            "near": null,
+            "links": [
+              {
+                "id": "a_root_ledge",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_root_hump",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_stud_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 21,
+            "drawObjects": 48
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_bilayer",
+            "mastery": {
+              "c_bilayer": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selectivity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_diffusion": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_osmosis": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_tonicity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_facilitated": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_active_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sodium_potassium": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_bulk_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      },
+      {
+        "shot": "cell-webgl-04-panel.png",
+        "reached": "panel",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.05
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "shore",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "shore",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            },
+            {
+              "set": "shore",
+              "alpha": 0.15,
+              "scrollFactor": 0.2
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "zone_a",
+            "segmentId": "shore_morning",
+            "playerX": 4230,
+            "playerY": 983,
+            "surface": "ground",
+            "cameraX": 3563.2,
+            "cameraY": 270,
+            "zoom": 0.8333333333333334,
+            "textures": 54,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_bilayer"
+            },
+            "links": [
+              {
+                "id": "a_root_ledge",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_root_hump",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_stud_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 17,
+            "drawObjects": 48
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_bilayer",
+            "mastery": {
+              "c_bilayer": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selectivity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_diffusion": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_osmosis": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_tonicity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_facilitated": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_active_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sodium_potassium": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_bulk_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "card-claims",
+          "card-graph",
+          "card-stack",
+          "dialogue-bar",
+          "dialogue-emblem",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "dialogue-pin-primary",
+          "dialogue-pin-secondary",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hint-button",
+          "hud",
+          "instrument-panel",
+          "key-legend-button",
+          "meter",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "panel-announce",
+          "panel-back",
+          "panel-instrument",
+          "panel-sr",
+          "phaser-host",
+          "probe-scrubber",
+          "probe-scrubber-readout",
+          "probe-scrubber-row",
+          "probe-scrubber-tab",
+          "scrub-line",
+          "value-chip",
+          "verify-row",
+          "widget-first-option",
+          "widget-submit",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "cell-webgl-05-scrub.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.05
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "shore",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "shore",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "shore",
+              "alpha": 0.12,
+              "scrollFactor": 1
+            },
+            {
+              "set": "shore",
+              "alpha": 0.15,
+              "scrollFactor": 0.2
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "zone_a",
+            "segmentId": "shore_morning",
+            "playerX": 4230,
+            "playerY": 983,
+            "surface": "ground",
+            "cameraX": 3563.2,
+            "cameraY": 270,
+            "zoom": 0.8333333333333334,
+            "textures": 54,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_bilayer"
+            },
+            "links": [
+              {
+                "id": "a_root_ledge",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_root_hump",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "a_stud_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 18,
+            "drawObjects": 48
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_bilayer",
+            "mastery": {
+              "c_bilayer": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selectivity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_diffusion": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_osmosis": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_tonicity": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_facilitated": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_active_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sodium_potassium": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_bulk_transport": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      }
+    ],
+    "consoleErrors": [],
+    "warnings": [
+      "[art] zone zone_a: 46 referenced asset(s) have no manifest entry yet: living_gate.companion.ora_bust, living_gate.companion.pip, living_gate.costume.diver_helmet, living_gate.costume.diver_scarf, livi"
+    ]
+  },
+  "civil-webgl": {
+    "url": "/play/fixture-civil-rights-mystery?debug=1",
+    "steps": [
+      {
+        "shot": "civil-webgl-01-boot.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "morgue",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "morgue",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.8,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.2,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "s1_morgue",
+            "segmentId": "morgue_interior",
+            "playerX": 60,
+            "playerY": 720,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 28.799999999999955,
+            "zoom": 0.8333333333333334,
+            "textures": 31,
+            "near": null,
+            "links": [
+              {
+                "id": "s1_crate_hop_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_crate_hop_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 26,
+            "drawObjects": 69
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_brown",
+            "mastery": {
+              "c_brown": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_montgomery": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_little_rock": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sit_ins": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_freedom_rides": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_birmingham": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_march_washington": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_civil_rights_act": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selma_vra": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sources": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_causation": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "cutscene-skip",
+          "dialogue-bar",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "phaser-host",
+          "title-card",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "civil-webgl-02-explore.png",
+        "reached": null,
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": {
+            "speakerId": "archivist",
+            "text": "At dawn, reels that won't play get hauled out. Then the false labels are all anyone will remember.",
+            "typing": true
+          },
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "morgue",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "morgue",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.8,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.2,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "s1_morgue",
+            "segmentId": "morgue_interior",
+            "playerX": 1111.5060510094559,
+            "playerY": 1220,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 320,
+            "zoom": 0.8333333333333334,
+            "textures": 31,
+            "near": {
+              "kind": "npc",
+              "npcId": "ida",
+              "stateId": "ida_desk"
+            },
+            "links": [
+              {
+                "id": "s1_crate_hop_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_crate_hop_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 20,
+            "drawObjects": 69
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_brown",
+            "mastery": {
+              "c_brown": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_montgomery": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_little_rock": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sit_ins": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_freedom_rides": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_birmingham": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_march_washington": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_civil_rights_act": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selma_vra": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sources": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_causation": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "cutscene-skip",
+          "dialogue-bar",
+          "dialogue-emblem",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "dialogue-speaker",
+          "dialogue-text",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hud",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "phaser-host",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "civil-webgl-03-walked.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "intro",
+          "dialogue": {
+            "speakerId": "archivist",
+            "text": "At dawn, reels that won't play get hauled out. Then the false labels are all anyone will remember.",
+            "typing": false
+          },
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "morgue",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "morgue",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.8,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "morgue",
+              "alpha": 0.2,
+              "scrollFactor": 1
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "s1_morgue",
+            "segmentId": "morgue_interior",
+            "playerX": 1111.5060510094559,
+            "playerY": 1220,
+            "surface": "ground",
+            "cameraX": 0,
+            "cameraY": 320,
+            "zoom": 0.8333333333333334,
+            "textures": 31,
+            "near": {
+              "kind": "npc",
+              "npcId": "ida",
+              "stateId": "ida_desk"
+            },
+            "links": [
+              {
+                "id": "s1_crate_hop_in",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s1_crate_hop_out",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": "intro",
+            "fps": 22,
+            "drawObjects": 69
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_brown",
+            "mastery": {
+              "c_brown": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_montgomery": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_little_rock": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sit_ins": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_freedom_rides": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_birmingham": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_march_washington": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_civil_rights_act": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selma_vra": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sources": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_causation": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      },
+      {
+        "shot": "civil-webgl-04-panel.png",
+        "reached": "panel",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "courthouse_square",
+              "alpha": 0.8,
+              "scrollFactor": 0.05
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 0.7,
+              "scrollFactor": 1.35
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "s2_courthouse",
+            "segmentId": "late_afternoon",
+            "playerX": 830,
+            "playerY": 900,
+            "surface": "ground",
+            "cameraX": 760,
+            "cameraY": 57.95258620689651,
+            "zoom": 0.6628571428571428,
+            "textures": 49,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_brown"
+            },
+            "links": [
+              {
+                "id": "s2_plinth_hop",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_cornice_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_cornice_drop",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_mailbox_hop",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_awning_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 20,
+            "drawObjects": 50
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_brown",
+            "mastery": {
+              "c_brown": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_montgomery": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_little_rock": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sit_ins": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_freedom_rides": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_birmingham": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_march_washington": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_civil_rights_act": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selma_vra": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sources": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_causation": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        },
+        "testids": [
+          "card-claims",
+          "card-stack",
+          "card-timeline",
+          "dialogue-bar",
+          "dialogue-emblem",
+          "dialogue-live",
+          "dialogue-live-assertive",
+          "dialogue-pin-primary",
+          "dialogue-pin-secondary",
+          "expedition-host",
+          "expedition-layout",
+          "expedition-stage",
+          "hint-button",
+          "hud",
+          "instrument-panel",
+          "key-legend-button",
+          "mute-toggle",
+          "objective-ring",
+          "objective-text",
+          "panel-announce",
+          "panel-back",
+          "panel-instrument",
+          "panel-sr",
+          "phaser-host",
+          "probe-scrubber",
+          "probe-scrubber-readout",
+          "probe-scrubber-row",
+          "probe-scrubber-tab",
+          "scrub-line",
+          "value-chip",
+          "verify-row",
+          "widget-first-option",
+          "widget-submit",
+          "world-labels",
+          "zone-title"
+        ]
+      },
+      {
+        "shot": "civil-webgl-05-scrub.png",
+        "dbg": {
+          "expedition": true,
+          "phase": "panel",
+          "dialogue": null,
+          "renderer": "webgl",
+          "layers": [
+            {
+              "set": "courthouse_square",
+              "alpha": 0.8,
+              "scrollFactor": 0.05
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.15
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.35
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 1,
+              "scrollFactor": 0.6
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 0.7,
+              "scrollFactor": 1.3
+            },
+            {
+              "set": "courthouse_square",
+              "alpha": 0.7,
+              "scrollFactor": 1.35
+            }
+          ],
+          "host": {
+            "ready": true,
+            "zoneId": "s2_courthouse",
+            "segmentId": "late_afternoon",
+            "playerX": 830,
+            "playerY": 900,
+            "surface": "ground",
+            "cameraX": 760,
+            "cameraY": 57.95258620689651,
+            "zoom": 0.6628571428571428,
+            "textures": 49,
+            "near": {
+              "kind": "station",
+              "encounterId": "e1_brown"
+            },
+            "links": [
+              {
+                "id": "s2_plinth_hop",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_cornice_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_cornice_drop",
+                "kind": "drop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_mailbox_hop",
+                "kind": "hop",
+                "inRange": false,
+                "open": null
+              },
+              {
+                "id": "s2_awning_climb",
+                "kind": "climb",
+                "inRange": false,
+                "open": null
+              }
+            ],
+            "cutscene": null,
+            "fps": 23,
+            "drawObjects": 50
+          },
+          "state": {
+            "finished": false,
+            "index": 0,
+            "encounterId": "e1_brown",
+            "mastery": {
+              "c_brown": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_montgomery": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_little_rock": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sit_ins": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_freedom_rides": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_birmingham": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_march_washington": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_civil_rights_act": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_selma_vra": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_sources": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              },
+              "c_causation": {
+                "score": 0.5,
+                "attempts": 0,
+                "firstTryCorrect": 0
+              }
+            }
+          }
+        }
+      }
+    ],
+    "consoleErrors": [],
+    "warnings": [
+      "[art] zone s1_morgue: 22 referenced asset(s) have no manifest entry yet: archive_of_voices.companion.wick, archive_of_voices.costume.ida_bun_glasses, archive_of_voices.costume.ida_cardigan, archive_of",
+      "[art] zone s2_courthouse: 38 referenced asset(s) have no manifest entry yet: archive_of_voices.companion.wick, archive_of_voices.costume.nell_satchel, archive_of_voices.costume.nell_scarf, archive_of_"
+    ]
+  },
+  "trig-legacy": {
+    "dbg": {
+      "expedition": false,
+      "legacy": true
+    },
+    "testids": [
+      "mastery-hud",
+      "phaser-host"
+    ],
+    "h1": [
+      "The Clockwork Crypt"
+    ],
+    "consoleErrors": []
+  },
+  "dev-expedition-webgl": {
+    "boot": null,
+    "hostId": "phaser-host",
+    "dbg1": {
+      "expedition": true,
+      "dialogue": null,
+      "renderer": "webgl",
+      "layers": [
+        {
+          "set": "meadow_day",
+          "alpha": 0.9,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.7,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.35,
+          "scrollFactor": 1
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1
+        }
+      ],
+      "host": {
+        "ready": true,
+        "zoneId": "dev_meadow",
+        "segmentId": "meadow_day",
+        "playerX": 220,
+        "playerY": 860,
+        "surface": "ground",
+        "cameraX": 0,
+        "cameraY": 0,
+        "zoom": 0.8333333333333334,
+        "textures": 94,
+        "near": null,
+        "links": [
+          {
+            "id": "hop_ledge",
+            "kind": "hop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "climb_rise",
+            "kind": "climb",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "drop_descent",
+            "kind": "drop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "ladder_descent",
+            "kind": "ladder",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "gear_hop",
+            "kind": "timed_hop",
+            "inRange": false,
+            "open": false
+          },
+          {
+            "id": "lookout_lift",
+            "kind": "ride",
+            "inRange": false,
+            "open": null
+          }
+        ],
+        "cutscene": null,
+        "fps": 18,
+        "drawObjects": 55
+      },
+      "state": null
+    },
+    "dbg2": {
+      "expedition": true,
+      "dialogue": null,
+      "renderer": "webgl",
+      "layers": [
+        {
+          "set": "meadow_day",
+          "alpha": 0.9,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.7,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.35,
+          "scrollFactor": 1
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1
+        }
+      ],
+      "host": {
+        "ready": true,
+        "zoneId": "dev_meadow",
+        "segmentId": "meadow_day",
+        "playerX": 944,
+        "playerY": 860,
+        "surface": "ground",
+        "cameraX": 0,
+        "cameraY": 0,
+        "zoom": 0.8333333333333334,
+        "textures": 94,
+        "near": null,
+        "links": [
+          {
+            "id": "hop_ledge",
+            "kind": "hop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "climb_rise",
+            "kind": "climb",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "drop_descent",
+            "kind": "drop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "ladder_descent",
+            "kind": "ladder",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "gear_hop",
+            "kind": "timed_hop",
+            "inRange": false,
+            "open": true
+          },
+          {
+            "id": "lookout_lift",
+            "kind": "ride",
+            "inRange": false,
+            "open": null
+          }
+        ],
+        "cutscene": null,
+        "fps": 18,
+        "drawObjects": 55
+      },
+      "state": null
+    },
+    "testids": [
+      "dev-current",
+      "dev-intro",
+      "dev-open",
+      "dev-warp",
+      "expedition-host",
+      "phaser-host",
+      "world-labels"
+    ],
+    "consoleErrors": [],
+    "warnings": [
+      "[art] zone dev_meadow: 82 referenced asset(s) have no manifest entry yet: living_gate.part.membrane_router_carrier_rocker, living_gate.part.membrane_router_console, living_gate.part.membrane_router_cr"
+    ]
+  },
+  "dev-expedition-dom": {
+    "boot": null,
+    "hostId": "dom-host",
+    "dbg1": {
+      "expedition": true,
+      "dialogue": null,
+      "renderer": "dom",
+      "layers": [
+        {
+          "set": "meadow_day",
+          "alpha": 0.9,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.7,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.35,
+          "scrollFactor": 1
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1
+        }
+      ],
+      "host": {
+        "ready": true,
+        "zoneId": "dev_meadow",
+        "segmentId": "meadow_day",
+        "playerX": 220,
+        "playerY": 860,
+        "surface": "ground",
+        "cameraX": 0,
+        "cameraY": 0,
+        "zoom": 0.8333333331017997,
+        "textures": 53,
+        "near": null,
+        "links": [
+          {
+            "id": "hop_ledge",
+            "kind": "hop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "climb_rise",
+            "kind": "climb",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "drop_descent",
+            "kind": "drop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "ladder_descent",
+            "kind": "ladder",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "gear_hop",
+            "kind": "timed_hop",
+            "inRange": false,
+            "open": false
+          },
+          {
+            "id": "lookout_lift",
+            "kind": "ride",
+            "inRange": false,
+            "open": null
+          }
+        ],
+        "cutscene": null,
+        "fps": 58,
+        "drawObjects": 57
+      },
+      "state": null
+    },
+    "dbg2": {
+      "expedition": true,
+      "dialogue": null,
+      "renderer": "dom",
+      "layers": [
+        {
+          "set": "meadow_day",
+          "alpha": 0.9,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 1,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.7,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_day",
+          "alpha": 0.35,
+          "scrollFactor": 1
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.15
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.35
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 0.6
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1.3
+        },
+        {
+          "set": "meadow_dusk",
+          "alpha": 0,
+          "scrollFactor": 1
+        }
+      ],
+      "host": {
+        "ready": true,
+        "zoneId": "dev_meadow",
+        "segmentId": "meadow_day",
+        "playerX": 944,
+        "playerY": 860,
+        "surface": "ground",
+        "cameraX": 0,
+        "cameraY": 0,
+        "zoom": 0.833333333333333,
+        "textures": 53,
+        "near": null,
+        "links": [
+          {
+            "id": "hop_ledge",
+            "kind": "hop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "climb_rise",
+            "kind": "climb",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "drop_descent",
+            "kind": "drop",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "ladder_descent",
+            "kind": "ladder",
+            "inRange": false,
+            "open": null
+          },
+          {
+            "id": "gear_hop",
+            "kind": "timed_hop",
+            "inRange": false,
+            "open": true
+          },
+          {
+            "id": "lookout_lift",
+            "kind": "ride",
+            "inRange": false,
+            "open": null
+          }
+        ],
+        "cutscene": null,
+        "fps": 58,
+        "drawObjects": 57
+      },
+      "state": null
+    },
+    "testids": [
+      "blocker-e1_radians",
+      "blocker-e2_period",
+      "blocker-e2_selectivity",
+      "blocker-e3_amplitude",
+      "dev-current",
+      "dev-intro",
+      "dev-open",
+      "dev-warp",
+      "dom-host",
+      "dom-layer",
+      "dom-player",
+      "facade-router_hall",
+      "snapshot-e1_radians",
+      "snapshot-e2_period",
+      "snapshot-e2_selectivity",
+      "snapshot-e3_amplitude",
+      "snapshot-e4_solve",
+      "world-labels"
+    ],
+    "consoleErrors": [],
+    "warnings": []
+  }
+}

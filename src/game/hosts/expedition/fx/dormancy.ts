@@ -35,9 +35,14 @@ export function setDormancy(scene: Phaser.Scene, target: Phaser.GameObjects.Game
   const state = { v: dormant ? 0 : 1 };
   const apply = (v: number) => {
     // v = 1 → fully awake; 0 → dormant
+    // H2 fix: the tween targets a plain object, so it outlives a target destroyed with its zone (a warp mid-tween);
+    // a destroyed object has no scene, and its filter's matrix is gone
+    if (!t.scene) return;
     if (cm) {
-      cm.colorMatrix.reset();
-      cm.colorMatrix.saturate(-strength * (1 - v));
+      const m = (cm as { colorMatrix: Cm["colorMatrix"] | null }).colorMatrix;
+      if (!m) return;
+      m.reset();
+      m.saturate(-strength * (1 - v));
     } else if (t.setTint) {
       if (v >= 0.999) t.clearTint?.();
       else t.setTint(0xa8b2bd);

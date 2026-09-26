@@ -26,7 +26,7 @@ import { EMPTY_WORLD_STATE, reqCtxOf, requirementMet } from "../scene/requiremen
 import { planRoute, type RouteStep } from "../scene/route";
 import { crossfadeWeights, interiorAt, layerSetWeights, resolveSegmentLook, stepFacadeAlpha } from "../scene/segments";
 import { buildSurfaces, heightAt } from "../scene/surfaces";
-import { blockers as blockersOf, sheerEdges } from "../scene/terrain";
+import { blockers as blockersOf, exitReachX, sheerEdges } from "../scene/terrain";
 import { linkPrompt, linksInRange, planLink, timedHopOpen } from "../scene/traversal";
 import { emptyTriggerTracker, stepTriggers } from "../scene/triggers";
 import { DomActor, setActor } from "./DomActor";
@@ -344,7 +344,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
           }
         }
         if (!c.path && !transitioning.current) {
-          const ex = z.exits.find((e) => c && c.surface === e.surface && c.x >= e.x - 1 && reqOk(e.requires));
+          const ex = z.exits.find((e) => c && c.surface === e.surface && c.x >= exitReachX(e.x, z.width) && reqOk(e.requires));
           if (ex) void enterZone(ex.toZoneId, ex.toX, ex.toSurface);
         }
       }
@@ -452,9 +452,9 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
         await new Promise((r) => setTimeout(r, Math.min(ms, 600)));
         await enterZone(toZoneId, toX, toSurface);
       },
-      // cues and music play on the client's audio bus (TODO(w1): typed once HostEvent carries them, see ExpeditionHost)
-      sfx: (cue) => (propsRef.current.onHostEvent as ((e: unknown) => void) | undefined)?.({ type: "cue", cue }),
-      music: (cue) => (propsRef.current.onHostEvent as ((e: unknown) => void) | undefined)?.({ type: "music", cue }),
+      // cues and music play on the client's audio bus
+      sfx: (cue) => propsRef.current.onHostEvent?.({ type: "cue", cue }),
+      music: (cue) => propsRef.current.onHostEvent?.({ type: "music", cue }),
       awaitInteract: (target, _prompt, timeoutMs) =>
         new Promise<void>((resolve) => {
           awaiting.current = { target, resolve };
@@ -503,8 +503,8 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
         say: (req) => propsRef.current.onSay?.(req),
         onFlag: (id, on) => {
           flagsLocal.current.set(id, on);
-          // the client's world-state reducer owns flags (TODO(w1): typed once HostEvent carries `flag`)
-          (propsRef.current.onHostEvent as ((e: unknown) => void) | undefined)?.({ type: "flag", id, on });
+          // the client's world-state reducer owns flags
+          propsRef.current.onHostEvent?.({ type: "flag", id, on });
         },
         guideId: world?.overlay.cast.guide.characterId ?? "narrator",
       }),

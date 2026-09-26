@@ -9,7 +9,8 @@
  *     left behind; when walking fails repeatedly the client warps (the demo must never stall);
  *   - every cutscene except the finale is trimmed after its first completed `say` (the host trims when express was on
  *     at the start; `trimCutscene` lets the client trim one that started before express was switched on);
- *   - blocking lines advance on their own after a short read (the rehearsal needs no key presses);
+ *   - completed lines advance on their own after a short read (the rehearsal needs no key presses, and queued
+ *     toasts never hold up the next cutscene line);
  *   - ambient/hint triggers (host), station approach toasts and sandboxes are off.
  * `nextExpressAction(phase, progress, world, player)` is the whole decision; ExpeditionClient executes it.
  */
@@ -59,6 +60,8 @@ export const EXPRESS_INTERACT_RANGE = 80;
 export const EXPRESS_MAX_WALKS = 3;
 /** How long a completed blocking line stays before express advances it. */
 export const EXPRESS_READ_MS = 900;
+/** …and a completed non-blocking line (bar or toast). */
+export const EXPRESS_TOAST_MS = 1200;
 
 export interface ExpressOptions {
   /** failed walks toward the current target so far (the client counts; a success resets it) */
@@ -161,12 +164,13 @@ export function nextExpressAction(phase: Phase, progress: ExpressProgress, world
 }
 
 /**
- * Express auto-advance for the dialogue bar: the delay before a completed BLOCKING line is advanced, or null (not
- * express, nothing showing, still typing, or a non-blocking line that times out on its own).
+ * Express auto-advance for the dialogue bar: the delay before a completed line is advanced, or null (not express,
+ * nothing showing, or still typing). Blocking lines would otherwise wait for Space; non-blocking bar lines and toasts
+ * would hold the one queue for their full read time (≥ 2.5 s each) and delay the next cutscene's line behind them.
  */
 export function expressAdvanceDelay(express: boolean, active: { typing: boolean; blocking: boolean } | null): number | null {
-  if (!express || !active || active.typing || !active.blocking) return null;
-  return EXPRESS_READ_MS;
+  if (!express || !active || active.typing) return null;
+  return active.blocking ? EXPRESS_READ_MS : EXPRESS_TOAST_MS;
 }
 
 /** Side content express turns off (§0.1.5): station approach toasts, NPC approach lines, sandboxes, quests. */

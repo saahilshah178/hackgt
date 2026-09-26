@@ -42,7 +42,8 @@ test("fixture-civil-rights-mystery: autoSolve to the end screen with zero consol
 });
 
 test("fixture-civil-rights-mystery: ArrowRight from arrival opens the first room's cross_exam frame", async ({ page }) => {
-  await page.goto("/play/fixture-civil-rights-mystery?debug=1");
+  // the civil side-car dresses history_mystery_001 in the Expedition now; the arrival frame is the legacy MysteryHost (§8.2)
+  await page.goto("/play/fixture-civil-rights-mystery?debug=1&host=legacy");
 
   const host = page.getByTestId("mystery-host");
   await expect(host).toBeVisible();

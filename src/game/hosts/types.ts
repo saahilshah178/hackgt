@@ -104,7 +104,11 @@ export type HostEvent =
   | { type: "trigger"; triggerId: string }
   | { type: "link_used"; linkId: string; landed: "to" | "missTo" }
   | { type: "cutscene"; id: string; state: "start" | "end" }
-  | { type: "back" }; // Esc pressed in-canvas
+  | { type: "back" } // Esc pressed in-canvas
+  | { type: "flag"; id: string; on: boolean } // cutscene set_state flag (the client's world-state reducer owns flags)
+  | { type: "sandbox_goal"; sandboxId: string; goal: string } // first time meta.goalMet holds (client records sandbox_goal + reward)
+  | { type: "cue"; cue: string } // cutscene sfx step → the client's audio bus
+  | { type: "music"; cue: string | null }; // cutscene music step
 export interface ExpeditionHostDebug {
   ready: boolean;
   zoneId: string;

@@ -16,6 +16,15 @@ export const BLOCKER_MARGIN = 36;
 /** Distance kept from the zone edges. */
 export const BOUNDS_MARGIN = 20;
 
+/**
+ * The x at which walking right reaches a zone exit (H2). Walking stops BOUNDS_MARGIN short of the zone's right edge,
+ * so an exit authored closer to the edge than that (trig's z1 exit at 7990 of 8000) fires at the clamp instead of
+ * never firing.
+ */
+export function exitReachX(exitX: number, zoneWidth: number): number {
+  return Math.min(exitX, zoneWidth - BOUNDS_MARGIN) - 1;
+}
+
 export interface Blocker {
   encounterId: string;
   x: number;

@@ -93,6 +93,5 @@ export function installHostDebug(api: ExpeditionHostDebugApi): () => void {
       for (const k of Object.keys(api)) delete rest[k];
       root.expedition = rest;
     }
-    // (the client re-installs its own `host`/`freeze` fallbacks when it is still mounted)
   };
 }

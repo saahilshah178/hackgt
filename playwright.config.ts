@@ -18,7 +18,7 @@ import { defineConfig, devices } from "@playwright/test";
  * host testid (`phaser-host` vs `dom-host`) so the same `expedition-{trig,cell,civil,express}.spec.ts` files
  * run unmodified on both projects (§8.2).
  */
-const EXPEDITION_SPEC_PATTERN = /expedition-(trig|cell|civil|express)\.spec\.ts$/;
+const EXPEDITION_SPEC_PATTERN = /expedition-(trig|cell|civil|express|client)\.spec\.ts$/;
 
 export default defineConfig({
   testDir: "e2e",

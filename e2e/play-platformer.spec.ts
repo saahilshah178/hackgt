@@ -44,7 +44,8 @@ test("fixture-trig-platformer: autoSolve to the end screen with zero console err
 });
 
 test("fixture-trig-platformer: ArrowRight moves the player to the right", async ({ page }) => {
-  await page.goto("/play/fixture-trig-platformer?debug=1");
+  // the trig side-car dresses trig_platformer_001 in the Expedition (whose intro holds input); this checks the legacy PlatformerScene
+  await page.goto("/play/fixture-trig-platformer?debug=1&host=legacy");
   await page.waitForFunction(() => typeof (window as unknown as { __GAME_DEBUG__?: unknown }).__GAME_DEBUG__ !== "undefined", null, {
     timeout: 30_000,
   });

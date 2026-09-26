@@ -162,6 +162,6 @@ export const isAudioOff = () => getEnv().AUDIO_MODE === "off";
  * The play page's `sfx` prop (EXPEDITION_SFX ≠ off). Non-throwing: the page must render in every mode, so this reads
  * the one variable instead of calling getEnv(); anything but "off" leaves the cue bank on.
  */
-export function expeditionSfxOn(source: NodeJS.ProcessEnv = process.env): boolean {
+export function expeditionSfxOn(source: Readonly<Record<string, string | undefined>> = process.env): boolean {
   return EnvSchema.shape.EXPEDITION_SFX.safeParse(source.EXPEDITION_SFX).data !== "off";
 }

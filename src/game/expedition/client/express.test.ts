@@ -5,6 +5,7 @@ import {
   consoleSpot,
   EXPRESS_MAX_WALKS,
   EXPRESS_READ_MS,
+  EXPRESS_TOAST_MS,
   expressAdvanceDelay,
   expressAllows,
   expressTrims,
@@ -97,11 +98,13 @@ describe("express: cutscenes and lines", () => {
     expect(expressTrims("z2_entry", "finale")).toBe(true);
     expect(expressTrims("intro", null)).toBe(true);
   });
-  it("blocking lines advance after a short read; toasts, typing lines and non-express never do", () => {
+  it("completed lines advance after a short read (blocking ones sooner); typing lines and non-express never do", () => {
     expect(expressAdvanceDelay(true, { typing: false, blocking: true })).toBe(EXPRESS_READ_MS);
+    expect(expressAdvanceDelay(true, { typing: false, blocking: false })).toBe(EXPRESS_TOAST_MS);
+    expect(EXPRESS_TOAST_MS).toBeLessThan(2500); // shorter than the engine's minimum toast
     expect(expressAdvanceDelay(true, { typing: true, blocking: true })).toBeNull();
-    expect(expressAdvanceDelay(true, { typing: false, blocking: false })).toBeNull();
     expect(expressAdvanceDelay(false, { typing: false, blocking: true })).toBeNull();
+    expect(expressAdvanceDelay(false, { typing: false, blocking: false })).toBeNull();
     expect(expressAdvanceDelay(true, null)).toBeNull();
   });
   it("side content is off in express", () => {

@@ -141,13 +141,11 @@ export const ExpeditionHost = forwardRef<HostHandle, HostProps>(function Expedit
           palette,
           warn: (msg, err) => console.warn(`Expedition: ${msg}`, err ?? ""),
           onBootError: (err) => fail("the scene failed to boot", err),
-          // TODO(w1): forward cutscene flags and sandbox goals to the client once HostEvent carries them
-          // (outside diff for src/game/hosts/types.ts: `{ type: "flag"; id; on }` and `{ type: "sandbox_goal"; sandboxId; goal }`).
-          onFlag: (id, on) => (propsRef.current.onHostEvent as ((e: unknown) => void) | undefined)?.({ type: "flag", id, on }),
-          onSandboxGoal: (sandboxId, goal) => (propsRef.current.onHostEvent as ((e: unknown) => void) | undefined)?.({ type: "sandbox_goal", sandboxId, goal }),
-          // TODO(w1): typed once HostEvent carries `{ type: "cue"; cue }` and `{ type: "music"; cue }` (outside diff, types.ts)
-          onCue: (cue) => (propsRef.current.onHostEvent as ((e: unknown) => void) | undefined)?.({ type: "cue", cue }),
-          onMusic: (cue) => (propsRef.current.onHostEvent as ((e: unknown) => void) | undefined)?.({ type: "music", cue }),
+          // cutscene flags, sandbox goals, cues and music go to the client (its reducer and audio bus own them)
+          onFlag: (id, on) => propsRef.current.onHostEvent?.({ type: "flag", id, on }),
+          onSandboxGoal: (sandboxId, goal) => propsRef.current.onHostEvent?.({ type: "sandbox_goal", sandboxId, goal }),
+          onCue: (cue) => propsRef.current.onHostEvent?.({ type: "cue", cue }),
+          onMusic: (cue) => propsRef.current.onHostEvent?.({ type: "music", cue }),
           events: {
             onEvent: (e) => {
               if (e.type === "load_progress") setLoadFrac(e.fraction);

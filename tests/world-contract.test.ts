@@ -51,6 +51,7 @@ import {
   configCtxFor,
   CONTRAPTION_LIBRARY,
   contraptionFor,
+  getContraption,
   contraptionsForMode,
   implementedModeKeys,
   SANDBOX_IDS,
@@ -70,7 +71,7 @@ const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 
 // ---------------------------------------------------------------- skeleton side-cars
 
-describe("skeleton side-cars (fixtures/worlds/*.world.json)", () => {
+describe("side-cars (fixtures/worlds/*.world.json)", () => {
   it("are the only overlay files and all parse with WorldFile", () => {
     expect(readdirSync(path.join(ROOT, "fixtures/worlds")).sort()).toEqual(["cell-transport.world.json", "civil-rights.world.json", "trig.world.json"]);
     expect(existsSync(path.join(ROOT, "src/game/worlds"))).toBe(false);
@@ -87,15 +88,19 @@ describe("skeleton side-cars (fixtures/worlds/*.world.json)", () => {
     }
   });
 
-  it("have one console_slate station per encounter, in encounter order by (zoneIndex, consoleX)", () => {
+  it("have one station per encounter on a compatible archetype and skin, in encounter order by (zoneIndex, consoleX)", () => {
     for (const { name, file, fixture } of SIDE_CARS) {
       const w = WorldFile.parse(file).world;
       expect(w.stations.map((s) => s.encounterId), name).toEqual(fixture.encounters.map((e) => e.id));
       const zoneIndex = new Map(w.zones.map((z, i) => [z.id, i]));
       let last: [number, number] = [-1, -1];
-      for (const s of w.stations) {
-        expect(s.contraption, `${name}/${s.encounterId}`).toBe("console_slate");
-        expect(s.skin).toBe("lectern_slate");
+      w.stations.forEach((s, i) => {
+        const meta = getContraption(s.contraption);
+        expect(meta, `${name}/${s.encounterId} contraption ${s.contraption}`).toBeDefined();
+        const enc = fixture.encounters[i];
+        expect(meta!.modes, `${name}/${s.encounterId}`).toContain(`${enc.familyId}.${enc.mode}`);
+        expect(skinOf(meta!, s.skin), `${name}/${s.encounterId} skin ${s.skin}`).toBeDefined();
+        expect(meta!.validateConfig(meta!.configSchema.parse(s.config), configCtxFor(GameSpec.parse(fixture), i, w.biome)), `${name}/${s.encounterId} config`).toEqual([]);
         const zi = zoneIndex.get(s.zoneId);
         expect(zi, `${name}/${s.encounterId} zone ${s.zoneId}`).toBeDefined();
         const here: [number, number] = [zi!, s.consoleX];
@@ -104,7 +109,7 @@ describe("skeleton side-cars (fixtures/worlds/*.world.json)", () => {
         expect(s.payoff.kind).toBe(PAYOFF_KIND_OF[s.payoff.anim]);
         const zone = w.zones[zi!];
         expect(s.consoleX).toBeLessThanOrEqual(zone.width);
-      }
+      });
       // the boss (last encounter) is staged, nobody else is
       const bosses = w.stations.filter((s) => s.boss !== null).map((s) => s.encounterId);
       expect(bosses).toEqual([fixture.encounters[fixture.encounters.length - 1].id]);
@@ -186,7 +191,13 @@ describe(".prefault fills nested defaults (zod 4: .default({}) would not)", () =
   });
 
   it("fills Zone.camera, Ambient.grade, BossStaging.taunts, Sandbox.lines and config parts", () => {
-    const zone = WorldFile.parse(trigWorld).world.zones[1];
+    const stops = [0, 0.5, 1].map((at) => ({ at, color: "#D8D4CF" }));
+    const zone = Zone.parse({
+      id: "z", name: "Z", width: 1920, height: 1080, entry: { x: 10 },
+      layerSets: [{ id: "ls", layers: [0, 1, 2].map((y) => ({ asset: "shared.layer.test", depth: "L1_far", scrollFactor: 0.15, y })) }],
+      segments: [{ id: "ls", x0: 0, x1: 1920, layerSet: "ls", sky: { stops, haze: { color: "#FFFFFF", alpha: 0.2 } }, ambient: { light: "day" } }],
+      ground: { points: [[0, 900], [1920, 900]], surface: "shared.ground.test" },
+    });
     expect(zone.camera).toEqual({ xDeadzone: 0.3, yDeadzone: 260, lerp: 0.12, minZoom: 0.6, maxZoom: 1.15 });
     expect(zone.segments[0].ambient.grade).toEqual({ saturation: 0, brightness: 0, hue: 0 });
     expect(zone.segments[0].ambient).toMatchObject({ particles: "none", particleCount: 24, shadowColor: "#6E7F9A", dapple: null });
@@ -195,7 +206,12 @@ describe(".prefault fills nested defaults (zod 4: .default({}) would not)", () =
     expect(sb.lines).toEqual({ open: [], idle: [] });
     expect(EmitterRailConfig.parse({}).cards).toEqual({ unitCircle: false, cosTier: 1, sixthsTier: 2 });
     expect(StepBridgeConfig.parse({ bays: "floating", items: [{ key: "s0" }] }).items[0].meta).toEqual({ printedDate: null, madeYear: null, glyph: null, label: null });
-    const station = WorldFile.parse(trigWorld).world.stations[0];
+    const station = Station.parse({
+      encounterId: "e1", zoneId: "z", consoleX: 10, anchor: { x: 10, y: 10 }, contraption: "console_slate", skin: "lectern_slate",
+      objectNoun: "Slate", panel: { verifyLabel: "VERIFY", successBadge: "DONE" },
+      dialogue: { instruction: { text: "Work the slate." }, fail: { default: { text: "Not yet." } }, success: { text: "Done." } },
+      payoff: { kind: "terrain", vertical: "up", anim: "stairs_rise", noun: "stair", blocker: null },
+    });
     expect(station).toMatchObject({ consoleSurface: "ground", approachRadius: 500, config: {}, partNouns: [], probes: [], hintTargets: null, boss: null });
     expect(station.dialogue).toMatchObject({ approach: [], tutorial: null, insight: null, hints: null, payoffLine: null, after: [] });
     expect(station.dialogue.fail.byKey).toEqual([]);
@@ -387,9 +403,9 @@ describe("contraption and sandbox library", () => {
     expect(PREFABS.console_slate.meta).toBe(CONTRAPTION_LIBRARY.console_slate);
   });
 
-  it("the asset index starts empty and merges the four namespaces", () => {
+  it("the asset index merges the four namespaces", () => {
     expect(Object.keys(ASSET_INDEX_BY_NAMESPACE)).toEqual(["shared", "orrery_terraces", "living_gate", "archive_of_voices"]);
-    expect(Object.keys(ASSET_INDEX)).toHaveLength(0);
+    expect(Object.keys(ASSET_INDEX)).toHaveLength(Object.values(ASSET_INDEX_BY_NAMESPACE).reduce((s, i) => s + Object.keys(i).length, 0));
   });
 
   it("names the 19 validateWorld rules", () => {
@@ -431,7 +447,7 @@ describe("contraption and sandbox library", () => {
     const trig = WorldFile.parse(trigWorld).world;
     const z1 = assetsForZone(trig, "z1_sunward");
     expect(z1).toContain("shared.char.wren");
-    expect(z1).toContain("shared.part.lectern_slate_slate");
+    expect(z1).toContain(skinOf(CONTRAPTION_LIBRARY.emitter_rail, "vesper_dial")!.parts[0].asset);
     expect(z1).toContain("orrery_terraces.layer.z1_mesa");
     expect(assetsForZone(trig, "nope")).toEqual([]);
   });

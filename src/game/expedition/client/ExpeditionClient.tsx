@@ -15,7 +15,7 @@
  * the HOST sees lags the runner by exactly the success animation, so the world restores after the contraption
  * celebrates, not before. Callbacks handed to the host are stable and read the latest state through refs.
  */
-import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore, type Ref } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore, type CSSProperties, type Ref } from "react";
 import type { GameSpec } from "../../../contracts/gamespec";
 import type { Cutscene } from "../../../contracts/world";
 import { aidTierOf, toHintsUsed } from "../../../world/aid-tier";
@@ -82,6 +82,18 @@ const NO_ROOMS: RoomPlacement[] = [];
 const WARP_SPACING_MS = 700;
 /** The payoff badge shows 1.6 s; if the panel never reports it (unmounted, reduced motion), move on anyway. */
 const PAYOFF_FALLBACK_MS = 2600;
+/**
+ * The dialogue bar sits under the panel (scrub, board, sandbox) or inside the vault modal's bottom band. Long pinned
+ * lines make the bar taller than the band the panel reserves (15 % / 20 % / 14vh), and it would cover Verify. The
+ * layout measures the bar and keeps the panel clear of it (§3.1: the canvas never resizes; only the overlay reflows).
+ * TODO(w1): S1 caps the pinned lines at two (bible §3.9) and P1 reserves the vault band in theme.css.
+ */
+function panelClearance(layout: string, barClear: number, stageH: number): CSSProperties | undefined {
+  if (barClear <= 0) return layout === "vault" ? { paddingBottom: "calc(14vh + 12px)" } : undefined;
+  if (layout === "vault") return { paddingBottom: `${Math.max(0, Math.ceil(barClear + 12 - 0.075 * stageH))}px` };
+  const band = layout === "board" ? "20%" : "15%";
+  return { bottom: `max(${band}, ${Math.ceil(barClear + 8)}px)` };
+}
 
 interface PendingCutscene {
   id: string;
@@ -170,6 +182,8 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const [briefOpen, setBriefOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
   const [expressTick, setExpressTick] = useState(0);
+  /** px from the dialogue bar's top edge to the bottom of the stage (the panel keeps clear of it) */
+  const [barClear, setBarClear] = useState(0);
   const subscribeEngine = useCallback((fn: () => void) => engine.subscribe(fn), [engine]);
   const blocking = useSyncExternalStore(
     subscribeEngine,
@@ -182,6 +196,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const hostRef = useRef<ExpeditionHostHandle | null>(null);
   const panelRef = useRef<InstrumentPanelHandle | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
+  const barRef = useRef<HTMLDivElement | null>(null);
   const phaseRef = useRef<Phase>(phase);
   const progressRef = useRef(progress);
   const expressRef = useRef(express);
@@ -403,6 +418,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       return;
     }
     setAnnounce(null);
+    payoffDone.current.delete(id); // a replayed encounter (debug skipTo) gets its payoff again
     await (hostRef.current?.resolveEncounter?.(id, d) ?? Promise.resolve());
     if (token.current !== my) return;
     dispatch({ type: "RESOLVE_DONE" });
@@ -661,6 +677,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   };
   const expressStep = () => {
     if (!expressRef.current || expressBusy.current) return;
+    if (running.current || pending.current.length > 0) return; // a cutscene is about to play: act after it
     const player = playerSpot();
     const a = nextExpressAction(phaseRef.current, progressRef.current, expressWorld, player, { attempts: attempts.current, ridden: ridden.current });
     const rerun = (ms: number) => window.setTimeout(() => setExpressTick((t) => t + 1), ms);
@@ -750,12 +767,14 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     phaseStarted.current = phase;
     if (phase.kind === "intro" || phase.kind === "finale") void H.current.runCutscene(phase.cutsceneId, "phase");
     if (phase.kind === "explore") H.current.drain();
-    if (phase.kind === "payoff") {
-      const id = phase.encounterId;
-      const t = window.setTimeout(() => void H.current.finishPayoff(id), PAYOFF_FALLBACK_MS);
-      return () => window.clearTimeout(t);
-    }
   }, [phase]);
+  // the payoff normally ends when the badge reports done; this fallback covers an unmounted or never-shown badge
+  const payoffId = phase.kind === "payoff" ? phase.encounterId : null;
+  useEffect(() => {
+    if (!payoffId) return;
+    const t = window.setTimeout(() => void H.current.finishPayoff(payoffId), PAYOFF_FALLBACK_MS);
+    return () => window.clearTimeout(t);
+  }, [payoffId]);
 
   // express: walk → interact after ASSETS_READY and every PAYOFF_DONE (§0.1.5)
   useEffect(() => {
@@ -764,7 +783,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     return () => window.clearTimeout(t);
   }, [express, phase, progress, zoneId, expressTick]);
 
-  // express: blocking lines advance on their own after a short read
+  // express: completed lines advance on their own after a short read
   useEffect(() => {
     if (!express) return;
     let timer: number | null = null;
@@ -819,6 +838,25 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       bus.clearLoops(openId);
     };
   }, [openId, panelShown, bus]);
+
+  // the dialogue bar's real extent (it grows with long pinned lines): the panel keeps clear of it
+  const barMode = carrying ? "cutscene" : barLayoutOf(phase, world);
+  useEffect(() => {
+    const el = barRef.current?.firstElementChild;
+    const stage = stageRef.current;
+    if (!el || !stage || typeof ResizeObserver === "undefined") return;
+    const measure = () => {
+      const clear = Math.max(0, stage.getBoundingClientRect().bottom - el.getBoundingClientRect().top);
+      setBarClear((c) => (Math.abs(c - clear) < 1 ? c : clear));
+    };
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    const raf = requestAnimationFrame(measure);
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [barMode, viewport.w, viewport.h]);
 
   useEffect(() => {
     const onResize = () => setViewport({ w: window.innerWidth || 1280, h: window.innerHeight || 720 });
@@ -1000,24 +1038,27 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
             onBack={stable.onBack}
             onBadgeDone={stable.onBadgeDone}
             handleRef={panelRef}
+            style={panelClearance(openSt.layout, barClear, viewport.h)}
           />
         ) : sandbox ? (
           <SandboxPanel key={sandbox.id} sandbox={sandbox} onDraft={stable.onSandboxDraft} onDone={stable.onBack} />
         ) : null
       }
       dialogue={
+        <div ref={barRef} style={{ display: "contents" }}>
         <DialogueBar
           engine={engine}
           speakers={world.speakers}
           guideId={guideId}
           titleEmblem={overlay.cast.guide.emblem}
-          layout={carrying ? "cutscene" : barLayoutOf(phase, world)}
+          layout={barMode}
           onHint={phase.kind === "panel" ? stable.onHint : undefined}
           onBrief={phase.kind === "panel" && brief ? stable.onBrief : undefined}
           hintDisabled={!canHint}
           hintLabel={hintLabelOf(hintsUsed, hintsAvailable)}
           reducedMotion={reducedMotion}
         />
+        </div>
       }
       overlays={
         <>

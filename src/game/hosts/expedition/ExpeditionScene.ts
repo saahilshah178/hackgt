@@ -38,7 +38,7 @@ import { activeNpcState, reqCtxOf, requirementMet } from "./scene/requirements";
 import { planRoute, type RouteStep } from "./scene/route";
 import { resolveSegmentLook } from "./scene/segments";
 import { buildSurfaces, heightAt, type SurfaceModel } from "./scene/surfaces";
-import { blockers as blockersOf, sheerEdges, type Blocker, type SheerEdge } from "./scene/terrain";
+import { blockers as blockersOf, exitReachX, sheerEdges, type Blocker, type SheerEdge } from "./scene/terrain";
 import { linkPrompt, linksInRange, planLink, ridePath, timedHopOpen, type LinkChoice } from "./scene/traversal";
 import { emptyTriggerTracker, stepTriggers, type TriggerTracker } from "./scene/triggers";
 import { stationSeed, viewsFor } from "./scene/views";
@@ -589,6 +589,9 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
       }
 
       // ---- contraptions, sandboxes
+      // open the label frame BEFORE controllers publish chips/pins (beginFrame clears `touched`; endFrame drops the rest)
+      const v0 = this.cam.view;
+      this.d.labels.beginFrame({ viewX: v0.viewX, viewY: v0.viewY, zoom: v0.zoom });
       for (const c of this.controllers.values()) c.update(this.fxFrozen ? 0 : dtMs);
       for (const s of this.sandboxes.values()) s.update(this.fxFrozen ? 0 : dtMs);
 
@@ -715,20 +718,29 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
     }
 
     private updateExits(cutscene: boolean) {
-      if (cutscene || this.char.path) return;
+      if (cutscene || this.exiting || this.char.path) return;
       for (const ex of this.zone.exits) {
-        if (this.char.surface !== ex.surface || this.char.x < ex.x - 1 || !this.reqOk(ex.requires)) continue;
+        if (this.char.surface !== ex.surface || this.char.x < exitReachX(ex.x, this.zone.width) || !this.reqOk(ex.requires)) continue;
         void this.runExit(ex.toZoneId, ex.toX, ex.toSurface, ex.transition, ex.cutsceneId);
         return;
       }
     }
 
+    /**
+     * An exit's cutscene plays BEFORE the swap with the world still running (H2 fix: it used to hold `transitioning`,
+     * which also stops the walk driver, so a cutscene `walk player` step never finished and the game stalled at civil's
+     * ride_home). `exiting` alone guards against re-firing the exit while it plays.
+     */
+    private exiting = false;
     private async runExit(zoneId: string, x: number, surface: string, transition: Transition, cutsceneId: string | null) {
-      if (this.transitioning) return;
-      this.transitioning = true;
-      if (cutsceneId) await this.api.playCutscene(cutsceneId);
-      this.transitioning = false;
-      await this.enterZone(zoneId, x, surface, transition);
+      if (this.transitioning || this.exiting) return;
+      this.exiting = true;
+      try {
+        if (cutsceneId) await this.api.playCutscene(cutsceneId);
+        if (!this.destroyed) await this.enterZone(zoneId, x, surface, transition);
+      } finally {
+        this.exiting = false;
+      }
     }
 
     private emote(actor: string, glyph: string) {
@@ -738,7 +750,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
     private publishLabels() {
       const L = this.d.labels;
       const v = this.cam.view;
-      L.beginFrame({ viewX: v.viewX, viewY: v.viewY, zoom: v.zoom });
+      L.view = { viewX: v.viewX, viewY: v.viewY, zoom: v.zoom }; // the frame was opened before the controllers updated
       const cutscene = this.runner.running !== null;
       // interact glyph (or the await_interact prompt, or a link verb)
       if (this.awaiting) {
