@@ -1,5 +1,5 @@
-import { generateText, NoObjectGeneratedError, NoOutputGeneratedError, Output, type LanguageModel } from "ai";
 import pLimit from "p-limit";
+import type { LanguageModel } from "ai";
 import type { z } from "zod";
 import type { Genre, Issue } from "../contracts/common";
 import type { GameSpec } from "../contracts/gamespec";
@@ -20,6 +20,7 @@ import {
 import { cardPlaysIn, getCard, isCardImplemented } from "../library";
 import { autoSelectGenre, BOSS_SOCKET, IMPLEMENTED_GENRES } from "../library/genres";
 import { getMode, socketsFor } from "../mechanics/registry";
+import { AgentError, runAgent, type Progress } from "./llm";
 import { checkAssessment, checkBlueprint, checkChallenge, checkNarrative } from "./validate/checks";
 import { validateGameSpec } from "./validate/validate-gamespec";
 import { assembleGameSpec, type Slices } from "./assemble";
@@ -47,15 +48,12 @@ export interface Models {
   smart: LanguageModel;
 }
 
-export interface Progress {
-  agent: string;
-  status: "start" | "repair" | "done" | "fallback" | "failed";
-  ms?: number;
-  note?: string;
-}
+export type { Progress } from "./llm";
 
 export interface GenerateArgs {
   gameId: string;
+  /** Groups this run's events on the bus (src/pipeline/events.ts); defaults to gameId. */
+  jobId?: string;
   km: KnowledgeMap;
   intake: Intake;
   /** matcher output per concept (S4) */
@@ -66,14 +64,7 @@ export interface GenerateArgs {
   concurrency?: number;
 }
 
-export class AgentError extends Error {
-  constructor(
-    readonly agent: string,
-    readonly problems: string[],
-  ) {
-    super(`${agent} failed after repairs: ${problems.join("; ")}`);
-  }
-}
+export { AgentError };
 
 export class GenerationError extends Error {
   constructor(readonly issues: Issue[]) {
@@ -81,9 +72,10 @@ export class GenerationError extends Error {
   }
 }
 
-/** One structured call with check -> repair retries. Every agent goes through here (P5a moves this into llm.ts). */
-export async function callAgent<T>(o: {
+/** One structured call with check -> repair retries. Every agent goes through runAgent() (src/pipeline/llm.ts). */
+export function callAgent<T>(o: {
   agent: string;
+  tier: "smart" | "fast";
   model: LanguageModel;
   schema: z.ZodType<T>;
   system: string;
@@ -91,38 +83,20 @@ export async function callAgent<T>(o: {
   check?: (out: T) => string[];
   maxRepairs?: number;
   onProgress?: (p: Progress) => void;
+  jobId?: string;
 }): Promise<T> {
-  let notes = "";
-  let problems: string[] = [];
-  const attempts = (o.maxRepairs ?? 1) + 1;
-  for (let attempt = 1; attempt <= attempts; attempt++) {
-    const t0 = Date.now();
-    o.onProgress?.({ agent: o.agent, status: attempt === 1 ? "start" : "repair", note: problems[0] });
-    try {
-      const { output } = await generateText({
-        model: o.model,
-        system: o.system,
-        prompt: o.prompt + notes,
-        output: Output.object({ schema: o.schema, name: o.agent.replace(/[^a-zA-Z0-9_-]/g, "_") }),
-      });
-      problems = o.check?.(output) ?? [];
-      if (problems.length === 0) {
-        o.onProgress?.({ agent: o.agent, status: "done", ms: Date.now() - t0 });
-        return output;
-      }
-      notes = repairNote(problems, output);
-    } catch (err) {
-      // The model's JSON didn't parse or didn't match the zod schema: feed the error back and retry.
-      if (NoObjectGeneratedError.isInstance(err) || NoOutputGeneratedError.isInstance(err)) {
-        problems = [`your answer did not match the required JSON schema: ${err.message}`];
-        notes = repairNote(problems);
-        continue;
-      }
-      throw err; // network/auth/rate-limit errors: let the caller's retry policy handle them
-    }
-  }
-  o.onProgress?.({ agent: o.agent, status: "failed", note: problems[0] });
-  throw new AgentError(o.agent, problems);
+  return runAgent({
+    jobId: o.jobId ?? "local",
+    agent: o.agent,
+    tier: o.tier,
+    model: o.model,
+    schema: o.schema,
+    system: o.system,
+    prompt: o.prompt,
+    check: o.check,
+    maxRepairs: o.maxRepairs,
+    onProgress: o.onProgress,
+  });
 }
 
 /** MEGAPROMPT §6: 5 min → 5–7, 10 min → 8–12, 15 min → 11–14. */
@@ -218,6 +192,7 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
   const limit = pLimit(a.concurrency ?? 6);
   const [minE, maxE] = encounterRange(a.intake.minutes);
   const progress = a.onProgress;
+  const jobId = a.jobId ?? a.gameId;
   const bossSocket = BOSS_SOCKET[genre];
   const menu = buildDirectorMenu(a.km, a.matches, genre);
   if (reason !== "requested") progress?.({ agent: "director", status: "start", note: `genre ${genre}: ${reason}` });
@@ -225,7 +200,9 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
   // 1. Director: the only sequential LLM step.
   const blueprint: BlueprintSlice = await callAgent({
     agent: "director",
+    tier: "smart",
     model: a.models.smart,
+    jobId,
     schema: directorSchema({ genre, conceptIds, families: menu, beliefs, bossSocket, minEncounters: minE, maxEncounters: maxE }),
     system: DIRECTOR_SYSTEM,
     prompt: directorPrompt(shared, directorMenu(menu, genre), minE, maxE),
@@ -240,7 +217,9 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
       const m = getMode(card.family, card.mode)!;
       return callAgent({
         agent: `challenge:${e.id}`,
+        tier: "smart",
         model: a.models.smart,
+        jobId,
         schema: challengeSchema(m.paramsSchema, Object.keys(card.lockedParams ?? {})),
         system: CHALLENGE_SYSTEM,
         prompt: challengePrompt(shared, blueprint, e, card, m, notes),
@@ -255,7 +234,9 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     limit(() =>
       callAgent({
         agent: "narrative",
+        tier: "fast",
         model: a.models.fast,
+        jobId,
         schema: narrativeSchema(characterIds, encounterIds),
         system: NARRATIVE_SYSTEM,
         prompt: narrativePrompt(shared, blueprint) + notes,
@@ -268,7 +249,9 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     limit(() =>
       callAgent({
         agent: "assessment",
+        tier: "fast",
         model: a.models.fast,
+        jobId,
         schema: assessmentSchema(conceptIds),
         system: ASSESSMENT_SYSTEM,
         prompt: assessmentPrompt(shared, a.intake.preCheck.items) + notes,
