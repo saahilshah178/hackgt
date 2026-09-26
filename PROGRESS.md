@@ -1,4 +1,4 @@
-STATUS: IN PROGRESS
+STATUS: COMPLETE
 # PROGRESS (overnight build, HackGT 13)
 
 Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: reason`.
@@ -98,8 +98,8 @@ Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: re
 - [x] scripts/audio-library.ts, src/pipeline/audio/ (Flash TTS, concurrency 4, hash cache, 25 s deadline, dialogue flag), smoke:elevenlabs, AUDIO_MODE=off no-ops; wired into the orchestrator after the verifier
 
 ## P12 — Final pass (checkpoint: overnight-final)
-- [ ] 1. typecheck, test, e2e, build
-- [ ] 2. Finalize FIRST_RUN.md + MORNING_REPORT.md
-- [ ] 3. Checkpoint
-- [ ] 4. STATUS: COMPLETE on line 1
-- [ ] 5. Delete .overnight/ENABLED
+- [x] 1. typecheck, test, e2e, build — all green 02:50 (59 files / 944 tests; 13 e2e; build clean; lint 0 errors)
+- [x] 2. Finalize FIRST_RUN.md + MORNING_REPORT.md — 02:55
+- [x] 3. Checkpoint — 40-overnight-final
+- [x] 4. STATUS: COMPLETE on line 1
+- [x] 5. Delete .overnight/ENABLED

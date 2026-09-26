@@ -85,3 +85,8 @@ Format: one line of decision, one line of the alternative not taken. Newest at t
 ## 02:30 `scripts/build-fixtures.ts` rebuilds all six fixtures
 - Added civil-rights-mystery, wave2-dungeon and trig-platformer to the table (the first two were built by one-off scripts earlier tonight). `tests/fixtures-drift.test.ts` covers five slices↔JSON pairs (trig-dungeon is covered by `tests/pipeline-mock.test.ts`).
 
+## 02:55 Final pass
+- All §9 phases done or documented as known limits (PROGRESS.md). Final tree: typecheck clean, 59 files / 944 tests, 13 e2e, build clean, lint 0 errors / 24 warnings.
+- The overnight dev server on port 3100 (started with nohup for Playwright) was stopped at the end of the run; `pnpm e2e` starts its own.
+- `.overnight/ENABLED` deleted after checkpoint 40; `STATUS: COMPLETE` on line 1 of PROGRESS.md.
+

@@ -93,6 +93,8 @@ export interface StorageDriver {
   getTelemetry(gameId: string): Promise<TelemetryEvent[]>;
   /** Stores bytes at a path like "sources/<id>.pdf" or "audio/<hash>.mp3"; returns the path. */
   putBlob(path: string, data: Uint8Array, contentType: string): Promise<string>;
+  /** Reads a stored blob back (server side), or null when absent. Also used for small JSON side records such as intake prep. */
+  getBlob(path: string): Promise<Uint8Array | null>;
   /** Public URL the browser can fetch for a stored blob path. */
   blobUrl(path: string): string;
 }
