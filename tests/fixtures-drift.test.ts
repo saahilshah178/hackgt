@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { cellSlices } from "../fixtures/cell-transport.slices";
 import { historyMysterySlices } from "../fixtures/civil-rights-mystery.slices";
 import { historySlices } from "../fixtures/civil-rights.slices";
+import { trigPlatformerSlices } from "../fixtures/trig-platformer.slices";
 import { wave2Slices } from "../fixtures/wave2.slices";
 import { assembleGameSpec } from "../src/pipeline/assemble";
 
@@ -25,6 +26,10 @@ describe("fixture JSON matches its slices (no silent drift)", () => {
 
   it("civil-rights.slices.ts ↔ civil-rights-dungeon.json", () => {
     expect(assembleGameSpec(historySlices)).toEqual(loadJson("civil-rights-dungeon.json"));
+  });
+
+  it("trig-platformer.slices.ts ↔ trig-platformer.json", () => {
+    expect(assembleGameSpec(trigPlatformerSlices)).toEqual(loadJson("trig-platformer.json"));
   });
 
   it("civil-rights-mystery.slices.ts ↔ civil-rights-mystery.json", () => {

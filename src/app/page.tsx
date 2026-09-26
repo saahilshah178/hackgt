@@ -42,6 +42,12 @@ const WAVE2 = {
   blurb: "The proving ground for wave-2 mechanic families as they land tonight.",
 };
 
+const PLATFORMER = {
+  fixture: "trig-platformer",
+  href: "/play/fixture-trig-platformer",
+  blurb: "The same trig material as a side-scroller: bridge the gaps, open the gates, start the moving platform.",
+};
+
 /** Reads a shipped fixture GameSpec for its title, genre and concept count instead of hand-copying them here. */
 async function readFixtureMeta(fixture: string): Promise<{ title: string; genre: string; conceptCount: number } | null> {
   try {
@@ -76,6 +82,7 @@ export default async function Home() {
     };
   });
   const wave2Meta = await readFixtureMeta(WAVE2.fixture);
+  const platformerMeta = await readFixtureMeta(PLATFORMER.fixture);
 
   return (
     <AppShell>
@@ -137,7 +144,24 @@ export default async function Home() {
           ))}
         </div>
 
-        <Card className="mt-6 max-w-sm">
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+        <Card className="max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-xl">Trigonometry as a Platformer</CardTitle>
+            <CardDescription className="text-base">{platformerMeta?.genre ?? "Platformer"}</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3">
+            <p className="text-base">{PLATFORMER.blurb}</p>
+            <p className="text-sm text-muted-foreground">{platformerMeta?.conceptCount ?? 0} concepts</p>
+            <Link
+              href={PLATFORMER.href}
+              className="inline-flex h-10 items-center justify-center rounded-md bg-secondary px-5 text-base font-semibold hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+            >
+              Play
+            </Link>
+          </CardContent>
+        </Card>
+        <Card className="max-w-sm">
           <CardHeader>
             <CardTitle className="text-xl">Wave-2 proving ground</CardTitle>
             <CardDescription className="text-base">{wave2Meta?.genre ?? "Dungeon"}</CardDescription>
@@ -153,6 +177,7 @@ export default async function Home() {
             </Link>
           </CardContent>
         </Card>
+        </div>
       </section>
     </AppShell>
   );

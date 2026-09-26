@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CARDS, cardsFor, getCard, isCardImplemented, validateCatalog } from "../src/library";
-import { autoSelectGenre, BOSS_SOCKET, CHUNKS, GENRE_WEIGHTS, SOCKETS } from "../src/library/genres";
+import { AUTO_GENRES, BOSS_SOCKET, CHUNKS, GENRE_WEIGHTS, IMPLEMENTED_GENRES, SOCKETS, autoSelectGenre } from "../src/library/genres";
 import { FAMILIES, socketsFor } from "../src/mechanics/registry";
 import { GENRES, KNOWLEDGE_TYPES } from "../src/contracts/common";
 
@@ -61,7 +61,9 @@ describe("genres", () => {
 
   it("auto-selects the genre from knowledge-type weights, restricted to implemented genres", () => {
     expect(autoSelectGenre({ argument: 10 }).genre).toBe("mystery"); // dungeon + mystery hosts exist
-    expect(autoSelectGenre({ quantitative: 10 }).genre).toBe("dungeon"); // platformer would win, but its host isn't built
+    expect(autoSelectGenre({ quantitative: 10 }).genre).toBe("dungeon"); // platformer would win, but auto-selection only picks AUTO_GENRES
+    expect(IMPLEMENTED_GENRES).toContain("platformer"); // explicit requests (and Regenerate as platformer) do play it
+    expect(AUTO_GENRES).not.toContain("platformer");
     expect(autoSelectGenre({ argument: 10 }, GENRES).genre).toBe("mystery");
     expect(autoSelectGenre({ quantitative: 10 }, GENRES).genre).toBe("platformer");
     expect(autoSelectGenre({ fact: 4, category: 4 }, GENRES).genre).toBe("dungeon");

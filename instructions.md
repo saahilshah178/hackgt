@@ -162,5 +162,15 @@ All JSON. Errors are `{ error: string, step?: string }` with a 4xx/5xx status; `
 | `GET /api/games` | → `GameSummary[]` |
 | `GET /api/blobs/*path` | the stored blob (LocalDriver) |
 
+Genres: `IMPLEMENTED_GENRES` (`src/library/genres.ts`) lists the genres with a host in `src/game/hosts` (dungeon, mystery,
+platformer); a requested or regenerate genre plays only if it is there. `AUTO_GENRES` is the subset the auto-selector may
+pick for `genre: "auto"` (dungeon, mystery); promote platformer once its host is polished. Puzzle/strategy specs play in
+the DOM fallback host with a banner.
+
 Page ids: `/intake/[sourceId]`, `/forge/[jobId]`, `/play/[gameId]` (also `/play/fixture-<name>` in dev), `/debrief/[gameId]`.
+Fixture games: `/play/fixture-<name>` loads `fixtures/<name>.json` (or `<name>-dungeon.json`) without storage. The runner's end
+screen posts telemetry and links to the debrief under the spec's OWN id (e.g. `trig_demo_001`), so the game routes
+(`telemetry`, `regenerate`, `postcheck` via `getGame`) accept either spelling: `src/server/fixtures.ts` resolves both and
+materializes the fixture into storage (game + knowledge map + source + intake) on first contact. Unknown ids are 404;
+every id is regex-validated before it reaches the filesystem.
 Mock mode: `GET /api/sources/:id/intake` returns `mock: true` and every page shows a "Mock mode" banner from `src/components/mock-banner.tsx`.

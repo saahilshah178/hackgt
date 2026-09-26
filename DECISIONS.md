@@ -69,3 +69,19 @@ Format: one line of decision, one line of the alternative not taken. Newest at t
 ## Pre-check answers allow -1 ("not sure")
 - **Context:** Reviewer / pipeline worker asked for a skip value. Forcing a guess on the pre-check inflates the pre score randomly and muddies the pre → post delta shown on the debrief.
 - **Decision:** `Intake.preCheck.answers` and `GameSpec.intake.preCheckAnswers` accept `-1`; it never scores as correct. The intake form offers a dashed "Not sure yet" radio per question (`precheck-<i>-skip`). Storage/API unchanged otherwise. Test: `tests/intake-skip.test.ts`.
+
+## 02:05 Platformer host launched as the last engine task
+- **Context:** C1 landed (checkpoint 33) and freed a worker slot while the pipeline and mechanics review fixes are still running. The next unchecked §9 item is P10.2.
+- **Decision:** engine-dev builds `src/game/hosts/platformer/**` + a `fixtures/trig-platformer` slices/JSON pair and `e2e/play-platformer.spec.ts`, timeboxed to 90 min. `IMPLEMENTED_GENRES` (main-owned) stays `["dungeon","mystery"]` until its e2e is green so the pipeline never produces a genre we cannot host; `scripts/build-fixtures.ts` gets the new fixture registered by main afterwards.
+
+## 02:30 Platformer is playable on request, not by auto-selection
+- **Context:** The Platformer host landed (checkpoint 36) with trigger-only obstacles. LIBRARY §1.1 weights quantitative/spatial material 3 for platformer vs 2 for dungeon, so flipping it into the auto-selector would send the trig showcase (and most math uploads) to the least polished host on demo day.
+- **Decision:** `IMPLEMENTED_GENRES = ["dungeon","mystery","platformer"]` (explicit requests and "Regenerate as platformer" work; the library matrix shows it) and a new `AUTO_GENRES = ["dungeon","mystery"]` drives `autoSelectGenre`'s default. One-line change to promote it.
+
+## 02:30 Sandboxed mathjs for model-written expressions
+- **Context:** pipeline-dev flagged that `evalExact` called mathjs's global `evaluate` on LLM-authored strings. mathjs's security guide says `import`/`createUnit` mutate the instance and `evaluate`/`parse`/`compile`/`simplify`/`derivative` turn values into code.
+- **Decision:** `src/mechanics/util.ts` builds its own `create(all)` instance, overrides those functions to throw, and caps expressions at 400 characters. Ordinary expressions are unchanged (fixture byte-identity tests still pass). Test: `tests/eval-exact.test.ts`.
+
+## 02:30 `scripts/build-fixtures.ts` rebuilds all six fixtures
+- Added civil-rights-mystery, wave2-dungeon and trig-platformer to the table (the first two were built by one-off scripts earlier tonight). `tests/fixtures-drift.test.ts` covers five slices↔JSON pairs (trig-dungeon is covered by `tests/pipeline-mock.test.ts`).
+

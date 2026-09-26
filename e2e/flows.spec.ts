@@ -27,14 +27,14 @@ function trackConsoleErrors(page: Page): string[] {
 }
 
 test.describe("home showcase", () => {
-  test("renders four showcase cards that each resolve to a playable game", async ({ page }) => {
+  test("renders five showcase cards that each resolve to a playable game", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
     const cardLinks = page.getByRole("region", { name: /showcase games/i }).getByRole("link", { name: "Play" });
-    await expect(cardLinks).toHaveCount(4);
+    await expect(cardLinks).toHaveCount(5);
 
     const hrefs = await cardLinks.evaluateAll((els) => els.map((el) => el.getAttribute("href")));
-    expect(hrefs.length).toBe(4);
+    expect(hrefs.length).toBe(5);
     for (const href of hrefs) {
       if (!href) continue;
       const res = await page.request.get(href);

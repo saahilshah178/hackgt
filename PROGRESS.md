@@ -14,7 +14,7 @@ Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: re
 - [x] 8. .env.example, .gitignore, src/server/env.ts
 - [x] 9. FIRST_RUN.md draft
 - [x] 10. scripts/doctor.ts
-- [ ] Accept: typecheck + test + build pass, doctor runs → checkpoint `bootstrap`
+- [x] Accept: typecheck + test + build pass, doctor runs → checkpoint `bootstrap` (checkpoint 01)
 
 ## P1 — Contracts v2 (checkpoint: contracts-v2) — done 00:05
 - [x] 1. Section 5 contracts (enums, KnowledgeMap, Intake, TeachingMechanic, MechanicFamily, MatchResult, Blueprint, GameSpec v2, Telemetry, Mastery, ProgressEvent, StorageDriver)
@@ -40,7 +40,7 @@ Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: re
 
 ## P5a — Pipeline foundation (checkpoint: pipeline-foundation) — done 01:08
 - [x] 1. llm.ts + models.ts incl. mock mode
-- [ ] 2. env.ts, event bus, storage drivers (local complete, supabase untested)
+- [x] 2. env.ts, event bus, storage drivers (local complete + tested; supabase driver typed but untested against a real project)
 - [x] 3. supabase/schema.sql
 - [x] 4. scripts/build-samples.ts → 3 sample PDFs from markdown notes
 - [x] 5. POST /api/sources (pdf ≤40 pages | text | topic) with unpdf
@@ -71,27 +71,28 @@ Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: re
 - [x] 2. Projector-friendly design, no layout shift (dark theme default, skeletons, fixed-height forge cards)
 - [x] 3. Playwright e2e golden path + screenshots in docs/overnight/screens/ (checkpoint 23)
 - [x] 4. pnpm build passes
-- [~] 5. reviewer pass done; fixes in progress: C1 widget coverage (engine), M1–M9 pipeline hardening (pipeline), H2–H4 + test gaps (mechanics); H1 fixed by main
+- [x] 5. reviewer pass done and every finding fixed: C1 widget coverage (checkpoint 33), H1 ids (30, 31), H2–H4 + test gaps (34), M1–M9 pipeline hardening (35), mathjs sandbox + genre flag (final)
 
 ## P11 — Demo insurance (checkpoint: showcase)
 - [x] 1. Showcase fixtures: trig-dungeon, cell-transport-dungeon, civil-rights-dungeon, civil-rights-mystery (+ wave2-dungeon proving ground), all built by `pnpm fixtures:build`
-- [x] 2. Wired to home cards (ui-dev polishing)
-- [ ] 3. Regenerate-as-genre on showcase games
+- [x] 2. Wired to home cards (checkpoint 30)
+- [x] 3. Regenerate-as-genre on showcase games (fixture games materialize into storage on first use; checkpoints 25, 31; e2e `flows.spec.ts`)
 
 ## P9 — Wave-2 families (one checkpoint per 1–2 families) — done except the modes listed in MORNING_REPORT §2
 - [x] 1. function_world limit (main) + slope (worker) — checkpoint 11
 - [x] 2. balance (equation, chem_equation, ledger) — checkpoint 11
 - [x] 3. simulator (intervene, sample, predict, reach_state) + 6. accumulator (riemann, area, signed, rate_total, average_value) — checkpoints 20, 28
-- [ ] 4. builder (circuit, molecule) + build widget
+- [x] 4. builder (circuit, molecule, genetics, program, electron_config, tiles, sentence) + build widget — checkpoints 22, 27
 - [x] 5. transformer: encode + function_machine (checkpoint 12), trace (checkpoint 14) by main
-- [ ] 6. accumulator (riemann, area)
-- [ ] 7. recall (rapid, cloze) + type widget
+- [x] 6. accumulator (riemann, area) — checkpoint 20
+- [x] 7. recall (rapid, cloze) + type widget — checkpoints 13, 22
+- [~] 8. still catalog-only (13 cards): mapper.map, function_world.squeeze/epsilon_delta, transformer.inverse/domain_filter/matrix/geometric, recall.memory_palace/listen — stubbed behind `stubMode`, listed in MORNING_REPORT §8
 
-## P10 — More genres (one checkpoint per genre) — Mystery in progress
+## P10 — More genres (one checkpoint per genre) — Mystery done; others play in the DOM host with a banner
 - [x] 1. Mystery host (checkpoint 15; genre enabled; 4 play e2e tests)
-- [ ] 2. Platformer host
-- [ ] 3. Puzzle host
-- [ ] 4. Strategy (stretch)
+- [x] 2. Platformer host — checkpoint 36 (Phaser arcade physics, 6 socket kinds, `fixtures/trig-platformer`, e2e); playable on request, not auto-selected (DECISIONS 02:30)
+- [~] 3. Puzzle host — not started (DOM host fallback)
+- [~] 4. Strategy (stretch) — not started (DOM host fallback)
 
 ## P8 — Audio, code only (checkpoint: audio) — done by main (checkpoint 10)
 - [x] scripts/audio-library.ts, src/pipeline/audio/ (Flash TTS, concurrency 4, hash cache, 25 s deadline, dialogue flag), smoke:elevenlabs, AUDIO_MODE=off no-ops; wired into the orchestrator after the verifier

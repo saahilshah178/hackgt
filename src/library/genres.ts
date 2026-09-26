@@ -64,8 +64,15 @@ export const GENRE_INFO: Record<Genre, GenreInfo> = {
   },
 };
 
-/** Genre hosts that exist in src/game/hosts. Flip a genre on when its host lands. */
-export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon", "mystery"];
+/** Genre hosts that exist in src/game/hosts. Flip a genre on when its host lands. A requested genre plays only if it is here. */
+export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon", "mystery", "platformer"];
+
+/**
+ * Genres the auto-selector may choose when the intake says "auto". Platformer is explicit-request only for now:
+ * its host landed last (checkpoint 36) with trigger-only obstacles, and the quantitative/spatial weights would
+ * otherwise route the trig showcase to it instead of the polished Dungeon. Promote it here once the host is polished.
+ */
+export const AUTO_GENRES: readonly Genre[] = ["dungeon", "mystery"];
 
 /** LIBRARY §1.1: knowledge type → genre weight. */
 export const GENRE_WEIGHTS: Record<KnowledgeType, Record<Genre, number>> = {
@@ -81,12 +88,12 @@ export const GENRE_WEIGHTS: Record<KnowledgeType, Record<Genre, number>> = {
 };
 
 /**
- * Auto-genre selection: sum the Director's concept weights per knowledge type, score each implemented
- * genre with the table, take the best (ties break in GENRES order, so dungeon wins ties).
+ * Auto-genre selection: sum the Director's concept weights per knowledge type, score each candidate
+ * genre (AUTO_GENRES by default) with the table, take the best (ties break in GENRES order, so dungeon wins ties).
  */
 export function autoSelectGenre(
   weightByKnowledgeType: Partial<Record<KnowledgeType, number>>,
-  implemented: readonly Genre[] = IMPLEMENTED_GENRES,
+  implemented: readonly Genre[] = AUTO_GENRES,
 ): { genre: Genre; scores: Record<Genre, number> } {
   const scores = Object.fromEntries(GENRES.map((g) => [g, 0])) as Record<Genre, number>;
   for (const [kt, w] of Object.entries(weightByKnowledgeType) as [KnowledgeType, number][]) {
