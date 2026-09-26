@@ -1,6 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
 import { mimic } from "./mimic";
+import { predictReveal } from "./predict_reveal";
 
 export const truthFinder = defineFamily({
   id: "truth_finder",
@@ -16,7 +17,7 @@ export const truthFinder = defineFamily({
   },
   modes: {
     mimic,
-    predict_reveal: stubMode({ id: "predict_reveal", name: "Predict then reveal", widget: "pick", knowledgeTypes: ["causal", "quantitative"], blindSolvable: true, directorBlurb: "The player picks an outcome before a computed simulation or a sourced reveal." }),
+    predict_reveal: predictReveal,
     error_hunt: stubMode({ id: "error_hunt", name: "Error hunt", widget: "pick", knowledgeTypes: ["procedure"], blindSolvable: true, directorBlurb: "A worked solution, proof, or code with exactly one wrong line; find it." }),
     counterexample: stubMode({ id: "counterexample", name: "Counterexample", widget: "pick", knowledgeTypes: ["argument"], blindSolvable: true, directorBlurb: "Pick the case that breaks the rule." }),
   },

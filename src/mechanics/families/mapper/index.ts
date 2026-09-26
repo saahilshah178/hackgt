@@ -1,6 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
 import { numberLine } from "./number_line";
+import { plane } from "./plane";
 
 export const mapper = defineFamily({
   id: "mapper",
@@ -16,7 +17,7 @@ export const mapper = defineFamily({
   },
   modes: {
     number_line: numberLine,
-    plane: stubMode({ id: "plane", name: "Plane", widget: "place", knowledgeTypes: ["spatial", "quantitative"], blindSolvable: false, directorBlurb: "Place a point, region, or line on a coordinate plane: intersections, inequality regions, unit-circle points, vectors, phase diagrams." }),
+    plane,
     map: stubMode({ id: "map", name: "Map", widget: "place", knowledgeTypes: ["spatial", "fact"], blindSolvable: false, directorBlurb: "Place items onto a region graph defined as data." }),
     search: stubMode({ id: "search", name: "Search", widget: "place", knowledgeTypes: ["procedure", "quantitative"], blindSolvable: false, directorBlurb: "Find a hidden value with higher/lower probes within a probe budget (binary search)." }),
   },

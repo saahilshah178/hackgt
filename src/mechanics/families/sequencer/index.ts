@@ -1,6 +1,8 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { cycle } from "./cycle";
 import { linear } from "./linear";
+import { rank } from "./rank";
 
 export const sequencer = defineFamily({
   id: "sequencer",
@@ -16,8 +18,8 @@ export const sequencer = defineFamily({
   },
   modes: {
     linear,
-    cycle: stubMode({ id: "cycle", name: "Cycle", widget: "order", knowledgeTypes: ["sequence", "system"], blindSolvable: true, directorBlurb: "Circular sequence with rotation-invariant grading." }),
+    cycle,
     timeline: stubMode({ id: "timeline", name: "Timeline", widget: "order", knowledgeTypes: ["sequence", "fact"], blindSolvable: true, directorBlurb: "Events with sourced dates; the dates are revealed after placing." }),
-    rank: stubMode({ id: "rank", name: "Rank", widget: "order", knowledgeTypes: ["sequence", "quantitative", "category"], blindSolvable: true, directorBlurb: "Order items by a sourced or computed property." }),
+    rank,
   },
 });

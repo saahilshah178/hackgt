@@ -27,7 +27,7 @@ describe("catalog", () => {
     }
     expect(getCard("phase_gate")!.lockedParams).toEqual({ ask: "period" });
     expect(isCardImplemented(getCard("phase_gate")!)).toBe(true);
-    expect(isCardImplemented(getCard("cycle_wheel")!)).toBe(false); // sequencer.cycle lands in P4
+    expect(isCardImplemented(getCard("cycle_wheel")!)).toBe(true); // sequencer.cycle landed in P4 part B
   });
 
   it("filters to implemented cards per genre unless asked otherwise", () => {
