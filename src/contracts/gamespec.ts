@@ -14,6 +14,7 @@ import {
 } from "./common";
 import { IntakeGoal, IntakeMinutes, Mcq } from "./knowledge";
 import { MasteryConfig } from "./telemetry";
+import { WorldOverlay } from "./world";
 
 export { Mcq };
 
@@ -109,5 +110,7 @@ export const GameSpec = z.object({
   }),
   // ---- pre: copied from the intake; post: assessment agent (choices shuffled by code) ----
   assessment: z.object({ pre: z.array(Mcq).length(3), post: z.array(Mcq).length(3) }),
+  // ---- World Writer + code (optional; absent in every fixture until W8, see docs/design/20 §1.1) ----
+  world: WorldOverlay.optional(),
 });
 export type GameSpec = z.infer<typeof GameSpec>;

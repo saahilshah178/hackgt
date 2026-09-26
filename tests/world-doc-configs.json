@@ -1,0 +1,2374 @@
+{
+ "$source": "Station configs copied from the game docs (docs/design/1x-game-*.md) by W0; civil YEAR(min, max) shorthand expanded per civil §5 'How to read the station sections'. Not authoritative: the docs are.",
+ "configs": [
+  {
+   "archetype": "ring_gate",
+   "doc": "10-game-trig.md",
+   "line": 1294,
+   "encounterId": "e2_period",
+   "config": {
+    "flow": "water",
+    "tally": true,
+    "replayOnSettle": true,
+    "ghostCard": true,
+    "lapsCardTier": 2,
+    "startMarkerTier": 1,
+    "variant": "notch"
+   }
+  },
+  {
+   "archetype": "ring_gate",
+   "doc": "10-game-trig.md",
+   "line": 2514,
+   "encounterId": "e2_period",
+   "config": {
+    "flow": "water",
+    "tally": true,
+    "replayOnSettle": true,
+    "ghostCard": true,
+    "lapsCardTier": 2,
+    "startMarkerTier": 1,
+    "variant": "notch"
+   }
+  },
+  {
+   "archetype": "emitter_rail",
+   "doc": "10-game-trig.md",
+   "line": 1153,
+   "encounterId": "e1_radians",
+   "config": {
+    "rail": "arc",
+    "radius": 310,
+    "gauges": [
+     "sin",
+     "cos"
+    ],
+    "hiddenTarget": "fog",
+    "detent": "pi/12",
+    "readout": "bracket",
+    "chevrons": true,
+    "cards": {
+     "unitCircle": true,
+     "cosTier": 1,
+     "sixthsTier": 2
+    }
+   }
+  },
+  {
+   "archetype": "pendulum_sync",
+   "doc": "10-game-trig.md",
+   "line": 1798,
+   "encounterId": "e6_boss",
+   "config": {
+    "spanUnitPx": 94,
+    "armPx": 300,
+    "shieldArmPx": 442,
+    "swingDeg": 14,
+    "spanTiles": 7,
+    "driftCardTier": 1,
+    "peakDotsTier": 2,
+    "slowTimeToggle": false
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "10-game-trig.md",
+   "line": 1420,
+   "encounterId": "e3_amplitude",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "footprint": null,
+      "ghost": null,
+      "trace": {
+       "fns": [
+        {
+         "expr": "3*sin(x)",
+         "style": "solid",
+         "color": "g"
+        },
+        {
+         "expr": "0",
+         "style": "dashed",
+         "color": "g"
+        }
+       ],
+       "brackets": [
+        {
+         "x0": "pi/2",
+         "y0": "0",
+         "x1": "pi/2",
+         "y1": "3",
+         "label": "amplitude 3"
+        }
+       ],
+       "markers": []
+      }
+     },
+     {
+      "statementIndex": 1,
+      "footprint": null,
+      "ghost": null,
+      "trace": {
+       "fns": [
+        {
+         "expr": "3*sin(x)",
+         "style": "solid",
+         "color": "g"
+        },
+        {
+         "expr": "3",
+         "style": "dashed",
+         "color": "g"
+        }
+       ],
+       "brackets": [
+        {
+         "x0": "3*pi/2",
+         "y0": "-3",
+         "x1": "3*pi/2",
+         "y1": "3",
+         "label": "amplitude 6"
+        }
+       ],
+       "markers": []
+      }
+     },
+     {
+      "statementIndex": 2,
+      "footprint": null,
+      "ghost": null,
+      "trace": {
+       "fns": [
+        {
+         "expr": "3*sin(x)",
+         "style": "solid",
+         "color": "g"
+        },
+        {
+         "expr": "sin(x)",
+         "style": "dashed",
+         "color": "g"
+        }
+       ],
+       "brackets": [
+        {
+         "x0": "0",
+         "y0": "-3.6",
+         "x1": "2*pi",
+         "y1": "-3.6",
+         "label": "period 2π"
+        }
+       ],
+       "markers": []
+      }
+     }
+    ],
+    "reference": {
+     "expr": "3*sin(x)",
+     "xMin": "0",
+     "xMax": "2*pi",
+     "yMin": -4,
+     "yMax": 4,
+     "xUnit": "pi"
+    },
+    "referenceSim": null,
+    "probe": {
+     "symbol": "x",
+     "label": "probe x",
+     "min": 0,
+     "max": 6.283185307179586,
+     "step": 0.06544984694978735,
+     "unit": "",
+     "format": "pi",
+     "initial": null,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "probeWorld": "trace_slate",
+    "scenarioMin": null,
+    "hintPins": [],
+    "fileDates": [],
+    "aimer": "tuning_lens",
+    "quarantineAnim": "mimic_crab",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "10-game-trig.md",
+   "line": 1694,
+   "encounterId": "e5_period_review",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "footprint": null,
+      "ghost": null,
+      "trace": {
+       "fns": [
+        {
+         "expr": "sin(2*x)",
+         "style": "solid",
+         "color": "g"
+        }
+       ],
+       "brackets": [
+        {
+         "x0": "0",
+         "y0": "-1.3",
+         "x1": "pi",
+         "y1": "-1.3",
+         "label": "period π"
+        }
+       ],
+       "markers": [
+        {
+         "x": "pi",
+         "y": "0",
+         "kind": "period"
+        },
+        {
+         "x": "2*pi",
+         "y": "0",
+         "kind": "period"
+        },
+        {
+         "x": "3*pi",
+         "y": "0",
+         "kind": "period"
+        },
+        {
+         "x": "4*pi",
+         "y": "0",
+         "kind": "period"
+        }
+       ]
+      }
+     },
+     {
+      "statementIndex": 1,
+      "footprint": null,
+      "ghost": null,
+      "trace": {
+       "fns": [
+        {
+         "expr": "sin(2*x)",
+         "style": "solid",
+         "color": "g"
+        }
+       ],
+       "brackets": [
+        {
+         "x0": "0",
+         "y0": "-1.3",
+         "x1": "4*pi",
+         "y1": "-1.3",
+         "label": "period 4π"
+        }
+       ],
+       "markers": [
+        {
+         "x": "pi",
+         "y": "0",
+         "kind": "period"
+        },
+        {
+         "x": "2*pi",
+         "y": "0",
+         "kind": "period"
+        },
+        {
+         "x": "3*pi",
+         "y": "0",
+         "kind": "period"
+        },
+        {
+         "x": "4*pi",
+         "y": "0",
+         "kind": "period"
+        }
+       ]
+      }
+     },
+     {
+      "statementIndex": 2,
+      "footprint": null,
+      "ghost": null,
+      "trace": {
+       "fns": [
+        {
+         "expr": "cos(x/2)",
+         "style": "solid",
+         "color": "g"
+        }
+       ],
+       "brackets": [
+        {
+         "x0": "0",
+         "y0": "-1.3",
+         "x1": "4*pi",
+         "y1": "-1.3",
+         "label": "period 4π"
+        }
+       ],
+       "markers": [
+        {
+         "x": "4*pi",
+         "y": "1",
+         "kind": "period"
+        }
+       ]
+      }
+     }
+    ],
+    "reference": {
+     "expr": "sin(x)",
+     "xMin": "0",
+     "xMax": "4*pi",
+     "yMin": -1.5,
+     "yMax": 1.5,
+     "xUnit": "pi"
+    },
+    "referenceSim": null,
+    "probe": {
+     "symbol": "x",
+     "label": "probe x",
+     "min": 0,
+     "max": 12.566370614359172,
+     "step": 0.06544984694978735,
+     "unit": "",
+     "format": "pi",
+     "initial": null,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "probeWorld": "trace_slate",
+    "scenarioMin": null,
+    "hintPins": [],
+    "fileDates": [],
+    "aimer": "tuning_lens",
+    "quarantineAnim": "mimic_crab",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "11-game-cell-transport.md",
+   "line": 2313,
+   "encounterId": "e1_bilayer",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "trace": null,
+      "ghost": "bilayer_outline",
+      "footprint": null
+     },
+     {
+      "statementIndex": 1,
+      "trace": null,
+      "ghost": "rigid_holed_slab",
+      "footprint": null
+     },
+     {
+      "statementIndex": 2,
+      "trace": null,
+      "ghost": "core_blocks_ion",
+      "footprint": null
+     }
+    ],
+    "reference": null,
+    "referenceSim": {
+     "id": "bilayer_probe",
+     "params": {}
+    },
+    "probe": {
+     "symbol": "d",
+     "label": "probe depth",
+     "min": 0,
+     "max": 5,
+     "step": 0.1,
+     "unit": "nm",
+     "format": "number",
+     "initial": 0,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "probeWorld": "needle",
+    "scenarioMin": null,
+    "hintPins": [],
+    "fileDates": [],
+    "aimer": "probe_emitter",
+    "quarantineAnim": "ridge_thaw",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "11-game-cell-transport.md",
+   "line": 2691,
+   "encounterId": "e3_diffusion",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "trace": null,
+      "ghost": "random_walk",
+      "footprint": null
+     },
+     {
+      "statementIndex": 1,
+      "trace": null,
+      "ghost": "purposeful_march",
+      "footprint": null
+     },
+     {
+      "statementIndex": 2,
+      "trace": null,
+      "ghost": "net_flux_arrow",
+      "footprint": null
+     }
+    ],
+    "reference": null,
+    "referenceSim": {
+     "id": "diffusion_tank",
+     "params": {
+      "p": 0.3,
+      "sigma": 5
+     }
+    },
+    "probe": {
+     "symbol": "a",
+     "label": "dye load",
+     "min": 0,
+     "max": 10,
+     "step": 0.5,
+     "unit": "mM",
+     "format": "number",
+     "initial": 5,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "probeWorld": "dye_load",
+    "scenarioMin": null,
+    "hintPins": [],
+    "fileDates": [],
+    "aimer": "probe_emitter",
+    "quarantineAnim": "tank_dilate",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "11-game-cell-transport.md",
+   "line": 2845,
+   "encounterId": "e4_osmosis",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "trace": null,
+      "ghost": "water_out_arrows",
+      "footprint": null
+     },
+     {
+      "statementIndex": 1,
+      "trace": null,
+      "ghost": "salt_inflow",
+      "footprint": null
+     },
+     {
+      "statementIndex": 2,
+      "trace": null,
+      "ghost": "shrink_outline",
+      "footprint": null
+     }
+    ],
+    "reference": null,
+    "referenceSim": {
+     "id": "osmotic_cell",
+     "params": {
+      "cIn": 2,
+      "b": 0.3
+     }
+    },
+    "probe": {
+     "symbol": "s",
+     "label": "bath salt",
+     "min": 0,
+     "max": 10,
+     "step": 0.1,
+     "unit": "%",
+     "format": "number",
+     "initial": 6,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "probeWorld": "bath_salt",
+    "scenarioMin": 2.5,
+    "hintPins": [],
+    "fileDates": [],
+    "aimer": "probe_emitter",
+    "quarantineAnim": "raft_lock_flood",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "11-game-cell-transport.md",
+   "line": 3302,
+   "encounterId": "e7_active",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "trace": null,
+      "ghost": "uphill_arrow",
+      "footprint": null
+     },
+     {
+      "statementIndex": 1,
+      "trace": null,
+      "ghost": "atp_sparks",
+      "footprint": null
+     },
+     {
+      "statementIndex": 2,
+      "trace": null,
+      "ghost": "downhill_boost",
+      "footprint": null
+     }
+    ],
+    "reference": null,
+    "referenceSim": {
+     "id": "pump_flume",
+     "params": {}
+    },
+    "probe": {
+     "symbol": "r",
+     "label": "ATP feed",
+     "min": 0,
+     "max": 10,
+     "step": 0.5,
+     "unit": "ATP/s",
+     "format": "number",
+     "initial": 0,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "probeWorld": "atp_feed",
+    "scenarioMin": null,
+    "hintPins": [],
+    "fileDates": [],
+    "aimer": "probe_emitter",
+    "quarantineAnim": "lanterns_ignite",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "12-game-civil-rights.md",
+   "line": 1598,
+   "encounterId": "e1_brown",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "trace": null,
+      "ghost": null,
+      "footprint": {
+       "kind": "pin",
+       "from": "1954",
+       "to": null,
+       "label": "ruled 1954"
+      }
+     },
+     {
+      "statementIndex": 1,
+      "trace": null,
+      "ghost": null,
+      "footprint": {
+       "kind": "band",
+       "from": "1954",
+       "to": "1955",
+       "label": "claimed: desegregated"
+      }
+     },
+     {
+      "statementIndex": 2,
+      "trace": null,
+      "ghost": null,
+      "footprint": {
+       "kind": "arrow",
+       "from": "1896",
+       "to": "1954",
+       "label": "overturned"
+      }
+     }
+    ],
+    "reference": null,
+    "referenceSim": null,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1950,
+     "max": 1960,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1950,
+      "end": 1960
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens",
+    "scenarioMin": null,
+    "hintPins": [
+     {
+      "rung": 2,
+      "date": "1957",
+      "label": "Little Rock"
+     }
+    ],
+    "fileDates": [],
+    "aimer": "arc_lamp",
+    "quarantineAnim": "retract_stamp",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "claim_holders",
+   "doc": "12-game-civil-rights.md",
+   "line": 1825,
+   "encounterId": "e4_sit_ins",
+   "config": {
+    "holders": [
+     {
+      "statementIndex": 0,
+      "trace": null,
+      "ghost": null,
+      "footprint": null
+     },
+     {
+      "statementIndex": 1,
+      "trace": null,
+      "ghost": null,
+      "footprint": null
+     },
+     {
+      "statementIndex": 2,
+      "trace": null,
+      "ghost": null,
+      "footprint": null
+     }
+    ],
+    "reference": null,
+    "referenceSim": null,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1959,
+     "max": 1961,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1959,
+      "end": 1961
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens",
+    "scenarioMin": null,
+    "hintPins": [],
+    "fileDates": [
+     {
+      "date": "1960-02-01",
+      "label": "Greensboro"
+     }
+    ],
+    "aimer": "pendant_lamp",
+    "quarantineAnim": "retract_stamp",
+    "secondaryTier": 1,
+    "overlayTier": 2
+   }
+  },
+  {
+   "archetype": "oracle_ticker",
+   "doc": "12-game-civil-rights.md",
+   "line": 1758,
+   "encounterId": "e3_little_rock",
+   "config": {
+    "options": [],
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1954,
+     "max": 1958,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1954,
+      "end": 1958
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens",
+    "fileDates": [
+     {
+      "date": "1957-09",
+      "label": "Guard posted"
+     }
+    ],
+    "conduit": "telegraph_wire",
+    "payoffLamps": 9
+   }
+  },
+  {
+   "archetype": "step_bridge",
+   "doc": "10-game-trig.md",
+   "line": 1554,
+   "encounterId": "e4_solve",
+   "config": {
+    "bays": "floating",
+    "items": [
+     {
+      "key": "s0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": "balance_div2",
+       "label": "isolate"
+      }
+     },
+     {
+      "key": "s1",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": "angle_wedge",
+       "label": "reference angle"
+      }
+     },
+     {
+      "key": "s2",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": "upper_half_circle",
+       "label": "quadrants"
+      }
+     },
+     {
+      "key": "s3",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": "twin_beacons",
+       "label": "both solutions"
+      }
+     },
+     {
+      "key": "d0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": "arcsin_arrow",
+       "label": "inverse sine"
+      }
+     }
+    ],
+    "stepEffects": [
+     {
+      "key": "s0",
+      "effect": "scaleEquation"
+     },
+     {
+      "key": "s1",
+      "effect": "markAngle"
+     },
+     {
+      "key": "s2",
+      "effect": "shadeQuadrants"
+     },
+     {
+      "key": "s3",
+      "effect": "markSolutions"
+     },
+     {
+      "key": "d0",
+      "effect": "missCircle"
+     }
+    ],
+    "stages": [],
+    "anchors": 2,
+    "relief": {
+     "expr": "2*sin(x)",
+     "line": "1"
+    },
+    "probe": {
+     "symbol": "x",
+     "label": "probe x",
+     "min": 0,
+     "max": 6.283185307179586,
+     "step": 0.06544984694978735,
+     "unit": "",
+     "format": "pi",
+     "initial": null,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "probeWorld": "relief_marker",
+    "dayCounter": null,
+    "bayLampsTier": 1,
+    "pageOrderHeading": null
+   }
+  },
+  {
+   "archetype": "step_bridge",
+   "doc": "11-game-cell-transport.md",
+   "line": 3736,
+   "encounterId": "e10_bulk",
+   "config": {
+    "bays": "stage_rail",
+    "items": [
+     {
+      "key": "s0",
+      "meta": {
+       "glyph": "plank_touch",
+       "label": "touch"
+      }
+     },
+     {
+      "key": "s1",
+      "meta": {
+       "glyph": "plank_fold",
+       "label": "fold inward"
+      }
+     },
+     {
+      "key": "s2",
+      "meta": {
+       "glyph": "plank_pinch",
+       "label": "pinch off"
+      }
+     },
+     {
+      "key": "s3",
+      "meta": {
+       "glyph": "plank_carry",
+       "label": "vesicle carries"
+      }
+     },
+     {
+      "key": "d0",
+      "meta": {
+       "glyph": "plank_dissolve",
+       "label": "dissolve"
+      }
+     }
+    ],
+    "stepEffects": [],
+    "stages": [
+     {
+      "key": "s0",
+      "stageId": "touch",
+      "icon": "plank_touch"
+     },
+     {
+      "key": "s1",
+      "stageId": "fold",
+      "icon": "plank_fold"
+     },
+     {
+      "key": "s2",
+      "stageId": "pinch",
+      "icon": "plank_pinch"
+     },
+     {
+      "key": "s3",
+      "stageId": "carry",
+      "icon": "plank_carry"
+     },
+     {
+      "key": "d0",
+      "stageId": "dissolve_bounce",
+      "icon": "plank_dissolve"
+     }
+    ],
+    "anchors": 0,
+    "relief": null,
+    "probe": {
+     "symbol": "k",
+     "label": "playback",
+     "min": 0,
+     "max": 4,
+     "step": 0.05,
+     "unit": "",
+     "format": "stage",
+     "initial": 0,
+     "stops": [
+      {
+       "v": 0,
+       "label": "flat"
+      },
+      {
+       "v": 1,
+       "label": "slot 1"
+      },
+      {
+       "v": 2,
+       "label": "slot 2"
+      },
+      {
+       "v": 3,
+       "label": "slot 3"
+      },
+      {
+       "v": 4,
+       "label": "slot 4"
+      }
+     ],
+     "window": null,
+     "playback": true
+    },
+    "probeWorld": "playback",
+    "dayCounter": null,
+    "bayLampsTier": 1,
+    "pageOrderHeading": null
+   }
+  },
+  {
+   "archetype": "step_bridge",
+   "doc": "12-game-civil-rights.md",
+   "line": 1679,
+   "encounterId": "e2_montgomery",
+   "config": {
+    "bays": "flat_road",
+    "items": [
+     {
+      "key": "s0",
+      "meta": {
+       "printedDate": "1955-12-01",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "s1",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "s2",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "s3",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "d0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     }
+    ],
+    "stepEffects": [],
+    "stages": [],
+    "anchors": 0,
+    "relief": null,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1955.8333,
+     "max": 1957.0833,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1955.8333,
+      "end": 1957.0833
+     },
+     "playback": false
+    },
+    "probeWorld": "day_counter",
+    "dayCounter": {
+     "epoch": "1955-12",
+     "max": 381
+    },
+    "bayLampsTier": 1,
+    "pageOrderHeading": null
+   }
+  },
+  {
+   "archetype": "step_bridge",
+   "doc": "12-game-civil-rights.md",
+   "line": 2180,
+   "encounterId": "e9_selma",
+   "config": {
+    "bays": "arch",
+    "items": [
+     {
+      "key": "s0",
+      "meta": {
+       "printedDate": "1964-07-02",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "s1",
+      "meta": {
+       "printedDate": "1965-03-07",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "s2",
+      "meta": {
+       "printedDate": "1965-03-25",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "s3",
+      "meta": {
+       "printedDate": "1965-08-06",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "d0",
+      "meta": {
+       "printedDate": "1956-12",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     }
+    ],
+    "stepEffects": [],
+    "stages": [],
+    "anchors": 0,
+    "relief": null,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1964.4167,
+     "max": 1965.6667,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1964.4167,
+      "end": 1965.6667
+     },
+     "playback": false
+    },
+    "probeWorld": "bay_lamps",
+    "dayCounter": null,
+    "bayLampsTier": 1,
+    "pageOrderHeading": "AS PRINTED IN CH. 21"
+   }
+  },
+  {
+   "archetype": "router_lanes",
+   "doc": "11-game-cell-transport.md",
+   "line": 2510,
+   "encounterId": "e2_selectivity",
+   "config": {
+    "items": [
+     {
+      "key": "i0",
+      "meta": {
+       "glyph": "o2",
+       "label": "O₂"
+      },
+      "polar": false,
+      "charged": false,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i1",
+      "meta": {
+       "glyph": "co2",
+       "label": "CO₂"
+      },
+      "polar": false,
+      "charged": false,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i2",
+      "meta": {
+       "glyph": "na",
+       "label": "Na⁺"
+      },
+      "polar": false,
+      "charged": true,
+      "from": null,
+      "to": null,
+      "vehicle": "channel"
+     },
+     {
+      "key": "i3",
+      "meta": {
+       "glyph": "glucose",
+       "label": "glucose"
+      },
+      "polar": true,
+      "charged": false,
+      "from": null,
+      "to": null,
+      "vehicle": "carrier"
+     },
+     {
+      "key": "i4",
+      "meta": {
+       "glyph": "steroid",
+       "label": "steroid"
+      },
+      "polar": false,
+      "charged": false,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i5",
+      "meta": {
+       "glyph": "cl",
+       "label": "Cl⁻"
+      },
+      "polar": false,
+      "charged": true,
+      "from": null,
+      "to": null,
+      "vehicle": "channel"
+     }
+    ],
+    "lanes": [
+     {
+      "binId": "diffuses",
+      "laneId": "oil_road",
+      "year": null
+     },
+     {
+      "binId": "protein",
+      "laneId": "crossing_gate",
+      "year": null
+     }
+    ],
+    "lens": "hydration",
+    "lensTier": 1,
+    "energy": null,
+    "shutters": false,
+    "stamp": "none",
+    "eventsBand": null,
+    "eventsBandTier": 1,
+    "probe": null,
+    "probeWorld": "none"
+   }
+  },
+  {
+   "archetype": "router_lanes",
+   "doc": "11-game-cell-transport.md",
+   "line": 3135,
+   "encounterId": "e6_facilitated",
+   "config": {
+    "items": [
+     {
+      "key": "i0",
+      "meta": {
+       "glyph": "glucose",
+       "label": "glucose"
+      },
+      "polar": null,
+      "charged": null,
+      "from": 8,
+      "to": 2,
+      "vehicle": "carrier"
+     },
+     {
+      "key": "i1",
+      "meta": {
+       "glyph": "water",
+       "label": "water"
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "channel"
+     },
+     {
+      "key": "i2",
+      "meta": {
+       "glyph": "na",
+       "label": "Na⁺"
+      },
+      "polar": null,
+      "charged": null,
+      "from": 2,
+      "to": 8,
+      "vehicle": "pump"
+     },
+     {
+      "key": "i3",
+      "meta": {
+       "glyph": "k",
+       "label": "K⁺"
+      },
+      "polar": null,
+      "charged": null,
+      "from": 8,
+      "to": 2,
+      "vehicle": "channel"
+     },
+     {
+      "key": "i4",
+      "meta": {
+       "glyph": "h",
+       "label": "H⁺"
+      },
+      "polar": null,
+      "charged": null,
+      "from": 2,
+      "to": 8,
+      "vehicle": "pump"
+     }
+    ],
+    "lanes": [
+     {
+      "binId": "passive",
+      "laneId": "glide_gate",
+      "year": null
+     },
+     {
+      "binId": "active",
+      "laneId": "pump_gate",
+      "year": null
+     }
+    ],
+    "lens": "none",
+    "lensTier": 1,
+    "energy": {
+     "reserve": 10
+    },
+    "shutters": false,
+    "stamp": "none",
+    "eventsBand": null,
+    "eventsBandTier": 1,
+    "probe": null,
+    "probeWorld": "none"
+   }
+  },
+  {
+   "archetype": "router_lanes",
+   "doc": "11-game-cell-transport.md",
+   "line": 3894,
+   "encounterId": "e11_boss",
+   "config": {
+    "items": [
+     {
+      "key": "i0",
+      "meta": {
+       "glyph": "o2",
+       "label": "O₂"
+      },
+      "polar": false,
+      "charged": false,
+      "from": 8,
+      "to": 2,
+      "vehicle": "none"
+     },
+     {
+      "key": "i1",
+      "meta": {
+       "glyph": "glucose",
+       "label": "glucose"
+      },
+      "polar": true,
+      "charged": false,
+      "from": 8,
+      "to": 2,
+      "vehicle": "carrier"
+     },
+     {
+      "key": "i2",
+      "meta": {
+       "glyph": "na",
+       "label": "Na⁺"
+      },
+      "polar": false,
+      "charged": true,
+      "from": 2,
+      "to": 8,
+      "vehicle": "pump"
+     },
+     {
+      "key": "i3",
+      "meta": {
+       "glyph": "water",
+       "label": "water"
+      },
+      "polar": true,
+      "charged": false,
+      "from": null,
+      "to": null,
+      "vehicle": "channel"
+     },
+     {
+      "key": "i4",
+      "meta": {
+       "glyph": "co2",
+       "label": "CO₂"
+      },
+      "polar": false,
+      "charged": false,
+      "from": 8,
+      "to": 2,
+      "vehicle": "none"
+     },
+     {
+      "key": "i5",
+      "meta": {
+       "glyph": "k",
+       "label": "K⁺"
+      },
+      "polar": false,
+      "charged": true,
+      "from": 2,
+      "to": 8,
+      "vehicle": "pump"
+     },
+     {
+      "key": "i6",
+      "meta": {
+       "glyph": "cl",
+       "label": "Cl⁻"
+      },
+      "polar": false,
+      "charged": true,
+      "from": 8,
+      "to": 2,
+      "vehicle": "channel"
+     }
+    ],
+    "lanes": [
+     {
+      "binId": "simple",
+      "laneId": "oil_maw",
+      "year": null
+     },
+     {
+      "binId": "facilitated",
+      "laneId": "channel_maw",
+      "year": null
+     },
+     {
+      "binId": "active",
+      "laneId": "pump_maw",
+      "year": null
+     }
+    ],
+    "lens": "hydration",
+    "lensTier": 1,
+    "energy": {
+     "reserve": 12
+    },
+    "shutters": false,
+    "stamp": "none",
+    "eventsBand": null,
+    "eventsBandTier": 1,
+    "probe": null,
+    "probeWorld": "none"
+   }
+  },
+  {
+   "archetype": "router_lanes",
+   "doc": "12-game-civil-rights.md",
+   "line": 2105,
+   "encounterId": "e8_cra",
+   "config": {
+    "items": [
+     {
+      "key": "i0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i1",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i2",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i3",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i4",
+      "meta": {
+       "printedDate": "1964-07-02",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i5",
+      "meta": {
+       "printedDate": "1965-03",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     }
+    ],
+    "lanes": [
+     {
+      "binId": "cra_1964",
+      "laneId": "drawer_0",
+      "year": 1964.5
+     },
+     {
+      "binId": "vra_1965",
+      "laneId": "drawer_1",
+      "year": 1965.5
+     }
+    ],
+    "lens": "none",
+    "lensTier": 1,
+    "energy": null,
+    "shutters": true,
+    "stamp": "none",
+    "eventsBand": null,
+    "eventsBandTier": 1,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1963.5,
+     "max": 1966,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1963.5,
+      "end": 1966
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens"
+   }
+  },
+  {
+   "archetype": "router_lanes",
+   "doc": "12-game-civil-rights.md",
+   "line": 2269,
+   "encounterId": "e10_sources",
+   "config": {
+    "items": [
+     {
+      "key": "i0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": 1963,
+       "glyph": "photo_print",
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i1",
+      "meta": {
+       "printedDate": null,
+       "madeYear": 1971,
+       "glyph": "aged_textbook",
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i2",
+      "meta": {
+       "printedDate": null,
+       "madeYear": 1965,
+       "glyph": "law_text",
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i3",
+      "meta": {
+       "printedDate": null,
+       "madeYear": 2019,
+       "glyph": "film_case",
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i4",
+      "meta": {
+       "printedDate": null,
+       "madeYear": 1965,
+       "glyph": "transcript",
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     },
+     {
+      "key": "i5",
+      "meta": {
+       "printedDate": null,
+       "madeYear": 1988,
+       "glyph": "hardcover",
+       "label": null
+      },
+      "polar": null,
+      "charged": null,
+      "from": null,
+      "to": null,
+      "vehicle": "none"
+     }
+    ],
+    "lanes": [
+     {
+      "binId": "primary",
+      "laneId": "drawer_0",
+      "year": null
+     },
+     {
+      "binId": "secondary",
+      "laneId": "drawer_1",
+      "year": null
+     }
+    ],
+    "lens": "none",
+    "lensTier": 1,
+    "energy": null,
+    "shutters": true,
+    "stamp": "made_year",
+    "eventsBand": {
+     "from": "1963",
+     "to": "1965",
+     "label": "THE EVENTS · 1963–1965"
+    },
+    "eventsBandTier": 1,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1950,
+     "max": 2025,
+     "step": 1,
+     "unit": "",
+     "format": "year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1950,
+      "end": 2025
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens"
+   }
+  },
+  {
+   "archetype": "sluice_waves",
+   "doc": "11-game-cell-transport.md",
+   "line": 3003,
+   "encounterId": "e5_tonicity",
+   "config": {
+    "waves": [
+     {
+      "waveIndex": 0,
+      "cell": "rbc",
+      "inDots": 10,
+      "outDots": 0,
+      "fate": "swell",
+      "showFate": true
+     },
+     {
+      "waveIndex": 1,
+      "cell": "generic",
+      "inDots": 10,
+      "outDots": 30,
+      "fate": "shrink",
+      "showFate": true
+     },
+     {
+      "waveIndex": 2,
+      "cell": "generic",
+      "inDots": 10,
+      "outDots": 10,
+      "fate": "steady",
+      "showFate": true
+     },
+     {
+      "waveIndex": 3,
+      "cell": "plant",
+      "inDots": 10,
+      "outDots": 28,
+      "fate": "plasmolysis",
+      "showFate": true
+     },
+     {
+      "waveIndex": 4,
+      "cell": "generic",
+      "inDots": 10,
+      "outDots": 2,
+      "fate": "strain",
+      "showFate": true
+     }
+    ],
+    "valves": [
+     {
+      "categoryId": "hypotonic",
+      "densityK": 0.25,
+      "arrows": "none"
+     },
+     {
+      "categoryId": "isotonic",
+      "densityK": 1,
+      "arrows": "none"
+     },
+     {
+      "categoryId": "hypertonic",
+      "densityK": 2.5,
+      "arrows": "none"
+     }
+    ]
+   }
+  },
+  {
+   "archetype": "sluice_waves",
+   "doc": "11-game-cell-transport.md",
+   "line": 3608,
+   "encounterId": "e9_osmosis_review",
+   "config": {
+    "waves": [
+     {
+      "waveIndex": 0,
+      "cell": "generic",
+      "inDots": 8,
+      "outDots": 40,
+      "fate": null,
+      "showFate": false
+     },
+     {
+      "waveIndex": 1,
+      "cell": "generic",
+      "inDots": 8,
+      "outDots": 0,
+      "fate": null,
+      "showFate": false
+     },
+     {
+      "waveIndex": 2,
+      "cell": "rbc",
+      "inDots": 4,
+      "outDots": 4,
+      "fate": null,
+      "showFate": false
+     },
+     {
+      "waveIndex": 3,
+      "cell": "potato",
+      "inDots": 10,
+      "outDots": 45,
+      "fate": null,
+      "showFate": false
+     }
+    ],
+    "valves": [
+     {
+      "categoryId": "in",
+      "densityK": null,
+      "arrows": "in"
+     },
+     {
+      "categoryId": "out",
+      "densityK": null,
+      "arrows": "out"
+     },
+     {
+      "categoryId": "none",
+      "densityK": null,
+      "arrows": "both"
+     }
+    ]
+   }
+  },
+  {
+   "archetype": "switchboard",
+   "doc": "12-game-civil-rights.md",
+   "line": 2038,
+   "encounterId": "e7_march",
+   "config": {
+    "document": {
+     "title": "MARCH ON WASHINGTON FOR JOBS AND FREEDOM · AUGUST 28, 1963"
+    },
+    "stepLamps": true,
+    "cord": "verlet",
+    "decoyDimRung": 3,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1962.5,
+     "max": 1964,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1962.5,
+      "end": 1964
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens"
+   }
+  },
+  {
+   "archetype": "stage_machine",
+   "doc": "11-game-cell-transport.md",
+   "line": 3478,
+   "encounterId": "e8_pump",
+   "config": {
+    "lefts": [
+     {
+      "key": "l0",
+      "stage": 1,
+      "socketKind": "ion",
+      "ion": "Na"
+     },
+     {
+      "key": "l1",
+      "stage": 4,
+      "socketKind": "ion",
+      "ion": "K"
+     },
+     {
+      "key": "l2",
+      "stage": 2,
+      "socketKind": "energy",
+      "ion": null
+     },
+     {
+      "key": "l3",
+      "stage": 6,
+      "socketKind": "beacon",
+      "ion": null
+     }
+    ],
+    "rights": [
+     {
+      "key": "r0",
+      "semantic": {
+       "kind": "count",
+       "n": 3,
+       "dir": "out"
+      }
+     },
+     {
+      "key": "r1",
+      "semantic": {
+       "kind": "count",
+       "n": 2,
+       "dir": "in"
+      }
+     },
+     {
+      "key": "r2",
+      "semantic": {
+       "kind": "atp",
+       "n": 1
+      }
+     },
+     {
+      "key": "r3",
+      "semantic": {
+       "kind": "beacon"
+      }
+     },
+     {
+      "key": "x0",
+      "semantic": {
+       "kind": "count",
+       "n": 2,
+       "dir": "out"
+      }
+     }
+    ],
+    "stages": {
+     "symbol": "k",
+     "label": "pump stage",
+     "min": 0,
+     "max": 6,
+     "step": 1,
+     "unit": "",
+     "format": "stage",
+     "initial": 0,
+     "stops": [
+      {
+       "v": 0,
+       "label": "rest"
+      },
+      {
+       "v": 1,
+       "label": "bind Na⁺"
+      },
+      {
+       "v": 2,
+       "label": "ATP"
+      },
+      {
+       "v": 3,
+       "label": "flip out"
+      },
+      {
+       "v": 4,
+       "label": "swap"
+      },
+      {
+       "v": 5,
+       "label": "drop P"
+      },
+      {
+       "v": 6,
+       "label": "flip in"
+      }
+     ],
+     "window": null,
+     "playback": false
+    },
+    "ledger": "charge"
+   }
+  },
+  {
+   "archetype": "cause_tubes",
+   "doc": "12-game-civil-rights.md",
+   "line": 1886,
+   "encounterId": "e5_freedom_rides",
+   "config": {
+    "nodes": [
+     {
+      "key": "n0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n1",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n2",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n3",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n4",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "d0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     }
+    ],
+    "connector": "catenary",
+    "layout": "canopy_row",
+    "carrier": "current",
+    "gauge": true,
+    "boardWidth": 1100,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1960,
+     "max": 1962,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1960,
+      "end": 1962
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens"
+   }
+  },
+  {
+   "archetype": "cause_tubes",
+   "doc": "12-game-civil-rights.md",
+   "line": 1965,
+   "encounterId": "e6_birmingham",
+   "config": {
+    "nodes": [
+     {
+      "key": "n0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n1",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n2",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n3",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n4",
+      "meta": {
+       "printedDate": "1963-06",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "d0",
+      "meta": {
+       "printedDate": null,
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     }
+    ],
+    "connector": "vertical_wire",
+    "layout": "mast",
+    "carrier": "current",
+    "gauge": true,
+    "boardWidth": 1100,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1962,
+     "max": 1964,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1962,
+      "end": 1964
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens"
+   }
+  },
+  {
+   "archetype": "cause_tubes",
+   "doc": "12-game-civil-rights.md",
+   "line": 2347,
+   "encounterId": "e11_causation",
+   "config": {
+    "nodes": [
+     {
+      "key": "n0",
+      "meta": {
+       "printedDate": "1963-05",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n1",
+      "meta": {
+       "printedDate": "1963-06",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n2",
+      "meta": {
+       "printedDate": "1964-07",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n3",
+      "meta": {
+       "printedDate": "1965-03",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "n4",
+      "meta": {
+       "printedDate": "1965-08",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "d0",
+      "meta": {
+       "printedDate": "1954",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     },
+     {
+      "key": "d1",
+      "meta": {
+       "printedDate": "1955",
+       "madeYear": null,
+       "glyph": null,
+       "label": null
+      }
+     }
+    ],
+    "connector": "tube",
+    "layout": "ring",
+    "carrier": "capsule",
+    "gauge": true,
+    "boardWidth": 1100,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1963,
+     "max": 1966,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1963,
+      "end": 1966
+     },
+     "playback": false
+    },
+    "probeWorld": "record_lens"
+   }
+  },
+  {
+   "archetype": "tumbler_vault",
+   "doc": "12-game-civil-rights.md",
+   "line": 2418,
+   "encounterId": "e12_boss",
+   "config": {
+    "clues": [
+     {
+      "index": 0,
+      "date": "1965"
+     },
+     {
+      "index": 1,
+      "date": "1965-03-15"
+     },
+     {
+      "index": 2,
+      "date": "1965"
+     },
+     {
+      "index": 3,
+      "date": "1964"
+     }
+    ],
+    "bolts": 4,
+    "miniStrip": {
+     "start": 1954,
+     "end": 1967
+    },
+    "shadeCountsRung": 3,
+    "probe": {
+     "symbol": "YEAR",
+     "label": "record year",
+     "min": 1954,
+     "max": 1966,
+     "step": 0.0833333333,
+     "unit": "",
+     "format": "month_year",
+     "initial": null,
+     "stops": [],
+     "window": {
+      "start": 1954,
+      "end": 1966
+     },
+     "playback": false
+    }
+   }
+  },
+  {
+   "archetype": "music_box",
+   "doc": "10-game-trig.md",
+   "line": 2091,
+   "encounterId": null,
+   "config": {
+    "amplitude": {
+     "symbol": "A",
+     "label": "reach",
+     "min": 0.5,
+     "max": 3,
+     "step": 0.1,
+     "unit": "",
+     "format": "number",
+     "initial": 1,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "rate": {
+     "symbol": "b",
+     "label": "rhythm",
+     "min": 0.5,
+     "max": 4,
+     "step": 0.1,
+     "unit": "",
+     "format": "number",
+     "initial": 1,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "baseHz": 220,
+    "xMax": "4*pi"
+   }
+  },
+  {
+   "archetype": "plant_garden",
+   "doc": "11-game-cell-transport.md",
+   "line": 4800,
+   "encounterId": null,
+   "config": {
+    "salt": {
+     "symbol": "s",
+     "label": "pool salt",
+     "min": 0,
+     "max": 5,
+     "step": 0.1,
+     "unit": "%",
+     "format": "number",
+     "initial": 0,
+     "stops": [],
+     "window": null,
+     "playback": false
+    },
+    "cIn": 2,
+    "wallRigid": true
+   }
+  },
+  {
+   "archetype": "darkroom",
+   "doc": "12-game-civil-rights.md",
+   "line": 2629,
+   "encounterId": null,
+   "config": {
+    "negatives": [
+     "neg_1",
+     "neg_2",
+     "neg_3",
+     "neg_4",
+     "neg_5"
+    ],
+    "trays": 3
+   }
+  }
+ ]
+}

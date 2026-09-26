@@ -127,7 +127,7 @@ export const SourceRef = z.object({
 export type SourceRef = z.infer<typeof SourceRef>;
 
 /** Which agent (or code) owns each slice of the spec. Validation issues are routed back to the owner. */
-export type Owner = "director" | "challenge_writer" | "narrative" | "assessment" | "code";
+export type Owner = "director" | "challenge_writer" | "narrative" | "assessment" | "world_writer" | "code";
 
 export interface Issue {
   path: (string | number)[];

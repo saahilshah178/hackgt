@@ -7,3 +7,4 @@ export * from "./match";
 export * from "./storage";
 export * from "./gamespec";
 export * from "./slices";
+export * from "./world";

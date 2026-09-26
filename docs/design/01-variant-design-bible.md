@@ -11,6 +11,7 @@
 | 2026-09-26 | **§6.3 replaced.** The protagonist is no longer an SVG puppet; it is the **one recoloured Kenney rig** (20 §5.5), one body/pose set reused by all three games and re-costumed per biome (Wren / the Diver / Nell — three costumes). Guide companions (Cog, Pip, Ida's lantern moth/archive drone) stay small SVG puppets, as do bosses. | critique round 2, amendment 19 (via A13) |
 | 2026-09-26 | **§6.4 replaced.** "jump (Space)" is retired for the full traversal-verb table of 20 §2.4.2 (hop, climb, ladder, drop, timed hop, ride, cosmetic hop). "3 zones per game" is retired for the actual per-game counts: trig 3, cell transport 4, civil rights 8. | critique round 2, amendments 2, 28 (via A13) |
 | 2026-09-26 | **§7 headed** "superseded for bindings by 20 §4 / §4.1; kept as the pitch-level target." §7.1–§7.3's revision-1 per-encounter tables (Radian Rail, Proof Press, "Morgue → Wire Room → Vault", ATP in `ui.accent`) are replaced with a pointer to each game doc's own binding table plus a 6-row sample whose archetype/skin ids are copied verbatim from those tables. | critique round 2, amendment 13 (A13) |
+| 2026-09-26 (night) | **Final consistency pass (31 A13 residue).** §6.1's `load.svg {scale}`, `setLiveValue`/`celebrate` and "left 60 %" camera now point at 20 §5.1, §2.10 and §2.2/§3.1; §6.3 gives the atlas frame counts (28 protagonist, 12 NPC) and names Wick; bosses are contraption skins; §7.2's ATP gauge is gold (cell §2.2); §7.3's zones are the eight civil scenes. | 31 A13, A3 |
 | 2026-09-26 | **§8 mode table deleted.** §8 now points at `20-expedition-architecture.md` §4 (the 13 demo contraption archetypes) and §6 (the World Writer, S7.5) as the implementable contract; this section stays the pitch-level rationale only. | critique round 2, amendment 13 (A13) |
 | 2026-09-26 | **§9 item 39 reworded** from "≥ 2 presentation waves… ≥ 1 taunt on approach and on fail" (unmeetable for a real-time boss like the Warden's Shield) to "the boss is staged: arena, taunts, phases or real-time motion," matching 20 §8.3's item 39. | critique round 2, amendment 5 (A5) |
 | 2026-09-26 | **§11 gains a P0 scoring rule**: items 37, 43 and 44 (traversal variety, explore-never-silent, sandbox/quest touch) are scored on **zone 1 only** at P0, since later zones' triggers, sandboxes and traversal beats are P1; the P0 target is all ★ items passing plus ≥ 36/44 (the full-game target stays ≥ 39/44). | critique round 2, amendment 5 (A5) |
@@ -429,18 +430,18 @@ orb, emblem, objective ring, knob-ish teardrop) ties world and UI together.
 ## 6 · Translation to our 2.5D side view
 
 ### 6.1 Engine split (recommended)
-- **World**: stays in Phaser (the genre hosts). Replace Kenney tiles with a `VariantWorld` layer kit:
-  parallax `Image`/`TileSprite` layers from SVG rasterized at load (`load.svg(key, url, {scale})` at devicePixelRatio
-  ≥ 2), contraptions as `Container`s of SVG parts, beams/glows via `Graphics` + pre-baked radial-gradient glow
+- **World**: Phaser (the Expedition host, `20-expedition-architecture.md` §2). Replace Kenney tiles with a layer kit:
+  parallax `Image`/`TileSprite` layers from SVG rasterized at load (`load.svg(key, url, {width, height})` at the raster
+  factor `k` of 20 §5.1, never `{scale}`), contraptions as `Container`s of SVG parts, beams/glows via `Graphics` + pre-baked radial-gradient glow
   textures with `BlendModes.ADD` (verified in `node_modules/phaser`: `SVGFile` supports a `scale`/`width`/`height`
   config, and Phaser 4 ships `src/filters/` Glow, Blur, Shadow, Vignette, ColorMatrix: use Blur for L5
   foreground softness, ColorMatrix for the dormant desaturation, Glow sparingly because baked glow sprites are
-  cheaper). Camera follows the player with deadzone; on panel open the camera tweens
-  its scroll so the contraption is centred in the left 60 %.
+  cheaper). Camera follows the player with deadzone; on panel open the camera frames the contraption's
+  `frameBounds` inside the visible safe rect of the layout (20 decision 5, §2.2 framing, §3.1 widths).
 - **Instrument panel + dialogue bar**: React (restyled widgets), because graphs, sliders and keyboard a11y are
-  much easier in DOM/SVG. Live values flow over the existing `HostHandle.setLiveValue(value)`; success over
-  `celebrate(mode)`. Contraption state should be a pure function `pose(value) → part transforms` so the same
-  code drives live preview and success animation.
+  much easier in DOM/SVG. Live input flows as a typed `Draft` through `HostHandle.bindDraft` and success through the
+  phase machine (20 §2.10, §2.9; `setLiveValue` / `celebrate` are retired). Contraption state is a pure function
+  `pose(input) → part transforms` (20 §2.5.1) so the same code drives live preview and success animation.
 - **Mystery host (civil rights)**: move to the same side-view world (a walkable archive street + interiors);
   the DOM MysteryHost becomes the Board/Vault mode panel content.
 - **Assets**: namespaces, keys, directory layout, output paths and pivot conventions are **not repeated here** —
@@ -474,17 +475,18 @@ orb, emblem, objective ring, knob-ish teardrop) ties world and UI together.
 
 ### 6.3 Characters
 - **Protagonist: one recoloured Kenney rig.** All three protagonists share a single rig — the Kenney
-  `toon-characters` pack, one body, recoloured and rendered to one 45-pose atlas layout with one anchor table
-  (`shared.char.<id>`; see `20-expedition-architecture.md` §5.5). The "shared protagonist" is literally one rig,
+  `toon-characters` pack, one body, recoloured and rendered to one PNG atlas layout (28 frames for protagonists, 12 for NPCs) with one
+  anchor table (`shared.char.<id>`; see `20-expedition-architecture.md` §5.5). The "shared protagonist" is literally one rig,
   re-costumed per biome into **three costumes**: Wren (trig: teal scarf, satchel, sighting staff), the Diver
   (cell: bubble helmet, tide scarf, probe-staff), Nell (civil: salmon scarf, satchel strap). This retires the
   revision-1 SVG-puppet protagonist.
 - **Guide**: an **emblem** in the dialogue bar (concentric-circle style, recoloured per guide) + a small in-world
   companion built as an **SVG puppet** (≤ 8 parts, not the shared rig) that floats near the player's shoulder:
-  Cog the brass owl (trig), Pip / Ora's mini-sub drone (cell), Ida's lantern moth / archive drone (civil). When
+  Cog the brass owl (trig), Pip, Ora's mini-sub drone (cell), Wick, Ida's lantern (civil). When
   the guide speaks, the companion pulses.
-- **Guardians/bosses** are also machines built as SVG puppets, not people (Warden = clockwork sentinel;
-  Gatekeeper = colossal pump protein; the Editor = the vault's press-organ voice).
+- **Guardians/bosses** are machines drawn as contraption skins (20 §4.3: `wardens_shield`, `gatekeeper_maws`,
+  `tumbler_vault`), not people (Warden = clockwork sentinel; Gatekeeper = colossal pump protein; the Editor = the
+  vault's press-organ voice).
 
 ### 6.4 Explore layer (what you do between puzzles)
 - **Traversal verbs** (walk plus the full link table of `20-expedition-architecture.md` §2.4.2, not just "jump
@@ -552,7 +554,8 @@ stations, so the sample below is the full set; archetype/skin ids are copied ver
   gate by showing what crosses, how, and at what cost; reach the nucleus. Guide: **Pilot Ora** (aqua emblem,
   mini-sub drone).
 - **Instrument**: **gradient card** (bars for inside vs outside concentration, arrow of net flow),
-  **energy card** (ATP gauge in `ui.accent`), and item lists; the scrubber (where used) is concentration.
+  **energy card** (the `energy_cells` ATP gauge in **gold**, not `ui.accent`: orange is reserved for player input;
+  `11-game-cell-transport.md` §2.2), and item lists; the scrubber (where used) is concentration.
 
 **Bindings**: see `11-game-cell-transport.md` §5 for the full write-up of all 11 encounters (§5.0–§5.11). The
 sample below is one station per distinct contraption archetype the game uses (`claim_holders` reuses the same
@@ -570,11 +573,11 @@ copied verbatim from that doc's `config` blocks.
 
 ### 7.3 The 1965 Files → "The Archive of Voices" (civil rights history)
 - **Biome**: a rain-washed dusk city of archives (the violet/pink palette of 6.png): brick and cream stone
-  stacks, brass pneumatic tubes, printing presses, street lamps, puddle reflections. Zones: The Morgue
-  (newsroom stacks) → the Wire Room (ticker, switchboard) → The Editor's Vault.
+  stacks, brass pneumatic tubes, printing presses, street lamps, puddle reflections. Zones: eight scenes, S1 The Morgue (the intro and hub) → S2 Courthouse Square → … → S8
+  the Morgue Stacks and the Editor's Vault (`12-game-civil-rights.md` §2.6).
 - **Story**: the retired editor sealed the story of how the movement won its laws; the archive's machines only
   reassemble it for someone who reads dates, follows causes and weighs sources. Guide: **Ida the Archivist**
-  (salmon-ringed emblem, a lantern drone).
+  (salmon-ringed emblem; her companion is **Wick**, a lantern).
 - **Sensitivity rules (non-negotiable)**: real people and events are shown through **documents, photographs as
   framed silhouettes, headlines and quotations**, never as game sprites, caricatures or playable violence.
   No "boss fight" against historical actors; the antagonist is the sealed archive itself. Violence is referenced
@@ -753,6 +756,8 @@ fails any ★ item is not at Variant fidelity regardless of score. Target ≥ 39
 - `score`: the count of `pass: true` items (out of 44).
 - `mandatoryFails`: the `id`s of any ★ item (1, 2, 9, 11, 15, 18, 21, 27, 30, 34, 35, 38, 40, 42) that failed;
   empty if none did. A non-empty `mandatoryFails` means the game is not at Variant fidelity regardless of `score`.
+- The saved file (`20-expedition-architecture.md` §8.3) is this object plus `game`, `round`, `tier` and, per item,
+  `shot`, `fix` and `ownerPath` (null when the item passes). That is the one score shape.
 
 **Rule.** A screenshot taken with the instrument panel closed can never pass a **panel** item (15–26) or a
 **dialogue bar** item (27–29): those items require the scrub/board (or vault) capture, and the critic marks

@@ -1,0 +1,568 @@
+{
+  "appliesTo": {"specIds": ["cell_demo_001"], "sources": [{"sourceId": "src_cell_transport", "genre": "dungeon"}]},
+  "world": {
+    "worldVersion": 2,
+    "biome": "living_gate",
+    "title": "The Living Gate",
+    "cast": {
+      "protagonist": {"name": "Diver", "look": {"atlas": "shared.char.diver"}},
+      "guide": {
+        "characterId": "pilot",
+        "emblem": {"glyph": "wave", "ring": "#2F5A5E", "accent": "#8FE0EA"},
+        "companion": {"asset": "living_gate.companion.pip"}
+      },
+      "speakers": [{"characterId": "gatekeeper", "emblem": {"glyph": "maws", "ring": "#3F3A44", "accent": "#F2A65A"}}],
+      "extras": [
+        {
+          "id": "sucra",
+          "name": "Sucra",
+          "role": "a lost glucose courier",
+          "voiceArchetype": "nervous_scholar",
+          "emblem": {"glyph": "hexagon", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "poro",
+          "name": "Poro",
+          "role": "the old pore warden",
+          "voiceArchetype": "wise_mentor",
+          "emblem": {"glyph": "cell", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "kay",
+          "name": "Kay",
+          "role": "the pump-hall lamplighter",
+          "voiceArchetype": "gruff_guard",
+          "emblem": {"glyph": "lantern", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "ferryman",
+          "name": "The Ferryman",
+          "role": "pilot of the tide basins",
+          "voiceArchetype": "narrator",
+          "emblem": {"glyph": "wave", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        }
+      ]
+    },
+    "story": {
+      "logline": "A living gate has seized shut. Open each membrane machine so the gradient flows again.",
+      "objective": "Open the Living Gate",
+      "objectiveLabel": "GATES",
+      "restoredNoun": "gate",
+      "introCutsceneId": "intro",
+      "finaleCutsceneId": "finale",
+      "meter": {
+        "id": "gradient",
+        "label": "GRADIENT",
+        "unit": "percent",
+        "start": 12,
+        "perEncounter": [
+          {"encounterId": "e1_bilayer", "value": 18},
+          {"encounterId": "e2_selectivity", "value": 26},
+          {"encounterId": "e3_diffusion", "value": 32},
+          {"encounterId": "e4_osmosis", "value": 40},
+          {"encounterId": "e5_tonicity", "value": 48},
+          {"encounterId": "e6_facilitated", "value": 56},
+          {"encounterId": "e7_active", "value": 64},
+          {"encounterId": "e8_pump", "value": 78},
+          {"encounterId": "e9_osmosis_review", "value": 84},
+          {"encounterId": "e10_bulk", "value": 90},
+          {"encounterId": "e11_boss", "value": 100}
+        ],
+        "drives": ["hud_bar", "ambient_particles"]
+      }
+    },
+    "zones": [
+      {
+        "id": "zone_a",
+        "name": "Glycocalyx Shore",
+        "width": 7400,
+        "height": 1350,
+        "layerSets": [
+          {
+            "id": "zone_a_kit",
+            "layers": [
+              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 283},
+              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 463},
+              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 603}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "zone_a_kit",
+            "x0": 0,
+            "x1": 7400,
+            "layerSet": "zone_a_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "aqua"}
+          }
+        ],
+        "ground": {"points": [[0, 983], [7400, 983]], "surface": "living_gate.ground.default_surface"},
+        "exits": [{"id": "a_to_b", "x": 7390, "toZoneId": "zone_b", "toX": 60, "requires": {"solved": "e2_selectivity"}}],
+        "entry": {"x": 420}
+      },
+      {
+        "id": "zone_b",
+        "name": "Tide Basins",
+        "width": 8400,
+        "height": 1600,
+        "layerSets": [
+          {
+            "id": "zone_b_kit",
+            "layers": [
+              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 513},
+              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 693},
+              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 833}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "zone_b_kit",
+            "x0": 0,
+            "x1": 8400,
+            "layerSet": "zone_b_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "day"}
+          }
+        ],
+        "ground": {"points": [[0, 1213], [8400, 1213]], "surface": "living_gate.ground.default_surface"},
+        "exits": [],
+        "entry": {"x": 60}
+      },
+      {
+        "id": "zone_c",
+        "name": "Pump Hall",
+        "width": 7800,
+        "height": 1600,
+        "layerSets": [
+          {
+            "id": "zone_c_kit",
+            "layers": [
+              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 513},
+              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 693},
+              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 833}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "zone_c_kit",
+            "x0": 0,
+            "x1": 7800,
+            "layerSet": "zone_c_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "interior"}
+          }
+        ],
+        "ground": {"points": [[0, 1213], [7800, 1213]], "surface": "living_gate.ground.default_surface"},
+        "exits": [],
+        "entry": {"x": 300}
+      },
+      {
+        "id": "zone_d",
+        "name": "Cytoplasm",
+        "width": 5600,
+        "height": 1500,
+        "layerSets": [
+          {
+            "id": "zone_d_kit",
+            "layers": [
+              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 413},
+              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 593},
+              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 733}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "zone_d_kit",
+            "x0": 0,
+            "x1": 5600,
+            "layerSet": "zone_d_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "amber"}
+          }
+        ],
+        "ground": {"points": [[0, 1113], [5600, 1113]], "surface": "living_gate.ground.default_surface"},
+        "exits": [],
+        "entry": {"x": 300}
+      }
+    ],
+    "stations": [
+      {
+        "encounterId": "e1_bilayer",
+        "zoneId": "zone_a",
+        "consoleX": 4300,
+        "anchor": {"x": 4500, "y": 983},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Specimen Pods",
+        "panel": {"verifyLabel": "QUARANTINE · THAW RIDGE", "successBadge": "MIMIC QUARANTINED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "ramp_forms",
+          "noun": "thawed ridge",
+          "blocker": {"x": 4600},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e2_selectivity",
+        "zoneId": "zone_a",
+        "consoleX": 6300,
+        "anchor": {"x": 6700, "y": 983},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Crossing Gate",
+        "panel": {"verifyLabel": "ROUTE CARGO", "successBadge": "CARGO ROUTED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Crossing Gate.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Crossing Gate wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "ramp_forms",
+          "noun": "carrier rocker",
+          "blocker": {"x": 6600},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e3_diffusion",
+        "zoneId": "zone_b",
+        "consoleX": 1100,
+        "anchor": {"x": 1500, "y": 1213},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Specimen Pods",
+        "panel": {"verifyLabel": "QUARANTINE · LEVEL LOCK", "successBadge": "MIMIC QUARANTINED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "barrier_lifts",
+          "noun": "Balance Lock boom",
+          "blocker": {"x": 1400},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e4_osmosis",
+        "zoneId": "zone_b",
+        "consoleX": 3100,
+        "anchor": {"x": 3500, "y": 1213},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Specimen Pods",
+        "panel": {"verifyLabel": "QUARANTINE · FLOOD LOCK", "successBadge": "MIMIC QUARANTINED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "ride",
+          "vertical": "up",
+          "anim": "water_rises",
+          "noun": "raft",
+          "blocker": {"x": 3400},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e5_tonicity",
+        "zoneId": "zone_b",
+        "consoleX": 5200,
+        "anchor": {"x": 5600, "y": 1213},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Tonicity Sluices",
+        "panel": {"verifyLabel": "DRAIN THE SLUICE", "successBadge": "SLUICE DRAINED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Tonicity Sluices.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Tonicity Sluices wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "steps_emerge",
+          "noun": "carved steps",
+          "blocker": {"x": 5500},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e6_facilitated",
+        "zoneId": "zone_b",
+        "consoleX": 7500,
+        "anchor": {"x": 7900, "y": 1213},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Carrier Door",
+        "panel": {"verifyLabel": "OPEN THE THRESHOLD", "successBadge": "THRESHOLD OPEN"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Carrier Door.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Carrier Door wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "carry",
+          "vertical": "none",
+          "anim": "door_carries",
+          "noun": "Carrier Door",
+          "blocker": {"x": 7800},
+          "rideCutsceneId": "e6_carry"
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e7_active",
+        "zoneId": "zone_c",
+        "consoleX": 900,
+        "anchor": {"x": 1400, "y": 1213},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Specimen Pods",
+        "panel": {"verifyLabel": "QUARANTINE · LIGHT HALL", "successBadge": "MIMIC QUARANTINED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "ride",
+          "vertical": "up",
+          "anim": "lift_moves",
+          "noun": "gantry lift",
+          "blocker": {"x": 1200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e8_pump",
+        "zoneId": "zone_c",
+        "consoleX": 2900,
+        "anchor": {"x": 3300, "y": 873},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Sodium Pump",
+        "panel": {"verifyLabel": "RUN ONE CYCLE", "successBadge": "PUMP CYCLING"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Sodium Pump.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Sodium Pump wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "gate_lifts",
+          "noun": "Hall Gate",
+          "blocker": {"x": 3200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e9_osmosis_review",
+        "zoneId": "zone_c",
+        "consoleX": 5000,
+        "anchor": {"x": 5300, "y": 1213},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Tonicity Sluices",
+        "panel": {"verifyLabel": "FILL THE LOCK", "successBadge": "LOCK FILLED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Tonicity Sluices.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Tonicity Sluices wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "ride",
+          "vertical": "up",
+          "anim": "water_rises",
+          "noun": "barge",
+          "blocker": {"x": 5300},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e10_bulk",
+        "zoneId": "zone_c",
+        "consoleX": 7100,
+        "anchor": {"x": 7300, "y": 873},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Endocytosis Lift",
+        "panel": {"verifyLabel": "LAUNCH THE LIFT", "successBadge": "VESICLE LAUNCHED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Endocytosis Lift.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Endocytosis Lift wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "carry",
+          "vertical": "down",
+          "anim": "vesicle_carries",
+          "noun": "vesicle",
+          "blocker": {"x": 7400},
+          "rideCutsceneId": "e10_carry"
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e11_boss",
+        "zoneId": "zone_d",
+        "consoleX": 3800,
+        "anchor": {"x": 4200, "y": 1113},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Gatekeeper",
+        "panel": {"verifyLabel": "OPEN THE VAULT", "successBadge": "VAULT OPEN"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Gatekeeper.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Gatekeeper wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "vault_opens",
+          "noun": "Nuclear Pore",
+          "blocker": {"x": 4100},
+          "rideCutsceneId": null
+        },
+        "boss": {
+          "speakerId": "gatekeeper",
+          "arenaTriggerX": 3000,
+          "phases": [
+            {"id": "phase_1", "itemKeys": ["i0", "i1"]},
+            {"id": "phase_2", "itemKeys": ["i2", "i3"]},
+            {"id": "phase_3", "itemKeys": ["i4", "i5", "i6"]}
+          ]
+        }
+      }
+    ],
+    "cutscenes": [
+      {
+        "id": "intro",
+        "steps": [
+          {"do": "enter_zone", "zoneId": "zone_a", "x": 420},
+          {"do": "fade", "to": "clear", "ms": 800},
+          {"do": "title", "text": "The Living Gate", "sub": null, "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "pilot",
+                "text": "Everything here has stopped. Let's wake it, one machine at a time.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "finale",
+        "skippable": false,
+        "steps": [
+          {
+            "do": "say",
+            "lines": [{"speakerId": "pilot", "text": "The machines hum again. The way home is open.", "mood": "neutral"}]
+          },
+          {"do": "fade", "to": "black", "ms": 1200}
+        ]
+      },
+      {
+        "id": "e6_carry",
+        "steps": [
+          {
+            "do": "ride",
+            "vehicle": "living_gate.part.carrier_lanes_carrier_door",
+            "toZoneId": "zone_c",
+            "toX": 300,
+            "ms": 2400
+          }
+        ]
+      },
+      {
+        "id": "e10_carry",
+        "steps": [
+          {
+            "do": "ride",
+            "vehicle": "living_gate.part.endocytosis_lift_vesicle",
+            "toZoneId": "zone_d",
+            "toX": 300,
+            "ms": 2400
+          }
+        ]
+      }
+    ],
+    "feedbackNouns": [{"from": "chest", "to": "pod", "stations": ["e1_bilayer", "e3_diffusion", "e4_osmosis", "e7_active"]}]
+  }
+}

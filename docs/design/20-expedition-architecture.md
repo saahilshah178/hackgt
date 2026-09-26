@@ -1,18 +1,26 @@
 # 20 · Expedition architecture
 
-**Status:** design, revision 2 (2026-09-26, afternoon). Revision 1 was the morning draft; revision 2 folds every
-high- and medium-impact amendment of `30-critique.md` that targets this document, plus the cheap low-impact ones.
-**This document is the single implementable source of truth** for the Expedition layer. Where a game document
-(`10-`, `11-`, `12-`) disagrees with it on an API, a type, a key, a layout width, an asset path or a coordinate
-convention, this document wins; the game documents stay authoritative for *content* (nouns, lines, poses,
-formulas, success timelines) and are re-pointed at the types defined here.
+**Status:** design, revision 3 (2026-09-26, night). Revision 1 was the morning draft; revision 2 folded
+`30-critique.md`; revision 3 folds the 13 amendments and the non-blocking notes of `31-critique-round2.md` and
+reconciles this document with `02-assets-and-art-pipeline.md` (one naming table, one character and puppet contract,
+one manifest, one texture-residency policy, one kit catalogue) and with `01-variant-design-bible.md` §9/§11 (one
+fidelity rubric). **This document is the single implementable source of truth** for the Expedition layer. Where a
+game document (`10-`, `11-`, `12-`) disagrees with it on an API, a type, a key, a layout width, an asset path or a
+coordinate convention, this document wins. The game documents stay authoritative for *content* (nouns, lines, poses,
+formulas, success timelines) **and for the exact coordinates, surfaces, links and station geometry in their world
+JSON**; §4.1 is an index of those. Where 02 and this document overlap, this document's §1.3 (manifest schema), §5
+(naming, build steps, characters and puppets, residency, budgets) and §7 (lanes) win; 02 holds the generator
+signatures, the rig recolour map, the engraving details and the measurements they rest on.
 
-**Audience:** the main session, the architect, and every implementation agent in the Variant-fidelity waves.
+**Audience:** the main session, the architect, and every implementation agent in the 10 build lanes (§7).
+Implementation agents read **only** this document, 02, 01 and the game document of their game, so those four agree.
 
 **Inputs:** `00-runtime-map.md` (seams, defects D1–D9), `01-variant-design-bible.md` (target look, patterns
-P1–P8, the 36-item checklist), `02-assets-and-art-pipeline.md` (Kenney `toon-characters`, SVG via `load.svg`),
-`10-game-trig.md`, `11-game-cell-transport.md`, `12-game-civil-rights.md` (§2 scenes, §5 contraptions, §9
-generalization), `30-critique.md` (amendments 1–40, risks F1–F12), and the runtime sources they cite. Reference
+P1–P8, the 44-item fidelity checklist §9 and the scoring protocol §11), `02-assets-and-art-pipeline.md` (the
+procedural kit, the rig recolour and anchor walk, engraving, puppets, measured budgets), `10-game-trig.md`,
+`11-game-cell-transport.md`, `12-game-civil-rights.md` (§2 scenes, §5 contraptions, §9 generalization),
+`30-critique.md` (amendments 1–40, risks F1–F12), `31-critique-round2.md` (amendments A1–A13), and the runtime
+sources they cite. Reference
 frames 3–10 are described in bible §1. Facts about the repo (fixture ids, characters, mode `View`/`Input` shapes,
 `answerVars`, the Kenney pack layout, the zod 4.6.5 `.default` behaviour) were re-checked on 2026-09-26.
 
@@ -29,6 +37,35 @@ themselves. **Modes, `grade()`, `EncounterRunner` and every fixture byte stay ex
 edited: there is no `Grade.focus`, no exported `firstMiss`, no mimic `noun` template var (§2.5.4 replaces all three).
 
 ---
+
+## CHANGELOG (revision 3)
+
+Every amendment of `31-critique-round2.md` §5 (A1–A13) and the §6 notes, with the section that now carries it.
+
+| # | Amendment (short) | Folded into | What changed |
+|---|---|---|---|
+| A1 | Schedule and concurrency | §7 (rewritten), §0 decision 22, §0.1.6 | 10 lanes with exclusive file ownership (`DECISIONS.md` 2026-09-26 12:40, decision 6). W0 ships the **real** §4.2 configs in their own `*.config.ts` files. Critical path to P0 freeze 15 h; the vertical-slice gate stays "trig S1–S2 by midday". T0 and the demo slot are clock times. Hero quotas per lane come from the game docs (trig 37, cell 36, civil 35 at P0). |
+| A2 | One naming and pipeline table | §5.1 (the one table; 02 §3.0 copies it verbatim), §5.2, §5.3, §5.4, §5.8, §4.3, §0 decision 10 | 20's keys and groups kept (`layer`, `costume`, `npc`, `doc`, `silhouette`, `part.<skin>_<slot>`). From 02: the hero cap of **40**, `src/game/art/kit/`, the 31 `KitName`s (20's `panelBox`, `cabinet`, `glassTank`, `latticeTruss`, `consoleLectern`, `mesaBand`, `canopyBlob` are mapped onto them; §5.4), two-font engraving (Cinzel + EB Garamond via `opentype.js` 2.0.0 and a local `.d.ts`) and 02's build steps. Art sources are per-owner fragments; one merged `AssetManifest` (§1.3). |
+| A3 | One character and puppet contract | §1.3 (`ManifestEntry`, `PoseName`, `RigAnchor`, `CharacterLook`, `Cast.guide.companion`, `Npc`, `Hub`), §5.5, §2.2 actors | Characters are `shared.char.<id>` **PNG atlases** rendered from the recoloured Kenney vector (one raster path), with 20's `RigAnchor` names computed by 02's transform walk (`handF` → `hand_r`, `handB` → `hand_l`); untinted `load.atlasXML` fallback. The Ida bust is dropped. New `puppet` manifest kind with named animations (`idle`, `talk`, `cue` + custom ids) played by `src/game/expedition/puppets/Puppet.ts`. P0 atlases: trig 1, cell 1, civil 3; ≤ 6 per game at P1. |
+| A4 | Texture residency | §1.3 `ManifestEntry.zone`, §2.2, §2.3, §2.11, §5.7, §5.8, §0 decision 21 | Only `all` + the current zone are resident; the next zone loads behind the transition wipe and the previous zone unloads after it. Budgets are 02's measured per-zone numbers; the VRAM test runs per zone and per swap pair; `ExpeditionHostDebug.textures` exposes the resident count. |
+| A5 | One fidelity rubric | §8.3, §0.1.6 | Bible §9's 44 items with 14 ★; item 39 scored as "arena, taunts, phases **or** real-time motion"; P0 scoring (items 37, 43, 44 on zone 1 only; all ★ + ≥ 36/44); one score JSON (bible §11 + `shot`, `fix`, `ownerPath`). |
+| A6 | RECORD card data path | §2.5.1 `StaticInput`, §2.5.2 `PanelStatic` + `PanelContext`, §3.2, §3.4 | `PanelContext {recordStrip, solvedIds, probeWindow}` from `ExpeditionClient` to `InstrumentPanel`; the panel prepends a panel-owned RECORD timeline card (display slot 0) built by `src/world/record-strip.ts`; metas put FILE first and add RECORD hint pins through `PanelStatic.recordPins`. |
+| A7 | Skin contract sync | §4.3, §2.5.1 `ContraptionSkin`, `StaticInput`, §1.3 `Station`/`HintTarget`, §4 | New slots: trig `resonance_pillars.faceplate`; cell `specimen_pods.mimic_mote`, `membrane_router.gate_fin` / `gate_ring_outer` / `gate_ring_inner`, `tonicity_sluices.cell_protoplast` / `lock_leaf`, `gatekeeper_maws.eye_pupil`; civil `switchboard.steps`, `filing_cabinets.stairwell`. `ContraptionSkin.hintTargets` per rung + nullable `Station.hintTargets` (resolved by `hintTargetsFor`); `ContraptionSkin.anchors` (the §4.3 anchor list, checked by R5 and the prefab test); `StaticInput.skinId`; `accessories: ["record_lens"]` on six metas. |
+| A8 | Traversal semantics | §2.4.1, §2.2 `terrain.ts`, §1.3 `CutsceneStep.ride`, §1.5 R11, §4.1 | A ground height change > `maxStepUp` within 8 units (a **sheer edge**) blocks walking in both directions; only links cross it. Trig adds the `s0_canal_in` drop. `ride` gains `toSurface`; cell's fade + `enter_zone` workaround goes. |
+| A9 | Probe and diagnosis coverage | §2.5.4 (`probes.ts`), §1.5 R5, R15 | `assignedTo` on `sorter.type_match` (`itemKey` `w<i>` ↔ `waveIndex` i, `binId` ↔ `categoryId`); `decoyPresent` with `itemKey: null` = any decoy; probe keys resolve against the view; R5/R15 check `boss.taunts.byKey` keys. |
+| A10 | Cue ids | §2.12 | `CUE_MAP` ids are snake_case and `Id`-legal, seeded from the union of trig §6.8, cell §6.7 and civil §5.0.6; the coverage test parses those three tables. |
+| A11 | Civil must-haves | §6.4 `BiomeKit.successPose`, §2.2 protagonist, §1.5 R6/R10, §1.3 `Hub.anims` | `successPose: "cheer" \| "show"` (`archive_of_voices` = `show`, enforced by R10); R6 accepts `terrain: []` when a link requires the station solved; `hub` state changes play the hub puppet's animations. |
+| A12 | §4.1 and §0.1 vs the game docs | §4.1 (now an index), §0.1.2–§0.1.4 | Game-doc JSON is authoritative for coordinates and traversal. Fixed: trig z1 links (the "drop at x 5250" is gone), z2 exit surface `ground`, civil e8 anchor y 640, civil e12 on `ground`, cell zone-A links, cell e11 `arenaBounds` and taunts, trig e6 taunts. New "P0 content the host must support" row; negatives → P1; S4/S7 reflections → P1 with static sheen at P0. |
+| A13 | Bible stale sections | — | Owned by the bible (01 §6.1, §6.3, §6.4, §7, §8). This document supplies what they point at: the naming table (§5.1), the one recoloured rig (§5.5), the verb table (§2.4.2) and the rubric (§8.3). |
+| §6 notes | Non-blocking | §6.2, §1.3 `Trigger.cutsceneId`, `Cast.guide.companion.awakeFlag`, §2.4.3, §2.5.1, §7.2 C0 | World Writer instruction ≤ 140 characters; a trigger may start a cutscene (cell S7 viewpoint pan); the companion may start dormant; an `await_interact` target needs no `touch` block; `aidTierOf` lives in `aid-tier.ts`; the optional `scripts/expand-world-doc.ts` belongs to the content lane. |
+
+Revision-2 rows 14 (cap 60, `art/kit`), 19 (45-frame atlas, hand-authored anchors), 21 (one `engrave.ttf`), 22 (naming
+table) and 29 (items 37–41) below are superseded by A2, A3, A5.
+
+**Final consistency pass (2026-09-26, night):** §7.2/§7.3 ownership made exclusive in W0 (A1 takes
+`palettes/shared.ts`, `residency.ts` and `art/shared/**` from T0 + 2; every `skins/index.ts` stays main's; `PROGRESS.md`
+and the fidelity score files go through their owners); H2's P1 dependency and E1's keyboard acceptance aligned with
+the windows; the game docs' §8 headers, rides (`toSurface`), the trig `s0_canal_in` drop and stale lane names synced.
 
 ## CHANGELOG (revision 2)
 
@@ -104,7 +141,7 @@ Every amendment from `30-critique.md` §4 that targets this document, with the s
 | 7 | **World text (chips, pins, prompts, NPC names, plaque titles, split-flap characters) is DOM**, drawn by a `WorldLabelLayer` that projects scene anchors each frame. **Static engraving** (π labels, numerals, wordmarks) is converted to SVG paths at build time. | Text stays crisp on a projector and readable by screen readers. Agents never hand-write glyph outlines. |
 | 8 | **Phase machine** (`loading → intro → explore ⇄ panel/sandbox/cutscene → resolving → payoff → … → finale → finished`) as a pure reducer. | Fixes D1, D2, D3 and D9; gives rides, arenas and sandboxes a frozen, testable phase. |
 | 9 | **Authored traversal, no physics engine.** The walkable world is a ground heightfield plus named platforms. **Links** (`hop`, `climb`, `ladder`, `drop`, `timed_hop`, `ride`) move the player between surfaces with scripted arcs. Puzzles still *add terrain* or *start rides* as their payoff. Space with no link in range plays a cosmetic in-place hop. | Replaces revision 1's "no jump physics" (which made every zone an A/D corridor). Deterministic, testable, no arcade tuning; secrets and collectibles sit behind hops and climbs, as the game docs designed. |
-| 10 | **Art = token-templated SVG + a procedural SVG kit.** `pnpm art:build` runs `art/kit/*.ts` generators, substitutes palette tokens, converts `<text data-engrave>` to paths, and writes `public/assets/expedition/<ns>/**` plus a manifest and a per-namespace asset index. Hand-authored SVG is capped at about 60 hero parts per biome. **Characters** are one Kenney `toon-characters` rig, recoloured per character from `Vector/character_*.svg` at build time into an HD atlas with per-frame costume anchors. | About 560 agent-authored SVGs are not feasible for 2026-09-27; about 180 hero parts plus generators are. Recolouring fixes the skin tones `setTint` cannot produce. |
+| 10 | **Art = token-templated SVG + a procedural SVG kit.** `pnpm art:build` runs the `src/game/art/kit/*.ts` generators (02 §3a), substitutes palette tokens, engraves `<text data-engrave>` to paths, and writes `public/assets/expedition/<ns>/**` plus a manifest and a per-namespace asset index. Hand-authored SVG is capped at **40 hero files per biome**. **Characters** are one Kenney `toon-characters` rig, recoloured per character from `Vector/character_*.svg` at build time and rendered to a PNG atlas whose per-frame anchors are computed from the vector's own transforms. **Guides, creatures and animated hubs** are ≤ 8-part SVG **puppets** with named animations (§5.5). | About 560 agent-authored SVGs are not feasible for 2026-09-27; about 110 hero files plus generators are. Recolouring fixes the skin tones `setTint` cannot produce. |
 | 11 | **Every implemented mode plays in Expedition**: 12 native archetypes plus `console_slate`, the universal fallback that wraps the existing widget. Four revision-1 archetypes are post-demo. | Keeps `coverage.test.ts`'s promise and makes `autoWorld` total. |
 | 12 | Escape hatches: `?host=legacy` forces the old hosts, `?renderer=dom` forces the DOM fallback, `?express=1` opens each panel on arrival and trims explore and cutscenes (rehearsal), `?mute=1` silences the synth. | Deterministic e2e for both render paths, a safe demo rollback, and a fast rehearsal path. |
 | 13 | **`src/world/diagnose/**` is the only source of per-item failure detail** (`wrongKeys`, `failKey`, `prefix`), computed from params + input + solution **after** `grade()`; a parity test pins it to `grade().feedback`. | One code path, zero mode edits (the cell and civil docs proposed two different mode changes for the same need). |
@@ -115,6 +152,8 @@ Every amendment from `30-critique.md` §4 that targets this document, with the s
 | 18 | **Sound is a procedural WebAudio cue bank** (about 20 recipes) mapped from every cue id in the game docs. | Costs no bytes, satisfies the ★34 sound hook, and adds more feel than any single art item. |
 | 19 | **`fixtures/worlds/*.world.json` is the only overlay location** (not `src/game/worlds/*.ts`). | One loader, one validator path, one keying test (amendment 40). |
 | 20 | **The DOM fallback renders static snapshots** (dormant or solved parts per skin) plus the full panel; animated behaviour is tested on the swiftshader WebGL project. | Saves about 1,800 lines of per-prefab DOM code with no loss of e2e coverage. |
+| 21 | **Textures are resident per zone** (A4): entries tagged `all` plus the current zone's set; the next zone loads behind the transition wipe and the previous zone unloads after it (§5.7). | One zone measures about 91 MB at dpr 1.5 (02 §3f); a whole biome would not fit 180 MB or the 3 s first-zone load. |
+| 22 | **The build runs in up to 10 lanes with exclusive file ownership** (§7), recorded in `DECISIONS.md` (2026-09-26 12:40, decision 6); the 3-agent cap applied to the unattended overnight run only. | The design is already parallel (configs, metas, content, kit fallbacks). Three lanes put P0 freeze after the demo (31 §4). |
 
 ---
 
@@ -128,7 +167,7 @@ P1 starts only after P0 is green on both Playwright projects; P2 only after P1.
 - **Full art** (a zone): every parallax layer of every segment, the ground and underside, props dressing, the hub,
   every contraption part, the companion, NPC looks, and the finish stack (§5.6). Hand-authored hero parts where the
   bible's scale ladder puts them (hub, gates, bosses), kit generators for everything else.
-- **Kit art** (a zone): every layer and the ground generated by `art/kit` presets with the biome palette, plus
+- **Kit art** (a zone): every layer and the ground generated by kit generators (§5.4) with the biome palette, plus
   **one hero landmark** (listed below), plus every contraption part its stations need (hero or kit).
 - **Playable station**: the native archetype and skin from §4.1 with live link, probe (when listed), Verify,
   diagnosis-driven failure plan, success animation, payoff traversal, all dialogue slots, and aid-tier hint actions.
@@ -148,6 +187,10 @@ P1 starts only after P0 is green on both Playwright projects; P2 only after P1.
 | Sound | synth cue bank on, every cue id mapped | same | same |
 | Express | `?express=1` works end to end | same | same |
 | DOM fallback | static snapshots + full panel | same | same |
+| **P0 content the host must support** (A12) | NPC state `brasswick.before` (S1); trigger `s0_controls` | plaques P1 "The Two Faces" and P2 "Why Oil Says No"; 11 `hub_socket` progress effects on the Nuclear Pore; the Gradient meter | Ida (S1 desk) and Otis NPCs on the rig; 4 plaques (S2 courthouse, S3 gatepost, S4 withheld Anniston plate, S7 far-bank document); zone-entry cutscenes `enter_s2` … `enter_s8`; interiors with cutaway façades (S4 lunch counter and terminal, S6 filing hall); segment variants (S7: the rain stops after e9); static puddle sheen in S4 and S7 |
+
+The host code supports every data kind at P0 (NPC states, plaques, triggers, progress effects, interiors, segment
+variants, entry cutscenes, puppets); the tiers below only decide what content is authored first.
 
 ### 0.1.3 P1 · after P0 is green (first to cut if time runs short)
 
@@ -157,13 +200,15 @@ P1 starts only after P0 is green on both Playwright projects; P2 only after P1.
 | One sandbox (§2.4b) | Astronomer's Music Box (S5 grotto; P1 unlock: `requires.solved = e5_period_review`; P2: the 3 wisps) | Plant Cell Garden (S4 alcove) | Editor's Darkroom (S8; unlock: 5 negatives) |
 | Remaining hero art | Z2 and Z3 full art | zones B, C, D full art | S3–S8 full art, interiors with cutaway façades |
 | Traversal beat sheets | ≥ 2 non-walk verbs in every zone (W2 clean) | same (S7 ride links + viewpoint detour) | same (S4 rafters, S5 mast climb) |
-| Ambient triggers and all NPC states | `s0.*`, `s3.01`, `g.*` | `s1_walk*`, `zB_arrive`, `zC_arrive` | X01–X10 arrivals |
-| Progress effects | L1 beam lines to the Orrery | conduits + packets | record-light beams, Engine lens pips, wall of front pages |
+| Ambient triggers and all NPC states | `s0.*` (except `s0_controls`, P0), `s3.01`, `g.*` | `s1_walk*`, `zB_arrive`, `zC_arrive` | X06 and the other arrival triggers (X01–X05, X07, X08 are P0 entry cutscenes) |
+| Progress effects | L1 beam lines to the Orrery; dome `hub_socket`s | conduits + packets (the pore `hub_socket`s are P0) | record-light beams, Engine lens pips, wall of front pages |
+| Collectibles that gate a P1 unlock | — | — | the 5 negatives (they unlock the Darkroom; moved from P2) |
+| Reflections | — | — | half-resolution reflections in S4 and S7 at 15 Hz (§2.11); P0 has static sheen |
 
 ### 0.1.4 P2 · polish
 
 Maps (Orrery Map, Cell Chart, Record Line) with `MapOverlay`; journal readers (pages, logbook, clipping case);
-collectibles and secrets (wisps, shards, negatives, telescopes); puddle reflections and rain polish; the e6
+collectibles and secrets (wisps, shards, pages, telescopes; the civil negatives are P1); reflection and rain polish; the e6
 "time × 0.5" toggle; reduced-motion extras; debrief bonus lines. **Post-demo:** Wren's 18-part puppet, the four
 post-demo archetypes, the World Writer (W8).
 
@@ -180,20 +225,27 @@ Timing target with express: trig ≈ 7 min, cell ≈ 12 min, civil ≈ 12 min (f
 
 ### 0.1.6 Gates, clock and fallback ladder
 
-`T0` is the moment W0 starts (§7). Estimates in §7 are agent wall-clock hours.
+`T0` is the moment W0 starts (§7). **Planned T0: 2026-09-26 22:00** (the build machine's local time). The demo is on
+**2026-09-27**; this plan assumes a demo slot at **15:00 or later** that day, and main writes the real slot time into
+`DECISIONS.md` when W0 starts. Estimates in §7 are agent wall-clock hours. If T0 slips, every T0-relative time slips
+with it, but the two hard stops below do not move; the compression levers absorb the difference.
 
-| Gate | Condition | Target | Hard stop |
-|---|---|---|---|
-| **V · vertical slice** | trig S1–S2 (e1, e2) playable end to end in `webgl` and `dom`, zone-1 art with the finish stack, scored by the critic on 3 shots with no ★ failure except art polish | T0 + 10.5 h | **midday (12:00) on 2026-09-27** |
-| **P0 freeze** | every §0.1.2 row green; `pnpm typecheck`, `pnpm test`, `pnpm e2e` green; express run of each game recorded | T0 + 24 h | 2 h before the demo slot |
-| **P1** | per row, only if P0 froze early | after P0 freeze | 30 min before the demo slot |
+| Gate | Condition | Target | Clock (planned) | Hard stop |
+|---|---|---|---|---|
+| **V · vertical slice** | trig S1–S2 (e1, e2) playable end to end in `webgl` and `dom`, zone-1 art with the finish stack, scored by the critic per §8.3 on 3 shots with no ★ failure except art polish (items 1 and 2 may fail only where a kit stand-in shows) | T0 + 10 h | 2026-09-27 08:00 | **12:00 on 2026-09-27** |
+| **P0 freeze** | every §0.1.2 row green; `pnpm typecheck`, `pnpm test`, `pnpm e2e` green; express run of each game recorded; the P0 rubric of §8.3 met | T0 + 15 h | 2026-09-27 13:00 | the demo slot − 2 h |
+| **P1** | per row, only if P0 froze early | after P0 freeze | — | the demo slot − 30 min |
 
-**Compression levers** when the demo slot is earlier than T0 + 26 h (apply in order): W5 runs only the express and
-keyboard specs plus one critic round; C1–C3 ship kit art for landmarks that are not contraption parts; W3's A2 stops
-after cell and civil zone 1 (other zones use their biome's default kit zone preset, which A1 generates in W1).
+**Compression levers** when the demo slot is earlier than T0 + 17 h (apply in order, log each in `DECISIONS.md`):
+1. E3 runs only the express and keyboard specs plus one critic round.
+2. The content lanes stop drawing heroes at T0 + 12; every hero not yet drawn ships as its kit stand-in (fallback
+   ladder step 1).
+3. Zones other than each game's zone 1 keep A2's default kit zone preset instead of their own layer sets.
+4. The "P0-lite" shrink (31 §4): cell e5, e8, e9, e10 and civil e5, e6, e11 on `console_slate`; civil S3–S7
+   kit-only; no sims beyond `pendulum_beat` and `bilayer_probe`.
 
 **Fallback ladder** (applied in order, logged in `DECISIONS.md` and `MORNING_REPORT.md`):
-1. A hero part not ready → its kit generator stand-in (every hero key has a kit fallback declared in `biome.json`).
+1. A hero part not ready → its kit generator stand-in (every hero key has a kit entry in a `*.kit.json` fragment, §5.1; `art:build` uses it automatically when the hero file is missing or fails lint, and `--kit-only` forces it for a whole namespace).
 2. A zone's full art not ready → kit art + its hero landmark.
 3. An archetype not native by P0 freeze → its stations use `console_slate` (R5 accepts it; the stations are listed).
 4. The WebGL path failing on the demo machine → `?renderer=dom` (static snapshots + full panel).
@@ -346,17 +398,22 @@ export const Emblem = z.strictObject({
   accent: HexColor,
   gaps: z.number().int().min(0).max(4).default(2),    // broken-ring gaps (bible §3.9)
 });
+/** Kenney pose names are camelCase ("walk0", "cheer1"); they name atlas frames (§5.5). */
+export const PoseName = z.string().regex(/^[a-z][A-Za-z0-9]{0,23}$/);
+/** Per-frame rig anchors, COMPUTED by the rig build from the vector's transforms (§5.5; 02 §3b.3): hand_r = 02's handF
+    (the hand painted in front), hand_l = handB; face and back are fixed offsets from head and torso; feet = contact point. */
 export const RigAnchor = z.enum(["head", "face", "torso", "back", "hand_l", "hand_r", "feet"]);
 /** A human character on the one Kenney rig (§5.5): a recoloured body atlas + costume overlays on per-frame anchors. */
 export const CharacterLook = z.strictObject({
-  atlas: AssetKey,                                    // "shared.char.wren": kind "atlas" in the shared manifest
+  atlas: AssetKey,                                    // "shared.char.wren": manifest kind "atlas" (§5.5)
   costume: z.array(z.strictObject({
-    asset: AssetKey,                                  // "orrery_terraces.costume.scarf_teal"
+    asset: AssetKey,                                  // "orrery_terraces.costume.wren_scarf" (a hero SVG, rot 0, its own data-pivot)
     anchor: RigAnchor,
-    dx: z.number().min(-80).max(80).default(0),
+    dx: z.number().min(-80).max(80).default(0),       // offset in the anchor's local frame, design units
     dy: z.number().min(-80).max(80).default(0),
     follow: z.enum(["rigid", "spring"]).default("rigid"),   // spring: scarf tails lag behind motion
-    layer: z.enum(["behind", "front"]).default("front"),
+    layer: z.enum(["behind", "front"]).default("front"),    // swapped automatically on back-facing frames
+    hideOn: z.array(PoseName).max(8).default([]),     // poses where the overlay is hidden ("climb0", "climb1")
   })).max(4).default([]),
   scale: z.number().min(0.7).max(1.3).default(1),
 });
@@ -377,10 +434,11 @@ export const Cast = z.strictObject({
     emblem: Emblem,
     portrait: AssetKey.nullable().default(null),
     companion: z.strictObject({                       // Cog the brass owl, Pip the mini-sub, Wick the lantern
-      asset: AssetKey,                                // idle pose; "<asset>_<pose>" siblings are used when present
+      asset: AssetKey,                                // a puppet (§5.5) with anims idle, talk, cue (R1); an svg plays a procedural bob
       offset: z.tuple([z.number().min(-200).max(200), z.number().min(-300).max(0)]).default([-40, -150]),
       lagSec: z.number().min(0.05).max(1).default(0.35),
       bobPx: z.number().min(0).max(12).default(4),
+      awakeFlag: Id.nullable().default(null),         // null: follows from the first frame; else perched and dormant until this flag is set
     }),
   }),
   /** emblems for the other spec.characters (bosses); speakers without an entry use the guide's emblem desaturated */
@@ -431,6 +489,7 @@ export const RecordStrip = z.strictObject({
   lanes: z.array(z.strictObject({ id: Id, label: z.string().min(1).max(20) })).min(1).max(4),
   pins: z.array(z.strictObject({ encounterId: Id, pin: EarnedPin })).max(40),
 });
+export type RecordStrip = z.infer<typeof RecordStrip>;
 export const Story = z.strictObject({
   logline: z.string().min(1).max(200),
   objective: z.string().min(1).max(80),               // "Restore the orrery's starlight"
@@ -562,13 +621,15 @@ export const ZoneExit = z.strictObject({
   cutsceneId: Id.nullable().default(null),            // optional transition cutscene (civil X-lines)
 });
 export const Hub = z.strictObject({
-  asset: AssetKey,
+  asset: AssetKey,                                    // kind "svg" (states = ColorMatrix + glow) or "puppet" (sub-part motion, A11)
   x: X,
   y: Y.nullable().default(null),                      // null: sits on the ground at x
   depth: z.enum(["L3_mid", "L4_back"]).default("L3_mid"),
   label: z.string().min(1).max(40),
   sockets: z.number().int().min(0).max(20).default(0),   // lit by hub_socket progress effects
   restoredLine: WorldLine,
+  /** puppet animations played on a `hub` cutscene step's state change (civil: the Engine rings spin, the iris opens) */
+  anims: z.strictObject({ partial: Id.nullable().default(null), restored: Id.nullable().default(null) }).prefault({}),
 });
 export const ZoneCamera = z.strictObject({
   xDeadzone: z.number().min(0.1).max(0.5).default(0.3),  // fraction of the view width
@@ -663,6 +724,13 @@ export const MisconceptionProbe = z.discriminatedUnion("predicate", [
 ]);
 export type MisconceptionProbe = z.infer<typeof MisconceptionProbe>;
 
+/** Where the companion flies on a hint rung (amendment 10, A7). Skins carry defaults; a station may override per rung. */
+export const HintTarget = z.strictObject({
+  anchor: Id,                                         // a prefab anchor of this station ("lens", "slate_1", "panel_0", "apparatus")
+  action: z.enum(["circle", "land", "hover", "ride"]),
+  holdMs: Ms.default(1500),
+});
+export type HintTarget = z.infer<typeof HintTarget>;
 export const PinGlyph = z.enum(["bell", "metronome", "star", "door", "drop", "key", "chord", "lap"]);
 export const PinPlacement = z.strictObject({
   anchor: Id,                                         // a prefab anchor ("tally", "pylon_a", "doorway")
@@ -726,6 +794,8 @@ export const Station = z.strictObject({
   accessories: z.array(Accessory).max(2).default([]),
   frameZoom: z.number().min(0.5).max(1.5).nullable().default(null),   // overrides the zoom frameFor computes (amendment 32)
   probes: z.array(MisconceptionProbe).max(6).default([]),
+  /** per-rung override of the skin's default hint flights (A7); null = ContraptionSkin.hintTargets via meta.hintTargets */
+  hintTargets: z.tuple([z.array(HintTarget).max(3), z.array(HintTarget).max(3), z.array(HintTarget).max(3)]).nullable().default(null),
   panel: PanelOverride,
   dialogue: StationDialogue,
   payoff: Payoff,
@@ -767,14 +837,14 @@ export const NpcState = z.strictObject({
   follow: z.enum(["none", "player", "satchel"]).default("none"),   // Sucra escorts; Quill rides the satchel
   repeatable: z.boolean().default(false),
   setFlag: Id.nullable().default(null),               // set when this state's lines finish
-  anim: Id.nullable().default(null),                  // a named part animation on the NPC puppet ("arm_sync")
+  anim: Id.nullable().default(null),                  // a named animation of the NPC's puppet ("arm_sync"); ∈ its anims (R12)
 });
 export const Npc = z.strictObject({
   id: Id,
   name: z.string().min(1).max(32),
   speakerId: Id,                                      // a spec character or a cast.extras id
-  look: CharacterLook.nullable().default(null),       // human NPCs on the Kenney rig ...
-  asset: AssetKey.nullable().default(null),           // ... or a machine/creature puppet; exactly one of the two (R12)
+  look: CharacterLook.nullable().default(null),       // human NPCs on the Kenney rig (an NPC atlas, §5.5) ...
+  asset: AssetKey.nullable().default(null),           // ... or a machine/creature puppet (group "npc"); exactly one of the two (R12)
   states: z.array(NpcState).min(1).max(6),
 });
 export const QuestStep = z.discriminatedUnion("kind", [
@@ -809,6 +879,7 @@ export const Trigger = z.strictObject({
   requires: Requirement.nullable().default(null),
   setFlag: Id.nullable().default(null),
   cue: Id.nullable().default(null),
+  cutsceneId: Id.nullable().default(null),           // played when it fires (phase cutscene, purpose "trigger"; cell S7 viewpoint pan)
 });
 export const Collectible = z.strictObject({
   id: Id,
@@ -880,14 +951,15 @@ export const CutsceneStep = z.discriminatedUnion("do", [
   z.strictObject({ do: z.literal("emote"), actor: Id, glyph: z.enum(["!", "?", "♪", "…", "♥"]) }),
   z.strictObject({ do: z.literal("wait"), ms: Ms }),
   z.strictObject({ do: z.literal("station"), encounterId: Id, anim: z.enum(["wake", "succeed", "settle"]) }),
-  z.strictObject({ do: z.literal("hub"), zoneId: Id, state: z.enum(["dormant", "partial", "restored"]) }),
-  z.strictObject({ do: z.literal("ride"), vehicle: AssetKey, toZoneId: Id, toX: X, ms: Ms,
-                   path: z.array(Point).max(16).default([]) }),                  // path in the CURRENT zone before the swap
+  z.strictObject({ do: z.literal("hub"), zoneId: Id, state: z.enum(["dormant", "partial", "restored"]) }),   // plays Hub.anims[state] when set
+  z.strictObject({ do: z.literal("ride"), vehicle: AssetKey, toZoneId: Id, toX: X,
+                   toSurface: SurfaceRef.default("ground"),                     // the player lands on this surface at toX (A8)
+                   ms: Ms, path: z.array(Point).max(16).default([]) }),        // path in the CURRENT zone before the swap
   z.strictObject({ do: z.literal("sfx"), cue: Id }),                             // §2.12 cue bank
   z.strictObject({ do: z.literal("music"), cue: MusicCue.nullable() }),
   // interactive steps: the timeline pauses until the player acts; skip() applies their end state
   z.strictObject({ do: z.literal("await_interact"), target: InteractRef, prompt: z.string().min(1).max(40),
-                   timeoutMs: Ms.nullable().default(null) }),                    // trig intro: wind Cog
+                   timeoutMs: Ms.nullable().default(null) }),                    // trig intro: wind Cog; a prop target needs an id, not a touch block
   z.strictObject({ do: z.literal("control_until"), x: X, surface: SurfaceRef.default("ground"),
                    prompt: z.string().min(1).max(40).nullable().default(null),
                    timeoutMs: Ms.default(20_000) }),                             // civil intro: walk down the stair; auto-walks on timeout
@@ -912,7 +984,7 @@ export const WorldOverlay = z.strictObject({
   subtitle: z.string().min(1).max(60).nullable().default(null),
   cast: Cast,
   story: Story,
-  zones: z.array(Zone).min(1).max(8),
+  zones: z.array(Zone).min(1).max(8),                 // coordinates and traversal: the game docs' JSON is authoritative (§4.1)
   stations: z.array(Station).min(1).max(20),
   props: z.array(PropPlacement).max(600).default([]),
   npcs: z.array(Npc).max(16).default([]),
@@ -937,43 +1009,98 @@ export const WorldFile = z.strictObject({
 });
 export type WorldFile = z.infer<typeof WorldFile>;
 
-// ---------------------------------------------------------------- asset manifest (public/assets/expedition/<ns>/manifest.json)
+// ---------------------------------------------------------------- asset manifest (public/assets/expedition/<ns>/manifest.json; §5)
+// ONE manifest shape for 20 and 02 (A2, A3, A4). Written only by `pnpm art:build` (§5.2).
 const Pivot = z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]);   // fractions of width/height (§5.1)
 const ManifestAnchor = z.strictObject({ name: Id, x: z.number(), y: z.number() });   // design units, from <* id="anchor-<name>">
-/** Kenney pose names are camelCase ("walk0", "behindBack"). */
-export const PoseName = z.string().regex(/^[a-z][A-Za-z0-9]{0,23}$/);
+/** Residency bucket (A4, §5.7): "all" = resident for the whole game; otherwise the zone whose set loads it. */
+export const ZoneTag = z.union([z.literal("all"), Id]);
+export type ZoneTag = z.infer<typeof ZoneTag>;
+/** "hero" (hand-authored; counts against heroCap), "kit:<generator>" (§5.4) or "rig:<body>" (§5.5). */
+export const AssetSource = z.string().regex(/^(hero|kit:[a-z][A-Za-z]*|rig:[a-z_]+)$/);
+const EntryBase = {
+  key: AssetKey,
+  zone: ZoneTag,
+  source: AssetSource,
+  sha1: z.string().regex(/^[0-9a-f]{40}$/),
+  legacyId: z.string().min(1).max(40).nullable().default(null),   // "A76", "cr.lamp.arc", "#135": traceability to the game docs' old ids
+};
+/** A puppet animation (§5.5): per-part tracks of waves or keyframes. Loaded from `<name>.anims.json` at build time. */
+export const PuppetAnim = z.strictObject({
+  id: Id,                                             // "idle", "talk", "cue", "arm_sync", "partial", "restored"
+  loop: z.boolean(),
+  ms: Ms,                                             // one cycle (loop) or the whole animation
+  tracks: z.array(z.strictObject({
+    part: Id,
+    prop: z.enum(["rot", "x", "y", "scaleX", "scaleY", "alpha", "frame"]),
+    wave: z.strictObject({ amp: z.number(), hz: z.number().min(0).max(30), phase: z.number().default(0) }).nullable().default(null),
+    keys: z.array(z.tuple([Ms, z.number()])).max(16).default([]),   // [t ms, value], used when wave is null
+  })).min(1).max(16),
+});
+export type PuppetAnim = z.infer<typeof PuppetAnim>;
 export const ManifestEntry = z.discriminatedUnion("kind", [
   z.strictObject({
-    kind: z.literal("svg"), key: AssetKey, file: z.string().min(1),
+    kind: z.literal("svg"), ...EntryBase,             // layers, ground, props, parts, costumes, fx, ui, vistas, docs
+    file: z.string().min(1),                          // relative to public/assets/expedition/
     width: z.number().int().min(1).max(8192), height: z.number().int().min(1).max(4096),
-    /** texture size = design size × rasterScale × min(devicePixelRatio, 1.5); layers use ≤ 1 (§5.7) */
+    /** texture size = design size × k, k = ceil4(rasterScale × min(devicePixelRatio, 1.5)) (§5.1) */
     rasterScale: z.number().min(0.25).max(2).default(1),
-    tileWidth: z.number().int().min(256).max(2048).nullable().default(null),   // split wide layers into tiles
+    tileWidth: z.number().int().min(64).max(2048).nullable().default(null),   // split wide layers into tiles
     pivot: Pivot.default([0.5, 1]),
     anchors: z.array(ManifestAnchor).max(32).default([]),
-    source: z.enum(["hero", "kit"]),                   // hand-authored vs generated (§5.4); the hero cap counts "hero"
+    scroll: z.number().min(0).max(1.6).nullable().default(null),   // layers: the authored parallax factor (informational)
+    seed: z.number().int().min(0).max(4_294_967_295).nullable().default(null),   // kit entries
+    engraved: z.array(z.string().min(1).max(80)).max(16).default([]),   // engraved strings (tests/art-engrave.test.ts)
   }),
   z.strictObject({
-    kind: z.literal("atlas"), key: AssetKey,           // one recoloured Kenney body (§5.5): an HD PNG + Phaser JSON-hash frames
-    image: z.string().min(1),
-    frames: z.string().min(1),
-    frameWidth: z.literal(192),
-    frameHeight: z.literal(256),
-    poses: z.array(PoseName).min(1).max(45),
+    kind: z.literal("puppet"), ...EntryBase,          // ≤ 8-part puppet (§5.5): guides, creature/machine NPCs, animated hubs
+    file: z.string().min(1),                          // the packed part sheet: load.svg, then Texture.add per part frame
+    restFile: z.string().min(1),                      // the assembled rest pose as one SVG (DOM host, dialogue portraits, snapshots)
+    width: z.number().int().min(1).max(4096), height: z.number().int().min(1).max(4096),   // rest-pose design size
+    rasterScale: z.number().min(0.25).max(2).default(1.5),
+    pivot: Pivot.default([0.5, 1]),
+    parts: z.array(z.strictObject({
+      name: Id,
+      frames: z.number().int().min(1).max(8),
+      rest: z.tuple([z.number(), z.number()]),        // the part's pivot point in the rest pose, design units
+      pivot: Pivot,                                   // within the part's own box
+      z: z.number().int().min(-8).max(8),
+      box: z.tuple([z.number(), z.number(), z.number(), z.number()]),   // frame 0's rect in the sheet; frame i is offset by i × w
+    })).min(1).max(8),
+    anims: z.array(PuppetAnim).min(1).max(12),        // always "idle"; companions also "talk" and "cue" (R1)
+    anchors: z.array(ManifestAnchor).max(16).default([]),
+  }),
+  z.strictObject({
+    kind: z.literal("atlas"), ...EntryBase,           // one recoloured Kenney character (§5.5); key "shared.char.<id>", source "rig:<body>"
+    body: z.enum(["female_adventurer", "female_person", "male_adventurer", "male_person"]),
+    image: z.string().min(1),                         // "shared/char/wren.png"
+    frames: z.string().min(1),                        // "shared/char/wren.json": Phaser JSON hash, frame names = pose names
+    frameWidth: z.literal(192), frameHeight: z.literal(256),        // texels: 2× the Kenney 1× cell
+    displayWidth: z.literal(168), displayHeight: z.literal(224),    // design units: the 96-px figure = 168 = 1 H
+    poses: z.array(PoseName).min(1).max(28),          // protagonists 28, NPCs 12 (§5.5)
     pivot: Pivot.default([0.5, 1]),
     anchors: z.array(z.strictObject({
       pose: PoseName,
-      points: z.array(z.strictObject({ name: RigAnchor, x: z.number(), y: z.number(), rot: z.number().default(0) })).max(7),
-    })).max(45).default([]),
+      facing: z.enum(["front", "back"]),
+      points: z.array(z.strictObject({ name: RigAnchor, x: z.number(), y: z.number(), rot: z.number().default(0) })).length(7),   // display units from the frame's top-left; rot in degrees
+    })).max(28),
+    fallback: z.strictObject({                        // untinted Kenney HD sheet via load.atlasXML (?charfallback=1, or the atlas failed to load)
+      image: z.string().min(1), xml: z.string().min(1),
+      frameNames: z.record(PoseName, z.string().min(1)),   // pose → the Kenney XML SubTexture name
+    }),
   }),
 ]);
+export type ManifestEntry = z.infer<typeof ManifestEntry>;
 export const AssetManifest = z.strictObject({
-  namespace: Id,
+  namespace: Id,                                      // "shared" or a biome id
   paletteId: Id,
+  heroCap: z.number().int().min(0).max(40),           // §5.1, §5.8
+  heroCount: z.number().int().min(0).max(40),         // distinct hero files in use; the build fails above heroCap
   entries: z.array(ManifestEntry).max(800),
   totalBytes: z.number().int().min(0),
-  vramEstimateMb: z.number().min(0),
-  heroCount: z.number().int().min(0),                  // §5.8: ≤ 60 per biome namespace
+  gzipBytes: z.number().int().min(0),
+  vram: z.array(z.strictObject({ zone: ZoneTag, mb: z.number().min(0) })).max(9),   // resident set per zone ("all" + that zone) at dpr 1.5
+  swapPeakMb: z.number().min(0),                      // the worst adjacent zone pair + "all" at dpr 1.5
 });
 export type AssetManifest = z.infer<typeof AssetManifest>;
 ```
@@ -1021,22 +1148,22 @@ only).
 
 | # | Rule |
 |---|---|
-| R1 | **Assets.** `biome ∈ BIOME_KITS`. Every `AssetKey` exists in `ASSET_INDEX` (`src/world/asset-index/index.ts`, which merges the per-namespace generated files `{key → {ns, kind, width, height, anchors, source}}`), so there is no fs access. Its namespace is `shared` or the world's biome. Vista steps use keys in group `vista`; companions in group `companion`; `CharacterLook.atlas` keys are `kind: "atlas"`. |
+| R1 | **Assets.** `biome ∈ BIOME_KITS`. Every `AssetKey` exists in `ASSET_INDEX` (`src/world/asset-index/index.ts`, which merges the per-namespace generated files `{key → {ns, kind, width, height, anchors, source, zone, poses?, anims?}}`), so there is no fs access. Its namespace is `shared` or the world's biome. Vista steps use keys in group `vista`. `CharacterLook.atlas` keys are `kind: "atlas"` in `shared.char`; costume assets are group `costume`. `cast.guide.companion.asset` is group `companion`, kind `puppet` with anims ⊇ {`idle`, `talk`, `cue`} (or kind `svg`: a warning, it plays a procedural bob). `Npc.asset` is group `npc`, kind `puppet` with anims ⊇ {`idle`, `talk`} (or `svg`, a warning). `Hub.anims.partial/restored`, when set, are anims of a `puppet` hub asset. Portraits are `svg` or `puppet` (the DOM shows its `restFile`). |
 | R2 | **Speakers** (amendment 1). `cast.guide.characterId` and every `cast.speakers[].characterId` ∈ `spec.characters`. `cast.extras[].id` are unique and disjoint from `spec.characters` ids and from `"player"`/`"narrator"`. Every `speakerId` (`WorldLine`, `LineSlot`, `Npc.speakerId`, `BossStaging.speakerId`) ∈ `spec.characters ∪ cast.extras ∪ {"player", "narrator"}`. |
 | R3 | **Zones.** Zone ids unique; ≤ 8 zones. Segments ordered, contiguous, cover `[0, width]`; each `layerSet` exists in the zone. Interiors lie inside the zone and don't overlap. Exits point at existing zones and `toX` inside them. Zones may have no station (hubs, transit), but the boss station is in the last zone that has stations, and a warning fires when more than two consecutive zones have none. |
 | R4 | **Stations are 1:1 with `spec.encounters` and follow encounter order**: `(zoneIndex, consoleX)` strictly increases with the encounter index. The runner is linear, so the world must be too. Sandboxes are not stations. |
-| R5 | **Contraption compatibility.** `contraption ∈ CONTRAPTION_LIBRARY` and its meta's `modes` includes `` `${familyId}.${mode}` ``. `skin` ∈ the meta's skins and allows this biome. `config` parses with `meta.configSchema`, then `meta.validateConfig(config, ctx)` returns no errors (§4.4). `panel.layout`, if set, ∈ `meta.layouts`. `payoff.anim ∈ meta.payoffs`. Every `accessories[].kind ∈ meta.accessories`. Every `dialogue.fail.byKey[].key ∈ meta.nearMissKeys ∪ failKeysFor(mode) ∪ station.probes[].key` (§2.5.4). A meta with `status: "post_demo"` is a warning. |
-| R6 | **Geometry.** Ground x strictly ascending from 0 to `width`, y ∈ `[0, height]`; platforms inside the zone. `consoleX`, `anchor` and `meta.frameBounds(config, view)` (translated to the anchor) lie inside the zone (frame: warning). `payoff.kind === PAYOFF_KIND_OF[payoff.anim]`. `payoff.blocker.x` lies between this station's `consoleX` and the next station's `consoleX` in the same zone (or the zone's right edge). `payoff.terrain` lies inside the zone. Ride and carry cutscenes end in a later zone, or later in the same zone. |
-| R7 | **Cutscenes.** Ids unique. `story.introCutsceneId`, `story.finaleCutsceneId`, `zone.entryCutsceneId`, `exit.cutsceneId`, `payoff.rideCutsceneId` and `boss.arenaCutsceneId` exist. Step references resolve: `enter_zone`/`ride` zone ids, `station` encounter ids, `walk`/`emote` actors (`player`, `companion` or an npc id), `await_interact` targets, `set_state` targets (flags must be declared by R12), `vista` assets. Interactive steps (`await_interact`, `control_until`) only appear in skippable cutscenes (skip applies their end state). |
+| R5 | **Contraption compatibility.** `contraption ∈ CONTRAPTION_LIBRARY` and its meta's `modes` includes `` `${familyId}.${mode}` ``. `skin` ∈ the meta's skins and allows this biome. `config` parses with `meta.configSchema`, then `meta.validateConfig(config, ctx)` returns no errors (§4.4). `panel.layout`, if set, ∈ `meta.layouts`. `payoff.anim ∈ meta.payoffs`. Every `accessories[].kind ∈ meta.accessories`. Every `dialogue.fail.byKey[].key` **and every `boss.taunts.byKey[].key`** ∈ `meta.nearMissKeys ∪ failKeysFor(mode) ∪ station.probes[].key` (§2.5.4, A9). **Probe references resolve against the view** (A9): `keyInSlot.itemKey` and a non-null `decoyPresent.itemKey` are item keys of the view (decoys included) and `slot` < the slot count; `linkedTo` keys are left/right keys (`linker.pairs`) or node keys (`linker.chain`); `assignedTo.itemKey` is an item key (`sorter.bins`) or `w0 … w(n−1)` (`sorter.type_match`, n = the wave count) and `binId` a bin id or a category id; `aimedIndex.index` < the statement or option count; `nearValue.value` evaluates. `station.hintTargets[*][*].anchor` ∈ the skin's `anchors` (§4.3). A meta with `status: "post_demo"` is a warning. |
+| R6 | **Geometry.** Ground x strictly ascending from 0 to `width`, y ∈ `[0, height]`; platforms inside the zone. `consoleX`, `anchor` and `meta.frameBounds(config, view)` (translated to the anchor) lie inside the zone (frame: warning). `payoff.kind === PAYOFF_KIND_OF[payoff.anim]`. `payoff.blocker.x` lies between this station's `consoleX` and the next station's `consoleX` in the same zone (or the zone's right edge). `payoff.terrain` lies inside the zone. A `terrain` payoff with **`terrain: []`** is legal only when a link in the same zone has `requires.solved` equal to this station (that link is the traversal the payoff opens, e.g. civil e10's rolling ladder, A11); W1 then counts that link's vertical span. Ride and carry cutscenes end in a later zone, or later in the same zone. |
+| R7 | **Cutscenes.** Ids unique. `story.introCutsceneId`, `story.finaleCutsceneId`, `zone.entryCutsceneId`, `exit.cutsceneId`, `payoff.rideCutsceneId` and `boss.arenaCutsceneId` exist. Step references resolve: `enter_zone`/`ride` zone ids, `station` encounter ids, `walk`/`emote` actors (`player`, `companion` or an npc id), `await_interact` targets (a prop target needs an `id`, not a `touch` block), `set_state` targets (flags must be declared by R12), `vista` assets, `ride.toSurface` (a surface of `toZoneId` whose span holds `toX`), `trigger.cutsceneId` (skippable). Interactive steps (`await_interact`, `control_until`) only appear in skippable cutscenes (skip applies their end state). |
 | R8 | **Answer leaks, token-boundary matching** (amendment 34). For each station, `bannedValues = answerVarsFor(mode, params).map(k => mode.templateVars(params, solution)[k])`. Each banned value and each checked text is normalized (NFKC, lower-case words, `π` and the word `pi` → `π`, `−` → `-`, whitespace collapsed) and **tokenized** by `src/world/answer-leak.ts`: a *math run* `(?:\d+(?:\.\d+)?\|π)(?:[/*^×]?(?:\d+(?:\.\d+)?\|π))*` is one token (`2π`, `5π/6`, `π/2`, `4.00`), words are `[a-z]+`, anything else is a single-character token. A banned value matches when its token sequence appears contiguously; two pure decimals match by numeric value (`4.00` = `4`). So `spin` never matches `π`, `2π/\|b\|` never matches `π`, `40` never matches `4`. **Station-scoped texts are errors**: `approach`, `instruction`, `tutorial`, `insight`, `hints[0]`, `hints[1]`, every `fail` line, `pins[].text`, `boss.taunts.approach/fail/byKey`. **Exempt**: `hints[2]`, `success`, `payoffLine`, `after`. **World-scoped texts** (triggers, NPC states, plaques, collectibles, non-finale cutscene lines, quest rewards) are checked against the banned values of every station not implied solved by their `requires.solved`, as **warnings**. Negative tests: trig `e2.approach` ("…y = sin(2t)…") and `e2.before` ("Those rings spin…") pass; "Set the timer to π." fails; e6 "4 seconds" fails and "40 spans" passes. |
 | R9 | **Text budgets** (amendment 9). Every authored line ≤ **140 characters** (error) and ≤ 24 words (warning for side-cars, error for World Writer output). `instruction` contains, as whole tokens, `objectNoun`, a noun from the skin's `nouns`, or a `partNouns` entry. `verifyLabel` ≤ 24 characters in caps; `successBadge` ≤ 28. |
-| R10 | **History sensitivity** (checklist #14, F12). If the biome kit is `sensitive: true`: human NPC looks use bodies from the kit's `fictionalStaff`; no asset key contains `portrait` unless it is a document or silhouette asset (`*.doc.*`, `*.silhouette.*`); **no NPC `name` and no `cast.extras[].name` matches (whole-token, case-insensitive) a person named in the spec** (capitalized multi-word names extracted from encounter params, prompts, `sourceRef.quote`s and narrative, plus the kit's `protectedNames`); every plaque or collectible whose text matches the kit's `violenceLexicon` is `kind: "document"` or `"photo_withheld"`; every station skin is flagged `sensitiveSafe` (no shake, burst or strike fx). |
-| R11 | **Traversal links** (amendment 2). Link ends reference existing surfaces of the zone at x inside that surface's span. `ladder` ends are within 40 units of each other horizontally. `timed_hop` has `open[0] < open[1]` and a `missTo` on an existing surface. `ride.path` lies inside the zone. **No link bypasses a blocker**: a link whose ends straddle an unsolved station's `blocker.x` must require that station (or a later one) solved. |
-| R12 | **Side content.** Ids unique per kind. Every `requires` references existing encounters, collectibles and declared flags. A flag is *declared* when something can set it: a quest reward, a trigger or NPC-state `setFlag`, a sandbox reward, or a cutscene `set_state {kind: "flag"}`. Quest steps reference existing NPCs (and their states), collectibles, props with `touch`, encounters and triggers. `Npc` has exactly one of `look` and `asset`; every state's `zoneId` exists. Sandboxes reference a `SANDBOX_LIBRARY` meta; their config parses and `goal ∈ meta.goals`. |
-| R13 | **Purpose.** `meter.perEncounter` names each encounter at most once, values are non-decreasing in encounter order, percent values ≤ 100. `progressEffects` reference existing encounters, zones and props with ids. `map.nodes[].zoneId` and `stations[]` exist. `recordStrip.pins[].pin.lane ∈ lanes` and each pin's date appears in that encounter's params, prompt or `sourceRef.quote` (§4.4 date rule). `feedbackNouns[].from` appears in at least one applicable station's `grade()` feedback space (warning). |
+| R10 | **History sensitivity** (checklist #14, F12). If the biome kit is `sensitive: true`: human NPC looks use bodies from the kit's `fictionalStaff`; no asset key contains `portrait` unless it is a document or silhouette asset (`*.doc.*`, `*.silhouette.*`); **no NPC `name` and no `cast.extras[].name` matches (whole-token, case-insensitive) a person named in the spec** (capitalized multi-word names extracted from encounter params, prompts, `sourceRef.quote`s and narrative, plus the kit's `protectedNames`); every plaque or collectible whose text matches the kit's `violenceLexicon` is `kind: "document"` or `"photo_withheld"`; every station skin is flagged `sensitiveSafe` (no shake, burst or strike fx); **the kit's `successPose` is `show`** (the protagonist never cheers; `tests/biomes.test.ts` asserts it for `archive_of_voices`, A11) and no `NpcState.pose` is `cheer`. |
+| R11 | **Traversal links** (amendments 2, A8). Link ends reference existing surfaces of the zone at x inside that surface's span. `ladder` ends are within 40 units of each other horizontally. `timed_hop` has `open[0] < open[1]` and a `missTo` on an existing surface. `ride.path` lies inside the zone; a cutscene `ride` step lands on `toSurface` at `toX`. **No link bypasses a blocker**: a link whose ends straddle an unsolved station's `blocker.x` must require that station (or a later one) solved. **Sheer edges** (§2.4.1: a ground height change > `maxStepUp` within 8 units) are crossed only by links: a warning fires for a sheer descent on the path between two consecutive consoles of a zone that no link (and no payoff terrain of the earlier station) crosses. |
+| R12 | **Side content.** Ids unique per kind. Every `requires` references existing encounters, collectibles and declared flags. A flag is *declared* when something can set it: a quest reward, a trigger or NPC-state `setFlag`, a sandbox reward, or a cutscene `set_state {kind: "flag"}`. Quest steps reference existing NPCs (and their states), collectibles, props with `touch`, encounters and triggers. `Npc` has exactly one of `look` and `asset`; every state's `zoneId` exists; a non-null `NpcState.anim` is an anim of the NPC's puppet (error), or the NPC is on the rig or an `svg` (warning: ignored). Sandboxes reference a `SANDBOX_LIBRARY` meta; their config parses and `goal ∈ meta.goals`. |
+| R13 | **Purpose.** `meter.perEncounter` names each encounter at most once, values are non-decreasing in encounter order, percent values ≤ 100. `progressEffects` reference existing encounters, zones and props with ids. `map.nodes[].zoneId` and `stations[]` exist. `recordStrip.pins[].pin.lane ∈ lanes` and each pin's `date` appears in that encounter's params, prompt or `sourceRef.quote` (§4.4 date rule); `spanTo` may be derived from a printed duration and is not checked (civil O7: the 381-day boycott band). `feedbackNouns[].from` appears in at least one applicable station's `grade()` feedback space (warning). |
 | R14 | **Accessories.** `record_lens` requires the station's probe (from its config) to have `format ∈ {year, month_year}` and a `window`; the rail lies inside the zone. |
-| R15 | **Boss.** The boss encounter (role `boss`, last) has `boss` set (warning when missing); no other station does. `arenaTriggerX < consoleX`. Non-empty `phases` partition the view's item keys exactly (every key in one batch) and are only allowed for board layouts. |
-| R16 | **Cue ids.** Every cue id used in cutscene `sfx` steps, triggers, props and metas' success/failure plans ∈ `CUE_MAP` (§2.12) (warning: an unmapped cue is silent). |
+| R15 | **Boss.** The boss encounter (role `boss`, last) has `boss` set (warning when missing); no other station does. `arenaTriggerX < consoleX`; `arenaBounds`, when set, contains `consoleX` and `arenaTriggerX`. Non-empty `phases` partition the view's item keys exactly (every key in one batch) and are only allowed for board layouts. `taunts.byKey` keys pass R5's key rule (A9). |
+| R16 | **Cue ids.** Every cue id used in cutscene `sfx` steps, triggers, props, skins' `cues` and metas' success/failure plans ∈ `CUE_MAP` (§2.12) (warning: an unmapped cue is silent). All `CUE_MAP` ids are `Id`-legal (A10). |
 | W1 (warning) | Every zone with stations has at least one station payoff with `vertical !== "none"` (anti-goal §10, amendment 6). |
 | W2 (warning) | Every zone offers at least two non-walk verbs **other than its payoffs**: distinct link kinds, a sandbox, or a quest touch (game-feel item 37, amendment 17). |
 | W3 (warning) | Props and L5 layers don't overlap a station's `meta.footprint` or `frameBounds`. |
@@ -1087,7 +1214,7 @@ GameClient({spec, world, sfx})                   world ? dynamic(ExpeditionClien
     │   ├ <PlayHost world=… progress=… layout=… worldState=… express=…>  → <ExpeditionHost> (Phaser) | <ExpeditionDomHost>
     │   ├ <WorldLabelLayer store>                 DOM chips, pins, interact glyph + verb, NPC names, plaque titles, label_swap text
     │   ├ <Hud>                                   <h1> zone title, ObjectiveRing, objective line, MeterBar, counters, mute toggle, key legend
-    │   ├ <InstrumentPanel> (panel|resolving|payoff|sandbox)  cards + control + probe scrubber + Verify + badge + Back tab
+    │   ├ <InstrumentPanel context=PanelContext> (panel|resolving|payoff|sandbox)  RECORD card + meta cards + control + probe scrubber + Verify + badge + Back tab
     │   ├ <DialogueBar>                           emblem, (i) hint button → BriefSheet, typewriter text, aria-live
     │   ├ <MapOverlay> / <JournalReader>          M / J overlays (pause the host)
     │   └ <TouchPad> (coarse pointer only)        ◀ ▶ ▲ ▼ E ⤒ buttons
@@ -1102,27 +1229,28 @@ and have a `*.test.ts` beside them.
 | Module | Responsibility | ~Lines |
 |---|---|---|
 | `ExpeditionHost.tsx` | Boots Phaser once (deps `[]`) with `type: WEBGL`, `scale: {mode: RESIZE, parent}`, `input: {keyboard: {capture: []}}`, and `backgroundColor` from the entry segment's sky. Pushes prop changes into the scene through effects: `frozen`, `progress`, `layout`, `worldState`, `express`. Exposes `HostHandle` (§2.10). Attaches `__GAME_DEBUG__.host.playerX` and `.expedition`. Falls back to the DOM host on any boot failure **without `console.error`** (it uses `console.warn`). | 300 |
-| `ExpeditionScene.ts` | `createExpeditionScene(Phaser)` factory. `init` receives `SceneData`. `preload` → manifest loader with a progress bar. `create` builds the systems below and enters the current zone. `update(dt)` runs input → traversal → actors → triggers and proximity → contraption controllers (sim step, ease, apply) → camera → label publish → audio params. | 420 |
-| `loader/manifest-loader.ts` | Fetches `manifest.json` per namespace (`load.json`, then chained loads). `svg` entries: `load.svg(key, url, {width, height})` at `design × rasterScale × min(dpr, 1.5)`, tiles split by `tileWidth`. `atlas` entries: `load.atlas(key, image, frames)`. Emits progress. | 190 |
-| `scene/zone-builder.ts` | Builds or destroys one zone: per segment its layer set (crossfade 1 s at boundaries by alpha on both sets), the sky gradient, the ground strip (a Rope along the heightfield, or tiled `surface`) and underside, platforms, props (with `states` alternates and `touch`), interiors (façade sprite at depth 45 that fades to 20 % while inside), the hub, NPC actors, collectibles, plaques, ladders, exits, and the finish stack (§5.6). Texture keys stay loaded across zones. | 380 |
+| `ExpeditionScene.ts` | `createExpeditionScene(Phaser)` factory. `init` receives `SceneData`. `preload` → the art lane's zone loader (`src/game/art/manifest-loader.ts`, §5.7) for `all` + the entry zone, with a progress bar. `create` builds the systems below and enters the current zone. `update(dt)` runs input → traversal → actors → triggers and proximity → contraption controllers (sim step, ease, apply) → camera → label publish → audio params. | 420 |
+| `src/game/art/manifest-loader.ts` (art lane, §5.7) | Fetches `manifest.json` for `shared` and the biome. `loadZone(scene, world, zoneId)` loads `all` + the zone's tagged entries + `assetsForZone(world, zoneId)` (`src/world/residency.ts`): `svg` → `load.svg(key, url, {width, height})` at `design × k`, tiles split by `tileWidth`; `atlas` → `load.atlas` (fallback `load.atlasXML`); `puppet` → `load.svg` of the part sheet + `Texture.add` per part frame. `unloadZone(scene, world, prevId, nextId)` removes the previous zone's textures after the wipe. Emits progress. | 220 |
+| `scene/zone-builder.ts` | Builds or destroys one zone: per segment its layer set (crossfade 1 s at boundaries by alpha on both sets), the sky gradient, the ground strip (a Rope along the heightfield, or tiled `surface`) and underside, platforms, props (with `states` alternates and `touch`), interiors (façade sprite at depth 45 that fades to 20 % while inside), the hub (a puppet plays `Hub.anims` on state changes), NPC actors, collectibles, plaques, ladders, exits, and the finish stack (§5.6). Textures follow the per-zone residency of §5.7 (A4): the builder never assumes a previous zone's keys are loaded. | 380 |
 | `scene/surfaces.ts` (pure) | The surface model (§2.4.1): `buildSurfaces(zone, solvedIds, worldState, stations)` merges payoff terrain into the ground or activates platforms; `heightAt(surfaces, surface, x)`, `spanOf(surface)`, `surfaceBelow(surfaces, x, y)`. | 200 |
-| `scene/terrain.ts` (pure) | `blockers(stations, solvedIds)` (the unsolved current station's blocker plus every later one), `stepBlocked(surface, x0, x1)` (rises above `maxStepUp`), `clampX(...)`. | 140 |
+| `scene/terrain.ts` (pure) | `blockers(stations, solvedIds)` (the unsolved current station's blocker plus every later one), `stepBlocked(surface, x0, x1)` (true when the ground changes height by more than `maxStepUp` within any 8-unit window between x0 and x1: a **sheer rise or a sheer descent**, A8), `sheerEdges(ground)`, `clampX(...)`. | 150 |
 | `scene/traversal.ts` (pure) | `linksInRange(links, pos, worldCtx)` (range 70 units on the `from` surface; two-way links also from `to`), arc functions `hopArc`, `dropArc`, `climbPath`, `timedHopPath`, `ridePath`, `cosmeticHop`, and `timedHopOpen(link, tSec)` (§2.4.2). | 240 |
 | `scene/segments.ts` (pure) | `segmentAt(zone, x)`, crossfade weights, variant resolution against `Requirement`s. | 90 |
 | `scene/proximity.ts` (pure) | `nearest(interactables, pos, radius)` returns the interact target with hysteresis (enter 90, leave 130 units). Kinds: `station`, `sandbox`, `npc`, `plaque`, `collectible`, `touch`, `vehicle`, `link`, `exit`. | 110 |
 | `scene/framing.ts` (pure) | `frameFor(targetBounds, safeRect, viewport, zone, frameZoom) → {scrollX, scrollY, zoom}`. Keeps the contraption's `frameBounds` and the player inside the visible world area (explore: 100 %; scrub: left 58 %; board: left 45 %; vault: centred behind the modal), zoom = `frameZoom ?? clamp(fit, camera.minZoom, 1)` × `viewportHeight / 1080`. | 120 |
 | `scene/triggers.ts` (pure) | `firingTriggers(triggers, pos, worldState, solvedIds)`. | 80 |
 | `scene/camera-director.ts` | Follows with an x deadzone and a **y deadzone** (`zone.camera`). On a layout change, tweens `scrollX`, `scrollY` and zoom to `frameFor(…)` over 280 ms ease-out cubic. Arena bounds clamp while a boss arena is active. Executes cutscene `pan`, `camera` and `vista` shots. Clamps to zone bounds. | 180 |
-| `actors/protagonist.ts` | Sprite on the character atlas (§5.5) with a pose-swap animator: `idle`, `walk0-7` at 12 fps, `run0-2` at 14 fps, `jump`, `fall`, `climb0/1`, `interact`, `switch0/1`, `talk`, `think`, `cheer0/1`, `show`, `hold`. Costume overlays follow per-frame anchors (spring-follow for scarves). Plays traversal arcs from `traversal.ts`. Soft contact shadow ellipse (multiply). 16 % of view height. | 260 |
-| `actors/companion.ts` | The guide's puppet. Follows over the shoulder (`cast.guide.companion`), bobs, flies to a station when its instruction is given, and **flies to `meta.hintTargets(rung)` anchors on hints** (circle, land, hover, ride-along). Pulses its glow while its speaker's line types. | 180 |
-| `actors/npc.ts` | NPC actor: the active `NpcState` (position, pose, visibility), follow modes (`player`: walks 120 units behind on the same surfaces and puffs across links; `satchel`: attached to the protagonist's `back` anchor), name-label anchor, named part animations. | 160 |
+| `actors/protagonist.ts` | Sprite on the character atlas (§5.5) with a pose-swap animator over the 28 packed poses: `idle`, `walk0-7` at 12 fps, `run0-2` at 14 fps, `jump`, `fall`, `duck`, `hang`, `climb0/1`, `interact`, `switch0/1`, `talk`, `think`, `show`, `hold`, `cheer0/1`, `back`. **On every success it plays `BiomeKit.successPose`** (`cheer0/1`, or `show` in `archive_of_voices`, A11). Costume overlays follow the computed per-frame anchors (`CharacterLook.costume`: offset, `hideOn`, `layer` swapped on back-facing frames; spring-follow for scarves). Plays traversal arcs from `traversal.ts`. Soft contact shadow ellipse (multiply). 16 % of view height. | 260 |
+| `actors/companion.ts` | The guide's puppet (`Puppet.ts`). Follows over the shoulder (`cast.guide.companion`), plays `idle`, plays `talk` while its speaker's line types, flies to a station when its instruction is given, and **on hints flies to `hintTargetsFor(station, rung)` anchors** (circle, land, hover, ride-along) playing `cue`. With `awakeFlag` set it stays perched and dormant until the flag is set. | 180 |
+| `actors/npc.ts` | NPC actor on an NPC atlas (rig) or a puppet: the active `NpcState` (position, pose, visibility; rig poses map `work` → `interact`, `wave`/`cheer` → `cheer0`, `sit` → `duck`), follow modes (`player`: walks 120 units behind on the same surfaces and puffs across links; `satchel`: attached to the protagonist's `back` anchor), name-label anchor, `NpcState.anim` played on the puppet. | 160 |
 | `input/keymap.ts` (pure) | The key map of §3.5 as data plus `actionFor(code, ctx)`. | 80 |
 | `input/controller.ts` | Reads keys each frame and dispatches actions. **Fix for D4:** it calls `keyboard.disableGlobalCapture()` whenever `frozen` or when `document.activeElement` is inside `[data-panel]`, and `enableGlobalCapture()` otherwise. It ignores keys whose event target is an input, textarea or `[role=slider]`. | 170 |
 | `contraptions/registry.ts` | `PREFABS: Record<string, ContraptionPrefab>`, one line per prefab (pre-filled in W0 with every id). `prefabFor(id)` falls back to `console_slate`. | 60 |
 | `contraptions/controller.ts` | One per station (§2.5.3): clock, sim, aid tier, probe, draft → target pose, ease, `applyPose`, states `dormant/awake/active/solved`, chips and pins to the label store, throttled SR text, audio params, failure and success plans, `debugState`. | 320 |
 | `contraptions/sandbox-controller.ts` | The same loop for a sandbox (no runner, no Verify; goals and rewards). | 140 |
 | `contraptions/Snapshot.tsx` | The generic DOM snapshot (§2.5.5): draws a skin's dormant or solved parts from `skin.snapshot`. | 90 |
-| `contraptions/prefabs/<id>/prefab.ts` | Each archetype's drawing (§4). No per-prefab DOM component. | 300–450 each |
+| `contraptions/prefabs/<id>/prefab.ts` + `shared.ts` + `skins/<skin>.ts` + `skins/index.ts` | Each archetype's drawing (§4, §2.5.5): the core (`prefab.ts`, shared helpers) dispatches to one file per skin, so a skin can be owned by a different lane than its core (§7). No per-prefab DOM component. | 300–450 per archetype + 150–300 per skin |
+| `contraptions/accessories/record-lens.ts` | The `record_lens` accessory: carriage on its rail driven by the station's year probe, the projector cone (civil §5.0.2). | 120 |
 | `fx/glow.ts`, `fx/beam.ts`, `fx/particles.ts`, `fx/dormancy.ts`, `fx/finish.ts`, `fx/pooled-strip.ts`, `fx/reflection.ts` | Baked radial glows (ADD); beams = three stacked lines (core 2, inner 6, outer 18) plus an end-cap glow and ±8 % shimmer; emitter presets; desaturate/re-saturate tween (ColorMatrix); the finish stack (grain, ColorMatrix grade, vignette); the pooled sprite window for dense animated strips; the half-resolution reflection RenderTexture (§2.11). | 520 |
 | `cutscene/timeline.ts` (pure) | `compile(cutscene) → TimedStep[]` (walk time from distance ÷ speed; say and interactive steps = until resolved). `endState(cutscene)` produces the final world state (zone, positions, station anims, flags, prop states, camera). `expressTrim(steps)` cuts after the first completed `say`. | 170 |
 | `cutscene/runner.ts` | Executes compiled steps against scene systems, including `await_interact`, `control_until`, `vista`, `camera`, `set_state`, `emote` and `music`. Returns a promise. `skip()` applies `endState`. A `warpTo` or debug call cancels it. | 320 |
@@ -1131,6 +1259,7 @@ and have a `*.test.ts` beside them.
 | `bridge.ts` | Typed scene↔React bridge: `SceneApi` (what React calls) and `SceneEvents` (what the scene emits). Replaces the duck-typed `setFrozen` lookup. | 150 |
 | `dom/ExpeditionDomHost.tsx` + `dom/DomStage.tsx` + `dom/DomActor.tsx` | **Reduced DOM fallback** (amendment 31): the same zone drawn as `<img>` layers with CSS `translate(-camX × factor, -camY × factorY)`, protagonist frames as a CSS sprite of the atlas, each station as a **static snapshot** (dormant, or solved when solved), traversal arcs as CSS transitions, the same `surfaces`/`traversal`/`proximity`/`framing` pure modules and the full panel. Same `HostHandle`. testid `dom-host`. | 360 |
 | `src/game/hosts/PlayHost.tsx` (edit) | `if (props.world) return <ExpeditionHost …/>` before the genre switch. `?renderer=dom` → `ExpeditionDomHost`. | +25 |
+| `src/game/expedition/puppets/Puppet.ts` (art lane, §5.5) | The puppet runtime: a Container of part Images at their rest offsets; `play(animId)`, `stop()`, `setDormant(on)`; an `svg` entry plays as a one-part puppet with procedural `idle`/`talk`/`cue`. Used by the companion, NPCs, hubs and prefabs whose part is a puppet. | 150 |
 
 Host-core total is about 5,500 lines plus about 4,800 for the 13 prefabs (§4).
 
@@ -1152,8 +1281,9 @@ Host-core total is about 5,500 lines plus about 4,800 for the 13 prefabs (§4).
 | 95 finish | camera ColorMatrix grade + vignette (camera filters) | — | per segment `ambient.grade` |
 | 100 fade/title/vista | full-screen rect + vista image; the `title` step renders in React | 0 | |
 
-Zones are **entered one at a time**. `enterZone(id, x, surface)` destroys the previous zone's objects (textures stay)
-and builds the next. Zone changes happen only through cutscene `enter_zone`/`ride` steps, zone exits, carry
+Zones are **entered one at a time**. `enterZone(id, x, surface)` starts the transition wipe, has the loader load the
+next zone's texture set behind it (§5.7), destroys the previous zone's objects, builds the next, and after the wipe
+unloads the previous zone's textures that the next zone does not use (A4). Zone changes happen only through cutscene `enter_zone`/`ride` steps, zone exits, carry
 payoffs, or `warpTo`. Vertical transitions (`vertical_up`/`vertical_down` exits, lifts and the vesicle) tween
 `scrollY` by the zone-height offset over 900 ms while fading the layer sets, so the player reads the climb or the
 descent (amendment 20).
@@ -1167,9 +1297,14 @@ descent (amendment 20).
 - **Walking.** A/D or ←/→ at 300 units/s, **Shift** to run at 460 units/s (disabled where the segment has
   `runEnabled: false`), 90 ms acceleration, walk cycle at 12 fps. Rises of at most `ground.maxStepUp` (0.6 H) are
   auto-stepped; higher rises block, which is how walls and ledges are expressed without colliders.
+- **Sheer edges** (A8). A ground height change greater than `maxStepUp` **within 8 units** of x is a sheer edge, in
+  either direction. Walking never crosses one: a sheer **rise** blocks (a `hop`, `climb` or `ladder` link goes up), and
+  a sheer **descent** blocks too (a `drop` link goes down, or the reverse direction of a two-way `hop`, `climb` or
+  `ladder`). Gentler slopes are walked. This is how canal banks, trenches, gulfs and flooded streets hold the player
+  (cell e4 ledge, e5 trench, S7 gulf; civil S2 floods, S8 lift edge); the trig canal gets a `drop` in (§4.1).
 - **Blockers.** The player is clamped by `blockers(stations, solvedIds)`. The blocker is drawn by the station's
   prefab (closed door, gap, membrane, wireframe steps), so the world shows *why* you can't pass.
-- **Edges.** Walking off the end of a platform drops the player to `surfaceBelow(x, y)` with the drop arc.
+- **Edges.** Walking off the end of a **platform** drops the player to `surfaceBelow(x, y)` with the drop arc (platform ends are not sheer edges of the ground).
 
 #### 2.4.2 Traversal links (amendment 2)
 
@@ -1198,6 +1333,8 @@ descent (amendment 20).
 - The station console opens the panel **only** for the current encounter. A solved station replays its `success`
   and `after` lines, which acts as a review. A future station is unreachable because of the blocker.
 - The companion is not interactable. It speaks only through the dialogue engine.
+- An `await_interact` target is any NPC, station, sandbox or prop with an `id`; a prop needs no `touch` block to be a
+  target (trig `beam_pylon_s0`, civil `main_breaker`).
 - **Express mode** (§0.1.5) drives the same interaction path through `walkTo` + `INTERACT_STATION`.
 
 #### 2.4.4 NPCs and their states (amendment 16)
@@ -1207,14 +1344,15 @@ descent (amendment 20).
 - Entering proximity shows the name; E queues the state's `lines` on the bar (story priority, non-blocking). When the
   lines finish, `setFlag` is set and a `talk` world event is recorded (`npcId:stateId`).
 - `follow: "player"` makes the NPC walk 120 units behind; `follow: "satchel"` attaches it to the protagonist's `back`
-  anchor (Quill). `anim` plays a named part animation on the puppet (Brasswick's arm swinging on the corrected period).
+  anchor (Quill). `anim` plays a named animation of the NPC's puppet (`PuppetAnim`, §5.5; Brasswick's `arm_sync` swings his arm on the corrected period).
 
 #### 2.4.5 Triggers (amendment 15)
 
 `firingTriggers` runs each frame: a trigger fires when the player is within `radius` on its surface, its `requires`
 holds and (if `once`) it has not fired. `ambient` lines are non-blocking toasts, `arrival` lines are bar lines at
 story priority (civil X-lines, cell zone arrivals), and `hint` lines toast after 20 s of idle inside the radius.
-`setFlag` and `cue` apply when it fires. Express mode disables `ambient` and `hint` triggers.
+`setFlag` and `cue` apply when it fires; a `cutsceneId` then plays (phase `cutscene`, purpose `trigger`; cell S7's
+viewpoint pan). Express mode disables `ambient` and `hint` triggers and trims trigger cutscenes like any other.
 
 #### 2.4.6 World state and quests
 
@@ -1286,13 +1424,14 @@ alcove: salt scrubber 0–5 %; the protoplast pulls from the wall above 2 %; goa
 import type { z } from "zod";
 import type { Domain, FamilyId } from "../contracts/common";
 import type { Encounter } from "../contracts/gamespec";
-import type { AxisUnit, LayoutMode, MisconceptionProbe, PayoffAnim, ProbeFormat, ProbeSpec } from "../contracts/world";
+import type { AxisUnit, HintTarget, LayoutMode, MisconceptionProbe, PayoffAnim, ProbeFormat, ProbeSpec, RecordStrip, Station } from "../contracts/world";
+export type { HintTarget } from "../contracts/world";   // the zod type is the one definition (A7)
 
 export type ModeKey = `${FamilyId}.${string}`;           // "tuner.oscillator"
 export type AidTier = 0 | 1 | 2;
 export type HintsUsed = 0 | 1 | 2 | 3;
-/** src/world/aid-tier.ts: the one definition (amendment 10) */
-export function aidTierOf(hintsUsed: HintsUsed, failedVerifies: number): AidTier;   // min(2, max(hintsUsed, failedVerifies > 0 ? 1 : 0))
+// aidTierOf(hintsUsed, failedVerifies) = min(2, max(hintsUsed, failedVerifies > 0 ? 1 : 0)) is a FUNCTION: it lives in
+// src/world/aid-tier.ts (+ test), the one definition (amendment 10); this types file only declares types.
 
 /** Draft-input shapes per mode: what a control holds while the player works (possibly partial). */
 export interface DraftInputs {
@@ -1337,7 +1476,10 @@ export interface PoseInput<Config, Sim = null> {
   solved: boolean;             // true only after a correct Verify, or when settled solved (warp, autoSolve, re-entry)
   reducedMotion: boolean;
 }
-export type StaticInput<Config> = Pick<PoseInput<Config>, "view" | "config" | "aidTier" | "hintsUsed" | "reducedMotion">;
+export type StaticInput<Config> = Pick<PoseInput<Config>, "view" | "config" | "aidTier" | "hintsUsed" | "reducedMotion"> & {
+  skinId: string;              // station.skin (A7): skin-specific hint anchors, card titles
+  record: boolean;             // the panel shows the RECORD card above this meta's cards (A6): put FILE first, fill recordPins
+};
 
 export interface SimCtx { draft: Draft | null; probe: number | null; t: number; aidTier: AidTier }
 /** Pure, seeded, fixed-step simulation (amendment 4). Holds MEASURABLE state only (F6): concentrations, flux,
@@ -1368,14 +1510,21 @@ export interface ContraptionSkin {
   name: string;                // "Vesper Dial"
   biomes: readonly string[] | "any";
   nouns: readonly string[];    // accepted object nouns for R9
-  parts: readonly { slot: string; asset: string; hero: boolean }[];   // the art contract (§4.3); all preloaded
+  parts: readonly { slot: string; asset: string; hero: boolean }[];   // the art contract (§4.3); loaded with the station's zone
+  anchors: readonly string[];  // §4.3 "Required anchors", ranges expanded (slate_0…2 → slate_0, slate_1, slate_2); the prefab test checks the PoseView has each
   console: string;             // default console asset key
   snapshot: { dormant: readonly SnapshotPart[]; solved: readonly SnapshotPart[] };   // DOM fallback (amendment 31)
   sensitiveSafe: boolean;      // no shake, burst or strike fx (R10)
   cues: { live: string | null; succeed: string; fail: string };                     // §2.12 cue ids
+  /** default companion flights per rung [rung 1, rung 2, rung 3] (A7); a Station may override them */
+  hintTargets: readonly [readonly HintTarget[], readonly HintTarget[], readonly HintTarget[]];
 }
 
-export interface HintTarget { anchor: string; action: "circle" | "land" | "hover" | "ride"; holdMs: number }
+// src/world/hint-targets.ts (pure, V1; not in this types file): the one resolution rule (A7)
+//   export function hintTargetsFor(st: Pick<Station, "hintTargets">, meta: ContraptionMeta, rung: 1 | 2 | 3,
+//                                  input: StaticInput<unknown>): readonly HintTarget[]
+//   = st.hintTargets?.[rung − 1] ?? meta.hintTargets(rung, input); a meta's hintTargets starts from
+//     skinOf(input.skinId).hintTargets[rung − 1] and may add config-driven targets (a hint pin's lens, a shutter).
 
 export type FailAction =
   | "wobble" | "tip" | "sink" | "bounce" | "spark" | "jam" | "eject" | "dim" | "flash" | "unseat"
@@ -1420,7 +1569,7 @@ export interface ContraptionMeta<Config = unknown, Pose = unknown, Sim = null> {
   defaultLayout: LayoutMode;
   payoffs: readonly PayoffAnim[];
   nearMissKeys: readonly string[];
-  accessories: readonly "record_lens"[];
+  accessories: readonly "record_lens"[];                   // ["record_lens"] on claim_holders, oracle_ticker, step_bridge, router_lanes, switchboard, cause_tubes (A7)
   skins: readonly ContraptionSkin[];
   control: ControlKind;
   // ---- configuration (§4.2, §4.4)
@@ -1441,7 +1590,7 @@ export interface ContraptionMeta<Config = unknown, Pose = unknown, Sim = null> {
   describe(pose: Pose, input: PoseInput<Config, Sim>): Described;
   panelStatic(input: StaticInput<Config>): PanelStatic;                      // memoized per (encounter, aidTier, hintsUsed)
   panelLive(stat: PanelStatic, input: PoseInput<Config, Sim>): PanelLive;
-  hintTargets(rung: 1 | 2 | 3, input: StaticInput<Config>): readonly HintTarget[];
+  hintTargets(rung: 1 | 2 | 3, input: StaticInput<Config>): readonly HintTarget[];   // default: the skin's hintTargets[rung − 1]
   audio(pose: Pose, input: PoseInput<Config, Sim>): readonly AudioParam[];
   // ---- outcomes (pure; prefabs only play them)
   failurePlan(d: Diagnosis, input: PoseInput<Config, Sim>): FailurePlan;     // acts ONLY on d.wrongKeys / d.failKey
@@ -1516,7 +1665,20 @@ export interface PanelStatic {
   input: { symbol: string; min: number; max: number; step: number; unit: AxisUnit; format: ProbeFormat; ticks: readonly Tick[] } | null;
   /** the probe (non-scalar modes with a probe) — the Scrubber is the probe */
   probe: ProbeSpec | null;
+  /** pins this meta adds to the panel-owned RECORD card (hint pins by aid tier, A6); [] when StaticInput.record is false */
+  recordPins: readonly { key: string; at: number; label: string; style: "hint" | "dim" }[];
 }
+/** What the client tells the panel about the whole game (A6). Built by ExpeditionClient, passed to InstrumentPanel. */
+export interface PanelContext {
+  recordStrip: RecordStrip | null;                          // world.story.recordStrip (history games)
+  solvedIds: readonly string[];                             // progress.solvedIds, encounter order
+  probeWindow: { start: number; end: number } | null;       // the open station's ProbeSpec.window (fractional years), else null
+}
+// src/world/record-strip.ts (pure, KC1; not in this types file): the panel-owned RECORD card (A6)
+//   export function recordCard(ctx: PanelContext, recordPins: PanelStatic["recordPins"], cursor: number | null):
+//     Extract<CardModel, { kind: "timeline" }>
+//   earned pins = recordStrip.pins of solved encounters (spanTo → a band) + recordPins; from/to = probeWindow
+//   (else the pins' span ± 1 year); cursor = the live probe.
 export interface PanelLive {
   scrubX: number | null;                          // orange line: the input value or the probe value
   readout: string | null;                         // "0.83π", "π/2 < θ < π", "MAR 1965", "stage 3 · flip out"
@@ -1527,6 +1689,15 @@ export interface PanelLive {
 ```
 
 The revision-1 kinds `gradient` and `energy` are subsumed by `bars` and `energy_cells`.
+
+**The RECORD card** (A6, civil §5.0.2): when `PanelContext.recordStrip` is non-null, `InstrumentPanel` renders
+`recordCard(context, static.recordPins, live.scrubX)` in **display slot 0** (title `RECORD`, colour `f`) and the meta's
+cards below it, so every civil station shows RECORD then FILE. Slot numbers in `PanelStatic.cards`, `PanelLive` and
+`CardOverride.slot` stay **meta-relative** (0 = the meta's first card, FILE in civil). The RECORD chip (the nearest
+earned pin within ±2 months of the cursor, else `—`) is computed by the panel. RECORD is prepended in the `scrub` and
+`board` layouts only; the `vault` layout (civil e12) keeps the meta's own mini strip (`TumblerVaultConfig.miniStrip`) and
+passes `StaticInput.record = false`. Test (`record-strip.test.ts`): with the civil strip, e1's RECORD shows 0 earned
+pins and e9's shows 11.
 
 #### 2.5.3 Controller behaviour (`contraptions/controller.ts`, written once for all prefabs)
 
@@ -1542,7 +1713,7 @@ The revision-1 kinds `gradient` and `energy` are subsumed by `bars` and `energy_
 - **Game-feel budget:** `bind` is synchronous and the next rAF applies the first eased frame, so the first visible
   world reaction lands within 150 ms of panel input (item 41).
 - **`setAidTier(tier, hintsUsed)`** updates the pose input; the client recomputes `panelStatic` (memo key includes
-  both). **`onHint(rung)`** also sends the companion to `meta.hintTargets(rung)`.
+  both). **`onHint(rung)`** also sends the companion to `hintTargetsFor(station, meta, rung, staticInput)` (A7).
 - **`fail(diagnosis)`**: `plan = meta.failurePlan(diagnosis, input)`; `view.playFail(plan)`; the pose returns to the
   draft pose. The client shows `failLines(...)` and the display feedback (§2.5.4).
 - **`succeed()`**: `plan = meta.successPlan({...input, draft: solutionDraft, solved: true}, payoff.anim)`;
@@ -1602,9 +1773,21 @@ sampled (seeded) from the three fixtures' encounters; for each, `diagnose(...).c
 needle derived from `failKey`/`wrongKeys` appears in `grade().feedback`. A change to a mode's `grade()` order fails
 this test, not a demo.
 
-**Misconception probes** (`src/world/probes.ts`): evaluated only on failed Verifies. `nearValue` uses the mode's
-own tolerance (`number_line`: `solution.tolerance × (max − min)`; `oscillator`: `0.03 × (dial.max − dial.min)`,
-the same constant the mode uses, pinned by the parity test) times `tolFactor`.
+**Misconception probes** (`src/world/probes.ts`): evaluated only on failed Verifies, against the submitted `Input`.
+Every predicate × mode pair a showcase station uses is defined here (A9); R5 checks the keys against the view.
+
+| Predicate | Modes | Matches when |
+|---|---|---|
+| `nearValue {value, tolFactor}` | `mapper.number_line`, `tuner.*` | the submitted value is within the mode's own tolerance × `tolFactor` of `value` (`number_line`: `solution.tolerance × (max − min)`; `oscillator`: `0.03 × (dial.max − dial.min)`, the same constant the mode uses, pinned by the parity test) |
+| `aimedIndex {index}` | `truth_finder.mimic`, `truth_finder.predict_reveal` | the chosen `statementIndex` / `optionIndex` equals `index` |
+| `keyInSlot {itemKey, slot}` | `sequencer.linear` | `itemKey` sits in `slot` (any slot when `slot` is null) |
+| `decoyPresent {itemKey}` | `sequencer.linear`, `linker.chain`, `linker.pairs` | the submission uses the decoy `itemKey` (linear: in any slot; chain: in any edge's `fromKey` or `toKey`; pairs: as any link's `rightKey`). **`itemKey: null` = any decoy**: any item key the solution does not use (civil e11) |
+| `linkedTo {fromKey, toKey}` | `linker.pairs`, `linker.chain` | the submission links `fromKey` → `toKey` (pairs `lN → rM`; chain edge `nA → nB`) |
+| `assignedTo {itemKey, binId}` | `sorter.bins` | item `itemKey` is assigned to bin `binId` |
+| `assignedTo {itemKey, binId}` | `sorter.type_match` | **`itemKey` is `w<i>` and names `waveIndex` i; `binId` names a `categoryId`**: the answer for wave i has that category (a missing answer never matches; cell e5/e9) |
+
+`probes.test.ts` covers every row with hand-built inputs from the three fixtures, including `assignedTo` on
+`type_match` and `decoyPresent` with `itemKey: null`.
 
 **Fail lines** (`src/world/fail-line.ts`, pure):
 
@@ -1658,6 +1841,15 @@ export interface ContraptionPrefab<Config = unknown, Pose = unknown, Sim = null>
   create(scene: Phaser.Scene, phaser: typeof Phaser, props: PrefabProps<Config>): PoseView<Pose>;
 }
 export function definePrefab<Config, Pose, Sim>(p: ContraptionPrefab<Config, Pose, Sim>): ContraptionPrefab<Config, Pose, Sim> { return p; }
+
+/** One file per skin (prefabs/<id>/skins/<skin>.ts): it draws that skin's parts and applies the archetype's Pose.
+    prefab.ts is `definePrefab({ meta, create: (s, p, props) => SKINS[props.station.skin].create(s, p, props) })`,
+    with SKINS from the W0-written static skins/index.ts. A skin file imports its archetype's meta (Pose type) and
+    shared.ts read-only, so it can be owned by a different lane than its core (§7). */
+export interface SkinPrefab<Config = unknown, Pose = unknown> {
+  skinId: string;
+  create(scene: Phaser.Scene, phaser: typeof Phaser, props: PrefabProps<Config>): PoseView<Pose>;
+}
 
 /** What the host sees per station (built by ContraptionController around a PoseView). */
 export interface ContraptionInstance {
@@ -1898,14 +2090,19 @@ and `"narrator"`.
   dormant hub → `say` (guide, blocking) → an interactive step (`await_interact` "Wind Cog" / `control_until` "the
   stair") → `station wake`.
 - **Zone entry:** `entryCutsceneId` (optional) plays a title card and a `pan` to the zone hub (phase `cutscene`).
-- **Exits and rides:** `ride` tweens the vehicle and the player along `path`, then swaps zones under a fade;
-  vertical transitions tween `scrollY` (§2.3). Carry payoffs (`door_carries`, `vesicle_carries`) run their
+- **Exits and rides:** `ride` tweens the vehicle and the player along `path`, then swaps zones under a fade and lands
+  the player on `toSurface` at `toX` (A8; no trailing `enter_zone` is needed); the destination zone's textures load
+  when the cutscene starts (§5.7). Vertical transitions tween `scrollY` (§2.3). Carry payoffs (`door_carries`, `vesicle_carries`) run their
   `rideCutsceneId` as part of the payoff.
 - **Arena:** crossing `boss.arenaTriggerX` runs `boss.arenaCutsceneId` (wake, taunts, music `boss`), then clamps the
   camera to `arenaBounds`.
+- **Hub states:** a `hub` step sets `dormant` / `partial` / `restored` (ColorMatrix + glow) and, when the hub is a
+  puppet, plays `Hub.anims[state]` (civil: the Engine's rings spin in the intro and e11, the iris opens; A11).
+- **Trigger cutscenes:** a trigger with `cutsceneId` plays it when it fires (§2.4.5).
 - **Finale:** `story.finaleCutsceneId` (phase `finale`). Steps: `station succeed` on the boss → `hub restored` →
-  `vista` (cross-zone composed image; trig canyon, civil dawn) → `say` (the finale lines, then `spec.narrative.outro`)
-  → `fade black`. The client then shows `EndScreen`.
+  `vista` (cross-zone composed image; trig canyon, civil dawn) → `say` (the finale lines, then the outro lines,
+  authored in the cutscene data; the host never appends `spec.narrative.outro` on its own, civil O12) → `fade black`.
+  The client then shows `EndScreen`.
 - **Interactive steps:** `await_interact` pauses the timeline and shows the interact glyph on its target until the
   player presses E (or `timeoutMs` elapses); `control_until` unfreezes movement until the player reaches `x` (after
   `timeoutMs` the player auto-walks). `skip()` applies both end states.
@@ -1921,7 +2118,7 @@ export type Phase =
   | { kind: "loading" }
   | { kind: "intro"; cutsceneId: string }
   | { kind: "explore" }
-  | { kind: "cutscene"; cutsceneId: string; purpose: "zone" | "exit" | "ride" | "arena" }
+  | { kind: "cutscene"; cutsceneId: string; purpose: "zone" | "exit" | "ride" | "arena" | "trigger" }
   | { kind: "panel"; encounterId: string }
   | { kind: "resolving"; encounterId: string; correct: boolean }           // world success/fail animation playing
   | { kind: "payoff"; encounterId: string }                                // badge + success line, panel slides out, carry cutscene
@@ -1931,7 +2128,7 @@ export type Phase =
 
 export type MachineEvent =
   | { type: "ASSETS_READY"; introId: string | null }
-  | { type: "CUTSCENE_START"; cutsceneId: string; purpose: "zone" | "exit" | "ride" | "arena" }
+  | { type: "CUTSCENE_START"; cutsceneId: string; purpose: "zone" | "exit" | "ride" | "arena" | "trigger" }
   | { type: "CUTSCENE_DONE" }
   | { type: "INTERACT_STATION"; encounterId: string; isCurrent: boolean }
   | { type: "INTERACT_SANDBOX"; sandboxId: string }
@@ -1949,7 +2146,7 @@ export const hostFrozen = (p: Phase, dialogueBlocking: boolean, overlayOpen: boo
 Transitions:
 - `explore —INTERACT_STATION(current)→ panel`; `panel —BACK→ explore`.
 - `explore —INTERACT_SANDBOX→ sandbox —BACK→ explore`.
-- `explore —CUTSCENE_START→ cutscene —CUTSCENE_DONE→ explore` (zone entries, exits, rides, arenas).
+- `explore —CUTSCENE_START→ cutscene —CUTSCENE_DONE→ explore` (zone entries, exits, rides, arenas, trigger cutscenes).
 - `panel —VERIFIED(false)→ resolving(false) —RESOLVE_DONE→ panel`. The control is **not remounted**; the client caches
   the draft per encounter (the old reset-on-wrong is gone).
 - `panel —VERIFIED(true)→ resolving(true) —RESOLVE_DONE→ payoff —PAYOFF_DONE→ explore`. A carry payoff plays its
@@ -2041,6 +2238,7 @@ export interface ExpeditionHostDebug {
   ready: boolean; zoneId: string; segmentId: string;
   playerX: number; playerY: number; surface: string;
   cameraX: number; cameraY: number; zoom: number;
+  textures: number;                                          // resident texture count (A4: drops after a zone swap)
   near: InteractTarget | null;
   links: readonly { id: string; kind: string; inRange: boolean; open: boolean | null }[];
   contraption: (encounterId?: string) => Record<string, number | string | boolean> | null;
@@ -2076,8 +2274,8 @@ expedition?: {
 | Budget | Value | Enforced by |
 |---|---|---|
 | Frame | 60 fps at 1920×1080 on an integrated GPU; ≤ 150 draw objects per zone; ≤ 3 active particle emitters | `fps` and `drawObjects` in debug; the fidelity capture records both; e2e fails below 45 fps median on the webgl project |
-| Textures | ≤ 180 MB VRAM per loaded biome (layers at rasterScale ≤ 1 and tiled to ≤ 2048 wide; props ≤ 1.5× dpr cap) | `scripts/build-art.ts` writes `vramEstimateMb`; `tests/world-assets.test.ts` fails above budget |
-| Load | first zone interactive in ≤ 3 s on localhost; the next zone's textures are already loaded (one biome = one manifest) | loader progress event; e2e timeout |
+| Textures | **per zone** (A4): the resident set (`all` + the zone) ≤ trig 120 MB, cell 135 MB, civil 140 MB at dpr ≥ 1.5; ≤ 180 MB during a zone swap (two zones briefly); ≤ 60 / 65 / 70 MB at dpr 1 (P0 ceilings; the full-tier ones are in §5.8, 02 §3f) | `art:build` writes `vram` per zone and `swapPeakMb`; `tests/world-assets.test.ts` checks every zone and every adjacent swap pair |
+| Load | first zone interactive in ≤ 3 s on localhost (only `all` + zone 1 load at boot); every later zone loads behind its transition wipe and the previous zone unloads after it (§5.7) | loader progress event; e2e timeout; `debug().textures` count after a swap |
 | React | no `setState` per draft tick; the label layer never re-renders React (rAF + refs) | review checklist; lint rule `set-state-in-effect` already on |
 | Sims | ≤ 1.5 ms per frame for all active sims (only the open station's and the open sandbox's sims step) | `debugState` timing; unit benchmark in the sim tests |
 
@@ -2087,39 +2285,51 @@ expedition?: {
 |---|---|---|
 | Trig | star field in Z3 (hundreds of twinkling points) | ≤ 140 stars **baked into one texture**; twinkle is 12 additive sprites re-positioned every 2 s; fireflies 6 sprites |
 | Cell | lipid heads across about 29 000 world units (about 650 heads, 1 300 tails) | the bilayer is a **static tiled strip** (kit `bilayerTile`); jittering heads are a **pooled window of 60 sprites** within ±900 units of the camera centre (`fx/pooled-strip.ts`), re-bound to tile slots as the camera moves; gel/frost and needle parting only near e1; mote counts from the meter capped at 120 |
-| Civil | rain, puddle reflections, grain | rain ≤ **120** streak particles (Z2), 60 (Z3); reflections in **2 scenes only** (S4 Main Street, S7 bridge) via a **half-resolution RenderTexture** of L3/L4 flipped, updated at **15 Hz** (`fx/reflection.ts`); grain is one tiled texture on L6 |
+| Civil | rain, puddle reflections, grain | rain ≤ **120** streak particles (S4, S5), 60 (S6, S7); P0: static sheen sprites for puddles; P1: reflections in **2 scenes only** (S4 Main Street, S7 bridge) via a **half-resolution RenderTexture** of L3/L4 flipped, updated at **15 Hz** (`fx/reflection.ts`); grain is one tiled texture on L6 |
 
 ### 2.12 Sound: the procedural WebAudio cue bank (amendment 35)
 
 Files: `src/game/expedition/audio/cues.ts` (pure: the recipe table and `CUE_MAP`), `synth.ts` (WebAudio renderer,
 about 150 lines), `bus.ts` (external store: enabled, muted, master gain, loop registry).
 
-| Recipe | Synthesis | Used by (examples of mapped game-doc cue ids) |
-|---|---|---|
-| `tick` | 1.8 kHz sine, 25 ms, exp decay | `ui_knob_tick`, `stud_tick`, `tally_click`, `relay_click` |
-| `select` | two sines 660 → 990 Hz, 60 ms | `ui_select`, `cord_seat` |
-| `verify` | triangle 440 Hz + 880 Hz, 140 ms | `ui_verify` |
-| `badge` | major triad (C5 E5 G5) arpeggio, 90 ms steps | `ui_badge`, `success-badge` |
-| `whoosh` | band-passed noise, centre sweep 400 → 2 kHz, 280 ms | `ui_panel_in`, `ui_panel_out`, `tube_whoosh`, `sfx.beam_rise` |
-| `hum` (loop) | sine + 2nd harmonic at 10 %, pitch and gain params | `beam_hum`, `bell_hum`, `sync_hum`, `current_hum` |
-| `bell` | FM: carrier f, modulator 3.5 f, index 4 → 0, 1.2 s | `bell_honest`, `chord_true` (×3), `mb_tone` |
-| `chord` | three bells, a major chord | `chord_true`, `resonance_lock` |
-| `clunk` | 90 Hz sine drop + low-passed noise, 180 ms | `latch_clack`, `stone_lock_thunk`, `drawer_thunk`, `bolt_slide` |
-| `thunk` | 60 Hz sine, 120 ms | `sfx.slab_set`, `warden_bow_rumble` (×3) |
-| `latch` | click + 40 ms delayed click | `latch_click`, `latch_slip` (double) |
-| `spark` | high-passed noise burst, 70 ms | `beam_scatter`, `thread_snap`, `sfx.fuse_pop` |
-| `water` | low-passed noise swell, 1.2 s | `water_rush`, `raft_flood`, `sluice_drain` |
-| `stamp` | noise transient + 150 Hz body | `stamp`, `sfx.press_roll` |
-| `teletype` | 14 Hz train of `tick`s, 1 s | `sfx.teletype` |
-| `page` | short filtered noise flutter | `ui_page_turn`, `pickup_page` |
-| `rumble` | 40 Hz sine + noise, 800 ms | `gatekeeper_rumble`, `warden_bow_rumble` |
-| `pop` | 400 → 900 Hz sine blip, 50 ms | `mote_pop`, `pod_crack`, `boing_soft` |
-| `chime` | 1.3 kHz + 2.6 kHz bells, 600 ms | `node_ignite`, `lantern_lit`, `beacon_ignite` |
-| `grind` | sawtooth 70 Hz through a comb filter, 400 ms | `stone_grind`, `tumbler_grind`, `clunk` |
+Every cue id is snake_case and `Id`-legal (A10), because `Trigger.cue`, `PropPlacement.touch.cue` and the cutscene
+`sfx` step take an `Id`. `CUE_MAP` is seeded from the **union** of trig §6.8, cell §6.7 and civil §5.0.6; this table
+is that union (params in parentheses: pitch multiplier, gain, repeat).
 
-- `CUE_MAP: Record<string, { recipe: RecipeId; pitch?: number; gain?: number; repeat?: number }>` maps **every cue id
-  listed in the three game docs** (trig §6.8, cell §5 `sfx` ids, civil §5.0.6 list) and the skins' `cues`. A test
-  asserts coverage of every cue id used by side-cars (R16) and metas' plans.
+| Recipe | Synthesis | Cue ids mapped to it |
+|---|---|---|
+| `tick` | 1.8 kHz sine, 25 ms, exp decay | `ui_knob_tick`, `stud_tick`, `tally_click`, `pendulum_tick`, `relay_click`; `mimic_scuttle` (repeat 6); `cog_wind` (pitch 0.8, repeat 6) |
+| `select` | two sines 660 → 990 Hz, 60 ms | `ui_select`, `cord_seat`, `pip_chirp` |
+| `verify` | triangle 440 Hz + 880 Hz, 140 ms | `ui_verify` |
+| `badge` | major triad (C5 E5 G5) arpeggio, 90 ms steps | `ui_badge` |
+| `whoosh` | band-passed noise, centre sweep 400 → 2 kHz, 280 ms | `ui_panel_in`, `ui_panel_out`, `tube_whoosh`, `beam_rise`, `beam_surge`, `fog_part`, `stone_float`, `shield_swoosh`, `slip`; `pod_fog` (pitch 0.6); `lamp_swing` (pitch 0.6, gain 0.4); `printing_sweep` (pitch 1.6, gain 0.3); `lift_hum` (pitch 0.5) |
+| `hum` (loop) | sine + 2nd harmonic at 10 %, pitch and gain params | `beam_hum`, `bell_hum`, `sync_hum`, `current_hum`, `dial_carriage_roll`, `ring_turn`, `mb_tone` (220·b Hz) |
+| `bell` | FM: carrier f, modulator 3.5 f, index 4 → 0, 1.2 s | `bell_honest` |
+| `chord` | three bells, a major chord | `chord_true`, `resonance_lock`, `pore_open` |
+| `clunk` | 90 Hz sine drop + low-passed noise, 180 ms | `latch_clack`, `stone_lock_thunk`, `spoke_extend_clunk`, `drawer_thunk`, `gate_open`, `breaker_throw`; `bolt_slide` (repeat 4) |
+| `thunk` | 60 Hz sine, 120 ms | `slab_set`, `halcyon_settle` |
+| `latch` | click + 40 ms delayed click | `latch_click`, `latch`, `chest_unlock`, `cable_snap_taut`; `latch_slip` (repeat 2) |
+| `spark` | high-passed noise burst, 70 ms | `beam_scatter`, `mimic_hiss`, `thread_snap`, `fuse_pop`, `atp_spark` |
+| `water` | low-passed noise swell, 1.2 s | `water_rush`, `raft_flood`, `sluice_drain`, `falls_part` |
+| `stamp` | noise transient + 150 Hz body | `slide_retract`; `press_roll` (repeat 3) |
+| `teletype` | 14 Hz train of `tick`s, 1 s | `teletype` |
+| `page` | short filtered noise flutter | `ui_page_turn`, `page_turn`, `pickup_page` |
+| `rumble` | 40 Hz sine + noise, 800 ms | `gatekeeper_rumble`, `warden_bow_rumble`, `stone_crumble`, `engine_spin` |
+| `pop` | 400 → 900 Hz sine blip, 50 ms | `mote_pop`, `pod_crack`, `boing_soft`, `vesicle_pinch`; `spit_back` (repeat 3) |
+| `chime` | 1.3 kHz + 2.6 kHz bells, 600 ms | `node_ignite`, `lantern_lit`, `beacon_ignite`, `beacon_fire`, `conduit_on`, `relief_glint`, `lamp_chime`; `ridge_thaw` (pitch 0.8) |
+| `grind` | sawtooth 70 Hz through a comb filter, 400 ms | `stone_grind`, `tumbler_grind`, `clunk`, `lift_chain`, `door_slide`, `door_turn` |
+
+Conflicts between the game docs, resolved here: `lift_hum` is a one-shot `whoosh` (pitch 0.5) in every game (civil
+§5.0.6 listed `hum`, but it is only used in cutscene `sfx` steps, which are one-shots); `warden_bow_rumble` is `rumble`;
+the cue id `clunk` plays the `grind` recipe (cell); the revision-2 ids `sfx.beam_rise`, `sfx.slab_set`, `sfx.fuse_pop`,
+`sfx.press_roll`, `sfx.teletype` are now `beam_rise`, `slab_set`, `fuse_pop`, `press_roll`, `teletype`, and
+`success-badge` (a testid, not a cue) is gone. Segment music (`Segment.music`) is not a cue id.
+
+- `CUE_MAP: Record<string, { recipe: RecipeId; pitch?: number; gain?: number; repeat?: number }>` holds exactly the
+  table above plus any id a skin's `cues` adds (each added id is a row here first). **Coverage test**
+  (`src/game/expedition/audio/cues.test.ts`): it parses the first column of trig §6.8, cell §6.7 and civil §5.0.6 in
+  `docs/design/` (every backticked id), and asserts each is in `CUE_MAP`, matches `Id`, and has a recipe; it also
+  covers every cue used by the side-cars (R16), the skins' `cues` and the metas' plans.
 - **Enabling:** on unless `EXPEDITION_SFX=off` (server env, passed as the `sfx` prop; Playwright's `webServer.env`
   sets it), `?mute=1`, or the HUD mute toggle (N). The `AudioContext` is created on the first user gesture.
   `AUDIO_MODE` (the ElevenLabs pipeline flag) is unrelated and stays `off`.
@@ -2175,10 +2385,10 @@ phone (< 768 px or portrait): panel = bottom sheet 60vh, dialogue bar at the she
 
 | Component | Anatomy (bible ref) | ~Lines |
 |---|---|---|
-| `InstrumentPanel.tsx` | frame, layout mode (scrub/board/vault/sandbox), back tab (`data-testid="panel-back"`), card stack, control slot, probe scrubber slot, verify row, badge, SR live region (contraption `srText`); `data-panel` attribute (the D4 keyboard guard); `data-testid="instrument-panel"`; boss phase batches (reveals the next batch's tokens when the previous batch is placed) | 300 |
+| `InstrumentPanel.tsx` | props include `context: PanelContext` (A6): when `context.recordStrip` is non-null (scrub and board layouts) it prepends the panel-owned **RECORD** card (`recordCard(context, static.recordPins, live.scrubX)`, display slot 0) above the meta's cards (meta slots stay meta-relative, §2.5.2); frame, layout mode (scrub/board/vault/sandbox), back tab (`data-testid="panel-back"`), card stack, control slot, probe scrubber slot, verify row, badge, SR live region (contraption `srText`); `data-panel` attribute (the D4 keyboard guard); `data-testid="instrument-panel"`; boss phase batches (reveals the next batch's tokens when the previous batch is placed) | 300 |
 | `primitives/HexGrid.tsx`, `TraceLine.tsx`, `BackTab.tsx` | §3.2 frame, circuit-trace terminals | 160 |
 | `cards/GraphCard.tsx` | §3.3: SVG in a card slot; label tab top-right; axes with arrowheads; π/number/year tick labels (only major ticks labelled, bold 20–24 px at 1920 w); major/minor grid; plots 3 px round caps in f/g/h colours, `dashed` and `ghost` styles; open/closed endpoint circles r 7; **annotations** (amendment 7): brackets with end caps and labels, shaded regions, period markers (hollow circles), live dots, h/v reference lines (midline, `y = 1/2`), caption line, focusable markers; **interval columns** with dark hex gutters; orange **target line** with `[ ]` caps; **scrub line**; empty cards still drawn; `<title>`/`<desc>` from `sr` | 420 |
-| `cards/TimelineCard.tsx` | RECORD / FILE cards (civil §5.0.2): years or months axis, labelled lanes on y, earned pins (white), hint pins (dashed), draft pins (green / blue), bands, causal arrows, axis break (`1896 ≈`), orange year cursor | 260 |
+| `cards/TimelineCard.tsx` | RECORD (panel-owned) / FILE (meta) cards (civil §5.0.2): years or months axis, labelled lanes on y, earned pins (white), hint pins (dashed), draft pins (green / blue), bands, causal arrows, axis break (`1896 ≈`), orange year cursor | 260 |
 | `cards/UnitCircleCard.tsx` | square card: circle, axes ±1.2, landmark labels, hairlines every `hairlineStep`, the point, the orange input arc, green sin drop and blue cos drop (dashed), `level` line (`y = 1/2`), upper-half shade, π/6 mirror | 200 |
 | `cards/BarsCard.tsx` | gauges (solute outside/inside, charge ledger), a sparkline with a **white** timer line (timers are not input), net-flow arrow | 180 |
 | `cards/SchematicCard.tsx` | draws `SchematicPrim[]` (pump cross-section, span socket row, membrane fold) | 110 |
@@ -2240,6 +2450,7 @@ control state change
       → hostRef.current.bindDraft(encId, draft)             → ContraptionController.bind → sim/clock → eased pose → applyPose + labels + audio
       → panelLiveRef.current(draft)                          → panel recomputes meta.panelLive (local state inside the panel only)
 probe scrubber change → same path with draft.probe (never reaches grade())
+solve / station open → ExpeditionClient rebuilds PanelContext {recordStrip, solvedIds, probeWindow} → <InstrumentPanel context>
 (i) hint → runner.hint() → rung r → dialogue hint line → host.onHint(encId, r) + host.setAidTier(encId, tier, hintsUsed)
                                                          → panelStatic recomputed for the new (aidTier, hintsUsed)
 Verify → runner.submit(toSubmitInput(draft)) → grade → diagnosis = diagnose(...)   (src/world/diagnose, pure)
@@ -2295,7 +2506,7 @@ roadmap; `console_slate` covers their modes until then (amendment 38).
 | # | id | Modes | Control → binds | World visuals (live) | Success | Failure (visible, never the answer) | Layout | Skins | Status |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | `ring_gate` | tuner.oscillator (alt: tuner.formula for angular quantities) | scrub T | two notched rings in a wall: the outer ring turns by b·T, the inner disc rocks by the wave's value; a lap tally ratchets; release replay 0 → T; ghost card `f(t + T)`; amplitude/midline asks use a counterweight variant | pawl drops, rings lap once more and lock, fin splits, light shaft, the flow (water) surges through | pawl strikes the rim (spark) or slips on tooth II; the misalignment arc pulses; near-miss `aligned_multiple` | scrub | `ring_gate` (Tidewheel) | demo · R |
-| 2 | `emitter_rail` | mapper.number_line (alt: mapper.plane 1-D) | scrub value | a carriage rides a rail (arc when the view is a 2π π-labelled line, straight otherwise, log for log scales); its beam sweeps; landmark studs; detents; sin/cos gauges on arc skins; the target hidden in fog/dark/water | beam surge, fog dissolves, node ignites, the disc turns by the set angle, the payoff forms | beam scatter at its end; gold chevrons show direction and distance band (1/2/3), never the target | scrub | `vesper_dial`, `radian_rail`, `year_rail`, `thermo_tower` | demo · R |
+| 2 | `emitter_rail` | mapper.number_line (alt: mapper.plane 1-D) | scrub value | a carriage rides a rail (arc when the view is a 2π π-labelled line, straight otherwise, log for log scales); its beam sweeps; landmark studs; detents; sin/cos gauges on arc skins; the target hidden in fog/dark/water | beam surge, fog dissolves, node ignites, the disc turns by the set angle, the payoff forms | beam scatter at its end; gold chevrons show direction and distance band (1/2/3), never the target | scrub | `vesper_dial` (demo); `radian_rail`, `year_rail`, `thermo_tower` are post-demo skins with no §4.3 slots, no skin file and no owner yet | demo · R |
 | 3 | `pendulum_sync` **(new)** | tuner.oscillator (ask period, frequency) | scrub T | a guardian swings in real time (sim phase); the player's counter-pendulum runs at the dialled T; the sync thread's brightness `½(1 + cos Δ)` beats at `\|1/T₀ − 1/T\|`; common-start reset on open and on settle | the thread turns gold, the guardian's swing decays in lockstep, it kneels, the door opens | the thread snaps with a spark; the guardian taunts (`boss.taunts`); probes flash the span tiles | scrub | `wardens_shield` | demo · R |
 | 4 | `claim_holders` | truth_finder.mimic | aim → statementIndex (hover previews) + optional probe | 3–4 holders (singers, pods, witness lenses) with plaques; an aimer (lens, emitter, arc or pendant lamp) swings its beam; **claim renders**: trace slates (math), ghosts over a live reference sim (science), footprints on the FILE card (history) | the quarantine animation of the skin/config (mimic crab, ridge thaw, tank dilates, raft lock floods, lanterns ignite, RETRACTED stamp) | the picked holder is honest: it holds bright, its ghost snaps into register, one calm chime | board (trig), scrub (cell, civil) | `resonance_pillars`, `treasury_pillars`, `specimen_pods`, `witness_projector` | demo · R |
 | 5 | `oracle_ticker` | truth_finder.predict_reveal | aim → optionIndex + optional year probe | a machine "prints" the scenario; a selector knob points at the option; the conduit hums | prints the sourced reveal with a date slug; the conduit glows; payoff lamps light one by one | prints the reveal plus "NOT WHAT HAPPENED" on the forecast line; the selector unlocks | scrub | `wire_ticker` | demo · R |
@@ -2312,6 +2523,11 @@ roadmap; `console_slate` covers their modes until then (amendment 38).
 | 16 | `glyph_ring` | sequencer.cycle | slots (circular) | a rotating glyph ring | the ring seals | the first wrong successor flickers | board | — | **post_demo** |
 | 17 | `pillar_staircase` | sequencer.rank | slots | pillars rise to their rank and become stairs (P8) | the staircase completes | a misranked pillar sinks | board | — | **post_demo** |
 
+**Accessories** (A7): the metas `claim_holders`, `oracle_ticker`, `step_bridge`, `router_lanes`, `switchboard` and
+`cause_tubes` declare `accessories: ["record_lens"]` (R5); civil puts a `record_lens` on e1–e11. **Files** (§2.5.5,
+§7): each archetype is `src/world/contraptions/<id>.config.ts` (W0, the §4.2 schema) + `<id>.meta.ts` + the prefab
+core `prefabs/<id>/prefab.ts` + one `prefabs/<id>/skins/<skin>.ts` per skin.
+
 **Sandbox metas** (P1, `src/world/sandboxes/`): `music_box` (skin `astronomer_box`), `plant_garden` (skin
 `plant_pool`, reusing the `osmotic_cell` sim), `darkroom` (skin `darkroom_trays`).
 
@@ -2322,10 +2538,13 @@ columns, target line) ship with the panel, so they only need metas and prefabs.
 
 ### 4.1 Showcase bindings (all 29 encounters)
 
-**This table is the binding the three world JSON files encode.** It was rewritten from the game docs (§2 scenes, §5
-contraptions), which stay authoritative for nouns, lines, formulas and timelines. Coordinates are **per zone**; each
-zone table gives the exact conversion from the game doc's cumulative coordinates. Verify labels and badges are
-`panel.verifyLabel` / `panel.successBadge`.
+**This section is an index** (A12). The game documents' JSON is **authoritative for coordinates, surfaces, links,
+exits and station geometry** (trig §2.6–§2.7, §5 and Appendix A; cell §2.5.3, §2.6, §4.2 and §5; civil §2.6,
+§4.2–§4.3 and §5), as it is for nouns, lines, formulas and timelines. This index names each binding (archetype, skin,
+layout, control, probe, config keys, payoff, labels) and points at them; when a number here disagrees with the game
+document, the game document wins and this index is corrected. Coordinates are **per zone**; each zone table gives the
+conversion from the game doc's revision-1 cumulative coordinates. Verify labels and badges are `panel.verifyLabel` /
+`panel.successBadge`.
 
 #### Trig · "The Orrery Terraces" · biome `orrery_terraces` · guide `cog` (companion Cog) · boss `warden`
 
@@ -2337,13 +2556,16 @@ overlays). `story.objectiveLabel` "RHYTHMS"; no meter; progress effects: 6 `beam
 | Zone | Scenes | width × height | Conversion (doc → zone) | Segments (= layer sets) | Exits | P0 art |
 |---|---|---|---|---|---|---|
 | `z1_sunward` Sunward Terrace | S0, S1, S2 | 8000 × 1600 | `x = x_doc`; `y = y_doc − 1560` (floor 3000 → 1440; upper terrace 2600 → 1040; dial centre (4800, 1140); ring centre (7400, 836)) | `sunward_day` [0, 8000] | `x 7990` → `z2_crystal` x 60, `walk`, requires `e2_period` solved | **full** |
-| `z2_crystal` Crystal Stair | S3, S4, S5 | 9600 × 2400 | `x = x_doc − 8000`; `y = y_doc − 700` (2600 → 1900, 2100 → 1400, 1500 → 800, 1100 → 400) | `hall_peach` [0, 3200], `stair_peach` [3200, 9600] | platform `rim_top` x 9590 → `z3_dome` x 60, `vertical_up`, requires `e5_period_review` | kit + Crystal Stair waterfall cliff |
+| `z2_crystal` Crystal Stair | S3, S4, S5 | 9600 × 2400 | `x = x_doc − 8000`; `y = y_doc − 700` (2600 → 1900, 2100 → 1400, 1500 → 800, 1100 → 400) | `hall_peach` [0, 3200], `stair_peach` [3200, 9600] | `ground` x 9590 → `z3_dome` x 60, `vertical_up`, requires `e5_period_review` (the e5 rim stair merges into the ground; there is no `rim_top` platform) | kit + Crystal Stair waterfall cliff |
 | `z3_dome` Warden's Dome | S6 (+ S7 finale) | 5400 × 1400 | `x = x_doc − 17600`; `y = y_doc + 100` (floor 1100 → 1200; lower walkway 1370) | `gantry_dusk` [0, 2400], `dome_interior` [2400, 5400] | — | kit + dome interior and Star Door |
 
-P0 traversal in `z1_sunward`: `hop` at x 1800 (a 0.9 H step-up), `hop` ×2 across the dry-canal stepping stones at
-x 2150–2350, `hop` to the wisp ledge at x 3550, `drop` from the upper terrace at x 5250. P1: `z2` Echo Lift is a
-payoff; colonnade-lintel `hop` at x 1300; `z3` gantry `timed_hop` ×3 (T = 1.5, 2.5, 3.0) with the lower walkway as
-`missTo` and a `ladder` back up.
+P0 traversal in `z1_sunward` (trig §2.7.1): `s0_stepup` hop (x 1760 → 1840, the 0.9 H step-up), `s0_stone_in` /
+`s0_stone_out` hops across the dry canal on the `canal_stone` platform (x 2110 → 2240 → 2400), `s0_canal_rungs` climb
+out of the canal bed (x 2365 → 2392), `s1_ledge_up` hop to the `wisp_ledge` (x 3440 → 3520) and `s1_ledge_down` drop
+back (x 3595 → 3625). **Add `s0_canal_in`** (`drop`, `{ground, 2110}` → `{ground, 2200}`, P0): under the sheer-edge
+rule (§2.4.1) the canal bank at x 2118–2120 blocks walking, so the rungs need a way in (A8). The terrace → court
+return is the e1 spoke stair itself (no same-x drop exists at x 5250). P1: the colonnade-lintel hops and the
+lift-shaft ladder in `z2`; the `z3` gantry `timed_hop` ×3 (T = 1.5, 2.5, 3.0) with pit `missTo`s and `ladder`s back up.
 
 | Enc | Scene · zone @ consoleX (anchor) | Archetype / skin | Layout | Control | Probe · world binding | Config (keyed by) | Payoff | Verify / Badge |
 |---|---|---|---|---|---|---|---|---|
@@ -2355,8 +2577,9 @@ payoff; colonnade-lintel `hop` at x 1300; `z3` gantry `timed_hop` ×3 (T = 1.5, 
 | e6_boss | S6 · z3 @ 3550 (4700, 1200) | pendulum_sync / wardens_shield | scrub | Scrub → `{value}` T | — | `spanUnitPx: 94`, `armPx: 300`, `shieldArmPx: 442`, `swingDeg: 14`, `spanTiles: 7`, `driftCardTier: 1`, `peakDotsTier: 2`, `slowTimeToggle` | remove_blocker / none / `door_opens` · "Star Door" → finale | MATCH THE RHYTHM / RESONANCE LOCKED |
 
 Boss (e6): `speakerId: warden`, `arenaTriggerX: 3000` (doc 20600), `arenaCutsceneId: e6_arena` (wake from the feet
-up, `e6.warden1` (fixture) + `e6.warden2`), `arenaBounds: {x0: 2400, x1: 5400}`, `taunts.byKey`: `over` →
-`e6.fail.long`, `under` → `e6.fail.short`; guide `fail.default` = `e6.fail.cog`. Probes: `nearValue 3` and
+up, `e6.warden1` (fixture) + `e6.warden2`), `arenaBounds: {x0: 2400, x1: 5400}`, `taunts.fail: [e6.fail.any]`,
+`taunts.byKey`: `over` → `e6.fail.long`, `under` → `e6.fail.short`, `reach` → `e6.probe.reach`, `half` →
+`e6.probe.half` (probe keys, R5/R15); guide `fail.default` = `e6.fail.cog` (trig §5.6). Probes: `nearValue 3` and
 `nearValue 6` → `reach`, `nearValue 2` → `half`. `feedbackNouns`: `chest → singer` for e3 and e5.
 
 #### Cell · "The Living Gate" · biome `living_gate` · guide `pilot` (companion Pip) · boss `gatekeeper`
@@ -2373,10 +2596,13 @@ Protagonist the Diver on `shared.char.diver` (bubble helmet, tide scarf, probe-s
 | `zone_c` Pump Hall | S5, S6 | 7800 × 1600 | `x = x_doc − 15800`; `y = y_doc + 500` (surface 1213; pump deck and pit ledge 873) | `hall_interior` [0, 4200] (light `interior`), `pit_dusk` [4200, 7800] | none: the e10 vesicle (carry, down) enters `zone_d` | kit + Pump Hall vault shell |
 | `zone_d` Cytoplasm | S7, S8 | 5600 × 1500 | `x = x_doc − 23600`; `y = y_doc + 400` (surface 1113; high rail 773) | `vault_road_amber` [0, 2600], `vault_violet` [2600, 5600] | — | kit + Nuclear Pore hub |
 
-P0 traversal in `zone_a`: `hop` up the glycan-root ledge to plaque P1 (x 1400), `hop` across glycan roots (x 2200,
-the jump tutorial), `climb` to the cholesterol-stud ledge behind the Crossing Gate (x 6900, requires e2). P1: S5
-Kay's lantern ledges (`hop` from the risen gantry, a `drop` behind the Low Tank), S7 `ride` links on vesicle rail
-platforms (+2 H) and the viewpoint detour.
+P0 traversal in `zone_a` (cell §2.6): `a_root_ledge` hop to the `root_ledge` and plaque P1 (x 1290 → 1380),
+`a_root_hump` hop over the root hump (x 2120 → 2300, the hop tutorial), `a_stud_climb` to the `stud_ledge` behind the
+Crossing Gate (x 6900 → 6920, requires e2). Critical-path links in later zones (P0): `b_trench_drop` into the drained
+trench (zone B, requires e5) and the pump-deck `ladder` (zone C). Rides that land on a platform use
+`ride.toSurface` (e7 gantry → `pump_deck`, e9 barge → `pit_ledge`); cell's fade + `enter_zone` pairs are deleted
+(A8). P1: zone B's ledge hop, garden climb and alcove drop; S5 Kay's lantern ledges; S7 `ride` links on vesicle rail
+platforms (+2 H) and the viewpoint detour (a trigger with `cutsceneId`).
 
 | Enc | Scene · zone @ consoleX (anchor) | Archetype / skin | Layout | Control | Probe · world binding | Config (keyed by) | Payoff | Verify / Badge |
 |---|---|---|---|---|---|---|---|---|
@@ -2393,15 +2619,19 @@ platforms (+2 H) and the viewpoint detour.
 | e11_boss | S8 · d @ 3800 (4200, 1113) | router_lanes / gatekeeper_maws | board | Router (3 phases) | — | `items[i0…i6]` `{glyph, from, to, polar, charged}`, `lanes`: `simple → oil_maw`, `facilitated → channel_maw`, `active → pump_maw`, `energy: {reserve: 12}`, `lens: hydration` | remove_blocker / none / `vault_opens` · "Nuclear Pore" → finale | OPEN THE VAULT / VAULT OPEN |
 
 Boss (e11, amendment 18): `speakerId: gatekeeper`, `arenaTriggerX: 3000`, `arenaCutsceneId: e11_arena` (`gk_1`, the
-fixture beat), `phases`: `[i0, i1]`, `[i2, i3]`, `[i4, i5, i6]`, each with a Gatekeeper line; maws open on focus,
-the eye-ring tracks the focused cargo, the ATP pipe surges with the projected spend; `taunts.fail: [e11_fail]`. One
-`Input`, one `grade()`. `feedbackNouns`: `chest → pod` for e1, e3, e4, e7 (cell X8 is dropped).
+fixture beat), `arenaBounds: {x0: 2800, x1: 5600}`, `phases`: `[i0, i1]`, `[i2, i3]`, `[i4, i5, i6]`, each with a
+Gatekeeper line; maws open on focus, the eye-ring (and its `eye_pupil`) tracks the focused cargo, the ATP pipe surges
+with the projected spend; `taunts.fail: [e11_fail, e11_fail2]` (cycled) and `taunts.byKey` for the probe keys
+`protein_costs_atp`, `always_downhill`, `small_passes` (R5/R15). One `Input`, one `grade()`. Speakers without a body at
+P0 (Poro in e5 `approach`/`after`, beside his statue; the Ferryman in e10 `fail.byKey`) are legal: R2 checks ids, not
+bodies. Plaque P4 requires `e8_pump` solved (it states the pump's answer; cell CHANGELOG). `feedbackNouns`: `chest → pod` for e1, e3, e4, e7 (cell X8 is dropped).
 
 #### Civil rights · "The Archive of Voices" · biome `archive_of_voices` (sensitive) · guide `archivist` (companion Wick) · boss voice `editor`
 
 `cast.extras`: `otis` (gruff_guard), `hattie` (wise_mentor), `dolores` (cheerful_sidekick), `theo`
 (nervous_scholar); all fictional present-day archive staff (R10). Protagonist Nell on `shared.char.nell` (satchel,
-scarf overlays); Ida in person in S1 on `shared.char.ida` (female_person body). `story.objectiveLabel` "RECORD
+scarf overlays; her success pose is `show`, A11); Ida in person in S1 on `shared.char.ida` (female_person body; the
+bust is dropped) and Otis on `shared.char.otis` (male_person), both P0 NPCs. `story.objectiveLabel` "RECORD
 RESTORED"; `recordStrip` lanes `origins`, `direct_action`, `legislation` with the earned pins of civil §5.0.2;
 progress effects (P1): record-light `beam_line`s, 12 Engine lens `hub_socket`s, 12 wall-of-front-pages
 `label_swap`s. Every station except e12 (vault mode, with its own mini strip) carries a `record_lens` accessory. The intro
@@ -2418,9 +2648,11 @@ sets the flag `engine_awake` with a `set_state` step right after the breaker's `
 | `s7_selma` | The Bridge at Selma | 5760 × 1080 | identity | `river_road` [0, 1300], `bridge` [1300, 4300] (`runEnabled: false`; variant after e9: `clear`, music `solemn`), `far_bank` [4300, 5760] | — | streetcar `ride` link at x 5200 → cutscene `ride_home` → `s8_stacks_vault`, requires e9 | kit + the bridge (a contraption part) |
 | `s8_stacks_vault` | Morgue Stacks and the Editor's Vault | 6720 × 2000 | `y = y_doc + 500` (floor 1400; gallery 1020; vault level 1900) | `stacks` [0, 4700], `vault` [4700, 6720] | — | — (finale vista `dawn`) | kit + the vault door (a contraption part) |
 
-P0 traversal in `s2_courthouse`: `climb` the flagpole plinth to the cornice ledge (x 2500, requires e1), `hop` to the
-awning from the last Walking Road slab (x 5300, requires e2). P1: S4 rafters `climb` (requires e5), S5 mast-top
-`climb`, S8 `ladder` to the gallery (requires e10).
+P0 traversal (civil §2.6): S1 `s1_crate_hop_in` / `s1_crate_hop_out` over the flood; S2 `s2_plinth_hop`,
+`s2_cornice_climb` and `s2_cornice_drop` (requires e1) and `s2_mailbox_hop` + `s2_awning_climb` (requires e2); S8 the
+rolling ladder to the gallery (the e10 payoff: `stairs_rise` with `terrain: []`, a `ladder` link requiring e10, legal
+under R6) and the gallery drop. P1: S4 rafters `climb` (requires e5), S5 mast-top `climb`, the other zones' beat
+sheets.
 
 | Enc | Scene @ consoleX (anchor) | Archetype / skin | Layout | Control | Probe · world binding | Config (keyed by) | Payoff | Verify / Badge |
 |---|---|---|---|---|---|---|---|---|
@@ -2431,14 +2663,14 @@ awning from the last Walking Road slab (x 5300, requires e2). P1: S4 rafters `cl
 | e5_freedom_rides | S4 @ 2900 (3650, 520) | cause_tubes / relay_line | board | Tube → `{edges}` | YEAR 1960–1962 · `record_lens` on the canopy rail | `nodes[key].meta.printedDate`, `connector: catenary`, `layout: canopy_row`, `carrier: current` | remove_blocker / none / `gate_lifts` · "rolling gate" | CLOSE THE CIRCUIT / CIRCUIT CLOSED |
 | e6_birmingham | S5 @ 3350 (3600, 1820) | cause_tubes / broadcast_relay | board | Tube | YEAR 1962–1964 · `record_lens` on the bandstand roofline | `connector: vertical_wire`, `layout: mast` (heights by display index), `frameZoom: 0.7` (focused station + lift) | ride / up / `lift_moves` · "mast lift" (+780) | CLOSE THE CIRCUIT / CIRCUIT CLOSED |
 | e7_march | S6 @ 900 (900, 900) | switchboard / switchboard | board | Cable → `{links}` | YEAR 1962.5–1964 · `record_lens` on the attic band | `document: {title: "MARCH ON WASHINGTON FOR JOBS AND FREEDOM · AUGUST 28, 1963"}`, `stepLamps`, `cord: verlet`, `decoyDimRung: 3` | terrain / up / `stairs_rise` · "memorial steps" | CONNECT THE PROGRAM / PROGRAM CONNECTED |
-| e8_cra | S6 @ 3250 (4200, 900) | router_lanes / filing_cabinets | board | Router | YEAR 1963.5–1966 · `record_lens` on the hall cornice | `items[key].meta.printedDate`, `lanes`: `cra_1964 {year: 1964.5}`, `vra_1965 {year: 1965.5}`, `shutters` | terrain / down / `stairwell_opens` · "stairwell" | SEAL THE CABINETS / FILES SEALED |
+| e8_cra | S6 @ 3250 (4200, 640) | router_lanes / filing_cabinets | board | Router | YEAR 1963.5–1966 · `record_lens` on the hall cornice | `items[key].meta.printedDate`, `lanes`: `cra_1964 {year: 1964.5}`, `vra_1965 {year: 1965.5}`, `shutters` | terrain / down / `stairwell_opens` · "stairwell" | SEAL THE CABINETS / FILES SEALED |
 | e9_selma | S7 @ 1100 (2800, 900) | step_bridge / timeline_bridge | board | SlotRail | YEAR JUN 1964–SEP 1965 · **`bay_lamps`** (the world sweep only at aid tier ≥ 1, amendment 26) + `record_lens` along the arch | `items[key].meta.printedDate`, `bays: arch`, `bayLampsTier: 1`, `pageOrderHeading: "AS PRINTED IN CH. 21"` | terrain / none / `bridge_forms` · "bridge deck" | LOCK THE SPAN / SPAN LOCKED |
 | e10_sources | S8 @ 1450 (1800, 1400) | router_lanes / provenance_drawers | board | Router | YEAR 1950–2025 (step 1 year) · `record_lens` along the shelving | `items[key].meta.madeYear`, `lanes`: `primary`, `secondary`, `eventsBand: {1954, 1965}` (aid tier ≥ 1), `stamp: made_year`, `shutters` | terrain / up / `stairs_rise` · "rolling ladder" | SEAL THE STACKS / FILES SEALED |
 | e11_causation | S8 @ 2900 on `gallery` (3700, 1020) | cause_tubes / big_board | board | Tube | YEAR 1963–1966 · `record_lens` | `connector: tube`, `layout: ring`, `carrier: capsule`, `boardWidth: 1100` | ride / down / `lift_moves` · "vault lift" (−500) | SEND THE CAPSULE / CIRCUIT CLOSED |
-| e12_boss | S8 @ 5100 on `vault_level` (5700, 1900) | tumbler_vault / tumbler_vault | vault | Matrix → `{hypothesisId}` (+ marks) | YEAR 1954–1966 on the mini Record Strip | `clues[index].date`, `bolts: 4`, `miniStrip: {start: 1954, end: 1967}` | remove_blocker / none / `vault_opens` · "Editor's Vault" → finale | OPEN THE VAULT / STORY PRINTED |
+| e12_boss | S8 @ 5100 on `ground` (5700, 1900; the vault level is the ground heightfield) | tumbler_vault / tumbler_vault | vault | Matrix → `{hypothesisId}` (+ marks) | YEAR 1954–1966 on the mini Record Strip | `clues[index].date`, `bolts: 4`, `miniStrip: {start: 1954, end: 1967}` | remove_blocker / none / `vault_opens` · "Editor's Vault" → finale | OPEN THE VAULT / STORY PRINTED |
 
 Boss (e12): `speakerId: editor` (voice only; the vault grille glows), `arenaTriggerX: 4900` (after the vault lift
-lands), `arenaCutsceneId: e12_arena` (X09), `taunts.fail: [e12.F]`. `feedbackNouns`: `chest → slide` for e1 and e4.
+lands), `arenaCutsceneId: e12_arena` (X09), `arenaBounds: {x0: 4700, x1: 6720}`, `taunts.fail: [e12.F]`. `feedbackNouns`: `chest → slide` for e1 and e4.
 Sensitivity (R10): every node or plate describing violence (Anniston, Birmingham dogs and hoses, Bloody Sunday) is a
 `document` or `photo_withheld` plaque; stools and walk lamps are memorial payoffs with no figures.
 
@@ -2689,35 +2921,45 @@ export const DarkroomConfig = z.strictObject({ negatives: z.array(Id).min(1).max
 
 ### 4.3 Skins and the art contract
 
-Each skin lists its **part slots** (the asset keys a prefab draws; `H` = hand-authored hero, `K` = kit-generated),
-the anchors the prefab needs (from `id="anchor-<name>"` markers), and its snapshot parts. Asset keys follow §5.1:
-`<ns>.part.<skin>_<slot>`. A missing hero part falls back to its kit stand-in (§0.1.6).
+Each skin lists its **part slots** (the asset keys a prefab draws; `H` = hand-authored hero, `K` = kit-generated with
+the 02 §3a generator named in brackets, §5.4), the anchors the prefab needs (from `id="anchor-<name>"` markers), and
+its snapshot parts. Asset keys follow §5.1: `<ns>.part.<skin>_<slot>`. **Every slot, hero or not, has a kit entry** in
+`art/<ns>/parts/<skin>/parts.kit.json` (the art lane writes them; §5.1), so a missing hero falls back to its kit
+stand-in automatically (§0.1.6). Slots added in revision 3 (A7) are marked **new**; each is one line in the skin's
+`parts` list.
 
 | Skin (ns) | Part slots | Required anchors |
 |---|---|---|
-| `vesper_dial` (orrery_terraces) | disc H, rail_ring K(`ringStack`), carriage H, beam cap (shared), plumb_gauge K, slide_gauge K, fog_band K(`cloudBand`), vesper_lens H, spoke_ledge K(`stairs`), console K | `center`, `spoke_0…4`, `beam_origin`, `bob`, `marker`, `pin`, `console` |
-| `ring_gate` (orrery_terraces) | gate_wall H, outer_ring H, inner_disc H, fin_l H, fin_r H, tally_wheel K, pawl K, canal K, skiff K, console K | `ring_center`, `doorway`, `tally`, `pawl_tip`, `fin_split`, `inner_hub`, `console` |
-| `wardens_shield` (orrery_terraces) | warden_body H, warden_arm H, shield H, visor H, star_door_l H, star_door_r H, counter_pylon K(`column`), pendulum_arm K, bob K, span_tile K, console K | `shoulder`, `shield_boss`, `bob`, `pylon_pivot`, `door_center`, `visor`, `console` |
-| `resonance_pillars` / `treasury_pillars` (orrery_terraces) | automaton_a/b/c H (shared), bell K, slate K(`panelBox`), plaque K, lens_pedestal H, lens_head H, echo_lift K, lift_chain K, mimic_crab H; treasury: chest_body H, chest_lid H, rim_step K | `holder_0…2`, `slate_0…2`, `lens`, `lift`, `chest_hinge`, `console` |
-| `floating_steps` (orrery_terraces) | socket K(`ringStack`), stone K, glyph icons ×5 H(small), cradle K, pylon K(`column` + `crystalCluster`), chasm_edge K(`ashlarWall`), relief K | `socket_0…3`, `cradle_0…4`, `pylon_a`, `pylon_b`, `lip_relief`, `console` |
-| `specimen_pods` (living_gate) | pod H, letter_plate K, probe_emitter H; per reference sim: probe_well + needle H, ion K / dye_tank K(`glassTank`) + balance_beam H / basin K + test_cell H + raft_lock K / low_tank K + high_tank K + flume_pump H + lantern K | `pod_0…2`, `emitter`, `apparatus`, `ghost_origin`, `console` |
-| `membrane_router` (living_gate) | crossing_gate H, oil_road K, molecule glyphs ×6 H(small), carrier_rocker H, lane_mouth K | `lane_diffuses`, `lane_protein`, `gate_ring`, `rocker_pivot`, `console` |
-| `carrier_lanes` (living_gate) | carrier_door H, glide_gate K, pump_gate H(small), ramp_wedge K, cargo glyphs H(small) | `lane_passive`, `lane_active`, `door_pocket`, `atp_port`, `console` |
-| `gatekeeper_maws` (living_gate) | gatekeeper_body H, maw_oil H, maw_channel H, maw_pump H, eye_ring H, atp_pipe K, cargo glyphs (shared) | `maw_simple`, `maw_facilitated`, `maw_active`, `eye`, `pipe_top`, `console` |
-| `tonicity_sluices` (living_gate) | label_lock K, valve_wheel H, basin K, eddy K, cell_rbc/generic/plant/potato H(small), barge K | `lock`, `basin_0…2`, `eddy`, `valve`, `barge_deck`, `console` |
-| `pump_rewiring` (living_gate) | pump_housing H, drum H, jaw_upper H, jaw_lower H, cartridge K, socket K, beacon_tower K, hall_gate K | `socket_0…3`, `cartridge_0…4`, `drum`, `atp_port`, `beacon`, `crank`, `console` |
-| `endocytosis_lift` (living_gate) | clathrin_cell K, dynamin_collar H, halcyon H (shared with the intro), stage_lamp K, vesicle K; the membrane path is code-drawn | `pit_center`, `collar`, `lamp_0…3`, `sub`, `console` |
-| `witness_projector` (archive_of_voices) | arc_lamp H, pendant_lamp H, witness_lens K, projection_panel K, retract_stamp K, steps K(`stairs`), menu_board K | `lamp_pivot`, `panel_0…2`, `lens_0…2`, `steps`, `console` |
-| `walking_road` (archive_of_voices) | slab K, city_bus H, bus_stop K, day_counter H(small), flood_band K | `bay_0…3`, `day_counter`, `route_sign`, `console` |
-| `wire_ticker` (archive_of_voices) | kiosk K, teletype H(small), selector H(small), telegraph_pole K, school_barrier K, walk_lamp K | `teletype`, `knob`, `wire_start`, `wire_end`, `lamps`, `console` |
-| `relay_line` (archive_of_voices) | junction_box K(`panelBox`), departures_board K, divider_rail K, rolling_gate K | `box_0…5`, `board`, `gate`, `gauge`, `console` |
-| `broadcast_relay` (archive_of_voices) | mast K(`latticeTruss`), relay_dish H(small), lift_cage K | `station_0…5`, `lift`, `top`, `console` |
-| `switchboard` (archive_of_voices) | switchboard_cabinet H, jack K, plug K, program_sheet K, step_lamp K | `left_0…3`, `right_0…4`, `sheet`, `steps`, `console` |
-| `filing_cabinets` / `provenance_drawers` (archive_of_voices) | cabinet K(`cabinet`), meter K, shutter K, slip K, pneumatic_drop K / documents ×6 H(small), compact_shelving K, crank K | `drawer_0…1`, `meter_0…1`, `shutter_0…1`, `table`, `console` |
-| `timeline_bridge` (archive_of_voices) | arch_bridge H, deck_section K, bay_lamp K, lectern K, streetcar H | `bay_0…3`, `arch_rail`, `crown`, `console` |
-| `big_board` (archive_of_voices) | board_wall K, canister H(small), launcher K; tubes are code-drawn | `canister_0…6`, `launcher`, `console` |
-| `tumbler_vault` (archive_of_voices) | vault_door H, tumbler H, bolt K, handwheel K, voice_grille K, press_organ H | `tumbler_0…3`, `bolt_0…3`, `grille`, `hub`, `console` |
-| `lectern_slate` (shared) | lectern K, slate K, gate K | `slate`, `gate`, `console` |
+| `vesper_dial` (orrery_terraces) | disc H, rail_ring K(`ringStack`), carriage H, beam cap (shared), plumb_gauge K(`gauge`), slide_gauge K(`gauge`), fog_band K(`cloudBand` fog), vesper_lens H, spoke_ledge K(`stairs` spoke_ledge), console K(`lectern`) | `center`, `spoke_0…4`, `beam_origin`, `bob`, `marker`, `pin`, `console` |
+| `ring_gate` (orrery_terraces) | gate_wall H, outer_ring H, inner_disc H, fin_l H, fin_r H, tally_wheel K(`ringStack`), pawl K(`plate`), canal K(`waterBand` canal), skiff K(`plate` raft), console K(`lectern`) | `ring_center`, `doorway`, `tally`, `pawl_tip`, `fin_split`, `inner_hub`, `console` |
+| `wardens_shield` (orrery_terraces) | warden_body H (head and torso in one file), warden_arm H, shield H, visor H, star_door_l H, star_door_r H, counter_pylon K(`column`), pendulum_arm K(`linkStrip` rod), bob K(`ringStack`), span_tile K(`groundStrip`), console K(`lectern`); the plinth is the prop `orrery_terraces.prop.warden_plinth` (K `stairs` stepped_plinth) | `shoulder`, `shield_boss`, `bob`, `pylon_pivot`, `door_center`, `visor`, `console` |
+| `resonance_pillars` / `treasury_pillars` (orrery_terraces) | automaton_a/b H, automaton_c H (P1), **faceplate K(`plate`) new** (the mimic's two faceplate halves), bell K(`ringStack`), slate K(`plate` slate), plaque K(`plate` brass_plaque), lens_pedestal H, lens_head H, echo_lift K(`plate`), lift_chain K(`linkStrip` chain), mimic_crab H (may be drawn as a puppet); treasury: chest_body H, chest_lid H, rim_step K(`stairs`) | `holder_0…2`, `slate_0…2`, `lens`, `lift`, `chest_hinge`, `console` |
+| `floating_steps` (orrery_terraces) | socket K(`ringStack`), stone K(`plate` slab), glyph icons ×5 H (small), cradle K(`shelving` rack_bays), pylon K(`column` + `crystalCluster`), chasm_edge K(`ridgeBand` chasm_edge), relief K(`plate`) | `socket_0…3`, `cradle_0…4`, `pylon_a`, `pylon_b`, `lip_relief`, `console` |
+| `specimen_pods` (living_gate) | pod H, letter_plate K(`plate`), probe_emitter H, **mimic_mote H new** (the Mote in every quarantine); per reference sim: probe_well K + needle H + ion K(`molecule`) / dye_tank K(`compose` recipe `glass_tank`) + balance_beam H / basin K(`waterBand` pool) + test_cell H + raft_lock K / low_tank K + high_tank K + flume_pump H + lantern K(`glowSprite`) | `pod_0…2`, `emitter`, `apparatus`, `ghost_origin`, `console` |
+| `membrane_router` (living_gate) | crossing_gate H, **gate_fin H new** (`flipX` for the right fin), **gate_ring_outer K(`ringStack`) new**, **gate_ring_inner K(`ringStack`) new**, oil_road K(`ringStack`), molecule glyphs ×6 K(`molecule`), carrier_rocker H, lane_mouth K(`arch`) | `lane_diffuses`, `lane_protein`, `gate_ring`, `rocker_pivot`, `console` |
+| `carrier_lanes` (living_gate) | carrier_door H, glide_gate K(`plate`), pump_gate H (small), ramp_wedge K(`stairs`), cargo glyphs K(`molecule`) | `lane_passive`, `lane_active`, `door_pocket`, `atp_port`, `console` |
+| `gatekeeper_maws` (living_gate) | gatekeeper_body H, maw_oil H, maw_channel H, maw_pump H, eye_ring H, **eye_pupil K(`ringStack`) new** (tracks the focused cargo inside the eye-ring), atp_pipe K(`linkStrip` pipe), cargo glyphs (shared with `carrier_lanes`) | `maw_simple`, `maw_facilitated`, `maw_active`, `eye`, `pipe_top`, `console` |
+| `tonicity_sluices` (living_gate) | label_lock K(`plate`), valve_wheel H, basin K(`waterBand` pool), eddy K(`cloudBand` swirl), cell_rbc H, cell_plant H, cell_potato H, cell_generic K(`molecule` cell), **cell_protoplast K(`molecule` cell) new** (separate from the wall for plasmolysis), **lock_leaf K(`plate`) new** (the lock gates open on commit), barge K(`plate` raft) | `lock`, `basin_0…2`, `eddy`, `valve`, `barge_deck`, `console` |
+| `pump_rewiring` (living_gate) | pump_housing H, drum H, jaw_upper H, jaw_lower K(`plate`), cartridge K(`plate` cartridge), socket K(`ringStack`), beacon_tower K(`column`), hall_gate K(`railing`) | `socket_0…3`, `cartridge_0…4`, `drum`, `atp_port`, `beacon`, `crank`, `console` |
+| `endocytosis_lift` (living_gate) | clathrin_cell K(`molecule` hex_ring), dynamin_collar H, halcyon H (shared with the intro), stage_lamp K(`ringStack`), vesicle K(`bilayerTile` ring); the membrane path is code-drawn | `pit_center`, `collar`, `lamp_0…3`, `sub`, `console` |
+| `witness_projector` (archive_of_voices) | arc_lamp H, pendant_lamp H, witness_lens K(`ringStack`), projection_panel K(`plate` slide_mat), retract_stamp K(`plate`), steps K(`stairs`), menu_board K(`plate`) | `lamp_pivot`, `panel_0…2`, `lens_0…2`, `steps`, `console` |
+| `walking_road` (archive_of_voices) | slab K(`plate` slab), city_bus H, bus_stop K(`compose`), day_counter K(`plate`, "DAY" engraved, digits DOM), flood_band K(`waterBand` flood) | `bay_0…3`, `day_counter`, `route_sign`, `console` |
+| `wire_ticker` (archive_of_voices) | kiosk K(`facade` kiosk), teletype H (small), selector H (small), telegraph_pole K(`column` pole), school_barrier K(`railing`), walk_lamp K(`column` lamp_post) | `teletype`, `knob`, `wire_start`, `wire_end`, `lamps`, `console` |
+| `relay_line` (archive_of_voices) | junction_box K(`plate` junction_box), departures_board K(`shelving` + `plate` flip_cell), divider_rail K(`railing` brass_rail), rolling_gate K(`railing`) | `box_0…5`, `board`, `gate`, `gauge`, `console` |
+| `broadcast_relay` (archive_of_voices) | mast K(`truss` lattice_mast), relay_dish H (small), lift_cage K(`truss` cage) | `station_0…5`, `lift`, `top`, `console` |
+| `switchboard` (archive_of_voices) | switchboard_cabinet H, jack K(`ringStack`), plug K(`linkStrip`), program_sheet K(`plate` paper_card), step_lamp K(`column` lamp_post), **steps K(`stairs` marble_landing) new** (the memorial steps the e7 payoff raises) | `left_0…3`, `right_0…4`, `sheet`, `steps`, `console` |
+| `filing_cabinets` / `provenance_drawers` (archive_of_voices) | cabinet K(`shelving` filing_drawers), meter K(`gauge` arc_meter), shutter K(`plate`), slip K(`plate` paper_card), pneumatic_drop K(`linkStrip` tube_window), **stairwell K(`stairs`) new** (filing_cabinets: the e8 payoff opens it) / documents H (one sheet), compact_shelving K(`shelving` compact_stack), crank K(`ringStack`) | `drawer_0…1`, `meter_0…1`, `shutter_0…1`, `table`, `stairwell`, `console` |
+| `timeline_bridge` (archive_of_voices) | arch_bridge H, deck_section K(`plate`), bay_lamp K(`column` lamp_post), lectern K(`lectern`), streetcar H | `bay_0…3`, `arch_rail`, `crown`, `console` |
+| `big_board` (archive_of_voices) | board_wall K(`shelving` cork_frames), canister H (small), launcher K(`plate`); tubes are code-drawn | `canister_0…6`, `launcher`, `console` |
+| `tumbler_vault` (archive_of_voices) | vault_door H, tumbler H, bolt K(`plate`), handwheel K(`ringStack`), voice_grille K(`ringStack`), press_organ H | `tumbler_0…3`, `bolt_0…3`, `grille`, `hub`, `console` |
+| `lectern_slate` (shared) | lectern K(`lectern`), slate K(`plate` slate), gate K(`railing`) | `slate`, `gate`, `console` |
+
+The `record_lens` accessory draws `archive_of_voices.part.lens_carriage` (H) on `archive_of_voices.part.record_rail`
+(K `linkStrip` rail) with the cone `archive_of_voices.fx.projector_cone` (K `glowSprite` cone).
+
+**Hint targets** (A7): each skin's `hintTargets` holds its default flight per rung, taken from the most common row of
+the game docs' per-station hint tables (trig `lens` / `slate_*`, cell `apparatus` / `ghost_origin`, civil
+`lamp_pivot` / `panel_*`); a station whose table differs sets `Station.hintTargets`.
 
 Snapshot parts (DOM fallback) default to the skin's `H` parts at rest transforms (dormant) and the same parts with
 the solved offsets from `meta.solvedPose` baked into `skin.snapshot.solved` by a unit test that fails when they
@@ -2812,7 +3054,7 @@ the stored config and fills skin-specific fields (aimer, quarantine animation, c
 | `step_bridge` | item keys ⊆ view keys; `printedDate` appears in the item text (year digits, plus the month name for month precision, plus the day for day precision); `stepEffects` keys exist; with `bays: stage_rail`, every key has a stage, `membraneFold(solution.order)` ends `detached && travel = 1`, no other permutation does, and every decoy's stage is `dissolve_bounce`; `dayCounter` requires a year probe with a window | `relief` expressions evaluate |
 | `router_lanes` | items cover every item key; lanes cover every bin id exactly once; `printedDate`/`madeYear` appear in the item text; `eventsBand` dates appear in the encounter texts | `from`/`to` agree with the text's direction words ("high → low", "down its gradient" ⇒ `from > to`; "against", "pumped", "uphill" ⇒ `from < to`) |
 | `sluice_waves` | waves cover every `waveIndex`; `showFate: false` ⇒ `fate: null`; valves cover every category id | `showFate: true` ⇒ a fate word appears in the wave text |
-| `switchboard` | `decoyDimRung` set only when the fixture's `hints[2]` mentions the decoy's text | — |
+| `switchboard` | `decoyDimRung` set only when the fixture's `hints[2]` mentions the decoy: its full text, or at least two of its non-stopword tokens (civil O8: e7's "signed the act" shares `signed`, `act` with "Signed the Civil Rights Act into law") | — |
 | `stage_machine` | lefts cover every left key; rights cover every right and decoy key; `count.n` appears as a digit in the right's text and `dir` as "out"/"in"/"into"; `atp.n` appears; `stages.format` is `stage` with integer stops covering min…max | — |
 | `cause_tubes` | node keys ⊆ view keys; `printedDate` appears in the node text; `boardWidth ≤ 1100` | — |
 | `tumbler_vault` | clue indices exist; clue dates appear in the clue text | — |
@@ -2841,66 +3083,98 @@ the stored config and fills skin-specific fields (aimer, quarantine animation, c
 
 ## 5 · Art
 
-### 5.1 Naming table and directory convention (amendment 22)
+### 5.1 Naming table and directory convention (amendment 22, A2: the one table)
+
+**This is the only naming table.** `02-assets-and-art-pipeline.md` §3.0 repeats it verbatim; if the two ever differ,
+this one wins. The game docs use these keys and groups.
 
 | Concern | Rule |
 |---|---|
-| Namespaces | `shared`, `orrery_terraces`, `living_gate`, `archive_of_voices` (the biome ids; they match the `Id`/`AssetKey` regex) |
-| Keys | `ns.group.name[.variant]`, lower snake case. Groups: `layer`, `ground`, `prop`, `part`, `costume`, `char`, `companion`, `npc`, `fx`, `ui`, `vista`, `doc`, `silhouette`, `kit` |
-| Part keys | `<ns>.part.<skin>_<slot>` (§4.3), e.g. `orrery_terraces.part.ring_gate_outer_ring` |
-| Source | `art/<ns>/{biome.json, layers/, props/, parts/<skin>/, costume/, companion/, npc/, vista/}`; `art/shared/{biome.json, ui/, fx/, characters/}`; `art/kit/*.ts`; `art/fonts/` |
-| Output | `public/assets/expedition/<ns>/<group>/<name>.svg` (or `.png` + `.json` for atlases) and `public/assets/expedition/<ns>/manifest.json` |
-| Asset index | `src/world/asset-index/<ns>.generated.ts` per namespace (so art owners never touch each other's files) + a static `src/world/asset-index/index.ts` that merges them |
-| Pivot | fractions of width and height (`data-pivot="0.5,1"` default; rotating parts `0.5,0.5`) |
-| Raster | texture size = design size × `rasterScale` × `min(devicePixelRatio, 1.5)`; layers `rasterScale ≤ 1`, parts and characters 1.5 |
-| Retired | `public/assets/variant/`, `cell/`, `archive-city` (the hyphen fails the regex), the `cr.*`, `cell.*` and `A###` ids. Each `biome.json` entry may carry a `legacyId` (e.g. `"A76"`, `"cr.lamp.arc"`) so the game docs' lists stay traceable |
+| Namespaces | `shared` (UI, fx, emblems, the character atlases), `orrery_terraces` (trig), `living_gate` (cell), `archive_of_voices` (civil). A PDF-generated game gets `gen_<gameId>` (02 §6). All are `Id`-legal. |
+| Keys | `ns.group.name[.variant]`, lower snake case, matching `AssetKey` (§1.3). Frames inside one texture are frame names, not keys (`shared.char.wren` → frame `walk3`; a puppet's parts are part names). |
+| Groups | `layer` (every parallax strip L1–L6; the depth lives in `ParallaxLayer.depth`, not in the key), `ground` (surface strips and undersides), `prop` (decor, landmarks, vehicles, hubs), `part` (contraption parts, §4.3), `costume` (rig overlays), `char` (`shared.char.<id>` atlases only), `companion` (guide puppets and portrait busts), `npc` (NPC puppets), `fx` (glows, sparks, puffs, motes, cones), `ui` (icons, emblem glyph sheets, the hex panel tile), `vista` (finale compositions), `doc` (document plates and plaques), `silhouette` (sensitive-kit figures; never a real person), `kit` (generic kit stand-ins such as the default zone preset). |
+| Part keys | `<ns>.part.<skin>_<slot>` (§4.3), e.g. `orrery_terraces.part.ring_gate_outer_ring`. Accessory parts keep their own names (`archive_of_voices.part.lens_carriage`, `…part.record_rail`). |
+| Character keys | `shared.char.<characterId>` (kind `atlas`, §5.5); overlays `<ns>.costume.<name>`; guide puppets `<ns>.companion.<name>`; NPC puppets `<ns>.npc.<name>` (kind `puppet`). |
+| Sources | `art/<ns>/biome.json` (namespace settings: `paletteId`, `heroCap: 40`, zone ids; main-owned) plus **fragments**, each owned by one lane (§7.3): `art/<ns>/**/*.kit.json` (kit entries) and `art/<ns>/**/*.hero.json` (hero entries, with their SVGs beside them). `art/shared/characters/{bodies,characters}.json` for the rig. Generators in `src/game/art/kit/*.ts`; build code in `scripts/build-art.ts` + `scripts/art/*.ts`. Where a game doc says a kit fallback is "declared in `biome.json`", it lives in the matching `*.kit.json` fragment. |
+| Fragment merge | A key appears in at most one `*.kit.json` and at most one `*.hero.json`. A hero entry needs a kit entry with the same key (its fallback, ladder step 1); the hero wins unless `--kit-only` is passed or the hero file fails lint (then the build warns and uses the kit entry). Any other duplicate fails the build. |
+| Output | `public/assets/expedition/<ns>/<group>/<name>.svg` (a 4th key segment → `<name>.<variant>.svg`); puppets `<name>.svg` (the packed part sheet) + `<name>.rest.svg`; atlases `public/assets/expedition/shared/char/<id>.{png,json}` + the untinted Kenney fallback in `shared/char/kenney/`; `public/assets/expedition/<ns>/manifest.json` (`AssetManifest`, §1.3); `License.txt` (Kenney CC0 + OFL notices). |
+| Asset index | `src/world/asset-index/<ns>.generated.ts` per namespace `{key → {ns, kind, width, height, anchors, source, zone, poses?, anims?}}` + a static `index.ts` that merges them (validators need no fs). |
+| Generated files | Written only by `pnpm art:build`, which holds `.data/art-build.lock` while it writes. They are a pure function of all sources, so any lane may run the build; nobody edits them by hand. |
+| Pivot | Fractions `[fx, fy]` of the design size: grounded art `[0.5, 1]` (the default), rotating parts at the hub (usually `[0.5, 0.5]`), tileable strips `[0, 1]`, ground strips `[0, 0]` (walk line y = 0). Authors write `data-pivot="fx,fy"` on the root `<svg>`; generators return it. px pivots are retired. |
+| Anchors | Named points in design units: `<circle id="anchor-<name>" r="0">` in heroes, or returned by generators; exported to the manifest and stripped from the output. Rig anchors are per frame and computed (§5.5). |
+| Design size | viewBox `0 0 w h` in world units: 1 unit = 1 px of the 1080-px view, 1 H = 170 (the rig figure is 168, ±1 %). |
+| Raster factor | `k = ceil4(rasterScale × min(devicePixelRatio, 1.5))`, `ceil4(x) = ceil(4x) / 4`. The loader calls `load.svg(key, url, {width: round(w·k), height: round(h·k)})` and sets `setScale(1 / k)`; `{scale}` is never used. |
+| `rasterScale` defaults | L1, L2, L5 layers 0.75; cloud bands and `fx` glows 0.5; L3, `ground`, `prop` 1.0; `part`s ≤ 500 units on the long side, costumes and puppets 1.5; larger `part`s 1.0; `ui` tiles are CSS backgrounds (no VRAM). Character atlases are PNGs at 2× the Kenney 1× cell (§5.5). |
+| Low-power switch | `?lowres=1` caps `min(devicePixelRatio, 1.0)`; use it if the fps capture drops below 50. |
+| Hero cap | ≤ **40** hand-authored hero files per biome namespace (`heroCount`; the build fails above). One file counts once (a ≤ 8-part puppet file included). The rig and its recolours are not heroes; costume overlays are. |
+| Retired | `public/assets/variant/`, `public/assets/expedition/cell/`, `archive-city` (the hyphen fails the regex), `trig-canyon`, the `cr.*`, `cell.*`, `trig.*` and `A###` ids, the depth groups `sky`/`far`/`midfar`/`mid`/`fore`/`light`, `<ns>.char.*` overlay keys, `ringgate_*` spellings, px pivots, `{scale: devicePixelRatio}`, "rasterize props ×2", a root `art/kit/`, `art/fonts/engrave.ttf`, `biome.json` entry lists. A fragment entry may carry a `legacyId` (`"A76"`, `"cr.lamp.arc"`, `"#135"`) so the game docs' old lists stay traceable. |
 
 ```
-art/                                  SOURCE (palette tokens only)                        owner: the art agent of each namespace
-  README.md                           authoring rules (§5.3), kit catalogue (§5.4)
-  fonts/engrave.ttf + OFL.txt         the one OFL font used for build-time engraving (§5.3)
-  kit/*.ts                            procedural SVG generators (§5.4)                    owner: A1 (W1), frozen after
+art/                                        SOURCE (palette tokens only; no TypeScript)
+  README.md                                 authoring rules (§5.3), the fragment format, a pointer to the kit catalogue (02 §3a)
   shared/
-    biome.json                        manifest source: key, file | kit, size, rasterScale, tileWidth, pivot, legacyId, kitFallback
-    ui/ fx/                           orbs, pins, interact glyph, glow sprites, beam caps, grain, vignette
-    characters/
-      bodies.json                     body → Kenney source (female_adventurer, female_person, male_adventurer, male_person)
-      characters.json                 character id → {body, recolor fill map, poses}
-      anchors.toon.json               per-pose rig anchors, authored once for the toon layout (§5.5)
-  orrery_terraces/  living_gate/  archive_of_voices/
-    biome.json
-    layers/  props/  parts/<skin>/  costume/  companion/  npc/  vista/
-src/game/art/palette.ts               UI_TOKENS + re-exports; the ONLY place colours are defined, with…
-src/game/art/palettes/<ns>.ts         …one token file per biome (owned by that biome's art agent)
-scripts/build-art.ts                  `pnpm art:build [--ns <ns>] [--check]`
-scripts/build-characters.ts           `pnpm chars:build`: recolour + render the character atlases (§5.5)
-scripts/art-contact-sheet.ts          renders every SVG / atlas frame to PNG for the critic
-public/assets/expedition/<ns>/        GENERATED
-src/world/asset-index/<ns>.generated.ts  GENERATED: { key: { ns, kind, width, height, anchors, source } } for validators (no fs)
+    biome.json                              namespace settings for `shared` (main)
+    ui/ fx/  *.kit.json *.hero.json *.svg   orbs, pins, interact glyph, glow sprites, beam caps, grain, vignette, hex tile, emblem glyphs
+    characters/bodies.json                  body → Kenney vector + HD sheet/XML (female_adventurer, female_person, male_adventurer, male_person)
+    characters/characters.json              character id → {body, role → token map, frames: "protagonist" | "npc"}
+  <ns>/                                     orrery_terraces | living_gate | archive_of_voices
+    biome.json                              {paletteId, heroCap: 40, zones: [...]}                         main (W0)
+    zones/<zoneId>.kit.json                 the zone's kit layers, ground, kit props                     art lane
+    vista/vista.kit.json                    finale compositions (kit compose over landmark heroes)        art lane
+    parts/<skin>/parts.kit.json             a kit entry for EVERY §4.3 slot of the skin (the fallbacks)   art lane
+    parts/<skin>/parts.hero.json + *.svg    the skin's hero slots                                          §7.3 (content or contraption lane)
+    landmarks/landmarks.{kit,hero}.json + *.svg   hero layers, props, hubs (incl. hub puppet recipes)     that game's content lane
+    cast/cast.{kit,hero}.json + *.svg + *.anims.json   costumes, companion and NPC puppets                 that game's content lane
+src/game/art/kit/*.ts                       the 31 generators + types, rng, shade helpers, recipes (02 §3a)
+src/game/art/palette.ts                     UI_TOKENS + BIOME_PALETTES (re-exports palettes/<ns>.ts); the ONLY place colours are defined
+src/game/art/palettes/<ns>.ts               one token file per namespace (world tokens + char.<id>.<role> recolour tokens)
+src/game/art/manifest-loader.ts             per-zone loading and unloading (§5.7)
+src/game/expedition/puppets/Puppet.ts       the puppet runtime (§5.5)
+src/world/residency.ts                      assetsForZone(world, zoneId) (pure, §5.7)
+scripts/build-art.ts                        `pnpm art:build [--ns <ns>] [--check] [--kit-only]`
+scripts/art/{rig,puppet,engrave,lint,tokens,vram,fragments}.ts + opentype.d.ts
+scripts/art-contact-sheet.ts                `pnpm art:sheet`: every entry, 3 extra seeds per kit entry, every atlas frame with anchors, every puppet anim
+public/assets/expedition/<ns>/**            GENERATED
+src/world/asset-index/<ns>.generated.ts     GENERATED
 ```
 
-### 5.2 Build pipeline (`scripts/build-art.ts`, about 420 lines, pipeline-agnostic node script)
+### 5.2 Build pipeline (`scripts/build-art.ts` + `scripts/art/*`, about 1,100 lines; 02's steps)
 
-For each namespace (or only `--ns <ns>`):
-1. Read `biome.json` and validate it with a zod `BiomeArtSource` schema (entries are `{file}` or `{kit: {gen, args,
-   seed}}`, plus `rasterScale`, `tileWidth`, `pivot`, `legacyId`, `kitFallback`).
-2. **Run kit generators** for `kit` entries (§5.4): each returns an SVG string with tokens, deterministic from
-   `(gen, args, seed)`.
-3. Substitute `{{token.path}}` from `palettes/<ns>.ts`. An unknown token, or a raw `#hex` outside `<!-- raw-ok -->`,
-   fails the build.
-4. **Engrave** (amendment 21): every `<text data-engrave …>` element is converted to a `<path>` with `opentype.js`
-   2.0.0 and `art/fonts/engrave.ttf` (size, anchor, letter-spacing and fill token from its attributes). A glyph
-   missing from the font fails the build. Any other `<text>` fails the lint.
-5. Lint (§5.3).
-6. Extract `data-pivot` and `id="anchor-*"` elements into the manifest, then strip them.
-7. Minify: collapse whitespace and round numbers to 1 decimal.
-8. Write `public/assets/expedition/<ns>/<group>/<name>.svg`.
-9. Emit `manifest.json` (parsed with `AssetManifest`, with `source` per entry, `heroCount`, `totalBytes`,
-   `vramEstimateMb`) and `src/world/asset-index/<ns>.generated.ts`.
-10. Print sizes, the VRAM estimate and the hero count. The build fails over budget (§5.8).
+For each namespace (or only `--ns <ns>`), under the build lock:
+1. **Collect.** Read `biome.json` and every fragment under `art/<ns>/`; parse each with the zod `ArtFragment` schema
+   (`{entries: ArtEntry[]}`; an entry is `{key, kind: "svg" | "puppet", zone, rasterScale, tileWidth, pivot, scroll,
+   legacyId}` plus **exactly one source**: `file` (a hero SVG beside the fragment), `gen` + `params` + `seed` (a kit
+   generator), `recipe` + `args` + `seed` (a named composition), or `parts` (a puppet recipe, §5.5)); apply the
+   fragment merge rule (§5.1). 02 §3a.4 shows a kit entry.
+2. **Generate** kit entries: `KIT[gen].schema.parse(params)`, then `KIT[gen].generate(params, seed)` with
+   `seed = entry.seed ?? fnv1a32(key)`; `recipe` entries expand through `src/game/art/kit/recipes.ts` first. An
+   unknown generator or a schema error fails and names the key.
+3. **Resolve tokens** `{{token.path}}` from `palettes/<ns>.ts` (rgba tokens become `fill` + `fill-opacity`, never
+   `rgba()` in SVG paint). An unknown token, or a raw `#hex` outside `<!-- raw-ok -->`, fails.
+4. **Engrave** every `<text data-engrave="caps|serif|serif_italic">` (and every generator `engrave[]` request) into a
+   `<path>` with `opentype.js` 2.0.0 and the Fontsource WOFF files: **Cinzel** (`@fontsource/cinzel` 5.3.0) for `caps`,
+   **EB Garamond** latin + greek (`@fontsource/eb-garamond` 5.3.0) for `serif` / `serif_italic`. opentype.js ships no
+   types, so `scripts/art/opentype.d.ts` (~20 lines) declares `parse`, `Font.charToGlyphIndex/charToGlyph/unitsPerEm`,
+   `Glyph.getPath/advanceWidth`, `Path.toPathData`. A missing glyph fails and lists the code points; ≤ 8 KB of
+   engraving per asset (02 §3e).
+5. **Lint** (§5.3): no `<text>` left, no `<image>`, no external `href`, no `<style>`/`class`/`<script>`/event
+   attributes, only `feGaussianBlur`, ≤ 60 KB per file (≤ 120 KB for layers).
+6. **Extract** `data-pivot` and `anchor-*` markers into the entry, then strip them.
+7. **Minify** (collapse whitespace, round to 1 decimal) and **write** `public/assets/expedition/<ns>/<group>/<name>.svg`.
+8. **Puppets** (§5.5): pack each puppet's parts into one sheet with nested viewports, write the sheet and
+   `<name>.rest.svg`, and validate `<name>.anims.json` against `PuppetAnim`.
+9. **Rig** (`--ns shared`, §5.5): recolour each character from its body's vector, repack its frames, render the PNG
+   atlas in Playwright's Chromium, compute the anchors, and copy the untinted Kenney fallback.
+10. **Manifest and index.** Emit `manifest.json` (parsed with `AssetManifest`: per entry `source`, `seed`, `sha1`,
+    `zone`; `heroCount`; `totalBytes`, `gzipBytes`; `vram` per zone and `swapPeakMb`) and
+    `src/world/asset-index/<ns>.generated.ts`.
+11. **Budgets.** Count hero files against `heroCap` (40); compute VRAM per zone (`all` + the zone) and per adjacent
+    zone pair at dpr 1.5; fail over §5.8.
+12. **Report** sizes, VRAM per zone and the hero count.
 
-`--check` rebuilds in memory and diffs against the committed output, like `fixtures:build`. `theme.css` tokens are
-pinned by `tests/ui-tokens.test.ts` instead of being generated (no cross-owner writes).
+`--check` rebuilds in memory and byte-compares against the committed output, like `fixtures:build`. `--kit-only`
+builds every hero key from its kit entry (fallback ladder step 1 for a whole namespace). `theme.css` tokens are pinned
+by `tests/ui-tokens.test.ts` instead of being generated.
 
 ### 5.3 Deterministic SVG authoring rules (hero parts)
 
@@ -2915,11 +3189,19 @@ pinned by `tests/ui-tokens.test.ts` instead of being generated (no cross-owner w
   for that part.
 - **Colour.** Palette tokens only (`fill="{{stone.lit}}"`). At most 3 gradient stops per shape. Filters are limited
   to `feGaussianBlur` (soft shadows and glows).
-- **Text.** Static engraving only, as `<text data-engrave font-size="26" text-anchor="middle" fill="{{orrery.engrave}}">π/2</text>`
-  (converted to paths at build). Every dynamic label (plaque text, chips, date chips, split-flap characters, tape,
-  headlines) goes through `WorldLabelLayer` (amendment 21). Game-doc mentions of "Phaser text" are superseded.
+- **Text.** Static, spec-independent engraving only, as
+  `<text data-engrave="serif" font-size="26" text-anchor="middle" fill="{{orrery.engrave}}">π/2</text>`, converted to
+  paths at build (§5.2 step 4). Faces: `caps` (Cinzel: wordmarks, stencils, Roman numerals; it renders lowercase as
+  small caps and has no π, so never maths), `serif` / `serif_italic` (EB Garamond: maths, π, ·, −, ×, °). Markup:
+  `^{…}` superscript, `_{…}` subscript (write `sin^{-1}`; U+207B is in neither font). Every dynamic or spec-derived
+  label (plaque text, chips, date chips, split-flap characters, tape, headlines, the Warden's equation) goes through
+  `WorldLabelLayer` (amendment 21). "Phaser text" is banned.
+- **Puppets** (§5.5). One file assembled in its rest pose; each part is `<g id="part-<name>" data-pivot="x,y"
+  data-z="n">` (pivot in absolute viewBox units); a multi-frame part holds `<g id="f0">…<g id="fN">`; ≤ 8 parts,
+  ≤ 60 KB. Its animations live beside it in `<name>.anims.json`.
 - **Banned.** Plain `<text>`, `<image>`, external `href`, `<style>` and `class`, `<script>`, event attributes.
-- **Budgets.** At most 60 KB per file (layers at most 120 KB). A full biome is at most 1.2 MB of SVG source.
+- **Budgets.** At most 60 KB per file (layers at most 120 KB). A biome's SVG source is ≤ 1.2 MB at P0 and ≤ 2.0 MB
+  full (§5.8).
 - **Look.** A low sun from the upper left: lit faces use `*.lit` and shadow faces `*.shade`. Shadows are separate
   multiply shapes in `{{shadow}}` at 30 %. The darkest world colour is `#2B3A44` or lighter.
 - **Layers.** Parallax layers are wide horizontally tileable strips (left and right edges match), cut into
@@ -2927,70 +3209,143 @@ pinned by `tests/ui-tokens.test.ts` instead of being generated (no cross-owner w
 - **Review.** Every new SVG is rendered by `scripts/art-contact-sheet.ts` (Playwright to PNG) so the critic can look
   at parts in isolation.
 
-### 5.4 The procedural SVG kit (`art/kit/*.ts`, amendment 14)
+### 5.4 The procedural SVG kit (`src/game/art/kit/*.ts`, amendment 14, A2)
 
-Generators are pure functions `(args, rng) → KitSvg` with a seeded `mulberry32` (the same helper as
-`src/mechanics/util.ts`), emitting token-coloured SVG that the build then treats like a hand-authored file.
+The kit is specified in **02 §3a**: the `KitGenerator<P>` contract (`name`, zod `schema`, `defaults`,
+`generate(params, seed) → KitResult`, §3a.1), the **31 generators** and their parameter types (§3a.2), the coverage
+map (§3a.3) and the emit rules (§3a.4). The names:
 
 ```ts
-// art/kit/types.ts
-export interface KitSvg { svg: string; width: number; height: number; anchors: Readonly<Record<string, readonly [number, number]>>; pivot: readonly [number, number] }
-export interface KitFinish { ao: boolean; rim: boolean; haze: number /* 0..0.6 toward the sky token */; grain: boolean }
-export type KitGen<A> = (args: A & { tokens: string /* token prefix, e.g. "stone" */; finish?: Partial<KitFinish> }, rng: () => number) => KitSvg;
+// src/game/art/kit/types.ts (02 §3a.1)
+export type KitName =
+  | "skyWash" | "cloudBand" | "ridgeBand" | "skyline" | "canopy" | "crystalCluster" | "column" | "arch"
+  | "ringStack" | "brickWall" | "ashlarWall" | "stairs" | "railing" | "awning" | "facade" | "truss" | "shelving"
+  | "waterBand" | "bilayerTile" | "lipidColonnade" | "molecule" | "groundStrip" | "plate" | "linkStrip" | "gauge"
+  | "lectern" | "glowSprite" | "grainTile" | "hexGridPanel" | "compose" | "scatter";
 ```
 
-| Generator | Args (beyond `tokens`, `finish`) | Used for |
+- **Location.** `src/game/art/kit/`, not a root `art/kit/`: `tsconfig.json` and `vitest.config.ts` include only
+  `src/**`, `scripts/**` and `tests/**`, and the same pure functions run in the server-side assembler for PDF games
+  (02 §6). Library-code rules apply: relative imports; no `fs`, DOM, `Math.random` or `Date`; seeded `mulberry32` in
+  `kit/rng.ts`; the same `(params, seed)` gives byte-identical output.
+- **Revision-2 names, mapped** (every `K(...)` in §4.3 and the game docs uses the right-hand column):
+
+| Revision-2 name | 02 generator |
+|---|---|
+| `mesaBand` | `ridgeBand` style `mesa` / `butte_fluted` |
+| `canopyBlob` | `canopy` |
+| `lipidRow` | `lipidColonnade` |
+| `window` | `facade` (its `window` params) or `plate` |
+| `glassTank` | the `compose` recipe `glass_tank` = `plate` slate frame + `bilayerTile` strip_vertical window + `waterBand` pool |
+| `panelBox` | `plate` style `junction_box` (a new style value) |
+| `cabinet` | `shelving` style `filing_drawers` (a new style value) |
+| `latticeTruss` | `truss` shape `lattice_mast` |
+| `pipe` | `linkStrip` style `pipe` |
+| `consoleLectern` | `lectern` |
+| `grain` / `vignette` | `grainTile` / the runtime Vignette filter (not a generator) |
+
+  Two style values are added to 02's parameter types: `PlateP.style` gains `"junction_box"` (with `screen: true` for
+  the lamp) and `ShelvingP.style` gains `"filing_drawers"` (stacked drawers with handles and a label anchor per
+  drawer). Named compositions live in `src/game/art/kit/recipes.ts` (`glass_tank`, the default zone preset per
+  biome); fragments reference them as `{recipe, args, seed}`.
+- **Finish.** Every generator applies 02 §3a.1's `Finish` defaults: an ambient-occlusion gradient at the base, a
+  rim-light stroke on upper-left edges in the ramp's lit token, and haze toward the sky token for far layers (L1 0.4,
+  L2 0.2).
+- **Tags.** Each game doc tags every asset `hero` or `kit:<generator>`; hand-authored SVG is capped at 40 per biome
+  (§5.1).
+
+### 5.5 Characters and puppets (amendment 19, A3: one contract)
+
+**Humans: one Kenney rig, one raster path.** `scripts/art/rig.ts` (run by `art:build --ns shared`, about 250 lines),
+per character in `art/shared/characters/characters.json`:
+1. Read the body's `Vector/character_<body>.svg` from the Kenney `toon-characters` zip (`unzip -p`; nothing is
+   extracted into the repo). Strip `filter="url(#Filter_1)"` (it renders as dark offsets on every limb; 02 §3b.2).
+2. **Recolour** with the group-scoped fill map of 02 §3b.2: `(symbol-group pattern, source hex) → role`; the
+   character maps each role to a `char.<id>.<role>` token in `palettes/<ns>.ts`. The build prints each body's
+   distinct fills per group, and an unmapped `(group, fill)` fails. Skin tones are exact (Wren `#A8714F` / `#8A5A3E`,
+   Ida's deep brown), which `setTint` cannot produce.
+3. **Repack** the used frames with nested viewports (02 §3b.2 step 4). **Protagonists: 28 frames**, 7 × 4: `idle,
+   walk0–walk7, run0–run2, jump, fall, duck, hang, climb0, climb1, interact, switch0, switch1, talk, think, show,
+   hold, cheer0, cheer1, back`. **NPCs: 12 frames**, 6 × 2: `idle, walk0, walk2, walk4, walk6, talk, think, show,
+   interact, cheer0, duck, hold` (no back-facing frame: `Female person` has no `headBack` and `Male person` no
+   `bodyBack`, 02 §3b.6).
+4. **Render** that sheet to PNG in Playwright's Chromium (already a devDependency) at `deviceScaleFactor: 2` over the
+   1× vector: 192 × 256 texels per frame (1344 × 1024 = 5.5 MB VRAM for a protagonist; 1152 × 512 = 2.4 MB for an
+   NPC). Write the Phaser JSON hash `shared/char/<id>.json` with frame names = pose names.
+5. **Compute anchors** with 02 §3b.3's transform walk (compose every `matrix(…)` down to each `<use>`, assign it to
+   its frame cell) and map them onto `RigAnchor`:
+
+| `RigAnchor` | Computed from (1× frame px, then × 1.75 into display units) | rot |
 |---|---|---|
-| `skyline(w, h, blocks, towers, windows)` | building count, heights, window density | civil L1/L2, cell organelle skyline |
-| `mesaBand(w, h, buttes, fluting)` | butte count, flute spacing | trig L1 |
-| `cloudBand(w, h, lobes)` | lobe count, underside tint | skies, trig fog band |
-| `canopyBlob(r, lobes)` / `crystalCluster(n, h)` | lobe/shard counts | foliage, crystal fields |
-| `column(h, flutes, capital)` / `arch(w, h, voussoirs)` / `ringStack(r, rings, gaps)` | proportions | pillars, arcades, sockets, rail rings |
-| `ashlarWall(w, h, course)` / `brickWall(w, h, bond)` | course height, bond | cliffs, retaining walls, storefronts |
-| `stairs(steps, rise, run)` / `railing(w, posts)` / `window(w, h, mullions)` / `awning(w, stripes)` | counts | stairs, balustrades, façades |
-| `bilayerTile(w, heads)` / `lipidRow(n)` | head count | cell ground and colonnade |
-| `glassTank(w, h, divider)` / `panelBox(w, h, lamp)` / `cabinet(w, h, drawers)` / `latticeTruss(w, h, bays)` / `pipe(len, bends)` / `consoleLectern(style)` | proportions | generic contraption parts |
-| `grain(size)` / `vignette()` | — | finish stack |
+| `head` | the head-family instance origin (`head`, `headFocus`, `headShock`, `headBack`): the neck/jaw point | its rotation |
+| `face` | `head` + R(rot)·(0, −20): the eye line | head rot |
+| `torso` | the `body` / `bodyBack` instance origin: the waist | its rotation |
+| `back` | `torso` + R(rot)·(0, −18): between the shoulders | torso rot |
+| `hand_r` | 02's **`handF`**: the hand instance painted later (in front) | its rotation |
+| `hand_l` | 02's **`handB`**: the other hand instance | its rotation |
+| `feet` | (torso x, 127): the contact point | 0 |
 
-Every generator applies the finish defaults: a baked **ambient-occlusion** gradient at the base (`ao`), a 2 px
-**rim-light** stroke on upper-left edges in the `*.hi` token (`rim`), and **haze** toward the sky token for far
-layers. Hand-authored SVG is capped at **about 60 hero parts per biome** (`manifest.heroCount`); everything else is
-`source: "kit"`. Each game doc's asset list is re-tagged `kit:<generator>` or `hero` by its content owner.
+   Each frame also records `facing` (`front` for `head*`/`body`, `back` for `headBack`/`bodyBack`). The two offsets
+   live in `ANCHOR_OFFSETS` in `rig.ts`; the contact sheet draws all seven anchors on every frame for review.
+6. **Write** the manifest `atlas` entry (`shared.char.<id>`, §1.3) with anchors for every packed pose, and the
+   **fallback**: Kenney's untinted `character_<body>_sheetHD.png` + `_sheetHD.xml`, copied to
+   `shared/char/kenney/`, with the pose → XML frame-name map. The loader uses `load.atlasXML` on it when
+   `?charfallback=1` is set or the atlas fails to load (a `console.warn`, never an error).
 
-### 5.5 Characters: one recoloured Kenney rig (amendment 19)
+**Display.** A 192 × 256 frame shows at 168 × 224 design units (scale 0.875), so the 96-px Kenney figure is 168 units
+= 1 H (16 % of the 1080 view). Pivot `[0.5, 1]` (the feet touch y 127/128 in every frame).
 
-The Kenney `toon-characters` pack ships, per body, `Vector/character_<body>.svg` (864 × 640: a 9 × 5 grid of 96 × 128
-cells, the same layout as `Tilesheet/character_<body>_sheet.xml`) and the HD atlas XML (`_sheetHD.xml`, 192 × 256
-cells). Verified in `.data/asset-scratch/toon-characters.zip`. `scripts/build-characters.ts` (about 220 lines):
+**Costume overlays** are hero SVGs in `<ns>.costume.*`, authored at rot 0 with their own `data-pivot`. The world JSON
+attaches them with `CharacterLook.costume` (`anchor`, `dx`/`dy` in the anchor's local frame, `follow`, `layer`,
+`hideOn`). Each frame the actor sets `pos = anchor + R(rot)·(dx, dy)` and `angle = rot`; `flipX` mirrors both
+(x → 168 − x, rot → −rot); a back-facing frame swaps `front` and `behind`. Scarf tails (`follow: "spring"`) are a
+3-segment spring chain rooted at the anchor (runtime code, not art).
 
-1. For each character in `art/shared/characters/characters.json`, read its body's vector sheet.
-2. Print the body's fill palette (every distinct `fill`/`stop-color`); the character's `recolor` map must cover
-   every fill the build lists (skin light/shade, hair, top, trousers, boots…), or the build fails. Skin tones such as
-   Wren `#A8714F` / `#8A5A3E` and Ida's deep brown are exact, which `setTint` cannot produce.
-3. Render the recoloured SVG in Playwright's Chromium at `deviceScaleFactor: 2` → a 1728 × 1280 PNG whose cells match
-   the HD XML exactly.
-4. Convert the HD XML to a Phaser JSON-hash atlas and write `public/assets/expedition/shared/char/<id>.{png,json}` plus
-   the manifest `atlas` entry (`shared.char.<id>`) with the per-pose anchors from `anchors.toon.json`, and the
-   pack's `License.txt`.
+| Character | Game | Body | Frames | Costume overlays (`<ns>.costume.*`, anchor) | Priority |
+|---|---|---|---|---|---|
+| `wren` | trig | female_adventurer | protagonist | `wren_hair_bun` (head), `wren_scarf` (back, spring, behind), `wren_staff` (hand_r), `wren_satchel` (back) | P0 |
+| `diver` | cell | female_adventurer | protagonist | `diver_helmet` (head), `diver_scarf` (back, spring), `probe_staff` (hand_r; the bulb glows orange while dragging) | P0 |
+| `nell` | civil | female_adventurer | protagonist | `nell_scarf` (back, spring, behind), `nell_satchel` (torso) | P0 |
+| `ida` | civil (S1, outro) | female_person | npc | `ida_bun_glasses` (head), `ida_cardigan` (torso) | P0 |
+| `otis` | civil (S1, S8) | male_person | npc | `otis_watch_cap` (head), `otis_flashlight` (hand_r; the cone is `archive_of_voices.fx.projector_cone`) | P0 |
+| `hattie`, `dolores` | civil | female_person | npc | `hattie_eyeshade`, `dolores_headset` (head) | P1 |
+| `theo` | civil | male_person | npc | `theo_cap` (head), `theo_textbook` (hand_l) | P1 |
 
-| Character | Game | Body | Costume overlays (biome `costume` group, on anchors) | Priority |
-|---|---|---|---|---|
-| `wren` | trig | female_adventurer | teal scarf (back, spring), satchel (back), sighting staff (hand_r), gold bun pin (head) | P0 |
-| `diver` | cell | female_adventurer | bubble helmet (head), tide scarf (back, spring), probe-staff (hand_r; bulb glows orange while dragging) | P0 |
-| `nell` | civil | female_adventurer | salmon scarf (back, spring), satchel strap (torso) | P0 |
-| `ida` | civil (S1, outro) | female_person | bun + cat-eye glasses chain (head), long cardigan (torso) | P0 |
-| `otis` | civil (S1, S8) | male_person | watch cap (head), flashlight (hand_r, ADD cone) | P0 |
-| `hattie`, `dolores` | civil | female_person | eyeshade / headset (head) | P1 |
-| `theo` | civil | male_person | school cap (head), textbook (hand_l) | P1 |
+Atlases per game: **trig 1, cell 1, civil 3 at P0; ≤ 6 per game at P1** (civil adds Hattie, Dolores, Theo). The three
+protagonists are one rig re-costumed per biome, so "shared protagonist" (bible §6.3) holds. **The Ida bust is
+dropped**: Ida is her atlas plus two overlays. Wren's 18-part SVG puppet is post-demo.
 
-- **One rig, shared protagonist:** every human uses the same 45-pose toon layout and one anchor table
-  (`anchors.toon.json`: `head`, `face`, `torso`, `back`, `hand_l`, `hand_r`, `feet` for the 25 poses the host uses:
-  `idle`, `walk0–7`, `run0–2`, `jump`, `fall`, `climb0/1`, `interact`, `switch0/1`, `talk`, `think`, `cheer0/1`,
-  `show`, `hold`). The contact sheet overlays anchors on every body for review. The three protagonists are the same
-  rig re-costumed per biome, so "shared protagonist" (bible §6.3) holds.
-- Machines and creatures (Cog, Pip, Wick, the Warden, the Gatekeeper, Brasswick, Lumen, Quill, the mimic crab, Sucra,
-  Poro, Kay, the Ferryman) are SVG puppets in their biome's `companion`/`npc`/`part` groups (hero parts).
-- **Post-demo:** Wren's 18-part SVG puppet (trig §7.13).
+**Puppets** (guides, creature and machine NPCs, animated hubs; A3):
+- **Source.** One hero SVG in its rest pose (§5.3 markup), or a **recipe** in a `*.kit.json`
+  (`{kind: "puppet", parts: [{name, from: {gen, params, seed} | {file}, pivot, z, rest}]}`) when a puppet mixes kit
+  parts with hero files (the civil Record Engine hub: the drum and crown heroes plus kit rings). A recipe's `file`
+  parts count as hero files once each.
+- **Shape.** ≤ 8 parts, ≤ 8 frames per part, `rasterScale` 1.5.
+- **Animations** (`<name>.anims.json`, a list of `PuppetAnim`, §1.3): per-part tracks of waves (`amp`, `hz`,
+  `phase`) or keyframes on `rot`, `x`, `y`, `scaleX`, `scaleY`, `alpha`, `frame`. **Companions define `idle`, `talk`
+  and `cue`; NPC puppets define `idle` and `talk`**; custom ids are free (Brasswick `arm_short`, `arm_sync`; hubs
+  `partial`, `restored`). 02 §3b.5 gives each guide's idle/talk/cue motion.
+- **Build** (§5.2 step 8): the parts are packed into one SVG sheet with nested viewports; the build also writes
+  `<name>.rest.svg` (the assembled rest pose, used by the DOM host, dialogue portraits and snapshots) and the
+  `puppet` manifest entry.
+- **Runtime** `src/game/expedition/puppets/Puppet.ts` (about 150 lines): `load.svg` the sheet at k, `Texture.add` one
+  frame per part frame, a Container of Images at the rest offsets; `play(animId, {loop})`, `stop()`,
+  `setDormant(on)` (the ColorMatrix of §5.7). An `svg` entry plays as a one-part puppet whose `idle` / `talk` / `cue`
+  are procedural (bob, glow pulse, 1.05 scale), which is how a kit fallback still moves.
+- **Users.** `actors/companion.ts` (`idle` while following, `talk` while its speaker's line types, `cue` during a
+  hint flight), `actors/npc.ts` (`NpcState.pose` → `idle`/`talk`; `NpcState.anim`), the hub (`Hub.anims` on `hub`
+  steps), and prefabs whose slot is a puppet (the mimic crab).
+
+| Puppet (key) | Parts | Use | Priority |
+|---|---|---|---|
+| Cog `orrery_terraces.companion.cog` | 8 | guide; the intro's "wind Cog" is `cue` with the key spinning | P0 |
+| Pip `living_gate.companion.pip` | 4 | guide; the water lens is its `cue` cone | P0 |
+| Ora bust `living_gate.companion.ora_bust` | 8 | cutscene dialogue portrait (`restFile` in the DOM bar) | P0 |
+| Wick `archive_of_voices.companion.wick` | 5 | guide | P0 |
+| Brasswick `orrery_terraces.npc.brasswick` | ≤ 8 | NPC (`before` at P0; `arm_short`, `arm_sync`) | P0 |
+| Poro `living_gate.npc.poro` | ≤ 8 | zone B landmark statue at P0 (static); NPC at P1 | P0 / P1 |
+| Record Engine `archive_of_voices.prop.record_engine` | ≤ 8 (recipe) | civil S1 hub; `Hub.anims` `partial` (rings spin), `restored` (iris opens) | P0 |
+| Lumen, Quill, Sucra, Kay, the Ferryman | ≤ 8 | NPCs | P1 |
 
 ### 5.6 The painterly finish stack (F2)
 
@@ -3003,31 +3358,47 @@ Applied to every zone and **locked on the vertical slice** before art scales:
 6. additive glow sprites for live parts only (glow = information, bible §5.3);
 7. a soft vignette (20 % in dusk and night segments).
 
-### 5.7 Loader and palette
+### 5.7 Loader, residency and palette (A4)
 
-- **Loader.** `manifest-loader.ts` computes `k = rasterScale × min(devicePixelRatio, 1.5)`, calls
-  `load.svg(key, url, {width: round(w × k), height: round(h × k)})`, then `sprite.setScale(1 / k)`. Layers use
-  `rasterScale ≤ 1` (they are hazed or blurred). Contraption parts use 1.5. Atlases load with `load.atlas` at 2×
-  and display at 0.5 × the world scale factor. Only the shared entries the overlay references (its characters,
-  companions and UI parts) are loaded.
-- **Tiles.** A `tileWidth` entry becomes N sub-textures `key#i`, laid side by side as Images (or one TileSprite when
-  `repeatX`).
+- **Loader** (`src/game/art/manifest-loader.ts`, art lane). At boot it fetches `manifest.json` for `shared` and the
+  biome (`load.json`). `loadZone(scene, world, zoneId, onProgress)` loads the union of: the entries tagged `all`
+  that the world references (every `shared` entry is tagged `all`), the entries tagged `zoneId`, and
+  `assetsForZone(world, zoneId)` from
+  `src/world/residency.ts` (pure: the zone's layers, ground, platforms, props, hub, interiors, ladder and ride
+  assets; its stations' skin parts, consoles, accessories and blockers; the NPCs with a state in the zone; its
+  plaques, collectibles and sandboxes; the assets of the cutscenes that play there; the cast). A mis-tagged entry
+  therefore still loads when referenced. Per kind: `svg` → `load.svg(key, url, {width: round(w·k), height:
+  round(h·k)})`, then `sprite.setScale(1 / k)`; a `tileWidth` entry becomes N sub-textures `key#i` laid side by side
+  (or one TileSprite when `repeatX`); `atlas` → `load.atlas(key, png, json)` (fallback `load.atlasXML`); `puppet` →
+  `load.svg` of the part sheet, then `Texture.add` per part frame on `filecomplete`. Contraption parts use
+  `rasterScale` 1.5, layers ≤ 1 (they are hazed or blurred).
+- **Residency.** Only `all` + the current zone's set are resident. On a zone change the host starts the transition
+  wipe, `loadZone(next)` runs behind it, the next zone is built, and after the wipe `unloadZone(scene, world, prev,
+  next)` calls `textures.remove` on every key of the previous zone that is neither `all` nor in the next zone's set.
+  The peak holds two zones briefly (the swap-pair budget, §5.8). A `ride` or carry cutscene preloads its destination
+  zone when it starts; `warpTo` and `skipTo` load the target zone behind a fade.
 - **Palette.** `palette.ts` exports `BIOME_PALETTES: Record<BiomeId, BiomePalette>` (assembled from
-  `palettes/<ns>.ts`: world tokens from bible §2.1–2.2 and each game doc's palette section) and `UI_TOKENS` (bible
-  §2.3, shared). The Phaser side reads numeric colours for tints, glows and beams.
+  `palettes/<ns>.ts`: world tokens from bible §2.1–2.2, each game doc's palette section, and the `char.<id>.<role>`
+  recolour tokens) and `UI_TOKENS` (bible §2.3, shared). The Phaser side reads numeric colours for tints, glows and
+  beams.
 - **Dormancy.** Dormant machines use a runtime ColorMatrix at −40 % saturation (−60 % and 40 % alpha with scanlines
   in `archive_of_voices`), not a second texture.
 
-### 5.8 Size budget per game
+### 5.8 Size budget per game (02 §3f measured numbers)
 
 | Item | Budget |
 |---|---|
-| Hand-authored hero SVG | ≤ 60 per biome namespace (`heroCount`, build fails above) |
-| Biome SVG source (layers + props + parts + companions + NPC puppets) | ≤ 1.2 MB (gzip about 0.3 MB) |
+| Hand-authored hero files | ≤ **40** per biome namespace (`heroCount`; the build fails above). P0 counts from the game docs: trig 37, cell 36, civil 35 |
+| Biome SVG source (raw / gzip) | P0: trig ≤ 1.2 MB / 350 KB, cell and civil ≤ 1.2 MB / 400 KB; full: trig ≤ 2.0 MB / 600 KB, cell and civil ≤ 2.0 MB / 650 KB |
 | Shared (UI, fx, emblems) | ≤ 0.3 MB |
-| Character atlases | about 240 KB PNG each; a game loads ≤ 5 (≈ 1.2 MB) |
-| JS: expedition chunk (host + metas + panel + controls + synth), dynamically imported | ≤ 200 KB gzip on top of the existing Phaser chunk |
-| VRAM at load | ≤ 180 MB per biome (atlases 8.8 MB each at 1728 × 1280) |
+| Character atlases | protagonist 1344 × 1024 PNG (5.5 MB VRAM), NPC 1152 × 512 (2.4 MB); P0: trig 1, cell 1, civil 3; ≤ 6 per game at P1 |
+| VRAM, one zone resident (`all` + the zone), dpr ≥ 1.5 | P0: trig ≤ 120 MB (Z1 measured ≈ 91), cell ≤ 135 MB, civil ≤ 140 MB; full: trig ≤ 140, cell ≤ 150, civil ≤ 160 MB |
+| VRAM during a zone swap (two zones briefly) | ≤ 180 MB (every game, every tier) |
+| VRAM at dpr 1 | P0: trig ≤ 60 MB, cell ≤ 65 MB, civil ≤ 70 MB; full: 70 / 75 / 80 MB |
+| JS: expedition chunk (host + metas + panel + controls + synth + puppets), dynamically imported | ≤ 200 KB gzip on top of the existing Phaser chunk (the kit runs at build time for the showcase games) |
+
+`art:build` fails a namespace over any row; `tests/world-assets.test.ts` re-checks every zone and every adjacent swap
+pair from the committed manifests.
 
 ---
 
@@ -3105,7 +3476,7 @@ export function worldWriterSchema(args: {
       skin: z.enum(asTuple(c.skins, `${c.id} skins`)),
       objectNoun: z.string().describe("2-4 words naming the in-world machine, e.g. 'Tidewheel Gate'"),
       partNouns: z.array(z.string().describe("1-2 words: a part the player manipulates, e.g. 'latch timer'")).min(0).max(3),
-      instruction: z.string().describe("Imperative, under 120 characters, names the machine or a part; never the answer. {{placeholders}} allowed"),
+      instruction: z.string().describe("Imperative, at most 140 characters, names the machine or a part; never the answer. {{placeholders}} allowed"),
       tutorial: z.string().nullable().describe("First-open second line: how to read the instruments; never the answer"),
       insight: z.string().nullable().describe("One declarative truth about the concept, phrased as a truth of the world; never the answer"),
       hints: z.array(z.string().describe("The guide's voice for the fixture hint of the same rung; rung 3 may be as specific as the fixture's hint 3")).min(3).max(3),
@@ -3224,6 +3595,7 @@ export interface BiomeKit {
   vehicles: { lift: string; tram: string | null; vesicle: string | null };
   vista: string | null;                       // composed finale vista (group "vista")
   skinDefaults: { aimer: string; quarantineAnim: string; connector: string; layout: string; bays: string };
+  successPose: "cheer" | "show";            // the protagonist's pose on every success (A11): archive_of_voices = "show" (R10)
   sims: readonly string[];                    // reference sims whose ghosts suit this biome's domains
   fictionalStaff: readonly string[];          // bodies/looks allowed for human NPCs when sensitive
   protectedNames: readonly string[];          // extra names the R10 lint treats as real people
@@ -3235,7 +3607,7 @@ export const BIOME_KITS: Record<string, BiomeKit>;   // orrery_terraces (math, p
 export function rankBiomes(domain: Domain): string[];  // exact domain match first, then the 'general' ordering
 ```
 
-New kits (forest observatory, harbour, desert) are art (mostly kit presets plus about 60 heroes) and one entry here.
+New kits (forest observatory, harbour, desert) are art (mostly kit presets plus up to 40 heroes) and one entry here.
 Nothing else changes.
 
 ### 6.5 Mock mode and the fixture migration (W8)
@@ -3263,299 +3635,431 @@ playable worlds:
 
 ---
 
-## 7 · Work breakdown (rewritten for the 2026-09-27 demo)
+## 7 · Work breakdown: 10 lanes (rewritten in revision 3 for the 2026-09-27 demo)
 
 ### 7.0 Rules
 
-- At most **3 concurrent subagents** (instructions §6.2). Dev roles run on sonnet with `model` passed explicitly; the
-  architect and reviewer on opus. Depth 1. The main session keeps contracts, registries, integration, V content,
-  cross-cutting debugging and checkpoints.
-- **Non-overlapping ownership.** Every item lists the paths it **owns** for the duration of its wave; every other path
-  is read-only for that agent. A needed change outside is reported to main with the exact diff (instructions §2).
-  Ownership returns to main at the end of each wave; the next wave's items re-assign it explicitly.
-- **Stubs first.** W0 creates every file that two agents might otherwise both create (meta stubs, prefab stubs,
-  registries, the per-namespace asset-index files), so no two agents ever add the same path.
-- **Main-only files:** `src/contracts/**`, `src/world/types.ts`, `src/world/library.ts`,
-  `src/world/draft-inputs.ts`, `src/world/contraptions/config-parts.ts`, `src/world/asset-index/index.ts`,
-  `src/game/hosts/types.ts`, `src/game/hosts/expedition/contraptions/{types,registry}.ts`, `package.json`,
-  `eslint.config.*`, `instructions.md`, `DECISIONS.md`, `PROGRESS.md`, `MORNING_REPORT.md`.
-- Every item ends green on `pnpm typecheck`, `pnpm test` and `pnpm lint` for its paths (plus the e2e specs it owns).
-  Main runs `.overnight/checkpoint.sh` at each wave end when the three are green (instructions §6.6). No git writes.
-- Timebox: 2× an item's estimate → stub behind the interface with `TODO(overnight)`, log in `BLOCKERS.md`, and apply
+- **Concurrency.** Up to **10 agent lanes** run at once (`DECISIONS.md`, 2026-09-26 12:40, decision 6: the 3-agent cap
+  in `instructions.md` §6.2 applied to the unattended overnight run only). **Main is not a lane**: it runs W0, owns
+  the contracts and registries, integrates, dispatches fixes, runs Gate V and the checkpoints. The critic (reviewer)
+  runs in a free lane's slot. Dev roles run on sonnet with `model` passed explicitly; the architect and reviewer on
+  opus. Depth 1. Every brief says "Read `instructions.md` first", and implementation agents read only this document,
+  02, 01 and their game's document.
+- **Exclusive ownership.** Every item lists the paths it **owns**; every other path is read-only for that agent. A
+  needed change outside is reported to main with the exact diff (`instructions.md` §2). When a lane moves to its next
+  item, ownership moves with the item (§7.3). No path ever has two owners at once.
+- **Seams that make the lanes independent** (all created by W0, so no two agents ever create the same file):
+  - each archetype's config schema is its own file, `src/world/contraptions/<id>.config.ts` (main, frozen after W0);
+    its meta, prefab core and skins import it;
+  - each archetype's prefab is `prefabs/<id>/prefab.ts` + `shared.ts` (the archetype's lane) plus one
+    `prefabs/<id>/skins/<skin>.ts` per skin (the skin's lane, which may differ), dispatched through a static
+    `skins/index.ts` that W0 writes (§2.5.5 `SkinPrefab`);
+  - each sim is its own file under `src/world/sims/` behind a W0 `index.ts`;
+  - `src/world/record-strip.ts`, `src/world/residency.ts`, `src/world/hint-targets.ts` start as W0 stubs with their
+    final signatures;
+  - art sources are per-owner fragments (§5.1); generated art is written only by `pnpm art:build` under its lock.
+- **Main-only files:** `src/contracts/**`, `src/world/types.ts`, `src/world/library.ts`, `src/world/draft-inputs.ts`,
+  `src/world/{aid-tier,ease,geom}.ts`, `src/world/contraptions/{config-parts,writer-kit,*.config}.ts`, `src/world/sandboxes/*.config.ts`, `src/world/sims/index.ts`,
+  `src/world/asset-index/index.ts`, `src/game/hosts/types.ts`, `src/game/hosts/expedition/bridge.ts`,
+  `src/game/hosts/expedition/contraptions/{types,registry}.ts`, every `prefabs/*/skins/index.ts`,
+  `src/game/expedition/dialogue/types.ts`, `art/*/biome.json`, `package.json`, `tsconfig.json`, `vitest.config.ts`,
+  `eslint.config.*`, `instructions.md`, `DECISIONS.md`, `PROGRESS.md`, `BLOCKERS.md`, `MORNING_REPORT.md`.
+- **Green per item:** `pnpm typecheck`, `pnpm test` and `pnpm lint` for the owned paths (plus the e2e specs it owns).
+  Main runs `.overnight/checkpoint.sh` when the tree is green at each window boundary. No git writes.
+- **Timebox:** 2× an item's estimate → stub behind the interface with `TODO(overnight)`, log in `BLOCKERS.md`, apply
   the fallback ladder (§0.1.6).
+- **Estimates** are agent wall-clock hours at about 1,000 lines of TypeScript per hour or about 6 hero SVGs per hour.
+- **Hero quotas** (A1; the game docs' P0 lists: trig §0.2–§0.3 = 37, cell §0.1.2 = 36, civil §0.1.2–§0.1.3 = 35).
+  The content lane of a game draws its zone-1 heroes (landmarks, cast, and the parts of the skins its zone 1 uses)
+  and its other landmarks; the contraption lane draws the hero parts of its remaining skins:
 
-### 7.1 Schedule
-
-| Wave | Window (T0 + h) | Agents in flight | Ends with |
+| Game | Content lane (skins with zone-1 parts, landmarks, cast) | Contraption lane (other skins' hero parts) | Total |
 |---|---|---|---|
-| **W0** | 0 → 1.5 | main | contracts, stubs, registries, skeleton side-cars |
-| **W1** | 1.5 → 6.5 | H1 host core · P1 panel · A1 art pipeline + trig zone 1 | host boots the dev world; controls grade; `art:build --check` clean |
-| **W2** | 6.5 → 10.5 | B1 world library · B2 client · K1 continuous archetypes (+ main: trig zone-1 content) | trig e1–e2 playable end to end |
-| **Gate V** | 10.5 | main + reviewer | **vertical slice: trig S1–S2**, hard stop midday 2026-09-27 (§0.1.6) |
-| **W3** | 10.5 → 16 | K2 claims and sequences · K3 routers, waves and links · A2 art (cell/civil zone 1, kit zones, landmarks) | all 12 native archetypes built |
-| **W4** | 16 → 21 | C1 trig · C2 cell · C3 civil (content + remaining biome art) | three side-cars validate with zero errors |
-| **W5** | 21 → 24 | E1 e2e/capture/perf · R reviewer (critic) · F fix slot | **P0 freeze** |
-| W6 (P1) | after P0 freeze | S1 sandboxes · Q1 side content (all three side-cars) · A3 remaining hero art | P1 rows of §0.1.3 |
-| W7 (P2) | if time remains | U1 map + journal readers · Q2 secrets and collectibles · polish | P2 |
-| W8 | post-demo | World Writer + `autoWorld` (pipeline-dev + architect) | §6 |
+| Trig | C1: 19 = zone 1's 16 (`vesper_dial` ×3, `ring_gate` ×5, orrery tower, gondola, Cog, Wren ×4, Brasswick) + crystal falls cliff, dome interior, Ilse's star figure | KA: 18 = `resonance_pillars` ×5, `treasury_pillars` ×2, `floating_steps` ×5, `wardens_shield` ×6 | 37 |
+| Cell | C2: 22 = zone A's 14 + `specimen_pods` balance beam, test cell, flume pump + `endocytosis_lift` dynamin collar + Poro, hall vault, nucleus dome, nuclear pore | KB: 14 = `tonicity_sluices` ×4, `carrier_lanes` ×2, `pump_rewiring` ×3, `gatekeeper_maws` ×5 | 36 |
+| Civil | C3: 24 = zone 1's 19 + dimestore and terminal façades, church, memorial colonnade, counter stool | KC: 11 = `wire_ticker` ×2, `broadcast_relay` ×1, `switchboard` ×1, `timeline_bridge` ×2, `tumbler_vault` ×3, `big_board` ×1, `provenance_drawers` ×1 | 35 |
 
-Critical path: W0 → H1 → B2 → V → K2/K3 → C1–C3 → E1. Art runs beside code: prefabs draw with placeholder
-rectangles and kit stand-ins until the biome parts land, parts are referenced by asset key, and missing keys fall
-back to a debug texture **only in dev** (the validator forbids missing keys in side-cars).
+### 7.1 Lanes and schedule
+
+Clock: **T0 = 2026-09-26 22:00** (planned; §0.1.6). Gate V at T0 + 10 = **08:00**; P0 freeze at T0 + 15 = **13:00**;
+the demo slot is assumed at 15:00 or later on 2026-09-27.
+
+| Lane | 0 → 2 (22:00–00:00) | 2 → 6 (00:00–04:00) | 6 → 10 (04:00–08:00) | 10 → 15 (08:00–13:00) |
+|---|---|---|---|---|
+| **L1 · CORE** contracts + validate | **M0** W0 (main) | **V1** validation library | from 6: **C3** civil content + art | C3 |
+| **L2 · HOST** host core + phase machine + client | — | **H1** host core (→ 6.5) | **H2** client + machine (6.5 → 8) · **H3** integration (8 →) | H3 |
+| **L3 · PANEL** panel + cards + controls | — | **P1** panel (→ 7) | from 7: **F** fix slot; the critic at Gate V (10) | F · **R** critic rounds (12.5 → 14) |
+| **L4 · STORY** dialogue, story, triggers, quests, cutscenes | — | **S1** story systems (→ 6.5) | from 6.5: **C2** cell content + art | C2 |
+| **L5 · ART** kit + build + rig + manifest loader | **A1** pipeline (0 → 5) | A1 · **A2** kit zones + stand-ins (5 → 9) | A2 · **A3** vistas, finish lock, VRAM (9 →) | A3 |
+| **L6 · KIT-A** trig contraptions | — | **KA1** shared cores (→ 4) · **KA2** e1/e2 archetypes (4 → 7) | KA2 · **KA3** trig archetypes (7 → 11) | KA3 · **KA4** trig skin heroes (11 → 14) · F |
+| **L7 · KIT-B** cell contraptions + biology sims | — | **KB1** router core + sims (→ 4) · **KB2** routers + sluices (4 → 7) | **KB3** stage machine + cell skins (7 → 11) | KB3 · **KB4** cell skin heroes (11 → 13.5) · F |
+| **L8 · KIT-C** civil contraptions + record strip | — | **KC1** record strip + civil metas (→ 4) · **KC2** tubes + switchboard (4 → 7) | **KC3** civil prefabs + skins (7 → 11) | KC3 · **KC4** civil skin heroes (11 → 13) · F |
+| **L9 · CONTENT** world JSON + zone-1 hero art | — | **C0** three side-cars (→ 6) | from 6: **C1** trig content + art | C1 |
+| **L10 · E2E** e2e + fidelity harness | — | **E1** harness (→ 5) · **E2** trig spec (5 → 9.5) | E2 · Gate V capture | **E3** cell, civil, express, capture (10 → 14.5) |
+
+Concurrency: main + L5 in W0; exactly 10 agents from T0 + 2 (the content lane fans out into L1's and L4's slots when
+V1 and S1 finish). Gate V (main + the critic in L3's slot) at T0 + 10. P0 freeze (main) at T0 + 15.
+
+**Critical path to P0 freeze (15 h):** M0 (2) → KB1 (2) → KB2 (3) → KB3 (4, ends T0 + 11) → C2 wires the native cell
+stations and fixes validation (2, ends T0 + 13) → E3 cell spec + express run (1.5, ends T0 + 14.5) → freeze checks
+(0.5) = **15 h**. The civil path is the same length (M0 → KC1 → KC2 → KC3 → C3 → E3 → freeze); the trig path is
+shorter (M0 → KA1 → KA2 → Gate V at 10 → KA3 → C1 → E3).
+
+**Vertical-slice path (Gate V at T0 + 10):** M0 (2) → KA1 (2) → KA2 (3, e1/e2 native by T0 + 7); in parallel A1 (by
+5) → A2 trig `z1_sunward` kit layers (by 6.5); H1 (by 6.5) → H2 (by 8); P1 (by 7); S1 (by 6.5); V1 (by 6); C0 trig z1
+JSON (by 6) → C1 zone-1 heroes (by 9); E1 (by 5) → E2 trig spec (by 9.5) → **Gate V at 10 (08:00), 4 h before the
+midday hard stop.**
 
 ### 7.2 Items
 
-#### W0 · M0 "Contracts, seams and stubs" (main, about 1,700 lines, 1.5 h)
+Each item: owner lane, estimate, window, dependencies, owned paths, deliverables, acceptance.
 
-- **Owns:** `src/contracts/world.ts` (all of §1.3), `src/contracts/gamespec.ts` (`world` optional),
-  `src/contracts/common.ts` (`Owner`), `src/contracts/index.ts`; `src/world/types.ts` (§2.5.1–2.5.2, `Diagnosis`,
-  `FailKey`), `src/world/draft-inputs.ts` (`DraftInputs`, `toSubmitInput`), `src/world/aid-tier.ts` (+ test),
-  `src/world/ease.ts`, `src/world/geom.ts`, `src/world/contraptions/config-parts.ts`, **stubs** for the 13
-  `src/world/contraptions/<id>.meta.ts` and 3 `src/world/sandboxes/<id>.meta.ts` (each exporting a placeholder meta
-  that `console_slate` semantics satisfy), `src/world/library.ts` (`CONTRAPTION_LIBRARY`, `SANDBOX_LIBRARY`,
-  `contraptionFor`), `src/world/asset-index/index.ts` + 4 empty `<ns>.generated.ts`, `src/game/hosts/types.ts`
-  (§2.10), `src/game/hosts/expedition/contraptions/{types,registry}.ts` + 16 stub `prefabs/<id>/prefab.ts` (a
-  labelled box), `src/game/expedition/dialogue/types.ts`, `src/mechanics/util.ts` (`evalExactAt(expr, scope)` only,
-  sandboxed like `evalExact`) + a case in `tests/eval-exact.test.ts`, skeleton `fixtures/worlds/*.world.json`,
-  `tests/world-contract.test.ts`, `eslint.config.*` (`no-restricted-imports` for `src/world/**`), `package.json`
-  (scripts `art:build`, `art:check`, `chars:build`; devDependency `opentype.js` pinned at 2.0.0 after `npm view`),
-  `instructions.md` §2 ownership rows (`src/world/`, `art/`, `fixtures/worlds/`, the new scripts), `DECISIONS.md`
-  (the 20 decisions and the fallback ladder).
+#### M0 · W0 "Contracts, real configs, seams, stubs" (main, 2 h, T0 → T0 + 2; deps: none)
+
+- **Owns:** `src/contracts/world.ts` (all of §1.3), `src/contracts/{gamespec,common,index}.ts` (the §1.3 edits);
+  `src/world/types.ts` (§2.5.1–§2.5.2 incl. `PanelContext`, `Diagnosis`, `FailKey`), `src/world/draft-inputs.ts`,
+  `src/world/aid-tier.ts` (+ test), `src/world/{ease,geom}.ts`; **the real config schemas**:
+  `src/world/contraptions/config-parts.ts`, `writer-kit.ts` (§4.4) and the 13 `src/world/contraptions/<id>.config.ts` + 3
+  `src/world/sandboxes/<id>.config.ts` (§4.2 verbatim, incl. `RefSimId` and `StageId`); stubs for every
+  `<id>.meta.ts` (config imported; `validateConfig` → `[]`; `pose` → `{}`; a `console_slate`-like panel);
+  `src/world/sims/index.ts` + one stub per sim; stubs with final signatures for `src/world/{record-strip,residency,
+  hint-targets}.ts`; `src/world/library.ts`; `src/world/asset-index/index.ts` + 4 empty `<ns>.generated.ts`;
+  `src/game/hosts/types.ts` (§2.10); `src/game/hosts/expedition/bridge.ts` (`SceneApi`, `SceneEvents`);
+  `src/game/hosts/expedition/contraptions/{types,registry}.ts`; 13 + 3 stub `prefabs/<id>/prefab.ts` + `shared.ts`,
+  a stub for every `prefabs/<id>/skins/<skin>.ts` (a labelled box) and every `skins/index.ts`;
+  `src/game/expedition/dialogue/types.ts`; the 4 palette files `src/game/art/palettes/<ns>.ts` (seeded from bible §2
+  and each game doc's palette section; handed to their lanes); `art/<ns>/biome.json` ×4 and an empty fragment at
+  every §5.1 fragment path; `src/mechanics/util.ts` (`evalExactAt(expr, scope)` only, sandboxed like `evalExact`) + a
+  case in `tests/eval-exact.test.ts`; skeleton `fixtures/worlds/*.world.json` ×3; `tests/world-contract.test.ts`;
+  `eslint.config.*` (`no-restricted-imports` for `src/world/**`); `package.json` (scripts `art:build`, `art:check`,
+  `art:sheet`; devDependencies pinned after `npm view`: `opentype.js` 2.0.0, `@fontsource/cinzel` 5.3.0,
+  `@fontsource/eb-garamond` 5.3.0, `fast-xml-parser` 5.11.1); `instructions.md` §2 ownership rows; `DECISIONS.md`
+  (decisions 1–22, the lane plan, T0 and the demo slot).
 - **Acceptance:** typecheck, test and lint green; the six pinned tests untouched; `WorldFile.parse` accepts the
-  skeletons; `tests/world-contract.test.ts` proves strict objects reject unknown keys and `.prefault` fills nested
-  defaults; every meta and prefab stub is registered; importing `src/world/library.ts` in a node test pulls no Phaser
-  or React.
+  skeletons; each `*.config.ts` parses one station config copied from its game doc; strict objects reject unknown
+  keys and `.prefault` fills nested defaults; every meta, prefab, skin and sim stub is registered; importing
+  `src/world/library.ts` in a node test pulls no Phaser or React.
 
-#### W1 · H1 "Host core" (engine-dev, about 5,500 lines, 5 h)
+#### V1 · "Validation library" (L1, 4 h, T0 + 2 → T0 + 6; deps: M0)
 
-- **Owns:** `src/game/hosts/expedition/**` except `contraptions/{types,registry}.ts` and `contraptions/prefabs/**`;
-  `src/game/hosts/PlayHost.tsx` (the Expedition branch only); a typed dev world in
-  `src/game/hosts/expedition/__fixtures__/dev-world.ts` (two zones, every link kind, one station per control kind
-  using stub prefabs).
-- **Deliverables:** every module of §2.2 except prefabs; §2.3 depth bands; §2.4 movement, links, interaction, NPC
-  actors, triggers; the cutscene runner with every step kind; the reduced DOM host with `Snapshot.tsx`.
-- **Acceptance:** boots in Chromium on the `webgl` project and the `dom` project with the dev world; ≥ 5 parallax
-  layers scroll at different rates; segments crossfade; interior façades fade; walk, run, cosmetic hop, and each link
-  kind by key and by `useLink` (timed hop both outcomes); blockers follow progress and payoff terrain merges; camera
-  x/y deadzones, `frameFor` per layout including `frameZoom`, vertical transitions; the D4 keyboard test (ArrowRight in
-  a panel slider changes its value with Phaser mounted); `endState(cutscene)` equals the full-play end state for
-  every step kind; `__GAME_DEBUG__.expedition.host()` complete; no `console.error` on a forced boot failure; the pure
-  modules (`surfaces`, `terrain`, `traversal`, `segments`, `proximity`, `framing`, `triggers`, `keymap`, `timeline`,
-  `label-store`) at ≥ 90 % line coverage.
+- **Owns:** `src/world/{validate-world,resolve-world,answer-leak,probes,fail-line,feedback-nouns,config-validators,
+  date-parse,speakers,biomes,hint-targets}.ts` (+ tests), `src/world/diagnose/**` (+ the parity test),
+  `src/server/worlds.ts`, `src/pipeline/validate/validate-gamespec.ts` (the `world` branch and the `ownerFor` case
+  only), `tests/{world-validate,world-resolve,world-sidecars,biomes}.test.ts`.
+- **Deliverables:** **first, by T0 + 3, `date-parse.ts` and `config-validators.ts`** (the metas' `validateConfig`
+  helpers the KA/KB/KC lanes import); then R1–R16 and W1–W3 with the revision-3 rules (puppet and atlas kinds and anims, taunt and probe keys,
+  empty terrain with a gating link, `successPose` and no `cheer` in sensitive kits, `ride.toSurface`, sheer-edge
+  warning); `resolveWorld`; `diagnose()` for 10 modes; `probes.ts` with every §2.5.4 row; `failLines`;
+  `feedbackNouns`; `BIOME_KITS` with `successPose`; `hintTargetsFor`; `loadWorldFor`.
+- **Acceptance:** one negative test per rule; R8's tokenizer passes trig `e2.approach` and `e2.before` and fails "Set
+  the timer to π." and e6 "4 seconds"; diagnose parity for 10 modes (≥ 50 seeded wrong inputs each); probes cover
+  `assignedTo` on `type_match` and `decoyPresent` with `itemKey: null`; `failLines` precedence (probe > near-miss >
+  fail key > default; boss taunt first); the keying test (`trig_demo_001`, `trig_platformer_001`, `cell_demo_001`,
+  `history_mystery_001`, `history_demo_001` and a mock-generated trig spec resolve; `wave2_smoke_001` is skipped with
+  a warning); `BIOME_KITS.archive_of_voices.successPose === "show"`.
 
-#### W1 · P1 "Panel, cards, controls, widget drafts" (ui-dev, about 5,200 lines, 5 h)
+#### H1 · "Host core" (L2, 4.5 h, T0 + 2 → T0 + 6.5; deps: M0; A1's loader from T0 + 5, a stub loader before)
+
+- **Owns:** `src/game/hosts/expedition/**` except `bridge.ts`, `contraptions/{types,registry}.ts`,
+  `contraptions/prefabs/**`, `contraptions/accessories/**`, `cutscene/**` and `scene/triggers.ts`; plus
+  `contraptions/prefabs/console_slate/**` (except `skins/index.ts`, main) and `src/world/contraptions/console-slate.meta.ts` (+ test);
+  `src/game/hosts/PlayHost.tsx` (the Expedition branch only); the dev world
+  `src/game/hosts/expedition/__fixtures__/dev-world.ts` (two zones, every link kind, a sheer descent, one station per
+  control kind on stub prefabs, a puppet companion).
+- **Deliverables:** every §2.2 module outside the exclusions (scene, zone builder with residency calls, surfaces,
+  terrain with sheer edges, traversal, segments, proximity, framing, camera director, actors with the success pose and
+  costume overlays, companion hint flights via `hintTargetsFor`, NPCs on rig or puppet, input, fx, labels, contraption
+  controller + sandbox controller, `Snapshot.tsx`, the reduced DOM host); `console_slate`.
+- **Acceptance:** boots on the `webgl` and `dom` projects with the dev world; ≥ 5 parallax layers scroll at different
+  rates; segments crossfade; interior façades fade; walk, run, cosmetic hop and each link kind by key and by
+  `useLink` (timed hop both outcomes); **a sheer descent blocks walking and a `drop` or reverse two-way link crosses
+  it**; blockers follow progress and payoff terrain merges; camera deadzones, `frameFor` per layout with `frameZoom`,
+  vertical transitions; a zone swap unloads the previous zone's textures (`debug().textures`); the D4 keyboard test;
+  `__GAME_DEBUG__.expedition.host()` complete; no `console.error` on a forced boot failure; the pure modules at ≥ 90 %
+  line coverage; `console_slate` hosts every implemented mode.
+
+#### H2 · "Client, phase machine, express" (L2, 1.5 h, T0 + 6.5 → T0 + 8; deps: H1, S1, and P1 from T0 + 7: the machine, express and runner first, the `InstrumentPanel` wiring last)
+
+- **Owns:** `src/game/expedition/client/**` (+ tests), `src/game/GameClient.tsx`, `src/game/debug.ts` (the optional
+  `expedition` field), `src/app/play/[id]/page.tsx` and `PlayClient.tsx` (`world`, `worldSource`, `sfx` props),
+  `src/server/env.ts` (`EXPEDITION_SFX` only; pipeline-dev is notified).
+- **Deliverables:** `ExpeditionClient` (runner, machine, world state, dialogue, audio, and **`PanelContext` built from
+  `story.recordStrip`, `progress.solvedIds` and the open station's probe window, passed to `InstrumentPanel`**),
+  `ExpeditionLayout`, `machine.ts` (incl. purpose `trigger`), `express.ts`, `useRunner.ts`.
+- **Acceptance:** machine tests for every transition incl. trigger cutscenes, sandboxes, carry payoffs and the
+  D1/D2/D3 regressions; express policy tests; the dev world plays intro → explore → panel → wrong (draft kept) →
+  right → payoff → finale → EndScreen; `?host=legacy` is byte-for-byte the old behaviour; all existing e2e green.
+
+#### H3 · "Integration, performance, host fixes" (L2, T0 + 8 → T0 + 15; deps: H2)
+
+Same paths as H1 + H2. Wires each prefab into the dev world as it lands, runs the side-cars as they validate, holds
+the fps and draw-object budgets and the per-zone VRAM on the real side-cars, and takes main-dispatched host fixes.
+
+#### P1 · "Panel, cards, controls, widget drafts" (L3, 5 h, T0 + 2 → T0 + 7; deps: M0)
 
 - **Owns:** `src/game/expedition/panel/**` (components, `controls/*.tsx`, `controls/*.logic.ts` + tests,
   `BriefSheet.tsx`, `theme.css`), `src/world/graph-math.ts` (+ test), `src/game/widgets/*.tsx` (`onDraft` emission
   only) and `src/game/widgets/*.test.ts` (converter parity with `draft-inputs.ts`), `src/app/dev/panel/page.tsx`
-  (dev-only gallery of every card and control on the three fixtures' views).
-- **Acceptance:** `graph-math` tests (π ticks "π/2", "2π"; sampling splits at jumps and NaN; chip clamping;
-  `formatProbe` for every `ProbeFormat`; `fracYear` round-trip); for every showcase encounter of the three fixtures,
-  the control logic's solution state → `toSubmitInput` → `mode.grade` is correct; `WaveControl` enables Verify only
-  after the last wave and preselects answers on retry; `MatrixControl` never puts marks in the submitted input;
-  `AimControl` emits hover and focus drafts; the Scrubber is a keyboard `role=slider` with `settled`; card models
-  render without runtime errors in the dev gallery; `coverage.test.ts` green; testids `widget-submit`,
-  `widget-first-option`, `success-badge`, `panel-back`, `instrument-panel` kept.
+  (dev-only gallery of every card and control on the three fixtures' views), `tests/ui-tokens.test.ts`.
+- **Deliverables:** §3.1–§3.5, incl. `InstrumentPanel` taking `context: PanelContext` and prepending the RECORD card
+  from `recordCard()` (KC1) with `PanelStatic.recordPins`, and boss phase batches.
+- **Acceptance:** `graph-math` tests (π ticks, sampling splits, chip clamping, `formatProbe` for every `ProbeFormat`,
+  `fracYear` round-trip); for every showcase encounter the control logic's solution state → `toSubmitInput` →
+  `mode.grade` is correct; `WaveControl` enables Verify only after the last wave and preselects on retry;
+  `MatrixControl` never puts marks in the input; `AimControl` emits hover and focus drafts; the Scrubber is a keyboard
+  `role=slider` with `settled`; the RECORD card renders from a `PanelContext` fixture and shifts the meta's cards one
+  display slot down while `CardOverride.slot` stays meta-relative; testids `widget-submit`, `widget-first-option`,
+  `success-badge`, `panel-back`, `instrument-panel` kept; `coverage.test.ts` green.
 
-#### W1 · A1 "Art pipeline, kit, characters, shared set, trig zone 1" (engine-dev art, about 3,400 lines + about 30 hero SVG, 5 h)
+Then L3 is the **F** fix slot from T0 + 7 (below) and hosts the critic.
 
-- **Owns:** `art/README.md`, `art/kit/**`, `art/fonts/**`, `art/shared/**`, `art/orrery_terraces/**`,
-  `scripts/{build-art,build-characters,art-contact-sheet}.ts`, `src/game/art/palette.ts`,
-  `src/game/art/palettes/*.ts` (all four initial token files, from bible §2 and each game doc's palette section),
-  `public/assets/expedition/{shared,orrery_terraces}/**`, `src/world/asset-index/{shared,orrery_terraces}.generated.ts`,
-  `tests/world-assets.test.ts`, `tests/ui-tokens.test.ts`, `tests/art-kit.test.ts`.
-- **Deliverables:** §5.2 pipeline (tokens, kit, engraving, lint, anchors, manifests, per-namespace index, VRAM, hero
-  count, `--ns`, `--check`); every §5.4 generator; §5.5 character build with atlases for `wren`, `diver`, `nell`, `ida`,
-  `otis` and anchors for the 25 used poses; the shared set (5 orbs, pin, interact diamond, 3 glow radii, beam cap,
-  grain, vignette); trig zone 1 **full art** (layer set `sunward_day`: L1 mesa band + Orrery tower hero, L2 crystal
-  fields and trees, L3 retaining walls and colonnade, L5 balustrade and grass, L6 dapple; ground and underside);
-  `vesper_dial` and `ring_gate` parts (§4.3); beam pylon; gondola; Cog (3 poses); Wren's costume overlays; the §5.6
-  finish presets; one **default kit zone preset** per biome (a generic 5-depth layer set + ground) so any zone can
-  render before its own presets land.
-- **Acceptance:** `pnpm art:build --check` clean; the lint rejects plain `<text>`, raw hex and external refs; an
-  engraving test (`π/2` becomes paths; a missing glyph fails); generators are byte-deterministic per seed; `pnpm
-  chars:build` yields 5 atlases of 45 frames with anchors for 25 poses; VRAM < 180 MB and `heroCount ≤ 60` per
-  namespace; contact sheets render.
+#### S1 · "Story systems: dialogue, HUD, audio, world state, triggers, cutscenes" (L4, 4.5 h, T0 + 2 → T0 + 6.5; deps: M0)
 
-#### W2 · B1 "World library, validation, diagnosis, world state" (mechanics-dev, about 3,600 lines, 4 h)
+- **Owns:** `src/game/expedition/{dialogue,hud,audio,map,journal}/**` except `dialogue/types.ts` (+ tests; this
+  includes `dialogue/station-dialogue.ts`), `src/world/state/**` (+ tests), `src/game/hosts/expedition/cutscene/**`
+  (timeline and runner, written against `bridge.ts`'s `SceneApi`), `src/game/hosts/expedition/scene/triggers.ts`
+  (+ test).
+- **Deliverables:** the dialogue engine, `DialogueBar` and emblem glyphs (§2.7); the station slot flow; the HUD
+  (ObjectiveRing, MeterBar, counters, KeyLegend, MuteToggle, ZoneTitle, TouchPad); `synth.ts`, `bus.ts`, `cues.ts` with
+  the §2.12 `CUE_MAP`; the world-state reducer, requirements, NPC state selection and `settleQuests`; triggers (incl.
+  `cutsceneId`); cutscene `compile`, `endState`, `expressTrim` and the runner for every step kind (incl.
+  `ride.toSurface`, `hub` + `Hub.anims`, `vista`, the interactive steps).
+- **Acceptance:** engine tests (grapheme-safe typewriter at 45 cps, advance, preemption, toasts, `skipAll`, pins);
+  slot-flow tests (tutorial on the first open only, insight after, hint rungs, fail lines + display feedback, success
+  replaces the instruction); the `CUE_MAP` coverage test parsing trig §6.8, cell §6.7 and civil §5.0.6; world-state,
+  requirement, NPC-state and quest tests; triggers fire once and honour `requires`; `endState(cutscene)` equals the
+  full-play end state for every step kind.
 
-- **Owns:** `src/world/{validate-world,resolve-world,answer-leak,probes,fail-line,feedback-nouns,config-validators,date-parse,speakers,biomes}.ts`
-  (+ tests), `src/world/diagnose/**` (+ the parity test), `src/world/state/**` (+ tests), `src/server/worlds.ts`,
-  `src/pipeline/validate/validate-gamespec.ts` (the `world` branch and the `ownerFor` case only),
-  `tests/world-validate.test.ts`, `tests/world-resolve.test.ts`, `tests/world-sidecars.test.ts`.
-- **Acceptance:** R1–R16 and W1–W3 each have one negative test; R8's tokenizer passes trig `e2.approach` and
-  `e2.before` and fails "Set the timer to π." and e6 "4 seconds"; diagnose parity for all 10 modes (≥ 50 seeded wrong
-  inputs each); probes' `nearValue` tolerance equals each mode's; `failLines` precedence (probe > near-miss > fail key
-  > default; boss taunt first); feedback nouns are whole-word and case-preserving; world-state reducer, requirements,
-  NPC state selection and `settleQuests` tests; `loadWorldFor` keying: `trig_demo_001`, `trig_platformer_001`,
-  `cell_demo_001`, `history_mystery_001`, `history_demo_001` and a mock-generated trig spec resolve their side-car;
-  `wave2_smoke_001` is skipped with a warning and plays legacy.
+Then L4 becomes **C2** (cell content) at T0 + 6.5.
 
-#### W2 · B2 "Client, machine, dialogue, HUD, audio, express" (engine-dev, about 3,400 lines, 4 h)
+#### A1 · "Art pipeline: kit, build, engraving, rig, puppets, loader" (L5, 5 h, T0 → T0 + 5; deps: none; the manifest schema lands with M0 at T0 + 2)
 
-- **Owns:** `src/game/expedition/{client,dialogue,hud,audio,map,journal}/**` (+ tests), `src/game/GameClient.tsx`,
-  `src/game/debug.ts` (the optional `expedition` field), `src/app/play/[id]/page.tsx` and `PlayClient.tsx` (`world`,
-  `worldSource`, `sfx` props), `src/server/env.ts` (`EXPEDITION_SFX` only; pipeline-dev is notified).
-- **Acceptance:** machine tests for every transition, including cutscene, sandbox and carry payoffs, and the D1/D2/D3
-  regressions; dialogue engine tests (typewriter grapheme count at 45 cps, advance, preemption, toasts, `skipAll`,
-  pins); station-slot flow tests (tutorial on first open only, insight after, hint rungs, fail lines + display
-  feedback, success replaces instruction); `CUE_MAP` covers every cue id in the three game docs; express policy
-  tests; the dev world plays intro → explore → panel → wrong (draft kept) → right → payoff → finale → EndScreen; the
-  legacy path under `?host=legacy` is byte-for-byte the old behaviour; all existing e2e green.
+- **Owns:** `art/README.md`; `src/game/art/kit/**` (+ `tests/art-kit.test.ts`); `src/game/art/palette.ts`;
+  `src/game/art/manifest-loader.ts`; `src/game/expedition/puppets/**`; `scripts/build-art.ts`, `scripts/art/**`,
+  `scripts/art-contact-sheet.ts`; `tests/{world-assets,art-engrave}.test.ts`; and **from T0 + 2** (after M0 writes
+  their stubs and seeds, so no path has two owners in W0) `src/game/art/palettes/shared.ts`, `src/world/residency.ts`
+  (+ test) and `art/shared/**` except `biome.json`.
+- **Deliverables:** the 31 generators with 02 §3a.2's signatures, the two new style values and `recipes.ts`; the §5.2
+  build (fragments and merge, lock, tokens, two-font engraving + `opentype.d.ts`, lint, anchors, puppets + rest SVGs +
+  anims validation, the rig → PNG atlases + computed anchors + fallback, manifest, per-namespace index, budgets per
+  zone and per swap pair, `--check`, `--kit-only`); atlases for `wren`, `diver`, `nell`, `ida`, `otis`; the zone loader
+  with residency; `Puppet.ts`; `assetsForZone`.
+- **Acceptance:** `pnpm art:build --check` clean; the lint rejects plain `<text>`, raw hex and external refs; the
+  engraving test (`π/2` in EB Garamond becomes paths; a glyph missing from both fonts fails); generators are
+  byte-deterministic per seed; 5 atlases with 7 anchors on every packed pose (`hand_r` from `handF`, `hand_l` from
+  `handB`); the `load.atlasXML` fallback loads; a stand-in Cog puppet packs and plays `idle`, `talk`, `cue`;
+  `assetsForZone` on the three skeleton side-cars; `heroCount ≤ 40`.
 
-#### W2 · K1 "Continuous and fallback archetypes" (engine-dev, about 3,800 lines, 4 h)
+#### A2 · "Kit zones, skin stand-ins, shared set" (L5, 4 h, T0 + 5 → T0 + 9; deps: A1, C0's zone list)
 
-- **Owns:** `src/world/contraptions/{emitter-rail,ring-gate,pendulum-sync,console-slate,tumbler-vault}.meta.ts`
-  (+ tests), `src/world/sims/pendulum-beat.ts` (+ test),
-  `src/game/hosts/expedition/contraptions/prefabs/{emitter_rail,ring_gate,pendulum_sync,console_slate,tumbler_vault}/**`.
-- **Acceptance:** the §7.4 tests for these modules; each prefab shows ≥ 3 intermediate poses while scrubbing (the ★30
-  capture); success 1.2–2.5 s, failure ≤ 1.6 s; skin snapshots render in the DOM host; `console_slate` hosts every
-  implemented mode (a test iterates `contraptionFor` over the registry).
+- **Owns:** `art/<ns>/zones/*.kit.json`, `art/<ns>/parts/<skin>/parts.kit.json` (every skin), `art/shared/{ui,fx}/**`.
+- **Deliverables:** a default kit zone preset per biome (by T0 + 6, so any zone renders); **trig `z1_sunward`'s kit
+  layer set, ground and props first (by T0 + 6.5, for Gate V)**, then every other zone of the three games from each
+  game doc's §2 layer tables; a kit entry for every §4.3 slot of every skin (the fallbacks); the shared set (5 orbs,
+  pin, interact diamond, 3 glow radii, beam cap, grain, vignette, hex tile, emblem glyphs); the §5.6 finish presets.
+- **Acceptance:** every zone shows ≥ 5 depth layers; every §4.3 slot key exists, so no prefab ever shows the dev debug
+  texture; `art:build --check` clean.
 
-#### W2 · main "Vertical-slice content" (main, about 500 JSON lines)
+#### A3 · "Vistas, finish lock, VRAM" (L5, T0 + 9 → T0 + 15; deps: A2, Gate V)
 
-`fixtures/worlds/trig.world.json` (main-owned in W2): `z1_sunward` at full detail (S0–S2, e1–e2, the intro cutscene
-with `await_interact` on Cog, Brasswick state 0, P0 traversal links, pins, probes, dialogue slots from trig §4.4),
-plus kit-art `z2`/`z3` with e3–e6 on `console_slate` so the file validates. Handed to C1 in W4.
+- **Owns:** as A2, plus `art/<ns>/vista/vista.kit.json`.
+- **Deliverables:** `orrery_terraces.vista.canyon`, the `living_gate` finale compose, `archive_of_voices.vista.dawn`
+  (kit compositions over the landmark heroes, read-only); the finish stack locked after Gate V; per-zone VRAM and
+  load-time fixes; a `--kit-only` rehearsal of each namespace.
 
-#### Gate V (main + reviewer, 0.5 h)
+#### KA · "Contraptions A: trig" (L6, 12 h, T0 + 2 → T0 + 14; deps: M0, A1, KB1's `membrane-fold` sim for one validator)
 
-The critic scores three shots (trig e1 mid-scrub, e2 panel open, a z1 establishing shot) against bible §9 A–E, the
-finish stack and game-feel items 37–41. Result: proceed, or a fix list dispatched as F-slot items (≤ 1 h) before W3.
+**Owns for the lane's whole life:** `src/world/contraptions/{claim-holders,step-bridge,emitter-rail,ring-gate,
+pendulum-sync}.meta.ts` (+ tests), `src/world/sims/pendulum-beat.ts` (+ test),
+`prefabs/{claim_holders,step_bridge,emitter_rail,ring_gate,pendulum_sync}/{prefab,shared}.ts`, the skin files
+`prefabs/emitter_rail/skins/vesper_dial.ts`, `prefabs/ring_gate/skins/ring_gate.ts`,
+`prefabs/pendulum_sync/skins/wardens_shield.ts`, `prefabs/claim_holders/skins/{resonance_pillars,treasury_pillars}.ts`,
+`prefabs/step_bridge/skins/floating_steps.ts`, and the hero art
+`art/orrery_terraces/parts/{resonance_pillars,treasury_pillars,floating_steps,wardens_shield}/parts.hero.json` + SVGs.
 
-#### W3 · K2 "Claims and sequences" (engine-dev, about 4,600 lines, 5.5 h)
+| Item | Window | Deliverables | Acceptance |
+|---|---|---|---|
+| **KA1** shared cores | 2 → 4 (2 h) | `claim-holders.meta.ts` and `step-bridge.meta.ts` complete for **every** skin (Pose types, `pose`, `lerp`, `describe`, panel models incl. FILE-first and `recordPins` when `StaticInput.record`, hint targets, failure and success plans, `validateConfig` incl. the stage-rail check via `membraneFold`, `defaultConfig`, writer schema): the contract other lanes' skins draw from | the §7.4 rows for both metas (ghost honesty, the no-leak test, the e9 bay-lamp gate, the stage table) |
+| **KA2** e1/e2 archetypes | 4 → 7 (3 h) | `emitter_rail` and `ring_gate`: metas, prefab cores, skins `vesper_dial`, `ring_gate` (drawn against the kit stand-ins and C1's heroes as they land) | §7.4 rows; ≥ 3 intermediate poses while scrubbing (★30); success 1.2–2.5 s, failure ≤ 1.6 s; snapshots in the DOM host; **trig e1/e2 native for Gate V** |
+| **KA3** trig archetypes | 7 → 11 (4 h) | `pendulum_sync` + `pendulum-beat`; the `claim_holders` and `step_bridge` prefab cores; skins `resonance_pillars` (+ `faceplate`), `treasury_pillars`, `floating_steps`, `wardens_shield` | §7.4 rows; every trig skin renders its live link, success and failure on the dev world; trig e3–e6 native in the side-car |
+| **KA4** trig skin heroes | 11 → 14 (3 h) | 18 hero parts (§7.0 quota) replacing their kit stand-ins | `art:build --check` clean; `heroCount ≤ 40` in `orrery_terraces`; contact sheets reviewed |
 
-- **Owns:** `src/world/contraptions/{claim-holders,oracle-ticker,step-bridge}.meta.ts` (+ tests),
-  `src/world/sims/{bilayer-probe,diffusion-tank,osmotic-cell,pump-flume,membrane-fold,index}.ts` (+ tests),
-  `prefabs/{claim_holders,oracle_ticker,step_bridge}/**`.
-- **Acceptance:** the §7.4 tests for these modules, including ghost honesty, the no-leak test, the e9 bay-lamp gate
-  and the stage physics table; every skin (`resonance_pillars`, `treasury_pillars`, `specimen_pods` with the four
-  reference apparatus, `witness_projector` with both aimers, `wire_ticker`, `floating_steps`, `walking_road`,
-  `timeline_bridge`, `endocytosis_lift`) renders its live link, success and failure on the dev world.
+Then L6 is an F slot for its own paths.
 
-#### W3 · K3 "Routers, waves and links" (engine-dev, about 4,800 lines, 5.5 h)
+#### KB · "Contraptions B: cell + biology sims" (L7, 11.5 h, T0 + 2 → T0 + 13.5; deps: M0, A1, KA1 for the `claim_holders` and `step_bridge` skins)
 
-- **Owns:** `src/world/contraptions/{router-lanes,sluice-waves,switchboard,stage-machine,cause-tubes}.meta.ts`
-  (+ tests), `prefabs/{router_lanes,sluice_waves,switchboard,stage_machine,cause_tubes,_cables}/**`.
-- **Acceptance:** the §7.4 tests for these modules, including boss phase batching, the neutral "loaded" label, counts
-  without capacities and first-miss-only failure plans; every skin (`membrane_router`, `carrier_lanes`,
-  `gatekeeper_maws`, `filing_cabinets`, `provenance_drawers`, `tonicity_sluices`, `switchboard`, `pump_rewiring`,
-  `relay_line`, `broadcast_relay`, `big_board`) renders on the dev world.
+**Owns for the lane's whole life:** `src/world/contraptions/{router-lanes,sluice-waves,stage-machine}.meta.ts`
+(+ tests), `src/world/sims/{bilayer-probe,diffusion-tank,osmotic-cell,pump-flume,membrane-fold}.ts` (+ tests),
+`prefabs/{router_lanes,sluice_waves,stage_machine}/{prefab,shared}.ts`, `prefabs/_cables/**` (shared cord and cable
+drawing; KC imports it read-only), the skin files `prefabs/router_lanes/skins/{membrane_router,carrier_lanes,
+gatekeeper_maws}.ts`, `prefabs/sluice_waves/skins/tonicity_sluices.ts`, `prefabs/stage_machine/skins/pump_rewiring.ts`,
+`prefabs/claim_holders/skins/specimen_pods.ts`, `prefabs/step_bridge/skins/endocytosis_lift.ts`, and the hero art
+`art/living_gate/parts/{tonicity_sluices,carrier_lanes,pump_rewiring,gatekeeper_maws}/parts.hero.json` + SVGs.
 
-#### W3 · A2 "Cell and civil zone 1, kit zones, landmarks" (engine-dev art, about 45 hero SVG + about 40 kit entries, 5.5 h)
+| Item | Window | Deliverables | Acceptance |
+|---|---|---|---|
+| **KB1** router core + sims | 2 → 4 (2 h) | `router-lanes.meta.ts` complete for every skin (the contract for KC's civil skins); the five sims (seeded, measurable state only, ghost registry) incl. `membraneFold` | §7.4 rows for `router_lanes` and the sims |
+| **KB2** routers + sluices | 4 → 7 (3 h) | `router_lanes` prefab core + skins `membrane_router` (+ `gate_fin`, `gate_ring_outer`, `gate_ring_inner`), `carrier_lanes`, `gatekeeper_maws` (+ `eye_pupil`; boss phase batches, maws open on focus, the eye tracks the focused cargo, the ATP pipe); `sluice_waves` meta + prefab + `tonicity_sluices` (+ `cell_protoplast`, `lock_leaf`) | §7.4 rows (boss batching, counts without capacities, first-miss-only failure, the wave rules) |
+| **KB3** stage machine + cell skins | 7 → 11 (4 h) | `stage_machine` + `pump_rewiring` (the neutral "loaded: …" label); skin `specimen_pods` (+ `mimic_mote`) over the four reference sims; skin `endocytosis_lift` (stage-rail bays, playback probe) | §7.4 rows; every cell skin renders its live link, success and failure on the dev world; cell e1–e11 native in the side-car |
+| **KB4** cell skin heroes | 11 → 13.5 (2.5 h) | 14 hero parts (§7.0 quota) | `art:build --check` clean; `heroCount ≤ 40` in `living_gate` |
 
-- **Owns:** `art/{orrery_terraces,living_gate,archive_of_voices}/**`,
-  `public/assets/expedition/{orrery_terraces,living_gate,archive_of_voices}/**`,
-  `src/world/asset-index/{orrery_terraces,living_gate,archive_of_voices}.generated.ts`,
-  `src/game/art/palettes/{orrery_terraces,living_gate,archive_of_voices}.ts`.
-- **Deliverables:** cell `zone_a` full art; civil `s1_morgue` Record Engine hero and `s2_courthouse` full art; kit
-  layer sets for every other zone of the three games; the non-part hero landmarks of §0.1.2 (trig Crystal Stair
-  waterfall cliff and dome interior; cell trench + Poro, Pump Hall shell, Nuclear Pore; civil school, five-and-dime,
-  terminal, church rose window, memorial colonnade); parts for `specimen_pods` (e1 apparatus), `membrane_router`,
-  `witness_projector`, `walking_road`; Pip and Wick; costumes for the Diver, Nell, Ida and Otis; vistas
-  `orrery_terraces.vista.canyon` and `archive_of_voices.vista.dawn` composed from kit layers.
-- **Acceptance:** `art:build --check` clean for the three namespaces; `heroCount ≤ 60` each; contact sheets reviewed
-  by the critic; every P0 kit zone shows ≥ 5 depth layers.
+Then L7 is an F slot for its own paths.
 
-#### W4 · C1 / C2 / C3 "Content + remaining biome art" (one agent per game: mechanics-dev content with art duties, about 1,400 JSON lines + 15–25 hero SVG each, 5 h)
+#### KC · "Contraptions C: civil + record strip" (L8, 11 h, T0 + 2 → T0 + 13; deps: M0, A1, KA1 and KB1 for the civil skins of shared archetypes)
+
+**Owns for the lane's whole life:** `src/world/record-strip.ts` (+ test), `src/world/contraptions/{oracle-ticker,
+cause-tubes,switchboard,tumbler-vault}.meta.ts` (+ tests), `prefabs/{oracle_ticker,cause_tubes,switchboard,
+tumbler_vault}/**` except each `skins/index.ts` (main) (cores and their skins `wire_ticker`, `relay_line`, `broadcast_relay`, `big_board`, `switchboard`,
+`tumbler_vault`), the skin files `prefabs/claim_holders/skins/witness_projector.ts`,
+`prefabs/step_bridge/skins/{walking_road,timeline_bridge}.ts`, `prefabs/router_lanes/skins/{filing_cabinets,
+provenance_drawers}.ts`, `src/game/hosts/expedition/contraptions/accessories/record-lens.ts`, and the hero art
+`art/archive_of_voices/parts/{wire_ticker,broadcast_relay,switchboard,timeline_bridge,tumbler_vault,big_board,
+provenance_drawers}/parts.hero.json` + SVGs.
+
+| Item | Window | Deliverables | Acceptance |
+|---|---|---|---|
+| **KC1** record strip + civil metas | 2 → 4 (2 h) | `recordCard()` (A6), the FILE-card helpers (footprints, `fileDates`, hint pins → `recordPins`), the record-lens maths (`lensTarget(rail, window, probe)`); `oracle-ticker.meta.ts` and `tumbler-vault.meta.ts` | with the civil strip, e1's RECORD shows 0 earned pins and e9's shows 11; spans become bands; §7.4 rows for both metas (tumbler marks never reach the input) |
+| **KC2** tubes + switchboard | 4 → 7 (3 h) | `cause_tubes` meta + core + skins `relay_line`, `broadcast_relay`, `big_board`; `switchboard` meta + prefab + skin (+ `steps`) | §7.4 rows (sag formulas, Manhattan routes, gauge, dishes, `boardWidth ≤ 1100`; seated lamps white before Verify, decoy dim only at `hintsUsed = 3`) |
+| **KC3** civil prefabs + skins | 7 → 11 (4 h) | `oracle_ticker` + `wire_ticker`, `tumbler_vault` prefabs; skins `witness_projector` (both aimers), `walking_road` (day counter), `timeline_bridge` (the bay-lamp gate), `filing_cabinets` (+ `stairwell`), `provenance_drawers`; the `record_lens` accessory prefab | every civil skin renders its live link, success and failure on the dev world; `sensitiveSafe` skins only (no shake, burst or strike fx); civil e1–e12 native in the side-car |
+| **KC4** civil skin heroes | 11 → 13 (2 h) | 11 hero parts (§7.0 quota) | `art:build --check` clean; `heroCount ≤ 40` in `archive_of_voices` |
+
+Then L8 is an F slot for its own paths.
+
+#### C0 · "Three side-cars from the docs" (L9, 4 h, T0 + 2 → T0 + 6; deps: M0)
+
+- **Owns:** `fixtures/worlds/{trig,cell-transport,civil-rights}.world.json`,
+  `src/game/art/palettes/{orrery_terraces,living_gate,archive_of_voices}.ts`, and optionally
+  `scripts/expand-world-doc.ts` (about 100 lines: expands each doc's shorthand, trig `"@intro.01"`, civil `"I01"` and
+  `"YEAR(min, max)"`, cell `"dialogue": "§4.3 rows …"`, from the docs' §4 tables; about an hour saved per game).
+- **Deliverables:** all three side-cars transcribed from the game docs, P0 content first: zones, links (incl. trig
+  `s0_canal_in`), stations with their full configs, cast, story (meter, progress effects, `recordStrip`), the P0
+  cutscenes (with `ride.toSurface`; no fade + `enter_zone` pairs), the P0 NPC states, plaques and triggers.
+- **Acceptance:** `WorldFile.parse` passes for all three from T0 + 2; every station's config parses with its
+  `*.config.ts`; from T0 + 6 `validateWorld` errors are reported to main (who lists them in `PROGRESS.md`) for C1–C3.
+
+#### C1 / C2 / C3 · "Content + art" (one lane per game, T0 + 6 → T0 + 15)
+
+| Item | Lane, window | Owns | Deliverables (P0 first) | Hero quota |
+|---|---|---|---|---|
+| **C1 trig** | L9, 6 → 15 | `fixtures/worlds/trig.world.json`, `src/game/art/palettes/orrery_terraces.ts`, `art/orrery_terraces/{landmarks,cast}/**`, `art/orrery_terraces/parts/{vesper_dial,ring_gate}/parts.hero.json` + SVGs | **zone-1 heroes by T0 + 9 for Gate V** (`vesper_dial` ×3, `ring_gate` ×5, orrery tower, gondola, the Cog puppet + anims, Wren's 4 costumes, the Brasswick puppet + anims); then stations e3–e6 native, dialogue slots from trig §4.4, probes, pins, boss staging, cutscenes (`intro`, `e6_arena`, `e3_lift_up`, `z2_entry`, `z3_entry`, `finale` with the canyon vista), exits, extras; the landmarks | 19 |
+| **C2 cell** | L4, 6.5 → 15 | `fixtures/worlds/cell-transport.world.json`, `src/game/art/palettes/living_gate.ts`, `art/living_gate/{landmarks,cast}/**`, `art/living_gate/parts/{specimen_pods,membrane_router,endocytosis_lift}/parts.hero.json` + SVGs | zone-A heroes; all 11 stations, the Gradient meter, the 11 pore `hub_socket`s, boss phases 2 + 2 + 3 and taunts, cutscenes (intro, e4 raft, e6 carry, e7 gantry, e9 barge, e10 vesicle, `e11_arena`, finale), plaques P1–P2, extras; the landmarks | 22 |
+| **C3 civil** | L1, 6 → 15 | `fixtures/worlds/civil-rights.world.json`, `src/game/art/palettes/archive_of_voices.ts`, `art/archive_of_voices/{landmarks,cast}/**`, `art/archive_of_voices/parts/{witness_projector,walking_road,record_lens}/parts.hero.json` + SVGs | zone-1 heroes (incl. the Record Engine hub puppet recipe with `Hub.anims`, Ida and Otis overlays, Wick); all 12 stations, `recordStrip`, `record_lens` accessories, the 8 zones with interiors and segment variants, cutscenes (intro with `control_until` + `await_interact` + `set_state`, `enter_s2` … `enter_s8`, arenas, the rides, the finale with the dawn vista), Ida and Otis NPCs, the 4 P0 plaques; **the reviewer's (opus) sensitivity sign-off at T0 + 13** (in L3's slot) | 24 |
+
+- **Acceptance (each):** `validateWorld` returns zero errors (warnings reported to main for `PROGRESS.md`); an express run
+  completes every station and the finale on `webgl` and `dom`; R8/R9 clean; `heroCount ≤ 40` in the namespace; the
+  dialogue lines are the game doc's, re-pointed to slots, each ≤ 140 characters.
+
+#### E1 / E2 / E3 · "e2e and fidelity harness" (L10, T0 + 2 → T0 + 14.5)
+
+- **Owns:** `playwright.config.ts` (projects `webgl` and `dom`; `webServer.env.EXPEDITION_SFX=off`),
+  `e2e/helpers/expedition.ts`, `e2e/expedition-{trig,cell,civil,express,keyboard}.spec.ts`, `e2e/play-mystery.spec.ts`
+  (its second test moves to `?host=legacy`), `scripts/capture-scenes.ts`, `docs/design/fidelity/**`.
+
+| Item | Window | Deliverables | Acceptance |
+|---|---|---|---|
+| **E1** harness | 2 → 5 (3 h) | the config, helpers (wait for `host()?.ready`, collect console and page errors), the keyboard spec on the dev world (one station per control kind), the capture script, `shots.json` | the config and helpers green against the legacy host; the keyboard spec written against H1's dev world and green on `webgl` once H2 lands (T0 + 8); the capture writes PNGs with fps and draw-object counts |
+| **E2** trig spec | 5 → 9.5 (4.5 h) | `expedition-trig.spec.ts` (§8.2 steps 1–13 as they become possible), the Gate V capture | steps 1–9 green for e1–e2 on both projects by T0 + 9.5 |
+| **E3** the rest | 10 → 14.5 (4.5 h) | `expedition-{cell,civil,express}.spec.ts`, the full trig spec, the capture rounds for §8.3, latency and fps | §8.2 green on both projects for the three games; express completes each game |
+
+#### Gate V, critic rounds, fix slot, freeze
+
+- **Gate V** (main + the critic in L3's slot, 0.5 h, T0 + 10 = 08:00): the critic scores trig e1 mid-scrub, e2 with
+  the panel open and a `z1_sunward` establishing shot per §8.3 (P0 scoring). Result: proceed, or a fix list dispatched
+  to the owning lanes (≤ 1 h each).
+- **R · critic rounds** (reviewer, read-only, in L3's slot, T0 + 12.5 → T0 + 14): §8.3 on every game; the civil
+  sensitivity sign-off.
+- **F · fix slot** (L3 from T0 + 7; L6, L7, L8 after their last item): main groups findings by `ownerPath`. A fix goes
+  to the path's owning lane while that lane is active; an F slot takes only paths whose owning item has ended, and
+  holds them for the fix's duration.
+- **P0 freeze** (main, T0 + 15 = 13:00): every §0.1.2 row green, typecheck/test/e2e green, the P0 rubric met, express
+  runs recorded; checkpoint.
+
+#### After P0 freeze (P1, then P2)
 
 | Item | Owns | Deliverables |
 |---|---|---|
-| **C1 trig** | `fixtures/worlds/trig.world.json`, `art/orrery_terraces/**`, its public output, index file and palette file | all 6 stations per §4.1 (e3–e6 replace the slates), dialogue slots from trig §4.4, probes, pins, boss staging, cutscenes (intro, `e6_arena`, finale with the canyon vista), exits, extras, P0 traversal; parts for `resonance_pillars`/`treasury_pillars`, `floating_steps`, `wardens_shield` (the Warden hero); Brasswick |
-| **C2 cell** | `fixtures/worlds/cell-transport.world.json`, `art/living_gate/**`, its public output, index and palette | all 11 stations, the Gradient meter, boss phases 2 + 2 + 3, cutscenes (intro, e6 carry, e10 vesicle carry, `e11_arena`, finale), extras, P0 traversal; parts for the remaining `specimen_pods` apparatus, `carrier_lanes`, `gatekeeper_maws` (the Gatekeeper hero), `tonicity_sluices`, `pump_rewiring` (the pump hero), `endocytosis_lift` (the Halcyon); Sucra |
-| **C3 civil** | `fixtures/worlds/civil-rights.world.json`, `art/archive_of_voices/**`, its public output, index and palette | all 12 stations, `recordStrip` pins, `record_lens` accessories, the 8 zones with interiors, cutscenes (intro with `control_until` + `await_interact`, arenas, the streetcar ride, finale with the dawn vista), extras, P0 traversal; parts for `wire_ticker`, `relay_line`, `broadcast_relay`, `switchboard`, `filing_cabinets`, `provenance_drawers`, `timeline_bridge` (the bridge hero), `big_board`, `tumbler_vault` (the vault door and press-organ); **reviewer (opus) sensitivity sign-off** |
-
-- **Acceptance (each):** `validateWorld` returns zero errors (warnings listed in `PROGRESS.md`); an express run
-  completes every station and the finale on `webgl` and `dom`; R8/R9 clean; `heroCount ≤ 60`; dialogue lines are the
-  game doc's, re-pointed to slots, each ≤ 140 characters.
-
-#### W5 · E1 "e2e, capture, performance" (engine-dev, about 1,200 lines, 3 h) + R reviewer + one F slot
-
-- **Owns:** `e2e/expedition-{trig,cell,civil,express,keyboard}.spec.ts`, `e2e/play-mystery.spec.ts` (its second test
-  moves to `?host=legacy`), `playwright.config.ts` (projects `webgl` and `dom`; `webServer.env.EXPEDITION_SFX=off`),
-  `scripts/capture-scenes.ts`, `docs/design/fidelity/shots.json`.
-- **Acceptance:** §8.2 green on both projects for the three games; one keyboard-only test per control kind on
-  `webgl`; the capture produces the shot list per game with fps and draw-object counts.
-- **R (reviewer, read-only):** fidelity critic rounds (§8.3) and the sensitivity pass. **F slot:** main groups the
-  critic's findings by `ownerPath` and dispatches one fix agent owning exactly those paths; P0 freeze at the end.
-
-#### W6 (P1) and W7 (P2)
-
-| Item | Owns | Deliverables |
-|---|---|---|
-| **S1 sandboxes** (engine-dev) | `src/world/sandboxes/**` (+ tests), `prefabs/{music_box,plant_garden,darkroom}/**` | the three sandbox metas and prefabs; goals; the Music Box tone via the synth bus |
-| **Q1 side content** (mechanics-dev) | the three `fixtures/worlds/*.world.json` | one quest per game (§0.1.3), all NPC states, all triggers, the three sandboxes placed, progress effects, traversal beat sheets for every zone (W2 clean) |
-| **A3 remaining hero art** (engine-dev art) | `art/{orrery_terraces,living_gate,archive_of_voices}/**` and outputs | the P1 full-art zones; Lumen, Quill, Poro, Kay, the Ferryman, Hattie, Dolores and Theo looks and puppets |
+| **SB sandboxes** (engine-dev) | `src/world/sandboxes/*.meta.ts` (+ tests), `prefabs/{music_box,plant_garden,darkroom}/**` except `skins/index.ts` | the three sandbox metas and prefabs; goals; the Music Box tone via the synth bus |
+| **Q1 side content** (one agent per side-car) | `fixtures/worlds/*.world.json` | one quest per game (§0.1.3), all NPC states, all triggers, the three sandboxes placed, the civil negatives, progress effects, every zone's beat sheet (W2 clean) |
+| **A4 remaining art** (the content lanes) | `art/<ns>/{landmarks,cast}/**` | the P1 full-art zones; the Lumen, Quill, Sucra, Kay and Ferryman puppets; Hattie, Dolores and Theo atlases and overlays |
 | **U1 map and journal** (ui-dev, P2) | `src/game/expedition/{map,journal}/**` | `MapOverlay` styles and `JournalReader` tabs |
-| **Q2 secrets and collectibles** (mechanics-dev, P2) | the three side-cars | wisps, shards, negatives, pages, telescopes, the darkroom unlock |
+| **Q2 secrets and collectibles** (P2) | the three side-cars | wisps, shards, pages, telescopes |
 
-### 7.3 Ownership matrix (who may write what, per wave)
+### 7.3 Ownership matrix (who may write what, by window)
 
-| Path | W0 | W1 | W2 | W3 | W4 | W5 | W6 |
-|---|---|---|---|---|---|---|---|
-| `src/contracts/**`, registries, `types.ts` files, `package.json` | main | main | main | main | main | main | main |
-| `src/game/hosts/expedition/**` (not prefabs) | main (stubs) | **H1** | main | main | main | F slot | main |
-| `src/game/hosts/expedition/contraptions/prefabs/<id>/**` | main (stubs) | — | **K1** (5 ids) | **K2** (3), **K3** (5 + `_cables`) | — | F slot | **S1** (sandboxes) |
-| `src/world/contraptions/<id>.meta.ts` | main (stubs) | — | **K1** | **K2**, **K3** | — | F slot | — |
-| `src/world/sims/**` | — | — | **K1** (`pendulum-beat`) | **K2** (the rest + `index`) | — | F slot | — |
-| `src/world/{validate,resolve,…}`, `diagnose/**`, `state/**`, `src/server/worlds.ts` | — | — | **B1** | main | main | F slot | — |
-| `src/world/graph-math.ts`, `src/game/expedition/panel/**`, `src/game/widgets/*.tsx` | — | **P1** | main | main | main | F slot | — |
-| `src/game/expedition/{client,dialogue,hud,audio}/**`, `GameClient.tsx`, `debug.ts`, play page | — | — | **B2** | main | main | F slot | — |
-| `art/kit/**`, `art/shared/**`, `scripts/build-*.ts`, `src/game/art/palette.ts` | — | **A1** | main | main | main | main | main |
-| `art/orrery_terraces/**` (+ outputs) | — | **A1** | — | **A2** | **C1** | F slot | **A3** |
-| `art/living_gate/**`, `art/archive_of_voices/**` (+ outputs) | — | — | — | **A2** | **C2**, **C3** | F slot | **A3** |
-| `fixtures/worlds/trig.world.json` | main | — | main | — | **C1** | F slot | **Q1** |
-| `fixtures/worlds/{cell-transport,civil-rights}.world.json` | main | — | — | — | **C2**, **C3** | F slot | **Q1** |
-| `e2e/**`, `playwright.config.ts`, `scripts/capture-scenes.ts` | — | — | — | — | — | **E1** | main |
+| Path | 0 → 2 | 2 → 6 | 6 → 10 | 10 → 15 | after freeze |
+|---|---|---|---|---|---|
+| main-only files (§7.0) | main | main | main | main | main |
+| `src/world/{validate-world,resolve-world,answer-leak,probes,fail-line,feedback-nouns,config-validators,date-parse,speakers,biomes,hint-targets}.ts`, `diagnose/**`, `src/server/worlds.ts` | main (stubs) | **V1** (L1) | F | F | main |
+| `src/game/hosts/expedition/**` (not `bridge.ts`, contraption types/registry, prefabs, accessories, `cutscene/**`, `scene/triggers.ts`), `PlayHost.tsx`, `prefabs/console_slate/**` | main (stubs) | **H1** (L2) | **H2/H3** (L2) | **H3** (L2) | main |
+| `src/game/expedition/client/**`, `GameClient.tsx`, `debug.ts`, play page, `env.ts` (`EXPEDITION_SFX`) | — | — | **H2/H3** (L2) | **H3** (L2) | main |
+| `src/game/expedition/panel/**`, `src/world/graph-math.ts`, `src/game/widgets/*.tsx` (`onDraft`), `src/app/dev/panel/**` | — | **P1** (L3) | F (L3) | F (L3) | main |
+| `src/game/expedition/{dialogue,hud,audio,map,journal}/**` (not `dialogue/types.ts`), `src/world/state/**`, `cutscene/**`, `scene/triggers.ts` | main (types) | **S1** (L4) | F | F | U1 (map, journal) |
+| `src/game/art/{kit,manifest-loader.ts,palette.ts}`, `src/game/expedition/puppets/**`, `scripts/{build-art.ts,art/**,art-contact-sheet.ts}` | **A1** (L5) | **A1/A2** (L5) | **A2/A3** (L5) | **A3** (L5) | main |
+| `src/game/art/palettes/shared.ts`, `src/world/residency.ts`, `art/shared/**` (not `biome.json`) | main (stubs, seeds, empty fragments) | **A1/A2** (L5) | **A2/A3** (L5) | **A3** (L5) | main |
+| `art/<ns>/{zones,vista}/**`, `art/<ns>/parts/*/parts.kit.json` | main (empty) | **A2** (L5, from 5) | **A2/A3** (L5) | **A3** (L5) | A4 |
+| KA metas, `pendulum-beat.ts`, the 5 trig-core prefabs, the 6 trig skin files, trig skin hero fragments (§7.2 KA) | main (stubs) | **KA** (L6) | **KA** (L6) | **KA** (L6) | main |
+| KB metas, the 5 biology sims, `_cables`, the 7 cell skin files, cell skin hero fragments (§7.2 KB) | main (stubs) | **KB** (L7) | **KB** (L7) | **KB** (L7) | main |
+| `record-strip.ts`, KC metas and cores, the 11 civil skin files, `accessories/record-lens.ts`, civil skin hero fragments (§7.2 KC) | main (stubs) | **KC** (L8) | **KC** (L8) | **KC** (L8) | main |
+| `fixtures/worlds/*.world.json`, the three biome palette files | main (skeletons, seeds) | **C0** (L9) | **C1** trig (L9), **C2** cell (L4), **C3** civil (L1) | C1, C2, C3 | Q1, Q2 |
+| `art/<ns>/{landmarks,cast}/**`, the zone-1 skins' hero fragments (§7.2 C1–C3) | main (empty) | — | C1, C2, C3 | C1, C2, C3 | A4 |
+| `playwright.config.ts`, `e2e/**`, `scripts/capture-scenes.ts`, `docs/design/fidelity/**` | — | **E1/E2** (L10) | **E2** (L10) | **E3** (L10) | main |
+| `src/world/sandboxes/*.meta.ts`, `prefabs/{music_box,plant_garden,darkroom}/**` | main (stubs) | — | — | — | SB |
 
 ### 7.4 Pure modules and their unit tests (the explicit list)
 
 | Module | Owner | Tests (what they prove) |
 |---|---|---|
-| `src/world/contraptions/emitter-rail.meta.ts` | K1 | arc carriage at θ = 0, π/2, π equals `C + r(cos θ, −sin θ)`; straight/log rail mapping; `bracket()` for 20 values; detents snap within 0.05 rad to π/12 studs; the carriage chip never prints a decimal; **parity**: beam-locked pose ⟺ `grade().correct` over 400 samples; chevron count from the diagnosis distance band |
-| `src/world/contraptions/ring-gate.meta.ts` | K1 | angles at 0, π/2, π, 2π; `tally(2π) = 2`; **parity**: aligned ⟺ \|T − π\| ≤ 0.1885 ⟺ grade correct (400 samples); ghost coincidence `max\|f(t) − f(t + T)\| < 1e−9` at T = π; release replay progress resets on settle; near-miss `aligned_multiple` at 2π and `short_of_cycle` below π |
-| `src/world/contraptions/pendulum-sync.meta.ts` + `src/world/sims/pendulum-beat.ts` | K1 | `syncBrightness(T = 4, τ ≤ 30 s) ≥ 0.99`; `beatHz(T) = \|1/4 − 1/T\|`; the common-start reset on open and settle zeroes both phases; seeded determinism; **parity** (400 samples); the failure plan snaps the thread; `sync_hum` pitch ∝ B |
-| `src/world/contraptions/console-slate.meta.ts` | K1 | `contraptionFor` returns a meta covering every implemented mode; snapshot parts exist |
-| `src/world/contraptions/tumbler-vault.meta.ts` | K1 | struck ⇒ 90° rotation; the last-unstruck glow comes only from `marks`; `marks` never reach `toSubmitInput`; the failure plan uses `wrongKeys = [id, clue:i]`; count shading only at `hintsUsed = 3` |
-| `src/world/contraptions/claim-holders.meta.ts` | K2 | aim angle per holder; display order → holder slot stable for the seed; hover previews without committing; `trace_slate` playhead and bell pitch ∝ \|f(x)\|; `validateConfig`: traces evaluate, brackets in range, **ghost honesty** (swapped tags → error), footprints all-or-none, footprint years present; **no-leak**: `pose`/`describe`/`panelLive` unchanged when `quarantineAnim` is permuted and for solution-swapped params with an identical view; aid-tier gates (midline at 1, \|y\| card at 2); `scenarioMin` gating; the failure plan holds `wrongKeys[0]` bright |
-| `src/world/contraptions/oracle-ticker.meta.ts` | K2 | knob angle per display position; tape retypes on change; no reveal text in `panelLive` before Verify; `payoffLamps` success-only |
-| `src/world/contraptions/step-bridge.meta.ts` + `src/world/sims/membrane-fold.ts` | K2 | socket and bay positions; the stage table for 6 orders (pinch before fold → empty micro-vesicle; decoy → bounce); only the solution order reaches `travel = 1`; **e9 gate**: world `bayLamps` all off at aid tier 0 for every draft and cursor; FILE-card lamps at printed dates; the day-counter formula; relief crossings where `2 sin x = 1`; the failure plan locks the prefix, tips the slot of `wrongKeys[0]`, crumbles a decoy |
-| `src/world/sims/{bilayer-probe,diffusion-tank,osmotic-cell,pump-flume,index}.ts` | K2 | seeded determinism; `cL`/`cR` converge and `J` has the sign of `cL − cR`; `V/V₀ = b + (1 − b)·C_in / max(s, 0.3)` clamped; steady state `ΔC = 0.96 r`; ghost registry tags |
-| `src/world/contraptions/router-lanes.meta.ts` | K3 | the queue formula; chips carry counts only (no capacity text); lens at `lensTier`; ATP projection; **boss phases**: later batches hidden until the previous batch is placed, `complete` only when all are placed; maw opens on focus; eye angle; the failure plan acts on `wrongKeys[0]` only and opens only the disclosed bin's shutter; `vehicle` success-only |
-| `src/world/contraptions/sluice-waves.meta.ts` | K3 | cell x vs `secondsLeft`; hover render `ρ_out = ρ_in·k`; `showFate: false` keeps V = 1 before Verify; retry preselection; the failure plan returns only the wave in `wrongKeys` |
-| `src/world/contraptions/switchboard.meta.ts` | K3 | seated lamps white, never cyan, before Verify; program lines by left key; decoy dim only at `hintsUsed = 3` and only when configured; the failure plan unseats `wrongKeys[0]` |
-| `src/world/contraptions/stage-machine.meta.ts` | K3 | drum angle 60°·k; conformation by k; cartridges load by semantic; the **neutral "loaded: …" label** (never "?"); ledger `q`; the failure plan jams at the stage of `wrongKeys[0]`'s socket |
-| `src/world/contraptions/cause-tubes.meta.ts` | K3 | catenary and vertical sag formulas; Manhattan routes with ≤ 2 bends; gauge = edges / edgeCount; dishes face their source; placement by display index; `boardWidth ≤ 1100`; decoy pop and focus spark plans |
-| `src/world/sandboxes/{music-box,plant-garden,darkroom}.meta.ts` | S1 | goals; tone `220·b` Hz, gain `0.2·A/3`; plasmolysis above 2 %; `all_developed` |
+| `src/world/contraptions/emitter-rail.meta.ts` | KA2 | arc carriage at θ = 0, π/2, π equals `C + r(cos θ, −sin θ)`; straight/log rail mapping; `bracket()` for 20 values; detents snap within 0.05 rad to π/12 studs; the carriage chip never prints a decimal; **parity**: beam-locked pose ⟺ `grade().correct` over 400 samples; chevron count from the diagnosis distance band |
+| `src/world/contraptions/ring-gate.meta.ts` | KA2 | angles at 0, π/2, π, 2π; `tally(2π) = 2`; **parity**: aligned ⟺ \|T − π\| ≤ 0.1885 ⟺ grade correct (400 samples); ghost coincidence `max\|f(t) − f(t + T)\| < 1e−9` at T = π; release replay progress resets on settle; near-miss `aligned_multiple` at 2π and `short_of_cycle` below π |
+| `src/world/contraptions/pendulum-sync.meta.ts` + `src/world/sims/pendulum-beat.ts` | KA3 | `syncBrightness(T = 4, τ ≤ 30 s) ≥ 0.99`; `beatHz(T) = \|1/4 − 1/T\|`; the common-start reset on open and settle zeroes both phases; seeded determinism; **parity** (400 samples); the failure plan snaps the thread; `sync_hum` pitch ∝ B |
+| `src/world/contraptions/console-slate.meta.ts` | H1 | `contraptionFor` returns a meta covering every implemented mode; snapshot parts exist |
+| `src/world/contraptions/claim-holders.meta.ts` | KA1 | aim angle per holder; display order → holder slot stable for the seed; hover previews without committing; `trace_slate` playhead and bell pitch ∝ \|f(x)\|; `validateConfig`: traces evaluate, brackets in range, **ghost honesty** (swapped tags → error), footprints all-or-none, footprint years present; **no-leak**: `pose`/`describe`/`panelLive` unchanged when `quarantineAnim` is permuted and for solution-swapped params with an identical view; aid-tier gates (midline at 1, \|y\| card at 2); `scenarioMin` gating; FILE first and `recordPins` when `StaticInput.record`; hint targets start from the skin's; the failure plan holds `wrongKeys[0]` bright |
+| `src/world/contraptions/step-bridge.meta.ts` | KA1 | socket and bay positions; the stage table for 6 orders (pinch before fold → empty micro-vesicle; decoy → bounce); only the solution order reaches `travel = 1`; **e9 gate**: world `bayLamps` all off at aid tier 0 for every draft and cursor; FILE-card lamps at printed dates; the day-counter formula; relief crossings where `2 sin x = 1`; the failure plan locks the prefix, tips the slot of `wrongKeys[0]`, crumbles a decoy |
+| `src/world/sims/{bilayer-probe,diffusion-tank,osmotic-cell,pump-flume,membrane-fold}.ts` | KB1 | seeded determinism; `cL`/`cR` converge and `J` has the sign of `cL − cR`; `V/V₀ = b + (1 − b)·C_in / max(s, 0.3)` clamped; steady state `ΔC = 0.96 r`; ghost registry tags; `membraneFold` stage outcomes |
+| `src/world/contraptions/router-lanes.meta.ts` | KB1 | the queue formula; chips carry counts only (no capacity text); lens at `lensTier`; ATP projection; **boss phases**: later batches hidden until the previous batch is placed, `complete` only when all are placed; maw opens on focus; eye angle; the failure plan acts on `wrongKeys[0]` only and opens only the disclosed bin's shutter; `vehicle` success-only |
+| `src/world/contraptions/sluice-waves.meta.ts` | KB2 | cell x vs `secondsLeft`; hover render `ρ_out = ρ_in·k`; `showFate: false` keeps V = 1 before Verify; retry preselection; the failure plan returns only the wave in `wrongKeys` |
+| `src/world/contraptions/stage-machine.meta.ts` | KB3 | drum angle 60°·k; conformation by k; cartridges load by semantic; the **neutral "loaded: …" label** (never "?"); ledger `q`; the failure plan jams at the stage of `wrongKeys[0]`'s socket |
+| `src/world/record-strip.ts` | KC1 | e1 → 0 earned pins, e9 → 11 with the civil strip; `spanTo` → a band; `recordPins` merged; window from `probeWindow`; the RECORD chip within ±2 months; `lensTarget` along a bent rail |
+| `src/world/contraptions/oracle-ticker.meta.ts` | KC1 | knob angle per display position; tape retypes on change; no reveal text in `panelLive` before Verify; `payoffLamps` success-only |
+| `src/world/contraptions/tumbler-vault.meta.ts` | KC1 | struck ⇒ 90° rotation; the last-unstruck glow comes only from `marks`; `marks` never reach `toSubmitInput`; the failure plan uses `wrongKeys = [id, clue:i]`; count shading only at `hintsUsed = 3` |
+| `src/world/contraptions/switchboard.meta.ts` | KC2 | seated lamps white, never cyan, before Verify; program lines by left key; decoy dim only at `hintsUsed = 3` and only when configured; the failure plan unseats `wrongKeys[0]` |
+| `src/world/contraptions/cause-tubes.meta.ts` | KC2 | catenary and vertical sag formulas; Manhattan routes with ≤ 2 bends; gauge = edges / edgeCount; dishes face their source; placement by display index; `boardWidth ≤ 1100`; decoy pop and focus spark plans |
+| `src/world/sandboxes/{music-box,plant-garden,darkroom}.meta.ts` | SB | goals; tone `220·b` Hz, gain `0.2·A/3`; plasmolysis above 2 %; `all_developed` |
 | `src/world/aid-tier.ts`, `src/world/draft-inputs.ts` | M0 (+ P1 parity) | the tier table; `toSubmitInput` equals the widget converters for every mode |
 | `src/world/graph-math.ts` | P1 | ticks, π and month-year formatting, sampling splits, chip clamping, `fracYear` |
-| `src/world/answer-leak.ts` | B1 | math-run tokenizer; R8 positives and negatives (§1.5) |
-| `src/world/diagnose/**` | B1 | the **parity test** for 10 modes; `prefix` and `disclosed` values |
-| `src/world/probes.ts`, `fail-line.ts`, `feedback-nouns.ts`, `date-parse.ts`, `config-validators.ts`, `speakers.ts` | B1 | predicate matches and tolerance parity; line precedence; whole-word replacement; `parseDates` / `dateAppears`; expression sampling; the speaker directory with extras and narrator |
-| `src/world/validate-world.ts`, `resolve-world.ts`, `state/**` | B1 | R1–R16 and W1–W3 negatives; keying; requirements, NPC state selection, `settleQuests` |
-| host pure modules (`surfaces`, `terrain`, `traversal`, `segments`, `proximity`, `framing`, `triggers`, `keymap`, `cutscene/timeline`, `labels/label-store`) | H1 | heightfield merge after payoff; blockers per progress; arc endpoints and durations; timed-hop windows; crossfade weights; hysteresis; framing keeps `frameBounds` in the safe rect for each layout and zoom override; key map; skip end state = full-play end state |
-| client pure modules (`machine`, `station-dialogue`, `express`, `dialogue/engine`, `audio/cues`) | B2 | every transition; slot flow; express actions; typewriter and priorities; cue coverage |
+| `src/world/answer-leak.ts` | V1 | math-run tokenizer; R8 positives and negatives (§1.5) |
+| `src/world/diagnose/**` | V1 | the **parity test** for 10 modes; `prefix` and `disclosed` values |
+| `src/world/{probes,fail-line,feedback-nouns,date-parse,config-validators,speakers,hint-targets,biomes}.ts` | V1 | every §2.5.4 probe row incl. `assignedTo` on `type_match` and `decoyPresent` with `itemKey: null`; line precedence; whole-word replacement; `parseDates` / `dateAppears`; expression sampling; the speaker directory; `hintTargetsFor` precedence; `successPose` per kit |
+| `src/world/validate-world.ts`, `resolve-world.ts` | V1 | R1–R16 and W1–W3 negatives; keying |
+| `src/world/state/**` | S1 | requirements, NPC state selection, `settleQuests` |
+| `src/world/residency.ts`, `src/game/art/kit/**`, `scripts/art/**` | A1 | `assetsForZone` per zone on the three side-cars; generators byte-deterministic, well-formed, lint-clean, tileable edges match; the rig anchors (7 per pose); puppet packing and `PuppetAnim` parsing; engraving |
+| host pure modules (`surfaces`, `terrain`, `traversal`, `segments`, `proximity`, `framing`, `keymap`, `labels/label-store`) | H1 | heightfield merge after payoff; blockers per progress; **sheer edges block both ways and links cross them**; arc endpoints and durations; timed-hop windows; crossfade weights; hysteresis; framing keeps `frameBounds` in the safe rect for each layout and zoom override; key map |
+| `scene/triggers.ts`, `cutscene/timeline.ts` | S1 | firing rules (`once`, `requires`, `cutsceneId`); skip end state = full-play end state for every step kind (incl. `ride.toSurface`) |
+| client pure modules (`machine`, `express`) | H2 | every transition (incl. purpose `trigger`); express actions |
+| `dialogue/engine`, `dialogue/station-dialogue`, `audio/cues` | S1 | typewriter and priorities; slot flow; cue coverage from the three docs' tables |
 | panel control logic (`controls/*.logic.ts`) | P1 | `toDraftInput`, `complete`, `fromDraftInput`, solution round-trip through `grade()` |
 
 ### 7.5 Risks and mitigations
 
 | Risk | Impact | Mitigation |
 |---|---|---|
-| The calendar (demo on 2026-09-27) | P0 incomplete | the demo cut (§0.1), the gate at T0 + 10.5 with a hard stop at midday, the fallback ladder, `console_slate` completeness, express rehearsal |
+| The calendar (demo on 2026-09-27) | P0 incomplete | 10 lanes and a 15 h critical path (§7.1); Gate V at T0 + 10 with a 12:00 hard stop; the compression levers and the fallback ladder (§0.1.6); `console_slate` completeness; express rehearsal |
+| A lane's contract drop is late (KA1, KB1, KC1) | skin lanes idle | the metas are the first 2 h of each lane; W0 stubs carry the final signatures; a skin can draw against the stub Pose and adapt |
 | Headless Chromium has no WebGL | e2e can't see the Phaser path | two Playwright projects: `webgl` (`--use-gl=angle --use-angle=swiftshader`) and `dom` (`?renderer=dom`), both required green; the DOM path is static snapshots + the full panel |
-| Boot failure logs `console.error` | fails every zero-error assertion | `console.warn` for handled fallbacks; loader errors prevented by the manifest ↔ file test and the asset-index validator |
-| Many SVG textures: decode time and VRAM | slow load, GPU pressure | rasterScale ≤ 1 for layers, tiles ≤ 2048, one biome per game, only referenced shared atlases, the build-time VRAM gate, a loader progress bar |
+| Boot failure logs `console.error` | fails every zero-error assertion | `console.warn` for handled fallbacks (incl. the atlas fallback); loader errors prevented by the manifest ↔ file test and the asset-index validator |
+| Many SVG textures: decode time and VRAM | slow load, GPU pressure | per-zone residency (§5.7), rasterScale ≤ 1 for layers, tiles ≤ 2048, the build-time VRAM gate per zone and per swap pair, a loader progress bar |
 | `load.svg` rendering differences | wrong look | only feGaussianBlur and simple gradients; engraving is paths; contact sheets through the same Chromium path |
-| Kenney toon style vs the painterly world | style clash | recoloured palettes per character, key-light tint in day zones, soft contact shadows, a 2 px outline glow in dusk zones (doc 02 §3b) |
-| Agent-authored SVG volume | art late | the procedural kit, the 60-hero cap, kit fallbacks for every hero key |
-| Traversal feel without physics | stiff movement | arc easing and squash/stretch tuned on the dev world in W1; cosmetic hops; the critic scores item 37 |
+| Kenney toon style vs the painterly world | style clash | recoloured palettes per character, key-light tint in day zones, soft contact shadows, a 2 px outline glow in dusk zones (02 §3b) |
+| The recoloured atlas misrenders on the demo machine | broken characters | `?charfallback=1` → Kenney's untinted HD sheet via `load.atlasXML` |
+| Agent-authored SVG volume | art late | the procedural kit, the 40-hero cap, a kit entry for every hero key (automatic fallback), quotas split across six lanes |
+| Traversal feel without physics | stiff movement | arc easing and squash/stretch tuned on the dev world in H1; cosmetic hops; the critic scores item 37 |
 | Sim cost | frame drops | only the open station's sims step; measurable state only; ≤ 1.5 ms budget in tests |
 | Phaser keyboard capture (D4) | panel keys dead | `disableGlobalCapture` while frozen or panel-focused, plus one WebGL keyboard e2e per control kind |
 | Per-tick React re-renders (D5) | jank while scrubbing | drafts through refs; rAF label layer; memoized views; panel live state local to the panel |
 | Brute-forcing discrete contraptions | pedagogy loss | the live-reveal rule, success-only fields, aid-tier gates, the no-leak test |
 | Parity drift between `diagnose` and `grade()` | wrong failure animation | the parity test fails first |
-| History sensitivity | reputational | R10 (fictional staff only, name lint, violence lexicon → documents or withheld photos, `sensitiveSafe` skins), reviewer sign-off in C3 |
-| Two agents writing one file | lost work | stubs in W0, the ownership matrix (§7.3), per-namespace generated files |
+| History sensitivity | reputational | R10 (fictional staff only, name lint, violence lexicon → documents or withheld photos, `sensitiveSafe` skins, `successPose: "show"`), reviewer sign-off on C3 |
+| Two agents writing one file | lost work | W0 stubs for every shared path, per-skin files, per-owner art fragments, the art-build lock, the ownership matrix (§7.3) |
 | Legacy regressions | broken non-showcase games | `?host=legacy`; the legacy path is untouched when `world` is null; all existing e2e stay in CI |
 
 ---
@@ -3567,15 +4071,15 @@ finish stack and game-feel items 37–41. Result: proceed, or a fix list dispatc
 | Suite | What it proves |
 |---|---|
 | `tests/world-contract.test.ts` | the 3 side-cars parse (`WorldFile`); strict objects reject unknown keys; the defaults and `.prefault`s fill; every `CutsceneStep`, `TraversalLink`, `ProgressEffect`, `QuestStep` and `MisconceptionProbe` variant parses |
-| `tests/world-validate.test.ts` | the 3 side-cars have **zero** errors against their fixture specs (from W4); one negative test per rule R1–R16 and W1–W3 (unknown encounter, out-of-order station, contraption without the mode, bad skin, config failure, missing asset key, unknown speaker, extras colliding with a character id, cutscene reference, the R8 cases below, > 140 characters, sensitive NPC named like a person, violent text on a plain plaque, a link bypassing a blocker, an undeclared flag, a non-partitioning boss phase, an unmapped cue) |
+| `tests/world-validate.test.ts` | the 3 side-cars have **zero** errors against their fixture specs (from C1–C3, §7.2); one negative test per rule R1–R16 and W1–W3 (unknown encounter, out-of-order station, contraption without the mode, bad skin, config failure, missing asset key, unknown speaker, extras colliding with a character id, cutscene reference, the R8 cases below, > 140 characters, sensitive NPC named like a person, violent text on a plain plaque, a link bypassing a blocker, an undeclared flag, a non-partitioning boss phase, an unmapped cue, a companion without `cue`, an unknown `NpcState.anim`, a taunt key that is no probe/near-miss/fail key, a type_match probe `w9` on a 5-wave view, an empty terrain payoff with no gating link, `cheer` in a sensitive kit, a `ride` whose `toSurface` is missing) |
 | `tests/world-sidecars.test.ts` (amendment 40) | `fixtures/worlds/*.world.json` is the only overlay location (a glob finds no `src/game/worlds`); every `appliesTo` entry resolves: `trig_demo_001`, `trig_platformer_001`, `cell_demo_001`, `history_mystery_001`, `history_demo_001` by id, and a mock-generated trig spec (new id, same `(src_trig_ch4, dungeon)`) by source; `wave2_smoke_001` is skipped with a server warning |
-| `tests/world-assets.test.ts` | every manifest entry's file exists and is within budget; every asset key the overlays use is in the index; `heroCount ≤ 60` and VRAM ≤ 180 MB per namespace; the SVG lint on generated output; `art:build --check` has no drift |
+| `tests/world-assets.test.ts` | every manifest entry's file exists and is within budget; every asset key the overlays use is in the index; `heroCount ≤ 40` per namespace; **VRAM per zone and per adjacent swap pair** within §5.8 (A4); every atlas has 7 anchors per packed pose; every puppet has its required anims; the SVG lint on generated output; `art:build --check` has no drift |
 | `tests/world-resolve.test.ts` | resolution order (by id; by source only when valid; `spec.world`; auto flag) |
-| `tests/ui-tokens.test.ts`, `tests/art-kit.test.ts` | `theme.css` equals `UI_TOKENS`; kit generators are byte-deterministic per seed and emit only tokens |
+| `tests/ui-tokens.test.ts`, `tests/art-kit.test.ts`, `tests/art-engrave.test.ts` | `theme.css` equals `UI_TOKENS`; kit generators are byte-deterministic per seed and emit only tokens; no engraved string contains an encounter answer value (R8's matcher) |
 | `src/world/answer-leak.test.ts` (amendment 34) | trig `e2.approach` ("…y = sin(2t)…") and `e2.before` ("Those rings spin…") pass for banned `π`; "Set the timer to π." fails; `2π/\|b\|` and `π/2` pass; e6 banned `4`: "4 seconds" and "4.00" fail, "40 spans" and "0.4" pass; a mimic statement's full text matches as a token sequence |
 | `src/world/diagnose/diagnose.test.ts` (amendment 11) | the **parity test**: ≥ 50 seeded wrong inputs per showcase mode; `correct` agrees with `grade()`; the needle from `failKey`/`wrongKeys` appears in `grade().feedback`; `prefix` values for linear and chain |
 | `src/world/contraptions/*.test.ts` (13) + `src/world/sims/*.test.ts` + `src/world/sandboxes/*.test.ts` | the §7.4 list, including the **no-leak test** (amendment 26): for every discrete meta and every showcase station, `describe(pose(d))`, `panelLive(...)` and the pose's world lamp/socket fields are unchanged under permutations of success-only fields and under solution-swapped params with an identical view; e9 bay lamps off at aid tier 0; the e8 label is never "?" |
-| `src/world/{probes,fail-line,feedback-nouns,date-parse,config-validators,speakers,aid-tier,draft-inputs}.test.ts`, `src/world/state/*.test.ts` | §7.4 |
+| `src/world/{probes,fail-line,feedback-nouns,date-parse,config-validators,speakers,hint-targets,record-strip,residency,aid-tier,draft-inputs}.test.ts`, `src/world/state/*.test.ts`, `tests/biomes.test.ts` | §7.4 |
 | `src/world/graph-math.test.ts` | π tick labels, sampling splits, chip clamping, year and month-year formatting |
 | `src/game/hosts/expedition/scene/*.test.ts`, `input/keymap.test.ts`, `cutscene/timeline.test.ts`, `labels/label-store.test.ts` | §7.4 host rows |
 | `src/game/expedition/{client,dialogue,audio}/*.test.ts` | §7.4 client rows, including the D1/D2/D3 regressions and cue coverage |
@@ -3607,7 +4111,7 @@ ends with `expect(errors).toEqual([])`. The web server runs with `EXPEDITION_SFX
 | keyboard (`expedition-keyboard.spec.ts`, webgl, F9) | one station per control kind (scrub, aim, slots, bins, waves, cables, tubes, matrix) completed with Tab/arrows/digits/Enter only |
 | regression | `play-smoke`, `play-platformer`, `golden-path` (mock-generated trig → side-car by source → expedition), `flows`, and `play-mystery` (arrival test on `?host=legacy`) all green |
 
-### 8.3 Visual fidelity loop (W5)
+### 8.3 Visual fidelity loop (E3 + R, §7.2; the one rubric, A5)
 
 1. **Shots.** `docs/design/fidelity/shots.json` lists per game about 14 deterministic shots:
    - an establishing shot per P0 zone (explore, companion visible);
@@ -3623,27 +4127,48 @@ ends with `expect(errors).toEqual([])`. The web server runs with `EXPEDITION_SFX
    `docs/design/fidelity/<game>/round-<n>/<shot>.png`. It also records a 3-frame strip while scrubbing (★30), the
    input-to-first-reaction latency (item 41), fps and draw objects.
 3. **Critique.** The **critic** (reviewer role, opus, read-only) reads the shots, the reference images
-   `3.png`–`10.png`, bible §9 and this doc. It scores items 1–36 **and the game-feel items 37–41** (amendment 29):
+   `3.png`–`10.png`, bible §9 and §11 and this section. **The rubric is bible §9: 44 items, 14 of them ★**
+   (1, 2, 9, 11, 15, 18, 21, 27, 30, 34, 35, 38, 40, 42). This is the only rubric (A5); the game docs' §8 tables map
+   their stations onto it. **Item 39 is scored as:** *"Boss staging: the boss is staged through an arena, taunts,
+   presentation phases **or** real-time motion, with ≥ 1 taunt line on approach and ≥ 1 on failure"* (the trig Warden
+   is real-time motion, the cell Gatekeeper uses phases, the civil vault is an arena + matrix). Bible §11's rule
+   applies: a panel item (15–26) or a dialogue-bar item (27–29) never passes from a shot with the panel closed.
+   Evidence for the game-feel items comes from the capture data:
 
-   | # | Game-feel item | Pass |
-   |---|---|---|
-   | 37 | ≥ 2 non-walk verbs per zone besides its payoffs (hop, climb, ladder, drop, timed hop, ride, sandbox, quest touch) | W2 clean for P0 zones (all zones in P1) and a capture of each verb |
-   | 38 | the orange input moves a world object in every encounter (mode input or probe) | a strip per station shows a world change while scrubbing or aiming |
-   | 39 | the boss has staged presentation (arena, taunts, phases or real-time motion) | the boss frame and a fail taunt capture |
-   | 40 | hints act in the world (companion flight, overlay, shutter, lens) | the hint shot shows a world change |
-   | 41 | the first world reaction lands within 150 ms of panel input | measured latency ≤ 150 ms at the median |
+   | # | Evidence in this loop |
+   |---|---|
+   | 30, 38 | the 3-frame scrub strip per station (a world object moves in every encounter) |
+   | 34 | the success-badge frame + the cue log |
+   | 35, 42 | the payoff traversal frame + the `host().surface` change |
+   | 37 | the zone's link list (`debug().links`) and a capture of each non-walk verb |
+   | 39 | the boss frame and the fail-taunt capture |
+   | 40 | the hint shot (the companion's position or pose changes) |
+   | 41 | the measured input-to-first-reaction latency, ≤ 150 ms at the median |
+   | 43 | a 20 s walking capture's dialogue log |
+   | 44 | the zone's sandbox or quest-touch capture |
 
-   It writes `docs/design/fidelity/<game>/round-<n>/score.json`:
+   **P0 scoring** (the demo cut, §0.1): items **37, 43 and 44 are scored on zone 1 only** (the zone P0 fully authors;
+   triggers, sandboxes and later zones' verbs are P1); every other item on every P0 shot. **P0 pass = all 14 ★ and
+   ≥ 36/44.** **Full pass (P1) = all 14 ★ and ≥ 39/44**, with 37, 43 and 44 scored on every zone.
+
+   It returns (read-only) the JSON that E3 (L10, the owner of `docs/design/fidelity/**`) saves as
+   `docs/design/fidelity/<game>/round-<n>/score.json`: bible §11's JSON plus `game`, `round`, `tier`, and
+   per item `shot`, `fix` and `ownerPath` (null when the item passes). `items` has one entry per item 1–44; `score`
+   counts the passes; `mandatoryFails` lists the failed ★ ids.
 
    ```json
-   { "game": "trig", "round": 1, "total": 29, "starFails": [21], "feel": { "total": 4, "fails": [37] },
-     "items": [ { "n": 21, "score": 0, "shot": "e2_scrub", "why": "scrub line stops at card 2", "fix": "extend line to stack top", "ownerPath": "src/game/expedition/panel/Scrubber.tsx" } ] }
+   { "game": "trig", "round": 1, "tier": "P0",
+     "items": [
+       { "id": 1, "pass": true, "evidence": "z1_establish: 6 layers scroll at 4 rates", "shot": "z1_establish", "fix": null, "ownerPath": null },
+       { "id": 21, "pass": false, "evidence": "e2_scrub: the scrub line stops at card 2", "shot": "e2_scrub",
+         "fix": "extend the line to the top of the card stack", "ownerPath": "src/game/expedition/panel/Scrubber.tsx" } ],
+     "score": 38, "mandatoryFails": [21] }
    ```
-4. **Fix.** Main groups the fixes by `ownerPath` and dispatches them to an F-slot agent owning exactly those paths.
-   They re-capture.
-5. **Stop.** The loop ends when the score is ≥ 32/36 with all 11 ★ items and ≥ 4/5 game-feel items, or after 3
-   rounds (1 round when the clock is past T0 + 22). Remaining gaps go to `BLOCKERS.md` with screenshots. The score
-   history is kept, so the docs can show before and after.
+4. **Fix.** Main groups the fixes by `ownerPath` and dispatches them to the owning lane, or to an F slot when that
+   lane's item has ended (§7.2). They re-capture.
+5. **Stop.** The loop ends when the tier's pass condition holds, or after 3 rounds (1 round when the clock is past
+   T0 + 13). Remaining gaps go to `BLOCKERS.md` with screenshots. The score history is kept, so the docs can show
+   before and after.
 
 ---
 
@@ -3651,31 +4176,34 @@ ends with `expect(errors).toEqual([])`. The web server runs with `EXPEDITION_SFX
 
 ```
 src/contracts/world.ts
-src/world/{types,library,draft-inputs,aid-tier,ease,geom,graph-math,biomes,speakers}.ts
+src/world/{types,library,draft-inputs,aid-tier,ease,geom,graph-math,biomes,speakers,hint-targets,record-strip,residency}.ts
 src/world/{resolve-world,validate-world,answer-leak,probes,fail-line,feedback-nouns,config-validators,date-parse}.ts
 src/world/diagnose/{index,<mode>}.ts   src/world/state/{world-state,npc-state,quests,requirements}.ts
-src/world/contraptions/{config-parts,writer-kit}.ts + <13 ids>.meta.ts (+ .test.ts)
-src/world/sandboxes/{music-box,plant-garden,darkroom}.meta.ts (+ .test.ts)
+src/world/contraptions/{config-parts,writer-kit}.ts + <13 ids>.config.ts + <13 ids>.meta.ts (+ .test.ts)
+src/world/sandboxes/{music-box,plant-garden,darkroom}.{config,meta}.ts (+ .test.ts)
 src/world/sims/{index,bilayer-probe,diffusion-tank,osmotic-cell,pump-flume,membrane-fold,pendulum-beat}.ts (+ .test.ts)
 src/world/asset-index/{index,shared,orrery_terraces,living_gate,archive_of_voices}.ts (4 generated)
 src/world/{assemble-world,auto-world}.ts                         (W8)
 src/server/worlds.ts
-src/game/art/palette.ts + palettes/<ns>.ts
+src/game/art/{palette.ts,manifest-loader.ts} + palettes/<ns>.ts + kit/{types,rng,shade,recipes,<31 generators>}.ts
+src/game/expedition/puppets/Puppet.ts
 src/game/hosts/expedition/{ExpeditionHost.tsx,ExpeditionScene.ts,bridge.ts}
-src/game/hosts/expedition/{loader,scene,actors,input,fx,cutscene,labels,dom,__fixtures__}/…
-src/game/hosts/expedition/contraptions/{types,registry,controller,sandbox-controller}.ts + Snapshot.tsx + prefabs/<id>/prefab.ts
-src/game/expedition/client/{ExpeditionClient.tsx,ExpeditionLayout.tsx,machine.ts,station-dialogue.ts,express.ts,useRunner.ts}
-src/game/expedition/dialogue/{types,engine,emblem-glyphs}.ts + DialogueBar.tsx
+src/game/hosts/expedition/{scene,actors,input,fx,cutscene,labels,dom,__fixtures__}/…
+src/game/hosts/expedition/contraptions/{types,registry,controller,sandbox-controller}.ts + Snapshot.tsx
+src/game/hosts/expedition/contraptions/prefabs/<id>/{prefab,shared}.ts + skins/{index,<skin>}.ts; prefabs/_cables/…
+src/game/hosts/expedition/contraptions/accessories/record-lens.ts
+src/game/expedition/client/{ExpeditionClient.tsx,ExpeditionLayout.tsx,machine.ts,express.ts,useRunner.ts}
+src/game/expedition/dialogue/{types,engine,emblem-glyphs,station-dialogue}.ts + DialogueBar.tsx
 src/game/expedition/hud/{ObjectiveRing,ZoneTitle,MeterBar,Counters,KeyLegend,MuteToggle,TouchPad}.tsx
 src/game/expedition/{map/MapOverlay.tsx, journal/JournalReader.tsx}
 src/game/expedition/audio/{cues,synth,bus}.ts
 src/game/expedition/panel/{InstrumentPanel.tsx,BriefSheet.tsx,Scrubber.tsx,theme.css,fn-source.ts} + primitives/ cards/ controls/
 src/app/dev/panel/page.tsx                                       (dev-only gallery)
-art/{README.md,fonts,kit,shared,orrery_terraces,living_gate,archive_of_voices}/…
-scripts/{build-art,build-characters,art-contact-sheet,capture-scenes,extract-world-slice}.ts
+art/{README.md,shared,orrery_terraces,living_gate,archive_of_voices}/… (biome.json + *.kit.json / *.hero.json fragments, §5.1)
+scripts/{build-art,art-contact-sheet,capture-scenes,extract-world-slice,expand-world-doc}.ts + scripts/art/*.ts
 fixtures/worlds/{trig,cell-transport,civil-rights}.world.json
 public/assets/expedition/<ns>/… (generated)
-e2e/expedition-{trig,cell,civil,express,keyboard}.spec.ts
+e2e/expedition-{trig,cell,civil,express,keyboard}.spec.ts + e2e/helpers/expedition.ts
 docs/design/fidelity/…
 ```
 

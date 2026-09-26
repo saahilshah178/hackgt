@@ -16,6 +16,11 @@ import {
 import { CARDS, cardsFor } from "../src/library";
 import { BOSS_SOCKET } from "../src/library/genres";
 import { allModes, familiesFor, implementedModes, socketsFor } from "../src/mechanics/registry";
+import cellFixture from "../fixtures/cell-transport-dungeon.json";
+import civilFixture from "../fixtures/civil-rights-mystery.json";
+import trigFixture from "../fixtures/trig-dungeon.json";
+import { GameSpec } from "../src/contracts/gamespec";
+import { contraptionsForMode, writerCtxFor } from "../src/world/library";
 
 /*
  * Walks the JSON Schema the AI SDK actually sends and enforces the strict-mode subset we rely on.
@@ -129,4 +134,26 @@ describe("LLM-facing schemas are strict-mode legal", () => {
     expect(errors.join("\n")).toMatch(/\$\.b: must be required/);
     expect(errors.join("\n")).toMatch(/\$\.c: additionalProperties must be false/);
   });
+});
+
+describe("contraption writer schemas are strict-mode legal (docs/design/20 §4.4)", () => {
+  const specs = [
+    { spec: GameSpec.parse(trigFixture), domain: "math" as const },
+    { spec: GameSpec.parse(cellFixture), domain: "biology" as const },
+    { spec: GameSpec.parse(civilFixture), domain: "history" as const },
+  ];
+  for (const { spec, domain } of specs) {
+    spec.encounters.forEach((e, i) => {
+      const ctx = writerCtxFor(spec, i, domain);
+      for (const meta of contraptionsForMode(ctx.modeKey)) {
+        const schema = meta.writerConfigSchema(ctx);
+        if (!schema) continue;
+        it(`${meta.id} writer schema for ${spec.id}/${e.id}`, () => {
+          const wrapped = (schema as z.ZodType & { _zod: { def: { type: string } } })._zod.def.type === "object" ? schema : null;
+          expect(wrapped, "writer schemas must be root objects").not.toBeNull();
+          expect(audit(schema).errors).toEqual([]);
+        });
+      }
+    });
+  }
 });

@@ -43,6 +43,34 @@ export function evalExact(expr: string): number | null {
   }
 }
 
+const SCOPE_NAME = /^[A-Za-z_][A-Za-z0-9_]{0,15}$/;
+const MAX_SCOPE_ENTRIES = 8;
+
+/**
+ * Evaluates a mathjs expression with free variables bound by `scope`, e.g. evalExactAt("3*sin(x)", { x: Math.PI / 2 })
+ * → 3. Same sandbox and length cap as evalExact. Used by the world layer for claim traces, reliefs and card plots
+ * (docs/design/20 §3.2 fn-source, §4.4 validators). The scope must be plain finite numbers under identifier-like
+ * names (at most 8); it is copied into a fresh Map per call, so an assignment inside the expression (`x = 5`) never
+ * reaches the caller's object or a later call. Returns null unless the result is a finite real number.
+ */
+export function evalExactAt(expr: string, scope: Readonly<Record<string, number>>): number | null {
+  if (typeof expr !== "string" || expr.length > MAX_EXPRESSION_LENGTH) return null;
+  if (typeof scope !== "object" || scope === null) return null;
+  const entries = Object.entries(scope);
+  if (entries.length > MAX_SCOPE_ENTRIES) return null;
+  const vars = new Map<string, number>();
+  for (const [name, value] of entries) {
+    if (!SCOPE_NAME.test(name) || typeof value !== "number" || !Number.isFinite(value)) return null;
+    vars.set(name, value);
+  }
+  try {
+    const v: unknown = limitedEvaluate(expr, vars);
+    return typeof v === "number" && Number.isFinite(v) ? v : null;
+  } catch {
+    return null;
+  }
+}
+
 /** True when the string looks like a rounded decimal (1.5708) instead of an exact expression (pi/2). */
 export function looksApproximated(expr: string): boolean {
   return /\d\.\d{3,}/.test(expr);

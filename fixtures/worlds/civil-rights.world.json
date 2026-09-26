@@ -1,0 +1,806 @@
+{
+  "appliesTo": {
+    "specIds": ["history_mystery_001", "history_demo_001"],
+    "sources": [{"sourceId": "src_civil_rights", "genre": "mystery"}, {"sourceId": "src_civil_rights", "genre": "dungeon"}]
+  },
+  "world": {
+    "worldVersion": 2,
+    "biome": "archive_of_voices",
+    "title": "The Archive of Voices",
+    "subtitle": "The 1965 Files",
+    "cast": {
+      "protagonist": {"name": "Nell", "look": {"atlas": "shared.char.nell"}},
+      "guide": {
+        "characterId": "archivist",
+        "emblem": {"glyph": "lantern", "ring": "#C69A6B", "accent": "#F2A65A"},
+        "companion": {"asset": "archive_of_voices.companion.wick"}
+      },
+      "speakers": [{"characterId": "editor", "emblem": {"glyph": "slug", "ring": "#3F3A44", "accent": "#E8DCD2"}}],
+      "extras": [
+        {
+          "id": "otis",
+          "name": "Otis",
+          "role": "night watchman of the archive",
+          "voiceArchetype": "gruff_guard",
+          "emblem": {"glyph": "flashlight", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "hattie",
+          "name": "Hattie",
+          "role": "senior archivist",
+          "voiceArchetype": "wise_mentor",
+          "emblem": {"glyph": "eyeshade", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "dolores",
+          "name": "Dolores",
+          "role": "switchboard volunteer",
+          "voiceArchetype": "cheerful_sidekick",
+          "emblem": {"glyph": "headset", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "theo",
+          "name": "Theo",
+          "role": "a student researcher",
+          "voiceArchetype": "nervous_scholar",
+          "emblem": {"glyph": "nib", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        }
+      ]
+    },
+    "story": {
+      "logline": "The archive's record has gone dark. Restore each file so the story can be read again.",
+      "objective": "Restore the record of the movement",
+      "objectiveLabel": "RECORD RESTORED",
+      "restoredNoun": "record",
+      "introCutsceneId": "intro",
+      "finaleCutsceneId": "finale",
+      "recordStrip": {
+        "lanes": [
+          {"id": "origins", "label": "ORIGINS"},
+          {"id": "direct_action", "label": "DIRECT ACTION"},
+          {"id": "legislation", "label": "LEGISLATION"}
+        ],
+        "pins": []
+      }
+    },
+    "zones": [
+      {
+        "id": "s1_morgue",
+        "name": "The Morgue",
+        "width": 3840,
+        "height": 1400,
+        "layerSets": [
+          {
+            "id": "s1_morgue_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 520},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 700
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 840}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s1_morgue_kit",
+            "x0": 0,
+            "x1": 3840,
+            "layerSet": "s1_morgue_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "interior"}
+          }
+        ],
+        "ground": {"points": [[0, 1220], [3840, 1220]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [
+          {
+            "id": "s1_to_s2",
+            "x": 3830,
+            "toZoneId": "s2_courthouse",
+            "toX": 80,
+            "transition": "film_seam",
+            "requires": {"flag": "engine_awake"}
+          }
+        ],
+        "entry": {"x": 60}
+      },
+      {
+        "id": "s2_courthouse",
+        "name": "Courthouse Square",
+        "width": 5760,
+        "height": 1080,
+        "layerSets": [
+          {
+            "id": "s2_courthouse_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 380
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s2_courthouse_kit",
+            "x0": 0,
+            "x1": 5760,
+            "layerSet": "s2_courthouse_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "day"}
+          }
+        ],
+        "ground": {"points": [[0, 900], [5760, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [
+          {
+            "id": "s2_to_s3",
+            "x": 5740,
+            "toZoneId": "s3_schoolhouse",
+            "toX": 80,
+            "transition": "film_seam",
+            "requires": {"solved": "e2_montgomery"}
+          }
+        ],
+        "entry": {"x": 80}
+      },
+      {
+        "id": "s3_schoolhouse",
+        "name": "Schoolhouse Hill",
+        "width": 3840,
+        "height": 1080,
+        "layerSets": [
+          {
+            "id": "s3_schoolhouse_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 380
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s3_schoolhouse_kit",
+            "x0": 0,
+            "x1": 3840,
+            "layerSet": "s3_schoolhouse_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "dusk"}
+          }
+        ],
+        "ground": {"points": [[0, 900], [3840, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [
+          {
+            "id": "s3_to_s4",
+            "x": 2720,
+            "toZoneId": "s4_main_street",
+            "toX": 80,
+            "transition": "film_seam",
+            "requires": {"solved": "e3_little_rock"}
+          }
+        ],
+        "entry": {"x": 80}
+      },
+      {
+        "id": "s4_main_street",
+        "name": "Main Street",
+        "width": 5760,
+        "height": 1080,
+        "layerSets": [
+          {
+            "id": "s4_main_street_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 380
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s4_main_street_kit",
+            "x0": 0,
+            "x1": 5760,
+            "layerSet": "s4_main_street_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "dusk"}
+          }
+        ],
+        "ground": {"points": [[0, 900], [5760, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [
+          {
+            "id": "s4_to_s5",
+            "x": 5740,
+            "toZoneId": "s5_church_mast",
+            "toX": 80,
+            "transition": "film_seam",
+            "requires": {"solved": "e5_freedom_rides"}
+          }
+        ],
+        "entry": {"x": 80}
+      },
+      {
+        "id": "s5_church_mast",
+        "name": "Church Square and the Mast",
+        "width": 4800,
+        "height": 2000,
+        "layerSets": [
+          {
+            "id": "s5_church_mast_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 1120},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 1300
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 1440}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s5_church_mast_kit",
+            "x0": 0,
+            "x1": 4800,
+            "layerSet": "s5_church_mast_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "night"}
+          }
+        ],
+        "ground": {"points": [[0, 1820], [4800, 1820]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [
+          {
+            "id": "s5_to_s6",
+            "x": 4790,
+            "toZoneId": "s6_memorial",
+            "toX": 80,
+            "transition": "film_seam",
+            "requires": {"solved": "e6_birmingham"}
+          }
+        ],
+        "entry": {"x": 80}
+      },
+      {
+        "id": "s6_memorial",
+        "name": "Memorial Steps and Filing Hall",
+        "width": 5760,
+        "height": 1300,
+        "layerSets": [
+          {
+            "id": "s6_memorial_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 0},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 120
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 260}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s6_memorial_kit",
+            "x0": 0,
+            "x1": 5760,
+            "layerSet": "s6_memorial_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "dusk"}
+          }
+        ],
+        "ground": {"points": [[0, 640], [5760, 640]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [
+          {
+            "id": "s6_to_s7",
+            "x": 5740,
+            "toZoneId": "s7_selma",
+            "toX": 80,
+            "transition": "film_seam",
+            "requires": {"solved": "e8_cra"}
+          }
+        ],
+        "entry": {"x": 80}
+      },
+      {
+        "id": "s7_selma",
+        "name": "The Bridge at Selma",
+        "width": 5760,
+        "height": 1080,
+        "layerSets": [
+          {
+            "id": "s7_selma_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 380
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s7_selma_kit",
+            "x0": 0,
+            "x1": 5760,
+            "layerSet": "s7_selma_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "dusk"}
+          }
+        ],
+        "ground": {"points": [[0, 900], [5760, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [
+          {
+            "id": "s7_to_s8",
+            "x": 5220,
+            "toZoneId": "s8_stacks_vault",
+            "toX": 300,
+            "transition": "fade",
+            "cutsceneId": "ride_home",
+            "requires": {"solved": "e9_selma"}
+          }
+        ],
+        "entry": {"x": 80}
+      },
+      {
+        "id": "s8_stacks_vault",
+        "name": "Morgue Stacks and the Vault",
+        "width": 6720,
+        "height": 2000,
+        "layerSets": [
+          {
+            "id": "s8_stacks_vault_kit",
+            "layers": [
+              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 700},
+              {
+                "asset": "archive_of_voices.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 880
+              },
+              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 1020}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "s8_stacks_vault_kit",
+            "x0": 0,
+            "x1": 6720,
+            "layerSet": "s8_stacks_vault_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "interior"}
+          }
+        ],
+        "ground": {"points": [[0, 1400], [6720, 1400]], "surface": "archive_of_voices.ground.default_surface"},
+        "exits": [],
+        "entry": {"x": 300}
+      }
+    ],
+    "stations": [
+      {
+        "encounterId": "e1_brown",
+        "zoneId": "s2_courthouse",
+        "consoleX": 900,
+        "anchor": {"x": 1700, "y": 900},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Witness Projector",
+        "panel": {"verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Witness Projector.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Witness Projector wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "stairs_rise",
+          "noun": "courthouse steps",
+          "blocker": {"x": 1200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e2_montgomery",
+        "zoneId": "s2_courthouse",
+        "consoleX": 3800,
+        "anchor": {"x": 4700, "y": 900},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Walking Road",
+        "panel": {"verifyLabel": "LIGHT THE ROUTE", "successBadge": "ROUTE RESTORED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Walking Road.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Walking Road wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "none",
+          "anim": "bridge_forms",
+          "noun": "Walking Road",
+          "blocker": {"x": 4100},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e3_little_rock",
+        "zoneId": "s3_schoolhouse",
+        "consoleX": 1450,
+        "anchor": {"x": 1300, "y": 900},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Wire Ticker",
+        "panel": {"verifyLabel": "SEND TO THE WIRE", "successBadge": "WIRE CONFIRMED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Wire Ticker.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Wire Ticker wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "barrier_dissolves",
+          "noun": "school doors",
+          "blocker": {"x": 1750},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e4_sit_ins",
+        "zoneId": "s4_main_street",
+        "consoleX": 900,
+        "anchor": {"x": 1450, "y": 520},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Witness Projector",
+        "panel": {"verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Witness Projector.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Witness Projector wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "door_opens",
+          "noun": "swing door",
+          "blocker": {"x": 1200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e5_freedom_rides",
+        "zoneId": "s4_main_street",
+        "consoleX": 2900,
+        "anchor": {"x": 3650, "y": 520},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Relay Line",
+        "panel": {"verifyLabel": "CLOSE THE CIRCUIT", "successBadge": "CIRCUIT CLOSED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Relay Line.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Relay Line wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "gate_lifts",
+          "noun": "rolling gate",
+          "blocker": {"x": 3200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e6_birmingham",
+        "zoneId": "s5_church_mast",
+        "consoleX": 3350,
+        "anchor": {"x": 3600, "y": 1820},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Broadcast Relay",
+        "panel": {"verifyLabel": "CLOSE THE CIRCUIT", "successBadge": "CIRCUIT CLOSED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Broadcast Relay.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Broadcast Relay wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "ride",
+          "vertical": "up",
+          "anim": "lift_moves",
+          "noun": "mast lift",
+          "blocker": {"x": 3650},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e7_march",
+        "zoneId": "s6_memorial",
+        "consoleX": 900,
+        "anchor": {"x": 900, "y": 640},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Switchboard",
+        "panel": {"verifyLabel": "CONNECT THE PROGRAM", "successBadge": "PROGRAM CONNECTED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Switchboard.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Switchboard wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "stairs_rise",
+          "noun": "memorial steps",
+          "blocker": {"x": 1200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e8_cra",
+        "zoneId": "s6_memorial",
+        "consoleX": 3250,
+        "anchor": {"x": 4200, "y": 640},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Filing Cabinets",
+        "panel": {"verifyLabel": "SEAL THE CABINETS", "successBadge": "FILES SEALED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Filing Cabinets.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Filing Cabinets wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "down",
+          "anim": "stairwell_opens",
+          "noun": "stairwell",
+          "blocker": {"x": 3550},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e9_selma",
+        "zoneId": "s7_selma",
+        "consoleX": 1100,
+        "anchor": {"x": 2800, "y": 900},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Timeline Bridge",
+        "panel": {"verifyLabel": "LOCK THE SPAN", "successBadge": "SPAN LOCKED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Timeline Bridge.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Timeline Bridge wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "none",
+          "anim": "bridge_forms",
+          "noun": "bridge deck",
+          "blocker": {"x": 1400},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e10_sources",
+        "zoneId": "s8_stacks_vault",
+        "consoleX": 1450,
+        "anchor": {"x": 1800, "y": 1400},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Provenance Drawers",
+        "panel": {"verifyLabel": "SEAL THE STACKS", "successBadge": "FILES SEALED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Provenance Drawers.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Provenance Drawers wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "stairs_rise",
+          "noun": "rolling ladder",
+          "blocker": {"x": 1750},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e11_causation",
+        "zoneId": "s8_stacks_vault",
+        "consoleX": 2900,
+        "anchor": {"x": 3700, "y": 1020},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Big Board",
+        "panel": {"verifyLabel": "SEND THE CAPSULE", "successBadge": "CIRCUIT CLOSED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Big Board.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Big Board wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "ride",
+          "vertical": "down",
+          "anim": "lift_moves",
+          "noun": "vault lift",
+          "blocker": {"x": 3200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e12_boss",
+        "zoneId": "s8_stacks_vault",
+        "consoleX": 5100,
+        "anchor": {"x": 5700, "y": 1900},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Editor's Vault",
+        "panel": {"verifyLabel": "OPEN THE VAULT", "successBadge": "STORY PRINTED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Editor's Vault.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Editor's Vault wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "vault_opens",
+          "noun": "Editor's Vault",
+          "blocker": {"x": 5400},
+          "rideCutsceneId": null
+        },
+        "boss": {"speakerId": "editor", "arenaTriggerX": 4900}
+      }
+    ],
+    "cutscenes": [
+      {
+        "id": "intro",
+        "steps": [
+          {"do": "enter_zone", "zoneId": "s1_morgue", "x": 60},
+          {"do": "fade", "to": "clear", "ms": 800},
+          {"do": "title", "text": "The Archive of Voices", "sub": "The 1965 Files", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Everything here has stopped. Let's wake it, one machine at a time.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "set_state", "target": {"kind": "flag", "id": "engine_awake"}, "state": "on"}
+        ]
+      },
+      {
+        "id": "finale",
+        "skippable": false,
+        "steps": [
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "The record is whole again. Every voice in it can be heard.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "fade", "to": "black", "ms": 1200}
+        ]
+      },
+      {
+        "id": "ride_home",
+        "steps": [
+          {
+            "do": "ride",
+            "vehicle": "archive_of_voices.part.timeline_bridge_streetcar",
+            "toZoneId": "s8_stacks_vault",
+            "toX": 300,
+            "ms": 2400
+          }
+        ]
+      }
+    ],
+    "feedbackNouns": [{"from": "chest", "to": "slide", "stations": ["e1_brown", "e4_sit_ins"]}]
+  }
+}

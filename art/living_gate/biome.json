@@ -1,0 +1,10 @@
+{
+  "paletteId": "living_gate",
+  "heroCap": 40,
+  "zones": [
+    "zone_a",
+    "zone_b",
+    "zone_c",
+    "zone_d"
+  ]
+}

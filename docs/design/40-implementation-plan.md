@@ -1,5 +1,10 @@
 # 40 · Implementation plan: Variant-fidelity showcase games
 
+> **Superseded for lanes, item ids, windows and owned paths by `20-expedition-architecture.md` §7 (revision 3:
+> 10 lanes L1–L10, items M0, V1, H1–H3, P1, S1, A1–A3, KA, KB, KC, C0–C3, E1–E3, Gate V, R, F).** The wave table and
+> the B1/B2/K1–K3/V/C1a ids below are the revision-2 plan; dispatch from 20 §7.1–§7.3. The goal and definition of done
+> (§1) still hold.
+
 _Owner: main session. Written 2026-09-26 13:10 from docs 00–31. The engineering spec is
 `20-expedition-architecture.md` (rev 2, reconciled); this document is the execution plan: what runs, in what order,
 by whom, and what "done" means at each gate. Item ids (M0, H1, P1, A1, B1, B2, K1–K3, A2, C1–C3, E1, R, F, S1, Q1,

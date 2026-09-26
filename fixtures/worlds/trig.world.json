@@ -1,0 +1,602 @@
+{
+  "appliesTo": {
+    "specIds": ["trig_demo_001", "trig_platformer_001"],
+    "sources": [{"sourceId": "src_trig_ch4", "genre": "dungeon"}, {"sourceId": "src_trig_ch4", "genre": "platformer"}]
+  },
+  "world": {
+    "worldVersion": 2,
+    "biome": "orrery_terraces",
+    "title": "The Orrery Terraces",
+    "cast": {
+      "protagonist": {"name": "Wren", "look": {"atlas": "shared.char.wren"}},
+      "guide": {
+        "characterId": "cog",
+        "emblem": {"glyph": "owl", "ring": "#C69A6B", "accent": "#8FE0EA"},
+        "companion": {"asset": "orrery_terraces.companion.cog"}
+      },
+      "speakers": [{"characterId": "warden", "emblem": {"glyph": "orrery", "ring": "#3E3F74", "accent": "#F2A65A"}}],
+      "extras": [
+        {
+          "id": "brasswick",
+          "name": "Brasswick",
+          "role": "a nervous clockwork scholar",
+          "voiceArchetype": "nervous_scholar",
+          "emblem": {"glyph": "gear", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "lumen",
+          "name": "Lumen",
+          "role": "keeper of the crystal stair",
+          "voiceArchetype": "wise_mentor",
+          "emblem": {"glyph": "star", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "quill",
+          "name": "Quill",
+          "role": "the terraces' record-keeper",
+          "voiceArchetype": "narrator",
+          "emblem": {"glyph": "quill", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "mimic",
+          "name": "The Mimic",
+          "role": "a singer that sings false",
+          "voiceArchetype": "sly_villain",
+          "emblem": {"glyph": "crab", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        },
+        {
+          "id": "ilse",
+          "name": "Ilse",
+          "role": "the astronomer, recorded",
+          "voiceArchetype": "wise_mentor",
+          "emblem": {"glyph": "star", "ring": "#C69A6B", "accent": "#8FE0EA"}
+        }
+      ]
+    },
+    "story": {
+      "logline": "The orrery's rhythms have fallen out of time. Restore each machine and the Star Door opens.",
+      "objective": "Restore the orrery's starlight",
+      "objectiveLabel": "RHYTHMS",
+      "restoredNoun": "rhythm",
+      "introCutsceneId": "intro",
+      "finaleCutsceneId": "finale"
+    },
+    "zones": [
+      {
+        "id": "z1_sunward",
+        "name": "Sunward Terrace",
+        "width": 8000,
+        "height": 1600,
+        "layerSets": [
+          {
+            "id": "sunward_day",
+            "layers": [
+              {
+                "asset": "orrery_terraces.layer.z1_clouds",
+                "depth": "L1_far",
+                "scrollFactor": 0.04,
+                "scrollFactorY": null,
+                "y": 60,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 6
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_mesa",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 540,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.orrery_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 260,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_aqueduct",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 760,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_crystal_field",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 620,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_canopy_ruins",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 760,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_terrace_wall",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 700,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_fore",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1380,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_dapple",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 0.25,
+                "blend": "multiply",
+                "blurPx": 0,
+                "driftPxPerSec": 4
+              },
+              {
+                "asset": "orrery_terraces.layer.z1_godrays",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 0.12,
+                "blend": "add",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              }
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "sunward_day",
+            "x0": 0,
+            "x1": 8000,
+            "layerSet": "sunward_day",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.45, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.25}
+            },
+            "ambient": {
+              "light": "day",
+              "particles": "pollen",
+              "particleCount": 12,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0, "brightness": 0, "hue": 0}
+            },
+            "weather": "clear",
+            "music": "curious",
+            "runEnabled": true,
+            "variants": []
+          }
+        ],
+        "interiors": [],
+        "ground": {
+          "points": [
+            [0, 1440],
+            [1780, 1440],
+            [1800, 1287],
+            [2118, 1287],
+            [2120, 1590],
+            [2378, 1590],
+            [2380, 1287],
+            [2560, 1287],
+            [2600, 1440],
+            [5380, 1440],
+            [5400, 1040],
+            [8000, 1040]
+          ],
+          "surface": "orrery_terraces.ground.paving",
+          "underside": "orrery_terraces.ground.terrace_underside",
+          "maxStepUp": 102
+        },
+        "platforms": [
+          {
+            "id": "canal_stone",
+            "points": [[2220, 1300], [2280, 1300]],
+            "asset": "orrery_terraces.prop.stepping_stone",
+            "requires": null
+          },
+          {
+            "id": "wisp_ledge",
+            "points": [[3500, 1270], [3600, 1270]],
+            "asset": "orrery_terraces.prop.ledge_cap",
+            "requires": null
+          }
+        ],
+        "links": [
+          {
+            "kind": "hop",
+            "id": "s0_stepup",
+            "from": {"surface": "ground", "x": 1760},
+            "to": {"surface": "ground", "x": 1840},
+            "requires": null,
+            "apex": 120,
+            "twoWay": true
+          },
+          {
+            "kind": "hop",
+            "id": "s0_stone_in",
+            "from": {"surface": "ground", "x": 2110},
+            "to": {"surface": "canal_stone", "x": 2240},
+            "requires": null,
+            "apex": 90,
+            "twoWay": true
+          },
+          {
+            "kind": "hop",
+            "id": "s0_stone_out",
+            "from": {"surface": "canal_stone", "x": 2270},
+            "to": {"surface": "ground", "x": 2400},
+            "requires": null,
+            "apex": 90,
+            "twoWay": true
+          },
+          {
+            "kind": "climb",
+            "id": "s0_canal_rungs",
+            "from": {"surface": "ground", "x": 2365},
+            "to": {"surface": "ground", "x": 2392},
+            "requires": null,
+            "twoWay": true
+          },
+          {
+            "kind": "hop",
+            "id": "s1_ledge_up",
+            "from": {"surface": "ground", "x": 3440},
+            "to": {"surface": "wisp_ledge", "x": 3520},
+            "requires": null,
+            "apex": 100,
+            "twoWay": false
+          },
+          {
+            "kind": "drop",
+            "id": "s1_ledge_down",
+            "from": {"surface": "wisp_ledge", "x": 3595},
+            "to": {"surface": "ground", "x": 3625},
+            "requires": null
+          }
+        ],
+        "exits": [
+          {
+            "id": "z1_to_z2",
+            "x": 7990,
+            "surface": "ground",
+            "toZoneId": "z2_crystal",
+            "toX": 60,
+            "toSurface": "ground",
+            "transition": "walk",
+            "requires": {"solved": "e2_period", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": null
+          }
+        ],
+        "hub": null,
+        "entry": {"x": 360, "surface": "ground"},
+        "entryCutsceneId": null,
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
+      },
+      {
+        "id": "z2_crystal",
+        "name": "Crystal Stair",
+        "width": 9600,
+        "height": 2400,
+        "layerSets": [
+          {
+            "id": "z2_crystal_kit",
+            "layers": [
+              {"asset": "orrery_terraces.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 1200},
+              {
+                "asset": "orrery_terraces.layer.default_midfar",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "y": 1380
+              },
+              {"asset": "orrery_terraces.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 1520}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "z2_crystal_kit",
+            "x0": 0,
+            "x1": 9600,
+            "layerSet": "z2_crystal_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "peach"}
+          }
+        ],
+        "ground": {"points": [[0, 1900], [9600, 1900]], "surface": "orrery_terraces.ground.default_surface"},
+        "exits": [
+          {
+            "id": "z2_to_z3",
+            "x": 9590,
+            "toZoneId": "z3_dome",
+            "toX": 60,
+            "transition": "vertical_up",
+            "requires": {"solved": "e5_period_review"}
+          }
+        ],
+        "entry": {"x": 60}
+      },
+      {
+        "id": "z3_dome",
+        "name": "Warden's Dome",
+        "width": 5400,
+        "height": 1400,
+        "layerSets": [
+          {
+            "id": "z3_dome_kit",
+            "layers": [
+              {"asset": "orrery_terraces.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 500},
+              {"asset": "orrery_terraces.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 680},
+              {"asset": "orrery_terraces.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 820}
+            ]
+          }
+        ],
+        "segments": [
+          {
+            "id": "z3_dome_kit",
+            "x0": 0,
+            "x1": 5400,
+            "layerSet": "z3_dome_kit",
+            "sky": {
+              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
+              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+            },
+            "ambient": {"light": "dusk"}
+          }
+        ],
+        "ground": {"points": [[0, 1200], [5400, 1200]], "surface": "orrery_terraces.ground.default_surface"},
+        "exits": [],
+        "entry": {"x": 60}
+      }
+    ],
+    "stations": [
+      {
+        "encounterId": "e1_radians",
+        "zoneId": "z1_sunward",
+        "consoleX": 4300,
+        "anchor": {"x": 4800, "y": 1140},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Vesper Dial",
+        "panel": {"verifyLabel": "ALIGN THE DIAL", "successBadge": "VESPER ALIGNED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Vesper Dial.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Vesper Dial wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "stairs_rise",
+          "noun": "spoke stair",
+          "blocker": {"x": 4600},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e2_period",
+        "zoneId": "z1_sunward",
+        "consoleX": 6900,
+        "anchor": {"x": 7400, "y": 836},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Tidewheel Gate",
+        "panel": {"verifyLabel": "LOCK THE RINGS", "successBadge": "RINGS LOCKED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Tidewheel Gate.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Tidewheel Gate wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "door_opens",
+          "noun": "Tidewheel doorway",
+          "blocker": {"x": 7200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e3_amplitude",
+        "zoneId": "z2_crystal",
+        "consoleX": 1500,
+        "anchor": {"x": 2000, "y": 1900},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Resonance Pillars",
+        "panel": {"verifyLabel": "EXPOSE THE MIMIC", "successBadge": "MIMIC EXPOSED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Resonance Pillars.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Resonance Pillars wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "ride",
+          "vertical": "up",
+          "anim": "lift_moves",
+          "noun": "Echo Lift",
+          "blocker": {"x": 1800},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e4_solve",
+        "zoneId": "z2_crystal",
+        "consoleX": 3900,
+        "anchor": {"x": 4650, "y": 1400},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Solving Span",
+        "panel": {"verifyLabel": "LAY THE SPAN", "successBadge": "SPAN LOCKED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Solving Span.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Solving Span wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "none",
+          "anim": "bridge_forms",
+          "noun": "Solving Span",
+          "blocker": {"x": 4200},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e5_period_review",
+        "zoneId": "z2_crystal",
+        "consoleX": 8500,
+        "anchor": {"x": 8800, "y": 800},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Treasury Pillars",
+        "panel": {"verifyLabel": "EXPOSE THE MIMIC", "successBadge": "MIMIC EXPOSED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Treasury Pillars.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Treasury Pillars wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "terrain",
+          "vertical": "up",
+          "anim": "stairs_rise",
+          "noun": "rim stair",
+          "blocker": {"x": 8800},
+          "rideCutsceneId": null
+        },
+        "boss": null
+      },
+      {
+        "encounterId": "e6_boss",
+        "zoneId": "z3_dome",
+        "consoleX": 3550,
+        "anchor": {"x": 4700, "y": 1200},
+        "contraption": "console_slate",
+        "skin": "lectern_slate",
+        "config": {},
+        "objectNoun": "Warden's Shield",
+        "panel": {"verifyLabel": "MATCH THE RHYTHM", "successBadge": "RESONANCE LOCKED"},
+        "dialogue": {
+          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Warden's Shield.", "mood": "neutral"},
+          "fail": {
+            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          },
+          "success": {"speakerId": null, "text": "The Warden's Shield wakes, and the way ahead opens.", "mood": "neutral"}
+        },
+        "payoff": {
+          "kind": "remove_blocker",
+          "vertical": "none",
+          "anim": "door_opens",
+          "noun": "Star Door",
+          "blocker": {"x": 3850},
+          "rideCutsceneId": null
+        },
+        "boss": {"speakerId": "warden", "arenaTriggerX": 3000, "arenaBounds": {"x0": 2400, "x1": 5400}}
+      }
+    ],
+    "cutscenes": [
+      {
+        "id": "intro",
+        "steps": [
+          {"do": "enter_zone", "zoneId": "z1_sunward", "x": 360},
+          {"do": "fade", "to": "clear", "ms": 800},
+          {"do": "title", "text": "The Orrery Terraces", "sub": null, "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "cog",
+                "text": "Everything here has stopped. Let's wake it, one machine at a time.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "finale",
+        "skippable": false,
+        "steps": [
+          {
+            "do": "say",
+            "lines": [{"speakerId": "cog", "text": "The machines hum again. The way home is open.", "mood": "neutral"}]
+          },
+          {"do": "fade", "to": "black", "ms": 1200}
+        ]
+      }
+    ],
+    "feedbackNouns": [{"from": "chest", "to": "singer", "stations": ["e3_amplitude", "e5_period_review"]}]
+  }
+}

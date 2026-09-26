@@ -88,7 +88,7 @@ so one file serves both seeds.
 **Audience:**
 - **Artists** use §0.1.2, §2 and §7.
 - **Engine and contraption developers** use §5 and Appendix A.
-- **Content writers** (C3 in 20 §7.2) use §2.6, §4, §5 (station and config JSON) and §6, and write
+- **Content writers** (C0, then C3, in 20 §7.2) use §2.6, §4, §5 (station and config JSON) and §6, and write
   `fixtures/worlds/civil-rights.world.json` from them without inventing anything.
 
 Nothing here changes a mode's `grade()`. Every Verify calls the existing mode's grade with the existing `Input`
@@ -2982,7 +2982,10 @@ file), 123 kit rows, 6 atlas rows, 13 DOM or data rows, 5 code rows and 5 shared
 
 ---
 
-## 8 · Fidelity mapping (bible §9 checklist, 36 items + game-feel 37–41; ★ = mandatory)
+## 8 · Fidelity mapping (bible §9 checklist, 44 items, 14 ★; 20 §8.3)
+
+The rubric is bible §9 (44 items, 14 ★: 1, 2, 9, 11, 15, 18, 21, 27, 30, 34, 35, 38, 40, 42), scored per 20 §8.3:
+**P0 pass = all ★ + ≥ 36/44** with items 37, 43 and 44 scored on zone 1 (S1 + S2) only; **full pass = all ★ + ≥ 39/44**.
 
 | # | Item | How *The Archive of Voices* satisfies it |
 |---|---|---|
@@ -3023,12 +3026,15 @@ file), 123 kit rows, 6 atlas rows, 13 DOM or data rows, 5 code rows and 5 shared
 | 35 ★ | Payoff is traversal | §5.13: steps, road, doors, gate, lift, memorial steps, stairwell, bridge, ladder, vault lift, vault; each next area is reachable only through it (blockers + `requires.solved` links). |
 | 36 | Visible misconception | A "Visible misconception" entry per station (§5.1–§5.12): the 1954–55 band against the 1957 pin, the decoy with no bay, the aged textbook outside the events band, the jumbled bay lamps. |
 | 37 | ≥ 2 non-walk verbs per zone besides payoffs | Beat sheets §2.6.1–§2.6.8: P0 clean in S1, S2, S8; P1 clean in all eight zones. |
-| 38 | The orange input moves a world object in every encounter | The YEAR probe moves the Record Lens carriage on e1–e11 (plus the DAY counter on e2, the bay lamps on e9 at tier ≥ 1, the shelf light on e10); on e12 the orange accusation ring sits on the accused tumbler in the world. |
+| 38 ★ | The orange input moves a world object in every encounter | The YEAR probe moves the Record Lens carriage on e1–e11 (plus the DAY counter on e2, the bay lamps on e9 at tier ≥ 1, the shelf light on e10); on e12 the orange accusation ring sits on the accused tumbler in the world. |
 | 39 | Boss staged | e12: arena trigger at the vault lift's landing, `e12_arena` (music, camera, grille, X09), Editor taunts before Ida's line, tumblers that turn with the player's marks. |
-| 40 | Hints act in the world | Wick flies to each rung's anchors; rungs open shutters, the events band, the e9 sweep, hint pins, the decoy dim and the matrix shading (§5.0.5). |
+| 40 ★ | Hints act in the world | Wick flies to each rung's anchors; rungs open shutters, the events band, the e9 sweep, hint pins, the decoy dim and the matrix shading (§5.0.5). |
 | 41 | First world reaction ≤ 150 ms | The controller binds drafts synchronously and applies the first eased frame on the next rAF (20 §2.5.3); hover drafts make aim stations react before the click. |
+| 42 ★ | Payoff is used, not shown | Every payoff of item 35 is the only route to the next station (blockers, sheer edges, the e10 ladder gated by the station). |
+| 43 | Explore never silent (≤ 20 s) | P0: the intro, the `enter_s2` … `enter_s8` entry cutscenes, Ida and Otis, the 4 P0 plaques; P1: X06 and the arrival triggers. |
+| 44 | Sandbox or quest touch per zone | P1: Theo's spill quest, the Darkroom (S8); at P0 zone 1 has only the `await_interact` breaker, which is part of the intro, so this is an expected P0 miss inside the ≥ 36/44 margin. |
 
-**Self-score target: 36/36 and 5/5**, with all 11 ★ items covered by design. Risk items for the W5 capture loop:
+**Self-score target: 44/44** at full, with all 14 ★ items covered by design. Risk items for the critic's capture loop (20 §8.3):
 - #7 (foreground must not cover the S6 switchboard);
 - #29 (the typewriter margin-note face must render ≥ 28 px equivalent);
 - #15 in vault layout (the room must stay visible around the modal);
@@ -3108,7 +3114,7 @@ in the source and violent text only on document plates (R10).
 | A8 | `disableGlobalCapture()` while the panel is open | 20 §2.2 `input/controller.ts` (D4) | folded |
 | A9 | Memoize the view per encounter index | 20 §3.4 `useRunner` (D5) | folded |
 | A10 | The host blocks progress at each unsolved landmark | 20 §2.4.1 blockers from `payoff.blocker` | folded |
-| A11 | The mystery genre routes to the side-view host when an overlay exists | 20 §2.2 `PlayHost` Expedition branch; `play-mystery.spec` second test moves to `?host=legacy` (20 §7.2 W5) | folded |
+| A11 | The mystery genre routes to the side-view host when an overlay exists | 20 §2.2 `PlayHost` Expedition branch; `play-mystery.spec` second test moves to `?host=legacy` (20 §7.2 E1–E3) | folded |
 | A12 | DOM fallback | 20 §2.2 reduced DOM host: static skin snapshots + full panel (amendment 31) | folded |
 | A13 | Overlay file `src/game/worlds/history_mystery_001.ts` or `fixtures/worlds/…` | **`fixtures/worlds/civil-rights.world.json` only** (20 decision 19, amendment 40); keyed by both spec ids and both `(src_civil_rights, genre)` pairs; `tests/world-sidecars.test.ts` checks it | folded |
 

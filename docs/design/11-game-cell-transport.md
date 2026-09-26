@@ -17,13 +17,17 @@
 > `src/world/diagnose/**` (20 §2.5.4); there is no `firstMiss` export and no `noun` template var.
 
 **Who implements from this doc:**
-- **C2 (content, W4)** authors `fixtures/worlds/cell-transport.world.json` from §2.5 (zones), §3.5 (cast), §4.2
-  (cutscenes), §4.3 (every line with its slot), §5.x (the station JSON of every encounter) and §6 (side content). Every
-  value is given; nothing needs inventing.
-- **A2 / C2 (art)**: §0.1.2 (the P0 hero list), §2 (layers, palette) and §7 (every asset by key, hero or kit).
-- **K2 / K3 (engine, W3)**: §5 (live bindings, pose formulas, success and failure timelines, hint actions) for the
-  skins `specimen_pods`, `membrane_router`, `carrier_lanes`, `gatekeeper_maws`, `tonicity_sluices`, `pump_rewiring`,
-  `endocytosis_lift`, plus the §9.5 slot requests.
+(Lanes and windows are 20 §7, which is authoritative.)
+- **C0 (L9, T0 + 2 → 6) then C2 (L4, T0 + 6.5 → 15)** author `fixtures/worlds/cell-transport.world.json` from §2.5
+  (zones), §3.5 (cast), §4.2 (cutscenes), §4.3 (every line with its slot), §5.x (the station JSON of every encounter)
+  and §6 (side content), and the palette `src/game/art/palettes/living_gate.ts`. Every value is given; nothing needs
+  inventing. C2 also draws the zone-A heroes, the landmarks and the `specimen_pods`, `membrane_router` and
+  `endocytosis_lift` hero parts (22 files).
+- **A2 (L5, art)**: the kit layer sets from §2 and a kit entry for every skin slot (§7).
+- **KB (L7, engine)**: §5 (live bindings, pose formulas, success and failure timelines, hint actions) for the skins
+  `specimen_pods`, `membrane_router`, `carrier_lanes`, `gatekeeper_maws`, `tonicity_sluices`, `pump_rewiring`,
+  `endocytosis_lift`, the five biology sims, and the hero parts of `tonicity_sluices`, `carrier_lanes`,
+  `pump_rewiring`, `gatekeeper_maws` (14 files).
 
 ---
 
@@ -76,13 +80,11 @@ needed the cell content re-pointed. "§" numbers are this document's.
   answer away. It now `requires: {solved: e8_pump}`.
 - **The Plant Garden stair moved to the trench's far wall.** A heightfield has one height per x, so an alcove cannot sit
   under the road; the side stair now climbs from the Threshold road (x 6660) to an alcove platform at y 1043.
-- **Rides that land on a platform** (e7 gantry → `pump_deck`, e9 barge → `pit_ledge`) end with a 150 ms fade and an
-  `enter_zone` into the same zone with an explicit `surface`, because the `ride` step has no surface field. Drop the
-  pair if H1's `ride` step lands on the surface under the path's last point (P2 polish).
-- **Sheer edges.** A ground change larger than `maxStepUp` over ≤ 8 units is a sheer edge. Per 20 §2.4.1 a rise blocks
-  walking; this document also relies on a sheer *fall* blocking walking (the e4 raft ledge, the e5 trench, the S7
-  gulf), so a `drop` link is the way down. If H1's `terrain.stepBlocked` lets the player walk off a sheer fall, the
-  fall plays the drop arc anyway (§2.4.1 "Edges") and the links are simply redundant.
+- **Rides that land on a platform** (e7 gantry → `pump_deck`, e9 barge → `pit_ledge`) use the `ride` step's
+  `toSurface` (20 §1.3, A8). The revision-2 fade + `enter_zone` workaround is gone.
+- **Sheer edges.** A ground change larger than `maxStepUp` within 8 units is a sheer edge, and per 20 §2.4.1 (A8) it
+  blocks walking in both directions (the e4 raft ledge, the e5 trench, the S7 gulf), so a `drop` link is the way
+  down.
 - **The e3 "a = 0 at success" ad-lib is dropped.** A station line cannot depend on the probe value at success.
 - **Speakers without a body at P0.** Sucra, Kay and the Ferryman are P1 puppets, so their lines move out of station
   slots into their `NpcState`s (P1). Poro's two lines stay in e5's `approach`/`after` at P0, because his statue is the
@@ -321,7 +323,7 @@ ladder (bible §5.1): console 0.7 H, pod 1.1 H, Crossing Gate 2.2 H, Carrier Doo
 ### 2.2 Palette: the bible palette adapted to the cell
 
 The UI palette is the bible's §2.3, **unchanged** (`UI_TOKENS`). The world tokens below re-map the bible's §2.1 to
-biology and live in **`src/game/art/palettes/living_gate.ts`** (owned by A2 in W3, C2 in W4). Token paths are the names
+biology and live in **`src/game/art/palettes/living_gate.ts`** (owned by C0, then C2; 20 §7.3). Token paths are the names
 in the first column (`{{lipid.head.lit}}` in SVG source). The rule holds: there is no pure black. The darkest world colours are the Pump Hall ceiling `#3E3240` and the seam
 shadow `#22385A`; both sit at the same relative luminance as 20 §5.3's floor `#2B3A44` (≈ 0.04). If the art lint
 compares luminance strictly, lift them to `#433748` and `#27405F`. Orange never appears on a world surface except on bound values.
@@ -414,7 +416,7 @@ All keys are `living_gate.layer.<name>` (§7).
 - **Dormancy.** Every unsolved contraption is desaturated −40 % by the runtime ColorMatrix (20 §5.7) with no glow.
   Solving it re-saturates it over 600 ms. That is bible checklist item 6.
 
-#### 2.4.1 Performance plan (amendment 30; enforced by the W5 fps capture)
+#### 2.4.1 Performance plan (amendment 30; enforced by the E3 fps capture, 20 §7.2)
 
 | Hot spot | Plan | Budget |
 |---|---|---|
@@ -1643,12 +1645,10 @@ trims the rest, except the finale.
         "vehicle": "living_gate.prop.gantry_platform",
         "toZoneId": "zone_c",
         "toX": 1900,
+        "toSurface": "pump_deck",
         "ms": 1400,
         "path": [[1840, 1213], [1840, 873]]
-      },
-      {"do": "fade", "to": "black", "ms": 150},
-      {"do": "enter_zone", "zoneId": "zone_c", "x": 1900, "surface": "pump_deck"},
-      {"do": "fade", "to": "clear", "ms": 250}
+      }
     ]
   },
   {
@@ -1661,12 +1661,10 @@ trims the rest, except the finale.
         "vehicle": "living_gate.part.tonicity_sluices_barge",
         "toZoneId": "zone_c",
         "toX": 5520,
+        "toSurface": "pit_ledge",
         "ms": 1800,
         "path": [[5390, 1213], [5390, 873], [5470, 873]]
-      },
-      {"do": "fade", "to": "black", "ms": 150},
-      {"do": "enter_zone", "zoneId": "zone_c", "x": 5520, "surface": "pit_ledge"},
-      {"do": "fade", "to": "clear", "ms": 250}
+      }
     ]
   },
   {
@@ -5003,7 +5001,7 @@ one insight line to the debrief. They have no gameplay effect: purpose without p
 | `gatekeeper_rumble` | `rumble` | arena, e11 failure |
 | `pore_open` | `chord` | finale |
 
-Suggested skin cues (`ContraptionSkin.cues`, set by K2/K3): `specimen_pods` `{live: current_hum, succeed: chord_true,
+Suggested skin cues (`ContraptionSkin.cues`, set by the KB lane): `specimen_pods` `{live: current_hum, succeed: chord_true,
 fail: bell_honest}`; `membrane_router` / `carrier_lanes` / `gatekeeper_maws` `{live: null, succeed: gate_open, fail:
 boing_soft}`; `tonicity_sluices` `{live: null, succeed: sluice_drain, fail: boing_soft}`; `pump_rewiring` `{live:
 current_hum, succeed: chord_true, fail: clunk}`; `endocytosis_lift` `{live: null, succeed: vesicle_pinch, fail:
@@ -5017,8 +5015,9 @@ clunk}`.
 - **Keys** are `living_gate.<group>.<name>` with the groups of 20 §5.1 (`layer`, `ground`, `prop`, `part`, `costume`,
   `companion`, `npc`, `fx`, `ui`, `vista`). Contraption part keys are `living_gate.part.<skin>_<slot>` (20 §4.3). Every
   entry in `art/living_gate/biome.json` carries its revision-1 id as `legacyId` (`cell.prop.nak_drum` …).
-- **Source.** `hero` = a hand-authored SVG in `art/living_gate/<group>/` (counted against the hero cap); `kit:<gen>` = a
-  seeded kit entry in `biome.json` (generator names from 02 §3a.2; 20 §4.3's `glassTank` is noted where it appears).
+- **Source.** `hero` = a hand-authored SVG in its 20 §5.1 fragment directory (`art/living_gate/parts/<skin>/`,
+  `landmarks/` or `cast/`; counted against the hero cap); `kit:<gen>` = a seeded kit entry in the matching `*.kit.json`
+  fragment (generator names from 02 §3a.2; revision-2 names are mapped in 20 §5.4).
   Every hero declares a kit fallback (§0.1.2). The Diver's body is the recoloured rig `shared.char.diver` built by
   `pnpm chars:build`, not an authored file.
 - **Sizes** are design units at 1080p (1 unit = 1 px of a 1080-tall view). Textures rasterize at
@@ -5147,7 +5146,7 @@ clunk}`.
 | 84 | `living_gate.part.membrane_router_gate_fin` | hero | P0 | 90×300 | e2: the right half, mirrored | same file, `flipX`; legacyId `cell.prop.gate_fin_right` |
 | 85 | `living_gate.part.membrane_router_oil_road` | kit:ringStack | P0 | 320×60 | e2: an elliptical navy inlay ring set in the heads, with 3 gold studs | ellipse 0.3; legacyId `cell.prop.oil_road_plate` |
 | 86 | `living_gate.part.membrane_router_carrier_rocker` | hero | P0 | 560×200 | e2 payoff: a cream see-saw protein with a navy band and a cradle pocket (pivot centre bottom) | legacyId `cell.prop.carrier_rocker` |
-| 87 | `living_gate.part.specimen_pods_dye_tank` | kit:glassTank | P0 | 780×310 | e3: a glass tank in a cream frame with gold corners, a slight blue tint, highlight streaks | 20 §4.3 names `glassTank`; if A1 ships 02's set only, `compose(plate, bilayerTile strip_vertical)`; legacyId `cell.prop.dye_tank` |
+| 87 | `living_gate.part.specimen_pods_dye_tank` | kit:compose (recipe `glass_tank`) | P0 | 780×310 | e3: a glass tank in a cream frame with gold corners, a slight blue tint, highlight streaks | the `glass_tank` recipe of 20 §5.4 / 02 §3a.1 (`plate` frame + `bilayerTile` strip_vertical + `waterBand` pool); legacyId `cell.prop.dye_tank` |
 | 88 | `living_gate.part.specimen_pods_tank_window` | kit:bilayerTile strip_vertical | P0 | 40×300 | e3: a vertical bilayer strip (mini heads and tails) with 5 gaps | legacyId `cell.prop.tank_window` |
 | 89 | `living_gate.part.specimen_pods_balance_pillar` | kit:column | P0 | 140×420 | e3: a cream pivot pillar, navy capital, gold hub (the beam's pivot at 0.5, 0.08) | legacyId `cell.prop.balance_pillar` |
 | 90 | `living_gate.part.specimen_pods_balance_beam` | hero | P0 | 860×60 | e3: a gold beam with navy inlay and hooks at the ends (pivot centre) | legacyId `cell.prop.balance_beam` |
@@ -5291,7 +5290,10 @@ resident VRAM per zone at dpr 1.5 (zone B, four stations, is the peak).
 
 ---
 
-## 8 · Fidelity mapping (bible §9 checklist 1–36, game-feel 37–41; ★ = mandatory)
+## 8 · Fidelity mapping (bible §9 checklist, 44 items, 14 ★; 20 §8.3)
+
+The rubric is bible §9 (44 items, 14 ★: 1, 2, 9, 11, 15, 18, 21, 27, 30, 34, 35, 38, 40, 42), scored per 20 §8.3:
+**P0 pass = all ★ + ≥ 36/44** with items 37, 43 and 44 scored on zone A only; **full pass = all ★ + ≥ 39/44**.
 
 | # | Item | How *The Living Gate* satisfies it |
 |---|---|---|
@@ -5332,13 +5334,16 @@ resident VRAM per zone at dpr 1.5 (zone B, four stations, is the peak).
 | 35 ★ | Payoff is traversal | Ramp (e1), rocker ramp (e2), boom lifts (e3), **raft ride** (e4), steps emerge (e5), **door carries you** (e6), **gantry ride** (e7), gate lifts (e8), **barge rises** (e9), **the vesicle carries you into the cell** (e10), pore opens (e11) |
 | 36 | Visible misconception | Every §5 block has a "Visible misconception" tied to the fixture's `targetMisconception` |
 | 37 | ≥ 2 non-walk verbs per zone | Zone A at P0 (hop, climb); zones B, C, D at P1 (§2.6); W2 clean at P1 |
-| 38 | The orange input moves a world object in every encounter | Probes on e1, e3, e4, e7, e8, e10; the aim beam (hover) on the mimic pods; queues on e2, e6, e11; the wave cell and valve wheel on e5, e9 |
+| 38 ★ | The orange input moves a world object in every encounter | Probes on e1, e3, e4, e7, e8, e10; the aim beam (hover) on the mimic pods; queues on e2, e6, e11; the wave cell and valve wheel on e5, e9 |
 | 39 | The boss has staged presentation | e11: arena cutscene, three batches with lines, taunts, maw reactions, eye tracking, pipe surge (§5.11) |
-| 40 | Hints act in the world | Every station lists Pip's flights and its tier effects; Pip's water lens at tier 1 on e2 and e11 (R11) |
+| 40 ★ | Hints act in the world | Every station lists Pip's flights and its tier effects; Pip's water lens at tier 1 on e2 and e11 (R11) |
 | 41 | First world reaction ≤ 150 ms after panel input | `bind` is synchronous and the next frame applies the eased pose (20 §2.5.3) |
+| 42 ★ | Payoff is used, not shown | Every payoff of item 35 is the only route on (blockers + sheer edges); rides and carries move the player through it |
+| 43 | Explore never silent (≤ 20 s) | P0: intro lines, the plaques and station approach lines in zone A; P1: the §6 arrival and walk triggers in every zone |
+| 44 | Sandbox or quest touch per zone | P1: Kay's Lanterns (touch ×3), the Plant Cell Garden; at P0 zone A has no ungraded touch yet, an expected P0 miss inside the ≥ 36/44 margin |
 
-**Self-score (design intent): 41/41**, with item 14 not applicable (counted as a pass). The implementation is scored from
-screenshots by the W5 critic.
+**Self-score (design intent): 44/44** at full, with item 14 not applicable (counted as a pass). The implementation is scored from
+screenshots by the critic (R, 20 §7.2, §8.3).
 
 ---
 
@@ -5410,7 +5415,7 @@ for zones B, C and D (their second verbs are P1; W2 is clean at P1).
 - `pnpm art:build --ns living_gate --check` is clean, `heroCount` is 36 at P0 (40 at P1), and every hero has a
   `kitFallback`.
 - **No fixture, mode or contract changes.** Every item here is side-car data, art, or a meta/prefab detail owned by
-  K2/K3; `grade()` stays the single source of truth.
+  the KB lane; `grade()` stays the single source of truth.
 
 ### 9.5 What revision 1's extensions became, and the slot requests
 
@@ -5425,7 +5430,7 @@ for zones B, C and D (their second verbs are P1; W2 is clean at P1).
 | X7 | `WorldOverlay` side-car | 20 §1.2–§1.3 (`fixtures/worlds/`) |
 | X8 | `noun` template var for mimic feedback | dropped: `feedbackNouns` (§9.3) |
 
-**Skin slot requests** (one line each in the skin's `parts` list; K2 owns `specimen_pods`, K3 the others). Every other
+**Skin slot requests** (one line each in the skin's `parts` list; all folded into 20 §4.3 in revision 3; the KB lane owns every cell skin file). Every other
 key in this document is already a 20 §4.3 slot, a prop, a layer or a vehicle:
 
 | Skin | Slot | Source | Why |

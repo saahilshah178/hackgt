@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { evalExact, MAX_EXPRESSION_LENGTH } from "../src/mechanics/util";
+import { evalExact, evalExactAt, MAX_EXPRESSION_LENGTH } from "../src/mechanics/util";
 
 describe("evalExact sandbox", () => {
   it("evaluates ordinary exact expressions", () => {
@@ -36,5 +36,49 @@ describe("evalExact sandbox", () => {
   it("caps expression length", () => {
     expect(evalExact("1+".repeat(MAX_EXPRESSION_LENGTH) + "1")).toBeNull();
     expect(evalExact("1+".repeat(20) + "1")).toBe(21);
+  });
+});
+
+describe("evalExactAt sandbox (free variables from a scope)", () => {
+  it("evaluates expressions in x at a point", () => {
+    expect(evalExactAt("3*sin(x)", { x: Math.PI / 2 })).toBeCloseTo(3, 12);
+    expect(evalExactAt("2*sin(x) - 1", { x: Math.PI / 6 })).toBeCloseTo(0, 12);
+    expect(evalExactAt("sin(2*t + c)", { t: Math.PI / 4, c: 0 })).toBeCloseTo(1, 12);
+    expect(evalExactAt("pi/2", {})).toBeCloseTo(Math.PI / 2, 12);
+  });
+
+  it("returns null for unbound symbols, non-finite results and garbage", () => {
+    expect(evalExactAt("3*sin(y)", { x: 1 })).toBeNull();
+    expect(evalExactAt("1/x", { x: 0 })).toBeNull();
+    expect(evalExactAt("tan(x) +", { x: 1 })).toBeNull();
+    expect(evalExactAt("", { x: 1 })).toBeNull();
+    expect(evalExactAt("f(x) = x^2", { x: 2 })).toBeNull();
+  });
+
+  it("rejects bad scopes instead of evaluating them", () => {
+    expect(evalExactAt("x", { x: Number.NaN })).toBeNull();
+    expect(evalExactAt("x", { x: Number.POSITIVE_INFINITY })).toBeNull();
+    expect(evalExactAt("x", { "x-1": 1 } as Record<string, number>)).toBeNull();
+    expect(evalExactAt("x", { x: "1" } as unknown as Record<string, number>)).toBeNull();
+    const big: Record<string, number> = {};
+    for (let i = 0; i < 9; i++) big[`v${i}`] = i;
+    expect(evalExactAt("v0", big)).toBeNull();
+    expect(evalExactAt("x", null as unknown as Record<string, number>)).toBeNull();
+  });
+
+  it("never leaks assignments into the caller's scope or later calls", () => {
+    const scope = { x: 1 };
+    expect(evalExactAt("x = 5", scope)).toBe(5);
+    expect(scope).toEqual({ x: 1 });
+    expect(evalExactAt("x", scope)).toBe(1);
+    expect(evalExactAt("y", { x: 1 })).toBeNull();
+  });
+
+  it("keeps the same function blocklist and length cap as evalExact", () => {
+    for (const expr of ["import({ pi: 3 }, { override: true }); pi", "evaluate(\"x+1\")", "parse(\"x\").evaluate()", "derivative(\"x^2\", \"x\")"]) {
+      expect(evalExactAt(expr, { x: 1 }), expr).toBeNull();
+    }
+    expect(evalExactAt("pi", {})).toBeCloseTo(Math.PI, 12);
+    expect(evalExactAt("x+".repeat(MAX_EXPRESSION_LENGTH) + "x", { x: 1 })).toBeNull();
   });
 });

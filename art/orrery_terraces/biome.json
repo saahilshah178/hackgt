@@ -1,0 +1,9 @@
+{
+  "paletteId": "orrery_terraces",
+  "heroCap": 40,
+  "zones": [
+    "z1_sunward",
+    "z2_crystal",
+    "z3_dome"
+  ]
+}

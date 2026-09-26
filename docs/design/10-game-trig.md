@@ -14,7 +14,7 @@ a layout width, an asset path or a coordinate convention, **20 wins**; this docu
 | **Guide** | `cog` (spec character 0, `cheerful_sidekick`); companion puppet `orrery_terraces.companion.cog` |
 | **Boss** | `warden` (spec character 1, `gruff_guard`); station `e6_boss` carries `boss` staging |
 | **Reads with** | 20 (contract, host, panel, library §4/§4.1/§4.2, art §5, waves §7), 02 (§3.0 naming, §3a kit, §3b rig, §4.1 trig P0 list), 01 (tokens, checklist), 30 (amendments 2, 19–22, 27, 28), mode sources `tuner/oscillator.ts`, `mapper/number_line.ts`, `truth_finder/mimic.ts`, `sequencer/linear.ts` |
-| **Audience** | C1 (trig content + art, W4), main (vertical-slice content, W2), A1 (zone-1 art, W1), K1/K2 (metas/prefabs for `emitter_rail`, `ring_gate`, `pendulum_sync`, `claim_holders`, `step_bridge`), pipeline designers (§9) |
+| **Audience** | the 20 §7 lanes: C0 then C1 (trig side-car, palette, zone-1 heroes, landmarks), KA (metas/prefabs for `emitter_rail`, `ring_gate`, `pendulum_sync`, `claim_holders`, `step_bridge` and the other trig skins' heroes), A1/A2 (Wren atlas, kit layers and stand-ins), pipeline designers (§9); §0.5 lists who authors what |
 
 **Conventions used throughout.**
 - **H** is the protagonist's height: **170** design units (1 unit = 1 px of a 1080-px-tall view, bible §5.1).
@@ -34,7 +34,7 @@ a layout width, an asset path or a coordinate convention, **20 wins**; this docu
 
 | # | Change | Source | Sections |
 |---|---|---|---|
-| 1 | **New §0 "P0 demo cut":** zone 1 (`z1_sunward`) is the full-art zone with 16 hand-authored hero assets listed by key; `z2_crystal` and `z3_dome` run on kit layers + one hero landmark each; biome P0 hero count 37 (P1 39, P2 40, inside 02's cap of 40 and 20's 60); P1/P2 side content listed row by row. | 20 §0.1, amendment 12, task brief | §0 |
+| 1 | **New §0 "P0 demo cut":** zone 1 (`z1_sunward`) is the full-art zone with 16 hand-authored hero assets listed by key; `z2_crystal` and `z3_dome` run on kit layers + one hero landmark each; biome P0 hero count 37 (P1 39, P2 40, inside the one cap of 40, 20 §5.1); P1/P2 side content listed row by row. | 20 §0.1, amendment 12, task brief | §0 |
 | 2 | **Coordinates converted to per-zone** (`z1_sunward` 8000 × 1600, `z2_crystal` 9600 × 2400, `z3_dome` 5400 × 1400) with the exact conversions of 20 §4.1. Ground heightfields, platforms, blockers and payoff terrain are now given as the `Zone.ground.points` / `Zone.platforms` / `Payoff.terrain` arrays. The "Jump 1.1 H / real colliders" movement table is replaced by the 20 §3.5 key map and §2.4 surfaces. | amendments 2, 20 | §2.6 |
 | 3 | **New §2.7 traversal beat sheets:** every zone lists ≥ 2 non-walk verbs other than its payoffs as `Zone.links` entries (`hop`, `climb`, `drop`, `ladder`, `timed_hop`) with ends, surfaces and priorities, plus the sandbox and quest touches. The Rim Gantry is three `timed_hop` links (T = 1.5, 2.5, 3.0 s) with `missTo` pits and `ladder`s back up. | amendments 2, 17, 28 | §2.7 |
 | 4 | **The e3/e5 probe moves the world** (`probeWorld: "trace_slate"`: the Tuning Lens projects the aimed claim's trace and a playhead at x onto the singer's chest slate; the bell hum pitch follows `|f(x)|`). **The e4 probe moves the world** (`probeWorld: "relief_marker"`: a plumb marker rides a `2 sin x` relief carved along the chasm lip; crossings with the `y = 1` water line glint). | amendment 27 | §5.3, §5.4, §5.5 |
@@ -133,16 +133,19 @@ All keys in this table are `orrery_terraces.part.*` unless they carry another gr
 | P2 | Sighting telescopes (touch props), the e6 "time × 0.5" toggle (`slowTimeToggle: true`), reduced-motion extras, debrief bonus lines | §6.7, §6.9 |
 | post-demo | Wren's 18-part SVG puppet (A137–A154); dome constellation figures (A136) | §7.13 |
 
-### 0.5 Who authors what (20 §7)
+### 0.5 Who authors what (20 §7; the lane plan there is authoritative)
 
-- **A1 (W1):** palette `src/game/art/palettes/orrery_terraces.ts`, the §0.2 heroes, the `sunward_day` kit layers,
-  `vesper_dial` and `ring_gate` parts, Cog, Wren's costumes, the finish presets.
-- **main (W2):** `fixtures/worlds/trig.world.json` with `z1_sunward` complete (§2.6.1, §2.7.1, stations e1–e2 from
-  §5.1–§5.2, the `intro` cutscene, Brasswick `before`, trigger `s0_controls`) and `z2`/`z3` skeletons with e3–e6 on
-  `console_slate` so the file validates.
-- **C1 (W4):** stations e3–e6 per §5.3–§5.6 (replacing the slates), `e6_arena`, `e3_lift_up`, `finale`,
-  `z2_entry`, `z3_entry`, exits, extras, the §0.3 station heroes and landmarks.
-- **Q1 / S1 (W6, P1)** and **Q2 / U1 (W7, P2):** the §0.4 rows.
+- **C0 (L9, T0 + 2 → 6):** `fixtures/worlds/trig.world.json` from this document, P0 first: `z1_sunward` complete
+  (§2.6.1, §2.7.1 incl. the `s0_canal_in` drop, the `intro` cutscene, Brasswick `before`, trigger `s0_controls`), all
+  six stations with their §5.1–§5.6 configs (on W0's stub prefabs until the KA lane lands them), `z2`/`z3`; and the
+  palette `src/game/art/palettes/orrery_terraces.ts`.
+- **C1 (L9, T0 + 6 → 15):** the zone-1 heroes (`vesper_dial` ×3, `ring_gate` ×5, orrery tower, gondola, the Cog
+  puppet, Wren's 4 costumes, the Brasswick puppet) by T0 + 9 for Gate V; then `e6_arena`, `e3_lift_up`, `finale`,
+  `z2_entry`, `z3_entry`, exits, extras and the landmarks (crystal falls cliff, dome interior, Ilse's star figure).
+- **KA (L6):** the five trig archetypes and the skin heroes of `resonance_pillars`, `treasury_pillars`,
+  `floating_steps`, `wardens_shield` (18 files). **A2 (L5):** the kit layer sets (`sunward_day` first) and every
+  skin slot's kit entry. **A1 (L5):** the Wren atlas.
+- **After P0 freeze:** Q1 (P1) and Q2 / U1 (P2), the §0.4 rows.
 
 ---
 
@@ -438,13 +441,14 @@ Every zone offers **≥ 2 non-walk verbs other than its payoffs** (W2, game-feel
 and an x inside that surface's span (R11); no link straddles an unsolved station's blocker without requiring it.
 Keys (20 §3.5): Space hops (timed hops too), W/↑ climbs and ladders up, S/↓ drops and ladders down, E interacts.
 
-#### 2.7.1 `z1_sunward` (P0: hop ×4, climb, drop; payoff: the e1 spoke stair)
+#### 2.7.1 `z1_sunward` (P0: hop ×4, climb, drop ×2; payoff: the e1 spoke stair)
 
 | Beat | x | Link (`id` · `kind`) | from → to | Params | Requires | Why it's there | Pri |
 |---|---|---|---|---|---|---|---|
 | 1 | 1760 | `s0_stepup` · `hop` | `{ground, 1760}` → `{ground, 1840}` | `apex: 120`, `twoWay: true` | — | the 0.9 H step-up onto the plaza teaches Space right after `s0_controls` fires | P0 |
 | 2 | 2110 | `s0_stone_in` · `hop` | `{ground, 2110}` → `{canal_stone, 2240}` | `apex: 90`, `twoWay: true` | — | first stepping-stone hop across the dry canal | P0 |
 | 3 | 2270 | `s0_stone_out` · `hop` | `{canal_stone, 2270}` → `{ground, 2400}` | `apex: 90`, `twoWay: true` | — | second hop to the far lip | P0 |
+| 3b | 2110 | `s0_canal_in` · `drop` | `{ground, 2110}` → `{ground, 2200}` | — | — | the canal bank (x 2118–2120) is a sheer edge that blocks walking (20 §2.4.1, A8), so this is the way into the bed the rungs climb out of | P0 |
 | 4 | 2365 | `s0_canal_rungs` · `climb` | `{ground, 2365}` → `{ground, 2392}` | `twoWay: true` | — | rusted rungs out of the canal bed (1590 → 1287) for anyone who walks in | P0 |
 | 5 | 3440 | `s1_ledge_up` · `hop` | `{ground, 3440}` → `{wisp_ledge, 3520}` | `apex: 100`, `twoWay: false` | — | the 1 H ledge behind Brasswick's crystal tree (wisp 1 at P2) | P0 |
 | 6 | 3595 | `s1_ledge_down` · `drop` | `{wisp_ledge, 3595}` → `{ground, 3625}` | — | — | back down beside Brasswick | P0 |
@@ -1919,9 +1923,10 @@ Star Door is a door by design, and the finale's vista carries the "up" beat. Log
 
 The JSON blocks in §5.1–§5.6 are complete: every field of the 20 §4.2 schema is present, including those equal to
 their defaults, so `meta.configSchema.parse` is the identity on them. Probe `max`/`step` are the float values of
-2π, 4π and π/48 (`ProbeSpec` fields are numbers, not expressions). **Vertical-slice note (main, W2):** until K2 lands
-in W3, e3–e6 use `contraption: "console_slate"`, `skin: "lectern_slate"`, `config: {"slateTitle": null}` with the
-same console x, anchors and dialogue; C1 swaps in the configs above.
+2π, 4π and π/48 (`ProbeSpec` fields are numbers, not expressions). **Vertical-slice note (20 §7.2):** C0 writes these six
+configs into the side-car from T0 + 2; e3–e6 render on W0's stub prefabs until KA3 lands (T0 + 11). `console_slate`
+(`skin: "lectern_slate"`, `config: {"slateTitle": null}`, same console x, anchors and dialogue) is only fallback
+ladder step 3 (20 §0.1.6).
 
 ---
 
@@ -2398,10 +2403,10 @@ Budget (02 §3f): P0 ≤ 1.2 MB raw / ≤ 350 KB gzip; peak VRAM ≤ 120 MB with
 
 ---
 
-## 8 · Fidelity mapping (bible §9 checklist, 36 items + game-feel 37–41)
+## 8 · Fidelity mapping (bible §9 checklist, 44 items, 14 ★; 20 §8.3)
 
-- The "Verify at" column says what the W5 critic captures (20 §8.3): 1920 × 1080 screenshots or short captures.
-- ★ marks a mandatory item. **Expected score: 41/41** (item 14 is history-only and scores pass as not applicable).
+- The "Verify at" column says what the critic (R, 20 §7.2) captures (20 §8.3): 1920 × 1080 screenshots or short captures.
+- ★ marks a mandatory item. The rubric is bible §9 (44 items, 14 ★: 1, 2, 9, 11, 15, 18, 21, 27, 30, 34, 35, 38, 40, 42), scored per 20 §8.3: **P0 pass = all ★ + ≥ 36/44** with items 37, 43 and 44 scored on zone 1 only; **full pass = all ★ + ≥ 39/44**. **Design target: 44/44** (item 14 is history-only and scores pass as not applicable).
 
 | # | Item | How this game satisfies it | Verify at |
 |---|---|---|---|
@@ -2442,10 +2447,13 @@ Budget (02 §3f): P0 ≤ 1.2 MB raw / ≤ 350 KB gzip; peak VRAM ≤ 120 MB with
 | 35 ★ | Payoff is traversal (the only route) | spoke stair +400, doorway, Echo Lift +500, span 900, rim stair +400, Star Door → finale; blockers + `maxStepUp` make each the only way | walk after each |
 | 36 | Visible misconception | e1 beam into the floor at 5π/3; e2 tally II; e3 trough-to-peak bracket, same bell pitch at peak and trough; e4 dark second anchor; e5 four cycles in the 4π bracket; e6 huge swing vs small pendulum in lockstep | failure captures |
 | 37 | ≥ 2 non-walk verbs per zone | z1 hop/climb/drop (P0); z2 hop/drop/ladder + sandbox (P1); z3 timed hop/ladder/climb (P1) | per-zone captures |
-| 38 | The orange input moves a world object in every encounter | e1/e2/e6 scalar inputs; e3/e5 `trace_slate`; e4 `relief_marker` | probe drag captures |
+| 38 ★ | The orange input moves a world object in every encounter | e1/e2/e6 scalar inputs; e3/e5 `trace_slate`; e4 `relief_marker` | probe drag captures |
 | 39 | The boss has staged presentation | arena trigger, `e6_arena` wake, real-time shield, taunts by key, common-start reset | S6 captures |
-| 40 | Hints act in the world | aid tiers fill cards/overlays; Cog flies to each station's `hintTargets` | hint captures |
+| 40 ★ | Hints act in the world | aid tiers fill cards/overlays; Cog flies to each station's `hintTargets` | hint captures |
 | 41 | First world reaction within 150 ms of panel input | `bind` is synchronous; next rAF applies the eased pose | timing capture |
+| 42 ★ | Payoff is used, not shown | the same six payoffs as item 35; blockers make each the only route to the next station | walk after each |
+| 43 | Explore never silent (≤ 20 s) | P0: intro lines + `s0_controls` + station approach lines in z1; P1: the §6.3 triggers in every zone | 20 s walking capture |
+| 44 | Sandbox or quest touch per zone | P1: the Brasswick quest (z1), the Music Box (z2); z3 per §2.7.3. At P0 zone 1 has no ungraded touch yet, so this is an expected P0 miss (inside the ≥ 36/44 margin) | per-zone captures |
 
 ---
 
@@ -2565,6 +2573,7 @@ The revision-1 "proposed schema for the architect" (§9.3 of revision 1) is **su
     { "kind": "hop", "id": "s0_stepup", "from": { "surface": "ground", "x": 1760 }, "to": { "surface": "ground", "x": 1840 }, "requires": null, "apex": 120, "twoWay": true },
     { "kind": "hop", "id": "s0_stone_in", "from": { "surface": "ground", "x": 2110 }, "to": { "surface": "canal_stone", "x": 2240 }, "requires": null, "apex": 90, "twoWay": true },
     { "kind": "hop", "id": "s0_stone_out", "from": { "surface": "canal_stone", "x": 2270 }, "to": { "surface": "ground", "x": 2400 }, "requires": null, "apex": 90, "twoWay": true },
+    { "kind": "drop", "id": "s0_canal_in", "from": { "surface": "ground", "x": 2110 }, "to": { "surface": "ground", "x": 2200 }, "requires": null },
     { "kind": "climb", "id": "s0_canal_rungs", "from": { "surface": "ground", "x": 2365 }, "to": { "surface": "ground", "x": 2392 }, "requires": null, "twoWay": true },
     { "kind": "hop", "id": "s1_ledge_up", "from": { "surface": "ground", "x": 3440 }, "to": { "surface": "wisp_ledge", "x": 3520 }, "requires": null, "apex": 100, "twoWay": false },
     { "kind": "drop", "id": "s1_ledge_down", "from": { "surface": "wisp_ledge", "x": 3595 }, "to": { "surface": "ground", "x": 3625 }, "requires": null } ],

@@ -1,0 +1,14 @@
+{
+  "paletteId": "archive_of_voices",
+  "heroCap": 40,
+  "zones": [
+    "s1_morgue",
+    "s2_courthouse",
+    "s3_schoolhouse",
+    "s4_main_street",
+    "s5_church_mast",
+    "s6_memorial",
+    "s7_selma",
+    "s8_stacks_vault"
+  ]
+}
