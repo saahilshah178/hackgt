@@ -1,0 +1,8 @@
+Kenney 1-Bit Pack
+License: CC0 (Creative Commons Zero) - public domain, no attribution required.
+Source: https://kenney.nl/assets/1-bit-pack
+Downloaded: https://kenney.nl/media/pages/assets/1-bit-pack/aa867a1f37-1677578516/kenney_1-bit-pack.zip
+
+Files in this directory:
+- tilesheet.png: the "colored-transparent packed" 16x16 tile sheet from the pack, used by the
+  Dungeon host (src/game/hosts/dungeon) for room floors/walls/props.
