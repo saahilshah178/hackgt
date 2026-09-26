@@ -22,6 +22,7 @@ export function isFixtureId(id: string): boolean {
 export async function loadFixtureSpec(id: string): Promise<GameSpec | null> {
   if (!isFixtureId(id)) return null;
   const name = id.slice("fixture-".length);
+  if (!/^[a-z0-9-]{1,64}$/.test(name)) return null;
   for (const file of [`${name}.json`, `${name}-dungeon.json`]) {
     try {
       const raw = await readFile(path.join(process.cwd(), "fixtures", file), "utf8");

@@ -13,12 +13,14 @@ interface Props {
   spec: GameSpec;
   serverTelemetry: TelemetryEvent[];
   insights: Record<string, { cardName: string; learningInsight: string }>;
+  /** Fixtures have no server-side GameRecord to score against; skip the POST that would 404. */
+  skipServerPostcheck?: boolean;
 }
 
 const score = (items: GameSpec["assessment"]["pre"], answers: readonly number[]) =>
   items.reduce((n, q, i) => n + (answers[i] === q.correctIndex ? 1 : 0), 0);
 
-export function DebriefView({ spec, serverTelemetry, insights }: Props) {
+export function DebriefView({ spec, serverTelemetry, insights, skipServerPostcheck = false }: Props) {
   const router = useRouter();
   const [telemetry, setTelemetry] = useState<TelemetryEvent[]>(serverTelemetry);
   const [answers, setAnswers] = useState<(number | undefined)[]>([]);
@@ -49,10 +51,15 @@ export function DebriefView({ spec, serverTelemetry, insights }: Props) {
 
   const pre = score(spec.assessment.pre, spec.intake.preCheckAnswers);
   const post = submitted ? score(spec.assessment.post, answers.map((a) => a ?? -1)) : null;
+  const postSkipped = submitted ? answers.filter((a) => a === undefined).length : 0;
+  // The pre-check gates on every question answered, but a player can still leave the debrief tab and have
+  // the browser resubmit a partial `answers` array, or a future skip control can land here; treat missing
+  // answers as "skipped", not silently wrong, so the score block still reads honestly.
   const ready = answers.length === spec.assessment.post.length && answers.every((a) => a !== undefined);
 
   const finish = () => {
     setSubmitted(true);
+    if (skipServerPostcheck) return;
     void api(`/api/games/${spec.id}/postcheck`, { method: "POST", body: JSON.stringify({ answers: answers.map((a) => a ?? 0) }) }).catch(() => undefined);
   };
 
@@ -137,6 +144,11 @@ export function DebriefView({ spec, serverTelemetry, insights }: Props) {
             {post !== null && post < pre && "A dip. Replay the weak spots below; the second pass usually sticks."}
           </p>
         </div>
+        {postSkipped > 0 && (
+          <p className="mt-2 text-base text-muted-foreground">
+            {postSkipped} post-check question{postSkipped === 1 ? "" : "s"} skipped, counted as missed above.
+          </p>
+        )}
       </section>
 
       <section aria-labelledby="mastery-heading">

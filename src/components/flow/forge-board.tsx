@@ -34,9 +34,10 @@ const rank = (agent: string) => {
 export function ForgeBoard({ jobId }: { jobId: string }) {
   const router = useRouter();
   const [cards, setCards] = useState<Record<string, AgentCard>>({});
-  const [catches, setCatches] = useState<string[]>([]);
+  const [catches, setCatches] = useState<{ text: string; warn: boolean }[]>([]);
   const [done, setDone] = useState<{ gameId: string | null; error: string | null } | null>(null);
   const [wishlist, setWishlist] = useState<{ conceptId: string; teachingMechanicId: string }[]>([]);
+  const [sourceId, setSourceId] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -63,7 +64,9 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
         return { ...prev, [e.agent]: next };
       });
       if (e.note && (e.agent === "verifier" || e.status === "fallback" || e.status === "repair")) {
-        setCatches((prev) => (prev.includes(`${e.agent}: ${e.note}`) ? prev : [...prev, `${e.agent}: ${e.note}`]));
+        const text = `${e.agent}: ${e.note}`;
+        const warn = e.status === "fallback" || e.status === "repair";
+        setCatches((prev) => (prev.some((c) => c.text === text) ? prev : [...prev, { text, warn }]));
       }
     };
     const onDone = (raw: MessageEvent) => {
@@ -84,7 +87,10 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
         .catch(() => undefined);
     };
     api<{ sourceId: string }>(`/api/jobs/${jobId}`)
-      .then((j) => api<{ conceptId: string; wishlist: { teachingMechanicId: string }[] }[] | { pending: true }>(`/api/sources/${j.sourceId}/matches`))
+      .then((j) => {
+        setSourceId(j.sourceId);
+        return api<{ conceptId: string; wishlist: { teachingMechanicId: string }[] }[] | { pending: true }>(`/api/sources/${j.sourceId}/matches`);
+      })
       .then((m) => {
         if (Array.isArray(m)) setWishlist(m.flatMap((r) => r.wishlist.slice(0, 2).map((w) => ({ conceptId: r.conceptId, teachingMechanicId: w.teachingMechanicId }))));
       })
@@ -102,13 +108,29 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
       </p>
       <div role="status" aria-live="polite" className="mt-4 min-h-8 text-lg">
         {done?.error && <span className="text-destructive">Generation failed: {done.error}</span>}
-        {done?.gameId && (
-          <span>
-            Done. Opening your game… <Link href={`/play/${done.gameId}`} className="underline">or click here</Link>
-          </span>
-        )}
+        {done?.gameId && <span>Done. Opening your game…</span>}
         {!done && `${list.filter((c) => c.status === "done").length} of ${Math.max(list.length, 1)} agents finished`}
       </div>
+
+      {done?.gameId && (
+        <Link
+          href={`/play/${done.gameId}`}
+          className="mt-4 inline-flex h-14 items-center justify-center rounded-md bg-primary px-8 text-xl font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+        >
+          Enter the game
+        </Link>
+      )}
+
+      {done?.error && (
+        <div className="mt-4 flex flex-col gap-2 rounded-lg border border-destructive/50 bg-destructive/10 p-4">
+          <p className="text-lg">{done.error}</p>
+          {sourceId && (
+            <Link href={`/intake/${sourceId}`} className="text-lg font-medium underline underline-offset-4">
+              Back to intake
+            </Link>
+          )}
+        </div>
+      )}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {list.map((c) => {
@@ -121,14 +143,19 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
                 <h2 className="truncate text-xl font-semibold">{label(c.agent)}</h2>
                 <span className="text-base tabular-nums text-muted-foreground">{elapsed.toFixed(1)}s</span>
               </div>
-              <p className="mt-1 text-lg">
+              <p className={`mt-1 text-lg ${c.status === "fallback" ? "font-semibold text-amber-400" : ""}`}>
                 {c.status === "start" && "working…"}
                 {c.status === "repair" && `repairing (${c.repairs})…`}
                 {c.status === "done" && "done"}
-                {c.status === "fallback" && "fell back"}
+                {c.status === "fallback" && "fell back to a safe default"}
                 {c.status === "failed" && "failed"}
               </p>
-              <p className="mt-auto line-clamp-2 text-base text-muted-foreground" title={c.note}>
+              <p
+                className={`mt-auto line-clamp-2 text-base ${
+                  c.status === "fallback" || c.status === "repair" ? "font-medium text-amber-400" : "text-muted-foreground"
+                }`}
+                title={c.note}
+              >
                 {c.note}
               </p>
             </article>
@@ -149,8 +176,15 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
           <ul className="mt-3 min-h-16 space-y-2 text-lg">
             {catches.length === 0 && <li className="text-muted-foreground">Nothing caught yet.</li>}
             {catches.map((c) => (
-              <li key={c} className="rounded-md bg-secondary px-3 py-2">
-                {c}
+              <li
+                key={c.text}
+                className={
+                  c.warn
+                    ? "rounded-md border border-amber-400/40 bg-amber-500/10 px-3 py-2 font-medium text-amber-300"
+                    : "rounded-md bg-secondary px-3 py-2"
+                }
+              >
+                {c.text}
               </li>
             ))}
           </ul>

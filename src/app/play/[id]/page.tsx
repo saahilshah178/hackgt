@@ -10,6 +10,7 @@ import { PlayClient } from "./PlayClient";
  * still ships a dungeon build). So both /play/fixture-civil-rights-mystery and
  * /play/fixture-civil-rights-dungeon work. */
 async function resolveFixtureFile(name: string): Promise<string> {
+  if (!/^[a-z0-9-]{1,64}$/.test(name)) throw new Error("fixture names may only contain lowercase letters, digits and dashes");
   const direct = path.join(process.cwd(), "fixtures", `${name}.json`);
   try {
     await stat(direct);

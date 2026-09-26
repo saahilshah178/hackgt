@@ -37,7 +37,13 @@ export class LocalDriver implements StorageDriver {
     this.root = resolve(root ?? getEnv().DATA_DIR);
   }
 
+  /** Every path segment must be a plain id (letters, digits, . _ -), never "..", "/" or empty: ids come from URLs. */
   private path(...parts: string[]): string {
+    for (const part of parts) {
+      for (const seg of part.split("/")) {
+        if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(seg) || seg === "." || seg === "..") throw new Error(`invalid storage id "${part}"`);
+      }
+    }
     return join(this.root, ...parts);
   }
 

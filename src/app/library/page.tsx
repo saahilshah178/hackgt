@@ -6,7 +6,9 @@ import { CARDS, isCardImplemented } from "@/library";
 import { BOSS_SOCKET, GENRE_INFO, IMPLEMENTED_GENRES } from "@/library/genres";
 import { FAMILIES, allModes, socketsFor } from "@/mechanics/registry";
 
-type Filters = { domain?: string; family?: string; status?: string; q?: string };
+type Filters = { domain?: string; family?: string; status?: string; q?: string; show?: string };
+
+const PAGE_SIZE = 48;
 
 /**
  * /library: the catalog browser. Judges should see the size of the library here: every teaching-mechanic card,
@@ -19,6 +21,7 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
   const family = FAMILIES.some((x) => x.id === f.family) ? (f.family as FamilyId) : undefined;
   const status = f.status === "implemented" || f.status === "planned" ? f.status : undefined;
   const q = (f.q ?? "").trim().toLowerCase();
+  const show = Math.max(PAGE_SIZE, Math.min(Number(f.show) || PAGE_SIZE, CARDS.length));
 
   const withStatus = CARDS.map((card) => ({ card, implemented: isCardImplemented(card) }));
   const rows = withStatus.filter(
@@ -44,6 +47,8 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
   }));
 
   const link = (over: Partial<Filters>) => {
+    // Changing a filter always resets pagination to the first page unless the caller passes `show` itself
+    // (the "show more" link below does exactly that).
     const next = { domain, family, status, q, ...over } as Record<string, string | undefined>;
     const qs = Object.entries(next)
       .filter(([, v]) => v)
@@ -157,9 +162,10 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
       <section className="mt-8" aria-live="polite">
         <h2 className="text-2xl font-semibold">
           {rows.length} card{rows.length === 1 ? "" : "s"}
+          {rows.length > show && <span className="text-lg font-normal text-muted-foreground"> (showing {show})</span>}
         </h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {rows.map(({ card, implemented }) => (
+          {rows.slice(0, show).map(({ card, implemented }) => (
             <article key={card.id} className="flex flex-col gap-2 rounded-lg border border-border/60 bg-card p-4" data-testid="library-card">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="text-xl font-semibold">
@@ -184,6 +190,16 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
             </article>
           ))}
         </div>
+        {rows.length > show && (
+          <div className="mt-6 flex justify-center">
+            <Link
+              href={link({ show: String(Math.min(show + PAGE_SIZE, rows.length)) })}
+              className="rounded-md bg-secondary px-6 py-3 text-lg font-medium hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+            >
+              Show {Math.min(PAGE_SIZE, rows.length - show)} more
+            </Link>
+          </div>
+        )}
       </section>
 
       <section className="mt-12" aria-labelledby="matrix-heading">

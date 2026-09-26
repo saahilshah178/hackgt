@@ -21,6 +21,8 @@ declare global {
   }
 }
 
+test.use({ viewport: { width: 1440, height: 900 } });
+
 test("upload → intake → forge → play → debrief", async ({ page }) => {
   const errors: string[] = [];
   page.on("console", (m) => m.type() === "error" && errors.push(m.text()));

@@ -12,9 +12,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Dark theme, always: this runs on a projector, and a fixed high-contrast palette beats one that
+  // depends on the room's OS color-scheme setting.
   return (
-    <html lang="en" className={cn("h-full antialiased", "font-sans", geist.variable)}>
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={cn("dark h-full antialiased", "font-sans", geist.variable)}>
+      <body className="min-h-full flex flex-col bg-background text-foreground">{children}</body>
     </html>
   );
 }

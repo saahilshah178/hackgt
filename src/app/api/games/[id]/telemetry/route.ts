@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { TelemetryEvent } from "../../../../../contracts/telemetry";
+import { isFixtureId, materializeFixtureGame } from "../../../../../server/fixtures";
 import { getStorage } from "../../../../../server/storage";
 
 const Body = z.array(TelemetryEvent);
@@ -22,7 +23,10 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   if (mismatched) {
     return NextResponse.json({ error: `Event gameId "${mismatched.gameId}" does not match route id "${id}".` }, { status: 400 });
   }
-  await getStorage().appendTelemetry(id, parsed.data);
+  const storage = getStorage();
+  const game = (await storage.getGame(id)) ?? (isFixtureId(id) ? await materializeFixtureGame(id) : null);
+  if (!game) return NextResponse.json({ error: `No game with id "${id}".` }, { status: 404 });
+  await storage.appendTelemetry(id, parsed.data);
   return NextResponse.json({ ok: true, count: parsed.data.length });
 }
 

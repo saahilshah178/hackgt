@@ -27,13 +27,24 @@ const MINUTES: Intake["minutes"][] = [5, 10, 15];
 const GENRE_LABEL: Record<Genre, string> = { dungeon: "Dungeon", mystery: "Mystery", platformer: "Platformer", puzzle: "Puzzle", strategy: "Strategy" };
 const HOSTS_BUILT: Genre[] = ["dungeon"];
 
-function pageRange(km: KnowledgeMap, conceptId: string): string | null {
+function conceptPages(km: KnowledgeMap, conceptId: string): number[] {
   const c = km.concepts.find((x) => x.id === conceptId);
-  const pages = (c?.facts ?? []).map((f) => f.sourceRef?.page).filter((p): p is number => typeof p === "number");
+  return (c?.facts ?? []).map((f) => f.sourceRef?.page).filter((p): p is number => typeof p === "number");
+}
+
+function rangeLabel(pages: number[]): string | null {
   if (pages.length === 0) return null;
   const lo = Math.min(...pages);
   const hi = Math.max(...pages);
   return lo === hi ? `p. ${lo}` : `pp. ${lo}–${hi}`;
+}
+
+function pageRange(km: KnowledgeMap, conceptId: string): string | null {
+  return rangeLabel(conceptPages(km, conceptId));
+}
+
+function unitPageRange(km: KnowledgeMap, conceptIds: readonly string[]): string | null {
+  return rangeLabel(conceptIds.flatMap((cid) => conceptPages(km, cid)));
 }
 
 export function IntakeForm({ sourceId }: { sourceId: string }) {
@@ -73,9 +84,35 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     );
   }
   if (!data) {
+    // A skeleton shaped like the loaded page (found-heading + two unit cards + setup row + pre-check row)
+    // so the page doesn't jump in height once the intake data arrives.
     return (
-      <div role="status" className="py-24 text-center text-2xl" data-testid="intake-loading">
-        Reading your material and mapping the concepts…
+      <div role="status" aria-live="polite" aria-label="Reading your material and mapping the concepts" data-testid="intake-loading" className="flex flex-col gap-12">
+        <div className="animate-pulse">
+          <div className="h-6 w-72 rounded bg-secondary" />
+          <div className="mt-3 h-10 w-96 rounded bg-secondary" />
+          <p className="mt-6 text-2xl">Reading your material and mapping the concepts…</p>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            {[0, 1].map((i) => (
+              <div key={i} className="h-56 rounded-lg border border-border/60 bg-card p-5">
+                <div className="h-7 w-48 rounded bg-secondary" />
+                <div className="mt-4 h-4 w-full rounded bg-secondary" />
+                <div className="mt-2 h-4 w-5/6 rounded bg-secondary" />
+                <div className="mt-6 h-3 w-full rounded bg-secondary" />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="grid animate-pulse gap-8 md:grid-cols-3">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-40 rounded-lg border border-border/60 bg-card" />
+          ))}
+        </div>
+        <div className="grid animate-pulse gap-4 md:grid-cols-3">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-32 rounded-lg border border-border/60 bg-card" />
+          ))}
+        </div>
       </div>
     );
   }
@@ -140,7 +177,10 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           {km.units.map((u) => (
             <div key={u.id} className="rounded-lg border border-border/60 bg-card p-5">
-              <h2 className="text-2xl font-semibold">{u.name}</h2>
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h2 className="text-2xl font-semibold">{u.name}</h2>
+                {unitPageRange(km, u.conceptIds) && <span className="text-base text-muted-foreground">{unitPageRange(km, u.conceptIds)}</span>}
+              </div>
               <ul className="mt-3 space-y-2">
                 {u.conceptIds.map((cid) => {
                   const c = km.concepts.find((x) => x.id === cid);

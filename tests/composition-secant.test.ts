@@ -27,21 +27,20 @@ describe("transformer.composition", () => {
     const p = {
       kind: "resources" as const,
       machines: [
-        { id: "light", label: "Light reactions", expr: "", consumes: ["light", "water"], produces: ["atp", "nadph", "oxygen"] },
         { id: "calvin", label: "Calvin cycle", expr: "", consumes: ["co2", "atp", "nadph"], produces: ["glucose"] },
-        { id: "stomata", label: "Open stomata", expr: "", consumes: [], produces: ["co2"] },
+        { id: "absorb", label: "Chlorophyll absorbs light", expr: "", consumes: ["light"], produces: ["excited_electrons"] },
+        { id: "light", label: "Light reactions", expr: "", consumes: ["excited_electrons", "water"], produces: ["atp", "nadph", "oxygen"] },
       ],
-      input: "light,water",
+      input: "light,water,co2",
       target: "glucose",
     };
-    // stomata can run first or second, so this is NOT unique; tighten: stomata must run before light? make calvin consume co2 produced by stomata and light need co2 too
-    const unique = { ...p, machines: [{ ...p.machines[0], consumes: ["light", "water", "co2"] }, p.machines[1], p.machines[2]] };
-    expect(composition.check(p).join(" ")).toMatch(/2 orderings/);
-    expect(composition.check(unique)).toEqual([]);
-    const s = composition.resolve(unique);
-    expect(s.order).toEqual(["stomata", "light", "calvin"]);
-    expect(composition.grade(unique, { order: ["calvin", "stomata", "light"] }).feedback).toMatch(/stalls, missing co2/);
-    expect(composition.grade(unique, composition.solutionInput(unique, s)).correct).toBe(true);
+    expect(composition.check(p)).toEqual([]);
+    const s = composition.resolve(p);
+    expect(s.order).toEqual(["absorb", "light", "calvin"]);
+    expect(composition.grade(p, { order: ["calvin", "absorb", "light"] }).feedback).toMatch(/stalls, missing atp, nadph/);
+    expect(composition.grade(p, composition.solutionInput(p, s)).correct).toBe(true);
+    const loose = { ...p, machines: [p.machines[0], { ...p.machines[1], consumes: [], produces: ["co2"] }, { ...p.machines[2], consumes: ["water"] }] };
+    expect(composition.check(loose).join(" ")).toMatch(/\d+ orderings reach the target/);
   });
 });
 
