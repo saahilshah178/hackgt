@@ -16,14 +16,45 @@ export interface DungeonSceneData {
   rooms: RoomPlacement[];
   palette: Palette;
   onReachSocket: (encounterId: string) => void;
-  /** Registers the imperative bridge (warpTo/setLiveValue) the moment the scene is ready. */
-  onReady: (bridge: { warpTo: (encounterId: string | null) => void; setLiveValue: (value: unknown) => void }) => void;
+  /** Registers the imperative bridge (warpTo/setLiveValue/celebrate) the moment the scene is ready. */
+  onReady: (bridge: { warpTo: (encounterId: string | null) => void; setLiveValue: (value: unknown) => void; celebrate: (mode: string) => void }) => void;
 }
 
 const ROOM_W = 220;
 const ROOM_GAP = 40;
 const ROOM_H = 160;
 const PLAYER_SPEED = 260;
+
+/**
+ * Per-family dungeon skins (LIBRARY §5): a small tinted shape drawn in the room so each family reads
+ * differently at a glance, even with placeholder art. Keyed by the encounter's mechanic `mode`.
+ */
+type RoomIcon = "swatches" | "chain" | "door_glyph" | "rune_grid" | "ring" | "dial" | "gem" | "wave" | "none";
+
+function iconForMode(mode: string | undefined): RoomIcon {
+  switch (mode) {
+    case "bins":
+    case "type_match":
+      return "swatches"; // sorter: category-keyed weapons/doors
+    case "pairs":
+    case "chain":
+      return "chain"; // linker: chain lightning between pairs
+    case "elimination":
+      return "door_glyph"; // investigator: rooms are hypotheses
+    case "plane":
+      return "rune_grid"; // mapper: altar rune grid
+    case "cycle":
+      return "ring"; // sequencer.cycle: rotating glyph ring
+    case "formula":
+      return "dial"; // tuner: catapult / alchemy dials
+    case "predict_reveal":
+      return "gem"; // truth_finder: the reveal plays after the pick
+    case "limit":
+      return "wave"; // function_world: rune track shaped by f(x)
+    default:
+      return "none";
+  }
+}
 
 export function createDungeonScene(PhaserLib: typeof Phaser): typeof Phaser.Scene {
   return class DungeonScene extends PhaserLib.Scene {
@@ -35,6 +66,7 @@ export function createDungeonScene(PhaserLib: typeof Phaser): typeof Phaser.Scen
     private currentRoom = -1;
     private liveRing?: Phaser.GameObjects.Arc;
     private liveValue = 0;
+    private roomIconsByIndex = new Map<number, Phaser.GameObjects.Container>();
 
     constructor() {
       super("DungeonScene");
@@ -62,6 +94,7 @@ export function createDungeonScene(PhaserLib: typeof Phaser): typeof Phaser.Scen
         this.add
           .text(x, -ROOM_H / 2 - 18, label, { fontSize: "16px", color: "#f5f3ee", fontFamily: "system-ui, sans-serif" })
           .setOrigin(0.5, 1);
+        if (room.encounter) this.drawRoomIcon(i, x, iconForMode(room.encounter.mode), palette);
         if (i > 0) {
           const prevX = (i - 1) * (ROOM_W + ROOM_GAP);
           this.add.rectangle((prevX + x) / 2, 0, ROOM_GAP + 20, 24, palette.floor);
@@ -85,6 +118,7 @@ export function createDungeonScene(PhaserLib: typeof Phaser): typeof Phaser.Scen
       this.cfg.onReady({
         warpTo: (encounterId) => this.warpTo(encounterId),
         setLiveValue: (value) => this.setLiveValue(value),
+        celebrate: (mode) => this.celebrate(mode),
       });
 
       this.checkRoom();
@@ -123,6 +157,81 @@ export function createDungeonScene(PhaserLib: typeof Phaser): typeof Phaser.Scen
       this.currentRoom = idx;
       const room = this.cfg.rooms[idx];
       if (room?.encounter) this.cfg.onReachSocket(room.encounter.id);
+    }
+
+    /** Draws a small tinted shape reading each family's dungeon skin (LIBRARY §5); simple shapes, no sprite art needed. */
+    private drawRoomIcon(index: number, x: number, icon: RoomIcon, palette: Palette) {
+      if (icon === "none") return;
+      const parts: Phaser.GameObjects.GameObject[] = [];
+      switch (icon) {
+        case "swatches": {
+          // sorter: category-keyed doors/weapons as a row of tinted squares
+          const colors = [palette.accent, palette.player, palette.wall];
+          colors.forEach((c, i) => parts.push(this.add.rectangle(x - 20 + i * 20, 40, 14, 14, c)));
+          break;
+        }
+        case "chain": {
+          // linker: chain lightning between two anchors
+          const zig = this.add.line(x, 40, -30, 0, 30, 0, palette.accent, 1).setLineWidth(3);
+          parts.push(zig, this.add.circle(x - 30, 40, 6, palette.accent), this.add.circle(x + 30, 40, 6, palette.accent));
+          break;
+        }
+        case "door_glyph":
+          parts.push(this.add.text(x, 40, "?", { fontSize: "28px", color: "#f5f3ee" }).setOrigin(0.5));
+          break;
+        case "rune_grid": {
+          // mapper.plane: a small rune grid on the altar
+          for (let gx = -20; gx <= 20; gx += 20)
+            for (let gy = 25; gy <= 55; gy += 15) parts.push(this.add.circle(x + gx, gy, 3, palette.accent));
+          break;
+        }
+        case "ring":
+          parts.push(this.add.circle(x, 40, 22, 0x000000, 0).setStrokeStyle(3, palette.accent));
+          break;
+        case "dial": {
+          // tuner.formula: a small gauge with a needle
+          const arc = this.add.circle(x, 40, 20, 0x000000, 0).setStrokeStyle(3, palette.accent);
+          const needle = this.add.line(x, 40, 0, 0, 14, -14, palette.player, 1).setLineWidth(2);
+          parts.push(arc, needle);
+          break;
+        }
+        case "gem":
+          parts.push(this.add.rectangle(x, 40, 18, 18, palette.accent).setRotation(Math.PI / 4));
+          break;
+        case "wave": {
+          // function_world: a rune track shaped like a wave
+          for (let dx = -30; dx <= 30; dx += 12) parts.push(this.add.circle(x + dx, 40 + Math.sin(dx * 0.3) * 10, 3, palette.accent));
+          break;
+        }
+      }
+      if (parts.length === 0) return;
+      const container = this.add.container(0, 0, parts);
+      this.roomIconsByIndex.set(index, container);
+    }
+
+    /** Plays the in-world success animation for the mode just cleared, at the player's current room (LIBRARY §5). */
+    private celebrate(mode: string) {
+      const icon = iconForMode(mode);
+      const container = this.roomIconsByIndex.get(this.currentRoom);
+      const targets: Phaser.GameObjects.GameObject[] = container ? [container] : [];
+      if (targets.length > 0) {
+        this.tweens.add({ targets, scale: { from: 1, to: 1.6 }, alpha: { from: 1, to: 0.4 }, duration: 220, yoyo: true, ease: "Quad.easeOut" });
+      }
+      // A small burst of particles at the player's position reads as "success" regardless of family.
+      const burstColor = icon === "none" ? this.cfg.palette.accent : this.cfg.palette.player;
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const dot = this.add.circle(this.player.x, this.player.y, 4, burstColor);
+        this.tweens.add({
+          targets: dot,
+          x: this.player.x + Math.cos(angle) * 40,
+          y: this.player.y + Math.sin(angle) * 40,
+          alpha: 0,
+          duration: 380,
+          ease: "Quad.easeOut",
+          onComplete: () => dot.destroy(),
+        });
+      }
     }
 
     update(_time: number, delta: number) {

@@ -35,7 +35,8 @@ export function EndScreen({ gameId, title, outro, mastery, lines, telemetry }: E
     fetch(`/api/games/${gameId}/telemetry`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ events: telemetry }),
+      // The API expects a bare TelemetryEvent[] (instructions.md §9), not { events: [...] }.
+      body: JSON.stringify(telemetry),
     })
       .then((r) => setPosted(r.ok ? "ok" : "failed"))
       .catch(() => setPosted("failed"));

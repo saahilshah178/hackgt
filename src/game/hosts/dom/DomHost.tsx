@@ -8,8 +8,35 @@ import type { HostHandle, HostProps } from "../types";
  * sequence, driving the same runner/widgets/systems/debug hook as the Phaser Dungeon host. Used
  * whenever Phaser fails to boot or the canvas has no WebGL context (common in headless Chromium).
  */
+/** Small per-family glyph mirroring DungeonScene's tinted-shape skins (LIBRARY §5), for the DOM fallback host. */
+function iconForMode(mode: string | undefined): string {
+  switch (mode) {
+    case "bins":
+    case "type_match":
+      return "▣"; // sorter
+    case "pairs":
+    case "chain":
+      return "⚡"; // linker
+    case "elimination":
+      return "?"; // investigator
+    case "plane":
+      return "⠿"; // mapper
+    case "cycle":
+      return "◯"; // sequencer.cycle
+    case "formula":
+      return "◔"; // tuner
+    case "predict_reveal":
+      return "◆"; // truth_finder
+    case "limit":
+      return "〜"; // function_world
+    default:
+      return "";
+  }
+}
+
 export const DomHost = forwardRef<HostHandle, HostProps>(function DomHost({ rooms, palette, frozen, onReachSocket }, ref) {
   const [roomIndex, setRoomIndex] = useState(0);
+  const [celebrating, setCelebrating] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useImperativeHandle(ref, () => ({
@@ -17,6 +44,10 @@ export const DomHost = forwardRef<HostHandle, HostProps>(function DomHost({ room
       if (encounterId === null) return setRoomIndex(0);
       const i = rooms.findIndex((r) => r.encounter?.id === encounterId);
       if (i !== -1) setRoomIndex(i);
+    },
+    celebrate() {
+      setCelebrating(true);
+      setTimeout(() => setCelebrating(false), 300);
     },
   }));
 
@@ -70,11 +101,16 @@ export const DomHost = forwardRef<HostHandle, HostProps>(function DomHost({ room
               <span className="text-xs uppercase tracking-wide opacity-80" style={{ fontSize: 12 }}>
                 {label}
               </span>
+              {r.encounter && (
+                <span aria-hidden className="text-lg" style={{ fontSize: 18 }}>
+                  {iconForMode(r.encounter.mode)}
+                </span>
+              )}
               {isPlayer && (
                 <span
                   aria-label="Player"
-                  className="h-5 w-5 rounded-full"
-                  style={{ background: palette.css.player }}
+                  className="h-5 w-5 rounded-full transition-transform"
+                  style={{ background: palette.css.player, transform: celebrating ? "scale(1.6)" : "scale(1)" }}
                   data-testid="player-marker"
                 />
               )}

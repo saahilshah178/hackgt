@@ -13,14 +13,14 @@ type DebugHandle = {
   autoSolve(): void;
 };
 
-test("fixture-trig: autoSolve to the end screen with zero console errors", async ({ page }) => {
+async function autoSolveFixture(page: import("@playwright/test").Page, fixtureId: string) {
   const errors: string[] = [];
   page.on("console", (m) => {
     if (m.type() === "error") errors.push(m.text());
   });
   page.on("pageerror", (e) => errors.push(e.message));
 
-  await page.goto("/play/fixture-trig?debug=1");
+  await page.goto(`/play/${fixtureId}?debug=1`);
   await page.waitForFunction(() => typeof (window as unknown as { __GAME_DEBUG__?: unknown }).__GAME_DEBUG__ !== "undefined", null, {
     timeout: 30_000,
   });
@@ -41,4 +41,12 @@ test("fixture-trig: autoSolve to the end screen with zero console errors", async
   await expect(page.getByTestId("end-screen")).toBeVisible({ timeout: 15_000 });
 
   expect(errors, `console/page errors:\n${errors.join("\n")}`).toEqual([]);
+}
+
+test("fixture-trig: autoSolve to the end screen with zero console errors", async ({ page }) => {
+  await autoSolveFixture(page, "fixture-trig");
+});
+
+test("fixture-cell-transport: autoSolve to the end screen with zero console errors", async ({ page }) => {
+  await autoSolveFixture(page, "fixture-cell-transport");
 });
