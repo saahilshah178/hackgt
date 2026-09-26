@@ -1,11 +1,42 @@
-import { evaluate } from "mathjs";
+import { all, create } from "mathjs";
 
 // ---------- exact math: the model writes expressions, code computes numbers ----------
 
-/** Evaluates a mathjs expression like "5*pi/6". Returns null unless it is a finite real number. */
+/*
+ * Every expression evaluated here was written by a language model (formula.mathjs, challenge params), so the
+ * evaluator is a sandboxed mathjs instance per the mathjs security guide: no `import`/`createUnit` (they mutate
+ * the instance), no nested `evaluate`/`parse`/`compile`/`simplify`/`derivative`/`resolve` (they turn a value into
+ * code), and a hard length cap so a pathological string cannot stall a verifier run.
+ */
+const math = create(all);
+const limitedEvaluate = math.evaluate;
+const disabled = () => {
+  throw new Error("disabled in Quest Forge expressions");
+};
+math.import(
+  {
+    import: disabled,
+    createUnit: disabled,
+    reviver: disabled,
+    evaluate: disabled,
+    parse: disabled,
+    compile: disabled,
+    simplify: disabled,
+    derivative: disabled,
+    resolve: disabled,
+    rationalize: disabled,
+    help: disabled,
+  },
+  { override: true },
+);
+
+export const MAX_EXPRESSION_LENGTH = 400;
+
+/** Evaluates a mathjs expression like "5*pi/6" in the sandbox. Returns null unless it is a finite real number. */
 export function evalExact(expr: string): number | null {
+  if (typeof expr !== "string" || expr.length > MAX_EXPRESSION_LENGTH) return null;
   try {
-    const v = evaluate(expr);
+    const v: unknown = limitedEvaluate(expr);
     return typeof v === "number" && Number.isFinite(v) ? v : null;
   } catch {
     return null;
