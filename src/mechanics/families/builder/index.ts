@@ -1,8 +1,11 @@
-import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
-
-const s = (id: string, name: string, blurb: string) =>
-  stubMode({ id, name, widget: "build", knowledgeTypes: ["procedure", "spatial"], blindSolvable: false, directorBlurb: blurb });
+import { circuit } from "./circuit";
+import { electron_config } from "./electron_config";
+import { genetics } from "./genetics";
+import { molecule } from "./molecule";
+import { program } from "./program";
+import { sentence } from "./sentence";
+import { tiles } from "./tiles";
 
 export const builder = defineFamily({
   id: "builder",
@@ -17,12 +20,12 @@ export const builder = defineFamily({
     strategy: { sockets: ["production_line"], skin: "Lay out the factory" },
   },
   modes: {
-    molecule: s("molecule", "Molecule", "Valence rules, target formula."),
-    circuit: s("circuit", "Circuit", "Logic gates or resistors, target truth table or value."),
-    program: s("program", "Program", "Blocks for a grid robot, run by an interpreter."),
-    sentence: s("sentence", "Sentence", "Word tiles, checked against accepted sequences and agreement rules."),
-    genetics: s("genetics", "Genetics", "A Punnett square."),
-    electron_config: s("electron_config", "Electron configuration", "Aufbau, Hund, and Pauli rules."),
-    tiles: s("tiles", "Tiles", "Grid filling under rules: algebra tiles, area models, K-maps, measures, schedules."),
+    molecule,
+    circuit,
+    program,
+    sentence,
+    genetics,
+    electron_config,
+    tiles,
   },
 });
