@@ -56,8 +56,70 @@ export interface PickTraceInput {
   optionIndex: number;
 }
 
-export type PickView = PickChestsView | PickWavesView | PickOptionsView | PickFunctionMachineView | PickTraceView;
-export type PickInput = PickChestsInput | PickWavesInput | PickOptionsInput | PickFunctionMachineInput | PickTraceInput;
+/** Matches mode sample's View (src/mechanics/families/simulator/sample.ts). */
+export interface PickSampleView {
+  watch: string;
+  trials: number;
+  statistic: string;
+  question: string;
+  variables: string[];
+  initial: Record<string, number>;
+  options: { optionIndex: number; text: string }[];
+}
+export interface PickSampleInput {
+  optionIndex: number;
+}
+
+/** Matches mode ratio's View (src/mechanics/families/balance/ratio.ts). */
+export interface PickRatioView {
+  ask: "limiting" | "product" | "both";
+  recipe: { name: string; amount: number; unit: string }[];
+  available: { name: string; amount: number }[];
+  product: { name: string; perBatch: number; unit: string };
+}
+export interface PickRatioInput {
+  limiting: string | null;
+  product: number | null;
+}
+
+/** Matches mode counterexample's View (src/mechanics/families/truth_finder/counterexample.ts). */
+export interface PickCasesView {
+  rule: string;
+  cases: { caseIndex: number; text: string }[];
+}
+export interface PickCasesInput {
+  caseIndex: number;
+}
+
+/** Matches mode error_hunt's View (src/mechanics/families/truth_finder/error_hunt.ts). */
+export interface PickLinesView {
+  title: string;
+  lines: { lineIndex: number; text: string }[];
+}
+export interface PickLinesInput {
+  lineIndex: number;
+}
+
+export type PickView =
+  | PickChestsView
+  | PickWavesView
+  | PickOptionsView
+  | PickFunctionMachineView
+  | PickTraceView
+  | PickSampleView
+  | PickRatioView
+  | PickCasesView
+  | PickLinesView;
+export type PickInput =
+  | PickChestsInput
+  | PickWavesInput
+  | PickOptionsInput
+  | PickFunctionMachineInput
+  | PickTraceInput
+  | PickSampleInput
+  | PickRatioInput
+  | PickCasesInput
+  | PickLinesInput;
 
 export function isWavesView(view: PickView): view is PickWavesView {
   return "waves" in view;
@@ -70,6 +132,38 @@ export function isFunctionMachineView(view: PickView): view is PickFunctionMachi
 }
 export function isTraceView(view: PickView): view is PickTraceView {
   return "program" in view;
+}
+export function isSampleView(view: PickView): view is PickSampleView {
+  return "options" in view && "trials" in view;
+}
+export function isRatioView(view: PickView): view is PickRatioView {
+  return "recipe" in view;
+}
+export function isCasesView(view: PickView): view is PickCasesView {
+  return "cases" in view && "rule" in view;
+}
+export function isLinesView(view: PickView): view is PickLinesView {
+  return "lines" in view && "title" in view;
+}
+export function isChestsView(view: PickView): view is PickChestsView {
+  return "chests" in view;
+}
+
+/** Every PickView shape this component actually knows how to render. */
+export function supports(view: unknown): boolean {
+  if (typeof view !== "object" || view === null) return false;
+  const v = view as PickView;
+  return (
+    isWavesView(v) ||
+    isOptionsView(v) ||
+    isFunctionMachineView(v) ||
+    isTraceView(v) ||
+    isSampleView(v) ||
+    isRatioView(v) ||
+    isCasesView(v) ||
+    isLinesView(v) ||
+    isChestsView(v)
+  );
 }
 
 /** Pure: the picked chest -> the input mimic's grade() expects. */
@@ -92,6 +186,22 @@ export function functionMachineRuleToInput(ruleIndex: number): PickFunctionMachi
 export function traceToInput(optionIndex: number): PickTraceInput {
   return { optionIndex };
 }
+/** Pure: the picked option's index -> the input simulator.sample's grade() expects. */
+export function sampleToInput(optionIndex: number): PickSampleInput {
+  return { optionIndex };
+}
+/** Pure: the picked limiting ingredient and/or entered product amount -> the input balance.ratio's grade() expects. */
+export function ratioToInput(limiting: string | null, product: number | null): PickRatioInput {
+  return { limiting, product };
+}
+/** Pure: the picked case's index -> the input truth_finder.counterexample's grade() expects. */
+export function caseToInput(caseIndex: number): PickCasesInput {
+  return { caseIndex };
+}
+/** Pure: the picked line's index -> the input truth_finder.error_hunt's grade() expects. */
+export function lineToInput(lineIndex: number): PickLinesInput {
+  return { lineIndex };
+}
 /** Pure: the per-wave answers gathered so far -> the input type_match's grade() expects. A wave with no
  * recorded answer (timed out) is simply left out. */
 export function wavesToInput(answers: { waveIndex: number; categoryId: string }[]): PickWavesInput {
@@ -107,6 +217,34 @@ export function Pick({ view, onSubmit, disabled }: WidgetProps<PickView, PickInp
   if (isFunctionMachineView(view))
     return <FunctionMachinePick view={view} onSubmit={onSubmit as (i: PickFunctionMachineInput) => void} disabled={disabled} />;
   if (isTraceView(view)) return <TracePick view={view} onSubmit={onSubmit as (i: PickTraceInput) => void} disabled={disabled} />;
+  if (isRatioView(view)) return <RatioPick view={view} onSubmit={onSubmit as (i: PickRatioInput) => void} disabled={disabled} />;
+  if (isSampleView(view))
+    return (
+      <OneShotPick
+        label={view.question}
+        items={view.options}
+        onSubmit={(i) => onSubmit(sampleToInput(i))}
+        disabled={disabled}
+      />
+    );
+  if (isCasesView(view))
+    return (
+      <OneShotPick
+        label={`Which case breaks the rule "${view.rule}"?`}
+        items={view.cases.map((c) => ({ optionIndex: c.caseIndex, text: c.text }))}
+        onSubmit={(i) => onSubmit(caseToInput(i))}
+        disabled={disabled}
+      />
+    );
+  if (isLinesView(view))
+    return (
+      <OneShotPick
+        label={`Which numbered line in "${view.title}" is wrong?`}
+        items={view.lines.map((l) => ({ optionIndex: l.lineIndex, text: `${l.lineIndex + 1}. ${l.text}` }))}
+        onSubmit={(i) => onSubmit(lineToInput(i))}
+        disabled={disabled}
+      />
+    );
   if (isOptionsView(view)) return <OneShotPick label="Predict what happens." items={view.options} onSubmit={(i) => onSubmit(optionsToInput(i))} disabled={disabled} />;
   return (
     <OneShotPick
@@ -115,6 +253,96 @@ export function Pick({ view, onSubmit, disabled }: WidgetProps<PickView, PickInp
       onSubmit={(i) => onSubmit(chestsToInput(i))}
       disabled={disabled}
     />
+  );
+}
+
+/** balance.ratio: pick the limiting ingredient (ask includes "limiting") and/or type the product amount
+ * (ask includes "product"). Submits once every field the mode asks for is filled. */
+function RatioPick({ view, onSubmit, disabled }: { view: PickRatioView; onSubmit: (i: PickRatioInput) => void; disabled?: boolean }) {
+  const [limiting, setLimiting] = useState<string | null>(null);
+  const [productText, setProductText] = useState("");
+  const needsLimiting = view.ask === "limiting" || view.ask === "both";
+  const needsProduct = view.ask === "product" || view.ask === "both";
+  const product = productText.trim() === "" ? null : Number(productText);
+  const ready = (!needsLimiting || limiting !== null) && (!needsProduct || (product !== null && Number.isFinite(product)));
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1 rounded-lg border p-3" data-testid="ratio-recipe">
+        <span className="text-sm font-semibold uppercase tracking-wide opacity-80" style={{ fontSize: 14 }}>
+          Recipe (per batch)
+        </span>
+        {view.recipe.map((r) => (
+          <span key={r.name} style={{ fontSize: 16 }}>
+            {r.name}: {r.amount} {r.unit}
+          </span>
+        ))}
+      </div>
+      <div className="flex flex-col gap-1 rounded-lg border p-3" data-testid="ratio-available">
+        <span className="text-sm font-semibold uppercase tracking-wide opacity-80" style={{ fontSize: 14 }}>
+          Available
+        </span>
+        {view.available.map((a) => (
+          <span key={a.name} style={{ fontSize: 16 }}>
+            {a.name}: {a.amount}
+          </span>
+        ))}
+      </div>
+      {needsLimiting && (
+        <>
+          <p className="text-lg" style={{ fontSize: 18 }}>
+            Which ingredient limits the batch?
+          </p>
+          <div role="radiogroup" aria-label="Limiting ingredient" className="grid gap-2">
+            {view.recipe.map((r) => (
+              <button
+                key={r.name}
+                role="radio"
+                aria-checked={limiting === r.name}
+                disabled={disabled}
+                onClick={() => setLimiting(r.name)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setLimiting(r.name);
+                  }
+                }}
+                className="rounded-lg border-2 px-4 py-3 text-left text-lg"
+                style={{
+                  fontSize: 18,
+                  borderColor: limiting === r.name ? "currentColor" : "color-mix(in oklab, currentColor 30%, transparent)",
+                  background: limiting === r.name ? "color-mix(in oklab, currentColor 12%, transparent)" : "transparent",
+                }}
+              >
+                {r.name}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      {needsProduct && (
+        <>
+          <p className="text-lg" style={{ fontSize: 18 }}>
+            How much {view.product.name} ({view.product.unit}) can be made?
+          </p>
+          <input
+            type="number"
+            aria-label={`${view.product.name} produced`}
+            value={productText}
+            disabled={disabled}
+            onChange={(e) => setProductText(e.target.value)}
+            className="rounded-lg border-2 px-3 py-2 text-lg tabular-nums"
+            style={{ fontSize: 18, width: 160 }}
+            data-testid="ratio-product-input"
+          />
+        </>
+      )}
+      <div>
+        <Button size="lg" disabled={disabled || !ready} onClick={() => onSubmit(ratioToInput(limiting, product))} data-testid="widget-submit">
+          Lock in answer
+        </Button>
+      </div>
+    </div>
   );
 }
 

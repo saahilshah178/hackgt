@@ -49,6 +49,15 @@ export type TypeInput = RapidInput | ClozeInput;
 export function isRapidView(view: TypeView): view is RapidView {
   return "order" in view && "prompts" in view;
 }
+export function isClozeView(view: TypeView): view is ClozeView {
+  return "before" in view && "after" in view;
+}
+
+export function supports(view: unknown): boolean {
+  if (typeof view !== "object" || view === null) return false;
+  const v = view as TypeView;
+  return isRapidView(v) || isClozeView(v);
+}
 
 /** Pure: the last-attempt-per-item map -> the input recall.rapid's grade() expects. */
 export function rapidAnswersToInput(last: Map<number, string>): RapidInput {

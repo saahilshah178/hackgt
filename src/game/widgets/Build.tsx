@@ -72,8 +72,120 @@ export interface EncodeInput {
   output: string[];
 }
 
-export type BuildView = EquationView | ChemEquationView | LedgerView | EncodeView;
-export type BuildInput = EquationInput | ChemEquationInput | LedgerInput | EncodeInput;
+// ---------------------------------------------------------------- builder.circuit
+
+export interface NetlistGate {
+  id: string;
+  type: string;
+  inputs: string[];
+}
+export interface CircuitView {
+  inputs: string[];
+  target: { inputs: boolean[]; output: boolean }[];
+  gates: string[];
+  maxGates: number;
+}
+export interface CircuitInput {
+  gates: NetlistGate[];
+  output: string;
+}
+
+// ---------------------------------------------------------------- builder.electron_config
+
+export interface ElectronConfigView {
+  element: string;
+  atomicNumber: number;
+}
+export interface ElectronConfigInput {
+  config: string;
+}
+
+// ---------------------------------------------------------------- builder.genetics
+
+export interface GeneticsView {
+  trait: string;
+  dominantAllele: string;
+  recessiveAllele: string;
+  dominantPhenotype: string;
+  recessivePhenotype: string;
+  parent1: string;
+  parent2: string;
+  ask: "square" | "ratio";
+}
+export interface GeneticsInput {
+  cells: string[] | null;
+  dominantFraction: string | null;
+}
+
+// ---------------------------------------------------------------- builder.molecule
+
+export interface MoleculeView {
+  atoms: { element: string; count: number }[];
+  target: string;
+}
+export interface MoleculeInput {
+  atoms: { id: string; element: string }[];
+  bonds: { a: string; b: string; order: number }[];
+}
+
+// ---------------------------------------------------------------- builder.program
+
+export interface ProgramView {
+  grid: string[];
+  commands: string[];
+  maxBlocks: number;
+  mustCollectGems: boolean;
+}
+export interface ProgramInput {
+  program: string[];
+}
+
+// ---------------------------------------------------------------- builder.sentence
+
+export interface SentenceView {
+  tiles: string[];
+  rules: string[];
+}
+export interface SentenceInput {
+  order: string[];
+}
+
+// ---------------------------------------------------------------- builder.tiles
+
+export interface TilesView {
+  rows: number;
+  cols: number;
+  pieces: { id: string; label: string }[];
+  rules: { kind: string; value: string }[];
+}
+export interface TilesInput {
+  grid: string[];
+}
+
+export type BuildView =
+  | EquationView
+  | ChemEquationView
+  | LedgerView
+  | EncodeView
+  | CircuitView
+  | ElectronConfigView
+  | GeneticsView
+  | MoleculeView
+  | ProgramView
+  | SentenceView
+  | TilesView;
+export type BuildInput =
+  | EquationInput
+  | ChemEquationInput
+  | LedgerInput
+  | EncodeInput
+  | CircuitInput
+  | ElectronConfigInput
+  | GeneticsInput
+  | MoleculeInput
+  | ProgramInput
+  | SentenceInput
+  | TilesInput;
 
 export function isChemEquationView(view: BuildView): view is ChemEquationView {
   return "reactants" in view && "products" in view;
@@ -83,6 +195,45 @@ export function isLedgerView(view: BuildView): view is LedgerView {
 }
 export function isEncodeView(view: BuildView): view is EncodeView {
   return "palette" in view;
+}
+export function isCircuitView(view: BuildView): view is CircuitView {
+  return "gates" in view && "maxGates" in view;
+}
+export function isElectronConfigView(view: BuildView): view is ElectronConfigView {
+  return "atomicNumber" in view;
+}
+export function isGeneticsView(view: BuildView): view is GeneticsView {
+  return "dominantAllele" in view;
+}
+export function isMoleculeView(view: BuildView): view is MoleculeView {
+  return "atoms" in view && "target" in view;
+}
+export function isProgramView(view: BuildView): view is ProgramView {
+  return "grid" in view && "mustCollectGems" in view;
+}
+export function isSentenceView(view: BuildView): view is SentenceView {
+  return "tiles" in view && "rules" in view;
+}
+export function isTilesView(view: BuildView): view is TilesView {
+  return "rows" in view && "cols" in view;
+}
+
+export function supports(view: unknown): boolean {
+  if (typeof view !== "object" || view === null) return false;
+  const v = view as BuildView;
+  return (
+    isEncodeView(v) ||
+    isLedgerView(v) ||
+    isChemEquationView(v) ||
+    isCircuitView(v) ||
+    isElectronConfigView(v) ||
+    isGeneticsView(v) ||
+    isMoleculeView(v) ||
+    isProgramView(v) ||
+    isSentenceView(v) ||
+    isTilesView(v) ||
+    ("left" in v && "right" in v && "ops" in v)
+  );
 }
 
 /** Pure: the applied operations, in order -> the input balance.equation's grade() expects. */
@@ -232,7 +383,499 @@ export function Build({ view, onSubmit, disabled }: WidgetProps<BuildView, Build
   if (isEncodeView(view)) return <EncodeBuild view={view} onSubmit={onSubmit as (i: EncodeInput) => void} disabled={disabled} />;
   if (isLedgerView(view)) return <LedgerBuild view={view} onSubmit={onSubmit as (i: LedgerInput) => void} disabled={disabled} />;
   if (isChemEquationView(view)) return <ChemBuild view={view} onSubmit={onSubmit as (i: ChemEquationInput) => void} disabled={disabled} />;
+  if (isCircuitView(view)) return <CircuitBuild view={view} onSubmit={onSubmit as (i: CircuitInput) => void} disabled={disabled} />;
+  if (isElectronConfigView(view)) return <ElectronConfigBuild view={view} onSubmit={onSubmit as (i: ElectronConfigInput) => void} disabled={disabled} />;
+  if (isGeneticsView(view)) return <GeneticsBuild view={view} onSubmit={onSubmit as (i: GeneticsInput) => void} disabled={disabled} />;
+  if (isMoleculeView(view)) return <MoleculeBuild view={view} onSubmit={onSubmit as (i: MoleculeInput) => void} disabled={disabled} />;
+  if (isProgramView(view)) return <ProgramBuild view={view} onSubmit={onSubmit as (i: ProgramInput) => void} disabled={disabled} />;
+  if (isSentenceView(view)) return <SentenceBuild view={view} onSubmit={onSubmit as (i: SentenceInput) => void} disabled={disabled} />;
+  if (isTilesView(view)) return <TilesBuild view={view} onSubmit={onSubmit as (i: TilesInput) => void} disabled={disabled} />;
   return <EquationBuild view={view as EquationView} onSubmit={onSubmit as (i: EquationInput) => void} disabled={disabled} />;
+}
+
+/** builder.circuit: add logic gates one at a time (type + input wires, from the primary inputs or an
+ * earlier gate's id), then pick which wire is the circuit's output. */
+function CircuitBuild({ view, onSubmit, disabled }: { view: CircuitView; onSubmit: (i: CircuitInput) => void; disabled?: boolean }) {
+  const [gates, setGates] = useState<NetlistGate[]>([]);
+  const [type, setType] = useState(view.gates[0] ?? "AND");
+  const [inA, setInA] = useState(view.inputs[0] ?? "");
+  const [inB, setInB] = useState(view.inputs[1] ?? view.inputs[0] ?? "");
+  const [output, setOutput] = useState("");
+  const wires = [...view.inputs, ...gates.map((g) => g.id)];
+  const isUnary = type === "NOT";
+
+  const addGate = () => {
+    if (gates.length >= view.maxGates) return;
+    const id = `g${gates.length}`;
+    setGates((gs) => [...gs, { id, type, inputs: isUnary ? [inA] : [inA, inB] }]);
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        Wire up to {view.maxGates} gates from inputs {view.inputs.join(", ")} to match the truth table, then pick the output wire.
+      </p>
+      <table className="text-sm" style={{ fontSize: 14 }} data-testid="circuit-truth-table">
+        <thead>
+          <tr>
+            {view.inputs.map((i) => (
+              <th key={i} className="pr-3">
+                {i}
+              </th>
+            ))}
+            <th>out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {view.target.map((row, i) => (
+            <tr key={i}>
+              {row.inputs.map((b, j) => (
+                <td key={j} className="pr-3 tabular-nums">
+                  {b ? 1 : 0}
+                </td>
+              ))}
+              <td className="tabular-nums">{row.output ? 1 : 0}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ul className="flex flex-col gap-1" aria-label="Gates so far" data-testid="circuit-gates">
+        {gates.map((g, i) => (
+          <li key={g.id} style={{ fontSize: 15 }}>
+            <Button variant="outline" size="sm" disabled={disabled} onClick={() => setGates((gs) => gs.filter((_, j) => j !== i))}>
+              {g.id} = {g.type}({g.inputs.join(", ")}) &times;
+            </Button>
+          </li>
+        ))}
+      </ul>
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+          Gate
+          <select value={type} disabled={disabled} onChange={(e) => setType(e.target.value)} className="rounded-lg border-2 px-2 py-1">
+            {view.gates.map((g) => (
+              <option key={g} value={g}>
+                {g}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+          Input A
+          <select value={inA} disabled={disabled} onChange={(e) => setInA(e.target.value)} className="rounded-lg border-2 px-2 py-1">
+            {wires.map((w) => (
+              <option key={w} value={w}>
+                {w}
+              </option>
+            ))}
+          </select>
+        </label>
+        {!isUnary && (
+          <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+            Input B
+            <select value={inB} disabled={disabled} onChange={(e) => setInB(e.target.value)} className="rounded-lg border-2 px-2 py-1">
+              {wires.map((w) => (
+                <option key={w} value={w}>
+                  {w}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        <Button variant="outline" disabled={disabled || gates.length >= view.maxGates} onClick={addGate}>
+          Add gate
+        </Button>
+      </div>
+      <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+        Output wire
+        <select value={output} disabled={disabled} onChange={(e) => setOutput(e.target.value)} className="rounded-lg border-2 px-2 py-1">
+          <option value="">choose…</option>
+          {wires.map((w) => (
+            <option key={w} value={w}>
+              {w}
+            </option>
+          ))}
+        </select>
+      </label>
+      <div>
+        <Button size="lg" disabled={disabled || !output} onClick={() => onSubmit({ gates, output })} data-testid="widget-submit">
+          Lock in circuit
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** builder.electron_config: type the full electron configuration, e.g. "1s2 2s2 2p6". */
+function ElectronConfigBuild({ view, onSubmit, disabled }: { view: ElectronConfigView; onSubmit: (i: ElectronConfigInput) => void; disabled?: boolean }) {
+  const [config, setConfig] = useState("");
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        Write the electron configuration for {view.element} (atomic number {view.atomicNumber}).
+      </p>
+      <input
+        type="text"
+        value={config}
+        disabled={disabled}
+        onChange={(e) => setConfig(e.target.value)}
+        placeholder="1s2 2s2 2p6 ..."
+        className="rounded-lg border-2 px-3 py-2 font-mono text-lg"
+        style={{ fontSize: 18 }}
+        data-testid="electron-config-input"
+      />
+      <div>
+        <Button size="lg" disabled={disabled || config.trim() === ""} onClick={() => onSubmit({ config })} data-testid="widget-submit">
+          Lock in configuration
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** builder.genetics: a 4-box Punnett square (ask="square") or a typed dominant-phenotype fraction
+ * (ask="ratio"). */
+function GeneticsBuild({ view, onSubmit, disabled }: { view: GeneticsView; onSubmit: (i: GeneticsInput) => void; disabled?: boolean }) {
+  const rowGametes = view.parent1.split("");
+  const colGametes = view.parent2.split("");
+  const [cells, setCells] = useState<string[]>(["", "", "", ""]);
+  const [fraction, setFraction] = useState("");
+  const ready = view.ask === "square" ? cells.every((c) => c.trim() !== "") : fraction.trim() !== "";
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        Cross {view.parent1} × {view.parent2} for {view.trait} ({view.dominantAllele} = {view.dominantPhenotype}, {view.recessiveAllele} = {view.recessivePhenotype}).
+      </p>
+      {view.ask === "square" ? (
+        <table className="border-collapse text-center" data-testid="punnett-square">
+          <thead>
+            <tr>
+              <th />
+              {colGametes.map((g, j) => (
+                <th key={j} className="border p-2" style={{ fontSize: 18 }}>
+                  {g}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rowGametes.map((g, i) => (
+              <tr key={i}>
+                <th className="border p-2" style={{ fontSize: 18 }}>
+                  {g}
+                </th>
+                {colGametes.map((_, j) => {
+                  const idx = i * 2 + j;
+                  return (
+                    <td key={j} className="border p-1">
+                      <input
+                        aria-label={`Cell row ${i + 1} col ${j + 1}`}
+                        value={cells[idx]}
+                        disabled={disabled}
+                        onChange={(e) => setCells((c) => c.map((v, k) => (k === idx ? e.target.value : v)))}
+                        className="w-16 rounded border px-1 py-1 text-center"
+                        style={{ fontSize: 16 }}
+                        maxLength={2}
+                      />
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <label className="flex flex-col gap-1">
+          <span style={{ fontSize: 16 }}>Fraction with {view.dominantPhenotype} (e.g. "3/4")</span>
+          <input
+            value={fraction}
+            disabled={disabled}
+            onChange={(e) => setFraction(e.target.value)}
+            className="rounded-lg border-2 px-3 py-2 text-lg"
+            style={{ fontSize: 18, width: 160 }}
+            data-testid="genetics-fraction-input"
+          />
+        </label>
+      )}
+      <div>
+        <Button
+          size="lg"
+          disabled={disabled || !ready}
+          onClick={() => onSubmit({ cells: view.ask === "square" ? cells : null, dominantFraction: view.ask === "ratio" ? fraction : null })}
+          data-testid="widget-submit"
+        >
+          Lock in answer
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** builder.molecule: add atoms (choose an element, get an auto id) then bonds between two atom ids. The
+ * target composition is shown as a build guide. */
+function MoleculeBuild({ view, onSubmit, disabled }: { view: MoleculeView; onSubmit: (i: MoleculeInput) => void; disabled?: boolean }) {
+  const [atoms, setAtoms] = useState<{ id: string; element: string }[]>([]);
+  const [bonds, setBonds] = useState<{ a: string; b: string; order: number }[]>([]);
+  const [element, setElement] = useState(view.atoms[0]?.element ?? "");
+  const [a, setA] = useState("");
+  const [b, setB] = useState("");
+  const [order, setOrder] = useState(1);
+
+  const addAtom = () => {
+    if (!element) return;
+    setAtoms((as) => [...as, { id: `a${as.length}`, element }]);
+  };
+  const addBond = () => {
+    if (!a || !b || a === b) return;
+    setBonds((bs) => [...bs, { a, b, order }]);
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        Build {view.target}. Target composition: {view.atoms.map((a2) => `${a2.element}×${a2.count}`).join(", ")}.
+      </p>
+      <ul className="flex flex-wrap gap-2" aria-label="Atoms so far" data-testid="molecule-atoms">
+        {atoms.map((atom, i) => (
+          <li key={atom.id}>
+            <Button variant="outline" size="sm" disabled={disabled} onClick={() => setAtoms((as) => as.filter((_, j) => j !== i))}>
+              {atom.id}:{atom.element} &times;
+            </Button>
+          </li>
+        ))}
+      </ul>
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+          Element
+          <select value={element} disabled={disabled} onChange={(e) => setElement(e.target.value)} className="rounded-lg border-2 px-2 py-1">
+            {view.atoms.map((a2) => (
+              <option key={a2.element} value={a2.element}>
+                {a2.element}
+              </option>
+            ))}
+          </select>
+        </label>
+        <Button variant="outline" disabled={disabled} onClick={addAtom}>
+          Add atom
+        </Button>
+      </div>
+      <ul className="flex flex-wrap gap-2" aria-label="Bonds so far" data-testid="molecule-bonds">
+        {bonds.map((bond, i) => (
+          <li key={i}>
+            <Button variant="outline" size="sm" disabled={disabled} onClick={() => setBonds((bs) => bs.filter((_, j) => j !== i))}>
+              {bond.a}-{bond.b} (×{bond.order}) &times;
+            </Button>
+          </li>
+        ))}
+      </ul>
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+          Atom A
+          <select value={a} disabled={disabled} onChange={(e) => setA(e.target.value)} className="rounded-lg border-2 px-2 py-1">
+            <option value="">choose…</option>
+            {atoms.map((atom) => (
+              <option key={atom.id} value={atom.id}>
+                {atom.id}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+          Atom B
+          <select value={b} disabled={disabled} onChange={(e) => setB(e.target.value)} className="rounded-lg border-2 px-2 py-1">
+            <option value="">choose…</option>
+            {atoms.map((atom) => (
+              <option key={atom.id} value={atom.id}>
+                {atom.id}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1" style={{ fontSize: 15 }}>
+          Bond order
+          <input
+            type="number"
+            min={1}
+            max={3}
+            value={order}
+            disabled={disabled}
+            onChange={(e) => setOrder(Number(e.target.value))}
+            className="w-16 rounded-lg border-2 px-2 py-1 tabular-nums"
+          />
+        </label>
+        <Button variant="outline" disabled={disabled} onClick={addBond}>
+          Add bond
+        </Button>
+      </div>
+      <div>
+        <Button size="lg" disabled={disabled || atoms.length === 0} onClick={() => onSubmit({ atoms, bonds })} data-testid="widget-submit">
+          Lock in molecule
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** builder.program: a text area for the mini block language, with a palette that inserts a command line
+ * at the cursor. */
+function ProgramBuild({ view, onSubmit, disabled }: { view: ProgramView; onSubmit: (i: ProgramInput) => void; disabled?: boolean }) {
+  const [text, setText] = useState("");
+  const lines = text.split("\n").filter((l) => l.trim() !== "");
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        Program the robot to reach the goal{view.mustCollectGems ? ", collecting every gem first" : ""}, in at most {view.maxBlocks} blocks.
+      </p>
+      <pre className="overflow-x-auto rounded-lg border-2 p-3 font-mono" style={{ fontSize: 15 }} data-testid="program-grid">
+        {view.grid.join("\n")}
+      </pre>
+      <div className="flex flex-wrap gap-2" aria-label="Command palette">
+        {view.commands.map((c) => (
+          <Button key={c} variant="outline" disabled={disabled} onClick={() => setText((t) => (t.trim() ? `${t}\n${c}` : c))}>
+            {c}
+          </Button>
+        ))}
+      </div>
+      <textarea
+        aria-label="Program"
+        value={text}
+        disabled={disabled}
+        onChange={(e) => setText(e.target.value)}
+        rows={8}
+        className="rounded-lg border-2 p-3 font-mono"
+        style={{ fontSize: 16 }}
+        data-testid="program-textarea"
+      />
+      <p className="text-sm opacity-70" style={{ fontSize: 14 }}>
+        {lines.length}/{view.maxBlocks} lines
+      </p>
+      <div>
+        <Button size="lg" disabled={disabled || lines.length === 0} onClick={() => onSubmit({ program: lines })} data-testid="widget-submit">
+          Lock in program
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** builder.sentence: click word tiles in order to build the sentence. */
+function SentenceBuild({ view, onSubmit, disabled }: { view: SentenceView; onSubmit: (i: SentenceInput) => void; disabled?: boolean }) {
+  const [order, setOrder] = useState<number[]>([]);
+  const used = new Set(order);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        Arrange the tiles into a correct sentence.
+      </p>
+      {view.rules.length > 0 && (
+        <ul className="text-sm opacity-80" style={{ fontSize: 14 }}>
+          {view.rules.map((r, i) => (
+            <li key={i}>{r}</li>
+          ))}
+        </ul>
+      )}
+      <div className="flex min-h-14 flex-wrap gap-2 rounded-lg border-2 border-dashed p-2" data-testid="sentence-built">
+        {order.map((i, pos) => (
+          <Button key={pos} variant="outline" disabled={disabled} onClick={() => setOrder((o) => o.filter((_, j) => j !== pos))}>
+            {view.tiles[i]}
+          </Button>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-2" role="listbox" aria-label="Available tiles">
+        {view.tiles.map((t, i) =>
+          used.has(i) ? null : (
+            <button
+              key={i}
+              role="option"
+              disabled={disabled}
+              onClick={() => setOrder((o) => [...o, i])}
+              className="rounded-lg border-2 px-3 py-2"
+              style={{ fontSize: 16 }}
+            >
+              {t}
+            </button>
+          ),
+        )}
+      </div>
+      <div>
+        <Button
+          size="lg"
+          disabled={disabled || order.length !== view.tiles.length}
+          onClick={() => onSubmit({ order: order.map((i) => view.tiles[i]) })}
+          data-testid="widget-submit"
+        >
+          Lock in sentence
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+/** builder.tiles: a grid where each cell cycles through the piece palette (including empty, "."). */
+function TilesBuild({ view, onSubmit, disabled }: { view: TilesView; onSubmit: (i: TilesInput) => void; disabled?: boolean }) {
+  const pieceIds = [".", ...view.pieces.map((p) => p.id)];
+  const [grid, setGrid] = useState<string[][]>(() => Array.from({ length: view.rows }, () => Array.from({ length: view.cols }, () => ".")));
+
+  const cycle = (r: number, c: number) => {
+    setGrid((g) => {
+      const next = g.map((row) => [...row]);
+      const idx = pieceIds.indexOf(next[r][c]);
+      next[r][c] = pieceIds[(idx + 1) % pieceIds.length];
+      return next;
+    });
+  };
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        Click a cell to cycle through pieces: {pieceIds.join(", ")}.
+      </p>
+      {view.rules.length > 0 && (
+        <ul className="text-sm opacity-80" style={{ fontSize: 14 }}>
+          {view.rules.map((r, i) => (
+            <li key={i}>
+              {r.kind}: {r.value}
+            </li>
+          ))}
+        </ul>
+      )}
+      <div
+        className="grid gap-1"
+        style={{ gridTemplateColumns: `repeat(${view.cols}, minmax(0, 1fr))` }}
+        role="grid"
+        aria-label="Tile grid"
+        data-testid="tiles-grid"
+      >
+        {grid.map((row, r) =>
+          row.map((cell, c) => (
+            <button
+              key={`${r}-${c}`}
+              role="gridcell"
+              disabled={disabled}
+              onClick={() => cycle(r, c)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  cycle(r, c);
+                }
+              }}
+              className="flex h-12 w-12 items-center justify-center rounded border-2"
+              style={{ fontSize: 16 }}
+            >
+              {cell === "." ? "" : cell}
+            </button>
+          )),
+        )}
+      </div>
+      <div>
+        <Button size="lg" disabled={disabled} onClick={() => onSubmit({ grid: grid.map((row) => row.join(" ")) })} data-testid="widget-submit">
+          Lock in grid
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 // ---------------------------------------------------------------- balance.equation UI

@@ -21,9 +21,66 @@ export interface OrderInput {
   keys: string[];
 }
 
+/** Matches mode source_eval's View (src/mechanics/families/investigator/source_eval.ts). Same Input shape
+ * (`{ keys }`) as linear/cycle/rank; only the plank array's field name differs. */
+export interface OrderSourceEvalView {
+  question: string;
+  slots: number;
+  sources: { key: string; text: string }[];
+}
+
+/** Matches mode timeline's View (src/mechanics/families/sequencer/timeline.ts). Same Input shape as above. */
+export interface OrderTimelineView {
+  slots: number;
+  cards: { key: string; text: string }[];
+}
+
+/** Matches mode composition's View (src/mechanics/families/transformer/composition.ts). Every machine must
+ * be placed (no free slot count) and the Input field is `order`, not `keys`. */
+export interface OrderCompositionView {
+  kind: "numeric" | "resources";
+  machines: { id: string; label: string }[];
+  input: string;
+  target: string;
+}
+export interface OrderCompositionInput {
+  order: string[];
+}
+
+export type AnyOrderView = OrderView | OrderSourceEvalView | OrderTimelineView | OrderCompositionView;
+export type AnyOrderInput = OrderInput | OrderCompositionInput;
+
+export function isSourceEvalView(view: AnyOrderView): view is OrderSourceEvalView {
+  return "sources" in view;
+}
+export function isTimelineView(view: AnyOrderView): view is OrderTimelineView {
+  return "cards" in view;
+}
+export function isCompositionView(view: AnyOrderView): view is OrderCompositionView {
+  return "machines" in view;
+}
+
+/** Normalizes any of the order-family view shapes to the plank list + slot count the shared UI renders. */
+function normalize(view: AnyOrderView): { slots: number; planks: { key: string; text: string }[]; circular?: boolean; property?: string; direction?: "ascending" | "descending" } {
+  if (isSourceEvalView(view)) return { slots: view.slots, planks: view.sources };
+  if (isTimelineView(view)) return { slots: view.slots, planks: view.cards };
+  if (isCompositionView(view)) return { slots: view.machines.length, planks: view.machines.map((m) => ({ key: m.id, text: m.label })) };
+  return { slots: view.slots, planks: view.planks, circular: view.circular, property: view.property, direction: view.direction };
+}
+
+export function supports(view: unknown): boolean {
+  if (typeof view !== "object" || view === null) return false;
+  const v = view as AnyOrderView;
+  return isSourceEvalView(v) || isTimelineView(v) || isCompositionView(v) || "planks" in v;
+}
+
 /** Pure: the placed-slot keys, in slot order -> the input linear/cycle/rank's grade() expects. */
 export function placedToInput(placed: string[]): OrderInput {
   return { keys: placed };
+}
+/** Pure: the placed-slot machine ids, in order -> the input transformer.composition's grade() expects. */
+export function compositionToInput(placed: string[]): OrderCompositionInput {
+  return { order: placed };
 }
 
 /**
@@ -31,7 +88,30 @@ export function placedToInput(placed: string[]): OrderInput {
  * among the pool + placed slots, Enter places the focused pool plank into the next open slot (or
  * removes a placed one), Backspace clears the last slot.
  */
-export function Order({ view, onSubmit, disabled }: WidgetProps<OrderView, OrderInput>) {
+export function Order({ view, onSubmit, disabled }: WidgetProps<AnyOrderView, AnyOrderInput>) {
+  const n = normalize(view);
+  const submit = isCompositionView(view) ? (keys: string[]) => onSubmit(compositionToInput(keys)) : (keys: string[]) => onSubmit(placedToInput(keys));
+  return <OrderBody slots={n.slots} planks={n.planks} circular={n.circular} property={n.property} direction={n.direction} onSubmit={submit} disabled={disabled} />;
+}
+
+function OrderBody({
+  slots,
+  planks,
+  circular,
+  property,
+  direction,
+  onSubmit,
+  disabled,
+}: {
+  slots: number;
+  planks: { key: string; text: string }[];
+  circular?: boolean;
+  property?: string;
+  direction?: "ascending" | "descending";
+  onSubmit: (keys: string[]) => void;
+  disabled?: boolean;
+}) {
+  const view = { slots, planks, circular, property, direction };
   const [placed, setPlaced] = useState<string[]>([]);
   const [focusIndex, setFocusIndex] = useState(0);
   const pool = view.planks.filter((p) => !placed.includes(p.key));
@@ -132,7 +212,7 @@ export function Order({ view, onSubmit, disabled }: WidgetProps<OrderView, Order
         <Button
           size="lg"
           disabled={disabled || placed.length !== view.slots}
-          onClick={() => onSubmit(placedToInput(placed))}
+          onClick={() => onSubmit(placed)}
           data-testid="widget-submit"
         >
           Lock in order

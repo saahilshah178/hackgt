@@ -16,7 +16,7 @@ import { buildRooms, type HostHandle } from "./hosts/types";
 import { chunkById } from "../library/genres";
 import { PlayHost } from "./hosts/PlayHost";
 import { EncounterRunner } from "./runner/encounter-runner";
-import { getWidget } from "./widgets/registry";
+import { widgetFor } from "./widgets/registry";
 import { HintPanel } from "./systems/HintPanel";
 import { ConsequenceOverlay } from "./systems/ConsequenceOverlay";
 import { MasteryHud } from "./systems/MasteryHud";
@@ -156,7 +156,8 @@ export function GameClient({ spec }: { spec: GameSpec }) {
 
   const current = runner.finished ? null : runner.current();
   const widgetId = current?.mode.widget;
-  const Widget = useMemo(() => (widgetId ? getWidget(widgetId) : undefined), [widgetId]);
+  const currentView = current?.view;
+  const Widget = useMemo(() => (widgetId ? widgetFor(widgetId, currentView) : undefined), [widgetId, currentView]);
 
   const onReachSocket = (encounterId: string) => {
     if (runner.finished) return;
