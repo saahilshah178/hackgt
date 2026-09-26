@@ -1,21 +1,26 @@
 /**
- * sluice_waves · skin tonicity_sluices — W0 STUB (a labelled box). The owning lane (docs/design/20 §7.2: KB (L7)) draws the skin's
- * parts (§4.3 slots, `<ns>.part.tonicity_sluices_<slot>`) and applies the archetype's Pose from `@/world/contraptions/sluice-waves.meta`.
+ * sluice_waves · skin tonicity_sluices (cell e5 Tonicity Sluices, e9 Return Sluice / Barge Lock; §4.3 slots label_lock,
+ * lock_leaf, valve_wheel, basin, eddy, cell_rbc, cell_plant, cell_potato, cell_generic, cell_protoplast, barge, console).
+ * The Label Lock in the flooded trench, the bronze valve wheel with one plaque per valve (HYPO / ISO / HYPER or
+ * IN / OUT / NONE as DOM chips), the holding basins and the Eddy; e9 adds the barge in the low Barge Lock. Drawing and
+ * playback live in shared.ts `createSluiceView`; this file picks the valve colours. Code-drawn stand-ins until KB4's
+ * hero parts land.
  */
 import type { SluiceWavesConfig } from "@/world/contraptions/sluice-waves.config";
 import type { SluiceWavesPose } from "@/world/contraptions/sluice-waves.meta";
 import type { SkinPrefab } from "../../../types";
-import { STUB_COLOR, stubBox } from "../shared";
+import { createSluiceView, type SluiceSkinOptions } from "../shared";
+
+const tonicitySluices: SluiceSkinOptions = {
+  skinId: "tonicity_sluices",
+  // valve tags / basin stripes: water blue, cream, salmon (then glycan blue for a fourth valve)
+  valveColors: (c, n) => [c.water, c.stoneLit, c.salmon, c.glycan].slice(0, Math.max(2, n)),
+};
 
 export const skin: SkinPrefab<SluiceWavesConfig, SluiceWavesPose> = {
   skinId: "tonicity_sluices",
   create(scene, _phaser, props) {
-    return stubBox<SluiceWavesPose>(scene, {
-      at: { x: props.station.anchor.x, y: props.station.anchor.y },
-      console: { x: props.station.consoleX, y: props.groundY },
-      label: "sluice_waves\ntonicity_sluices",
-      color: STUB_COLOR,
-    });
+    return createSluiceView(scene, props, tonicitySluices);
   },
 };
 export default skin;

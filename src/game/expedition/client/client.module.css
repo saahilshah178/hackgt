@@ -1,0 +1,96 @@
+/* src/game/expedition/client (H2) — ExpeditionLayout: the full-bleed stage with overlay regions (docs/design/20 §3.1).
+   The canvas is never resized on a phase change; the panel, HUD and dialogue bar float over it. */
+.layout {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #0b1f27;
+  color: #ffffff;
+  isolation: isolate;
+}
+.stage {
+  position: absolute;
+  inset: 0;
+  outline: none;
+}
+.skip {
+  position: absolute;
+  top: 84px;
+  right: 20px;
+  z-index: 45;
+  min-height: 48px;
+  padding: 10px 20px;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: rgba(11, 31, 39, 0.82);
+  border: 2px solid #e8f6f8;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.skip:focus-visible {
+  outline: 3px solid #e2892c;
+  outline-offset: 3px;
+}
+.express {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 35;
+  padding: 6px 14px;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0b1f27;
+  background: #9fe6f2;
+  border-radius: 4px;
+  pointer-events: none;
+}
+.briefOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 55;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 15, 20, 0.5);
+}
+.briefCard {
+  position: relative;
+  width: min(720px, calc(100vw - 32px));
+  max-height: 80vh;
+  overflow: auto;
+  padding: 24px;
+  font-size: 20px;
+  color: #ffffff;
+  background: rgba(38, 92, 106, 0.95);
+  border: 2px solid #e8f6f8;
+  border-radius: 8px;
+}
+.briefClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  min-width: 48px;
+  min-height: 48px;
+  font-size: 20px;
+  color: #ffffff;
+  background: #0b1f27;
+  border: 2px solid #e8f6f8;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

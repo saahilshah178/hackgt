@@ -1,0 +1,967 @@
+/*
+ * src/game/expedition/panel/theme.css — the instrument panel's look (docs/design/20 §3.1–§3.5; bible §2.3, §3).
+ * The token block below is pinned to the shared UI palette by tests/ui-tokens.test.ts: every `--ui-*`, `--fn-*`,
+ * `--orb-*`, `--pencil-*` and `--glow-*` custom property equals the palette token of the same dotted name. The panel
+ * is the brand and is identical in every game. Panel-local derived values use the `--xp-` prefix.
+ */
+
+:root {
+  /* ---- tokens (bible §2.3; pinned) */
+  --ui-panel: rgba(38, 92, 106, 0.86);
+  --ui-panel-solid: #265c6a;
+  --ui-panel-hi: #3b7682;
+  --ui-card: #0f2a33;
+  --ui-card-deep: #0b1f27;
+  --ui-hex: rgba(120, 190, 205, 0.14);
+  --ui-grid-major: rgba(111, 184, 200, 0.55);
+  --ui-grid-minor: rgba(111, 184, 200, 0.22);
+  --ui-line: #e8f6f8;
+  --ui-line-glow: rgba(159, 230, 242, 0.45);
+  --ui-text: #ffffff;
+  --ui-text-dim: #9db8be;
+  --ui-accent: #e2892c;
+  --ui-accent-hi: #f4a95a;
+  --ui-accent-deep: #b8661c;
+  --ui-info-warm: #e7a08c;
+  --fn-f: #f5f8f8;
+  --fn-g: #6fd98e;
+  --fn-h: #4f92e6;
+  --orb-fill: #3f97b8;
+  --orb-ring: #ffffff;
+  --pencil-btn: #3a8fc4;
+  --glow-cyan: #9fe6f2;
+  --glow-gold: #f6d27a;
+
+  /* ---- panel-local derived values (not palette tokens) */
+  --xp-panel-opaque: #1f4b57; /* §3.1: no backdrop-filter, or fps < 45 for 2 s */
+  --xp-bar-h: 15%; /* the dialogue bar band below the panel (scrub); board uses 20 % */
+  --xp-ease-out: cubic-bezier(0.33, 1, 0.68, 1); /* ease-out cubic */
+  --xp-slide-ms: 280ms;
+}
+
+/* ================================================================ frame (§3.1, bible §3.2) */
+
+.xp-panel,
+.xp-scope {
+  --xp-fs-tick: clamp(18px, 2.75cqw, 24px);
+  --xp-fs-tab: clamp(18px, 2.4cqw, 22px);
+  --xp-fs-chip: clamp(22px, 3.9cqw, 34px);
+  --xp-fs-readout: clamp(28px, 4.4cqw, 36px);
+  --xp-fs-verify: clamp(22px, 3.3cqw, 28px);
+  --xp-fs-body: clamp(18px, 2.4cqw, 22px);
+  --xp-fs-small: clamp(18px, 2.2cqw, 20px);
+  --xp-gap: clamp(10px, 2.2cqh, 26px);
+  --xp-rail-x: 14px;
+  --xp-chip-w: clamp(92px, 14cqw, 128px);
+}
+/* .xp-scope: panel typography for panel parts rendered outside a panel (the dev gallery) */
+.xp-scope {
+  position: relative;
+  container-type: inline-size;
+  color: var(--ui-text);
+}
+.xp-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: var(--xp-bar-h);
+  width: 42%;
+  z-index: 20;
+  container-type: size;
+  container-name: xp-panel;
+  color: var(--ui-text);
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  background: var(--ui-panel);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: xp-slide-in var(--xp-slide-ms) var(--xp-ease-out) both;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.xp-panel::before {
+  /* the lighter wash toward the top-right (ui.panel.hi) */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 70% at 100% 0%, color-mix(in srgb, var(--ui-panel-hi) 55%, transparent), transparent 70%);
+}
+.xp-panel[data-layout="board"] {
+  width: 55%;
+  bottom: 20%;
+}
+.xp-panel[data-layout="sandbox"] {
+  width: 42%;
+}
+.xp-panel[data-opaque="true"] {
+  background: var(--xp-panel-opaque);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .xp-panel {
+    background: var(--xp-panel-opaque);
+  }
+}
+@keyframes xp-slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .xp-panel {
+    animation: none;
+  }
+}
+
+/* vault: centred modal 80 × 85 % over a 55 % dim, brief column left (30 % of the modal) */
+.xp-vault-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 19;
+  background: rgba(0, 0, 0, 0.55);
+}
+.xp-panel[data-layout="vault"] {
+  top: 7.5%;
+  bottom: auto;
+  right: 10%;
+  width: 80%;
+  height: 85%;
+  animation-name: xp-fade-in;
+}
+@keyframes xp-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* phone (< 768 px or portrait): bottom sheet 60 vh */
+@media (max-width: 767px), (orientation: portrait) {
+  .xp-panel,
+  .xp-panel[data-layout="board"],
+  .xp-panel[data-layout="sandbox"],
+  .xp-panel[data-layout="vault"] {
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: auto;
+    height: 60%;
+    animation-name: xp-sheet-in;
+  }
+}
+@keyframes xp-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.xp-hexgrid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.xp-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--xp-rail-x);
+  width: 12px;
+  pointer-events: none;
+}
+
+.xp-body {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--xp-gap);
+  padding: clamp(10px, 1.6cqh, 22px) clamp(14px, 3.2cqw, 34px) clamp(10px, 1.6cqh, 20px) clamp(28px, 5.2cqw, 52px);
+}
+.xp-panel[data-layout="vault"] .xp-body {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  gap: clamp(14px, 2.4cqw, 32px);
+}
+.xp-main {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--xp-gap);
+}
+.xp-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: clamp(40px, 6cqh, 56px);
+}
+.xp-head-title {
+  font-size: var(--xp-fs-small);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ui-text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* the back arrow tab (bible §3.2): ui.card.deep, 1.5 px border, white left arrow */
+.xp-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: clamp(84px, 19cqw, 154px);
+  height: clamp(40px, 6cqh, 52px);
+  padding: 0 14px;
+  background: var(--ui-card-deep);
+  border: 1.5px solid var(--ui-line);
+  border-radius: 3px;
+  color: var(--ui-text);
+  font-size: var(--xp-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--ui-line-glow);
+}
+.xp-back:hover {
+  background: #123440;
+}
+
+/* ================================================================ focus rings (keyboard) */
+
+.xp-panel :focus-visible,
+.xp-scope :focus-visible {
+  outline: 3px solid var(--ui-accent-hi);
+  outline-offset: 3px;
+}
+.xp-item:focus-visible,
+.xp-token:focus-visible,
+.xp-strike:focus-visible {
+  /* keyboard focus is white; orange stays reserved for the committed input (aimed, placed) */
+  outline: 3px solid var(--ui-line);
+  outline-offset: 2px;
+  box-shadow: 0 0 10px var(--ui-line-glow);
+}
+.xp-ruler:focus-visible {
+  outline: 2px solid var(--ui-accent-hi);
+  outline-offset: 2px;
+}
+.xp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ================================================================ cards (bible §3.3) */
+
+.xp-stack {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--xp-gap);
+}
+.xp-slot {
+  /* the card sits in a "slot": an outer 1 px frame offset 6 px */
+  position: relative;
+  flex: 1 1 0;
+  min-height: 90px;
+}
+.xp-slot[data-grow="2"] {
+  flex-grow: 2;
+}
+.xp-slot[data-card="energy_cells"] {
+  flex: 0 0 auto;
+  height: clamp(96px, 12cqh, 130px);
+  min-height: 0;
+}
+.xp-slot[data-card="timeline"] {
+  min-height: clamp(130px, 16cqh, 190px);
+}
+.xp-slot[data-card="timeline"][data-lanes="true"] {
+  /* lanes need room for a label row and a pin row each */
+  min-height: clamp(170px, 22cqh, 230px);
+}
+.xp-slot[data-grow="0"] {
+  flex: 0 0 auto;
+}
+.xp-slot::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(232, 246, 248, 0.5);
+  pointer-events: none;
+}
+.xp-slot[data-gutter="true"]::before {
+  /* value-carrying cards: the slot frame reaches back into the chip gutter (5.png) */
+  left: calc(-0.5 * var(--xp-chip-w, 120px) - 8px);
+}
+.xp-card {
+  position: absolute;
+  inset: 0;
+  background: var(--ui-card);
+  border: 2px solid var(--ui-line);
+  box-shadow:
+    0 0 5px var(--ui-line-glow),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.xp-slot[data-grow="0"] > .xp-card {
+  position: relative;
+  inset: auto;
+}
+.xp-card > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.xp-tab {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 1px 9px 2px;
+  background: var(--ui-card-deep);
+  border: 1.5px solid var(--ui-line);
+  color: var(--ui-text);
+  font-size: var(--xp-fs-tab);
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.xp-card-title {
+  position: absolute;
+  top: 0;
+  left: 14px;
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 0 8px;
+  background: var(--ui-card);
+  color: var(--ui-text-dim);
+  font-size: var(--xp-fs-small);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.xp-svg-text {
+  font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+  fill: var(--ui-text);
+}
+
+/* HTML card interiors (claims, rails, boards, matrix, documents) */
+.xp-card-html {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  padding: clamp(14px, 2.4cqh, 26px) clamp(12px, 2cqw, 22px) clamp(10px, 1.6cqh, 18px);
+  font-size: var(--xp-fs-body);
+  line-height: 1.3;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-grid-major) transparent;
+}
+.xp-slot[data-grow="0"] .xp-card-html {
+  position: relative;
+}
+
+/* ================================================================ value chips (bible §3.5) */
+
+.xp-chip {
+  /* the chip rides the card's LEFT edge (5.png): its right edge meets the card, so it overhangs the panel edge into
+     the world and never covers the y tick labels */
+  position: absolute;
+  left: -8px;
+  z-index: 4;
+  transform: translate(-100%, -50%);
+  min-width: var(--xp-chip-w, 3.4em);
+  max-width: calc(2.4 * var(--xp-chip-w, 120px));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 12px 3px;
+  background: var(--ui-card-deep);
+  border: 2px solid var(--fn-f);
+  color: var(--ui-text);
+  font-size: var(--xp-fs-chip);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
+  transition: top 90ms linear;
+  pointer-events: none;
+}
+.xp-chip[data-color="g"] {
+  border-color: var(--fn-g);
+}
+.xp-chip[data-color="h"] {
+  border-color: var(--fn-h);
+}
+.xp-chip[data-color="accent"] {
+  border-color: var(--ui-accent);
+}
+.xp-chip[data-color="gold"] {
+  border-color: var(--glow-gold);
+}
+@media (prefers-reduced-motion: reduce) {
+  .xp-chip {
+    transition: none;
+  }
+}
+
+/* ================================================================ scrubber (bible §3.4) */
+
+.xp-scrub-line {
+  position: absolute;
+  z-index: 3;
+  width: 6px;
+  margin-left: -3px;
+  background: linear-gradient(90deg, var(--ui-accent) 0 2px, var(--ui-accent-hi) 2px 4px, var(--ui-accent) 4px 6px);
+  box-shadow: 0 0 6px rgba(226, 137, 44, 0.55);
+  pointer-events: none;
+}
+.xp-ruler-row {
+  position: relative;
+  flex: 0 0 auto;
+  height: clamp(58px, 9cqh, 78px);
+}
+.xp-ruler {
+  position: absolute;
+  inset: 0;
+  background: var(--ui-card);
+  border: 1.5px solid var(--ui-line);
+  box-shadow: 0 0 5px var(--ui-line-glow);
+  cursor: ew-resize;
+  touch-action: none;
+}
+.xp-ruler > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.xp-ruler[aria-disabled="true"] {
+  cursor: default;
+  opacity: 0.6;
+}
+.xp-knob {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  width: 28px;
+  height: 34px;
+  margin-left: -14px;
+  margin-top: -20px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+  transition: filter 120ms;
+}
+.xp-ruler:active .xp-knob,
+.xp-ruler[data-dragging="true"] .xp-knob {
+  filter: drop-shadow(0 0 7px var(--ui-accent-hi));
+}
+.xp-readout-group {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 100%;
+  display: flex;
+  z-index: 4;
+}
+.xp-input-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.6em;
+  padding: 0 14px;
+  background: var(--ui-accent);
+  border: 2px solid var(--ui-accent-deep);
+  color: #fff;
+  font-size: var(--xp-fs-readout);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+.xp-readout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.6em;
+  padding: 0 14px;
+  background: var(--ui-card-deep);
+  border: 1.5px solid var(--ui-line);
+  border-left: 0;
+  color: var(--ui-text);
+  font-size: var(--xp-fs-readout);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ================================================================ verify row, badge (bible §3.8) */
+
+.xp-verify-row {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-height: clamp(64px, 10cqh, 92px);
+}
+.xp-trace {
+  flex: 1 1 0;
+  min-width: 24px;
+  height: 12px;
+  overflow: visible;
+}
+.xp-verify {
+  flex: 0 0 auto;
+  min-width: 48%;
+  padding: clamp(10px, 1.6cqh, 16px) clamp(18px, 3cqw, 34px);
+  background: var(--ui-card-deep);
+  border: 1.5px solid var(--ui-line);
+  color: var(--ui-text);
+  font-size: var(--xp-fs-verify);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 0 6px var(--ui-line-glow);
+}
+.xp-verify:hover:not(:disabled) {
+  background: #123440;
+  border-color: #fff;
+}
+.xp-verify:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.xp-verify:disabled {
+  color: var(--ui-text-dim);
+  border-color: rgba(157, 184, 190, 0.55);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.xp-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: xp-badge-in 220ms var(--xp-ease-out) both;
+}
+.xp-badge-box {
+  padding: clamp(8px, 1.4cqh, 14px) clamp(22px, 4cqw, 44px);
+  border: 2px solid var(--ui-line);
+  background: rgba(11, 31, 39, 0.85);
+  box-shadow: 0 0 10px var(--ui-line-glow);
+  color: #fff;
+  font-size: var(--xp-fs-verify);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+.xp-badge-bracket {
+  width: 60%;
+  height: 16px;
+  overflow: visible;
+}
+@keyframes xp-badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ================================================================ control surfaces */
+
+/* a control made of two surfaces side by side (rail | tray); stacks on narrow panels */
+.xp-row {
+  position: relative;
+  flex: 2 1 0;
+  min-height: 0;
+  display: flex;
+  gap: calc(var(--xp-gap) + 6px);
+}
+.xp-row > .xp-slot {
+  flex: 1 1 0;
+  min-width: 0;
+}
+@container xp-panel (max-width: 620px) {
+  .xp-row {
+    flex-direction: column;
+  }
+}
+
+.xp-items {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.4cqh, 14px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.xp-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  padding: clamp(6px, 1cqh, 10px) 14px;
+  background: rgba(11, 31, 39, 0.7);
+  border: 1.5px solid rgba(232, 246, 248, 0.45);
+  color: var(--ui-text);
+  font: inherit;
+  font-size: var(--xp-fs-body);
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+}
+.xp-item:hover {
+  border-color: var(--ui-line);
+}
+.xp-item[data-state="hover"],
+.xp-item[data-state="focus"] {
+  border-color: var(--ui-line);
+  box-shadow: 0 0 6px var(--ui-line-glow);
+}
+.xp-item[data-state="aimed"],
+.xp-item[data-state="placed"],
+.xp-item[aria-pressed="true"],
+.xp-item[aria-checked="true"] {
+  border-color: var(--ui-accent);
+  box-shadow:
+    0 0 0 1px var(--ui-accent),
+    0 0 8px rgba(226, 137, 44, 0.45);
+}
+.xp-item[data-state="struck"] {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+.xp-item[data-state="dim"],
+.xp-item:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.xp-letter {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8em;
+  height: 1.8em;
+  border: 1.5px solid var(--ui-line);
+  border-radius: 50%;
+  font-weight: 700;
+}
+.xp-socket {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  margin-top: 2px;
+  border: 2.5px solid var(--ui-line);
+  border-radius: 50%;
+}
+.xp-item[data-state="aimed"] .xp-socket {
+  border-color: var(--ui-accent);
+  box-shadow: 0 0 0 4px rgba(226, 137, 44, 0.35);
+}
+.xp-clamp3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.xp-caps {
+  font-size: var(--xp-fs-small);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ui-text-dim);
+}
+.xp-hint {
+  color: var(--ui-text-dim);
+  font-size: var(--xp-fs-small);
+}
+.xp-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(5px, 0.8cqh, 8px) 12px;
+  background: rgba(11, 31, 39, 0.8);
+  border: 1.5px solid rgba(232, 246, 248, 0.55);
+  color: var(--ui-text);
+  font: inherit;
+  font-size: var(--xp-fs-body);
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+.xp-token[aria-pressed="true"],
+.xp-token[data-state="focus"] {
+  border-color: var(--ui-accent);
+  box-shadow: 0 0 0 1px var(--ui-accent);
+}
+.xp-token:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.xp-lane {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  background: rgba(11, 31, 39, 0.55);
+  border: 1.5px dashed rgba(232, 246, 248, 0.5);
+}
+.xp-lane[data-focus="true"] {
+  border-style: solid;
+  border-color: var(--ui-line);
+}
+.xp-cargo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+}
+.xp-lane[data-focus="true"] {
+  background: rgba(59, 118, 130, 0.35);
+}
+.xp-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--ui-text-dim);
+}
+.xp-timer {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--xp-fs-readout);
+}
+.xp-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+/* matrix (civil e12) */
+.xp-matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 6px;
+  font-size: var(--xp-fs-small);
+}
+.xp-matrix th,
+.xp-matrix td {
+  padding: 6px 8px;
+  border: 1px solid rgba(232, 246, 248, 0.3);
+  vertical-align: middle;
+}
+.xp-matrix th {
+  font-weight: 600;
+  text-align: left;
+}
+.xp-strike {
+  width: 100%;
+  min-width: 44px;
+  min-height: 40px;
+  background: transparent;
+  border: 1.5px solid rgba(232, 246, 248, 0.5);
+  color: var(--ui-text);
+  font-size: var(--xp-fs-body);
+  cursor: pointer;
+}
+.xp-strike[aria-pressed="true"] {
+  background: rgba(157, 184, 190, 0.18);
+  border-color: var(--ui-text-dim);
+}
+
+/* orb palette (bible §3.6) and slider columns (§3.7) */
+.xp-orbs {
+  display: grid;
+  grid-template-columns: repeat(var(--xp-orb-cols, 1), 60px);
+  gap: 12px;
+  justify-content: center;
+  padding: 18px 10px;
+  background: var(--ui-card);
+  border: 1.5px solid var(--ui-line);
+}
+.xp-orb {
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.xp-orb[aria-pressed="true"] {
+  box-shadow: 0 0 0 4px var(--ui-accent);
+}
+.xp-pencil {
+  width: 60px;
+  height: 60px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--pencil-btn);
+  color: #fff;
+  cursor: pointer;
+}
+.xp-cols {
+  display: flex;
+  gap: 16px;
+  justify-content: space-around;
+}
+.xp-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.xp-col-track {
+  position: relative;
+  width: 34px;
+  height: 160px;
+  background: var(--ui-card);
+  border: 1.5px solid var(--ui-line);
+}
+.xp-col-btns {
+  display: flex;
+  gap: 4px;
+}
+.xp-col-btn {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: var(--ui-accent);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.xp-col-btn:active {
+  background: var(--ui-accent-deep);
+}
+
+/* brief sheet (vault column, (i) sheet) */
+.xp-brief {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  height: 100%;
+  padding: 16px 18px;
+  background: rgba(11, 31, 39, 0.72);
+  border: 1.5px solid rgba(232, 246, 248, 0.5);
+  font-size: var(--xp-fs-body);
+  line-height: 1.4;
+}
+.xp-brief [role="tablist"] {
+  display: flex;
+  gap: 8px;
+}
+.xp-brief [role="tab"] {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1.5px solid rgba(232, 246, 248, 0.45);
+  color: var(--ui-text-dim);
+  font: inherit;
+  font-size: var(--xp-fs-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.xp-brief [role="tab"][aria-selected="true"] {
+  border-color: var(--ui-line);
+  color: #fff;
+}
+.xp-brief [role="tabpanel"] {
+  overflow: auto;
+  min-height: 0;
+}
+.xp-info-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid var(--ui-line);
+  box-shadow: inset 0 0 0 4px var(--ui-card-deep), inset 0 0 0 6px var(--ui-line);
+  background: var(--ui-card-deep);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: Georgia, serif;
+  cursor: pointer;
+}
+.xp-info-btn[data-warm="true"] {
+  border-color: var(--ui-info-warm);
+  box-shadow: inset 0 0 0 4px var(--ui-card-deep), inset 0 0 0 6px var(--ui-info-warm);
+}
+
+/* ================================================================ WidgetControl: the existing widgets in instrument dress (§3.3) */
+
+.xp-panel .widget,
+.xp-scope .widget {
+  color: var(--ui-text);
+  font-size: var(--xp-fs-body);
+}
+/* the legacy widgets carry 13–16 px inline sizes; the panel's projector floor is 18 px */
+.xp-panel .widget :is(p, span, label, li, output, td, th, strong, button, input, select, textarea) {
+  font-size: max(var(--xp-fs-small), 1em) !important;
+}
+.xp-panel .widget button {
+  border-radius: 0;
+  border-color: rgba(232, 246, 248, 0.5);
+  background: rgba(11, 31, 39, 0.7);
+  color: var(--ui-text);
+}
+.xp-panel .widget button:hover:not(:disabled) {
+  border-color: var(--ui-line);
+}
+.xp-panel .widget input,
+.xp-panel .widget select,
+.xp-panel .widget textarea {
+  background: var(--ui-card-deep);
+  color: var(--ui-text);
+  border-color: rgba(232, 246, 248, 0.5);
+  accent-color: var(--ui-accent);
+}
+/* the widget's own "Lock in" is the station's submit: restyled as Verify */
+.xp-panel .widget [data-testid="widget-submit"] {
+  height: auto;
+  padding: 10px 30px;
+  background: var(--ui-card-deep);
+  border: 1.5px solid var(--ui-line);
+  color: var(--ui-text);
+  font-size: var(--xp-fs-verify) !important;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 0 6px var(--ui-line-glow);
+}
+.xp-panel .widget [data-testid="widget-submit"]:disabled {
+  color: var(--ui-text-dim);
+  box-shadow: none;
+}

@@ -1,5 +1,6 @@
 /**
- * src/game/art/palettes/shared.ts — W0 seed (docs/design/20 §5.7; bible §2.3). Owned by A1 (L5) with palette.ts.
+ * src/game/art/palettes/shared.ts — W0 seed (docs/design/20 §5.7; bible §2.3), extended by A1 (L5) with the rig recolour
+ * defaults and the painterly finish tokens. Owned by the art lane with palette.ts.
  * Token path → colour. The UI tokens are identical in every game (the panel is the brand; the world is the subject);
  * rgba tokens become `fill` + `fill-opacity` at build time (02 §3a), never `rgba()` inside SVG paint.
  */
@@ -45,5 +46,35 @@ export const SHARED_PALETTE = {
     "inlay.navy.dark": "#1B3150",
     "bronze.ring": "#6E4A2E",
     "wisp.indigo": "#6A6CF0",
+    // ---- the rig's painterly finish (A1; baked into the atlases: key-light rim, cool shade, soft outline glow)
+    "char.key_light": "#FFF1D6",
+    "char.shade": "#5C6A86",
+    "char.outline_glow": "#FFF6E8",
+    // ---- rig recolour defaults, char.<id>.<role> with 02 §3b.4's camelCase roles. The game palettes
+    //      (palettes/<ns>.ts) define each character's main roles and win over these (BIOME_PALETTES layers the biome
+    //      over shared); these fill the roles a body uses that 02 §3b.4 does not list, and Otis until C3 adds him.
+    "char.eyeWhite": "#FFFFFF",
+    // ida (female_person): the nose shade, earrings, collar and belt
+    "char.ida.skinDeep": "#46291B",
+    "char.ida.accent": "#D9A441",
+    "char.ida.collar": "#F2E3C6",
+    "char.ida.belt": "#3F3A44",
+    // otis (male_person): night watchman — grizzled hair, khaki shirt, navy work coat
+    "char.otis.skin": "#8A5A3E",
+    "char.otis.skinShade": "#6E4630",
+    "char.otis.skinDeep": "#5A3826",
+    "char.otis.ink": "#2B2A33",
+    "char.otis.brow": "#4A4540",
+    "char.otis.hair": "#4A4540",
+    "char.otis.hairHi": "#6B645C",
+    "char.otis.top": "#C9C2B0",
+    "char.otis.topShade": "#A8A18F",
+    "char.otis.coat": "#3E4A6B",
+    "char.otis.coatShade": "#2E3852",
+    "char.otis.sleeve": "#C9C2B0",
+    "char.otis.sleeveShade": "#A8A18F",
+    "char.otis.bottom": "#4A4F66",
+    "char.otis.sock": "#4A4F66",
+    "char.otis.boots": "#3F3A44",
   } as Readonly<Record<string, string>>,
 } as const;

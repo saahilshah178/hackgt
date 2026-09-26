@@ -3,6 +3,7 @@ import { GameSpec } from "../../contracts/gamespec";
 import { getCard } from "../../library";
 import { BOSS_SOCKET, chunkById } from "../../library/genres";
 import { getFamily, getMode, socketsFor } from "../../mechanics/registry";
+import { validateWorld, worldOwnerFor } from "../../world/validate-world";
 
 /*
  * Run this (1) at the end of generation, before saving, and (2) whenever /play loads a spec.
@@ -28,6 +29,8 @@ export function ownerFor(path: readonly (string | number)[]): Owner {
       return DIRECTOR_FIELDS.has(String(field)) ? "director" : "challenge_writer";
     case "narrative":
       return "narrative";
+    case "world":
+      return worldOwnerFor(path); // docs/design/20 §1.5: writer text → world_writer, geometry/structure → code
     case "assessment":
       return "assessment";
     case "title":
@@ -183,6 +186,14 @@ export function validateGameSpec(input: unknown): ValidationResult {
       if (/\{\{.*?\}\}/.test(text)) add(["encounters", i, field], `unrendered placeholder in ${field}`, e.id);
     });
   });
+
+  // 5. the world overlay (docs/design/20 §1.5): only when spec.world exists (World Writer output; side-cars are
+  //    validated by loadWorldFor). Paths already start with "world" and carry their owner.
+  if (spec.world) {
+    const w = validateWorld(spec, spec.world);
+    issues.push(...w.issues);
+    warnings.push(...w.warnings);
+  }
 
   // design warnings: don't block the game, but show up on the Forge screen
   const practiced = new Set(spec.encounters.flatMap((e) => e.conceptIds));

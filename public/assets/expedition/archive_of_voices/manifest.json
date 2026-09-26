@@ -1,0 +1,48 @@
+{
+ "namespace": "archive_of_voices",
+ "paletteId": "archive_of_voices",
+ "heroCap": 40,
+ "heroCount": 0,
+ "entries": [],
+ "totalBytes": 0,
+ "gzipBytes": 0,
+ "vram": [
+  {
+   "zone": "all",
+   "mb": 9.8
+  },
+  {
+   "zone": "s1_morgue",
+   "mb": 9.8
+  },
+  {
+   "zone": "s2_courthouse",
+   "mb": 9.8
+  },
+  {
+   "zone": "s3_schoolhouse",
+   "mb": 9.8
+  },
+  {
+   "zone": "s4_main_street",
+   "mb": 9.8
+  },
+  {
+   "zone": "s5_church_mast",
+   "mb": 9.8
+  },
+  {
+   "zone": "s6_memorial",
+   "mb": 9.8
+  },
+  {
+   "zone": "s7_selma",
+   "mb": 9.8
+  },
+  {
+   "zone": "s8_stacks_vault",
+   "mb": 9.8
+  }
+ ],
+ "swapPeakMb": 9.8
+}

@@ -78,9 +78,16 @@ export function buildRapidQueue(order: number[]): number[] {
  * type: free text. Variant read from the view's shape: `order`/`prompts` (recall.rapid, timed sequence
  * with re-queued misses) or `before`/`after` (recall.cloze, one blank).
  */
-export function Type({ view, onSubmit, disabled }: WidgetProps<TypeView, TypeInput>) {
+export function Type({ view, onSubmit, onDraft, disabled }: WidgetProps<TypeView, TypeInput>) {
   if (isRapidView(view)) return <RapidType view={view} onSubmit={onSubmit as (i: RapidInput) => void} disabled={disabled} />;
-  return <ClozeType view={view as ClozeView} onSubmit={onSubmit as (i: ClozeInput) => void} disabled={disabled} />;
+  return (
+    <ClozeType
+      view={view as ClozeView}
+      onSubmit={onSubmit as (i: ClozeInput) => void}
+      onDraft={onDraft ? (text) => onDraft({ input: clozeTextToInput(text), complete: text.trim().length > 0, focus: null }) : undefined}
+      disabled={disabled}
+    />
+  );
 }
 
 // ---------------------------------------------------------------- recall.rapid UI
@@ -180,8 +187,22 @@ function RapidType({ view, onSubmit, disabled }: { view: RapidView; onSubmit: (i
 
 // ---------------------------------------------------------------- recall.cloze UI
 
-function ClozeType({ view, onSubmit, disabled }: { view: ClozeView; onSubmit: (i: ClozeInput) => void; disabled?: boolean }) {
+function ClozeType({
+  view,
+  onSubmit,
+  onDraft,
+  disabled,
+}: {
+  view: ClozeView;
+  onSubmit: (i: ClozeInput) => void;
+  onDraft?: (text: string) => void;
+  disabled?: boolean;
+}) {
   const [text, setText] = useState("");
+  useEffect(() => {
+    onDraft?.(text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
 
   return (
     <div className="flex flex-col gap-4">

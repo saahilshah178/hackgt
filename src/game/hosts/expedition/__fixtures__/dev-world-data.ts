@@ -1,0 +1,588 @@
+/**
+ * __fixtures__/dev-world-data.ts (H1) — the typed DEV WORLD overlay (docs/design/20 §7.2 H1): two zones, every link
+ * kind, a sheer rise and a sheer descent, a payoff bridge over a chasm, an interior with a cutaway façade, two lighting
+ * segments with a variant, ≥ 5 parallax layers per set, one station per control kind (scrub ×2, aim, slots, bins,
+ * waves, cables, tubes, widget, matrix) on the stub prefabs, a puppet companion, a rig NPC and a puppet NPC, a plaque,
+ * a collectible, a trigger, a sandbox and a boss arena. Pure data (no JSON imports) so node tests can parse it.
+ * Configs are copied from the game docs (tests/world-doc-configs.json) so every meta's configSchema accepts them.
+ */
+import type { WorldOverlayInput } from "../../../../contracts/world";
+
+type StationInput = WorldOverlayInput["stations"][number];
+type ZoneInput = WorldOverlayInput["zones"][number];
+
+export const DEV_SPEC_ID = "dev_expedition_001";
+/** Encounter order of the dev spec (one station each). */
+export const DEV_ENCOUNTERS = [
+  { id: "e1_radians", from: "trig" },
+  { id: "e2_period", from: "trig" },
+  { id: "e3_amplitude", from: "trig" },
+  { id: "e4_solve", from: "trig" },
+  { id: "e2_selectivity", from: "cell" },
+  { id: "e5_tonicity", from: "cell" },
+  { id: "e7_march", from: "civil" },
+  { id: "e5_freedom_rides", from: "civil" },
+  { id: "w1_slope", from: "wave2" },
+  { id: "e12_boss", from: "civil" },
+] as const;
+
+const skyDay = {
+  stops: [
+    { at: 0, color: "#D8D4CF" },
+    { at: 0.55, color: "#E8DCD2" },
+    { at: 1, color: "#F4E7DA" },
+  ],
+  haze: { color: "#FFFFFF", alpha: 0.25 },
+};
+const skyDusk = {
+  stops: [
+    { at: 0, color: "#9E86D8" },
+    { at: 0.5, color: "#C9A0DE" },
+    { at: 1, color: "#F2B8D4" },
+  ],
+  haze: { color: "#FFFFFF", alpha: 0.2 },
+};
+const skyDepths = {
+  stops: [
+    { at: 0, color: "#1B3150" },
+    { at: 0.5, color: "#27466A" },
+    { at: 1, color: "#4CB6D0" },
+  ],
+  haze: { color: "#8FE0EA", alpha: 0.15 },
+};
+
+const layers = (set: string, tint: string) => ({
+  id: set,
+  layers: [
+    { asset: `orrery_terraces.layer.${tint}_far`, depth: "L1_far" as const, scrollFactor: 0.15, y: 180, alpha: 0.9 },
+    { asset: `orrery_terraces.layer.${tint}_midfar`, depth: "L2_midfar" as const, scrollFactor: 0.35, y: 330 },
+    { asset: `orrery_terraces.layer.${tint}_mid`, depth: "L3_mid" as const, scrollFactor: 0.6, y: 470 },
+    { asset: `orrery_terraces.layer.${tint}_fore`, depth: "L5_fore" as const, scrollFactor: 1.3, y: 960, alpha: 0.7, blurPx: 2 },
+    { asset: `orrery_terraces.layer.${tint}_light`, depth: "L6_light" as const, scrollFactor: 1, y: 0, alpha: 0.35, blend: "add" as const, driftPxPerSec: 8 },
+  ],
+});
+
+const MEADOW: ZoneInput = {
+  id: "dev_meadow",
+  name: "Dev Meadow",
+  width: 8000,
+  height: 1080,
+  layerSets: [layers("meadow_day", "meadow_day"), layers("meadow_dusk", "meadow_dusk")],
+  segments: [
+    { id: "meadow_day", x0: 0, x1: 3700, layerSet: "meadow_day", sky: skyDay, ambient: { light: "day", particles: "dust", particleCount: 16 } },
+    {
+      id: "meadow_dusk",
+      x0: 3700,
+      x1: 8000,
+      layerSet: "meadow_dusk",
+      sky: skyDusk,
+      ambient: { light: "dusk", particles: "motes", particleCount: 20, grade: { saturation: -0.1, brightness: 0, hue: 0 } },
+      runEnabled: true,
+      variants: [{ requires: { solved: "e3_amplitude" }, weather: "rain_light", sky: null, music: "calm" }],
+    },
+  ],
+  interiors: [{ id: "router_hall", x0: 5760, x1: 6480, facade: "orrery_terraces.prop.dev_hall_facade", facadeAt: [5740, 280] }],
+  ground: {
+    points: [
+      [0, 860],
+      [1400, 860],
+      [1700, 820], // a gentle rise (walked)
+      [2600, 820],
+      [2604, 660], // SHEER RISE: climb_rise
+      [3900, 660],
+      [3904, 900], // SHEER DESCENT: drop_descent down, ladder_descent back up
+      [4690, 900],
+      [4694, 1060], // the chasm e4's bridge closes (sheer on both sides)
+      [5106, 1060],
+      [5110, 900],
+      [8000, 900],
+    ],
+    surface: "orrery_terraces.ground.dev_path",
+    underside: "orrery_terraces.ground.dev_underside",
+  },
+  platforms: [
+    { id: "ledge", points: [[1180, 700], [1480, 700]], asset: "orrery_terraces.prop.dev_ledge" },
+    { id: "gantry", points: [[5400, 740], [5650, 740]], asset: "orrery_terraces.prop.dev_gantry" },
+    { id: "lookout", points: [[6800, 420], [7100, 420]], asset: "orrery_terraces.prop.dev_lookout" },
+  ],
+  links: [
+    { kind: "hop", id: "hop_ledge", from: { x: 1120 }, to: { surface: "ledge", x: 1200 }, apex: 110 },
+    { kind: "climb", id: "climb_rise", from: { x: 2570 }, to: { x: 2640 } },
+    { kind: "drop", id: "drop_descent", from: { x: 3870 }, to: { x: 3950 } },
+    { kind: "ladder", id: "ladder_descent", from: { x: 3970 }, to: { x: 3860 }, asset: "orrery_terraces.prop.dev_ladder" },
+    {
+      kind: "timed_hop",
+      id: "gear_hop",
+      from: { x: 5300 },
+      to: { surface: "gantry", x: 5430 },
+      periodSec: 2.5,
+      phase: 0,
+      open: [0.3, 0.55],
+      missTo: { x: 5480 },
+      driverPropId: "gear_prop",
+      amplitude: 60,
+    },
+    {
+      kind: "ride",
+      id: "lookout_lift",
+      from: { x: 6600 },
+      to: { surface: "lookout", x: 6830 },
+      vehicle: "orrery_terraces.prop.dev_lift",
+      path: [[6600, 900], [6700, 640], [6830, 420]],
+      ms: 1600,
+      twoWay: true,
+    },
+  ],
+  exits: [{ id: "to_depths", x: 7850, toZoneId: "dev_depths", toX: 260, transition: "vertical_down" }],
+  hub: {
+    asset: "orrery_terraces.prop.dev_orrery",
+    x: 3300,
+    depth: "L3_mid",
+    label: "The Dev Orrery",
+    sockets: 5,
+    restoredLine: { speakerId: "cog", text: "The orrery hums again." },
+  },
+  entry: { x: 220 },
+  camera: { xDeadzone: 0.3, yDeadzone: 260 },
+};
+
+const DEPTHS: ZoneInput = {
+  id: "dev_depths",
+  name: "Dev Depths",
+  width: 7400,
+  height: 2160,
+  layerSets: [
+    {
+      id: "depths",
+      layers: [
+        { asset: "orrery_terraces.layer.depths_far", depth: "L1_far", scrollFactor: 0.15, scrollFactorY: 0.3, y: 900 },
+        { asset: "orrery_terraces.layer.depths_midfar", depth: "L2_midfar", scrollFactor: 0.35, scrollFactorY: 0.5, y: 1150 },
+        { asset: "orrery_terraces.layer.depths_mid", depth: "L3_mid", scrollFactor: 0.6, scrollFactorY: 0.75, y: 1380 },
+        { asset: "orrery_terraces.layer.depths_fore", depth: "L5_fore", scrollFactor: 1.3, y: 1860, alpha: 0.7 },
+        { asset: "orrery_terraces.layer.depths_light", depth: "L6_light", scrollFactor: 1, y: 1080, alpha: 0.3, blend: "add" },
+      ],
+    },
+  ],
+  segments: [{ id: "depths", x0: 0, x1: 7400, layerSet: "depths", sky: skyDepths, ambient: { light: "aqua", particles: "bubbles", particleCount: 24 } }],
+  ground: {
+    points: [
+      [0, 1860],
+      [7400, 1860],
+    ],
+    surface: "orrery_terraces.ground.dev_depths",
+  },
+  platforms: [{ id: "high_walk", points: [[1240, 1520], [1900, 1520]], asset: "orrery_terraces.prop.dev_walk" }],
+  links: [{ kind: "ladder", id: "high_ladder", from: { x: 1180 }, to: { surface: "high_walk", x: 1260 }, asset: "orrery_terraces.prop.dev_ladder" }],
+  exits: [],
+  entry: { x: 260 },
+  entryCutsceneId: "dev_depths_entry",
+  camera: { yDeadzone: 240 },
+};
+
+const slot = (text: string) => ({ text });
+const dialogue = (noun: string) => ({
+  approach: [{ speakerId: "cog", text: `The ${noun} is ahead.` }],
+  instruction: slot(`Work the ${noun} until it answers.`),
+  tutorial: slot("Use the panel on the right; the world shows what your answer does."),
+  fail: { default: slot(`Not yet. Watch the ${noun} and try again.`) },
+  success: slot(`The ${noun} is restored.`),
+  payoffLine: slot("The way opens."),
+  after: [{ speakerId: "cog", text: "Onward." }],
+});
+const panel = (verify: string, badge: string) => ({ verifyLabel: verify, successBadge: badge });
+const gate = (x: number, anim: "gate_lifts" | "door_opens" | "barrier_lifts" | "barrier_dissolves" | "beam_restores" = "gate_lifts") => ({
+  kind: "remove_blocker" as const,
+  vertical: "none" as const,
+  anim,
+  noun: "gate",
+  blocker: { x, asset: "orrery_terraces.prop.dev_gate" },
+});
+
+const STATIONS: StationInput[] = [
+  {
+    encounterId: "e1_radians",
+    zoneId: "dev_meadow",
+    consoleX: 520,
+    anchor: { x: 740, y: 560 },
+    contraption: "emitter_rail",
+    skin: "vesper_dial",
+    config: { rail: "arc", radius: 310, gauges: ["sin", "cos"], hiddenTarget: "fog", detent: "pi/12", readout: "bracket", chevrons: true, cards: { unitCircle: true, cosTier: 1, sixthsTier: 2 } },
+    objectNoun: "Vesper Dial",
+    panel: panel("SET THE DIAL", "DIAL SET"),
+    dialogue: dialogue("Vesper Dial"),
+    payoff: gate(980),
+  },
+  {
+    encounterId: "e2_period",
+    zoneId: "dev_meadow",
+    consoleX: 1720,
+    anchor: { x: 1980, y: 520 },
+    contraption: "ring_gate",
+    skin: "ring_gate",
+    config: { flow: "water", tally: true, replayOnSettle: true, ghostCard: true, lapsCardTier: 2, startMarkerTier: 1, variant: "notch" },
+    objectNoun: "Tidewheel Gate",
+    frameZoom: 0.9,
+    panel: panel("LOCK THE RINGS", "RINGS LOCKED"),
+    dialogue: dialogue("Tidewheel Gate"),
+    payoff: gate(2280, "door_opens"),
+  },
+  {
+    encounterId: "e3_amplitude",
+    zoneId: "dev_meadow",
+    consoleX: 2980,
+    consoleSurface: "ground",
+    anchor: { x: 3220, y: 360 },
+    contraption: "claim_holders",
+    skin: "resonance_pillars",
+    config: {
+      holders: [
+        { statementIndex: 0, footprint: null, ghost: null, trace: { fns: [{ expr: "3*sin(x)", style: "solid", color: "g" }, { expr: "0", style: "dashed", color: "g" }], brackets: [{ x0: "pi/2", y0: "0", x1: "pi/2", y1: "3", label: "amplitude 3" }], markers: [] } },
+        { statementIndex: 1, footprint: null, ghost: null, trace: { fns: [{ expr: "3*sin(x)", style: "solid", color: "g" }, { expr: "3", style: "dashed", color: "g" }], brackets: [{ x0: "3*pi/2", y0: "-3", x1: "3*pi/2", y1: "3", label: "amplitude 6" }], markers: [] } },
+        { statementIndex: 2, footprint: null, ghost: null, trace: { fns: [{ expr: "3*sin(x)", style: "solid", color: "g" }, { expr: "sin(x)", style: "dashed", color: "g" }], brackets: [{ x0: "0", y0: "-3.6", x1: "2*pi", y1: "-3.6", label: "period 2π" }], markers: [] } },
+      ],
+      reference: { expr: "3*sin(x)", xMin: "0", xMax: "2*pi", yMin: -4, yMax: 4, xUnit: "pi" },
+      referenceSim: null,
+      probe: { symbol: "x", label: "probe x", min: 0, max: 6.283185307179586, step: 0.06544984694978735, unit: "", format: "pi", initial: null, stops: [], window: null, playback: false },
+      probeWorld: "trace_slate",
+      scenarioMin: null,
+      hintPins: [],
+      fileDates: [],
+      aimer: "tuning_lens",
+      quarantineAnim: "mimic_crab",
+      secondaryTier: 1,
+      overlayTier: 2,
+    },
+    objectNoun: "Resonance Pillars",
+    panel: panel("AIM THE LENS", "MIMIC FOUND"),
+    dialogue: dialogue("Resonance Pillars"),
+    payoff: gate(3500, "barrier_lifts"),
+  },
+  {
+    encounterId: "e4_solve",
+    zoneId: "dev_meadow",
+    consoleX: 4380,
+    anchor: { x: 4900, y: 820 },
+    contraption: "step_bridge",
+    skin: "floating_steps",
+    config: {
+      bays: "floating",
+      items: [
+        { key: "s0", meta: { printedDate: null, madeYear: null, glyph: "balance_div2", label: "isolate" } },
+        { key: "s1", meta: { printedDate: null, madeYear: null, glyph: "angle_wedge", label: "reference angle" } },
+        { key: "s2", meta: { printedDate: null, madeYear: null, glyph: "upper_half_circle", label: "quadrants" } },
+        { key: "s3", meta: { printedDate: null, madeYear: null, glyph: "twin_beacons", label: "both solutions" } },
+        { key: "d0", meta: { printedDate: null, madeYear: null, glyph: "arcsin_arrow", label: "inverse sine" } },
+      ],
+      stepEffects: [
+        { key: "s0", effect: "scaleEquation" },
+        { key: "s1", effect: "markAngle" },
+        { key: "s2", effect: "shadeQuadrants" },
+        { key: "s3", effect: "markSolutions" },
+        { key: "d0", effect: "missCircle" },
+      ],
+      stages: [],
+      anchors: 2,
+      relief: { expr: "2*sin(x)", line: "1" },
+      probe: { symbol: "x", label: "probe x", min: 0, max: 6.283185307179586, step: 0.06544984694978735, unit: "", format: "pi", initial: null, stops: [], window: null, playback: false },
+      probeWorld: "relief_marker",
+      dayCounter: null,
+      bayLampsTier: 1,
+      pageOrderHeading: null,
+    },
+    objectNoun: "Floating Steps",
+    panel: panel("SET THE STEPS", "BRIDGE FORMED"),
+    dialogue: dialogue("Floating Steps"),
+    payoff: { kind: "terrain", vertical: "none", anim: "bridge_forms", noun: "step bridge", blocker: null, terrain: [{ surface: "ground", points: [[4680, 900], [5120, 900]] }] },
+  },
+  {
+    encounterId: "e2_selectivity",
+    zoneId: "dev_meadow",
+    consoleX: 5900,
+    anchor: { x: 6160, y: 560 },
+    contraption: "router_lanes",
+    skin: "membrane_router",
+    config: {
+      items: [
+        { key: "i0", meta: { glyph: "o2", label: "O₂" }, polar: false, charged: false, from: null, to: null, vehicle: "none" },
+        { key: "i1", meta: { glyph: "co2", label: "CO₂" }, polar: false, charged: false, from: null, to: null, vehicle: "none" },
+        { key: "i2", meta: { glyph: "na", label: "Na⁺" }, polar: false, charged: true, from: null, to: null, vehicle: "channel" },
+        { key: "i3", meta: { glyph: "glucose", label: "glucose" }, polar: true, charged: false, from: null, to: null, vehicle: "carrier" },
+        { key: "i4", meta: { glyph: "steroid", label: "steroid" }, polar: false, charged: false, from: null, to: null, vehicle: "none" },
+        { key: "i5", meta: { glyph: "cl", label: "Cl⁻" }, polar: false, charged: true, from: null, to: null, vehicle: "channel" },
+      ],
+      lanes: [
+        { binId: "diffuses", laneId: "oil_road", year: null },
+        { binId: "protein", laneId: "crossing_gate", year: null },
+      ],
+      lens: "hydration",
+      lensTier: 1,
+      energy: null,
+      shutters: false,
+      stamp: "none",
+      eventsBand: null,
+      eventsBandTier: 1,
+      probe: null,
+      probeWorld: "none",
+    },
+    objectNoun: "Membrane Router",
+    panel: { ...panel("ROUTE THE CARGO", "CARGO ROUTED"), layout: "board" },
+    dialogue: dialogue("Membrane Router"),
+    payoff: gate(6420, "barrier_dissolves"),
+  },
+  {
+    encounterId: "e5_tonicity",
+    zoneId: "dev_depths",
+    consoleX: 760,
+    anchor: { x: 980, y: 1560 },
+    contraption: "sluice_waves",
+    skin: "tonicity_sluices",
+    config: {
+      waves: [
+        { waveIndex: 0, cell: "rbc", inDots: 10, outDots: 0, fate: "swell", showFate: true },
+        { waveIndex: 1, cell: "generic", inDots: 10, outDots: 30, fate: "shrink", showFate: true },
+        { waveIndex: 2, cell: "generic", inDots: 10, outDots: 10, fate: "steady", showFate: true },
+        { waveIndex: 3, cell: "plant", inDots: 10, outDots: 28, fate: "plasmolysis", showFate: true },
+        { waveIndex: 4, cell: "generic", inDots: 10, outDots: 2, fate: "strain", showFate: true },
+      ],
+      valves: [
+        { categoryId: "hypotonic", densityK: 0.25, arrows: "none" },
+        { categoryId: "isotonic", densityK: 1, arrows: "none" },
+        { categoryId: "hypertonic", densityK: 2.5, arrows: "none" },
+      ],
+    },
+    objectNoun: "Tonicity Sluices",
+    panel: panel("OPEN THE SLUICES", "SLUICES SET"),
+    dialogue: dialogue("Tonicity Sluices"),
+    payoff: gate(1100),
+  },
+  {
+    encounterId: "e7_march",
+    zoneId: "dev_depths",
+    consoleX: 2300,
+    anchor: { x: 2560, y: 1560 },
+    contraption: "switchboard",
+    skin: "switchboard",
+    config: {
+      document: { title: "MARCH ON WASHINGTON FOR JOBS AND FREEDOM · AUGUST 28, 1963" },
+      stepLamps: true,
+      cord: "verlet",
+      decoyDimRung: 3,
+      probe: { symbol: "YEAR", label: "record year", min: 1962.5, max: 1964, step: 0.0833333333, unit: "", format: "month_year", initial: null, stops: [], window: { start: 1962.5, end: 1964 }, playback: false },
+      probeWorld: "record_lens",
+    },
+    objectNoun: "Switchboard",
+    panel: { ...panel("PATCH THE LINES", "LINES PATCHED"), layout: "board" },
+    dialogue: dialogue("Switchboard"),
+    payoff: gate(2860, "door_opens"),
+  },
+  {
+    encounterId: "e5_freedom_rides",
+    zoneId: "dev_depths",
+    consoleX: 3300,
+    anchor: { x: 3760, y: 1500 },
+    contraption: "cause_tubes",
+    skin: "big_board",
+    config: {
+      nodes: ["n0", "n1", "n2", "n3", "n4", "d0"].map((key) => ({ key, meta: { printedDate: null, madeYear: null, glyph: null, label: null } })),
+      connector: "catenary",
+      layout: "canopy_row",
+      carrier: "current",
+      gauge: true,
+      boardWidth: 1100,
+      probe: { symbol: "YEAR", label: "record year", min: 1960, max: 1962, step: 0.0833333333, unit: "", format: "month_year", initial: null, stops: [], window: { start: 1960, end: 1962 }, playback: false },
+      probeWorld: "record_lens",
+    },
+    objectNoun: "Big Board",
+    frameZoom: 0.75,
+    panel: { ...panel("LINK THE CAUSES", "CHAIN LINKED"), layout: "board" },
+    dialogue: dialogue("Big Board"),
+    payoff: gate(4380, "beam_restores"),
+  },
+  {
+    encounterId: "w1_slope",
+    zoneId: "dev_depths",
+    consoleX: 4760,
+    anchor: { x: 4980, y: 1860 },
+    contraption: "console_slate",
+    skin: "lectern_slate",
+    config: { slateTitle: "SLOPE" },
+    objectNoun: "Slope Slate",
+    panel: panel("VERIFY", "SLATE SOLVED"),
+    dialogue: dialogue("Slope Slate"),
+    payoff: gate(5160),
+  },
+  {
+    encounterId: "e12_boss",
+    zoneId: "dev_depths",
+    consoleX: 6200,
+    anchor: { x: 6520, y: 1560 },
+    contraption: "tumbler_vault",
+    skin: "tumbler_vault",
+    config: {
+      clues: [
+        { index: 0, date: "1965" },
+        { index: 1, date: "1965-03-15" },
+        { index: 2, date: "1965" },
+        { index: 3, date: "1964" },
+      ],
+      bolts: 4,
+      miniStrip: { start: 1954, end: 1967 },
+      shadeCountsRung: 3,
+      probe: { symbol: "YEAR", label: "record year", min: 1954, max: 1966, step: 0.0833333333, unit: "", format: "month_year", initial: null, stops: [], window: { start: 1954, end: 1966 }, playback: false },
+    },
+    objectNoun: "Tumbler Vault",
+    panel: { ...panel("TURN THE TUMBLERS", "VAULT OPEN"), layout: "vault" },
+    dialogue: dialogue("Tumbler Vault"),
+    payoff: { kind: "remove_blocker", vertical: "none", anim: "vault_opens", noun: "vault", blocker: null },
+    boss: {
+      speakerId: "editor",
+      arenaTriggerX: 5600,
+      arenaCutsceneId: "dev_arena",
+      arenaBounds: { x0: 5400, x1: 7400 },
+      taunts: { fail: [{ speakerId: "editor", text: "Wrong again. The record stays mine." }] },
+    },
+  },
+];
+
+export const DEV_WORLD_INPUT: WorldOverlayInput = {
+  worldVersion: 2,
+  biome: "orrery_terraces",
+  title: "The Dev Expedition",
+  subtitle: "host core test world",
+  cast: {
+    protagonist: {
+      name: "Wren",
+      look: {
+        atlas: "shared.char.wren",
+        costume: [
+          { asset: "orrery_terraces.costume.wren_scarf", anchor: "back", dx: -6, dy: 4, follow: "spring", layer: "behind" },
+          { asset: "orrery_terraces.costume.wren_staff", anchor: "hand_r", dx: 0, dy: -10, hideOn: ["climb0", "climb1"] },
+        ],
+      },
+    },
+    guide: {
+      characterId: "cog",
+      emblem: { glyph: "owl", ring: "#C69A6B", accent: "#8FE0EA" },
+      companion: { asset: "orrery_terraces.companion.cog" },
+    },
+    speakers: [{ characterId: "editor", emblem: { glyph: "slug", ring: "#3E3F74", accent: "#F2A65A" } }],
+    extras: [
+      { id: "otis", name: "Otis", role: "the night watchman", voiceArchetype: "gruff_guard", emblem: { glyph: "flashlight", ring: "#C69A6B", accent: "#8FE0EA" } },
+      { id: "brasswick", name: "Brasswick", role: "a nervous clockwork scholar", voiceArchetype: "nervous_scholar", emblem: { glyph: "gear", ring: "#C69A6B", accent: "#8FE0EA" } },
+    ],
+  },
+  story: {
+    logline: "A test world for the Expedition host.",
+    objective: "Wake every dev station",
+    objectiveLabel: "STATIONS",
+    restoredNoun: "station",
+    introCutsceneId: "dev_intro",
+    finaleCutsceneId: "dev_finale",
+    meter: {
+      id: "dev_meter",
+      label: "GRADIENT",
+      unit: "percent",
+      start: 0,
+      perEncounter: DEV_ENCOUNTERS.map((e, i) => ({ encounterId: e.id, value: Math.round(((i + 1) / DEV_ENCOUNTERS.length) * 100) })),
+      drives: ["hud_bar", "ambient_particles"],
+    },
+    progressEffects: [
+      { kind: "hub_socket", encounterId: "e1_radians", zoneId: "dev_meadow", socket: 0 },
+      { kind: "hub_socket", encounterId: "e2_period", zoneId: "dev_meadow", socket: 1 },
+      { kind: "beam_line", encounterId: "e2_period", zoneId: "dev_meadow", from: [1980, 520], to: [3300, 300] },
+      { kind: "prop_state", encounterId: "e1_radians", propId: "dev_lamp", state: "lit" },
+      { kind: "label_swap", encounterId: "e3_amplitude", propId: "dev_board", anchor: "sign", before: "CLOSED", after: "OPEN" },
+    ],
+  },
+  zones: [MEADOW, DEPTHS],
+  stations: STATIONS,
+  props: [
+    { id: "dev_lamp", zoneId: "dev_meadow", asset: "orrery_terraces.prop.dev_lamp", x: 900, layer: "L4_back", restoredBy: "e1_radians", glow: true, states: [{ state: "lit", asset: "orrery_terraces.prop.dev_lamp_lit" }] },
+    { id: "dev_board", zoneId: "dev_meadow", asset: "orrery_terraces.prop.dev_board", x: 3600, layer: "L4_back" },
+    { id: "gear_prop", zoneId: "dev_meadow", asset: "orrery_terraces.prop.dev_gear", x: 5360, y: 760, layer: "L4_play" },
+    { zoneId: "dev_meadow", asset: "orrery_terraces.prop.dev_column", x: 2100, layer: "L3_mid", scale: 1.4 },
+    { zoneId: "dev_meadow", asset: "orrery_terraces.prop.dev_fern", x: 1500, layer: "L5_fore", sway: true },
+    { id: "dev_lantern", zoneId: "dev_depths", asset: "orrery_terraces.prop.dev_lantern", x: 1600, surface: "high_walk", touch: { lines: [{ speakerId: "cog", text: "The lantern warms." }], cue: "lantern_lit" } },
+  ],
+  npcs: [
+    {
+      id: "otis",
+      name: "Otis",
+      speakerId: "otis",
+      look: { atlas: "shared.char.otis", costume: [{ asset: "orrery_terraces.costume.otis_cap", anchor: "head", dy: -18 }] },
+      states: [
+        { id: "watch", zoneId: "dev_meadow", x: 1560, lines: [{ speakerId: "otis", text: "Mind the ledge." }], pose: "idle" },
+        { id: "cheer", requires: { solved: "e2_period" }, zoneId: "dev_meadow", x: 2440, lines: [{ speakerId: "otis", text: "The gate moved!" }], pose: "wave" },
+      ],
+    },
+    {
+      id: "brasswick",
+      name: "Brasswick",
+      speakerId: "brasswick",
+      asset: "orrery_terraces.npc.brasswick",
+      states: [{ id: "before", zoneId: "dev_meadow", x: 3100, lines: [{ speakerId: "brasswick", text: "The pendulum is too quick, I fear." }], pose: "think", anim: "idle" }],
+    },
+  ],
+  triggers: [{ id: "dev_controls", zoneId: "dev_meadow", x: 320, radius: 200, kind: "ambient", lines: [{ speakerId: "cog", text: "A and D to walk, Space to hop." }] }],
+  sandboxes: [
+    {
+      id: "dev_music_box",
+      zoneId: "dev_depths",
+      consoleX: 5360,
+      anchor: { x: 5360, y: 1700 },
+      contraption: "music_box",
+      skin: "astronomer_box",
+      config: {
+        amplitude: { symbol: "A", label: "reach", min: 0.5, max: 3, step: 0.1, unit: "", format: "number", initial: 1, stops: [], window: null, playback: false },
+        rate: { symbol: "b", label: "rhythm", min: 0.5, max: 4, step: 0.1, unit: "", format: "number", initial: 1, stops: [], window: null, playback: false },
+        baseHz: 220,
+        xMax: "4*pi",
+      },
+      title: "Music Box",
+      objectNoun: "Music Box",
+      goal: "explored",
+      reward: { flag: "heard_box", lines: [{ speakerId: "cog", text: "Lovely." }] },
+    },
+  ],
+  collectibles: [{ id: "dev_shard", kind: "shard", zoneId: "dev_meadow", x: 1400, surface: "ledge", title: "A star shard", text: "It hums at a steady rhythm." }],
+  plaques: [{ id: "dev_plaque", zoneId: "dev_meadow", x: 360, asset: "orrery_terraces.doc.dev_plaque", title: "Dev Plaque", text: "Every link kind lies ahead." }],
+  cutscenes: [
+    {
+      id: "dev_intro",
+      steps: [
+        { do: "fade", to: "clear", ms: 400 },
+        { do: "title", text: "Dev Meadow", sub: "host core test world", ms: 1200 },
+        { do: "pan", x: 3300, ms: 900 },
+        { do: "say", lines: [{ speakerId: "cog", text: "Every station here is a stand-in. Walk, hop, climb and drop to reach them." }] },
+        { do: "camera", x: null, y: null, zoom: 1, ms: 500 },
+        { do: "station", encounterId: "e1_radians", anim: "wake" },
+      ],
+    },
+    {
+      id: "dev_depths_entry",
+      steps: [
+        { do: "title", text: "Dev Depths", ms: 1000 },
+        { do: "say", lines: [{ speakerId: "cog", text: "Deeper now. The rest of the stations wait below." }] },
+      ],
+    },
+    {
+      id: "dev_arena",
+      steps: [
+        { do: "music", cue: "boss" },
+        { do: "emote", actor: "player", glyph: "!" },
+        { do: "say", lines: [{ speakerId: "editor", text: "You will not reorder my record." }] },
+      ],
+    },
+    {
+      id: "dev_finale",
+      skippable: true,
+      steps: [
+        { do: "station", encounterId: "e12_boss", anim: "succeed" },
+        { do: "hub", zoneId: "dev_meadow", state: "restored" },
+        { do: "vista", asset: "orrery_terraces.vista.dev_vista", from: { x: 0, y: 0, zoom: 1 }, to: { x: 400, y: 0, zoom: 1.1 }, ms: 2000, holdMs: 800 },
+        { do: "say", lines: [{ speakerId: "cog", text: "Every station answered. The dev world is done." }] },
+        { do: "fade", to: "black", ms: 600 },
+      ],
+    },
+  ],
+};

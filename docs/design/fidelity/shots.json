@@ -1,0 +1,72 @@
+{
+  "_readme": [
+    "docs/design/20-expedition-architecture.md §7.2 item E1 deliverable + §8.3 step 1 ('Shots').",
+    "scripts/capture-scenes.ts reads this file and drives each shot through __GAME_DEBUG__.expedition.",
+    "SCAFFOLD (E1, T0+2..5): the three side-cars (fixtures/worlds/*.world.json) have no stations yet (C0/C1/C2/C3",
+    "land them), so every `encounterId`/`zoneId` below is the fixture GameSpec's/world file's id, not yet a",
+    "resolved station. E2 (trig) and E3 (cell, civil, express) extend/correct this list as their zones and",
+    "stations land — the ~14-shot categories per game are fixed by §8.3 step 1; the exact ids are not.",
+    "kind values match capture-scenes.ts's CaptureKind: establish | scrub | probe | fail | hint | success | payoff",
+    "| boss | dialogue | finale | legibility."
+  ],
+  "version": 1,
+  "games": {
+    "trig": {
+      "fixtureId": "fixture-trig",
+      "specId": "trig_demo_001",
+      "biome": "orrery_terraces",
+      "zones": ["z1_sunward", "z2_crystal", "z3_dome"],
+      "shots": [
+        { "id": "z1_establish", "kind": "establish", "zoneId": "z1_sunward", "encounterId": null, "description": "Z1 Sunward Terrace, explore, companion visible" },
+        { "id": "e1_scrub_mid", "kind": "scrub", "encounterId": "e1_radians", "description": "panel open mid-scrub, scrub layout" },
+        { "id": "e1_probe", "kind": "probe", "encounterId": "e1_radians", "probe": 0.5, "description": "probe moves a world object (needle/carriage)" },
+        { "id": "e1_fail", "kind": "fail", "encounterId": "e1_radians", "description": "failed verify: fail line + display feedback, draft kept" },
+        { "id": "e1_hint", "kind": "hint", "encounterId": "e1_radians", "description": "hint in the world: companion moves toward the hint anchor" },
+        { "id": "e1_success", "kind": "success", "encounterId": "e1_radians", "description": "success-badge frame" },
+        { "id": "e1_payoff", "kind": "payoff", "encounterId": "e1_radians", "description": "payoff traversal (terrace/stair forms)" },
+        { "id": "e6_boss", "kind": "boss", "encounterId": "e6_boss", "description": "Warden boss staging: arena trigger, taunt" },
+        { "id": "dialogue_closeup", "kind": "dialogue", "encounterId": "e1_radians", "description": "dialogue bar close-up (Cog or Wren line)" },
+        { "id": "finale_vista", "kind": "finale", "encounterId": "e6_boss", "description": "finale cutscene: orrery_terraces.vista.canyon pan" },
+        { "id": "legibility_720p", "kind": "legibility", "encounterId": "e1_radians", "viewport": { "width": 1280, "height": 720 }, "description": "1280x720 legibility shot" }
+      ]
+    },
+    "cell": {
+      "fixtureId": "fixture-cell-transport",
+      "specId": "cell_demo_001",
+      "biome": "living_gate",
+      "zones": ["zone_a", "zone_b", "zone_c", "zone_d"],
+      "shots": [
+        { "id": "zoneA_establish", "kind": "establish", "zoneId": "zone_a", "encounterId": null, "description": "Zone A Glycocalyx Shore, explore, companion visible" },
+        { "id": "e1_scrub_mid", "kind": "scrub", "encounterId": "e1_bilayer", "description": "panel open mid-scrub" },
+        { "id": "e1_probe", "kind": "probe", "encounterId": "e1_bilayer", "probe": 0.5, "description": "bilayer_probe moves a world field" },
+        { "id": "e1_fail", "kind": "fail", "encounterId": "e1_bilayer", "description": "failed verify state" },
+        { "id": "e1_hint", "kind": "hint", "encounterId": "e1_bilayer", "description": "hint in the world" },
+        { "id": "e1_success", "kind": "success", "encounterId": "e1_bilayer", "description": "success-badge frame" },
+        { "id": "e1_payoff", "kind": "payoff", "encounterId": "e1_bilayer", "description": "payoff traversal" },
+        { "id": "e11_boss", "kind": "boss", "encounterId": "e11_boss", "description": "Gatekeeper boss staging: presentation phases" },
+        { "id": "dialogue_closeup", "kind": "dialogue", "encounterId": "e1_bilayer", "description": "dialogue bar close-up (Ora/Pip line)" },
+        { "id": "finale_gradient", "kind": "finale", "encounterId": "e11_boss", "description": "finale cutscene: Pore opens, gradient 100%" },
+        { "id": "legibility_720p", "kind": "legibility", "encounterId": "e1_bilayer", "viewport": { "width": 1280, "height": 720 }, "description": "1280x720 legibility shot" }
+      ]
+    },
+    "civil": {
+      "fixtureId": "fixture-civil-rights",
+      "specId": "history_demo_001",
+      "biome": "archive_of_voices",
+      "zones": ["s1_morgue", "s2_courthouse", "s3_schoolhouse", "s4_main_street", "s5_church_mast", "s6_memorial", "s7_selma", "s8_stacks_vault"],
+      "shots": [
+        { "id": "s2_establish", "kind": "establish", "zoneId": "s2_courthouse", "encounterId": null, "description": "S2 Courthouse Square, first zone with stations, explore" },
+        { "id": "e1_scrub_mid", "kind": "scrub", "encounterId": "e1_brown", "description": "panel open, board/scrub layout mid-work" },
+        { "id": "e1_probe", "kind": "probe", "encounterId": "e1_brown", "probe": 1954.5, "description": "YEAR probe moves the record_lens carriage" },
+        { "id": "e1_fail", "kind": "fail", "encounterId": "e1_brown", "description": "failed verify state" },
+        { "id": "e1_hint", "kind": "hint", "encounterId": "e1_brown", "description": "hint in the world" },
+        { "id": "e1_success", "kind": "success", "encounterId": "e1_brown", "description": "success-badge frame" },
+        { "id": "e1_payoff", "kind": "payoff", "encounterId": "e1_brown", "description": "payoff traversal" },
+        { "id": "e12_boss", "kind": "boss", "encounterId": "e12_boss", "description": "Tumbler Vault boss staging: arena + matrix" },
+        { "id": "dialogue_closeup", "kind": "dialogue", "encounterId": "e1_brown", "description": "dialogue bar close-up (Ida/Otis line)" },
+        { "id": "finale_dawn", "kind": "finale", "encounterId": "e12_boss", "description": "finale cutscene: archive_of_voices.vista.dawn pull-out" },
+        { "id": "legibility_720p", "kind": "legibility", "encounterId": "e1_brown", "viewport": { "width": 1280, "height": 720 }, "description": "1280x720 legibility shot" }
+      ]
+    }
+  }
+}

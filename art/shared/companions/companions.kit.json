@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "key": "shared.companion.guide_standin",
+      "kind": "puppet",
+      "recipe": "companion_standin",
+      "args": {},
+      "zone": "all",
+      "legacyId": "cog-standin"
+    }
+  ]
+}

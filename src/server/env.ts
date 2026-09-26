@@ -38,6 +38,8 @@ export const EnvSchema = z.object({
   DATA_DIR: z.preprocess(empty, z.string().default(".data")),
   /** "1" silences the mixed-modes warning (e.g. LLM_MODE=mock with STORAGE_DRIVER=supabase). */
   ALLOW_MIXED_MODES: z.preprocess(empty, z.enum(["0", "1"]).default("0")),
+  /** Expedition's procedural WebAudio cue bank (docs/design/20 §2.12): "off" silences it (Playwright sets it). Not a secret. */
+  EXPEDITION_SFX: z.preprocess(empty, z.enum(["on", "off"]).default("on")),
 });
 export type Env = z.infer<typeof EnvSchema>;
 
@@ -155,3 +157,11 @@ export function resetEnvCache(): void {
 export const isMockLLM = () => getEnv().LLM_MODE === "mock";
 export const isLocalStorage = () => getEnv().STORAGE_DRIVER === "local";
 export const isAudioOff = () => getEnv().AUDIO_MODE === "off";
+
+/**
+ * The play page's `sfx` prop (EXPEDITION_SFX ≠ off). Non-throwing: the page must render in every mode, so this reads
+ * the one variable instead of calling getEnv(); anything but "off" leaves the cue bank on.
+ */
+export function expeditionSfxOn(source: NodeJS.ProcessEnv = process.env): boolean {
+  return EnvSchema.shape.EXPEDITION_SFX.safeParse(source.EXPEDITION_SFX).data !== "off";
+}

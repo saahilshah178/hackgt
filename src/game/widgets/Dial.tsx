@@ -239,12 +239,21 @@ export function supports(view: unknown): boolean {
   );
 }
 
+/** A widget's live, possibly partial input for the Expedition panel (docs/design/20 §3.3, WidgetControl). */
+export interface WidgetDraft {
+  input: unknown;
+  complete: boolean;
+  focus: string | null;
+}
+
 export interface WidgetProps<View, Input> {
   view: View;
   /** Called on submit (Enter or the Lock in button). */
   onSubmit: (input: Input) => void;
-  /** Called on every change, before submit, so the host can animate the in-world object live. */
+  /** @deprecated Legacy hosts only (number-only live value); the Expedition panel uses `onDraft`. */
   onLive?: (value: number) => void;
+  /** Called from the same effects that hold the widget's local state, so the world mirrors the draft (§3.3). */
+  onDraft?: (d: WidgetDraft) => void;
   disabled?: boolean;
 }
 
@@ -255,7 +264,7 @@ function trim(x: number): string {
 }
 
 /** dial: slider + numeric readout with tick labels. Drives the in-world object live via onLive. */
-export function Dial({ view, onSubmit, onLive, disabled }: WidgetProps<DialView, unknown>) {
+export function Dial({ view, onSubmit, onLive, onDraft, disabled }: WidgetProps<DialView, unknown>) {
   if (isAreaView(view)) return <AreaDial view={view} onSubmit={onSubmit as (i: AreaDialInput) => void} disabled={disabled} />;
   if (isSignedView(view)) return <SignedDial view={view} onSubmit={onSubmit as (i: SignedDialInput) => void} disabled={disabled} />;
   if (isRateTotalView(view)) return <RateTotalDial view={view} onSubmit={onSubmit as (i: RateTotalDialInput) => void} disabled={disabled} />;
@@ -266,7 +275,7 @@ export function Dial({ view, onSubmit, onLive, disabled }: WidgetProps<DialView,
   if (isOptimizeView(view)) return <OptimizeDial view={view} onSubmit={onSubmit as (i: OptimizeDialInput) => void} disabled={disabled} />;
   if (isCurveView(view)) return <CurveDial view={view} onSubmit={onSubmit as (i: CurveDialInput) => void} disabled={disabled} />;
   if (isIntervenceView(view)) return <IntervenceDial view={view} onSubmit={onSubmit as (i: IntervenceDialInput) => void} disabled={disabled} />;
-  return <BaseDial view={view} onSubmit={onSubmit as (i: DialInput) => void} onLive={onLive} disabled={disabled} />;
+  return <BaseDial view={view} onSubmit={onSubmit as (i: DialInput) => void} onLive={onLive} onDraft={onDraft} disabled={disabled} />;
 }
 
 /** A single labeled slider + numeric readout, shared by several dial variants below. */
@@ -643,7 +652,19 @@ function IntervenceDial({ view, onSubmit, disabled }: { view: IntervenceDialView
   );
 }
 
-function BaseDial({ view, onSubmit, onLive, disabled }: { view: OscillatorDialView | FormulaDialView; onSubmit: (i: DialInput) => void; onLive?: (value: number) => void; disabled?: boolean }) {
+function BaseDial({
+  view,
+  onSubmit,
+  onLive,
+  onDraft,
+  disabled,
+}: {
+  view: OscillatorDialView | FormulaDialView;
+  onSubmit: (i: DialInput) => void;
+  onLive?: (value: number) => void;
+  onDraft?: (d: WidgetDraft) => void;
+  disabled?: boolean;
+}) {
   const id = useId();
   const { dial } = view;
   const [value, setValue] = useState(() => (dial.min + dial.max) / 2);
@@ -651,6 +672,7 @@ function BaseDial({ view, onSubmit, onLive, disabled }: { view: OscillatorDialVi
 
   useEffect(() => {
     onLive?.(value);
+    onDraft?.({ input: dialToInput(value), complete: true, focus: null });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 

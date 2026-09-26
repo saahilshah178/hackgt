@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import type { WidgetProps } from "./Dial";
+import type { WidgetDraft, WidgetProps } from "./Dial";
 
 /** Matches mode number_line's View (src/mechanics/families/mapper/number_line.ts). Supports scale === "log". */
 export interface NumberLineView {
@@ -244,7 +244,7 @@ function fractionToValue(view: NumberLineView, fraction: number): number {
 }
 
 /** place: a marker on a number line, a 2-D plane, or (for function_world.limit) a scrubbable function path. */
-export function Place({ view, onSubmit, onLive, disabled }: WidgetProps<PlaceView, PlaceInput>) {
+export function Place({ view, onSubmit, onLive, onDraft, disabled }: WidgetProps<PlaceView, PlaceInput>) {
   if (isPlaneView(view)) return <PlanePlace view={view} onSubmit={onSubmit as (i: PlaneInput) => void} disabled={disabled} />;
   if (isRiemannView(view)) return <RiemannPlace view={view} onSubmit={onSubmit as (i: RiemannInput) => void} disabled={disabled} />;
   if (isTorqueView(view)) return <TorquePlace view={view} onSubmit={onSubmit as (i: TorqueInput) => void} disabled={disabled} />;
@@ -254,7 +254,7 @@ export function Place({ view, onSubmit, onLive, disabled }: WidgetProps<PlaceVie
   if (isRootsView(view)) return <RootsPlace view={view} onSubmit={onSubmit as (i: RootsInput) => void} disabled={disabled} />;
   if (isSlopeView(view)) return <SlopePlace view={view} onSubmit={onSubmit as (i: SlopeInput) => void} disabled={disabled} />;
   if (isLimitView(view)) return <LimitPlace view={view} onSubmit={onSubmit as (i: LimitInput) => void} disabled={disabled} />;
-  return <NumberLinePlace view={view} onSubmit={onSubmit as (i: NumberLineInput) => void} onLive={onLive} disabled={disabled} />;
+  return <NumberLinePlace view={view} onSubmit={onSubmit as (i: NumberLineInput) => void} onLive={onLive} onDraft={onDraft} disabled={disabled} />;
 }
 
 /** Shared read-only curve plot (samples as a polyline, breaking at null gaps) used by several place
@@ -700,11 +700,13 @@ function NumberLinePlace({
   view,
   onSubmit,
   onLive,
+  onDraft,
   disabled,
 }: {
   view: NumberLineView;
   onSubmit: (i: NumberLineInput) => void;
   onLive?: (value: number) => void;
+  onDraft?: (d: WidgetDraft) => void;
   disabled?: boolean;
 }) {
   const id = useId();
@@ -713,6 +715,7 @@ function NumberLinePlace({
 
   useEffect(() => {
     onLive?.(value);
+    onDraft?.({ input: numberLineToInput(value), complete: true, focus: null });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 

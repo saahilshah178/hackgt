@@ -1,0 +1,28 @@
+{
+ "namespace": "orrery_terraces",
+ "paletteId": "orrery_terraces",
+ "heroCap": 40,
+ "heroCount": 0,
+ "entries": [],
+ "totalBytes": 0,
+ "gzipBytes": 0,
+ "vram": [
+  {
+   "zone": "all",
+   "mb": 5.3
+  },
+  {
+   "zone": "z1_sunward",
+   "mb": 5.3
+  },
+  {
+   "zone": "z2_crystal",
+   "mb": 5.3
+  },
+  {
+   "zone": "z3_dome",
+   "mb": 5.3
+  }
+ ],
+ "swapPeakMb": 5.3
+}

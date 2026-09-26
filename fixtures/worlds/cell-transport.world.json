@@ -4,48 +4,65 @@
     "worldVersion": 2,
     "biome": "living_gate",
     "title": "The Living Gate",
+    "subtitle": "Cell V-7 · a membrane expedition",
     "cast": {
-      "protagonist": {"name": "Diver", "look": {"atlas": "shared.char.diver"}},
+      "protagonist": {
+        "name": "Diver",
+        "look": {
+          "atlas": "shared.char.diver",
+          "costume": [
+            {"asset": "living_gate.costume.diver_helmet", "anchor": "head", "dx": 0, "dy": -6, "follow": "rigid", "layer": "front"},
+            {"asset": "living_gate.costume.diver_scarf", "anchor": "back", "dx": -8, "dy": 4, "follow": "spring", "layer": "behind"},
+            {"asset": "living_gate.costume.probe_staff", "anchor": "hand_r", "dx": 0, "dy": 0, "follow": "rigid", "layer": "front"}
+          ],
+          "scale": 1
+        }
+      },
       "guide": {
         "characterId": "pilot",
-        "emblem": {"glyph": "wave", "ring": "#2F5A5E", "accent": "#8FE0EA"},
-        "companion": {"asset": "living_gate.companion.pip"}
+        "emblem": {"glyph": "cell", "ring": "#E8F6F8", "accent": "#8FE0EA", "gaps": 2},
+        "portrait": "living_gate.companion.ora_bust",
+        "companion": {"asset": "living_gate.companion.pip", "offset": [-40, -150], "lagSec": 0.35, "bobPx": 6}
       },
-      "speakers": [{"characterId": "gatekeeper", "emblem": {"glyph": "maws", "ring": "#3F3A44", "accent": "#F2A65A"}}],
+      "speakers": [{"characterId": "gatekeeper", "emblem": {"glyph": "maws", "ring": "#D9A441", "accent": "#6E4A2E", "gaps": 3}, "portrait": null}],
       "extras": [
         {
           "id": "sucra",
           "name": "Sucra",
-          "role": "a lost glucose courier",
+          "role": "glucose courier",
           "voiceArchetype": "nervous_scholar",
-          "emblem": {"glyph": "hexagon", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "hexagon", "ring": "#F6E3B4", "accent": "#D9A441", "gaps": 2},
+          "portrait": null
         },
         {
           "id": "poro",
           "name": "Poro",
-          "role": "the old pore warden",
+          "role": "aquaporin keeper",
           "voiceArchetype": "wise_mentor",
-          "emblem": {"glyph": "cell", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "hourglass", "ring": "#F2E3C6", "accent": "#8FE0EA", "gaps": 2},
+          "portrait": null
         },
         {
           "id": "kay",
           "name": "Kay",
-          "role": "the pump-hall lamplighter",
+          "role": "K+ lamplighter",
           "voiceArchetype": "gruff_guard",
-          "emblem": {"glyph": "lantern", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "plus", "ring": "#9C82E0", "accent": "#F6D27A", "gaps": 2},
+          "portrait": null
         },
         {
           "id": "ferryman",
-          "name": "The Ferryman",
-          "role": "pilot of the tide basins",
+          "name": "The Clathrin Ferryman",
+          "role": "keeper of the Endocytosis Lift",
           "voiceArchetype": "narrator",
-          "emblem": {"glyph": "wave", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "triskelion", "ring": "#F2E3C6", "accent": "#D9A441", "gaps": 2},
+          "portrait": null
         }
       ]
     },
     "story": {
-      "logline": "A living gate has seized shut. Open each membrane machine so the gradient flows again.",
-      "objective": "Open the Living Gate",
+      "logline": "The Stillness has frozen every gate in cell V-7. Restart each one by its true rule before the cell's gradients drain away.",
+      "objective": "Restart the gates and wake the nucleus",
       "objectiveLabel": "GATES",
       "restoredNoun": "gate",
       "introCutsceneId": "intro",
@@ -69,7 +86,23 @@
           {"encounterId": "e11_boss", "value": 100}
         ],
         "drives": ["hud_bar", "ambient_particles"]
-      }
+      },
+      "progressEffects": [
+        {"kind": "hub_socket", "encounterId": "e1_bilayer", "zoneId": "zone_d", "socket": 0},
+        {"kind": "hub_socket", "encounterId": "e2_selectivity", "zoneId": "zone_d", "socket": 1},
+        {"kind": "hub_socket", "encounterId": "e3_diffusion", "zoneId": "zone_d", "socket": 2},
+        {"kind": "hub_socket", "encounterId": "e4_osmosis", "zoneId": "zone_d", "socket": 3},
+        {"kind": "hub_socket", "encounterId": "e5_tonicity", "zoneId": "zone_d", "socket": 4},
+        {"kind": "hub_socket", "encounterId": "e6_facilitated", "zoneId": "zone_d", "socket": 5},
+        {"kind": "hub_socket", "encounterId": "e7_active", "zoneId": "zone_d", "socket": 6},
+        {"kind": "hub_socket", "encounterId": "e8_pump", "zoneId": "zone_d", "socket": 7},
+        {"kind": "hub_socket", "encounterId": "e9_osmosis_review", "zoneId": "zone_d", "socket": 8},
+        {"kind": "hub_socket", "encounterId": "e10_bulk", "zoneId": "zone_d", "socket": 9},
+        {"kind": "hub_socket", "encounterId": "e11_boss", "zoneId": "zone_d", "socket": 10}
+      ],
+      "map": null,
+      "journal": {"title": "Logbook", "style": "logbook"},
+      "recordStrip": null
     },
     "zones": [
       {
@@ -79,30 +112,133 @@
         "height": 1350,
         "layerSets": [
           {
-            "id": "zone_a_kit",
+            "id": "shore",
             "layers": [
-              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 283},
-              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 463},
-              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 603}
+              {"asset": "living_gate.layer.swirl_shore", "depth": "L1_far", "scrollFactor": 0.05, "y": 120, "blurPx": 0},
+              {"asset": "living_gate.layer.tissue_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 283},
+              {"asset": "living_gate.layer.glycan_forest", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 383},
+              {"asset": "living_gate.layer.cyto_glimpse", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 1190},
+              {"asset": "living_gate.layer.colonnade_rise", "depth": "L3_mid", "scrollFactor": 0.6, "y": 463},
+              {"asset": "living_gate.layer.glycan_fronds", "depth": "L5_fore", "scrollFactor": 1.3, "y": 1090, "alpha": 0.7, "blurPx": 2},
+              {
+                "asset": "living_gate.layer.caustics",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "y": 0,
+                "blend": "add",
+                "alpha": 0.12,
+                "driftPxPerSec": 6
+              },
+              {
+                "asset": "living_gate.layer.godrays",
+                "depth": "L6_light",
+                "scrollFactor": 0.2,
+                "y": 0,
+                "blend": "add",
+                "alpha": 0.15,
+                "repeatX": false
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "zone_a_kit",
+            "id": "shore_morning",
             "x0": 0,
             "x1": 7400,
-            "layerSet": "zone_a_kit",
+            "layerSet": "shore",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#CFE9EC"},
+                {"at": 0.35, "color": "#DCEFEA"},
+                {"at": 0.7, "color": "#EAF2E6"},
+                {"at": 1, "color": "#F4EEDF"}
+              ],
+              "haze": {"color": "#EAF2E6", "alpha": 0.3}
             },
-            "ambient": {"light": "aqua"}
+            "ambient": {
+              "light": "aqua",
+              "particles": "motes",
+              "particleCount": 120,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0.05}
+            },
+            "weather": "current",
+            "music": "curious",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 983], [7400, 983]], "surface": "living_gate.ground.default_surface"},
-        "exits": [{"id": "a_to_b", "x": 7390, "toZoneId": "zone_b", "toX": 60, "requires": {"solved": "e2_selectivity"}}],
-        "entry": {"x": 420}
+        "interiors": [],
+        "ground": {
+          "points": [
+            [0, 983],
+            [2140, 983],
+            [2150, 853],
+            [2270, 853],
+            [2280, 983],
+            [4560, 983],
+            [4620, 745],
+            [5260, 745],
+            [5320, 983],
+            [6850, 983],
+            [6860, 813],
+            [7400, 813]
+          ],
+          "surface": "living_gate.ground.bilayer",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [
+          {"id": "root_ledge", "points": [[1340, 833], [1540, 833]], "asset": "living_gate.prop.root_ledge", "requires": null},
+          {"id": "stud_ledge", "points": [[6880, 643], [7140, 643]], "asset": "living_gate.prop.stud_ledge", "requires": null}
+        ],
+        "links": [
+          {
+            "kind": "hop",
+            "id": "a_root_ledge",
+            "from": {"surface": "ground", "x": 1290},
+            "to": {"surface": "root_ledge", "x": 1380},
+            "requires": null,
+            "apex": 120,
+            "twoWay": true
+          },
+          {
+            "kind": "hop",
+            "id": "a_root_hump",
+            "from": {"surface": "ground", "x": 2120},
+            "to": {"surface": "ground", "x": 2300},
+            "requires": null,
+            "apex": 150,
+            "twoWay": true
+          },
+          {
+            "kind": "climb",
+            "id": "a_stud_climb",
+            "from": {"surface": "ground", "x": 6900},
+            "to": {"surface": "stud_ledge", "x": 6920},
+            "requires": {"solved": "e2_selectivity"},
+            "twoWay": true
+          }
+        ],
+        "exits": [
+          {
+            "id": "a_to_b",
+            "x": 7390,
+            "surface": "ground",
+            "toZoneId": "zone_b",
+            "toX": 60,
+            "toSurface": "ground",
+            "transition": "walk",
+            "requires": {"solved": "e2_selectivity"},
+            "cutsceneId": null
+          }
+        ],
+        "hub": null,
+        "entry": {"x": 420, "surface": "ground"},
+        "entryCutsceneId": null,
+        "camera": {}
       },
       {
         "id": "zone_b",
@@ -111,30 +247,86 @@
         "height": 1600,
         "layerSets": [
           {
-            "id": "zone_b_kit",
+            "id": "basins",
             "layers": [
-              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 513},
-              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 693},
-              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 833}
+              {"asset": "living_gate.layer.swirl_basins", "depth": "L1_far", "scrollFactor": 0.05, "y": 140},
+              {"asset": "living_gate.layer.tide_cliffs", "depth": "L1_far", "scrollFactor": 0.15, "y": 513},
+              {"asset": "living_gate.layer.dormant_towers", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 593},
+              {"asset": "living_gate.layer.cyto_glimpse", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 1420},
+              {"asset": "living_gate.layer.basin_walls", "depth": "L3_mid", "scrollFactor": 0.6, "y": 713},
+              {"asset": "living_gate.layer.bubbles", "depth": "L5_fore", "scrollFactor": 1.3, "y": 1300, "alpha": 0.7, "blurPx": 2},
+              {
+                "asset": "living_gate.layer.caustics",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "y": 0,
+                "blend": "add",
+                "alpha": 0.12,
+                "driftPxPerSec": 6
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "zone_b_kit",
+            "id": "basins_afternoon",
             "x0": 0,
             "x1": 8400,
-            "layerSet": "zone_b_kit",
+            "layerSet": "basins",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#BFE3E6"},
+                {"at": 0.35, "color": "#D7EBE2"},
+                {"at": 0.7, "color": "#EFE3D0"},
+                {"at": 1, "color": "#F2D9C2"}
+              ],
+              "haze": {"color": "#EFE3D0", "alpha": 0.3}
             },
-            "ambient": {"light": "day"}
+            "ambient": {"light": "peach", "particles": "motes", "particleCount": 120, "shadowColor": "#6E7F9A", "dapple": null, "grade": {}},
+            "weather": "current",
+            "music": "playful",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1213], [8400, 1213]], "surface": "living_gate.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [
+            [0, 1213],
+            [3880, 1213],
+            [3884, 873],
+            [4700, 873],
+            [4760, 930],
+            [4820, 987],
+            [4880, 1043],
+            [4940, 1100],
+            [5000, 1156],
+            [5060, 1213],
+            [5396, 1213],
+            [5400, 1468],
+            [6596, 1468],
+            [6600, 1213],
+            [8400, 1213]
+          ],
+          "surface": "living_gate.ground.bilayer",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [],
+        "links": [
+          {
+            "kind": "drop",
+            "id": "b_trench_drop",
+            "from": {"surface": "ground", "x": 5390},
+            "to": {"surface": "ground", "x": 5470},
+            "requires": {"solved": "e5_tonicity"}
+          }
+        ],
         "exits": [],
-        "entry": {"x": 60}
+        "hub": null,
+        "entry": {"x": 60, "surface": "ground"},
+        "entryCutsceneId": null,
+        "camera": {}
       },
       {
         "id": "zone_c",
@@ -143,30 +335,92 @@
         "height": 1600,
         "layerSets": [
           {
-            "id": "zone_c_kit",
+            "id": "hall",
             "layers": [
-              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 513},
-              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 693},
-              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 833}
+              {"asset": "living_gate.layer.hall_ribs", "depth": "L1_far", "scrollFactor": 0.05, "y": 0},
+              {"asset": "living_gate.layer.hall_vault", "depth": "L1_far", "scrollFactor": 0.15, "y": 453},
+              {"asset": "living_gate.layer.hall_pillars", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 413},
+              {"asset": "living_gate.layer.hall_rails", "depth": "L3_mid", "scrollFactor": 0.6, "y": 613},
+              {"asset": "living_gate.layer.hall_balustrade", "depth": "L5_fore", "scrollFactor": 1.3, "y": 1380, "alpha": 0.7, "blurPx": 2}
+            ]
+          },
+          {
+            "id": "pit",
+            "layers": [
+              {"asset": "living_gate.layer.swirl_pit", "depth": "L1_far", "scrollFactor": 0.05, "y": 140},
+              {"asset": "living_gate.layer.tide_cliffs_dusk", "depth": "L1_far", "scrollFactor": 0.15, "y": 513},
+              {"asset": "living_gate.layer.dormant_towers", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 593},
+              {"asset": "living_gate.layer.pit_rim", "depth": "L3_mid", "scrollFactor": 0.6, "y": 473},
+              {"asset": "living_gate.layer.glycan_fronds", "depth": "L5_fore", "scrollFactor": 1.3, "y": 1340, "alpha": 0.7, "blurPx": 2}
             ]
           }
         ],
         "segments": [
           {
-            "id": "zone_c_kit",
+            "id": "hall_interior",
             "x0": 0,
-            "x1": 7800,
-            "layerSet": "zone_c_kit",
+            "x1": 4200,
+            "layerSet": "hall",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [{"at": 0, "color": "#3E3240"}, {"at": 0.5, "color": "#5A4146"}, {"at": 1, "color": "#7A5646"}],
+              "haze": {"color": "#7A5646", "alpha": 0.2}
             },
-            "ambient": {"light": "interior"}
+            "ambient": {
+              "light": "interior",
+              "particles": "motes",
+              "particleCount": 90,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"brightness": -0.08}
+            },
+            "weather": "clear",
+            "music": "tense",
+            "runEnabled": true,
+            "variants": []
+          },
+          {
+            "id": "pit_dusk",
+            "x0": 4200,
+            "x1": 7800,
+            "layerSet": "pit",
+            "sky": {
+              "stops": [
+                {"at": 0, "color": "#A9C9D6"},
+                {"at": 0.35, "color": "#C7C6D4"},
+                {"at": 0.7, "color": "#E6C9C2"},
+                {"at": 1, "color": "#F2D2B8"}
+              ],
+              "haze": {"color": "#E6C9C2", "alpha": 0.3}
+            },
+            "ambient": {"light": "dusk", "particles": "motes", "particleCount": 120, "shadowColor": "#6E7F9A", "dapple": null, "grade": {}},
+            "weather": "current",
+            "music": "calm",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1213], [7800, 1213]], "surface": "living_gate.ground.default_surface"},
+        "interiors": [],
+        "ground": {"points": [[0, 1213], [7800, 1213]], "surface": "living_gate.ground.bilayer", "underside": null, "maxStepUp": 102},
+        "platforms": [
+          {"id": "pump_deck", "points": [[1750, 873], [3960, 873]], "asset": "living_gate.ground.hall_deck", "requires": null},
+          {"id": "pit_ledge", "points": [[5480, 873], [7800, 873]], "asset": "living_gate.prop.pit_terrace", "requires": null}
+        ],
+        "links": [
+          {
+            "kind": "ladder",
+            "id": "c_deck_ladder",
+            "from": {"surface": "pump_deck", "x": 3940},
+            "to": {"surface": "ground", "x": 3950},
+            "requires": {"solved": "e8_pump"},
+            "asset": "living_gate.prop.deck_ladder",
+            "twoWay": true
+          }
+        ],
         "exits": [],
-        "entry": {"x": 300}
+        "hub": null,
+        "entry": {"x": 300, "surface": "ground"},
+        "entryCutsceneId": null,
+        "camera": {}
       },
       {
         "id": "zone_d",
@@ -175,30 +429,94 @@
         "height": 1500,
         "layerSets": [
           {
-            "id": "zone_d_kit",
+            "id": "vault_road",
             "layers": [
-              {"asset": "living_gate.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 413},
-              {"asset": "living_gate.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 593},
-              {"asset": "living_gate.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 733}
+              {"asset": "living_gate.layer.swirl_cytoplasm", "depth": "L1_far", "scrollFactor": 0.05, "y": 120},
+              {"asset": "living_gate.layer.organelles", "depth": "L1_far", "scrollFactor": 0.15, "y": 353},
+              {"asset": "living_gate.layer.nucleus_dome", "depth": "L1_far", "scrollFactor": 0.15, "y": 213, "repeatX": false},
+              {"asset": "living_gate.layer.cytoskeleton", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 413},
+              {"asset": "living_gate.layer.ceiling_band", "depth": "L3_mid", "scrollFactor": 1, "y": 0},
+              {"asset": "living_gate.layer.actin", "depth": "L5_fore", "scrollFactor": 1.3, "y": 1200, "alpha": 0.6, "blurPx": 2}
+            ]
+          },
+          {
+            "id": "vault",
+            "layers": [
+              {"asset": "living_gate.layer.vault_glints", "depth": "L1_far", "scrollFactor": 0.05, "y": 0},
+              {"asset": "living_gate.layer.envelope", "depth": "L1_far", "scrollFactor": 0.15, "y": 213},
+              {"asset": "living_gate.layer.nucleus_dome", "depth": "L1_far", "scrollFactor": 0.15, "y": 213, "repeatX": false},
+              {"asset": "living_gate.layer.vault_court", "depth": "L3_mid", "scrollFactor": 0.6, "y": 513},
+              {"asset": "living_gate.layer.ceiling_band", "depth": "L3_mid", "scrollFactor": 1, "y": 0},
+              {"asset": "living_gate.layer.actin", "depth": "L5_fore", "scrollFactor": 1.3, "y": 1200, "alpha": 0.6, "blurPx": 2}
             ]
           }
         ],
         "segments": [
           {
-            "id": "zone_d_kit",
+            "id": "vault_road_amber",
             "x0": 0,
-            "x1": 5600,
-            "layerSet": "zone_d_kit",
+            "x1": 2600,
+            "layerSet": "vault_road",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#E9A98E"},
+                {"at": 0.35, "color": "#F0BC98"},
+                {"at": 0.7, "color": "#F3C7A2"},
+                {"at": 1, "color": "#FAE3C2"}
+              ],
+              "haze": {"color": "#F3C7A2", "alpha": 0.3}
             },
-            "ambient": {"light": "amber"}
+            "ambient": {"light": "amber", "particles": "motes", "particleCount": 120, "shadowColor": "#6E7F9A", "dapple": null, "grade": {"hue": 4}},
+            "weather": "streaming",
+            "music": "calm",
+            "runEnabled": true,
+            "variants": []
+          },
+          {
+            "id": "vault_violet",
+            "x0": 2600,
+            "x1": 5600,
+            "layerSet": "vault",
+            "sky": {
+              "stops": [
+                {"at": 0, "color": "#7E6AB8"},
+                {"at": 0.35, "color": "#A488D0"},
+                {"at": 0.7, "color": "#C9A0DE"},
+                {"at": 1, "color": "#F2B8D4"}
+              ],
+              "haze": {"color": "#C9A0DE", "alpha": 0.25}
+            },
+            "ambient": {
+              "light": "dusk",
+              "particles": "motes",
+              "particleCount": 120,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0.05, "hue": -6}
+            },
+            "weather": "streaming",
+            "music": "tense",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1113], [5600, 1113]], "surface": "living_gate.ground.default_surface"},
+        "interiors": [],
+        "ground": {"points": [[0, 1113], [5600, 1113]], "surface": "living_gate.ground.causeway", "underside": null, "maxStepUp": 102},
+        "platforms": [],
+        "links": [],
         "exits": [],
-        "entry": {"x": 300}
+        "hub": {
+          "asset": "living_gate.prop.nuclear_pore",
+          "x": 4900,
+          "y": null,
+          "depth": "L4_back",
+          "label": "Nuclear Pore",
+          "sockets": 11,
+          "restoredLine": {"speakerId": "pilot", "text": "The pore's turning! Every conduit you lit is pouring into it.", "mood": "excited"}
+        },
+        "entry": {"x": 300, "surface": "ground"},
+        "entryCutsceneId": null,
+        "camera": {}
       }
     ],
     "stations": [
@@ -206,26 +524,119 @@
         "encounterId": "e1_bilayer",
         "zoneId": "zone_a",
         "consoleX": 4300,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 4500, "y": 983},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Specimen Pods",
-        "panel": {"verifyLabel": "QUARANTINE · THAW RIDGE", "successBadge": "MIMIC QUARANTINED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "specimen_pods",
+        "config": {
+          "holders": [
+            {"statementIndex": 0, "trace": null, "ghost": "bilayer_outline", "footprint": null},
+            {"statementIndex": 1, "trace": null, "ghost": "rigid_holed_slab", "footprint": null},
+            {"statementIndex": 2, "trace": null, "ghost": "core_blocks_ion", "footprint": null}
+          ],
+          "reference": null,
+          "referenceSim": {"id": "bilayer_probe", "params": {}},
+          "probe": {
+            "symbol": "d",
+            "label": "probe depth",
+            "min": 0,
+            "max": 5,
+            "step": 0.1,
+            "unit": "nm",
+            "format": "number",
+            "initial": 0,
+            "stops": [],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "needle",
+          "scenarioMin": null,
+          "hintPins": [],
+          "fileDates": [],
+          "aimer": "probe_emitter",
+          "quarantineAnim": "ridge_thaw",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Specimen Pods",
+        "partNouns": ["probe", "pod", "needle", "Stiff Ridge"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "QUARANTINE · THAW RIDGE",
+          "successBadge": "MIMIC QUARANTINED",
+          "cards": [
+            {
+              "slot": 0,
+              "title": "polar(d)",
+              "x": {"min": 0, "max": 5, "unit": "nm", "label": "d"},
+              "y": {"min": 0, "max": 1, "unit": "number", "label": null},
+              "hidden": false
+            },
+            {
+              "slot": 1,
+              "title": "ΔG ion(d)",
+              "x": {"min": 0, "max": 5, "unit": "nm", "label": "d"},
+              "y": {"min": 0, "max": 40, "unit": "number", "label": "kJ/mol"},
+              "hidden": false
+            }
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "pilot",
+              "text": "The Stillness froze this stretch of membrane solid. Three specimen pods here, and one of them holds a Mimic.",
+              "mood": "worried"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Push the probe into the membrane and watch it. Then quarantine the pod whose claim the membrane disproves."
+          },
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "Your depth dial drives the needle. My readouts track how polar the membrane is at its tip, and what that costs an ion."
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Healthy membrane parts around the needle and closes behind it. Only the frozen ridge stays stiff."
+          },
+          "hints": [
+            {
+              "speakerId": "pilot",
+              "text": "Forget the textbook diagram. Watch what the heads do while the needle goes in; that's what this ground is made of."
+            },
+            {"speakerId": "pilot", "text": "Lipids with oily tails make a layer that flows around the probe and closes behind it. That's no wall."},
+            {"speakerId": "pilot", "text": "The Mimic's claim: \"The membrane is a rigid wall with fixed holes in it.\""}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "That pod's claim held up against the real membrane. Push again, and watch which claim the heads keep breaking."
+            },
+            "byKey": []
+          },
+          "success": {"speakerId": "pilot", "text": "A membrane is not a wall. It's a film that flows, and only proteins give it doors."},
+          "payoffLine": {"speakerId": "pilot", "text": "Mimic quarantined! And look at the ridge. It's melting back into a path.", "mood": "excited"},
+          "after": []
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "ramp_forms",
           "noun": "thawed ridge",
-          "blocker": {"x": 4600},
-          "rideCutsceneId": null
+          "blocker": {"x": 4600, "surface": "ground", "asset": "living_gate.prop.stiff_ridge"},
+          "terrain": [{"surface": "ground", "points": [[4540, 983], [4800, 932], [5060, 932], [5320, 983]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -233,26 +644,132 @@
         "encounterId": "e2_selectivity",
         "zoneId": "zone_a",
         "consoleX": 6300,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 6700, "y": 983},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
+        "approachRadius": 500,
+        "contraption": "router_lanes",
+        "skin": "membrane_router",
+        "config": {
+          "items": [
+            {"key": "i0", "meta": {"glyph": "o2", "label": "O₂"}, "polar": false, "charged": false, "from": null, "to": null, "vehicle": "none"},
+            {"key": "i1", "meta": {"glyph": "co2", "label": "CO₂"}, "polar": false, "charged": false, "from": null, "to": null, "vehicle": "none"},
+            {"key": "i2", "meta": {"glyph": "na", "label": "Na⁺"}, "polar": false, "charged": true, "from": null, "to": null, "vehicle": "channel"},
+            {
+              "key": "i3",
+              "meta": {"glyph": "glucose", "label": "glucose"},
+              "polar": true,
+              "charged": false,
+              "from": null,
+              "to": null,
+              "vehicle": "carrier"
+            },
+            {
+              "key": "i4",
+              "meta": {"glyph": "steroid", "label": "steroid"},
+              "polar": false,
+              "charged": false,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {"key": "i5", "meta": {"glyph": "cl", "label": "Cl⁻"}, "polar": false, "charged": true, "from": null, "to": null, "vehicle": "channel"}
+          ],
+          "lanes": [{"binId": "diffuses", "laneId": "oil_road", "year": null}, {"binId": "protein", "laneId": "crossing_gate", "year": null}],
+          "lens": "hydration",
+          "lensTier": 1,
+          "energy": null,
+          "shutters": false,
+          "stamp": "none",
+          "eventsBand": null,
+          "eventsBandTier": 1,
+          "probe": null,
+          "probeWorld": "none"
+        },
         "objectNoun": "Crossing Gate",
-        "panel": {"verifyLabel": "ROUTE CARGO", "successBadge": "CARGO ROUTED"},
+        "partNouns": ["molecule", "Oil Road", "lane", "ring"],
+        "pins": [{"anchor": "gate_ring", "text": "GATE 2", "glyph": "door"}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [
+          {"predicate": "assignedTo", "itemKey": "i2", "binId": "diffuses", "key": "small_passes"},
+          {"predicate": "assignedTo", "itemKey": "i5", "binId": "diffuses", "key": "small_passes"},
+          {"predicate": "assignedTo", "itemKey": "i4", "binId": "protein", "key": "size_rule"}
+        ],
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "ROUTE CARGO", "successBadge": "CARGO ROUTED", "cards": []},
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Crossing Gate.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [{"speakerId": "pilot", "text": "Watch the small ones. Small doesn't mean welcome.", "mood": "neutral"}],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Route each molecule: straight through the bilayer on the Oil Road, or through the Crossing Gate's ring.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Crossing Gate wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "Pick a molecule, then a lane. It queues where you send it; nothing crosses until the whole cargo is routed.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "The oily core between the heads is the real border. Size gets a molecule noticed; chemistry gets it through.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {
+              "speakerId": "pilot",
+              "text": "Size is a clue, not the rule. Pip's water lens is on now: see which molecules drag a shell of water with them.",
+              "mood": "neutral"
+            },
+            {
+              "speakerId": "pilot",
+              "text": "Check whether each one is polar or charged. The oily core between the heads turns away anything with a charge.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "Na+ is smaller than O2 and still can't cross alone. Charge beats size, every time.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "The road refused one. Check its charge and polarity before its size, then reroute it.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "small_passes",
+                "line": {
+                  "speakerId": "pilot",
+                  "text": "Size fooled you there. Even the smallest ion on this yard bounces off the oil.",
+                  "mood": "neutral"
+                }
+              },
+              {
+                "key": "size_rule",
+                "line": {
+                  "speakerId": "pilot",
+                  "text": "Size isn't what the heads check. An oily visitor slips through them whatever its size.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "Oil lets the oily through. Charged and polar visitors need a protein door, however small they are.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "pilot", "text": "Every molecule took the right road! The Crossing Gate is spinning up.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "ramp_forms",
           "noun": "carrier rocker",
-          "blocker": {"x": 6600},
-          "rideCutsceneId": null
+          "blocker": {"x": 6640, "surface": "ground", "asset": null},
+          "terrain": [{"surface": "ground", "points": [[6720, 983], [6860, 813]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -260,26 +777,143 @@
         "encounterId": "e3_diffusion",
         "zoneId": "zone_b",
         "consoleX": 1100,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 1500, "y": 1213},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Specimen Pods",
-        "panel": {"verifyLabel": "QUARANTINE · LEVEL LOCK", "successBadge": "MIMIC QUARANTINED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "specimen_pods",
+        "config": {
+          "holders": [
+            {"statementIndex": 0, "trace": null, "ghost": "random_walk", "footprint": null},
+            {"statementIndex": 1, "trace": null, "ghost": "purposeful_march", "footprint": null},
+            {"statementIndex": 2, "trace": null, "ghost": "net_flux_arrow", "footprint": null}
+          ],
+          "reference": null,
+          "referenceSim": {"id": "diffusion_tank", "params": {"p": 0.3, "sigma": 5}},
+          "probe": {
+            "symbol": "a",
+            "label": "dye load",
+            "min": 0,
+            "max": 10,
+            "step": 0.5,
+            "unit": "mM",
+            "format": "number",
+            "initial": 5,
+            "stops": [],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "dye_load",
+          "scenarioMin": null,
+          "hintPins": [],
+          "fileDates": [],
+          "aimer": "probe_emitter",
+          "quarantineAnim": "tank_dilate",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Balance Lock",
+        "partNouns": ["pod", "tank", "dye", "Dye Tank"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "QUARANTINE · LEVEL LOCK",
+          "successBadge": "MIMIC QUARANTINED",
+          "cards": [
+            {
+              "slot": 0,
+              "title": "C_L start",
+              "x": {"min": 0, "max": 10, "unit": "mM", "label": "a"},
+              "y": {"min": 0, "max": 10, "unit": "mM", "label": null},
+              "hidden": false
+            },
+            {
+              "slot": 1,
+              "title": "C_eq",
+              "x": {"min": 0, "max": 10, "unit": "mM", "label": "a"},
+              "y": {"min": 0, "max": 10, "unit": "mM", "label": null},
+              "hidden": false
+            },
+            {
+              "slot": 2,
+              "title": "J₀",
+              "x": {"min": 0, "max": 10, "unit": "mM", "label": "a"},
+              "y": {"min": 0, "max": 4, "unit": "rate", "label": "/s"},
+              "hidden": false
+            }
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "pilot",
+              "text": "The Balance Lock only opens when both sides of this tank are even. Right now the dye is piled on the left.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Set the dye load and watch the tank. Then quarantine the pod whose story about the dye is a lie.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "The dye dial refills the left chamber. On my top readout the white dot is the left side now, the green dot the right.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Watch the ringed tracer. It wanders, doubles back, and never once checks where the crowd is.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {
+              "speakerId": "pilot",
+              "text": "Follow the tracer, the one with the white ring. Watch whether it ever seems to know where the crowd is.",
+              "mood": "neutral"
+            },
+            {
+              "speakerId": "pilot",
+              "text": "Each particle wanders at random. More start on the crowded side, so more happen to cross from there.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "The Mimic's claim: \"The dye particles head for the empty side on purpose.\"", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "That pod's story matched the tank. Watch the tracer's trail for a while before you choose again.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "No particle has a plan. Diffusion is just what a crowd of random steps adds up to.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "pilot",
+            "text": "Mimic quarantined. The tank's evening out, and the Balance Lock is levelling off.",
+            "mood": "neutral"
+          },
+          "after": []
         },
         "payoff": {
           "kind": "remove_blocker",
           "vertical": "none",
           "anim": "barrier_lifts",
           "noun": "Balance Lock boom",
-          "blocker": {"x": 1400},
-          "rideCutsceneId": null
+          "blocker": {"x": 1900, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -287,26 +921,143 @@
         "encounterId": "e4_osmosis",
         "zoneId": "zone_b",
         "consoleX": 3100,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 3500, "y": 1213},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Specimen Pods",
-        "panel": {"verifyLabel": "QUARANTINE · FLOOD LOCK", "successBadge": "MIMIC QUARANTINED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "specimen_pods",
+        "config": {
+          "holders": [
+            {"statementIndex": 0, "trace": null, "ghost": "water_out_arrows", "footprint": null},
+            {"statementIndex": 1, "trace": null, "ghost": "salt_inflow", "footprint": null},
+            {"statementIndex": 2, "trace": null, "ghost": "shrink_outline", "footprint": null}
+          ],
+          "reference": null,
+          "referenceSim": {"id": "osmotic_cell", "params": {"cIn": 2, "b": 0.3}},
+          "probe": {
+            "symbol": "s",
+            "label": "bath salt",
+            "min": 0,
+            "max": 10,
+            "step": 0.1,
+            "unit": "%",
+            "format": "number",
+            "initial": 6,
+            "stops": [],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "bath_salt",
+          "scenarioMin": 2.5,
+          "hintPins": [],
+          "fileDates": [],
+          "aimer": "probe_emitter",
+          "quarantineAnim": "raft_lock_flood",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Osmometer Basin",
+        "partNouns": ["pod", "test cell", "bath", "raft"],
+        "pins": [{"anchor": "apparatus", "text": "ISO 2%", "glyph": "drop"}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "QUARANTINE · FLOOD LOCK",
+          "successBadge": "MIMIC QUARANTINED",
+          "cards": [
+            {
+              "slot": 0,
+              "title": "salt outside",
+              "x": {"min": 0, "max": 10, "unit": "percent", "label": "s"},
+              "y": {"min": 0, "max": 10, "unit": "percent", "label": null},
+              "hidden": false
+            },
+            {
+              "slot": 1,
+              "title": "salt inside",
+              "x": {"min": 0, "max": 10, "unit": "percent", "label": "s"},
+              "y": {"min": 0, "max": 10, "unit": "percent", "label": null},
+              "hidden": false
+            },
+            {
+              "slot": 2,
+              "title": "V/V₀(s)",
+              "x": {"min": 0, "max": 10, "unit": "percent", "label": "s"},
+              "y": {"min": 0, "max": 1.6, "unit": "number", "label": null},
+              "hidden": false
+            }
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "pilot",
+              "text": "A test cell in a salt bath, and a raft stuck in a dry lock. It won't float until something crosses that window.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Salt the bath and watch the test cell. Then quarantine the pod whose story about what moves doesn't hold.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "The salt dial sets the bath. Below two percent the pods go quiet: their claims are about a salty bath.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Those salt cubes have been bouncing off the cell all morning. The membrane is fussy about what it lets in.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {
+              "speakerId": "pilot",
+              "text": "Two things could cross: the water or the dissolved salt. Only one of them gets through a bilayer.",
+              "mood": "neutral"
+            },
+            {
+              "speakerId": "pilot",
+              "text": "Osmosis is water moving toward the side with more solute. Watch where the blue droplets go.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "The Mimic's claim: \"Salt rushes into the cell until both sides match.\"", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "That pod was honest. Crank the salt up and down, and watch what the white salt cubes actually do.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "Salt stays where it is. Water goes where the solute is, and it'll lift a raft to get there.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "pilot",
+            "text": "Quarantined! Now I'm salting the raft lock. Water will follow the salt in and float you up. Step aboard!",
+            "mood": "neutral"
+          },
+          "after": []
         },
         "payoff": {
           "kind": "ride",
           "vertical": "up",
           "anim": "water_rises",
           "noun": "raft",
-          "blocker": {"x": 3400},
-          "rideCutsceneId": null
+          "blocker": null,
+          "terrain": [],
+          "rideCutsceneId": "e4_raft",
+          "autoBoardMs": 6000,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -314,26 +1065,136 @@
         "encounterId": "e5_tonicity",
         "zoneId": "zone_b",
         "consoleX": 5200,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 5600, "y": 1213},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Tonicity Sluices",
-        "panel": {"verifyLabel": "DRAIN THE SLUICE", "successBadge": "SLUICE DRAINED"},
+        "approachRadius": 500,
+        "contraption": "sluice_waves",
+        "skin": "tonicity_sluices",
+        "config": {
+          "waves": [
+            {"waveIndex": 0, "cell": "rbc", "inDots": 10, "outDots": 0, "fate": "swell", "showFate": true},
+            {"waveIndex": 1, "cell": "generic", "inDots": 10, "outDots": 30, "fate": "shrink", "showFate": true},
+            {"waveIndex": 2, "cell": "generic", "inDots": 10, "outDots": 10, "fate": "steady", "showFate": true},
+            {"waveIndex": 3, "cell": "plant", "inDots": 10, "outDots": 28, "fate": "plasmolysis", "showFate": true},
+            {"waveIndex": 4, "cell": "generic", "inDots": 10, "outDots": 2, "fate": "strain", "showFate": true}
+          ],
+          "valves": [
+            {"categoryId": "hypotonic", "densityK": 0.25, "arrows": "none"},
+            {"categoryId": "isotonic", "densityK": 1, "arrows": "none"},
+            {"categoryId": "hypertonic", "densityK": 2.5, "arrows": "none"}
+          ]
+        },
+        "objectNoun": "Label Lock",
+        "partNouns": ["lock", "valve", "bath", "cell"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [
+          {"predicate": "assignedTo", "itemKey": "w0", "binId": "hypertonic", "key": "hyper_more_water"},
+          {"predicate": "assignedTo", "itemKey": "w4", "binId": "hypertonic", "key": "hyper_more_water"}
+        ],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "DRAIN THE SLUICE",
+          "successBadge": "SLUICE DRAINED",
+          "cards": [
+            {"slot": 0, "title": "solute outside", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "solute inside", "x": null, "y": null, "hidden": false},
+            {
+              "slot": 2,
+              "title": "volume V(t)",
+              "x": {"min": 0, "max": 8, "unit": "seconds", "label": "t"},
+              "y": {"min": 0, "max": 1.6, "unit": "number", "label": null},
+              "hidden": false
+            }
+          ]
+        },
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Tonicity Sluices.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [
+            {
+              "speakerId": "poro",
+              "text": "Mm. Visitors. I am Poro. Water passes through my waist in single file, and nothing else. Now, the sluices.",
+              "mood": "neutral"
+            },
+            {
+              "speakerId": "pilot",
+              "text": "Cells are drifting down the sluice canal. Each lock needs a label before its cell passes. Quick hands, Diver.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Label each lock's bath before its cell drifts past: hypotonic, isotonic, or hypertonic.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Tonicity Sluices wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "Each cell gives you eight seconds at the Label Lock. One that drifts past unlabelled spins into the Eddy and counts as a miss.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Poro's basins have sorted cells for a billion years. Swell, shrink, or hold steady: the bath decides which.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "pilot", "text": "The label describes the bath around the cell, not the cell itself.", "mood": "neutral"},
+            {
+              "speakerId": "pilot",
+              "text": "Hyper means more solute outside, so water leaves. Hypo means less solute outside, so water comes in.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "A swelling cell means water came in, so its bath had less solute than the cell.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "One lock's label doesn't fit its bath. Compare the dots inside that cell with the dots around it.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "hyper_more_water",
+                "line": {
+                  "speakerId": "pilot",
+                  "text": "Hyper means more solute, not more water. A bath that's nearly all water is the one with the fewest dots.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "Tonicity always compares the bath with the cell. Hyper outside, water leaves. Hypo outside, water arrives.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "pilot",
+            "text": "The sluice is draining! Steps are coming up out of the water, and that's our way up.",
+            "mood": "neutral"
+          },
+          "after": [
+            {
+              "speakerId": "poro",
+              "text": "Mm. Well sorted. The water will remember you. Take my ledger; it is heavy with droplets.",
+              "mood": "neutral"
+            }
+          ]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "steps_emerge",
           "noun": "carved steps",
-          "blocker": {"x": 5500},
-          "rideCutsceneId": null
+          "blocker": {"x": 5400, "surface": "ground", "asset": null},
+          "terrain": [
+            {"surface": "ground", "points": [[6360, 1468], [6400, 1426], [6440, 1383], [6480, 1340], [6520, 1298], [6560, 1255], [6600, 1213]]}
+          ],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -341,26 +1202,123 @@
         "encounterId": "e6_facilitated",
         "zoneId": "zone_b",
         "consoleX": 7500,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 7900, "y": 1213},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
+        "approachRadius": 500,
+        "contraption": "router_lanes",
+        "skin": "carrier_lanes",
+        "config": {
+          "items": [
+            {"key": "i0", "meta": {"glyph": "glucose", "label": "glucose"}, "polar": null, "charged": null, "from": 8, "to": 2, "vehicle": "carrier"},
+            {
+              "key": "i1",
+              "meta": {"glyph": "water", "label": "water"},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "channel"
+            },
+            {"key": "i2", "meta": {"glyph": "na", "label": "Na⁺"}, "polar": null, "charged": null, "from": 2, "to": 8, "vehicle": "pump"},
+            {"key": "i3", "meta": {"glyph": "k", "label": "K⁺"}, "polar": null, "charged": null, "from": 8, "to": 2, "vehicle": "channel"},
+            {"key": "i4", "meta": {"glyph": "h", "label": "H⁺"}, "polar": null, "charged": null, "from": 2, "to": 8, "vehicle": "pump"}
+          ],
+          "lanes": [{"binId": "passive", "laneId": "glide_gate", "year": null}, {"binId": "active", "laneId": "pump_gate", "year": null}],
+          "lens": "none",
+          "lensTier": 1,
+          "energy": {"reserve": 10},
+          "shutters": false,
+          "stamp": "none",
+          "eventsBand": null,
+          "eventsBandTier": 1,
+          "probe": null,
+          "probeWorld": "none"
+        },
         "objectNoun": "Carrier Door",
-        "panel": {"verifyLabel": "OPEN THE THRESHOLD", "successBadge": "THRESHOLD OPEN"},
+        "partNouns": ["cargo", "pump", "Glide Gate", "Pump Gate"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [
+          {"predicate": "assignedTo", "itemKey": "i0", "binId": "active", "key": "protein_costs_atp"},
+          {"predicate": "assignedTo", "itemKey": "i1", "binId": "active", "key": "protein_costs_atp"},
+          {"predicate": "assignedTo", "itemKey": "i3", "binId": "active", "key": "protein_costs_atp"}
+        ],
+        "panel": {
+          "layout": "board",
+          "inputSymbol": null,
+          "verifyLabel": "OPEN THE THRESHOLD",
+          "successBadge": "THRESHOLD OPEN",
+          "cards": [{"slot": 0, "title": "ATP", "x": null, "y": null, "hidden": false}]
+        },
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Carrier Door.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [
+            {
+              "speakerId": "pilot",
+              "text": "The Pump Hall doors. More cargo waiting, and two gates: the Glide Gate, and the Pump Gate that burns ATP.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Route each cargo: passive, down its slope for free, or active, uphill through the pump at a cost.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Carrier Door wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "Each cargo floats over its own ramp; the dense end is the crowded side. My ATP readout shows what the Pump Gate would spend.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Plenty of proteins in this yard, and most of them never touch a spark of ATP.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {
+              "speakerId": "pilot",
+              "text": "Ignore whether a protein is involved. Look at the slope under each cargo, and which way it has to go.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "Downhill is always passive, protein or not. A carrier is a door, not an engine.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Only the cargo heading toward the more crowded side costs ATP.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "One cargo went to a gate that won't take it. Check its slope: rolling down on its own, or being pushed up.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "protein_costs_atp",
+                "line": {
+                  "speakerId": "pilot",
+                  "text": "A protein on the route doesn't mean a fuel bill. Downhill cargo rides a door for free.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "A protein can open a door without paying a thing. Energy is only spent when the cargo climbs.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "pilot", "text": "Threshold open! The Carrier Door is turning. Everybody into the pocket!", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "carry",
           "vertical": "none",
           "anim": "door_carries",
           "noun": "Carrier Door",
-          "blocker": {"x": 7800},
-          "rideCutsceneId": "e6_carry"
+          "blocker": {"x": 7800, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": "e6_carry",
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -368,26 +1326,143 @@
         "encounterId": "e7_active",
         "zoneId": "zone_c",
         "consoleX": 900,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 1400, "y": 1213},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Specimen Pods",
-        "panel": {"verifyLabel": "QUARANTINE · LIGHT HALL", "successBadge": "MIMIC QUARANTINED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Specimen Pods.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "specimen_pods",
+        "config": {
+          "holders": [
+            {"statementIndex": 0, "trace": null, "ghost": "uphill_arrow", "footprint": null},
+            {"statementIndex": 1, "trace": null, "ghost": "atp_sparks", "footprint": null},
+            {"statementIndex": 2, "trace": null, "ghost": "downhill_boost", "footprint": null}
+          ],
+          "reference": null,
+          "referenceSim": {"id": "pump_flume", "params": {}},
+          "probe": {
+            "symbol": "r",
+            "label": "ATP feed",
+            "min": 0,
+            "max": 10,
+            "step": 0.5,
+            "unit": "ATP/s",
+            "format": "number",
+            "initial": 0,
+            "stops": [],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Specimen Pods wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "atp_feed",
+          "scenarioMin": null,
+          "hintPins": [],
+          "fileDates": [],
+          "aimer": "probe_emitter",
+          "quarantineAnim": "lanterns_ignite",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Uphill Flume",
+        "partNouns": ["pod", "pump", "tanks", "feed"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "QUARANTINE · LIGHT HALL",
+          "successBadge": "MIMIC QUARANTINED",
+          "cards": [
+            {
+              "slot": 0,
+              "title": "C_high(r)",
+              "x": {"min": 0, "max": 10, "unit": "rate", "label": "r"},
+              "y": {"min": 0, "max": 10, "unit": "mM", "label": null},
+              "hidden": false
+            },
+            {
+              "slot": 1,
+              "title": "C_low(r)",
+              "x": {"min": 0, "max": 10, "unit": "rate", "label": "r"},
+              "y": {"min": 0, "max": 10, "unit": "mM", "label": null},
+              "hidden": false
+            },
+            {
+              "slot": 2,
+              "title": "ATP spent/s",
+              "x": {"min": 0, "max": 10, "unit": "rate", "label": "r"},
+              "y": {"min": 0, "max": 10, "unit": "rate", "label": null},
+              "hidden": false
+            }
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "pilot",
+              "text": "Two tanks, one high and one low, and a pump between them. Three pods argue about what that pump does.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Feed the pump ATP and watch the tanks. Then quarantine the pod that has pumps backwards.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "The ATP dial feeds the pump. On my readouts white is the high tank, green the low one, and gold is what you're spending.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "At zero feed the gap between those tanks bleeds away down the leak trough. That's the Stillness in miniature.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {
+              "speakerId": "pilot",
+              "text": "A cell spends ATP on moving things for a reason. Try the feed at zero and watch the tanks.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "If everything only ran downhill, nobody would ever need to pay for it.", "mood": "neutral"},
+            {
+              "speakerId": "pilot",
+              "text": "The Mimic's claim: \"Transport always runs down the gradient, so pumps just speed it up.\"",
+              "mood": "neutral"
+            }
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "That pod told the truth. Take the feed to zero, then up again, and watch which way the gap between the tanks goes.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "A pump is a climber. It carries cargo uphill, from low to high, and ATP pays for every step.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "pilot",
+            "text": "Quarantined, and the lanterns are catching! The gantry has power. Up you go.",
+            "mood": "neutral"
+          },
+          "after": []
         },
         "payoff": {
           "kind": "ride",
           "vertical": "up",
           "anim": "lift_moves",
           "noun": "gantry lift",
-          "blocker": {"x": 1200},
-          "rideCutsceneId": null
+          "blocker": null,
+          "terrain": [],
+          "rideCutsceneId": "e7_gantry",
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -395,26 +1470,137 @@
         "encounterId": "e8_pump",
         "zoneId": "zone_c",
         "consoleX": 2900,
+        "consoleSurface": "pump_deck",
+        "consoleAsset": null,
         "anchor": {"x": 3300, "y": 873},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Sodium Pump",
-        "panel": {"verifyLabel": "RUN ONE CYCLE", "successBadge": "PUMP CYCLING"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Sodium Pump.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "stage_machine",
+        "skin": "pump_rewiring",
+        "config": {
+          "lefts": [
+            {"key": "l0", "stage": 1, "socketKind": "ion", "ion": "Na"},
+            {"key": "l1", "stage": 4, "socketKind": "ion", "ion": "K"},
+            {"key": "l2", "stage": 2, "socketKind": "energy", "ion": null},
+            {"key": "l3", "stage": 6, "socketKind": "beacon", "ion": null}
+          ],
+          "rights": [
+            {"key": "r0", "semantic": {"kind": "count", "n": 3, "dir": "out"}},
+            {"key": "r1", "semantic": {"kind": "count", "n": 2, "dir": "in"}},
+            {"key": "r2", "semantic": {"kind": "atp", "n": 1}},
+            {"key": "r3", "semantic": {"kind": "beacon"}},
+            {"key": "x0", "semantic": {"kind": "count", "n": 2, "dir": "out"}}
+          ],
+          "stages": {
+            "symbol": "k",
+            "label": "pump stage",
+            "min": 0,
+            "max": 6,
+            "step": 1,
+            "unit": "",
+            "format": "stage",
+            "initial": 0,
+            "stops": [
+              {"v": 0, "label": "rest"},
+              {"v": 1, "label": "bind Na⁺"},
+              {"v": 2, "label": "ATP"},
+              {"v": 3, "label": "flip out"},
+              {"v": 4, "label": "swap"},
+              {"v": 5, "label": "drop P"},
+              {"v": 6, "label": "flip in"}
+            ],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Sodium Pump wakes, and the way ahead opens.", "mood": "neutral"}
+          "ledger": "charge"
+        },
+        "objectNoun": "sodium-potassium pump",
+        "partNouns": ["socket", "cartridge", "stage dial", "pump", "drum"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [{"predicate": "linkedTo", "fromKey": "l0", "toKey": "x0", "key": "equal_counts"}],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "RUN ONE CYCLE",
+          "successBadge": "PUMP CYCLING",
+          "cards": [
+            {"slot": 0, "title": "wiring", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "pump", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "charge", "x": null, "y": null, "hidden": false}
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "pilot",
+              "text": "There it is: the sodium-potassium pump. Biggest machine on this membrane, and someone pulled its cables.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Rewire the pump: link each socket to its value cartridge. Step the stage dial to test a cycle.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "Each cartridge loads exactly what its label says. Step the stage dial and the drum runs a cycle on what you loaded.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Every beat of a nerve starts with this machine. The charge ledger shows what one cycle leaves behind.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "pilot", "text": "The counts aren't equal. That lopsidedness is the whole point of this machine.", "mood": "neutral"},
+            {
+              "speakerId": "pilot",
+              "text": "More positive charge leaves than comes in each cycle. Count which ion leaves, and how many.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "Three sodium out, two potassium in, one ATP.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "The pump jammed at one stage. Find the socket whose cable won't hold and rethink that link.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "equal_counts",
+                "line": {
+                  "speakerId": "pilot",
+                  "text": "Two out and two in moves no charge at all. The ledger needle never leaned; a balanced pump builds nothing.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "Three out and two in leaves the inside a little negative. That lopsided pump is why nerves can fire.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "pilot",
+            "text": "It's cycling! Three out, two in, one spark of ATP, again and again. The Hall Gate is lifting.",
+            "mood": "neutral"
+          },
+          "after": []
         },
         "payoff": {
           "kind": "remove_blocker",
           "vertical": "none",
           "anim": "gate_lifts",
           "noun": "Hall Gate",
-          "blocker": {"x": 3200},
-          "rideCutsceneId": null
+          "blocker": {"x": 4020, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -422,26 +1608,108 @@
         "encounterId": "e9_osmosis_review",
         "zoneId": "zone_c",
         "consoleX": 5000,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 5300, "y": 1213},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Tonicity Sluices",
-        "panel": {"verifyLabel": "FILL THE LOCK", "successBadge": "LOCK FILLED"},
+        "approachRadius": 500,
+        "contraption": "sluice_waves",
+        "skin": "tonicity_sluices",
+        "config": {
+          "waves": [
+            {"waveIndex": 0, "cell": "generic", "inDots": 8, "outDots": 40, "fate": null, "showFate": false},
+            {"waveIndex": 1, "cell": "generic", "inDots": 8, "outDots": 0, "fate": null, "showFate": false},
+            {"waveIndex": 2, "cell": "rbc", "inDots": 4, "outDots": 4, "fate": null, "showFate": false},
+            {"waveIndex": 3, "cell": "potato", "inDots": 10, "outDots": 45, "fate": null, "showFate": false}
+          ],
+          "valves": [
+            {"categoryId": "in", "densityK": null, "arrows": "in"},
+            {"categoryId": "out", "densityK": null, "arrows": "out"},
+            {"categoryId": "none", "densityK": null, "arrows": "both"}
+          ]
+        },
+        "objectNoun": "Barge Lock",
+        "partNouns": ["lock", "valve", "barge", "cell"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [
+          {"predicate": "assignedTo", "itemKey": "w0", "binId": "in", "key": "salt_moves"},
+          {"predicate": "assignedTo", "itemKey": "w3", "binId": "in", "key": "salt_moves"}
+        ],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "FILL THE LOCK",
+          "successBadge": "LOCK FILLED",
+          "cards": [
+            {"slot": 0, "title": "solute outside", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "solute inside", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "claimed flow", "x": null, "y": null, "hidden": false}
+          ]
+        },
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Tonicity Sluices.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [
+            {"speakerId": "pilot", "text": "Four cells coming down the Return Sluice, and our barge is sitting on the mud.", "mood": "neutral"}
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "For each lock, set the water flow before the cell drifts past: in, out, or no net movement.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Tonicity Sluices wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "Same Label Lock, new valves. Hover one and ghost arrows show the flow it claims. Eight seconds per cell.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Solute dots never leave their side of a membrane. Only the water gets to travel.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "pilot", "text": "Compare the solute dots inside and outside each cell.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Water goes toward the side with more solute.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Equal solute on both sides means no net movement at all.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "One flow call was off. The salt doesn't move, so ask which side the water is heading toward.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "salt_moves",
+                "line": {
+                  "speakerId": "pilot",
+                  "text": "Salt never makes the trip across. Watch the dots stay put, and let the water do the travelling.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "You never have to watch the salt. Find where the solute is crowded, and the water's already on its way.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "pilot",
+            "text": "Every call right. The locks are filling, and the barge is rising to the Endocytosis Pit.",
+            "mood": "neutral"
+          },
+          "after": []
         },
         "payoff": {
           "kind": "ride",
           "vertical": "up",
           "anim": "water_rises",
           "noun": "barge",
-          "blocker": {"x": 5300},
-          "rideCutsceneId": null
+          "blocker": null,
+          "terrain": [],
+          "rideCutsceneId": "e9_barge",
+          "autoBoardMs": 3000,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -449,26 +1717,140 @@
         "encounterId": "e10_bulk",
         "zoneId": "zone_c",
         "consoleX": 7100,
+        "consoleSurface": "pit_ledge",
+        "consoleAsset": null,
         "anchor": {"x": 7300, "y": 873},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Endocytosis Lift",
-        "panel": {"verifyLabel": "LAUNCH THE LIFT", "successBadge": "VESICLE LAUNCHED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Endocytosis Lift.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "step_bridge",
+        "skin": "endocytosis_lift",
+        "config": {
+          "bays": "stage_rail",
+          "items": [
+            {"key": "s0", "meta": {"glyph": "plank_touch", "label": "touch"}},
+            {"key": "s1", "meta": {"glyph": "plank_fold", "label": "fold inward"}},
+            {"key": "s2", "meta": {"glyph": "plank_pinch", "label": "pinch off"}},
+            {"key": "s3", "meta": {"glyph": "plank_carry", "label": "vesicle carries"}},
+            {"key": "d0", "meta": {"glyph": "plank_dissolve", "label": "dissolve"}}
+          ],
+          "stepEffects": [],
+          "stages": [
+            {"key": "s0", "stageId": "touch", "icon": "plank_touch"},
+            {"key": "s1", "stageId": "fold", "icon": "plank_fold"},
+            {"key": "s2", "stageId": "pinch", "icon": "plank_pinch"},
+            {"key": "s3", "stageId": "carry", "icon": "plank_carry"},
+            {"key": "d0", "stageId": "dissolve_bounce", "icon": "plank_dissolve"}
+          ],
+          "anchors": 0,
+          "relief": null,
+          "probe": {
+            "symbol": "k",
+            "label": "playback",
+            "min": 0,
+            "max": 4,
+            "step": 0.05,
+            "unit": "",
+            "format": "stage",
+            "initial": 0,
+            "stops": [
+              {"v": 0, "label": "flat"},
+              {"v": 1, "label": "slot 1"},
+              {"v": 2, "label": "slot 2"},
+              {"v": 3, "label": "slot 3"},
+              {"v": 4, "label": "slot 4"}
+            ],
+            "window": null,
+            "playback": true
           },
-          "success": {"speakerId": null, "text": "The Endocytosis Lift wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "playback",
+          "dayCounter": null,
+          "bayLampsTier": 1,
+          "pageOrderHeading": null
+        },
+        "objectNoun": "Endocytosis Lift",
+        "partNouns": ["stage plates", "plate", "pit", "collar"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": 0.85,
+        "probes": [],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": null,
+          "verifyLabel": "LAUNCH THE LIFT",
+          "successBadge": "VESICLE LAUNCHED",
+          "cards": [
+            {"slot": 0, "title": "stage rail", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "pit", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "ATP", "x": null, "y": null, "hidden": false}
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "pilot",
+              "text": "No channel in this cell is big enough for the Halcyon. So the membrane is going to swallow us. On purpose.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Set the four stage plates in the order that brings us into the cell. One plate doesn't belong.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "The playback dial runs the membrane through your plates, slot by slot. Scrub it and watch the pit try each step.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Nothing this big fits through a protein. The membrane will have to do the carrying itself, and that costs ATP.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "pilot", "text": "Something too big for any protein channel has to be wrapped up.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "The membrane does the wrapping first, then closes the pocket.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Start at the moment of contact and end with the vesicle moving.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "The Lift stalled partway. Scrub through your plates and find the step that can't happen yet.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {"key": "order", "line": {"speakerId": "ferryman", "text": "Hold. The membrane cannot do that yet.", "mood": "neutral"}},
+              {
+                "key": "decoy",
+                "line": {
+                  "speakerId": "ferryman",
+                  "text": "Nothing this size dissolves through us. The membrane must carry it, and carrying costs.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "Big cargo can't pass through a door, so the membrane becomes the door. Folding and pinching both cost ATP.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "pilot",
+            "text": "We're folding in... pinching off... and we're in! Welcome to the cytoplasm, Diver.",
+            "mood": "neutral"
+          },
+          "after": []
         },
         "payoff": {
           "kind": "carry",
           "vertical": "down",
           "anim": "vesicle_carries",
           "noun": "vesicle",
-          "blocker": {"x": 7400},
-          "rideCutsceneId": "e10_carry"
+          "blocker": null,
+          "terrain": [],
+          "rideCutsceneId": "e10_vesicle",
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -476,93 +1858,421 @@
         "encounterId": "e11_boss",
         "zoneId": "zone_d",
         "consoleX": 3800,
+        "consoleSurface": "ground",
+        "consoleAsset": "living_gate.prop.kiosk",
         "anchor": {"x": 4200, "y": 1113},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
+        "approachRadius": 500,
+        "contraption": "router_lanes",
+        "skin": "gatekeeper_maws",
+        "config": {
+          "items": [
+            {"key": "i0", "meta": {"glyph": "o2", "label": "O₂"}, "polar": false, "charged": false, "from": 8, "to": 2, "vehicle": "none"},
+            {"key": "i1", "meta": {"glyph": "glucose", "label": "glucose"}, "polar": true, "charged": false, "from": 8, "to": 2, "vehicle": "carrier"},
+            {"key": "i2", "meta": {"glyph": "na", "label": "Na⁺"}, "polar": false, "charged": true, "from": 2, "to": 8, "vehicle": "pump"},
+            {
+              "key": "i3",
+              "meta": {"glyph": "water", "label": "water"},
+              "polar": true,
+              "charged": false,
+              "from": null,
+              "to": null,
+              "vehicle": "channel"
+            },
+            {"key": "i4", "meta": {"glyph": "co2", "label": "CO₂"}, "polar": false, "charged": false, "from": 8, "to": 2, "vehicle": "none"},
+            {"key": "i5", "meta": {"glyph": "k", "label": "K⁺"}, "polar": false, "charged": true, "from": 2, "to": 8, "vehicle": "pump"},
+            {"key": "i6", "meta": {"glyph": "cl", "label": "Cl⁻"}, "polar": false, "charged": true, "from": 8, "to": 2, "vehicle": "channel"}
+          ],
+          "lanes": [
+            {"binId": "simple", "laneId": "oil_maw", "year": null},
+            {"binId": "facilitated", "laneId": "channel_maw", "year": null},
+            {"binId": "active", "laneId": "pump_maw", "year": null}
+          ],
+          "lens": "hydration",
+          "lensTier": 1,
+          "energy": {"reserve": 12},
+          "shutters": false,
+          "stamp": "none",
+          "eventsBand": null,
+          "eventsBandTier": 1,
+          "probe": null,
+          "probeWorld": "none"
+        },
         "objectNoun": "Gatekeeper",
-        "panel": {"verifyLabel": "OPEN THE VAULT", "successBadge": "VAULT OPEN"},
+        "partNouns": ["maw", "cargo", "Oil Maw", "Channel Maw", "Pump Maw"],
+        "pins": [],
+        "accessories": [],
+        "frameZoom": 0.75,
+        "probes": [
+          {"predicate": "assignedTo", "itemKey": "i1", "binId": "active", "key": "protein_costs_atp"},
+          {"predicate": "assignedTo", "itemKey": "i3", "binId": "active", "key": "protein_costs_atp"},
+          {"predicate": "assignedTo", "itemKey": "i6", "binId": "active", "key": "protein_costs_atp"},
+          {"predicate": "assignedTo", "itemKey": "i2", "binId": "facilitated", "key": "always_downhill"},
+          {"predicate": "assignedTo", "itemKey": "i5", "binId": "facilitated", "key": "always_downhill"},
+          {"predicate": "assignedTo", "itemKey": "i2", "binId": "simple", "key": "small_passes"}
+        ],
+        "panel": {
+          "layout": "board",
+          "inputSymbol": null,
+          "verifyLabel": "OPEN THE VAULT",
+          "successBadge": "VAULT OPEN",
+          "cards": [{"slot": 0, "title": "ATP", "x": null, "y": null, "hidden": false}]
+        },
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Gatekeeper.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [],
+          "instruction": {
+            "speakerId": "pilot",
+            "text": "Sort every cargo into a maw: simple diffusion, facilitated diffusion, or active transport.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Gatekeeper wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "pilot",
+            "text": "Cargo comes in three batches. Each maw opens as you pick it, and my ATP readout shows the Pump Maw's bill.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "pilot",
+            "text": "Every crossing in this cell comes down to two things: which way the cargo is headed, and whether it dissolves in oil.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {
+              "speakerId": "pilot",
+              "text": "Check two things per cargo: which way it's headed on its gradient, and whether it can dissolve through lipid alone.",
+              "mood": "neutral"
+            },
+            {"speakerId": "pilot", "text": "Uphill is always active. Downhill with a protein is facilitated.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Only small nonpolar molecules cross alone.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "pilot",
+              "text": "One came back up. Take it from the top: the way it's headed first, then whether oil lets it through.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {
+            "speakerId": "pilot",
+            "text": "Oil for the small and nonpolar, a protein door for the rest, and ATP only for the climb. That's every crossing.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "gatekeeper", "text": "Sorted true. Pass, molecule-wise crew.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "remove_blocker",
           "vertical": "none",
           "anim": "vault_opens",
           "noun": "Nuclear Pore",
-          "blocker": {"x": 4100},
-          "rideCutsceneId": null
+          "blocker": {"x": 4450, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": {
           "speakerId": "gatekeeper",
           "arenaTriggerX": 3000,
+          "arenaCutsceneId": "e11_arena",
+          "arenaBounds": {"x0": 2800, "x1": 5600},
           "phases": [
-            {"id": "phase_1", "itemKeys": ["i0", "i1"]},
-            {"id": "phase_2", "itemKeys": ["i2", "i3"]},
-            {"id": "phase_3", "itemKeys": ["i4", "i5", "i6"]}
-          ]
+            {
+              "id": "p1",
+              "itemKeys": ["i0", "i1"],
+              "line": {"speakerId": "gatekeeper", "text": "Hrrm. Two cargo to start. Show me you can tell a slope from a shove."}
+            },
+            {
+              "id": "p2",
+              "itemKeys": ["i2", "i3"],
+              "line": {"speakerId": "gatekeeper", "text": "Two more. My pump maw is hungry, and it hates waste."}
+            },
+            {
+              "id": "p3",
+              "itemKeys": ["i4", "i5", "i6"],
+              "line": {"speakerId": "gatekeeper", "text": "The last three. A billion years of pumping rides on these.", "mood": "solemn"}
+            }
+          ],
+          "taunts": {
+            "approach": [],
+            "fail": [
+              {"speakerId": "gatekeeper", "text": "Hrrm. That one came back up. Direction first. Then ask whether it can pass through oil."},
+              {"speakerId": "gatekeeper", "text": "Hrrm. My maws do not argue. They spit. Look at the slope under what I spat."}
+            ],
+            "byKey": [
+              {
+                "key": "protein_costs_atp",
+                "line": {"speakerId": "gatekeeper", "text": "A door is not an engine. My pump maw will not pay for a downhill trip."}
+              },
+              {
+                "key": "always_downhill",
+                "line": {
+                  "speakerId": "gatekeeper",
+                  "text": "Downhill only, you think. Then nothing would ever climb, and my pump maw has climbed for a billion years."
+                }
+              },
+              {"key": "small_passes", "line": {"speakerId": "gatekeeper", "text": "Small is not welcome. Charge sinks in my oil maw like a stone."}}
+            ]
+          },
+          "music": "boss"
         }
+      }
+    ],
+    "props": [
+      {"id": "halcyon", "zoneId": "zone_a", "asset": "living_gate.part.endocytosis_lift_halcyon", "x": 300, "layer": "L4_back"},
+      {"id": "seal_a", "zoneId": "zone_a", "asset": "living_gate.prop.seal_node", "x": 2900, "layer": "L4_back", "restoredBy": "e2_selectivity"},
+      {"id": null, "zoneId": "zone_b", "asset": "living_gate.npc.poro", "x": 5080, "layer": "L4_play"},
+      {
+        "id": "sluice_steps",
+        "zoneId": "zone_b",
+        "asset": "living_gate.prop.sluice_steps",
+        "x": 6360,
+        "y": 1468,
+        "layer": "L4_play",
+        "states": [{"state": "hidden", "asset": null}, {"state": "revealed", "asset": null}]
+      },
+      {"id": null, "zoneId": "zone_b", "asset": "living_gate.prop.hall_facade", "x": 8000, "layer": "L4_back"},
+      {"id": null, "zoneId": "zone_d", "asset": "living_gate.prop.pore_inner", "x": 4900, "y": 633, "layer": "L4_back"},
+      {"id": null, "zoneId": "zone_d", "asset": "living_gate.prop.pore_plug", "x": 4900, "y": 633, "layer": "L4_back"}
+    ],
+    "npcs": [],
+    "quests": [],
+    "triggers": [],
+    "sandboxes": [],
+    "collectibles": [],
+    "plaques": [
+      {
+        "id": "p1",
+        "zoneId": "zone_a",
+        "x": 1440,
+        "surface": "root_ledge",
+        "asset": "living_gate.prop.plaque_post",
+        "kind": "plaque",
+        "title": "The Two Faces",
+        "text": "Each lipid has a head that loves water and two tails that flee it. Tails hide inside; heads face out.",
+        "sourceRef": null,
+        "requires": null
+      },
+      {
+        "id": "p2",
+        "zoneId": "zone_a",
+        "x": 7040,
+        "surface": "stud_ledge",
+        "asset": "living_gate.prop.plaque_post",
+        "kind": "plaque",
+        "title": "Why Oil Says No",
+        "text": "A charge wants water around it. The bilayer's oily core has none, so ions are turned away.",
+        "sourceRef": null,
+        "requires": null
       }
     ],
     "cutscenes": [
       {
         "id": "intro",
+        "skippable": true,
         "steps": [
-          {"do": "enter_zone", "zoneId": "zone_a", "x": 420},
-          {"do": "fade", "to": "clear", "ms": 800},
-          {"do": "title", "text": "The Living Gate", "sub": null, "ms": 2200},
+          {"do": "enter_zone", "zoneId": "zone_a", "x": 420, "surface": "ground"},
+          {"do": "camera", "x": 700, "y": 1250, "zoom": 1.3, "ms": 0},
+          {"do": "fade", "to": "clear", "ms": 900},
+          {"do": "camera", "x": 700, "y": 540, "zoom": 1, "ms": 2200, "ease": "in_out_sine"},
+          {"do": "title", "text": "THE LIVING GATE", "sub": "Cell V-7 · the outer membrane", "ms": 2400},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "narrator",
+                "text": "Cell V-7, deep in living tissue. Its gates have gone still, and its gradients are draining away.",
+                "mood": "solemn"
+              }
+            ]
+          },
+          {"do": "sfx", "cue": "halcyon_settle"},
+          {"do": "walk", "actor": "player", "toX": 520},
+          {"do": "emote", "actor": "companion", "glyph": "♪"},
+          {"do": "sfx", "cue": "pip_chirp"},
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "pilot",
-                "text": "Everything here has stopped. Let's wake it, one machine at a time.",
-                "mood": "neutral"
+                "text": "Hull's holding at seven nanometres, all hands dry. Welcome to the outside of a living cell, Diver.",
+                "mood": "excited"
+              },
+              {"speakerId": "pilot", "text": "Shrink complete. That wall ahead is the membrane. Nothing gets through it without a reason."},
+              {
+                "speakerId": "pilot",
+                "text": "Bad news first: the Stillness hit this cell. Pumps stopped, gates locked, gradients flattening out.",
+                "mood": "worried"
               }
             ]
-          }
+          },
+          {"do": "pan", "x": 5600, "y": null, "zoom": 0.8, "ms": 2600},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "pilot",
+                "text": "When inside matches outside, a cell goes quiet for good. Equilibrium sounds calm. For a cell, it's the end.",
+                "mood": "solemn"
+              },
+              {
+                "speakerId": "pilot",
+                "text": "Good news: every gate here is a machine, and machines restart. Set each one to its true rule and it runs.",
+                "mood": "excited"
+              },
+              {"speakerId": "pilot", "text": "What crosses, how, and at what cost. Get those right at every gate and we reach the nucleus."}
+            ]
+          },
+          {"do": "pan", "x": 700, "y": null, "zoom": 1, "ms": 1600},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "pilot", "text": "I'll hold the Halcyon's helm. Pip goes with you. Pip, say hello. ...Pip says hello.", "mood": "wry"},
+              {
+                "speakerId": "pilot",
+                "text": "Gradient Meter reads twelve percent. Let's make it a hundred. Pip will blink at anything worth a closer look."
+              }
+            ]
+          },
+          {"do": "music", "cue": "curious"}
         ]
       },
       {
-        "id": "finale",
-        "skippable": false,
+        "id": "e4_raft",
+        "skippable": true,
         "steps": [
-          {
-            "do": "say",
-            "lines": [{"speakerId": "pilot", "text": "The machines hum again. The way home is open.", "mood": "neutral"}]
-          },
-          {"do": "fade", "to": "black", "ms": 1200}
+          {"do": "sfx", "cue": "raft_flood"},
+          {"do": "ride", "vehicle": "living_gate.prop.raft", "toZoneId": "zone_b", "toX": 3960, "ms": 2200, "path": [[3780, 1213], [3780, 873]]}
         ]
       },
       {
         "id": "e6_carry",
+        "skippable": true,
         "steps": [
+          {"do": "walk", "actor": "player", "toX": 7880},
+          {"do": "sfx", "cue": "door_turn"},
           {
             "do": "ride",
             "vehicle": "living_gate.part.carrier_lanes_carrier_door",
             "toZoneId": "zone_c",
             "toX": 300,
-            "ms": 2400
+            "toSurface": "ground",
+            "ms": 900,
+            "path": [[7880, 1213], [7960, 1213]]
+          },
+          {"do": "title", "text": "THE PUMP HALL", "sub": null, "ms": 1600}
+        ]
+      },
+      {
+        "id": "e7_gantry",
+        "skippable": true,
+        "steps": [
+          {"do": "sfx", "cue": "lift_hum"},
+          {
+            "do": "ride",
+            "vehicle": "living_gate.prop.gantry_platform",
+            "toZoneId": "zone_c",
+            "toX": 1900,
+            "toSurface": "pump_deck",
+            "ms": 1400,
+            "path": [[1840, 1213], [1840, 873]]
           }
         ]
       },
       {
-        "id": "e10_carry",
+        "id": "e9_barge",
+        "skippable": true,
         "steps": [
+          {"do": "sfx", "cue": "water_rush"},
+          {
+            "do": "ride",
+            "vehicle": "living_gate.part.tonicity_sluices_barge",
+            "toZoneId": "zone_c",
+            "toX": 5520,
+            "toSurface": "pit_ledge",
+            "ms": 1800,
+            "path": [[5390, 1213], [5390, 873], [5470, 873]]
+          }
+        ]
+      },
+      {
+        "id": "e10_vesicle",
+        "skippable": true,
+        "steps": [
+          {"do": "sfx", "cue": "vesicle_pinch"},
+          {"do": "camera", "x": 7300, "y": 1300, "zoom": 1, "ms": 1500, "ease": "in_out_sine"},
           {
             "do": "ride",
             "vehicle": "living_gate.part.endocytosis_lift_vesicle",
             "toZoneId": "zone_d",
             "toX": 300,
-            "ms": 2400
-          }
+            "ms": 1800,
+            "path": [[7300, 873], [7300, 1250], [7300, 1580]]
+          },
+          {"do": "fade", "to": "white", "ms": 200},
+          {"do": "fade", "to": "clear", "ms": 300},
+          {"do": "title", "text": "THE VAULT ROAD", "sub": "inside cell V-7", "ms": 1600}
+        ]
+      },
+      {
+        "id": "e11_arena",
+        "skippable": true,
+        "steps": [
+          {"do": "music", "cue": "boss"},
+          {"do": "camera", "x": 4300, "y": 640, "zoom": 0.7, "ms": 1400, "ease": "out_cubic"},
+          {"do": "station", "encounterId": "e11_boss", "anim": "wake"},
+          {"do": "sfx", "cue": "gatekeeper_rumble"},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "gatekeeper", "text": "I have pumped for a billion years. Show me you know what costs energy.", "mood": "solemn"},
+              {
+                "speakerId": "gatekeeper",
+                "text": "Three maws. Oil, Channel, Pump. Feed each cargo to the right one. Waste my ATP and the vault stays shut."
+              }
+            ]
+          },
+          {"do": "camera", "x": null, "y": null, "zoom": 1, "ms": 800, "ease": "out_cubic"}
+        ]
+      },
+      {
+        "id": "finale",
+        "skippable": true,
+        "steps": [
+          {
+            "do": "say",
+            "lines": [{"speakerId": "gatekeeper", "text": "The pore turns. Go. And tell the nucleus the pumps are running again.", "mood": "solemn"}]
+          },
+          {"do": "hub", "zoneId": "zone_d", "state": "restored"},
+          {"do": "sfx", "cue": "pore_open"},
+          {"do": "camera", "x": 4900, "y": 560, "zoom": 0.65, "ms": 1800, "ease": "in_out_sine"},
+          {"do": "walk", "actor": "player", "toX": 4900},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "pilot",
+                "text": "The nucleus! You got the whole crew through by knowing what crosses, how, and at what cost.",
+                "mood": "excited"
+              },
+              {
+                "speakerId": "pilot",
+                "text": "Gradient Meter: one hundred percent. Inside and outside are different again. That difference is what alive means."
+              },
+              {
+                "speakerId": "pilot",
+                "text": "Oxygen through the oil, glucose on a carrier, water through Poro, sodium uphill for ATP. You rebuilt a cell's rules."
+              },
+              {"speakerId": "pilot", "text": "Bring Pip home, Diver. And, er... the cell next door is looking a little still, too.", "mood": "wry"}
+            ]
+          },
+          {"do": "fade", "to": "white", "ms": 1200},
+          {"do": "fade", "to": "black", "ms": 600}
         ]
       }
     ],
-    "feedbackNouns": [{"from": "chest", "to": "pod", "stations": ["e1_bilayer", "e3_diffusion", "e4_osmosis", "e7_active"]}]
+    "feedbackNouns": [
+      {"from": "chests", "to": "pods", "stations": ["e1_bilayer", "e3_diffusion", "e4_osmosis", "e7_active"]},
+      {"from": "chest", "to": "pod", "stations": ["e1_bilayer", "e3_diffusion", "e4_osmosis", "e7_active"]}
+    ]
   }
 }

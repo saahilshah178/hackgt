@@ -7,59 +7,90 @@
     "worldVersion": 2,
     "biome": "orrery_terraces",
     "title": "The Orrery Terraces",
+    "subtitle": "The Clockwork Crypt",
     "cast": {
-      "protagonist": {"name": "Wren", "look": {"atlas": "shared.char.wren"}},
+      "protagonist": {
+        "name": "Wren",
+        "look": {
+          "atlas": "shared.char.wren",
+          "scale": 1,
+          "costume": [
+            {"asset": "orrery_terraces.costume.wren_scarf", "anchor": "back", "dx": 0, "dy": -6, "follow": "spring", "layer": "behind"},
+            {"asset": "orrery_terraces.costume.wren_satchel", "anchor": "back", "dx": -8, "dy": 20, "follow": "rigid", "layer": "behind"},
+            {"asset": "orrery_terraces.costume.wren_staff", "anchor": "hand_r", "dx": 0, "dy": -6, "follow": "rigid", "layer": "front"},
+            {"asset": "orrery_terraces.costume.wren_hair_bun", "anchor": "head", "dx": 0, "dy": -30, "follow": "rigid", "layer": "front"}
+          ]
+        }
+      },
       "guide": {
         "characterId": "cog",
-        "emblem": {"glyph": "owl", "ring": "#C69A6B", "accent": "#8FE0EA"},
-        "companion": {"asset": "orrery_terraces.companion.cog"}
+        "emblem": {"glyph": "owl", "ring": "#D9A441", "accent": "#FFFFFF", "gaps": 2},
+        "portrait": null,
+        "companion": {"asset": "orrery_terraces.companion.cog", "offset": [-40, -150], "lagSec": 0.35, "bobPx": 5, "awakeFlag": "cog_awake"}
       },
-      "speakers": [{"characterId": "warden", "emblem": {"glyph": "orrery", "ring": "#3E3F74", "accent": "#F2A65A"}}],
+      "speakers": [{"characterId": "warden", "emblem": {"glyph": "slit", "ring": "#6E4A2E", "accent": "#6ED2F2", "gaps": 1}, "portrait": null}],
       "extras": [
         {
           "id": "brasswick",
           "name": "Brasswick",
-          "role": "a nervous clockwork scholar",
+          "role": "gardener automaton",
           "voiceArchetype": "nervous_scholar",
-          "emblem": {"glyph": "gear", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "leaf", "ring": "#6FD98E", "accent": "#F5F8F8", "gaps": 1},
+          "portrait": null
         },
         {
           "id": "lumen",
           "name": "Lumen",
-          "role": "keeper of the crystal stair",
+          "role": "lamplighter automaton",
           "voiceArchetype": "wise_mentor",
-          "emblem": {"glyph": "star", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "flame", "ring": "#D9A441", "accent": "#F6D27A", "gaps": 1},
+          "portrait": null
         },
         {
           "id": "quill",
           "name": "Quill",
-          "role": "the terraces' record-keeper",
+          "role": "scribe-beetle archivist",
           "voiceArchetype": "narrator",
-          "emblem": {"glyph": "quill", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "nib", "ring": "#F5F8F8", "accent": "#27466A", "gaps": 2},
+          "portrait": null
         },
         {
           "id": "mimic",
           "name": "The Mimic",
-          "role": "a singer that sings false",
+          "role": "impostor in a choir shell",
           "voiceArchetype": "sly_villain",
-          "emblem": {"glyph": "crab", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "crab", "ring": "#C99A4A", "accent": "#6ED2F2", "gaps": 1},
+          "portrait": null
         },
         {
           "id": "ilse",
-          "name": "Ilse",
-          "role": "the astronomer, recorded",
+          "name": "Ilse Vantor",
+          "role": "the astronomer (recorded)",
           "voiceArchetype": "wise_mentor",
-          "emblem": {"glyph": "star", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "star", "ring": "#F6D27A", "accent": "#FFF4D6", "gaps": 0},
+          "portrait": "orrery_terraces.npc.ilse_stars"
         }
       ]
     },
     "story": {
-      "logline": "The orrery's rhythms have fallen out of time. Restore each machine and the Star Door opens.",
+      "logline": "Wake the canyon's great sky-clock by reading the rhythms its machines run on, before the evening star Vesper sets.",
       "objective": "Restore the orrery's starlight",
       "objectiveLabel": "RHYTHMS",
       "restoredNoun": "rhythm",
       "introCutsceneId": "intro",
-      "finaleCutsceneId": "finale"
+      "finaleCutsceneId": "finale",
+      "meter": null,
+      "progressEffects": [
+        {"kind": "beam_line", "encounterId": "e1_radians", "zoneId": "z1_sunward", "from": [5560, 900], "to": [7800, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e2_period", "zoneId": "z1_sunward", "from": [7900, 520], "to": [7800, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e3_amplitude", "zoneId": "z2_crystal", "from": [2960, 1000], "to": [9000, 0], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e4_solve", "zoneId": "z2_crystal", "from": [5420, 1000], "to": [9000, 0], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e5_period_review", "zoneId": "z2_crystal", "from": [9300, 420], "to": [9000, 0], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e6_boss", "zoneId": "z3_dome", "from": [4700, 300], "to": [5200, 0], "depth": "L1_far"}
+      ],
+      "map": null,
+      "journal": {"title": "Journal", "style": "parchment"},
+      "recordStrip": null
     },
     "zones": [
       {
@@ -239,18 +270,8 @@
           "maxStepUp": 102
         },
         "platforms": [
-          {
-            "id": "canal_stone",
-            "points": [[2220, 1300], [2280, 1300]],
-            "asset": "orrery_terraces.prop.stepping_stone",
-            "requires": null
-          },
-          {
-            "id": "wisp_ledge",
-            "points": [[3500, 1270], [3600, 1270]],
-            "asset": "orrery_terraces.prop.ledge_cap",
-            "requires": null
-          }
+          {"id": "canal_stone", "points": [[2220, 1300], [2280, 1300]], "asset": "orrery_terraces.prop.stepping_stone", "requires": null},
+          {"id": "wisp_ledge", "points": [[3500, 1270], [3600, 1270]], "asset": "orrery_terraces.prop.ledge_cap", "requires": null}
         ],
         "links": [
           {
@@ -280,6 +301,8 @@
             "apex": 90,
             "twoWay": true
           },
+          {"kind": "drop", "id": "s0_canal_in", "from": {"surface": "ground", "x": 2110}, "to": {"surface": "ground", "x": 2200}, "requires": null},
+          {"kind": "drop", "id": "s0_canal_in", "from": {"surface": "ground", "x": 2110}, "to": {"surface": "ground", "x": 2200}, "requires": null},
           {
             "kind": "climb",
             "id": "s0_canal_rungs",
@@ -330,76 +353,460 @@
         "height": 2400,
         "layerSets": [
           {
-            "id": "z2_crystal_kit",
+            "id": "hall_peach",
             "layers": [
-              {"asset": "orrery_terraces.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 1200},
               {
-                "asset": "orrery_terraces.layer.default_midfar",
+                "asset": "orrery_terraces.layer.z2_clouds",
+                "depth": "L1_far",
+                "scrollFactor": 0.04,
+                "scrollFactorY": null,
+                "y": 80,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 9
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_mesa",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 1000,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.orrery_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 720,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_crystal_field",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 1380
+                "scrollFactorY": null,
+                "y": 1080,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "orrery_terraces.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 1520}
+              {
+                "asset": "orrery_terraces.layer.z2_colonnade",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 1160,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_fore",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1840,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_dapple",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 0.25,
+                "blend": "multiply",
+                "blurPx": 0,
+                "driftPxPerSec": 4
+              }
+            ]
+          },
+          {
+            "id": "stair_peach",
+            "layers": [
+              {
+                "asset": "orrery_terraces.layer.z2_clouds",
+                "depth": "L1_far",
+                "scrollFactor": 0.04,
+                "scrollFactorY": null,
+                "y": 80,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 9
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_mesa",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 1000,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.orrery_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 720,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_crystal_field",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 1080,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_cliffwall",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 560,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_fore",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1340,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z2_godrays",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 0.18,
+                "blend": "add",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "z2_crystal_kit",
+            "id": "hall_peach",
             "x0": 0,
-            "x1": 9600,
-            "layerSet": "z2_crystal_kit",
+            "x1": 3200,
+            "layerSet": "hall_peach",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [{"at": 0, "color": "#E9C9C0"}, {"at": 0.5, "color": "#F2D8C8"}, {"at": 1, "color": "#FAE9D8"}],
+              "haze": {"color": "#F6D3C3", "alpha": 0.2}
             },
-            "ambient": {"light": "peach"}
+            "ambient": {
+              "light": "peach",
+              "particles": "dust",
+              "particleCount": 20,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0.05, "brightness": 0, "hue": 0}
+            },
+            "weather": "clear",
+            "music": "calm",
+            "runEnabled": true,
+            "variants": []
+          },
+          {
+            "id": "stair_peach",
+            "x0": 3200,
+            "x1": 9600,
+            "layerSet": "stair_peach",
+            "sky": {
+              "stops": [{"at": 0, "color": "#E9C9C0"}, {"at": 0.5, "color": "#F2D8C8"}, {"at": 1, "color": "#FAE9D8"}],
+              "haze": {"color": "#F6D3C3", "alpha": 0.2}
+            },
+            "ambient": {
+              "light": "peach",
+              "particles": "dust",
+              "particleCount": 20,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0.05, "brightness": 0, "hue": 0}
+            },
+            "weather": "mist",
+            "music": "calm",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1900], [9600, 1900]], "surface": "orrery_terraces.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [
+            [0, 1900],
+            [2878, 1900],
+            [2880, 1400],
+            [4198, 1400],
+            [4202, 2380],
+            [5098, 2380],
+            [5102, 1400],
+            [7298, 1400],
+            [7300, 1314],
+            [7378, 1314],
+            [7380, 1229],
+            [7458, 1229],
+            [7460, 1143],
+            [7538, 1143],
+            [7540, 1057],
+            [7618, 1057],
+            [7620, 971],
+            [7698, 971],
+            [7700, 886],
+            [7778, 886],
+            [7780, 800],
+            [9340, 800],
+            [9350, 400],
+            [9600, 400]
+          ],
+          "surface": "orrery_terraces.ground.paving",
+          "underside": "orrery_terraces.ground.cliff_underside",
+          "maxStepUp": 102
+        },
+        "platforms": [],
+        "links": [],
         "exits": [
           {
             "id": "z2_to_z3",
             "x": 9590,
+            "surface": "ground",
             "toZoneId": "z3_dome",
             "toX": 60,
+            "toSurface": "ground",
             "transition": "vertical_up",
-            "requires": {"solved": "e5_period_review"}
+            "requires": {"solved": "e5_period_review", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": null
           }
         ],
-        "entry": {"x": 60}
+        "hub": null,
+        "entry": {"x": 60, "surface": "ground"},
+        "entryCutsceneId": "z2_entry",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 300, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "z3_dome",
-        "name": "Warden's Dome",
+        "name": "The Warden's Dome",
         "width": 5400,
         "height": 1400,
         "layerSets": [
           {
-            "id": "z3_dome_kit",
+            "id": "gantry_dusk",
             "layers": [
-              {"asset": "orrery_terraces.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 500},
-              {"asset": "orrery_terraces.layer.default_midfar", "depth": "L2_midfar", "scrollFactor": 0.35, "y": 680},
-              {"asset": "orrery_terraces.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 820}
+              {
+                "asset": "orrery_terraces.layer.z3_stars",
+                "depth": "L1_far",
+                "scrollFactor": 0.02,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z3_mesa",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 520,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.orrery_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 220,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z3_gantry_truss",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 640,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z3_fore",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1160,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
+            ]
+          },
+          {
+            "id": "dome_interior",
+            "layers": [
+              {
+                "asset": "orrery_terraces.layer.z3_stars",
+                "depth": "L1_far",
+                "scrollFactor": 0.02,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.dome_interior",
+                "depth": "L3_mid",
+                "scrollFactor": 0.85,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "orrery_terraces.layer.z3_dome_fore",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1160,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "z3_dome_kit",
+            "id": "gantry_dusk",
             "x0": 0,
-            "x1": 5400,
-            "layerSet": "z3_dome_kit",
+            "x1": 2400,
+            "layerSet": "gantry_dusk",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#9E86D8"},
+                {"at": 0.5, "color": "#C9A0DE"},
+                {"at": 0.85, "color": "#F7C9B8"},
+                {"at": 1, "color": "#F2B8D4"}
+              ],
+              "haze": {"color": "#F2B8D4", "alpha": 0.3}
             },
-            "ambient": {"light": "dusk"}
+            "ambient": {
+              "light": "dusk",
+              "particles": "stars",
+              "particleCount": 30,
+              "shadowColor": "#5B4B8A",
+              "dapple": null,
+              "grade": {"saturation": 0, "brightness": -0.04, "hue": 0}
+            },
+            "weather": "clear",
+            "music": "tense",
+            "runEnabled": true,
+            "variants": []
+          },
+          {
+            "id": "dome_interior",
+            "x0": 2400,
+            "x1": 5400,
+            "layerSet": "dome_interior",
+            "sky": {
+              "stops": [{"at": 0, "color": "#5B4B8A"}, {"at": 0.6, "color": "#7E6A9E"}, {"at": 1, "color": "#B7A2D9"}],
+              "haze": {"color": "#B7A2D9", "alpha": 0.2}
+            },
+            "ambient": {
+              "light": "interior",
+              "particles": "motes",
+              "particleCount": 30,
+              "shadowColor": "#5B4B8A",
+              "dapple": null,
+              "grade": {"saturation": -0.05, "brightness": -0.06, "hue": 0}
+            },
+            "weather": "clear",
+            "music": null,
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1200], [5400, 1200]], "surface": "orrery_terraces.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [[0, 1200], [5400, 1200]],
+          "surface": "orrery_terraces.ground.dome_floor",
+          "underside": "orrery_terraces.ground.cliff_underside",
+          "maxStepUp": 102
+        },
+        "platforms": [],
+        "links": [],
         "exits": [],
-        "entry": {"x": 60}
+        "hub": null,
+        "entry": {"x": 60, "surface": "ground"},
+        "entryCutsceneId": "z3_entry",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       }
     ],
     "stations": [
@@ -407,26 +814,141 @@
         "encounterId": "e1_radians",
         "zoneId": "z1_sunward",
         "consoleX": 4300,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 4800, "y": 1140},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
+        "approachRadius": 500,
+        "contraption": "emitter_rail",
+        "skin": "vesper_dial",
+        "config": {
+          "rail": "arc",
+          "radius": 310,
+          "gauges": ["sin", "cos"],
+          "hiddenTarget": "fog",
+          "detent": "pi/12",
+          "readout": "bracket",
+          "chevrons": true,
+          "cards": {"unitCircle": true, "cosTier": 1, "sixthsTier": 2}
+        },
         "objectNoun": "Vesper Dial",
-        "panel": {"verifyLabel": "ALIGN THE DIAL", "successBadge": "VESPER ALIGNED"},
+        "partNouns": ["carriage", "rail"],
+        "pins": [{"anchor": "pin", "text": "5π/6", "glyph": null}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [{"predicate": "nearValue", "value": "5*pi/3", "tolFactor": 1, "key": "fullturn"}],
+        "hintTargets": [
+          [{"anchor": "center", "action": "circle", "holdMs": 1500}],
+          [{"anchor": "beam_origin", "action": "ride", "holdMs": 3000}],
+          [{"anchor": "pin", "action": "land", "holdMs": 1500}]
+        ],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": "θ",
+          "verifyLabel": "ALIGN THE DIAL",
+          "successBadge": "VESPER ALIGNED",
+          "cards": [
+            {"slot": 0, "title": "UNIT CIRCLE", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "sin θ", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "cos θ", "x": null, "y": null, "hidden": false}
+          ]
+        },
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Vesper Dial.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [
+            {
+              "speakerId": "cog",
+              "text": "The Vesper Dial! It tells the Orrery where the evening star rises. Its carriage is parked at sunrise.",
+              "mood": "neutral"
+            },
+            {
+              "speakerId": "cog",
+              "text": "Fog hides the star's lens, so we can't aim by eye. The dial only knows the bearing in radians.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "cog",
+            "text": "Swing the carriage along the rail to 5π/6 so Vesper's light can find its lens.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Vesper Dial wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "cog",
+            "text": "Drag the orange knob or use the arrow keys. Only quarter marks are labelled; count the small studs.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "cog",
+            "text": "Each labelled stud marks a quarter lap, and six small studs split every quarter.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "cog", "text": "A full lap of the rail is 2π, so π is only halfway round. Hoo, that's the whole trick.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "5π/6 is a little less than π. Count the studs in sixths of π, starting from sunrise.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "It sits between the top mark, π/2, and the halfway mark, π, closer to halfway.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {"speakerId": "cog", "text": "The beam hit the rim, not the lens. Recount the studs from sunrise.", "mood": "neutral"},
+            "byKey": [
+              {
+                "key": "under",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "The beam hit fog. The carriage stopped short; count the gaps from sunrise again.",
+                  "mood": "neutral"
+                }
+              },
+              {
+                "key": "over",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "Past it! The light's scattering off the rim. Walk the carriage back and recount the sixths.",
+                  "mood": "neutral"
+                }
+              },
+              {
+                "key": "fullturn",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "Five-sixths of the whole rail, and the beam's in the floor. π only walks you halfway round.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "cog",
+            "text": "A radian is a walk, not a turn: π carries you exactly halfway round any circle.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "cog", "text": "Vesper's lens! And the dial is turning its spokes into a stair. Up we go!", "mood": "neutral"},
+          "after": [{"speakerId": "cog", "text": "One rhythm restored. See that beam climbing to the rim? The Orrery felt it.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "stairs_rise",
           "noun": "spoke stair",
-          "blocker": {"x": 4600},
-          "rideCutsceneId": null
+          "blocker": {"x": 5380, "surface": "ground", "asset": null},
+          "terrain": [
+            {
+              "surface": "ground",
+              "points": [
+                [5098, 1440],
+                [5100, 1360],
+                [5158, 1360],
+                [5160, 1280],
+                [5218, 1280],
+                [5220, 1200],
+                [5278, 1200],
+                [5280, 1120],
+                [5338, 1120],
+                [5340, 1040],
+                [5400, 1040]
+              ]
+            }
+          ],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -434,26 +956,148 @@
         "encounterId": "e2_period",
         "zoneId": "z1_sunward",
         "consoleX": 6900,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 7400, "y": 836},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
+        "approachRadius": 500,
+        "contraption": "ring_gate",
+        "skin": "ring_gate",
+        "config": {
+          "flow": "water",
+          "tally": true,
+          "replayOnSettle": true,
+          "ghostCard": true,
+          "lapsCardTier": 2,
+          "startMarkerTier": 1,
+          "variant": "notch"
+        },
         "objectNoun": "Tidewheel Gate",
-        "panel": {"verifyLabel": "LOCK THE RINGS", "successBadge": "RINGS LOCKED"},
+        "partNouns": ["latch timer", "ring", "notch"],
+        "pins": [{"anchor": "tally", "text": "I", "glyph": null}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [
+          {"predicate": "nearValue", "value": "pi/2", "tolFactor": 1, "key": "half"},
+          {"predicate": "nearValue", "value": "2*pi", "tolFactor": 1, "key": "double"}
+        ],
+        "hintTargets": [
+          [{"anchor": "ring_center", "action": "circle", "holdMs": 1500}],
+          [{"anchor": "inner_hub", "action": "land", "holdMs": 1500}],
+          [{"anchor": "tally", "action": "land", "holdMs": 2000}]
+        ],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": "T",
+          "verifyLabel": "LOCK THE RINGS",
+          "successBadge": "RINGS LOCKED",
+          "cards": [
+            {"slot": 0, "title": "f(t)", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "f(t + T)", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "laps", "x": null, "y": null, "hidden": false}
+          ]
+        },
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Tidewheel Gate.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [
+            {
+              "speakerId": "cog",
+              "text": "The Tidewheel Gate. Its ring runs on y = sin(2t). It must lap once and lock, or the canals stay dry.",
+              "mood": "excited"
+            },
+            {"speakerId": "cog", "text": "Those rings spin on a sine wave. Watch how fast, not how far.", "mood": "neutral"}
+          ],
+          "instruction": {
+            "speakerId": "cog",
+            "text": "Set the latch timer to one full period, so the ring's notch comes home and the gate locks open.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Tidewheel Gate wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "cog",
+            "text": "The ring shows where it'll be when the latch fires. The green ghost is the wave, shifted by your timer.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "cog",
+            "text": "Where the green ghost lies exactly on the white wave, the ring is home and heading the same way.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {
+              "speakerId": "cog",
+              "text": "A period is how long the ring takes to come back to where it started, moving the same way.",
+              "mood": "neutral"
+            },
+            {"speakerId": "cog", "text": "For y = sin(b·t), one period lasts 2π/|b|. The 2 in sin(2t) is b.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Here b = 2, so divide 2π by 2.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "cog",
+              "text": "The pawl found no notch to catch. Watch the ring come home, moving the way it started.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "over",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "The latch waited too long: the ring kept going past home and the catch slipped. One lap is all it wants.",
+                  "mood": "worried"
+                }
+              },
+              {
+                "key": "under",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "Too soon! The notch hasn't come home. A faster wheel still needs one whole lap.",
+                  "mood": "worried"
+                }
+              },
+              {
+                "key": "half",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "Half a lap: the wave's back at zero, but heading down. A period ends moving the way it began.",
+                  "mood": "neutral"
+                }
+              },
+              {
+                "key": "double",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "Two laps! The tally counts two. The gate wants one lap, not the lap of plain old sin(t).",
+                  "mood": "wry"
+                }
+              },
+              {
+                "key": "aligned_multiple",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "Two laps! The tally counts two. The gate wants one lap, not the lap of plain old sin(t).",
+                  "mood": "wry"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "cog",
+            "text": "Speed up the wheel and every lap gets shorter: double b, and the period halves.",
+            "mood": "excited"
+          },
+          "payoffLine": {"speakerId": "cog", "text": "Hoo-hoo! Listen to that water. The Tidewheel's turning again.", "mood": "excited"},
+          "after": [
+            {"speakerId": "cog", "text": "Two rhythms. Brasswick's arm should be back in step. He's been waiting on that water.", "mood": "neutral"}
+          ]
         },
         "payoff": {
           "kind": "remove_blocker",
           "vertical": "none",
           "anim": "door_opens",
           "noun": "Tidewheel doorway",
-          "blocker": {"x": 7200},
-          "rideCutsceneId": null
+          "blocker": {"x": 7330, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -461,26 +1105,162 @@
         "encounterId": "e3_amplitude",
         "zoneId": "z2_crystal",
         "consoleX": 1500,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 2000, "y": 1900},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Resonance Pillars",
-        "panel": {"verifyLabel": "EXPOSE THE MIMIC", "successBadge": "MIMIC EXPOSED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Resonance Pillars.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "resonance_pillars",
+        "config": {
+          "holders": [
+            {
+              "statementIndex": 0,
+              "footprint": null,
+              "ghost": null,
+              "trace": {
+                "fns": [{"expr": "3*sin(x)", "style": "solid", "color": "g"}, {"expr": "0", "style": "dashed", "color": "g"}],
+                "brackets": [{"x0": "pi/2", "y0": "0", "x1": "pi/2", "y1": "3", "label": "amplitude 3"}],
+                "markers": []
+              }
+            },
+            {
+              "statementIndex": 1,
+              "footprint": null,
+              "ghost": null,
+              "trace": {
+                "fns": [{"expr": "3*sin(x)", "style": "solid", "color": "g"}, {"expr": "3", "style": "dashed", "color": "g"}],
+                "brackets": [{"x0": "3*pi/2", "y0": "-3", "x1": "3*pi/2", "y1": "3", "label": "amplitude 6"}],
+                "markers": []
+              }
+            },
+            {
+              "statementIndex": 2,
+              "footprint": null,
+              "ghost": null,
+              "trace": {
+                "fns": [{"expr": "3*sin(x)", "style": "solid", "color": "g"}, {"expr": "sin(x)", "style": "dashed", "color": "g"}],
+                "brackets": [{"x0": "0", "y0": "-3.6", "x1": "2*pi", "y1": "-3.6", "label": "period 2π"}],
+                "markers": []
+              }
+            }
+          ],
+          "reference": {"expr": "3*sin(x)", "xMin": "0", "xMax": "2*pi", "yMin": -4, "yMax": 4, "xUnit": "pi"},
+          "referenceSim": null,
+          "probe": {
+            "symbol": "x",
+            "label": "probe x",
+            "min": 0,
+            "max": 6.283185307179586,
+            "step": 0.06544984694978735,
+            "unit": "",
+            "format": "pi",
+            "initial": null,
+            "stops": [],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Resonance Pillars wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "trace_slate",
+          "scenarioMin": null,
+          "hintPins": [],
+          "fileDates": [],
+          "aimer": "tuning_lens",
+          "quarantineAnim": "mimic_crab",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Echo Choir",
+        "partNouns": ["Tuning Lens", "singer"],
+        "pins": [{"anchor": "lift", "text": null, "glyph": "bell"}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [],
+        "hintTargets": [
+          [{"anchor": "lens", "action": "circle", "holdMs": 1500}],
+          [
+            {"anchor": "slate_0", "action": "hover", "holdMs": 700},
+            {"anchor": "slate_1", "action": "hover", "holdMs": 700},
+            {"anchor": "slate_2", "action": "hover", "holdMs": 700}
+          ],
+          [{"anchor": "lens", "action": "land", "holdMs": 1500}]
+        ],
+        "panel": {
+          "layout": "board",
+          "inputSymbol": null,
+          "verifyLabel": "EXPOSE THE MIMIC",
+          "successBadge": "MIMIC EXPOSED",
+          "cards": [
+            {"slot": 0, "title": "SINGERS", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "reference", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "claim", "x": null, "y": null, "hidden": false},
+            {"slot": 3, "title": "|y|", "x": null, "y": null, "hidden": false}
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "cog",
+              "text": "The Echo Choir. Three automata sing the builders' laws of amplitude. One is a mimic in a choir shell.",
+              "mood": "neutral"
+            },
+            {
+              "speakerId": "cog",
+              "text": "Mimics love a half-truth. Aim the Tuning Lens at a singer and compare its trace to the reference.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "cog",
+            "text": "Aim the Tuning Lens at each singer, compare its trace to the reference wave, and expose the mimic.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "cog",
+            "text": "White is the astronomer's wave; green is the aimed singer's claim. The orange probe walks the lens's playhead.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "cog",
+            "text": "Listen as the probe walks: the bell sings the distance from the middle, peak or trough alike.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "cog", "text": "Amplitude is measured from the midline, not across the whole swing.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Peak to trough is twice the amplitude. Check where each singer starts its bracket.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "The mimic claims: The amplitude of y = 3sin(x) is 6, peak to trough.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "cog",
+              "text": "An honest bell! That singer's claim holds. Look again at where each bracket starts measuring.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {
+            "speakerId": "cog",
+            "text": "Amplitude is measured from the middle: swing up to 3 and down to −3, and the amplitude is still 3.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "mimic",
+            "text": "Sss! Six looked so much bigger. Nobody measures from the middle anymore...",
+            "mood": "neutral"
+          },
+          "after": [
+            {"speakerId": "cog", "text": "It was jamming the lift gear! The Echo Lift is rising. Hop on, Wren.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Three rhythms. The crystals up here are waking. Hear them humming?", "mood": "neutral"}
+          ]
         },
         "payoff": {
           "kind": "ride",
           "vertical": "up",
           "anim": "lift_moves",
           "noun": "Echo Lift",
-          "blocker": {"x": 1800},
-          "rideCutsceneId": null
+          "blocker": {"x": 2870, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": "e3_lift_up",
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -488,26 +1268,155 @@
         "encounterId": "e4_solve",
         "zoneId": "z2_crystal",
         "consoleX": 3900,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 4650, "y": 1400},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Solving Span",
-        "panel": {"verifyLabel": "LAY THE SPAN", "successBadge": "SPAN LOCKED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Solving Span.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "step_bridge",
+        "skin": "floating_steps",
+        "config": {
+          "bays": "floating",
+          "items": [
+            {"key": "s0", "meta": {"printedDate": null, "madeYear": null, "glyph": "balance_div2", "label": "isolate"}},
+            {"key": "s1", "meta": {"printedDate": null, "madeYear": null, "glyph": "angle_wedge", "label": "reference angle"}},
+            {"key": "s2", "meta": {"printedDate": null, "madeYear": null, "glyph": "upper_half_circle", "label": "quadrants"}},
+            {"key": "s3", "meta": {"printedDate": null, "madeYear": null, "glyph": "twin_beacons", "label": "both solutions"}},
+            {"key": "d0", "meta": {"printedDate": null, "madeYear": null, "glyph": "arcsin_arrow", "label": "inverse sine"}}
+          ],
+          "stepEffects": [
+            {"key": "s0", "effect": "scaleEquation"},
+            {"key": "s1", "effect": "markAngle"},
+            {"key": "s2", "effect": "shadeQuadrants"},
+            {"key": "s3", "effect": "markSolutions"},
+            {"key": "d0", "effect": "missCircle"}
+          ],
+          "stages": [],
+          "anchors": 2,
+          "relief": {"expr": "2*sin(x)", "line": "1"},
+          "probe": {
+            "symbol": "x",
+            "label": "probe x",
+            "min": 0,
+            "max": 6.283185307179586,
+            "step": 0.06544984694978735,
+            "unit": "",
+            "format": "pi",
+            "initial": null,
+            "stops": [],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Solving Span wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "relief_marker",
+          "dayCounter": null,
+          "bayLampsTier": 1,
+          "pageOrderHeading": null
+        },
+        "objectNoun": "Solving Span",
+        "partNouns": ["glyph stones", "span", "socket"],
+        "pins": [{"anchor": "pylon_a", "text": "x₁", "glyph": null}, {"anchor": "pylon_b", "text": "x₂", "glyph": null}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [{"predicate": "keyInSlot", "itemKey": "s3", "slot": 2, "key": "early"}],
+        "hintTargets": [
+          [{"anchor": "socket_0", "action": "land", "holdMs": 1500}],
+          [{"anchor": "lip_relief", "action": "circle", "holdMs": 2000}],
+          [{"anchor": "pylon_b", "action": "hover", "holdMs": 2000}]
+        ],
+        "panel": {
+          "layout": "board",
+          "inputSymbol": null,
+          "verifyLabel": "LAY THE SPAN",
+          "successBadge": "SPAN LOCKED",
+          "cards": [
+            {"slot": 0, "title": "SPAN", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "UNIT CIRCLE", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "2 sin x = 1", "x": null, "y": null, "hidden": false}
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "cog",
+              "text": "The Chasm of Two Answers. The span holds only if its stones are laid in the order you'd solve 2sin(x) = 1.",
+              "mood": "neutral"
+            },
+            {"speakerId": "cog", "text": "Two anchor pylons on the far side. The Measurers never built two pylons for nothing.", "mood": "neutral"}
+          ],
+          "instruction": {
+            "speakerId": "cog",
+            "text": "Lay the glyph stones in solving order to build the span. One stone doesn't belong.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "cog",
+            "text": "Pick a stone, then a socket. Socket 1 is nearest you. Lay the Span once every socket is filled.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "cog",
+            "text": "The lip relief is carved as 2 sin x, the water line sits at 1, and every glint marks where they meet.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "cog", "text": "Get the sine by itself before anything else.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Find the quadrant-I angle whose sine is 1/2. That's your reference angle.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Sine is positive in two quadrants, which is why there are two answers, and two pylons.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "cog",
+              "text": "The span won't hold that way. Watch where it tips: the order breaks right there.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "order",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "The span held up to a point, then a stone tipped. Something has to happen right before that one.",
+                  "mood": "neutral"
+                }
+              },
+              {
+                "key": "decoy",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "That stone crumbled: no angle has a sine of 2. You can't undo the 2 until the sine stands alone.",
+                  "mood": "neutral"
+                }
+              },
+              {
+                "key": "early",
+                "line": {
+                  "speakerId": "cog",
+                  "text": "The span reached for both pylons too soon. It needs one more fact about the circle first.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "cog",
+            "text": "An equation can have two doors: sine is positive twice on every lap, at π/6 and at 5π/6.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "cog",
+            "text": "Both pylons lit! Isolate, reference angle, quadrants, both solutions. Now let's walk it.",
+            "mood": "neutral"
+          },
+          "after": [{"speakerId": "cog", "text": "Four rhythms. The Crystal Stair is ahead, and I can hear the Treasury chimes.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "none",
           "anim": "bridge_forms",
           "noun": "Solving Span",
-          "blocker": {"x": 4200},
-          "rideCutsceneId": null
+          "blocker": {"x": 4190, "surface": "ground", "asset": null},
+          "terrain": [{"surface": "ground", "points": [[4198, 1400], [4290, 1400], [4510, 1392], [4730, 1392], [4950, 1400], [5102, 1400]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -515,26 +1424,181 @@
         "encounterId": "e5_period_review",
         "zoneId": "z2_crystal",
         "consoleX": 8500,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 8800, "y": 800},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Treasury Pillars",
-        "panel": {"verifyLabel": "EXPOSE THE MIMIC", "successBadge": "MIMIC EXPOSED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Treasury Pillars.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "treasury_pillars",
+        "config": {
+          "holders": [
+            {
+              "statementIndex": 0,
+              "footprint": null,
+              "ghost": null,
+              "trace": {
+                "fns": [{"expr": "sin(2*x)", "style": "solid", "color": "g"}],
+                "brackets": [{"x0": "0", "y0": "-1.3", "x1": "pi", "y1": "-1.3", "label": "period π"}],
+                "markers": [
+                  {"x": "pi", "y": "0", "kind": "period"},
+                  {"x": "2*pi", "y": "0", "kind": "period"},
+                  {"x": "3*pi", "y": "0", "kind": "period"},
+                  {"x": "4*pi", "y": "0", "kind": "period"}
+                ]
+              }
+            },
+            {
+              "statementIndex": 1,
+              "footprint": null,
+              "ghost": null,
+              "trace": {
+                "fns": [{"expr": "sin(2*x)", "style": "solid", "color": "g"}],
+                "brackets": [{"x0": "0", "y0": "-1.3", "x1": "4*pi", "y1": "-1.3", "label": "period 4π"}],
+                "markers": [
+                  {"x": "pi", "y": "0", "kind": "period"},
+                  {"x": "2*pi", "y": "0", "kind": "period"},
+                  {"x": "3*pi", "y": "0", "kind": "period"},
+                  {"x": "4*pi", "y": "0", "kind": "period"}
+                ]
+              }
+            },
+            {
+              "statementIndex": 2,
+              "footprint": null,
+              "ghost": null,
+              "trace": {
+                "fns": [{"expr": "cos(x/2)", "style": "solid", "color": "g"}],
+                "brackets": [{"x0": "0", "y0": "-1.3", "x1": "4*pi", "y1": "-1.3", "label": "period 4π"}],
+                "markers": [{"x": "4*pi", "y": "1", "kind": "period"}]
+              }
+            }
+          ],
+          "reference": {"expr": "sin(x)", "xMin": "0", "xMax": "4*pi", "yMin": -1.5, "yMax": 1.5, "xUnit": "pi"},
+          "referenceSim": null,
+          "probe": {
+            "symbol": "x",
+            "label": "probe x",
+            "min": 0,
+            "max": 12.566370614359172,
+            "step": 0.06544984694978735,
+            "unit": "",
+            "format": "pi",
+            "initial": null,
+            "stops": [],
+            "window": null,
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Treasury Pillars wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "trace_slate",
+          "scenarioMin": null,
+          "hintPins": [],
+          "fileDates": [],
+          "aimer": "tuning_lens",
+          "quarantineAnim": "mimic_crab",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Chime Treasury",
+        "partNouns": ["lens", "singer", "period bracket"],
+        "pins": [{"anchor": "chest_hinge", "text": null, "glyph": "bell"}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [],
+        "hintTargets": [
+          [{"anchor": "lens", "action": "circle", "holdMs": 1500}],
+          [
+            {"anchor": "slate_0", "action": "hover", "holdMs": 700},
+            {"anchor": "slate_1", "action": "hover", "holdMs": 700},
+            {"anchor": "slate_2", "action": "hover", "holdMs": 700}
+          ],
+          [{"anchor": "lens", "action": "land", "holdMs": 1500}]
+        ],
+        "panel": {
+          "layout": "board",
+          "inputSymbol": null,
+          "verifyLabel": "EXPOSE THE MIMIC",
+          "successBadge": "MIMIC EXPOSED",
+          "cards": [
+            {"slot": 0, "title": "SINGERS", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "reference", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "claim", "x": null, "y": null, "hidden": false},
+            {"slot": 3, "title": "period marks", "x": null, "y": null, "hidden": false}
+          ]
+        },
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "cog",
+              "text": "The Chime Treasury. Its singers remember the Tidewheel Gate, and one of them remembers it wrong.",
+              "mood": "neutral"
+            },
+            {"speakerId": "cog", "text": "This is the trickiest choir yet. Every claim sounds like something we've already seen.", "mood": "neutral"}
+          ],
+          "instruction": {
+            "speakerId": "cog",
+            "text": "Aim the lens at each singer, count the cycles inside its period bracket, and expose the mimic.",
+            "mood": "neutral"
+          },
+          "tutorial": null,
+          "insight": {
+            "speakerId": "cog",
+            "text": "A true period bracket closes exactly where the wave comes home, moving the same way.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "cog", "text": "Period = 2π/|b|. Check each claim with it.", "mood": "neutral"},
+            {
+              "speakerId": "cog",
+              "text": "A bigger b means a faster wave and a shorter period. A true period bracket holds exactly one cycle.",
+              "mood": "neutral"
+            },
+            {"speakerId": "cog", "text": "The mimic claims: y = sin(2x) has period 4π, twice that of sin(x).", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "cog",
+              "text": "Honest! That bracket holds exactly one cycle. Test the others with 2π over b.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {
+            "speakerId": "cog",
+            "text": "A wave that repeats twice as often waits half as long: sin(2x) comes home every π.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "mimic", "text": "Twice the b, twice the period... it sounded so fair. Sss.", "mood": "neutral"},
+          "after": [
+            {"speakerId": "cog", "text": "The Treasury chest! The Warden's key-stone, and the rim stair's growing. Hoo, up!", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Five rhythms. One seal left, and it has a guard.", "mood": "neutral"}
+          ]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "stairs_rise",
           "noun": "rim stair",
-          "blocker": {"x": 8800},
-          "rideCutsceneId": null
+          "blocker": {"x": 9330, "surface": "ground", "asset": null},
+          "terrain": [
+            {
+              "surface": "ground",
+              "points": [
+                [9338, 800],
+                [9340, 720],
+                [9398, 720],
+                [9400, 640],
+                [9448, 640],
+                [9450, 560],
+                [9498, 560],
+                [9500, 480],
+                [9548, 480],
+                [9550, 400],
+                [9600, 400]
+              ]
+            }
+          ],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -542,60 +1606,865 @@
         "encounterId": "e6_boss",
         "zoneId": "z3_dome",
         "consoleX": 3550,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 4700, "y": 1200},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
+        "approachRadius": 500,
+        "contraption": "pendulum_sync",
+        "skin": "wardens_shield",
+        "config": {
+          "spanUnitPx": 94,
+          "armPx": 300,
+          "shieldArmPx": 442,
+          "swingDeg": 14,
+          "spanTiles": 7,
+          "driftCardTier": 1,
+          "peakDotsTier": 2,
+          "slowTimeToggle": false
+        },
         "objectNoun": "Warden's Shield",
-        "panel": {"verifyLabel": "MATCH THE RHYTHM", "successBadge": "RESONANCE LOCKED"},
+        "partNouns": ["counter-pendulum", "shield", "sync thread"],
+        "pins": [{"anchor": "shield_boss", "text": null, "glyph": "metronome"}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [
+          {"predicate": "nearValue", "value": "3", "tolFactor": 1, "key": "reach"},
+          {"predicate": "nearValue", "value": "6", "tolFactor": 1, "key": "reach"},
+          {"predicate": "nearValue", "value": "2", "tolFactor": 1, "key": "half"}
+        ],
+        "hintTargets": [
+          [{"anchor": "shield_boss", "action": "circle", "holdMs": 2000}],
+          [{"anchor": "pylon_pivot", "action": "land", "holdMs": 1500}],
+          [{"anchor": "bob", "action": "ride", "holdMs": 4000}]
+        ],
+        "panel": {
+          "layout": "scrub",
+          "inputSymbol": "T",
+          "verifyLabel": "MATCH THE RHYTHM",
+          "successBadge": "RESONANCE LOCKED",
+          "cards": [
+            {"slot": 0, "title": "shield", "x": null, "y": null, "hidden": false},
+            {"slot": 1, "title": "pendulum", "x": null, "y": null, "hidden": false},
+            {"slot": 2, "title": "drift", "x": null, "y": null, "hidden": false}
+          ]
+        },
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Warden's Shield.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [],
+          "instruction": {
+            "speakerId": "cog",
+            "text": "Tune the counter-pendulum's period to the shield's rhythm, y = 3sin((π/2)t), and hold the sync thread.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Warden's Shield wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "cog",
+            "text": "Your pendulum swings with the period you set. When the rhythms match, the thread between them stays bright.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "cog",
+            "text": "The thread stays bright only while the two rhythms agree. It never cares how wide either one swings.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "cog", "text": "The 3 in front sets how far the shield swings, not how fast.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Period = 2π/|b|, and here b = π/2.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Divide 2π by π/2: the π's cancel.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "cog",
+              "text": "Don't let the big swing fool you. Watch one full sweep: out, back, and out again the same way.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {"speakerId": "cog", "text": "How far a thing swings says nothing about how often. Height is A; timing is b.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "warden", "text": "Your timing is true. Pass, reader of rhythms.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "remove_blocker",
           "vertical": "none",
           "anim": "door_opens",
           "noun": "Star Door",
-          "blocker": {"x": 3850},
-          "rideCutsceneId": null
+          "blocker": {"x": 4400, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
-        "boss": {"speakerId": "warden", "arenaTriggerX": 3000, "arenaBounds": {"x0": 2400, "x1": 5400}}
+        "boss": {
+          "speakerId": "warden",
+          "arenaTriggerX": 3000,
+          "arenaCutsceneId": "e6_arena",
+          "arenaBounds": {"x0": 2400, "x1": 5400},
+          "phases": [],
+          "taunts": {
+            "approach": [],
+            "fail": [{"speakerId": "warden", "text": "Out of step, reader. Watch me once more.", "mood": "neutral"}],
+            "byKey": [
+              {"key": "over", "line": {"speakerId": "warden", "text": "Too slow! You drift behind my every beat.", "mood": "neutral"}},
+              {"key": "under", "line": {"speakerId": "warden", "text": "Too quick! You race ahead and fall out of step.", "mood": "neutral"}},
+              {
+                "key": "reach",
+                "line": {
+                  "speakerId": "warden",
+                  "text": "You count my reach, not my rhythm. Reach is how far. Rhythm is how often.",
+                  "mood": "neutral"
+                }
+              },
+              {
+                "key": "half",
+                "line": {"speakerId": "warden", "text": "Zero, yes, but which way do I swing? Half a beat is no beat at all.", "mood": "neutral"}
+              }
+            ]
+          },
+          "music": "boss"
+        }
       }
     ],
+    "props": [
+      {
+        "id": "gondola_dock",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.gondola",
+        "x": 200,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "beam_pylon_s0",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.beam_pylon",
+        "x": 1500,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": true,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "crystal_tree_s0",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.crystal_tree",
+        "x": 900,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "tree_salmon_a",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.tree_salmon",
+        "x": 1500,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": true,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "tree_salmon_b",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.tree_salmon",
+        "x": 2400,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": true,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "canal_s0",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.canal",
+        "x": 2250,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": "e2_period",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "plaque_post_s0",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.plaque_post",
+        "x": 600,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "crystal_tree_s1",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.crystal_tree",
+        "x": 3700,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": "e2_period",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "beam_pylon_s1",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.beam_pylon",
+        "x": 5560,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": true,
+        "restoredBy": "e1_radians",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "canal_s2",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.canal",
+        "x": 7000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": "e2_period",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "beam_pylon_s2",
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.beam_pylon",
+        "x": 7900,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": true,
+        "restoredBy": "e2_period",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.lantern_post",
+        "x": 3000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.lantern_post",
+        "x": 4000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.lantern_post",
+        "x": 6200,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.lantern_post",
+        "x": 7200,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.bush_blue_a",
+        "x": 1200,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": true,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.crystal_cluster",
+        "x": 2700,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.bush_salmon",
+        "x": 3300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": true,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.crystal_tall",
+        "x": 3900,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.flower_tuft",
+        "x": 5700,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z1_sunward",
+        "asset": "orrery_terraces.prop.bush_blue_b",
+        "x": 6300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": true,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "crystal_falls_cliff",
+        "zoneId": "z2_crystal",
+        "asset": "orrery_terraces.prop.crystal_falls_cliff",
+        "x": 7000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L3_mid",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z2_crystal",
+        "asset": "orrery_terraces.prop.lantern_post",
+        "x": 7340,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": "e3_amplitude",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z2_crystal",
+        "asset": "orrery_terraces.prop.lantern_post",
+        "x": 7500,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": "e3_amplitude",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z2_crystal",
+        "asset": "orrery_terraces.prop.lantern_post",
+        "x": 7660,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": "e3_amplitude",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z2_crystal",
+        "asset": "orrery_terraces.prop.crystal_cluster",
+        "x": 600,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z2_crystal",
+        "asset": "orrery_terraces.prop.bush_salmon",
+        "x": 3300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": true,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "z2_crystal",
+        "asset": "orrery_terraces.prop.crystal_tall",
+        "x": 6300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "gantry_walkway",
+        "zoneId": "z3_dome",
+        "asset": "orrery_terraces.prop.gantry_walkway",
+        "x": 1200,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      }
+    ],
+    "npcs": [
+      {
+        "id": "brasswick",
+        "name": "Brasswick",
+        "speakerId": "brasswick",
+        "look": null,
+        "asset": "orrery_terraces.npc.brasswick",
+        "states": [
+          {
+            "id": "before",
+            "requires": null,
+            "zoneId": "z1_sunward",
+            "x": 3700,
+            "surface": "ground",
+            "lines": [
+              {
+                "speakerId": "brasswick",
+                "text": "Oh! A visitor. Oh dear. My arm swings as far as ever, but it keeps coming back too soon.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "brasswick",
+                "text": "The Tidewheel used to set my rhythm. Since it stopped, I water the air. The crystals are disappointed.",
+                "mood": "neutral"
+              }
+            ],
+            "pose": "work",
+            "follow": "none",
+            "repeatable": true,
+            "setFlag": null,
+            "anim": "arm_short"
+          }
+        ]
+      },
+      {
+        "id": "ilse",
+        "name": "Ilse Vantor",
+        "speakerId": "ilse",
+        "look": null,
+        "asset": "orrery_terraces.npc.ilse_stars",
+        "states": [
+          {
+            "id": "projected",
+            "requires": {"solved": null, "flag": "ilse_projected", "notFlag": null, "collected": []},
+            "zoneId": "z3_dome",
+            "x": 4700,
+            "surface": "ground",
+            "lines": [
+              {
+                "speakerId": "ilse",
+                "text": "Whoever you are: if you hear this, you read the rhythms. Angles, periods, swings and solutions.",
+                "mood": "neutral"
+              }
+            ],
+            "pose": "idle"
+          }
+        ]
+      }
+    ],
+    "quests": [],
+    "triggers": [
+      {
+        "id": "s0_controls",
+        "zoneId": "z1_sunward",
+        "x": 1600,
+        "surface": "ground",
+        "radius": 300,
+        "kind": "ambient",
+        "lines": [{"speakerId": "cog", "text": "Hop ledges with Space. When a console glows, press E and its instruments open.", "mood": "neutral"}],
+        "once": true,
+        "requires": {"solved": null, "flag": "cog_awake", "notFlag": null, "collected": []},
+        "setFlag": null,
+        "cue": null,
+        "cutsceneId": null
+      }
+    ],
+    "sandboxes": [],
+    "collectibles": [],
+    "plaques": [],
     "cutscenes": [
       {
         "id": "intro",
+        "skippable": true,
         "steps": [
-          {"do": "enter_zone", "zoneId": "z1_sunward", "x": 360},
+          {"do": "enter_zone", "zoneId": "z1_sunward", "x": 360, "surface": "ground"},
+          {"do": "walk", "actor": "companion", "toX": 1500},
+          {"do": "camera", "x": 7200, "y": 300, "zoom": 0.6, "ms": 0, "ease": "linear"},
           {"do": "fade", "to": "clear", "ms": 800},
-          {"do": "title", "text": "The Orrery Terraces", "sub": null, "ms": 2200},
+          {"do": "title", "text": "The Orrery Terraces", "sub": "The Clockwork Crypt", "ms": 3000},
+          {"do": "camera", "x": 1000, "y": 1100, "zoom": 1, "ms": 6000, "ease": "in_out_sine"},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "narrator",
+                "text": "Above the canyon, the Orrery once turned the sky's rhythms into light, water and time.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "narrator",
+                "text": "Then the astronomer Ilse Vantor sealed her Star Chart away, and the great machine fell out of step.",
+                "mood": "neutral"
+              },
+              {"speakerId": "narrator", "text": "Gates froze mid-turn. The Tidewheels stalled. The crystal groves began to fade.", "mood": "neutral"}
+            ]
+          },
+          {
+            "do": "ride",
+            "vehicle": "orrery_terraces.prop.gondola",
+            "toZoneId": "z1_sunward",
+            "toX": 360,
+            "ms": 5000,
+            "path": [[0, 1100], [220, 1440]]
+          },
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "narrator",
+                "text": "Tonight the evening star Vesper rises, and a courier named Wren has come to answer an old letter.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "control_until", "x": 1400, "surface": "ground", "prompt": "A / D · walk to the beam pylon", "timeoutMs": 20000},
+          {"do": "await_interact", "target": {"kind": "prop", "id": "beam_pylon_s0"}, "prompt": "Wind Cog", "timeoutMs": null},
+          {"do": "sfx", "cue": "cog_wind"},
+          {"do": "set_state", "target": {"kind": "flag", "id": "cog_awake"}, "state": "on"},
+          {"do": "emote", "actor": "companion", "glyph": "!"},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "cog", "text": "Hoo! Hoo... oh! Someone wound me. Nobody has wound me in years.", "mood": "neutral"},
+              {
+                "speakerId": "cog",
+                "text": "Cog, at your service: assistant to Astronomer Vantor, measurer of arcs, and very good at owling.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "cog",
+                "text": "Hoo! The astronomer's crypt runs on rhythm. Read the rhythm, and every door will open.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "pan", "x": 5200, "y": 700, "zoom": 0.8, "ms": 2500},
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "cog",
-                "text": "Everything here has stopped. Let's wake it, one machine at a time.",
+                "text": "Six rhythm seals hold the Orrery still. Each one we restore sends a beam of starlight up to it.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "cog",
+                "text": "Her Star Chart waits in the Warden's Dome at the top of the canyon. We need it before Vesper sets.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "cog",
+                "text": "You can't force brass. You move it in step with the wave it runs on. I'll show you how.",
                 "mood": "neutral"
               }
             ]
-          }
+          },
+          {"do": "pan", "x": 1500, "y": null, "zoom": 1, "ms": 1200},
+          {"do": "station", "encounterId": "e1_radians", "anim": "wake"}
         ]
       },
       {
         "id": "finale",
-        "skippable": false,
+        "skippable": true,
         "steps": [
           {
             "do": "say",
-            "lines": [{"speakerId": "cog", "text": "The machines hum again. The way home is open.", "mood": "neutral"}]
+            "lines": [
+              {"speakerId": "cog", "text": "The shield's open and the Star Chart is right there! Take it to the lens, Wren!", "mood": "neutral"}
+            ]
           },
-          {"do": "fade", "to": "black", "ms": 1200}
+          {"do": "walk", "actor": "player", "toX": 4700},
+          {"do": "fade", "to": "white", "ms": 500},
+          {"do": "camera", "x": 4700, "y": 600, "zoom": 0.9, "ms": 0, "ease": "linear"},
+          {"do": "fade", "to": "clear", "ms": 700},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "narrator", "text": "Under Vesper's light, the Star Chart slid into the Orrery's lens.", "mood": "neutral"},
+              {"speakerId": "cog", "text": "Six rhythms, six beams. Hoo, look at them climb!", "mood": "neutral"}
+            ]
+          },
+          {"do": "sfx", "cue": "resonance_lock"},
+          {"do": "set_state", "target": {"kind": "flag", "id": "ilse_projected"}, "state": "on"},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "ilse",
+                "text": "Whoever you are: if you hear this, you read the rhythms. Angles, periods, swings and solutions.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "ilse",
+                "text": "I sealed the chart so only someone who understood the machines could restart them. Thank you.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {
+            "do": "vista",
+            "asset": "orrery_terraces.vista.canyon",
+            "from": {"x": 1200, "y": 360, "zoom": 1},
+            "to": {"x": 1200, "y": 2600, "zoom": 0.6},
+            "ms": 6000,
+            "holdMs": 1500
+          },
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "narrator",
+                "text": "The Tidewheels turned. The canals filled terrace by terrace. The groves glowed blue again.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "emote", "actor": "player", "glyph": "♪"},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "cog", "text": "Her star chart! You read every rhythm in the crypt.", "mood": "neutral"},
+              {"speakerId": "cog", "text": "Same time next year? I'll keep the gears oiled. Hoo.", "mood": "neutral"}
+            ]
+          },
+          {"do": "fade", "to": "black", "ms": 1000}
         ]
-      }
+      },
+      {
+        "id": "e6_arena",
+        "skippable": true,
+        "steps": [
+          {"do": "music", "cue": "boss"},
+          {"do": "camera", "x": 4500, "y": 700, "zoom": 0.8, "ms": 900, "ease": "out_cubic"},
+          {"do": "station", "encounterId": "e6_boss", "anim": "wake"},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "cog", "text": "The Warden. It guards the Star Chart and trusts only one thing: timing.", "mood": "neutral"},
+              {"speakerId": "warden", "text": "None pass whose timing is false.", "mood": "neutral"},
+              {
+                "speakerId": "warden",
+                "text": "My shield sweeps three spans either way. Six spans, end to end! Match THAT, little reader.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "camera", "x": null, "y": null, "zoom": 1, "ms": 600, "ease": "out_cubic"}
+        ]
+      },
+      {
+        "id": "e3_lift_up",
+        "skippable": true,
+        "steps": [
+          {"do": "sfx", "cue": "lift_chain"},
+          {
+            "do": "ride",
+            "vehicle": "orrery_terraces.part.resonance_pillars_echo_lift",
+            "toZoneId": "z2_crystal",
+            "toX": 2960,
+            "ms": 2200,
+            "path": [[2800, 1900], [2800, 1400]]
+          }
+        ]
+      },
+      {"id": "z2_entry", "skippable": true, "steps": [{"do": "title", "text": "Crystal Stair", "sub": null, "ms": 2000}]},
+      {"id": "z3_entry", "skippable": true, "steps": [{"do": "title", "text": "The Warden's Dome", "sub": null, "ms": 2000}]}
     ],
     "feedbackNouns": [{"from": "chest", "to": "singer", "stations": ["e3_amplitude", "e5_period_review"]}]
   }

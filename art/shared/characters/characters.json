@@ -1,0 +1,16 @@
+{
+  "note": "character id → body, the namespace whose palette recolours it, the frame set, and role → token overrides. A role not listed resolves to char.<id>.<role> then char.<role> (palettes/<ns>.ts over palettes/shared.ts); roles maps a role to any other token expression. docs/design/20 §5.5, 02 §3b.4.",
+  "characters": [
+    {
+      "id": "wren",
+      "body": "female_adventurer",
+      "ns": "orrery_terraces",
+      "frames": "protagonist",
+      "roles": {}
+    },
+    { "id": "diver", "body": "female_adventurer", "ns": "living_gate", "frames": "protagonist", "roles": {} },
+    { "id": "nell", "body": "female_adventurer", "ns": "archive_of_voices", "frames": "protagonist", "roles": {} },
+    { "id": "ida", "body": "female_person", "ns": "archive_of_voices", "frames": "npc", "roles": {} },
+    { "id": "otis", "body": "male_person", "ns": "archive_of_voices", "frames": "npc", "roles": {} }
+  ]
+}

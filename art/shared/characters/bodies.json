@@ -1,0 +1,56 @@
+{
+  "zip": ".data/asset-scratch/toon-characters.zip",
+  "note": "Kenney toon-characters (CC0). fills: rules tried in order; the first whose group regex matches the <defs> group id AND lists the source hex wins. An unmapped (group, fill) fails the build (docs/design/02 §3b.2).",
+  "bodies": {
+    "female_adventurer": {
+      "dir": "Female adventurer",
+      "stem": "character_femaleAdventurer",
+      "fills": [
+        { "group": "^(head|headFocus|headShock)_0_Layer0_0_MEMBER_3", "map": { "#BF7958": "ink", "#FFFFFF": "eyeWhite", "#E7B687": "skinShade" } },
+        { "group": "^(head|headFocus|headShock)_0_Layer0_0_MEMBER_[012]_FILL$|^headBack_0_Layer0_[012]_FILL$|^hand_", "map": { "#FFD7B1": "skin", "#E7B687": "skinShade", "#F0C49A": "skinShade" } },
+        { "group": "^(head|headFocus|headShock)_0_Layer0_1_FILL$|^Symbol_1_|^headBack_0_Layer0_3_FILL$", "map": { "#BF7958": "hair", "#DB855C": "hairHi" } },
+        { "group": "^(head|headFocus|headShock)_0_Layer0_2_FILL$", "map": { "#71A2BE": "band" } },
+        { "group": "^body_0_Layer0_0_FILL$|^bodyBack_0_Layer0_2_FILL$", "map": { "#79ADCB": "top", "#69A1C2": "topMid", "#5A93B4": "topShade", "#EEA160": "bottom" } },
+        { "group": "^body_0_Layer0_[124]_FILL$", "map": { "#BF7958": "strap" } },
+        { "group": "^body_0_Layer0_3_FILL$|^bodyBack_0_Layer0_1_FILL$", "map": { "#F0C49A": "skinShade" } },
+        { "group": "^bodyBack_0_Layer0_[034]_FILL$", "map": { "#BF7958": "hair" } },
+        { "group": "^arm_0_Layer0_0_FILL$", "map": { "#79ADCB": "sleeve", "#FFD7B1": "skin" } },
+        { "group": "^arm_0_Layer0_1_FILL$", "map": { "#5A93B4": "sleeveShade" } },
+        { "group": "^leg", "map": { "#FFD7B1": "sock", "#BF7958": "boots", "#EEA160": "bottom" } }
+      ]
+    },
+    "female_person": {
+      "dir": "Female person",
+      "stem": "character_femalePerson",
+      "fills": [
+        { "group": "^head_0_Layer0_1_MEMBER_2_MEMBER_0|^headFocus_0_Layer0_3_FILL$|^headShock_0_Layer0_1_MEMBER_2_MEMBER_0", "map": { "#3C3E41": "ink", "#FFFFFF": "eyeWhite" } },
+        { "group": "^head_0_Layer0_1_MEMBER_2_MEMBER_1|^headShock_0_Layer0_1_MEMBER_2_MEMBER_1", "map": { "#A8603F": "skinShade", "#FFFFFF": "eyeWhite" } },
+        { "group": "^(head|headFocus|headShock|headBack)_0_Layer0_", "map": { "#BF7958": "skin", "#A8603F": "skinShade", "#955435": "skinDeep", "#3C3E41": "hair", "#454A51": "hairHi", "#71A2BE": "band", "#EEA160": "accent", "#FFFFFF": "eyeWhite" } },
+        { "group": "^Symbol_1_", "map": { "#3C3E41": "hair", "#454A51": "hairHi" } },
+        { "group": "^body_0_Layer0_0_FILL$|^bodyBack_0_Layer0_1_FILL$", "map": { "#3DBF7B": "top", "#25A863": "topShade", "#3C3E41": "belt", "#676AC6": "bottom" } },
+        { "group": "^body_0_Layer0_1_FILL$", "map": { "#BF7958": "skin", "#FFFFFF": "collar" } },
+        { "group": "^bodyBack_0_Layer0_0_FILL$", "map": { "#BF7958": "skin" } },
+        { "group": "^arm_", "map": { "#3DBF7B": "sleeve", "#25A863": "sleeveShade", "#BF7958": "skin" } },
+        { "group": "^hand_", "map": { "#BF7958": "skin", "#A8603F": "skinShade" } },
+        { "group": "^leg", "map": { "#676AC6": "bottom", "#BF7958": "skin", "#BFD4E5": "sock", "#FFFFFF": "boots" } }
+      ]
+    },
+    "male_person": {
+      "dir": "Male person",
+      "stem": "character_malePerson",
+      "fills": [
+        { "group": "^(head|headFocus|headShock)_0_Layer0_3_FILL$", "map": { "#3C3E41": "ink", "#FFFFFF": "eyeWhite" } },
+        { "group": "^(head|headFocus|headShock)_0_Layer0_3_MEMBER_0_FILL$", "map": { "#3C3E41": "brow" } },
+        { "group": "^(head|headFocus|headShock)_0_Layer0_3_MEMBER_", "map": { "#3C3E41": "ink", "#A8603F": "skinShade", "#955435": "skinDeep" } },
+        { "group": "^(head|headFocus|headShock|headBack)_0_Layer0_", "map": { "#3C3E41": "hair", "#454A51": "hairHi", "#BF7958": "skin", "#A8603F": "skinShade", "#955435": "skinDeep", "#FFFFFF": "eyeWhite" } },
+        { "group": "^body_0_Layer0_0_MEMBER_0_FILL$|^bodyBack_0_Layer0_0_MEMBER_0_FILL$", "map": { "#A8603F": "skinShade" } },
+        { "group": "^body_0_Layer0_0_MEMBER_[12]_FILL$|^bodyBack_0_Layer0_0_MEMBER_2_FILL$", "map": { "#EEA160": "coat", "#D78B49": "coatShade" } },
+        { "group": "^body_0_Layer0_0_FILL$|^body_0_Layer0_0_MEMBER_3_FILL$|^bodyBack_0_Layer0_0_MEMBER_1_FILL$", "map": { "#E7F3FC": "top", "#BFD4E5": "topShade", "#676AC6": "bottom" } },
+        { "group": "^arm_0_Layer0_0_FILL$", "map": { "#E7F3FC": "sleeve", "#BF7958": "skin" } },
+        { "group": "^arm_0_Layer0_1_FILL$", "map": { "#BFD4E5": "sleeveShade" } },
+        { "group": "^hand_", "map": { "#BF7958": "skin", "#A8603F": "skinShade" } },
+        { "group": "^leg", "map": { "#676AC6": "bottom", "#BF7958": "skin", "#E7F3FC": "sock", "#BFD4E5": "sock", "#EEA160": "boots", "#D78B49": "boots", "#4C4EAA": "boots", "#FFFFFF": "sock" } }
+      ]
+    }
+  }
+}

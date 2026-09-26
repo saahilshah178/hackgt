@@ -1,6 +1,7 @@
 /**
- * src/game/art/palettes/archive_of_voices.ts — W0 seed (docs/design/20 §5.7; bible §2.1; civil §2.2). Owned by C0 then
- * C3. Orange never appears in this world except on the Record Lens chip and aimed/accused sockets (bound to input).
+ * src/game/art/palettes/archive_of_voices.ts — W0 seed, completed by C0 from civil §2.2–§2.4, §3 and 02 §3b.4.
+ * Otis's male_person column is not in 02 yet: C3 adds char.otis.*. Owned by C3 from T0 + 6 (docs/design/20 §7.3).
+ * Orange never appears in this world except on the Record Lens chip and aimed/accused sockets (bound to input).
  */
 export const ARCHIVE_OF_VOICES_PALETTE = {
   namespace: "archive_of_voices",
@@ -67,14 +68,63 @@ export const ARCHIVE_OF_VOICES_PALETTE = {
     "paper.aged": "#E9D8B4",
     "paper.trap": "#D9C08E",
     "ink": "#2B3A44",
-    // ---- skies (civil §2.3)
+    "wisp.indigo.halo": "#6A6CF0",
+    // ---- skies (civil §2.3: Z1–Z5, top → horizon)
     "sky.late_afternoon.top": "#B9A3D6",
+    "sky.late_afternoon.upper": "#D9AFCF",
+    "sky.late_afternoon.lower": "#E9B8C4",
     "sky.late_afternoon.horizon": "#F6D9BE",
     "sky.dusk_rain.top": "#7F6BB8",
+    "sky.dusk_rain.upper": "#9E86D8",
+    "sky.dusk_rain.lower": "#B58FCB",
     "sky.dusk_rain.horizon": "#E8A9C3",
     "sky.blue_hour.top": "#3E3F74",
+    "sky.blue_hour.upper": "#55508A",
+    "sky.blue_hour.lower": "#6A5A9A",
     "sky.blue_hour.horizon": "#C58BB0",
     "sky.interior.top": "#3B2F3E",
+    "sky.interior.mid": "#4E3C44",
     "sky.interior.horizon": "#5E4A4A",
+    "sky.dawn.top": "#8FA8D8",
+    "sky.dawn.upper": "#C7B7D8",
+    "sky.dawn.lower": "#F2C6B8",
+    "sky.dawn.horizon": "#FBE7C8",
+    "sky.dawn.sun": "#FFF4DC",
+    // ---- far city (civil §2.4)
+    "far.city": "#6E5E93",
+    "far.city.night": "#3F3A6A",
+    "window.dot": "#F6D27A",
+    "lens.dormant": "#8E8AA0",
+    // ---- rig recolour (civil §3.1–§3.2, 02 §3b.4 Nell and Ida columns; roles → char.<id>.<role>)
+    "char.nell.skin": "#E3B38A",
+    "char.nell.skinShade": "#C4946C",
+    "char.nell.hair": "#6E4A2E",
+    "char.nell.hairHi": "#8A5A3E",
+    "char.nell.ink": "#2B2A33",
+    "char.nell.band": "#6E4A2E",
+    "char.nell.top": "#C9A13B",
+    "char.nell.topMid": "#B8912F",
+    "char.nell.topShade": "#A8842C",
+    "char.nell.sleeve": "#C9A13B",
+    "char.nell.sleeveShade": "#A8842C",
+    "char.nell.bottom": "#27466A",
+    "char.nell.sock": "#F2E3C6",
+    "char.nell.boots": "#3F5857",
+    "char.nell.strap": "#8A5A3E",
+    "char.ida.skin": "#6B4330",
+    "char.ida.skinShade": "#553423",
+    "char.ida.hair": "#C9C9D1",
+    "char.ida.hairHi": "#E4E4EA",
+    "char.ida.ink": "#2B2A33",
+    "char.ida.band": "#C9C9D1",
+    "char.ida.top": "#2F6F73",
+    "char.ida.topMid": "#2A6468",
+    "char.ida.topShade": "#225457",
+    "char.ida.sleeve": "#2F6F73",
+    "char.ida.sleeveShade": "#225457",
+    "char.ida.bottom": "#3E3F74",
+    "char.ida.sock": "#3E3F74",
+    "char.ida.boots": "#3F3A44",
+    "char.ida.strap": "#2F6F73",
   } as Readonly<Record<string, string>>,
 } as const;

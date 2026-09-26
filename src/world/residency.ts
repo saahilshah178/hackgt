@@ -1,15 +1,15 @@
 /**
  * src/world/residency.ts — which asset keys one zone needs resident (docs/design/20 §5.7, A4). Pure.
- * W0 STUB with the final signature and a first implementation; A1 owns the file (+ test) and the loader that calls it
- * (src/game/art/manifest-loader.ts `loadZone`). The loader unions this with the manifest entries tagged "all" and the
- * zone, so a mis-tagged entry still loads when referenced.
+ * Owned by the art lane (A1; + src/world/residency.test.ts). The loader (src/game/art/manifest-loader.ts `loadZone`)
+ * unions this with the manifest entries tagged "all" and the zone, so a mis-tagged entry still loads when referenced.
  */
 import type { CutsceneStep, WorldOverlay } from "../contracts/world";
 import { getContraption, getSandbox, skinOf } from "./library";
 
 /** Every asset key the zone references: its layers, ground, platforms, props, hub, interiors, ladder and ride assets;
  *  its stations' skin parts, consoles, accessories and blockers; NPCs with a state there; its plaques, collectibles and
- *  sandboxes; the assets of the cutscenes that play there; the cast. Sorted, unique. */
+ *  sandboxes; the assets of the cutscenes that play there (entry, exits, rides, arenas, triggers, the intro in the first
+ *  zone, the finale in the last station's zone, any that enters it); the cast. Sorted, unique. */
 export function assetsForZone(world: WorldOverlay, zoneId: string): string[] {
   const keys = new Set<string>();
   const add = (k: string | null | undefined) => {
@@ -42,6 +42,10 @@ export function assetsForZone(world: WorldOverlay, zoneId: string): string[] {
   // stations: skin parts, console, blocker, accessories
   const cutsceneIds = new Set<string>();
   if (zone.entryCutsceneId) cutsceneIds.add(zone.entryCutsceneId);
+  // the intro plays in the first zone; the finale in the zone of the last station (the boss)
+  if (world.zones[0]?.id === zoneId) cutsceneIds.add(world.story.introCutsceneId);
+  const lastStation = world.stations[world.stations.length - 1];
+  if (lastStation ? lastStation.zoneId === zoneId : world.zones[world.zones.length - 1]?.id === zoneId) cutsceneIds.add(world.story.finaleCutsceneId);
   zone.exits.forEach((x) => x.cutsceneId && cutsceneIds.add(x.cutsceneId));
   for (const st of world.stations.filter((s) => s.zoneId === zoneId)) {
     const skin = skinOf(getContraption(st.contraption) ?? { skins: [] }, st.skin);

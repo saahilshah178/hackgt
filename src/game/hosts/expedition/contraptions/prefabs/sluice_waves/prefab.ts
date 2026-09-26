@@ -1,6 +1,7 @@
 /**
  * sluice_waves prefab core (docs/design/20 §2.5.5). Owned by KB (L7). Dispatches to one file per skin through the
- * static skins/index.ts, so a skin can be owned by a different lane than this core. W0: every skin is a labelled box.
+ * static skins/index.ts; the tonicity_sluices skin plugs its options into shared.ts `createSluiceView` (the lock,
+ * valve wheel, basins, eddy, cells, and the failure and success playback).
  */
 import type { SluiceWavesConfig } from "@/world/contraptions/sluice-waves.config";
 import { sluiceWavesMeta, type SluiceWavesPose } from "@/world/contraptions/sluice-waves.meta";

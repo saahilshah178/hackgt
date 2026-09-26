@@ -1,0 +1,32 @@
+{
+ "namespace": "living_gate",
+ "paletteId": "living_gate",
+ "heroCap": 40,
+ "heroCount": 0,
+ "entries": [],
+ "totalBytes": 0,
+ "gzipBytes": 0,
+ "vram": [
+  {
+   "zone": "all",
+   "mb": 5.3
+  },
+  {
+   "zone": "zone_a",
+   "mb": 5.3
+  },
+  {
+   "zone": "zone_b",
+   "mb": 5.3
+  },
+  {
+   "zone": "zone_c",
+   "mb": 5.3
+  },
+  {
+   "zone": "zone_d",
+   "mb": 5.3
+  }
+ ],
+ "swapPeakMb": 5.3
+}

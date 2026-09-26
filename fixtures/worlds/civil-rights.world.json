@@ -9,58 +9,254 @@
     "title": "The Archive of Voices",
     "subtitle": "The 1965 Files",
     "cast": {
-      "protagonist": {"name": "Nell", "look": {"atlas": "shared.char.nell"}},
+      "protagonist": {
+        "name": "Nell",
+        "look": {
+          "atlas": "shared.char.nell",
+          "scale": 1,
+          "costume": [
+            {"asset": "archive_of_voices.costume.nell_scarf", "anchor": "back", "dx": 0, "dy": 0, "follow": "spring", "layer": "behind"},
+            {"asset": "archive_of_voices.costume.nell_satchel", "anchor": "torso", "dx": 0, "dy": 0, "follow": "rigid", "layer": "front"}
+          ]
+        }
+      },
       "guide": {
         "characterId": "archivist",
-        "emblem": {"glyph": "lantern", "ring": "#C69A6B", "accent": "#F2A65A"},
-        "companion": {"asset": "archive_of_voices.companion.wick"}
+        "emblem": {"glyph": "reel", "ring": "#E7A08C", "accent": "#FFFFFF", "gaps": 2},
+        "portrait": null,
+        "companion": {"asset": "archive_of_voices.companion.wick", "offset": [-40, -170], "lagSec": 0.35, "bobPx": 4}
       },
-      "speakers": [{"characterId": "editor", "emblem": {"glyph": "slug", "ring": "#3F3A44", "accent": "#E8DCD2"}}],
+      "speakers": [{"characterId": "editor", "emblem": {"glyph": "slug", "ring": "#27466A", "accent": "#F2E3C6", "gaps": 2}, "portrait": null}],
       "extras": [
         {
           "id": "otis",
-          "name": "Otis",
-          "role": "night watchman of the archive",
+          "name": "Otis Pell",
+          "role": "night watchman",
           "voiceArchetype": "gruff_guard",
-          "emblem": {"glyph": "flashlight", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "flashlight", "ring": "#6E7F9A", "accent": "#F6D27A", "gaps": 2},
+          "portrait": null
         },
         {
           "id": "hattie",
-          "name": "Hattie",
-          "role": "senior archivist",
+          "name": "Hattie Greer",
+          "role": "retired typesetter",
           "voiceArchetype": "wise_mentor",
-          "emblem": {"glyph": "eyeshade", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "eyeshade", "ring": "#4E8A6A", "accent": "#F2E3C6", "gaps": 2},
+          "portrait": null
         },
         {
           "id": "dolores",
-          "name": "Dolores",
-          "role": "switchboard volunteer",
+          "name": "Dolores Vance",
+          "role": "volunteer, retired operator",
           "voiceArchetype": "cheerful_sidekick",
-          "emblem": {"glyph": "headset", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "headset", "ring": "#C9A13B", "accent": "#FFFFFF", "gaps": 2},
+          "portrait": null
         },
         {
           "id": "theo",
           "name": "Theo",
-          "role": "a student researcher",
+          "role": "student volunteer",
           "voiceArchetype": "nervous_scholar",
-          "emblem": {"glyph": "nib", "ring": "#C69A6B", "accent": "#8FE0EA"}
+          "emblem": {"glyph": "nib", "ring": "#2F6F73", "accent": "#F7F1E3", "gaps": 2},
+          "portrait": null
         }
       ]
     },
     "story": {
-      "logline": "The archive's record has gone dark. Restore each file so the story can be read again.",
-      "objective": "Restore the record of the movement",
+      "logline": "A storm scrambled the Courier-Ledger's Record Engine. Walk its projected city, 1954 to 1965, and repair every false or broken record before dawn.",
+      "objective": "Restore the Courier-Ledger's record, 1954 to 1965",
       "objectiveLabel": "RECORD RESTORED",
-      "restoredNoun": "record",
+      "restoredNoun": "projection",
       "introCutsceneId": "intro",
       "finaleCutsceneId": "finale",
+      "meter": null,
+      "progressEffects": [
+        {"kind": "beam_line", "encounterId": "e1_brown", "zoneId": "s2_courthouse", "from": [2050, 150], "to": [3400, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e2_montgomery", "zoneId": "s2_courthouse", "from": [4700, 800], "to": [3400, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e3_little_rock", "zoneId": "s3_schoolhouse", "from": [2750, 200], "to": [2600, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e4_sit_ins", "zoneId": "s4_main_street", "from": [1300, 300], "to": [3600, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e5_freedom_rides", "zoneId": "s4_main_street", "from": [4450, 450], "to": [3600, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e6_birmingham", "zoneId": "s5_church_mast", "from": [3600, 950], "to": [3000, 860], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e7_march", "zoneId": "s6_memorial", "from": [1750, 200], "to": [3000, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e8_cra", "zoneId": "s6_memorial", "from": [4200, 100], "to": [3000, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e9_selma", "zoneId": "s7_selma", "from": [2800, 280], "to": [4000, 60], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e10_sources", "zoneId": "s8_stacks_vault", "from": [1800, 900], "to": [3700, 760], "depth": "L1_far"},
+        {"kind": "hub_socket", "encounterId": "e1_brown", "zoneId": "s8_stacks_vault", "socket": 0},
+        {"kind": "hub_socket", "encounterId": "e2_montgomery", "zoneId": "s8_stacks_vault", "socket": 1},
+        {"kind": "hub_socket", "encounterId": "e3_little_rock", "zoneId": "s8_stacks_vault", "socket": 2},
+        {"kind": "hub_socket", "encounterId": "e4_sit_ins", "zoneId": "s8_stacks_vault", "socket": 3},
+        {"kind": "hub_socket", "encounterId": "e5_freedom_rides", "zoneId": "s8_stacks_vault", "socket": 4},
+        {"kind": "hub_socket", "encounterId": "e6_birmingham", "zoneId": "s8_stacks_vault", "socket": 5},
+        {"kind": "hub_socket", "encounterId": "e7_march", "zoneId": "s8_stacks_vault", "socket": 6},
+        {"kind": "hub_socket", "encounterId": "e8_cra", "zoneId": "s8_stacks_vault", "socket": 7},
+        {"kind": "hub_socket", "encounterId": "e9_selma", "zoneId": "s8_stacks_vault", "socket": 8},
+        {"kind": "hub_socket", "encounterId": "e10_sources", "zoneId": "s8_stacks_vault", "socket": 9},
+        {"kind": "hub_socket", "encounterId": "e11_causation", "zoneId": "s8_stacks_vault", "socket": 10},
+        {"kind": "hub_socket", "encounterId": "e12_boss", "zoneId": "s8_stacks_vault", "socket": 11},
+        {
+          "kind": "label_swap",
+          "encounterId": "e1_brown",
+          "propId": "front_pages_wall",
+          "anchor": "page_0",
+          "before": "SCHOOLS DESEGREGATE AT ONCE · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e2_montgomery",
+          "propId": "front_pages_wall",
+          "anchor": "page_1",
+          "before": "TIRED SEAMSTRESS ACTS ALONE · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e3_little_rock",
+          "propId": "front_pages_wall",
+          "anchor": "page_2",
+          "before": "SOUTH COMPLIES WITH BROWN · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e4_sit_ins",
+          "propId": "front_pages_wall",
+          "anchor": "page_3",
+          "before": "SIT-INS AVOID CONFRONTATION · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e5_freedom_rides",
+          "propId": "front_pages_wall",
+          "anchor": "page_4",
+          "before": "WASHINGTON LEADS THE MOVEMENT · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e6_birmingham",
+          "propId": "front_pages_wall",
+          "anchor": "page_5",
+          "before": "ONE CAUSE, ONE BILL · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e7_march",
+          "propId": "front_pages_wall",
+          "anchor": "page_6",
+          "before": "MARCH WAS ONE SPEECH · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e8_cra",
+          "propId": "front_pages_wall",
+          "anchor": "page_7",
+          "before": "1964 ACT GUARANTEES THE VOTE · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e9_selma",
+          "propId": "front_pages_wall",
+          "anchor": "page_8",
+          "before": "EVENTS RAN IN CHAPTER ORDER · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e10_sources",
+          "propId": "front_pages_wall",
+          "anchor": "page_9",
+          "before": "OLD PAPERS ARE PRIMARY SOURCES · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e11_causation",
+          "propId": "front_pages_wall",
+          "anchor": "page_10",
+          "before": "EVENTS UNRELATED, LAWS UNRELATED · UNVERIFIED",
+          "after": null
+        },
+        {
+          "kind": "label_swap",
+          "encounterId": "e12_boss",
+          "propId": "front_pages_wall",
+          "anchor": "page_11",
+          "before": "1965 LAW WAS INEVITABLE · UNVERIFIED",
+          "after": null
+        },
+        {"kind": "prop_state", "encounterId": "e4_sit_ins", "propId": "stool_05", "state": "lit"},
+        {"kind": "prop_state", "encounterId": "e4_sit_ins", "propId": "stool_06", "state": "lit"},
+        {"kind": "prop_state", "encounterId": "e4_sit_ins", "propId": "stool_07", "state": "lit"},
+        {"kind": "prop_state", "encounterId": "e4_sit_ins", "propId": "stool_08", "state": "lit"}
+      ],
+      "map": null,
+      "journal": {"title": "Clipping Case", "style": "clippings"},
       "recordStrip": {
         "lanes": [
           {"id": "origins", "label": "ORIGINS"},
           {"id": "direct_action", "label": "DIRECT ACTION"},
           {"id": "legislation", "label": "LEGISLATION"}
         ],
-        "pins": []
+        "pins": [
+          {"encounterId": "e1_brown", "pin": {"date": "1954", "precision": "year", "label": "Brown v. Board", "lane": "origins", "spanTo": null}},
+          {
+            "encounterId": "e2_montgomery",
+            "pin": {"date": "1955-12-01", "precision": "day", "label": "Parks arrested", "lane": "origins", "spanTo": null}
+          },
+          {
+            "encounterId": "e2_montgomery",
+            "pin": {"date": "1955-12", "precision": "month", "label": "Boycott, 381 days", "lane": "origins", "spanTo": "1956-12"}
+          },
+          {
+            "encounterId": "e3_little_rock",
+            "pin": {"date": "1957-09-25", "precision": "day", "label": "Little Rock Nine escorted", "lane": "origins", "spanTo": null}
+          },
+          {
+            "encounterId": "e4_sit_ins",
+            "pin": {"date": "1960-02-01", "precision": "day", "label": "Greensboro sit-in", "lane": "direct_action", "spanTo": null}
+          },
+          {
+            "encounterId": "e4_sit_ins",
+            "pin": {"date": "1960-04", "precision": "month", "label": "SNCC founded", "lane": "direct_action", "spanTo": null}
+          },
+          {
+            "encounterId": "e5_freedom_rides",
+            "pin": {"date": "1961", "precision": "year", "label": "Freedom Rides", "lane": "direct_action", "spanTo": null}
+          },
+          {
+            "encounterId": "e6_birmingham",
+            "pin": {"date": "1963", "precision": "year", "label": "Birmingham, spring", "lane": "direct_action", "spanTo": null}
+          },
+          {
+            "encounterId": "e6_birmingham",
+            "pin": {"date": "1963-06", "precision": "month", "label": "Kennedy's bill", "lane": "legislation", "spanTo": null}
+          },
+          {
+            "encounterId": "e7_march",
+            "pin": {"date": "1963-08-28", "precision": "day", "label": "March on Washington", "lane": "legislation", "spanTo": null}
+          },
+          {
+            "encounterId": "e8_cra",
+            "pin": {"date": "1964-07-02", "precision": "day", "label": "Civil Rights Act", "lane": "legislation", "spanTo": null}
+          },
+          {
+            "encounterId": "e9_selma",
+            "pin": {"date": "1965-03-07", "precision": "day", "label": "Bloody Sunday", "lane": "legislation", "spanTo": null}
+          },
+          {
+            "encounterId": "e9_selma",
+            "pin": {"date": "1965-03-25", "precision": "day", "label": "March reaches the capitol", "lane": "legislation", "spanTo": null}
+          },
+          {
+            "encounterId": "e9_selma",
+            "pin": {"date": "1965-08-06", "precision": "day", "label": "Voting Rights Act", "lane": "legislation", "spanTo": null}
+          }
+        ]
       }
     },
     "zones": [
@@ -71,44 +267,153 @@
         "height": 1400,
         "layerSets": [
           {
-            "id": "s1_morgue_kit",
+            "id": "morgue",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 520},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.morgue_backwall",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": 0.15,
+                "y": 200,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.morgue_pipes",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 700
+                "scrollFactorY": null,
+                "y": 260,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 840}
+              {
+                "asset": "archive_of_voices.layer.stacks_shelving",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 330,
+                "repeatX": true,
+                "alpha": 0.8,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_stanchions",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1190,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.fx.blinds_shadow",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "scrollFactorY": null,
+                "y": 200,
+                "repeatX": true,
+                "alpha": 0.2,
+                "blend": "multiply",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s1_morgue_kit",
+            "id": "morgue_interior",
             "x0": 0,
             "x1": 3840,
-            "layerSet": "s1_morgue_kit",
+            "layerSet": "morgue",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [{"at": 0, "color": "#3B2F3E"}, {"at": 0.5, "color": "#4E3C44"}, {"at": 1, "color": "#5E4A4A"}],
+              "haze": {"color": "#5E4A4A", "alpha": 0.15}
             },
-            "ambient": {"light": "interior"}
+            "ambient": {
+              "light": "interior",
+              "particles": "dust",
+              "particleCount": 24,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.1, "brightness": -0.05, "hue": 0}
+            },
+            "weather": "drip",
+            "music": "noir",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1220], [3840, 1220]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [[0, 720], [140, 720], [620, 1220], [700, 1236], [1000, 1236], [1060, 1220], [3840, 1220]],
+          "surface": "archive_of_voices.ground.morgue_floor",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [
+          {"id": "reel_crate", "points": [[760, 1180], [840, 1180]], "asset": "archive_of_voices.prop.reel_crate", "requires": null},
+          {"id": "engine_plinth", "points": [[1600, 980], [2600, 980]], "asset": null, "requires": null},
+          {"id": "pages_gallery", "points": [[2900, 900], [3600, 900]], "asset": "archive_of_voices.prop.gallery_deck", "requires": null}
+        ],
+        "links": [
+          {
+            "kind": "hop",
+            "id": "s1_crate_hop_in",
+            "from": {"surface": "ground", "x": 700},
+            "to": {"surface": "reel_crate", "x": 780},
+            "requires": null,
+            "apex": 60,
+            "twoWay": true
+          },
+          {
+            "kind": "hop",
+            "id": "s1_crate_hop_out",
+            "from": {"surface": "reel_crate", "x": 830},
+            "to": {"surface": "ground", "x": 1040},
+            "requires": null,
+            "apex": 60,
+            "twoWay": true
+          }
+        ],
         "exits": [
           {
             "id": "s1_to_s2",
             "x": 3830,
+            "surface": "ground",
             "toZoneId": "s2_courthouse",
             "toX": 80,
+            "toSurface": "ground",
             "transition": "film_seam",
-            "requires": {"flag": "engine_awake"}
+            "requires": {"solved": null, "flag": "engine_awake", "notFlag": null, "collected": []},
+            "cutsceneId": null
           }
         ],
-        "entry": {"x": 60}
+        "hub": {
+          "asset": "archive_of_voices.prop.record_engine",
+          "x": 2100,
+          "y": null,
+          "depth": "L4_back",
+          "label": "Record Engine",
+          "sockets": 12,
+          "restoredLine": {"speakerId": "archivist", "text": "Every lens is lit. The Engine remembers all of it now.", "mood": "neutral"},
+          "anims": {"partial": "partial", "restored": "restored"}
+        },
+        "entry": {"x": 60, "surface": "ground"},
+        "entryCutsceneId": null,
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "s2_courthouse",
@@ -117,44 +422,220 @@
         "height": 1080,
         "layerSets": [
           {
-            "id": "s2_courthouse_kit",
+            "id": "courthouse_square",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.clouds_soft",
+                "depth": "L1_far",
+                "scrollFactor": 0.05,
+                "scrollFactorY": null,
+                "y": 40,
+                "repeatX": true,
+                "alpha": 0.8,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 6
+              },
+              {
+                "asset": "archive_of_voices.layer.far_city_south",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 360,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 1,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.prop.courier_ledger_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 150,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.midfar_rowhouses",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 380
+                "scrollFactorY": null,
+                "y": 300,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0.5,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+              {
+                "asset": "archive_of_voices.layer.midfar_oaks",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 380,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.mid_storefronts_a",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 150,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_railing",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 840,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_magnolia",
+                "depth": "L5_fore",
+                "scrollFactor": 1.35,
+                "scrollFactorY": null,
+                "y": 790,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s2_courthouse_kit",
+            "id": "late_afternoon",
             "x0": 0,
             "x1": 5760,
-            "layerSet": "s2_courthouse_kit",
+            "layerSet": "courthouse_square",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#B9A3D6"},
+                {"at": 0.35, "color": "#D9AFCF"},
+                {"at": 0.65, "color": "#E9B8C4"},
+                {"at": 1, "color": "#F6D9BE"}
+              ],
+              "haze": {"color": "#F6D9BE", "alpha": 0.2}
             },
-            "ambient": {"light": "day"}
+            "ambient": {
+              "light": "peach",
+              "particles": "scraps",
+              "particleCount": 16,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0.05, "brightness": 0.02, "hue": 0}
+            },
+            "weather": "paper_drift",
+            "music": "curious",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 900], [5760, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [
+            [0, 900],
+            [2800, 900],
+            [2810, 1040],
+            [3390, 1040],
+            [3400, 900],
+            [4190, 900],
+            [4200, 1040],
+            [5190, 1040],
+            [5200, 900],
+            [5760, 900]
+          ],
+          "surface": "archive_of_voices.ground.brick_plaza",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [
+          {"id": "flagpole_plinth", "points": [[2630, 560], [2700, 560]], "asset": "archive_of_voices.prop.flagpole_plinth", "requires": null},
+          {"id": "cornice_ledge", "points": [[2440, 420], [2700, 420]], "asset": null, "requires": null},
+          {"id": "corner_mailbox", "points": [[5270, 800], [5330, 800]], "asset": "archive_of_voices.prop.mailbox", "requires": null},
+          {"id": "corner_awning", "points": [[5380, 600], [5620, 600]], "asset": null, "requires": null}
+        ],
+        "links": [
+          {
+            "kind": "hop",
+            "id": "s2_plinth_hop",
+            "from": {"surface": "ground", "x": 2560},
+            "to": {"surface": "flagpole_plinth", "x": 2650},
+            "requires": {"solved": "e1_brown", "flag": null, "notFlag": null, "collected": []},
+            "apex": 80,
+            "twoWay": true
+          },
+          {
+            "kind": "climb",
+            "id": "s2_cornice_climb",
+            "from": {"surface": "flagpole_plinth", "x": 2680},
+            "to": {"surface": "cornice_ledge", "x": 2660},
+            "requires": {"solved": "e1_brown", "flag": null, "notFlag": null, "collected": []},
+            "twoWay": true
+          },
+          {
+            "kind": "drop",
+            "id": "s2_cornice_drop",
+            "from": {"surface": "cornice_ledge", "x": 2450},
+            "to": {"surface": "ground", "x": 2400},
+            "requires": {"solved": "e1_brown", "flag": null, "notFlag": null, "collected": []}
+          },
+          {
+            "kind": "hop",
+            "id": "s2_mailbox_hop",
+            "from": {"surface": "ground", "x": 5230},
+            "to": {"surface": "corner_mailbox", "x": 5290},
+            "requires": {"solved": "e2_montgomery", "flag": null, "notFlag": null, "collected": []},
+            "apex": 60,
+            "twoWay": true
+          },
+          {
+            "kind": "climb",
+            "id": "s2_awning_climb",
+            "from": {"surface": "corner_mailbox", "x": 5320},
+            "to": {"surface": "corner_awning", "x": 5400},
+            "requires": {"solved": "e2_montgomery", "flag": null, "notFlag": null, "collected": []},
+            "twoWay": true
+          }
+        ],
         "exits": [
           {
             "id": "s2_to_s3",
             "x": 5740,
+            "surface": "ground",
             "toZoneId": "s3_schoolhouse",
             "toX": 80,
+            "toSurface": "ground",
             "transition": "film_seam",
-            "requires": {"solved": "e2_montgomery"}
+            "requires": {"solved": "e2_montgomery", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": null
           }
         ],
-        "entry": {"x": 80}
+        "hub": null,
+        "entry": {"x": 80, "surface": "ground"},
+        "entryCutsceneId": "enter_s2",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "s3_schoolhouse",
@@ -163,44 +644,153 @@
         "height": 1080,
         "layerSets": [
           {
-            "id": "s3_schoolhouse_kit",
+            "id": "schoolhouse_hill",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.clouds_soft",
+                "depth": "L1_far",
+                "scrollFactor": 0.05,
+                "scrollFactorY": null,
+                "y": 40,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.far_city_south",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 360,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.prop.courier_ledger_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 150,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.midfar_autumn_trees",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 380
+                "scrollFactorY": null,
+                "y": 360,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+              {
+                "asset": "archive_of_voices.layer.midfar_utility_poles",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 560,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.mid_storefronts_b",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 150,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_magnolia",
+                "depth": "L5_fore",
+                "scrollFactor": 1.35,
+                "scrollFactorY": null,
+                "y": 790,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s3_schoolhouse_kit",
+            "id": "dusk_begins",
             "x0": 0,
             "x1": 3840,
-            "layerSet": "s3_schoolhouse_kit",
+            "layerSet": "schoolhouse_hill",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#B9A3D6"},
+                {"at": 0.35, "color": "#D9AFCF"},
+                {"at": 0.65, "color": "#E9B8C4"},
+                {"at": 1, "color": "#F6D9BE"}
+              ],
+              "haze": {"color": "#F6D9BE", "alpha": 0.2}
             },
-            "ambient": {"light": "dusk"}
+            "ambient": {
+              "light": "peach",
+              "particles": "scraps",
+              "particleCount": 12,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0, "brightness": -0.04, "hue": 2}
+            },
+            "weather": "paper_drift",
+            "music": "curious",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 900], [3840, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [[0, 900], [1800, 880], [2290, 820], [2450, 700], [3840, 700]],
+          "surface": "archive_of_voices.ground.sidewalk",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [
+          {"id": "bundle_stack", "points": [[880, 820], [940, 820]], "asset": "archive_of_voices.prop.newspaper_bundle", "requires": null},
+          {"id": "pole_crossarm", "points": [[1660, 440], [1740, 440]], "asset": null, "requires": null}
+        ],
+        "links": [],
         "exits": [
           {
             "id": "s3_to_s4",
             "x": 2720,
+            "surface": "ground",
             "toZoneId": "s4_main_street",
             "toX": 80,
+            "toSurface": "ground",
             "transition": "film_seam",
-            "requires": {"solved": "e3_little_rock"}
+            "requires": {"solved": "e3_little_rock", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": null
           }
         ],
-        "entry": {"x": 80}
+        "hub": null,
+        "entry": {"x": 80, "surface": "ground"},
+        "entryCutsceneId": "enter_s3",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "s4_main_street",
@@ -209,44 +799,175 @@
         "height": 1080,
         "layerSets": [
           {
-            "id": "s4_main_street_kit",
+            "id": "main_street",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.clouds_rain",
+                "depth": "L1_far",
+                "scrollFactor": 0.05,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.far_city_south",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 360,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.prop.courier_ledger_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 150,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.midfar_commercial",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 380
+                "scrollFactorY": null,
+                "y": 260,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+              {
+                "asset": "archive_of_voices.layer.midfar_utility_poles",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 560,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.mid_storefronts_a",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 150,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.mid_firescape_wall",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 90,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_railing",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 840,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s4_main_street_kit",
+            "id": "dusk_rain",
             "x0": 0,
             "x1": 5760,
-            "layerSet": "s4_main_street_kit",
+            "layerSet": "main_street",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#7F6BB8"},
+                {"at": 0.35, "color": "#9E86D8"},
+                {"at": 0.65, "color": "#B58FCB"},
+                {"at": 1, "color": "#E8A9C3"}
+              ],
+              "haze": {"color": "#E8A9C3", "alpha": 0.3}
             },
-            "ambient": {"light": "dusk"}
+            "ambient": {
+              "light": "dusk",
+              "particles": "rain",
+              "particleCount": 120,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.05, "brightness": -0.05, "hue": 4}
+            },
+            "weather": "rain_heavy",
+            "music": "tense",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 900], [5760, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [
+          {"id": "lunch_counter", "x0": 600, "x1": 2000, "facade": "archive_of_voices.prop.dimestore_facade", "facadeAt": [600, -50], "segment": null},
+          {"id": "terminal", "x0": 2600, "x1": 4500, "facade": "archive_of_voices.prop.terminal_facade", "facadeAt": [2600, -50], "segment": null}
+        ],
+        "ground": {
+          "points": [[0, 900], [4700, 900], [5100, 560], [5760, 560]],
+          "surface": "archive_of_voices.ground.street_wet",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [
+          {"id": "waiting_bench", "points": [[3480, 820], [3560, 820]], "asset": "archive_of_voices.prop.bench", "requires": null},
+          {"id": "board_top", "points": [[3600, 640], [3820, 640]], "asset": null, "requires": null},
+          {
+            "id": "rafters",
+            "points": [[3700, 380], [4300, 380]],
+            "asset": null,
+            "requires": {"solved": "e5_freedom_rides", "flag": null, "notFlag": null, "collected": []}
+          },
+          {"id": "fire_escape_landing", "points": [[2180, 560], [2420, 560]], "asset": "archive_of_voices.prop.fire_escape", "requires": null}
+        ],
+        "links": [],
         "exits": [
           {
             "id": "s4_to_s5",
             "x": 5740,
+            "surface": "ground",
             "toZoneId": "s5_church_mast",
             "toX": 80,
+            "toSurface": "ground",
             "transition": "film_seam",
-            "requires": {"solved": "e5_freedom_rides"}
+            "requires": {"solved": "e5_freedom_rides", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": null
           }
         ],
-        "entry": {"x": 80}
+        "hub": null,
+        "entry": {"x": 80, "surface": "ground"},
+        "entryCutsceneId": "enter_s4",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "s5_church_mast",
@@ -255,90 +976,358 @@
         "height": 2000,
         "layerSets": [
           {
-            "id": "s5_church_mast_kit",
+            "id": "church_square",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 1120},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.clouds_rain",
+                "depth": "L1_far",
+                "scrollFactor": 0.05,
+                "scrollFactorY": 0.05,
+                "y": 700,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.far_city_industrial",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": 0.15,
+                "y": 1200,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.prop.courier_ledger_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 1000,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.midfar_rowhouses",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 1300
+                "scrollFactorY": null,
+                "y": 1140,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 1440}
+              {
+                "asset": "archive_of_voices.layer.mid_storefronts_b",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 1060,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_railing",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1760,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s5_church_mast_kit",
+            "id": "night_rain",
             "x0": 0,
             "x1": 4800,
-            "layerSet": "s5_church_mast_kit",
+            "layerSet": "church_square",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#7F6BB8"},
+                {"at": 0.35, "color": "#9E86D8"},
+                {"at": 0.65, "color": "#B58FCB"},
+                {"at": 1, "color": "#E8A9C3"}
+              ],
+              "haze": {"color": "#E8A9C3", "alpha": 0.3}
             },
-            "ambient": {"light": "night"}
+            "ambient": {
+              "light": "night",
+              "particles": "rain",
+              "particleCount": 120,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.08, "brightness": -0.1, "hue": 4}
+            },
+            "weather": "rain_heavy",
+            "music": "tense",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1820], [4800, 1820]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [[0, 1820], [3680, 1820], [3690, 1040], [4800, 1040]],
+          "surface": "archive_of_voices.ground.brick_plaza",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [
+          {"id": "bandstand_deck", "points": [[2000, 1760], [2720, 1760]], "asset": null, "requires": null},
+          {"id": "mast_top", "points": [[3560, 880], [3680, 880]], "asset": null, "requires": null}
+        ],
+        "links": [],
         "exits": [
           {
             "id": "s5_to_s6",
             "x": 4790,
+            "surface": "ground",
             "toZoneId": "s6_memorial",
             "toX": 80,
+            "toSurface": "ground",
             "transition": "film_seam",
-            "requires": {"solved": "e6_birmingham"}
+            "requires": {"solved": "e6_birmingham", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": null
           }
         ],
-        "entry": {"x": 80}
+        "hub": null,
+        "entry": {"x": 80, "surface": "ground"},
+        "entryCutsceneId": "enter_s5",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 200, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "s6_memorial",
-        "name": "Memorial Steps and Filing Hall",
+        "name": "The Memorial Steps",
         "width": 5760,
         "height": 1300,
         "layerSets": [
           {
-            "id": "s6_memorial_kit",
+            "id": "memorial",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 0},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.clouds_rain",
+                "depth": "L1_far",
+                "scrollFactor": 0.05,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 0.6,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.far_capital",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 480,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.midfar_oaks",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 120
+                "scrollFactorY": null,
+                "y": 480,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 260}
+              {
+                "asset": "archive_of_voices.layer.midfar_utility_poles",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 600,
+                "repeatX": true,
+                "alpha": 0.6,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_magnolia",
+                "depth": "L5_fore",
+                "scrollFactor": 1.35,
+                "scrollFactorY": null,
+                "y": 1010,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
+            ]
+          },
+          {
+            "id": "filing_hall",
+            "layers": [
+              {
+                "asset": "archive_of_voices.layer.mid_marble_backwall",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 100,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.hall_arches",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 150,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.stacks_shelving",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 220,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_stanchions",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1100,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.fx.blinds_shadow",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 0.2,
+                "blend": "multiply",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s6_memorial_kit",
+            "id": "blue_hour",
             "x0": 0,
-            "x1": 5760,
-            "layerSet": "s6_memorial_kit",
+            "x1": 3000,
+            "layerSet": "memorial",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#3E3F74"},
+                {"at": 0.35, "color": "#55508A"},
+                {"at": 0.65, "color": "#6A5A9A"},
+                {"at": 1, "color": "#C58BB0"}
+              ],
+              "haze": {"color": "#6A5A9A", "alpha": 0.25}
             },
-            "ambient": {"light": "dusk"}
+            "ambient": {
+              "light": "night",
+              "particles": "rain",
+              "particleCount": 60,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.1, "brightness": -0.08, "hue": 6}
+            },
+            "weather": "rain_light",
+            "music": "calm",
+            "runEnabled": true,
+            "variants": []
+          },
+          {
+            "id": "hall",
+            "x0": 3000,
+            "x1": 5760,
+            "layerSet": "filing_hall",
+            "sky": {
+              "stops": [{"at": 0, "color": "#3B2F3E"}, {"at": 0.5, "color": "#4E3C44"}, {"at": 1, "color": "#5E4A4A"}],
+              "haze": {"color": "#5E4A4A", "alpha": 0.15}
+            },
+            "ambient": {
+              "light": "interior",
+              "particles": "dust",
+              "particleCount": 20,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.05, "brightness": 0, "hue": 0}
+            },
+            "weather": "clear",
+            "music": "calm",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 640], [5760, 640]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [
+          {"id": "filing_hall", "x0": 3000, "x1": 5200, "facade": "archive_of_voices.prop.hall_facade", "facadeAt": [3000, 100], "segment": "hall"}
+        ],
+        "ground": {
+          "points": [[0, 900], [2400, 900], [2410, 640], [4800, 640], [4810, 300], [5760, 300]],
+          "surface": "archive_of_voices.ground.marble_floor",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [{"id": "hall_gallery", "points": [[3050, 380], [3800, 380]], "asset": "archive_of_voices.prop.gallery_deck", "requires": null}],
+        "links": [],
         "exits": [
           {
             "id": "s6_to_s7",
             "x": 5740,
+            "surface": "ground",
             "toZoneId": "s7_selma",
             "toX": 80,
+            "toSurface": "ground",
             "transition": "film_seam",
-            "requires": {"solved": "e8_cra"}
+            "requires": {"solved": "e8_cra", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": null
           }
         ],
-        "entry": {"x": 80}
+        "hub": null,
+        "entry": {"x": 80, "surface": "ground"},
+        "entryCutsceneId": "enter_s6",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "s7_selma",
@@ -347,82 +1336,406 @@
         "height": 1080,
         "layerSets": [
           {
-            "id": "s7_selma_kit",
+            "id": "selma_river",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 200},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.clouds_rain",
+                "depth": "L1_far",
+                "scrollFactor": 0.05,
+                "scrollFactorY": null,
+                "y": 0,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.far_river_bluffs",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 420,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.prop.courier_ledger_tower",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 300,
+                "repeatX": false,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.midfar_utility_poles",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 380
+                "scrollFactorY": null,
+                "y": 560,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 520}
+              {
+                "asset": "archive_of_voices.layer.mid_river",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 900,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_railing",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 840,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s7_selma_kit",
+            "id": "river_road",
             "x0": 0,
-            "x1": 5760,
-            "layerSet": "s7_selma_kit",
+            "x1": 1300,
+            "layerSet": "selma_river",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [
+                {"at": 0, "color": "#3E3F74"},
+                {"at": 0.35, "color": "#55508A"},
+                {"at": 0.65, "color": "#6A5A9A"},
+                {"at": 1, "color": "#C58BB0"}
+              ],
+              "haze": {"color": "#6A5A9A", "alpha": 0.25}
             },
-            "ambient": {"light": "dusk"}
+            "ambient": {
+              "light": "night",
+              "particles": "rain",
+              "particleCount": 60,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.1, "brightness": -0.1, "hue": 6}
+            },
+            "weather": "rain_light",
+            "music": "tense",
+            "runEnabled": true,
+            "variants": []
+          },
+          {
+            "id": "bridge",
+            "x0": 1300,
+            "x1": 4300,
+            "layerSet": "selma_river",
+            "sky": {
+              "stops": [
+                {"at": 0, "color": "#3E3F74"},
+                {"at": 0.35, "color": "#55508A"},
+                {"at": 0.65, "color": "#6A5A9A"},
+                {"at": 1, "color": "#C58BB0"}
+              ],
+              "haze": {"color": "#6A5A9A", "alpha": 0.25}
+            },
+            "ambient": {
+              "light": "night",
+              "particles": "rain",
+              "particleCount": 60,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.1, "brightness": -0.1, "hue": 6}
+            },
+            "weather": "rain_light",
+            "music": "tense",
+            "runEnabled": false,
+            "variants": [
+              {"requires": {"solved": "e9_selma", "flag": null, "notFlag": null, "collected": []}, "sky": null, "weather": "clear", "music": "solemn"}
+            ]
+          },
+          {
+            "id": "far_bank",
+            "x0": 4300,
+            "x1": 5760,
+            "layerSet": "selma_river",
+            "sky": {
+              "stops": [
+                {"at": 0, "color": "#3E3F74"},
+                {"at": 0.35, "color": "#55508A"},
+                {"at": 0.65, "color": "#6A5A9A"},
+                {"at": 1, "color": "#C58BB0"}
+              ],
+              "haze": {"color": "#6A5A9A", "alpha": 0.25}
+            },
+            "ambient": {
+              "light": "night",
+              "particles": "none",
+              "particleCount": 0,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.05, "brightness": -0.05, "hue": 4}
+            },
+            "weather": "clear",
+            "music": "solemn",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 900], [5760, 900]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [[0, 900], [2190, 900], [2200, 1060], [3400, 1060], [3410, 900], [5760, 900]],
+          "surface": "archive_of_voices.ground.sidewalk",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [{"id": "riverside_ledge", "points": [[4480, 1010], [4700, 1010]], "asset": null, "requires": null}],
+        "links": [],
         "exits": [
           {
             "id": "s7_to_s8",
             "x": 5220,
+            "surface": "ground",
             "toZoneId": "s8_stacks_vault",
             "toX": 300,
+            "toSurface": "ground",
             "transition": "fade",
-            "cutsceneId": "ride_home",
-            "requires": {"solved": "e9_selma"}
+            "requires": {"solved": "e9_selma", "flag": null, "notFlag": null, "collected": []},
+            "cutsceneId": "ride_home"
           }
         ],
-        "entry": {"x": 80}
+        "hub": null,
+        "entry": {"x": 80, "surface": "ground"},
+        "entryCutsceneId": "enter_s7",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 260, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       },
       {
         "id": "s8_stacks_vault",
-        "name": "Morgue Stacks and the Vault",
+        "name": "The Stacks and the Vault",
         "width": 6720,
         "height": 2000,
         "layerSets": [
           {
-            "id": "s8_stacks_vault_kit",
+            "id": "stacks",
             "layers": [
-              {"asset": "archive_of_voices.layer.default_far", "depth": "L1_far", "scrollFactor": 0.15, "y": 700},
               {
-                "asset": "archive_of_voices.layer.default_midfar",
+                "asset": "archive_of_voices.layer.morgue_backwall",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": 0.15,
+                "y": 700,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.morgue_pipes",
                 "depth": "L2_midfar",
                 "scrollFactor": 0.35,
-                "y": 880
+                "scrollFactorY": null,
+                "y": 760,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
               },
-              {"asset": "archive_of_voices.layer.default_mid", "depth": "L3_mid", "scrollFactor": 0.6, "y": 1020}
+              {
+                "asset": "archive_of_voices.layer.stacks_shelving",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 820,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_stanchions",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1370,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.fx.blinds_shadow",
+                "depth": "L6_light",
+                "scrollFactor": 1,
+                "scrollFactorY": null,
+                "y": 700,
+                "repeatX": true,
+                "alpha": 0.2,
+                "blend": "multiply",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              }
+            ]
+          },
+          {
+            "id": "vault",
+            "layers": [
+              {
+                "asset": "archive_of_voices.layer.vault_backwall",
+                "depth": "L1_far",
+                "scrollFactor": 0.15,
+                "scrollFactorY": null,
+                "y": 1000,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.morgue_pipes",
+                "depth": "L2_midfar",
+                "scrollFactor": 0.35,
+                "scrollFactorY": null,
+                "y": 1100,
+                "repeatX": true,
+                "alpha": 1,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.stacks_shelving",
+                "depth": "L3_mid",
+                "scrollFactor": 0.6,
+                "scrollFactorY": null,
+                "y": 1250,
+                "repeatX": true,
+                "alpha": 0.5,
+                "blend": "normal",
+                "blurPx": 0,
+                "driftPxPerSec": 0
+              },
+              {
+                "asset": "archive_of_voices.layer.fore_stanchions",
+                "depth": "L5_fore",
+                "scrollFactor": 1.3,
+                "scrollFactorY": null,
+                "y": 1870,
+                "repeatX": true,
+                "alpha": 0.7,
+                "blend": "normal",
+                "blurPx": 2,
+                "driftPxPerSec": 0
+              }
             ]
           }
         ],
         "segments": [
           {
-            "id": "s8_stacks_vault_kit",
+            "id": "stacks",
             "x0": 0,
-            "x1": 6720,
-            "layerSet": "s8_stacks_vault_kit",
+            "x1": 4700,
+            "layerSet": "stacks",
             "sky": {
-              "stops": [{"at": 0, "color": "#D8D4CF"}, {"at": 0.5, "color": "#E8DCD2"}, {"at": 1, "color": "#F4E7DA"}],
-              "haze": {"color": "#FFFFFF", "alpha": 0.2}
+              "stops": [{"at": 0, "color": "#3B2F3E"}, {"at": 0.5, "color": "#4E3C44"}, {"at": 1, "color": "#5E4A4A"}],
+              "haze": {"color": "#5E4A4A", "alpha": 0.15}
             },
-            "ambient": {"light": "interior"}
+            "ambient": {
+              "light": "interior",
+              "particles": "dust",
+              "particleCount": 24,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": -0.1, "brightness": -0.05, "hue": 0}
+            },
+            "weather": "drip",
+            "music": "noir",
+            "runEnabled": true,
+            "variants": []
+          },
+          {
+            "id": "vault",
+            "x0": 4700,
+            "x1": 6720,
+            "layerSet": "vault",
+            "sky": {
+              "stops": [{"at": 0, "color": "#3B2F3E"}, {"at": 0.5, "color": "#4E3C44"}, {"at": 1, "color": "#5E4A4A"}],
+              "haze": {"color": "#5E4A4A", "alpha": 0.15}
+            },
+            "ambient": {
+              "light": "amber",
+              "particles": "dust",
+              "particleCount": 16,
+              "shadowColor": "#6E7F9A",
+              "dapple": null,
+              "grade": {"saturation": 0, "brightness": -0.05, "hue": -4}
+            },
+            "weather": "clear",
+            "music": "noir",
+            "runEnabled": true,
+            "variants": []
           }
         ],
-        "ground": {"points": [[0, 1400], [6720, 1400]], "surface": "archive_of_voices.ground.default_surface"},
+        "interiors": [],
+        "ground": {
+          "points": [[0, 1400], [4700, 1400], [4710, 1900], [6720, 1900]],
+          "surface": "archive_of_voices.ground.morgue_floor",
+          "underside": null,
+          "maxStepUp": 102
+        },
+        "platforms": [{"id": "gallery", "points": [[2780, 1020], [4600, 1020]], "asset": "archive_of_voices.prop.gallery_deck", "requires": null}],
+        "links": [
+          {
+            "kind": "ladder",
+            "id": "s8_rolling_ladder",
+            "from": {"surface": "ground", "x": 2760},
+            "to": {"surface": "gallery", "x": 2790},
+            "requires": {"solved": "e10_sources", "flag": null, "notFlag": null, "collected": []},
+            "asset": "archive_of_voices.prop.rolling_ladder",
+            "twoWay": true
+          },
+          {
+            "kind": "drop",
+            "id": "s8_gallery_drop",
+            "from": {"surface": "gallery", "x": 4590},
+            "to": {"surface": "ground", "x": 4640},
+            "requires": null
+          }
+        ],
         "exits": [],
-        "entry": {"x": 300}
+        "hub": {
+          "asset": "archive_of_voices.prop.record_engine",
+          "x": 3700,
+          "y": 760,
+          "depth": "L3_mid",
+          "label": "Record Engine",
+          "sockets": 12,
+          "restoredLine": {"speakerId": "archivist", "text": "Every lens is lit. The Engine remembers all of it now.", "mood": "neutral"},
+          "anims": {"partial": "partial", "restored": "restored"}
+        },
+        "entry": {"x": 300, "surface": "ground"},
+        "entryCutsceneId": "enter_s8",
+        "camera": {"xDeadzone": 0.3, "yDeadzone": 200, "lerp": 0.12, "minZoom": 0.6, "maxZoom": 1.15}
       }
     ],
     "stations": [
@@ -430,26 +1743,129 @@
         "encounterId": "e1_brown",
         "zoneId": "s2_courthouse",
         "consoleX": 900,
+        "consoleSurface": "ground",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 1700, "y": 900},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Witness Projector",
-        "panel": {"verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Witness Projector.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "witness_projector",
+        "config": {
+          "holders": [
+            {"statementIndex": 0, "trace": null, "ghost": null, "footprint": {"kind": "pin", "from": "1954", "to": null, "label": "ruled 1954"}},
+            {
+              "statementIndex": 1,
+              "trace": null,
+              "ghost": null,
+              "footprint": {"kind": "band", "from": "1954", "to": "1955", "label": "claimed: desegregated"}
+            },
+            {"statementIndex": 2, "trace": null, "ghost": null, "footprint": {"kind": "arrow", "from": "1896", "to": "1954", "label": "overturned"}}
+          ],
+          "reference": null,
+          "referenceSim": null,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1950,
+            "max": 1960,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1950, "end": 1960},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Witness Projector wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens",
+          "scenarioMin": null,
+          "hintPins": [{"rung": 2, "date": "1957", "label": "Little Rock"}],
+          "fileDates": [],
+          "aimer": "arc_lamp",
+          "quarantineAnim": "retract_stamp",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Witness Projector",
+        "partNouns": ["Proof Lamp", "slide"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[1450, 330], [2350, 330]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [1700, 560], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "aimedIndex", "index": 2, "key": "plessy_true"}],
+        "hintTargets": null,
+        "panel": {"layout": "scrub", "inputSymbol": null, "verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "Three slides on the courthouse wall, all about Brown v. Board. The flood spliced one false label in with the true.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {"speakerId": "archivist", "text": "Aim the Proof Lamp at the false slide, then retract it.", "mood": "neutral"},
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "The lamp throws whichever slide you aim at. The FILE card pins each claim where it says it happened.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "A ruling says what the law is. Whether anyone obeys it is a separate story, with its own dates.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "A court ruling is a statement, not an enforcement. Keep that in mind as you read.", "mood": "neutral"},
+            {
+              "speakerId": "archivist",
+              "text": "Think about what happened at Little Rock three years later. I've pinned it to the RECORD card.",
+              "mood": "neutral"
+            },
+            {"speakerId": "archivist", "text": "The false label reads: Schools across the South desegregated within the year.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "The lamp holds steady. That slide is honest. Look for the label that assumes the ruling was obeyed at once.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "plessy_true",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "That one holds. Brown did overturn separate but equal. The false label is about what came after the ruling.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "A ruling is words on paper. It took years, and federal troops, to carry Brown out of the courtroom.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "archivist",
+            "text": "The steps are printing. Climb them, Nell. That terrace is the only way past the flood.",
+            "mood": "neutral"
+          },
+          "after": [{"speakerId": "archivist", "text": "The plaque by the door just lit. It quotes the ruling word for word.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "stairs_rise",
           "noun": "courthouse steps",
-          "blocker": {"x": 1200},
-          "rideCutsceneId": null
+          "blocker": {"x": 1480, "surface": "ground", "asset": null},
+          "terrain": [{"surface": "ground", "points": [[1500, 900], [2600, 640], [3400, 640], [3700, 900]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -457,26 +1873,121 @@
         "encounterId": "e2_montgomery",
         "zoneId": "s2_courthouse",
         "consoleX": 3800,
+        "consoleSurface": "ground",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 4700, "y": 900},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Walking Road",
-        "panel": {"verifyLabel": "LIGHT THE ROUTE", "successBadge": "ROUTE RESTORED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Walking Road.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "step_bridge",
+        "skin": "walking_road",
+        "config": {
+          "bays": "flat_road",
+          "items": [
+            {"key": "s0", "meta": {"printedDate": "1955-12-01", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "s1", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "s2", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "s3", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "d0", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}}
+          ],
+          "stepEffects": [],
+          "stages": [],
+          "anchors": 0,
+          "relief": null,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1955.8333,
+            "max": 1957.0833,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1955.8333, "end": 1957.0833},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Walking Road wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "day_counter",
+          "dayCounter": {"epoch": "1955-12", "max": 381},
+          "bayLampsTier": 1,
+          "pageOrderHeading": null
+        },
+        "objectNoun": "Walking Road",
+        "partNouns": ["planks", "slab"],
+        "pins": [{"anchor": "day_counter", "text": "DAY", "glyph": null}],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[3700, 520], [5200, 520]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [4700, 880], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "decoyPresent", "itemKey": "d0", "key": "acted_alone"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "LIGHT THE ROUTE", "successBadge": "ROUTE RESTORED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "The street past the bus stop is under water. Lay the Montgomery planks across it in order. One never happened.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {"speakerId": "archivist", "text": "Lay the planks across the flooded street in the order they happened.", "mood": "neutral"},
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Each plank rises as a slab where you set it. The DAY counter at the stop runs with the year cursor.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "Nothing on this road happened by accident. Every one of those days was planned by someone.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "Start with the arrest and end with the court.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Between them is a year of organized walking and carpooling.", "mood": "neutral"},
+            {
+              "speakerId": "archivist",
+              "text": "An arrest of one activist became a campaign because leaders were ready to organize.",
+              "mood": "neutral"
+            }
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "The road won't hold at that slab. Organizing came before 381 days of walking, and the court came at the end.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "acted_alone",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "That slab dissolved. Nobody starts a year-long boycott alone; that plank belongs to no real day.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "One arrest became a 381-day boycott because people organized. It ended when the Supreme Court ruled.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "Walk it. Three hundred and eighty-one days of it, one slab at a time.", "mood": "neutral"},
+          "after": [{"speakerId": "archivist", "text": "The bus lights are on. Those seats were the point of all that walking.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "none",
           "anim": "bridge_forms",
           "noun": "Walking Road",
-          "blocker": {"x": 4100},
-          "rideCutsceneId": null
+          "blocker": {"x": 4190, "surface": "ground", "asset": null},
+          "terrain": [{"surface": "ground", "points": [[4200, 900], [5200, 900]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -484,26 +1995,114 @@
         "encounterId": "e3_little_rock",
         "zoneId": "s3_schoolhouse",
         "consoleX": 1450,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 1300, "y": 900},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Wire Ticker",
-        "panel": {"verifyLabel": "SEND TO THE WIRE", "successBadge": "WIRE CONFIRMED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Wire Ticker.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "oracle_ticker",
+        "skin": "wire_ticker",
+        "config": {
+          "options": [],
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1954,
+            "max": 1958,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1954, "end": 1958},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Wire Ticker wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens",
+          "fileDates": [{"date": "1957-09", "label": "Guard posted"}],
+          "conduit": "telegraph_wire",
+          "payoffLamps": 9
+        },
+        "objectNoun": "Wire Ticker",
+        "partNouns": ["Prediction Selector", "wire"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[1250, 470], [1700, 420], [2600, 560]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [2650, 640], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "aimedIndex", "index": 1, "key": "states_rights"}],
+        "hintTargets": null,
+        "panel": {"layout": "scrub", "inputSymbol": null, "verifyLabel": "SEND TO THE WIRE", "successBadge": "WIRE CONFIRMED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "September 1957. The Guard is holding nine students at the school door. The ticker's waiting on Washington's move.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "archivist",
+            "text": "Turn the Prediction Selector to your forecast, then send it down the wire.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "The ticker types your forecast as you turn the dial. Nothing goes out until you send it.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "A federal court ordered those doors open. A governor ordered them shut. Both orders can't stand.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "A state governor is defying a federal court. Hold on to that.", "mood": "neutral"},
+            {
+              "speakerId": "archivist",
+              "text": "A court order is being defied. Think about the tools a president holds when that happens.",
+              "mood": "neutral"
+            },
+            {"speakerId": "archivist", "text": "Think about who outranks a state's National Guard.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "The wire prints what really happened. Read it, then set the selector to the true outcome and file it.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "states_rights",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "The tape says otherwise. Once a state defies a federal court, the decision leaves Little Rock.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "Brown didn't enforce itself. When a governor defied a federal court, it took the President and the Army.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "Nine lamps. One for each student who walked in.", "mood": "neutral"},
+          "after": [{"speakerId": "archivist", "text": "Those doors stay open now. Go on through, Nell.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "remove_blocker",
-          "vertical": "none",
+          "vertical": "up",
           "anim": "barrier_dissolves",
           "noun": "school doors",
-          "blocker": {"x": 1750},
-          "rideCutsceneId": null
+          "blocker": {"x": 2290, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -511,26 +2110,120 @@
         "encounterId": "e4_sit_ins",
         "zoneId": "s4_main_street",
         "consoleX": 900,
+        "consoleSurface": "ground",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 1450, "y": 520},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Witness Projector",
-        "panel": {"verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Witness Projector.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "claim_holders",
+        "skin": "witness_projector",
+        "config": {
+          "holders": [
+            {"statementIndex": 0, "trace": null, "ghost": null, "footprint": null},
+            {"statementIndex": 1, "trace": null, "ghost": null, "footprint": null},
+            {"statementIndex": 2, "trace": null, "ghost": null, "footprint": null}
+          ],
+          "reference": null,
+          "referenceSim": null,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1959,
+            "max": 1961,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1959, "end": 1961},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Witness Projector wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens",
+          "scenarioMin": null,
+          "hintPins": [],
+          "fileDates": [{"date": "1960-02-01", "label": "Greensboro"}],
+          "aimer": "pendant_lamp",
+          "quarantineAnim": "retract_stamp",
+          "secondaryTier": 1,
+          "overlayTier": 2
+        },
+        "objectNoun": "Witness Projector",
+        "partNouns": ["counter lamp", "slide", "menu board"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[900, 300], [1900, 300]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [1450, 520], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "aimedIndex", "index": 2, "key": "spread_true"}],
+        "hintTargets": null,
+        "panel": {"layout": "scrub", "inputSymbol": null, "verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "Someone swapped the menu for three slides about the Greensboro sit-ins. One of them is a mimic.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {"speakerId": "archivist", "text": "Swing the counter lamp onto the mimic slide, then retract it.", "mood": "neutral"},
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "The lamp swings to whichever slide you pick. It only retracts one when you say so.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "Twelve stools, and every one of them was a rule. Breaking a rule on purpose takes planning.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "Sitting where you are forbidden to sit is itself a confrontation.", "mood": "neutral"},
+            {
+              "speakerId": "archivist",
+              "text": "Nonviolence describes how they answered violence, not whether they provoked a response.",
+              "mood": "neutral"
+            },
+            {"speakerId": "archivist", "text": "The mimic claims: Nonviolent meant the students avoided confrontation.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "That slide is honest. Look for the claim that turns nonviolence into passivity.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "spread_true",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "That slide holds. The sit-ins spread, and SNCC came out of them. Look for the claim about how they behaved.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "Nonviolent never meant passive. They broke an unjust rule on purpose, stayed put, and met violence with discipline.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "The kitchen door's open. The alley runs through to the terminal.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "remove_blocker",
           "vertical": "none",
           "anim": "door_opens",
           "noun": "swing door",
-          "blocker": {"x": 1200},
-          "rideCutsceneId": null
+          "blocker": {"x": 1990, "surface": "ground", "asset": "archive_of_voices.prop.swing_door"},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -538,26 +2231,115 @@
         "encounterId": "e5_freedom_rides",
         "zoneId": "s4_main_street",
         "consoleX": 2900,
+        "consoleSurface": "ground",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 3650, "y": 520},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Relay Line",
-        "panel": {"verifyLabel": "CLOSE THE CIRCUIT", "successBadge": "CIRCUIT CLOSED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Relay Line.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "cause_tubes",
+        "skin": "relay_line",
+        "config": {
+          "nodes": [
+            {"key": "n0", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n1", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n2", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n3", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n4", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "d0", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}}
+          ],
+          "connector": "catenary",
+          "layout": "canopy_row",
+          "carrier": "current",
+          "gauge": true,
+          "boardWidth": 1100,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1960,
+            "max": 1962,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1960, "end": 1962},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Relay Line wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens"
+        },
+        "objectNoun": "Relay Line",
+        "partNouns": ["junction box", "circuit"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[3000, 440], [4300, 440]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [3710, 700], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "decoyPresent", "itemKey": "d0", "key": "law_first"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "CLOSE THE CIRCUIT", "successBadge": "CIRCUIT CLOSED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "The terminal's relay line is dead. Six junction boxes, five events of 1961. Wire each cause to what it caused.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "archivist",
+            "text": "Wire each junction box to the event it caused, then close the circuit.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Draw a wire from a box to what it set off. The gauge only counts wires; it can't tell you if they're right.",
+            "mood": "neutral"
+          },
+          "insight": {"speakerId": "archivist", "text": "A ruling on paper changes nothing until somebody tests it in person.", "mood": "neutral"},
+          "hints": [
+            {"speakerId": "archivist", "text": "Start with the ruling the riders wanted to test.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Violence became news; news became pressure.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The federal enforcement came last, and not by choice.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "The current stops at that box. Follow the pressure: who tested what, what exposed it, and who acted last.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "law_first",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "Congress passed no act in 1961. That box belongs to a later story; the riders didn't wait for a law.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "Riders tested a ruling, violence made headlines, and only then did Washington act. The movement pushed first.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "The gate's up. Take the stair to the overpass.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "remove_blocker",
-          "vertical": "none",
+          "vertical": "up",
           "anim": "gate_lifts",
           "noun": "rolling gate",
-          "blocker": {"x": 3200},
-          "rideCutsceneId": null
+          "blocker": {"x": 4440, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -565,26 +2347,121 @@
         "encounterId": "e6_birmingham",
         "zoneId": "s5_church_mast",
         "consoleX": 3350,
+        "consoleSurface": "ground",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 3600, "y": 1820},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Broadcast Relay",
-        "panel": {"verifyLabel": "CLOSE THE CIRCUIT", "successBadge": "CIRCUIT CLOSED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Broadcast Relay.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 600,
+        "contraption": "cause_tubes",
+        "skin": "broadcast_relay",
+        "config": {
+          "nodes": [
+            {"key": "n0", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n1", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n2", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n3", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n4", "meta": {"printedDate": "1963-06", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "d0", "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null}}
+          ],
+          "connector": "vertical_wire",
+          "layout": "mast",
+          "carrier": "current",
+          "gauge": true,
+          "boardWidth": 1100,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1962,
+            "max": 1964,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1962, "end": 1964},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Broadcast Relay wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens"
+        },
+        "objectNoun": "Broadcast Relay",
+        "partNouns": ["relay stations", "mast", "circuit"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[2000, 1580], [2720, 1580]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [3600, 1500], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": 0.7,
+        "probes": [{"predicate": "decoyPresent", "itemKey": "d0", "key": "wrong_year_law"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "CLOSE THE CIRCUIT", "successBadge": "CIRCUIT CLOSED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "Five relay stations up the mast and one stray. Link each event in Birmingham to the one it toppled.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "archivist",
+            "text": "Wire the relay stations up the mast, cause to effect, then close the circuit.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Each dish turns toward whatever you wire into it. The lift at the foot stays dark until the circuit closes.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "A bill in Washington answers pressure, and pressure has to come from somewhere.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "Begin with the marches themselves.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The images only mattered because they were seen.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The bill was the last domino, not the first.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "The signal dies partway up. A bill doesn't come from nowhere; trace what had to be seen before anyone acted.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "wrong_year_law",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "That station is from 1965. This mast only carries Birmingham's spring, and what it set moving that June.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "Kennedy's bill had a chain of causes behind it: marches, violence, cameras, opinion. No single push did it.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "The lift's live. Ride it up to the rooftops.", "mood": "neutral"},
+          "after": [
+            {"speakerId": "archivist", "text": "From up here you can see why it mattered. The whole city could see it too.", "mood": "neutral"}
+          ]
         },
         "payoff": {
           "kind": "ride",
           "vertical": "up",
           "anim": "lift_moves",
           "noun": "mast lift",
-          "blocker": {"x": 3650},
-          "rideCutsceneId": null
+          "blocker": null,
+          "terrain": [],
+          "rideCutsceneId": "ride_mast_lift",
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -592,26 +2469,108 @@
         "encounterId": "e7_march",
         "zoneId": "s6_memorial",
         "consoleX": 900,
-        "anchor": {"x": 900, "y": 640},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Switchboard",
-        "panel": {"verifyLabel": "CONNECT THE PROGRAM", "successBadge": "PROGRAM CONNECTED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Switchboard.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "consoleSurface": "ground",
+        "consoleAsset": null,
+        "anchor": {"x": 900, "y": 900},
+        "approachRadius": 500,
+        "contraption": "switchboard",
+        "skin": "switchboard",
+        "config": {
+          "document": {"title": "MARCH ON WASHINGTON FOR JOBS AND FREEDOM · AUGUST 28, 1963"},
+          "stepLamps": true,
+          "cord": "verlet",
+          "decoyDimRung": 3,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1962.5,
+            "max": 1964,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1962.5, "end": 1964},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Switchboard wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens"
+        },
+        "objectNoun": "Program Switchboard",
+        "partNouns": ["name jack", "role jack", "program"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[850, 380], [2650, 380]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [900, 760], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "linkedTo", "fromKey": "l2", "toKey": "r0", "key": "king_organizer"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "CONNECT THE PROGRAM", "successBadge": "PROGRAM CONNECTED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "The March's program is scrambled on the switchboard. Four names, five roles. Patch each name to its part.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {"speakerId": "archivist", "text": "Patch each name jack to its role jack, then connect the program.", "mood": "neutral"},
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Patch a cord and both lamps light white. White only means seated. The program fills in as you go.",
+            "mood": "neutral"
+          },
+          "insight": {"speakerId": "archivist", "text": "A march that size is a logistics problem long before it is a speech.", "mood": "neutral"},
+          "hints": [
+            {"speakerId": "archivist", "text": "The march had organizers as well as a famous speaker.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Its full name was the March on Washington for Jobs and Freedom.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The person who signed the act was a president, not a marcher.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "That cord won't seat. Labor and civil rights veterans built this march; read the clue on the program's margin.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "king_organizer",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "King gave the closing speech. The call for this march went out years earlier, from a labor leader.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "A march has architects, and this one demanded jobs as well as freedom. The famous speech was its close, not its whole.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "The steps are solid. Climb to the colonnade, Nell.", "mood": "neutral"},
+          "after": [
+            {
+              "speakerId": "archivist",
+              "text": "The program printed clean. Organizers, marshals, demands, and one speech at the end.",
+              "mood": "neutral"
+            }
+          ]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "stairs_rise",
           "noun": "memorial steps",
-          "blocker": {"x": 1200},
-          "rideCutsceneId": null
+          "blocker": {"x": 1090, "surface": "ground", "asset": null},
+          "terrain": [{"surface": "ground", "points": [[1100, 900], [2400, 640]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -619,26 +2578,166 @@
         "encounterId": "e8_cra",
         "zoneId": "s6_memorial",
         "consoleX": 3250,
+        "consoleSurface": "ground",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 4200, "y": 640},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Filing Cabinets",
-        "panel": {"verifyLabel": "SEAL THE CABINETS", "successBadge": "FILES SEALED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Filing Cabinets.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "router_lanes",
+        "skin": "filing_cabinets",
+        "config": {
+          "items": [
+            {
+              "key": "i0",
+              "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i1",
+              "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i2",
+              "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i3",
+              "meta": {"printedDate": null, "madeYear": null, "glyph": null, "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i4",
+              "meta": {"printedDate": "1964-07-02", "madeYear": null, "glyph": null, "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i5",
+              "meta": {"printedDate": "1965-03", "madeYear": null, "glyph": null, "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            }
+          ],
+          "lanes": [{"binId": "cra_1964", "laneId": "drawer_0", "year": 1964.5}, {"binId": "vra_1965", "laneId": "drawer_1", "year": 1965.5}],
+          "lens": "none",
+          "lensTier": 1,
+          "energy": null,
+          "shutters": true,
+          "stamp": "none",
+          "eventsBand": null,
+          "eventsBandTier": 1,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1963.5,
+            "max": 1966,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1963.5, "end": 1966},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Filing Cabinets wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens"
+        },
+        "objectNoun": "Filing Cabinets",
+        "partNouns": ["provision slip", "cabinets"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[3100, 60], [4700, 60]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [4200, 360], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "assignedTo", "itemKey": "i2", "binId": "cra_1964", "key": "vote_in_1964"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "SEAL THE CABINETS", "successBadge": "FILES SEALED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "Two cabinets, two laws, six provisions coming down the tube. File each slip under the act that created it.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "archivist",
+            "text": "File each provision slip in its act's cabinet, then seal the cabinets.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Each slip flies to the drawer you pick. The meters only count slips; they don't check your filing.",
+            "mood": "neutral"
+          },
+          "insight": {"speakerId": "archivist", "text": "Two laws, one year apart. Each one answered a different injustice.", "mood": "neutral"},
+          "hints": [
+            {"speakerId": "archivist", "text": "Ask what each provision is about: public life and jobs, or the ballot.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Anything about registering or voting belongs to 1965.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The 1964 act's dates and titles are about accommodations and employment.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "A slip bounced back. The 1964 act targeted segregation and job discrimination; the vote waited for 1965.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "vote_in_1964",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "Something about the ballot is sitting with the 1964 act. Read that cabinet's feature plate again.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "The 1964 act opened lunch counters, hotels and workplaces. The ballot needed its own law a year later.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "The cabinets rolled apart. There's a stair down to the river road.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "down",
           "anim": "stairwell_opens",
           "noun": "stairwell",
-          "blocker": {"x": 3550},
-          "rideCutsceneId": null
+          "blocker": {"x": 4140, "surface": "ground", "asset": null},
+          "terrain": [{"surface": "ground", "points": [[4150, 640], [4450, 1150], [5760, 1150]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -646,26 +2745,116 @@
         "encounterId": "e9_selma",
         "zoneId": "s7_selma",
         "consoleX": 1100,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 2800, "y": 900},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Timeline Bridge",
-        "panel": {"verifyLabel": "LOCK THE SPAN", "successBadge": "SPAN LOCKED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Timeline Bridge.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "step_bridge",
+        "skin": "timeline_bridge",
+        "config": {
+          "bays": "arch",
+          "items": [
+            {"key": "s0", "meta": {"printedDate": "1964-07-02", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "s1", "meta": {"printedDate": "1965-03-07", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "s2", "meta": {"printedDate": "1965-03-25", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "s3", "meta": {"printedDate": "1965-08-06", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "d0", "meta": {"printedDate": "1956-12", "madeYear": null, "glyph": null, "label": null}}
+          ],
+          "stepEffects": [],
+          "stages": [],
+          "anchors": 0,
+          "relief": null,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1964.4167,
+            "max": 1965.6667,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1964.4167, "end": 1965.6667},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Timeline Bridge wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "bay_lamps",
+          "dayCounter": null,
+          "bayLampsTier": 1,
+          "pageOrderHeading": "AS PRINTED IN CH. 21"
+        },
+        "objectNoun": "Timeline Bridge",
+        "partNouns": ["bridge planks", "span", "deck"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[1300, 900], [1600, 620], [2000, 420], [2400, 310], [2800, 280], [3200, 310], [3600, 420], [4000, 620], [4300, 900]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [2800, 900], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "decoyPresent", "itemKey": "d0", "key": "other_story"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "LOCK THE SPAN", "successBadge": "SPAN LOCKED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {"speakerId": "archivist", "text": "The chapter's order lies. The dates don't.", "mood": "neutral"},
+            {
+              "speakerId": "archivist",
+              "text": "The bridge deck is in pieces. Set the planks by their dates. One plank belongs to a different story.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {"speakerId": "archivist", "text": "Set the bridge planks in date order, then lock the span.", "mood": "neutral"},
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "The planks come in the order the chapter prints them. Each deck section shows the date printed on its plank.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "A textbook tells events in the order that makes a good chapter. Time keeps its own order.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "Dates decide the order, not the page they appear on.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The 1964 act came before Selma.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The voting law was signed in the summer after the march.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "The span tips at that bay. Run the year cursor across the bridge and watch which lamps light as the lens passes.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "other_story",
+                "line": {"speakerId": "archivist", "text": "That plank is dated 1956. It's Montgomery's story, not this bridge's.", "mood": "neutral"}
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "The page order is the author's. The dates are the record's: the 1964 act, Bloody Sunday, the march, the 1965 act.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "The span holds. Cross at a walk, Nell. The rain's stopping.", "mood": "neutral"},
+          "after": [
+            {"speakerId": "archivist", "text": "The plate on the far bank is lit. Read it before the streetcar takes us home.", "mood": "neutral"}
+          ]
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "none",
           "anim": "bridge_forms",
           "noun": "bridge deck",
-          "blocker": {"x": 1400},
-          "rideCutsceneId": null
+          "blocker": {"x": 2190, "surface": "ground", "asset": null},
+          "terrain": [{"surface": "ground", "points": [[2200, 900], [3400, 900]]}],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -673,26 +2862,170 @@
         "encounterId": "e10_sources",
         "zoneId": "s8_stacks_vault",
         "consoleX": 1450,
+        "consoleSurface": "ground",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 1800, "y": 1400},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Provenance Drawers",
-        "panel": {"verifyLabel": "SEAL THE STACKS", "successBadge": "FILES SEALED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Provenance Drawers.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "router_lanes",
+        "skin": "provenance_drawers",
+        "config": {
+          "items": [
+            {
+              "key": "i0",
+              "meta": {"printedDate": null, "madeYear": 1963, "glyph": "photo_print", "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i1",
+              "meta": {"printedDate": null, "madeYear": 1971, "glyph": "aged_textbook", "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i2",
+              "meta": {"printedDate": null, "madeYear": 1965, "glyph": "law_text", "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i3",
+              "meta": {"printedDate": null, "madeYear": 2019, "glyph": "film_case", "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i4",
+              "meta": {"printedDate": null, "madeYear": 1965, "glyph": "transcript", "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            },
+            {
+              "key": "i5",
+              "meta": {"printedDate": null, "madeYear": 1988, "glyph": "hardcover", "label": null},
+              "polar": null,
+              "charged": null,
+              "from": null,
+              "to": null,
+              "vehicle": "none"
+            }
+          ],
+          "lanes": [{"binId": "primary", "laneId": "drawer_0", "year": null}, {"binId": "secondary", "laneId": "drawer_1", "year": null}],
+          "lens": "none",
+          "lensTier": 1,
+          "energy": null,
+          "shutters": true,
+          "stamp": "made_year",
+          "eventsBand": {"from": "1963", "to": "1965", "label": "THE EVENTS · 1963–1965"},
+          "eventsBandTier": 1,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1950,
+            "max": 2025,
+            "step": 1,
+            "unit": "",
+            "format": "year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1950, "end": 2025},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Provenance Drawers wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens"
+        },
+        "objectNoun": "Provenance Drawers",
+        "partNouns": ["document", "drawer", "stacks"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[800, 470], [2600, 470]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [1800, 1300], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": null,
+        "probes": [{"predicate": "assignedTo", "itemKey": "i1", "binId": "primary", "key": "old_means_primary"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "SEAL THE STACKS", "successBadge": "FILES SEALED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "Six documents spilled from the cabinet. File each as primary or secondary. Theo thinks old means primary.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "archivist",
+            "text": "File each document in the Primary or Secondary drawer, then seal the stacks.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Each document gets a date stamp as it lands: the year it was made, printed on its own face.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "Every source is somebody's view. What matters is when they looked, and from where.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "Ask who made it and when, not how old it is.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "A textbook from 1971 is still someone else's later account.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Words or images from the people who were there are primary, even if recent.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "That drawer spat it back. Age doesn't decide it. Check who made this, and whether they were there when it happened.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "old_means_primary",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "The textbook went in Primary because it looks old. Old isn't the test; being there is.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "A source is primary because of who made it and when, not because it's old. A 1971 textbook is still secondhand.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "archivist", "text": "The stacks are rolling apart. The ladder to the gallery is free.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "terrain",
           "vertical": "up",
           "anim": "stairs_rise",
           "noun": "rolling ladder",
-          "blocker": {"x": 1750},
-          "rideCutsceneId": null
+          "blocker": {"x": 2300, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -700,26 +3033,124 @@
         "encounterId": "e11_causation",
         "zoneId": "s8_stacks_vault",
         "consoleX": 2900,
+        "consoleSurface": "gallery",
+        "consoleAsset": "archive_of_voices.prop.console_reader",
         "anchor": {"x": 3700, "y": 1020},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
-        "objectNoun": "Big Board",
-        "panel": {"verifyLabel": "SEND THE CAPSULE", "successBadge": "CIRCUIT CLOSED"},
-        "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Big Board.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+        "approachRadius": 500,
+        "contraption": "cause_tubes",
+        "skin": "big_board",
+        "config": {
+          "nodes": [
+            {"key": "n0", "meta": {"printedDate": "1963-05", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n1", "meta": {"printedDate": "1963-06", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n2", "meta": {"printedDate": "1964-07", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n3", "meta": {"printedDate": "1965-03", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "n4", "meta": {"printedDate": "1965-08", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "d0", "meta": {"printedDate": "1954", "madeYear": null, "glyph": null, "label": null}},
+            {"key": "d1", "meta": {"printedDate": "1955", "madeYear": null, "glyph": null, "label": null}}
+          ],
+          "connector": "tube",
+          "layout": "ring",
+          "carrier": "capsule",
+          "gauge": true,
+          "boardWidth": 1100,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1963,
+            "max": 1966,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1963, "end": 1966},
+            "playback": false
           },
-          "success": {"speakerId": null, "text": "The Big Board wakes, and the way ahead opens.", "mood": "neutral"}
+          "probeWorld": "record_lens"
+        },
+        "objectNoun": "Big Board",
+        "partNouns": ["tube", "capsule", "canisters"],
+        "pins": [],
+        "accessories": [
+          {
+            "kind": "record_lens",
+            "rail": [[3150, 470], [4250, 470]],
+            "carriage": "archive_of_voices.part.lens_carriage",
+            "cone": {"target": [3700, 800], "asset": "archive_of_voices.fx.projector_cone"}
+          }
+        ],
+        "frameZoom": 0.8,
+        "probes": [{"predicate": "decoyPresent", "itemKey": null, "key": "earlier_chain"}],
+        "hintTargets": null,
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "SEND THE CAPSULE", "successBadge": "CIRCUIT CLOSED", "cards": []},
+        "dialogue": {
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "The Big Board. Seven canisters, and two belong to an earlier chain. Connect Birmingham to the Voting Rights Act.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "archivist",
+            "text": "Run a tube from each event to the one it caused, then send the capsule.",
+            "mood": "neutral"
+          },
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Tubes grow along the board as you draw them. Run the year cursor: the RECORD card holds every date you restored.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "The record you rebuilt is evidence now. Every pin on it is a date you can check a link against.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "Start in Birmingham and end with the vote.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Each law followed a televised crisis.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "1963 → 1964 → 1965: two crises, two laws.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "The capsule jammed. Each tube is a cause and its consequence. Check the RECORD card for what came first.",
+              "mood": "neutral"
+            },
+            "byKey": [
+              {
+                "key": "earlier_chain",
+                "line": {
+                  "speakerId": "archivist",
+                  "text": "Brown and Montgomery matter, but they closed an earlier circuit. This board runs from Birmingham to the vote.",
+                  "mood": "neutral"
+                }
+              }
+            ]
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "Crisis, pressure, law. Birmingham brought the 1964 act and Selma brought the 1965 act. The same circuit closed twice.",
+            "mood": "neutral"
+          },
+          "payoffLine": {
+            "speakerId": "archivist",
+            "text": "The Big Board's lit and the vault's first bolt just moved. He's waiting for you, Nell.",
+            "mood": "neutral"
+          },
+          "after": []
         },
         "payoff": {
           "kind": "ride",
           "vertical": "down",
           "anim": "lift_moves",
           "noun": "vault lift",
-          "blocker": {"x": 3200},
-          "rideCutsceneId": null
+          "blocker": {"x": 4690, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": "ride_vault_lift",
+          "autoBoardMs": null,
+          "feedsHub": true
         },
         "boss": null
       },
@@ -727,76 +3158,1464 @@
         "encounterId": "e12_boss",
         "zoneId": "s8_stacks_vault",
         "consoleX": 5100,
+        "consoleSurface": "ground",
+        "consoleAsset": null,
         "anchor": {"x": 5700, "y": 1900},
-        "contraption": "console_slate",
-        "skin": "lectern_slate",
-        "config": {},
+        "approachRadius": 700,
+        "contraption": "tumbler_vault",
+        "skin": "tumbler_vault",
+        "config": {
+          "clues": [{"index": 0, "date": "1965"}, {"index": 1, "date": "1965-03-15"}, {"index": 2, "date": "1965"}, {"index": 3, "date": "1964"}],
+          "bolts": 4,
+          "miniStrip": {"start": 1954, "end": 1967},
+          "shadeCountsRung": 3,
+          "probe": {
+            "symbol": "YEAR",
+            "label": "record year",
+            "min": 1954,
+            "max": 1966,
+            "step": 0.0833333333,
+            "unit": "",
+            "format": "month_year",
+            "initial": null,
+            "stops": [],
+            "window": {"start": 1954, "end": 1966},
+            "playback": false
+          }
+        },
         "objectNoun": "Editor's Vault",
-        "panel": {"verifyLabel": "OPEN THE VAULT", "successBadge": "STORY PRINTED"},
+        "partNouns": ["tumblers", "clues", "vault"],
+        "pins": [{"anchor": "hub", "text": null, "glyph": "key"}],
+        "accessories": [],
+        "frameZoom": null,
+        "probes": [],
+        "hintTargets": null,
+        "panel": {"layout": "vault", "inputSymbol": null, "verifyLabel": "OPEN THE VAULT", "successBadge": "STORY PRINTED", "cards": []},
         "dialogue": {
-          "instruction": {"speakerId": null, "text": "Work the console slate to wake the Editor's Vault.", "mood": "neutral"},
-          "fail": {
-            "default": {"speakerId": null, "text": "Not yet. Read the slate again and try another answer.", "mood": "neutral"}
+          "approach": [
+            {
+              "speakerId": "archivist",
+              "text": "Four tumblers, four explanations. Pin each clue to what it rules out. One will be left standing.",
+              "mood": "neutral"
+            }
+          ],
+          "instruction": {
+            "speakerId": "archivist",
+            "text": "Pin clues to the tumblers they rule out, then name the explanation that stands.",
+            "mood": "neutral"
           },
-          "success": {"speakerId": null, "text": "The Editor's Vault wakes, and the way ahead opens.", "mood": "neutral"}
+          "tutorial": {
+            "speakerId": "archivist",
+            "text": "Your strike marks are yours alone; the vault never reads them. It only turns for the explanation you name.",
+            "mood": "neutral"
+          },
+          "insight": {
+            "speakerId": "archivist",
+            "text": "A good explanation fits every dated clue at once. One clue against it is enough to strike it.",
+            "mood": "neutral"
+          },
+          "hints": [
+            {"speakerId": "archivist", "text": "Check each explanation against the dated clues.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Hold the 2% registration figure up against each tumbler. It strikes one cleanly.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Only one explanation survives every clue.", "mood": "neutral"}
+          ],
+          "fail": {
+            "default": {
+              "speakerId": "archivist",
+              "text": "One of your own clues rules that one out. Find the clue card that slid beside the row.",
+              "mood": "neutral"
+            },
+            "byKey": []
+          },
+          "success": {
+            "speakerId": "archivist",
+            "text": "Pressure made law. Selma's televised violence moved a voting bill in days, where eleven years had not.",
+            "mood": "neutral"
+          },
+          "payoffLine": {"speakerId": "editor", "text": "That's the story. Print it.", "mood": "neutral"},
+          "after": []
         },
         "payoff": {
           "kind": "remove_blocker",
           "vertical": "none",
           "anim": "vault_opens",
           "noun": "Editor's Vault",
-          "blocker": {"x": 5400},
-          "rideCutsceneId": null
+          "blocker": {"x": 5760, "surface": "ground", "asset": null},
+          "terrain": [],
+          "rideCutsceneId": null,
+          "autoBoardMs": null,
+          "feedsHub": true
         },
-        "boss": {"speakerId": "editor", "arenaTriggerX": 4900}
+        "boss": {
+          "speakerId": "editor",
+          "arenaTriggerX": 4900,
+          "arenaCutsceneId": "e12_arena",
+          "arenaBounds": {"x0": 4700, "x1": 6720},
+          "phases": [],
+          "taunts": {
+            "approach": [],
+            "fail": [
+              {"speakerId": "editor", "text": "That tumbler won't turn. One of your own clues rules it out.", "mood": "neutral"},
+              {"speakerId": "editor", "text": "Dead lead. A dated source already killed that story.", "mood": "neutral"}
+            ],
+            "byKey": []
+          },
+          "music": "noir"
+        }
+      }
+    ],
+    "props": [
+      {
+        "id": null,
+        "zoneId": "s1_morgue",
+        "asset": "archive_of_voices.prop.basement_stair",
+        "x": 380,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s1_morgue",
+        "asset": "archive_of_voices.prop.reading_desk",
+        "x": 1180,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "main_breaker",
+        "zoneId": "s1_morgue",
+        "asset": "archive_of_voices.prop.main_breaker",
+        "x": 1380,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s1_morgue",
+        "asset": "archive_of_voices.prop.darkroom_door",
+        "x": 2750,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s1_morgue",
+        "asset": "archive_of_voices.prop.proof_press",
+        "x": 3000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s1_morgue",
+        "asset": "archive_of_voices.prop.front_pages_wall",
+        "x": 3250,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.courthouse",
+        "x": 2050,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "courthouse_clock",
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.courthouse_clock",
+        "x": 2050,
+        "y": 180,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.part.walking_road_flood_band",
+        "x": 3100,
+        "y": 1040,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.part.walking_road_flood_band",
+        "x": 4700,
+        "y": 1040,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.corner_store",
+        "x": 5520,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.lamppost",
+        "x": 1000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.lamppost",
+        "x": 3300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.parking_meter",
+        "x": 600,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.parking_meter",
+        "x": 3500,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s2_courthouse",
+        "asset": "archive_of_voices.prop.newspaper_bundle",
+        "x": 3960,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s3_schoolhouse",
+        "asset": "archive_of_voices.prop.schoolhouse",
+        "x": 2750,
+        "y": 700,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "school_doors",
+        "zoneId": "s3_schoolhouse",
+        "asset": "archive_of_voices.prop.school_doors",
+        "x": 2650,
+        "y": 700,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": "e3_little_rock",
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s3_schoolhouse",
+        "asset": "archive_of_voices.prop.lamppost",
+        "x": 600,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.lunch_counter",
+        "x": 1300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_01",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 700,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_02",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 800,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_03",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 900,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_04",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_05",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1100,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [{"state": "lit", "asset": null}],
+        "touch": null
+      },
+      {
+        "id": "stool_06",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1200,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [{"state": "lit", "asset": null}],
+        "touch": null
+      },
+      {
+        "id": "stool_07",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [{"state": "lit", "asset": null}],
+        "touch": null
+      },
+      {
+        "id": "stool_08",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1400,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [{"state": "lit", "asset": null}],
+        "touch": null
+      },
+      {
+        "id": "stool_09",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1500,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_10",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1600,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_11",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1700,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "stool_12",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.counter_stool",
+        "x": 1800,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "swing_door",
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.swing_door",
+        "x": 1950,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.canopy_rail",
+        "x": 3650,
+        "y": 500,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.overpass_stair",
+        "x": 4900,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.parking_meter",
+        "x": 400,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.parking_meter",
+        "x": 5300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.lamppost",
+        "x": 2300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s4_main_street",
+        "asset": "archive_of_voices.prop.lamppost",
+        "x": 5000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s5_church_mast",
+        "asset": "archive_of_voices.prop.church",
+        "x": 950,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s5_church_mast",
+        "asset": "archive_of_voices.prop.rose_window_glow",
+        "x": 950,
+        "y": 1200,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": true,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s5_church_mast",
+        "asset": "archive_of_voices.prop.rooftop_block",
+        "x": 4240,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s5_church_mast",
+        "asset": "archive_of_voices.prop.bench",
+        "x": 1900,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s5_church_mast",
+        "asset": "archive_of_voices.prop.bench",
+        "x": 3000,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s6_memorial",
+        "asset": "archive_of_voices.prop.reflecting_pool",
+        "x": 1350,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_play",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s6_memorial",
+        "asset": "archive_of_voices.prop.memorial_colonnade",
+        "x": 1750,
+        "y": 640,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s6_memorial",
+        "asset": "archive_of_voices.prop.floor_rail",
+        "x": 4200,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s7_selma",
+        "asset": "archive_of_voices.prop.lamppost",
+        "x": 300,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s7_selma",
+        "asset": "archive_of_voices.prop.lamppost",
+        "x": 800,
+        "y": null,
+        "surface": "ground",
+        "layer": "L5_fore",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "front_pages_wall",
+        "zoneId": "s8_stacks_vault",
+        "asset": "archive_of_voices.prop.front_pages_wall",
+        "x": 450,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": "darkroom_door",
+        "zoneId": "s8_stacks_vault",
+        "asset": "archive_of_voices.prop.darkroom_door",
+        "x": 2620,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [{"state": "lit", "asset": null}],
+        "touch": null
+      },
+      {
+        "id": "vault_lift",
+        "zoneId": "s8_stacks_vault",
+        "asset": "archive_of_voices.prop.vault_lift",
+        "x": 4720,
+        "y": null,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      },
+      {
+        "id": null,
+        "zoneId": "s8_stacks_vault",
+        "asset": "archive_of_voices.prop.vault_socket",
+        "x": 5700,
+        "y": 1900,
+        "surface": "ground",
+        "layer": "L4_back",
+        "scale": 1,
+        "flipX": false,
+        "sway": false,
+        "glow": false,
+        "restoredBy": null,
+        "states": [],
+        "touch": null
+      }
+    ],
+    "npcs": [
+      {
+        "id": "ida",
+        "name": "Ida",
+        "speakerId": "archivist",
+        "look": {
+          "atlas": "shared.char.ida",
+          "costume": [
+            {
+              "asset": "archive_of_voices.costume.ida_bun_glasses",
+              "anchor": "head",
+              "dx": 0,
+              "dy": 0,
+              "follow": "rigid",
+              "layer": "front",
+              "hideOn": []
+            },
+            {
+              "asset": "archive_of_voices.costume.ida_cardigan",
+              "anchor": "torso",
+              "dx": 0,
+              "dy": 0,
+              "follow": "rigid",
+              "layer": "front",
+              "hideOn": []
+            }
+          ],
+          "scale": 1
+        },
+        "asset": null,
+        "states": [
+          {
+            "id": "ida_desk",
+            "requires": null,
+            "zoneId": "s1_morgue",
+            "x": 1180,
+            "surface": "ground",
+            "lines": [{"speakerId": "archivist", "text": "Courthouse first, Nell. Wick knows the way, and so do the dates.", "mood": "neutral"}],
+            "pose": "sit",
+            "follow": "none",
+            "repeatable": true,
+            "setFlag": null,
+            "anim": null
+          }
+        ]
+      },
+      {
+        "id": "otis",
+        "name": "Otis Pell",
+        "speakerId": "otis",
+        "look": {
+          "atlas": "shared.char.otis",
+          "costume": [
+            {
+              "asset": "archive_of_voices.costume.otis_watch_cap",
+              "anchor": "head",
+              "dx": 0,
+              "dy": 0,
+              "follow": "rigid",
+              "layer": "front",
+              "hideOn": []
+            },
+            {
+              "asset": "archive_of_voices.costume.otis_flashlight",
+              "anchor": "hand_r",
+              "dx": 0,
+              "dy": 0,
+              "follow": "rigid",
+              "layer": "front",
+              "hideOn": []
+            }
+          ],
+          "scale": 1
+        },
+        "asset": null,
+        "states": [
+          {
+            "id": "otis_s1",
+            "requires": null,
+            "zoneId": "s1_morgue",
+            "x": 560,
+            "surface": "ground",
+            "lines": [{"speakerId": "otis", "text": "I'll keep this floor as dry as I can. You keep that lantern close.", "mood": "neutral"}],
+            "pose": "idle",
+            "follow": "none",
+            "repeatable": true,
+            "setFlag": null,
+            "anim": null
+          }
+        ]
+      }
+    ],
+    "quests": [],
+    "triggers": [
+      {
+        "id": "s2_cornice_view",
+        "zoneId": "s2_courthouse",
+        "x": 2600,
+        "surface": "cornice_ledge",
+        "radius": 160,
+        "kind": "ambient",
+        "lines": [
+          {
+            "speakerId": "archivist",
+            "text": "From up here the square reads like a front page. The flood runs all the way to the bus stop.",
+            "mood": "neutral"
+          }
+        ],
+        "once": true,
+        "requires": {"solved": "e1_brown", "flag": null, "notFlag": null, "collected": []},
+        "setFlag": null,
+        "cue": null,
+        "cutsceneId": null
+      }
+    ],
+    "sandboxes": [],
+    "collectibles": [],
+    "plaques": [
+      {
+        "id": "s2_courthouse_plaque",
+        "zoneId": "s2_courthouse",
+        "x": 1420,
+        "surface": "ground",
+        "asset": "archive_of_voices.doc.plaque_bronze",
+        "kind": "plaque",
+        "title": "Brown v. Board of Education (1954)",
+        "text": "In Brown v. Board of Education (1954) the Supreme Court ruled unanimously that separate educational facilities are inherently unequal.",
+        "sourceRef": {
+          "page": 1,
+          "quote": "In Brown v. Board of Education (1954) the Supreme Court ruled unanimously that separate educational facilities are inherently unequal."
+        },
+        "requires": {"solved": "e1_brown", "flag": null, "notFlag": null, "collected": []}
+      },
+      {
+        "id": "s3_gatepost_plate",
+        "zoneId": "s3_schoolhouse",
+        "x": 2250,
+        "surface": "ground",
+        "asset": "archive_of_voices.doc.document_plate",
+        "kind": "document",
+        "title": "Little Rock Nine (1957)",
+        "text": "President Eisenhower responded by sending soldiers of the 101st Airborne Division to escort the students into the school.",
+        "sourceRef": {
+          "page": 1,
+          "quote": "President Eisenhower responded by sending soldiers of the 101st Airborne Division to escort the students into the school."
+        },
+        "requires": {"solved": "e3_little_rock", "flag": null, "notFlag": null, "collected": []}
+      },
+      {
+        "id": "s4_withheld_anniston",
+        "zoneId": "s4_main_street",
+        "x": 3900,
+        "surface": "ground",
+        "asset": "archive_of_voices.doc.photo_withheld",
+        "kind": "photo_withheld",
+        "title": "Anniston, Alabama (1961)",
+        "text": "In Anniston, Alabama, a mob firebombed one of the buses and beat the riders as they escaped.",
+        "sourceRef": {"page": 2, "quote": "In Anniston, Alabama, a mob firebombed one of the buses and beat the riders as they escaped."},
+        "requires": null
+      },
+      {
+        "id": "s7_far_bank_plate",
+        "zoneId": "s7_selma",
+        "x": 4400,
+        "surface": "ground",
+        "asset": "archive_of_voices.doc.document_plate",
+        "kind": "document",
+        "title": "The Edmund Pettus Bridge, 1965",
+        "text": "On March 7, 1965, state troopers attacked peaceful marchers on the Edmund Pettus Bridge in Selma, a day remembered as Bloody Sunday.",
+        "sourceRef": {
+          "page": 3,
+          "quote": "On March 7, 1965, state troopers attacked peaceful marchers on the Edmund Pettus Bridge in Selma, a day remembered as Bloody Sunday."
+        },
+        "requires": {"solved": "e9_selma", "flag": null, "notFlag": null, "collected": []}
       }
     ],
     "cutscenes": [
       {
         "id": "intro",
+        "skippable": true,
         "steps": [
-          {"do": "enter_zone", "zoneId": "s1_morgue", "x": 60},
-          {"do": "fade", "to": "clear", "ms": 800},
-          {"do": "title", "text": "The Archive of Voices", "sub": "The 1965 Files", "ms": 2200},
+          {"do": "fade", "to": "black", "ms": 0},
+          {"do": "enter_zone", "zoneId": "s1_morgue", "x": 60, "surface": "ground"},
+          {"do": "title", "text": "The Archive of Voices", "sub": "The Courier-Ledger morgue, tonight", "ms": 2500},
+          {"do": "fade", "to": "clear", "ms": 1200},
+          {"do": "camera", "x": 2100, "y": 700, "zoom": 0.7, "ms": 2400, "ease": "in_out_sine"},
+          {"do": "camera", "x": 400, "y": 900, "zoom": 1, "ms": 1200, "ease": "out_cubic"},
+          {"do": "control_until", "x": 640, "surface": "ground", "prompt": "Walk down the stair", "timeoutMs": 20000},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "otis",
+                "text": "Mind the water. The storm came in through the basement windows and soaked every reel down here.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "walk", "actor": "player", "toX": 1100},
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Everything here has stopped. Let's wake it, one machine at a time.",
+                "text": "Every vault in here opens for evidence, not for guesses. Read the dates. Follow the causes.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "archivist",
+                "text": "That machine is the Record Engine. It projects the paper's files, 1954 to 1965, as a city you can walk through.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "archivist",
+                "text": "The flood scrambled it. Now it shows steps that go nowhere, streets with holes, and false labels over the true ones.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "archivist",
+                "text": "At dawn, reels that won't play get hauled out. Then the false labels are all anyone will remember.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "archivist",
+                "text": "The Editor sealed his last story in the vault under the Engine. It opens only when the whole record agrees with itself.",
                 "mood": "neutral"
               }
             ]
           },
-          {"do": "set_state", "target": {"kind": "flag", "id": "engine_awake"}, "state": "on"}
+          {"do": "walk", "actor": "companion", "toX": 1100},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "archivist", "text": "My knees quit walking the projection years ago. Take Wick. He carries my voice.", "mood": "neutral"},
+              {
+                "speakerId": "archivist",
+                "text": "Start at the courthouse. This story starts with a ruling, and with what people did after it.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "otis",
+                "text": "Main breaker's by the Engine. Water got the lower fuses, but the Engine runs on its own line.",
+                "mood": "neutral"
+              },
+              {"speakerId": "archivist", "text": "Throw the main breaker by the Engine, Nell. Let's see what it still remembers.", "mood": "neutral"}
+            ]
+          },
+          {"do": "walk", "actor": "player", "toX": 1340},
+          {"do": "await_interact", "target": {"kind": "prop", "id": "main_breaker"}, "prompt": "Throw the main breaker", "timeoutMs": null},
+          {"do": "set_state", "target": {"kind": "flag", "id": "engine_awake"}, "state": "on"},
+          {"do": "sfx", "cue": "breaker_throw"},
+          {"do": "hub", "zoneId": "s1_morgue", "state": "partial"},
+          {"do": "sfx", "cue": "engine_spin"},
+          {"do": "pan", "x": 3700, "y": null, "zoom": 1, "ms": 1800},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "otis", "text": "There she goes. Haven't seen those rings turn since the week I was hired.", "mood": "neutral"},
+              {
+                "speakerId": "archivist",
+                "text": "If a repair doesn't hold, the Engine shows you where. Read what it shows you, Nell.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "pan", "x": 1340, "y": null, "zoom": 1, "ms": 900}
         ]
       },
       {
         "id": "finale",
-        "skippable": false,
+        "skippable": true,
         "steps": [
+          {"do": "station", "encounterId": "e12_boss", "anim": "settle"},
+          {"do": "sfx", "cue": "press_roll"},
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "editor", "text": "You found the story I sealed: pressure made law, and the evidence proves it.", "mood": "neutral"},
+              {
+                "speakerId": "editor",
+                "text": "I sealed it because people kept telling it as one speech and one signature. It was years of organizing.",
+                "mood": "neutral"
+              }
+            ]
+          },
+          {"do": "hub", "zoneId": "s8_stacks_vault", "state": "restored"},
+          {
+            "do": "vista",
+            "asset": "archive_of_voices.vista.dawn",
+            "from": {"x": 1920, "y": 1780, "zoom": 1.3},
+            "to": {"x": 1920, "y": 760, "zoom": 0.6},
+            "ms": 7000,
+            "holdMs": 1500
+          },
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "The record is whole again. Every voice in it can be heard.",
+                "text": "Look out the window, Nell. Every projection's lit. The city holds its whole shape now, 1954 to 1965.",
+                "mood": "neutral"
+              },
+              {
+                "speakerId": "archivist",
+                "text": "Rulings, a boycott, sit-ins, rides, marches, two laws, each tied to what caused it. That's a record you can defend.",
                 "mood": "neutral"
               }
             ]
           },
-          {"do": "fade", "to": "black", "ms": 1200}
+          {
+            "do": "say",
+            "lines": [
+              {"speakerId": "otis", "text": "Sun's up. Nobody's hauling anything out of here today.", "mood": "neutral"},
+              {"speakerId": "hattie", "text": "Front page is set. First edition in ten minutes.", "mood": "neutral"},
+              {"speakerId": "archivist", "text": "Go home and sleep. Tomorrow somebody will ask you what happened. Tell them why.", "mood": "neutral"}
+            ]
+          },
+          {"do": "fade", "to": "black", "ms": 1500}
+        ]
+      },
+      {
+        "id": "enter_s2",
+        "skippable": true,
+        "steps": [
+          {"do": "title", "text": "Courthouse Square", "sub": "1954 → 1956", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Courthouse Square, 1954. The steps are only half printed. The record isn't sure what the Court decided.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "enter_s3",
+        "skippable": true,
+        "steps": [
+          {"do": "title", "text": "Schoolhouse Hill", "sub": "September 1957", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Little Rock, September 1957. Three years after Brown, and those school doors are still barred.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "enter_s4",
+        "skippable": true,
+        "steps": [
+          {"do": "title", "text": "Main Street", "sub": "Greensboro, 1960 · the terminal, 1961", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Greensboro, 1960. A lunch counter, and next door a bus terminal. The movement is getting younger and bolder.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "enter_s5",
+        "skippable": true,
+        "steps": [
+          {"do": "title", "text": "Church Square", "sub": "Birmingham, spring 1963", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Birmingham, spring 1963. Watch that mast. What happened here mattered because cameras carried it.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "enter_s6",
+        "skippable": true,
+        "steps": [
+          {"do": "title", "text": "The Memorial Steps", "sub": "Washington, August 1963", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Washington, August 1963. A quarter of a million people, and far more organizing than most people remember.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "enter_s7",
+        "skippable": true,
+        "steps": [
+          {"do": "title", "text": "The Bridge at Selma", "sub": "March 1965", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Selma, March 1965. The bridge is in pieces. We'll set them by date, and we'll cross at a walk.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "enter_s8",
+        "skippable": true,
+        "steps": [
+          {"do": "title", "text": "The Morgue Stacks", "sub": "Tonight", "ms": 2200},
+          {
+            "do": "say",
+            "lines": [
+              {
+                "speakerId": "archivist",
+                "text": "Back in the stacks. The rest of the record is paper: sources, and the causes that tie them together.",
+                "mood": "neutral"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "e12_arena",
+        "skippable": true,
+        "steps": [
+          {"do": "music", "cue": "noir"},
+          {"do": "camera", "x": 5700, "y": 1500, "zoom": 0.8, "ms": 1400, "ease": "in_out_sine"},
+          {"do": "station", "encounterId": "e12_boss", "anim": "wake"},
+          {"do": "say", "lines": [{"speakerId": "editor", "text": "Tell me why 1965. Not what happened. Why.", "mood": "neutral"}]},
+          {"do": "camera", "x": null, "y": null, "zoom": 1, "ms": 900, "ease": "out_cubic"}
+        ]
+      },
+      {
+        "id": "ride_mast_lift",
+        "skippable": true,
+        "steps": [
+          {"do": "sfx", "cue": "lift_hum"},
+          {
+            "do": "ride",
+            "vehicle": "archive_of_voices.part.broadcast_relay_lift_cage",
+            "toZoneId": "s5_church_mast",
+            "toX": 3720,
+            "toSurface": "ground",
+            "ms": 3200,
+            "path": [[3620, 1820], [3620, 1040]]
+          }
+        ]
+      },
+      {
+        "id": "ride_vault_lift",
+        "skippable": true,
+        "steps": [
+          {"do": "sfx", "cue": "bolt_slide"},
+          {"do": "hub", "zoneId": "s8_stacks_vault", "state": "partial"},
+          {
+            "do": "ride",
+            "vehicle": "archive_of_voices.prop.vault_lift",
+            "toZoneId": "s8_stacks_vault",
+            "toX": 4800,
+            "toSurface": "ground",
+            "ms": 2600,
+            "path": [[4720, 1400], [4720, 1900]]
+          }
         ]
       },
       {
         "id": "ride_home",
+        "skippable": true,
         "steps": [
+          {"do": "walk", "actor": "player", "toX": 5300},
+          {"do": "sfx", "cue": "lamp_chime"},
           {
             "do": "ride",
             "vehicle": "archive_of_voices.part.timeline_bridge_streetcar",
             "toZoneId": "s8_stacks_vault",
             "toX": 300,
-            "ms": 2400
+            "toSurface": "ground",
+            "ms": 3000,
+            "path": [[5480, 900], [5760, 900]]
           }
         ]
       }

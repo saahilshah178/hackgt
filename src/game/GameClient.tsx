@@ -8,8 +8,10 @@
    `Widget` is a lookup into WIDGET_REGISTRY (src/game/widgets/registry.ts), a stable map of module-level
    component references; getWidget() never creates a new component type. */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import type { GameSpec } from "../contracts/gamespec";
+import type { WorldOverlay } from "../contracts/world";
+import type { WorldSource } from "../world/types";
 import { getPalette } from "./engine/palettes";
 import { installGameDebug, type GameDebugHandle } from "./debug";
 import { buildRooms, type HostHandle } from "./hosts/types";
@@ -137,7 +139,45 @@ function describeAnswer(mode: string, view: unknown, input: unknown): string | u
   return undefined;
 }
 
-export function GameClient({ spec }: { spec: GameSpec }) {
+// ---- Expedition (docs/design/20 §2.1, H2): a resolved world plays in ExpeditionClient, loaded lazily so legacy games
+// never fetch it. `?host=legacy` forces the legacy client below, which is the pre-Expedition GameClient unchanged.
+const ExpeditionEntry = lazy(() => import("./expedition/client/ExpeditionEntry"));
+
+export interface GameClientProps {
+  spec: GameSpec;
+  /** the side-car or spec world the play page resolved (plain JSON); null: the legacy host */
+  world?: WorldOverlay | null;
+  worldSource?: WorldSource | null;
+  /** EXPEDITION_SFX ≠ off */
+  sfx?: boolean;
+}
+
+function legacyRequested(): boolean {
+  try {
+    return new URLSearchParams(window.location.search).get("host") === "legacy";
+  } catch {
+    return false;
+  }
+}
+
+export function GameClient({ spec, world = null, worldSource = null, sfx = true }: GameClientProps) {
+  const [legacy] = useState(legacyRequested);
+  if (!world || !worldSource || legacy) return <LegacyGameClient spec={spec} />;
+  return (
+    <Suspense
+      fallback={
+        <div role="status" className="flex min-h-screen items-center justify-center text-lg" style={{ fontSize: 20 }}>
+          Loading the expedition…
+        </div>
+      }
+    >
+      <ExpeditionEntry spec={spec} world={world} source={worldSource} sfx={sfx} />
+    </Suspense>
+  );
+}
+
+/** The pre-Expedition client (genre hosts + widget overlay), byte-for-byte; `?host=legacy` and world-less specs. */
+export function LegacyGameClient({ spec }: { spec: GameSpec }) {
   const runnerRef = useRef<EncounterRunner | null>(null);
   if (!runnerRef.current) runnerRef.current = new EncounterRunner(spec);
   const runner = runnerRef.current;

@@ -88,10 +88,12 @@ export function compositionToInput(placed: string[]): OrderCompositionInput {
  * among the pool + placed slots, Enter places the focused pool plank into the next open slot (or
  * removes a placed one), Backspace clears the last slot.
  */
-export function Order({ view, onSubmit, disabled }: WidgetProps<AnyOrderView, AnyOrderInput>) {
+export function Order({ view, onSubmit, onDraft, disabled }: WidgetProps<AnyOrderView, AnyOrderInput>) {
   const n = normalize(view);
-  const submit = isCompositionView(view) ? (keys: string[]) => onSubmit(compositionToInput(keys)) : (keys: string[]) => onSubmit(placedToInput(keys));
-  return <OrderBody slots={n.slots} planks={n.planks} circular={n.circular} property={n.property} direction={n.direction} onSubmit={submit} disabled={disabled} />;
+  const toInput = isCompositionView(view) ? (keys: string[]) => compositionToInput(keys) : (keys: string[]) => placedToInput(keys);
+  const submit = (keys: string[]) => onSubmit(toInput(keys));
+  const draft = onDraft ? (keys: string[]) => onDraft({ input: toInput(keys), complete: keys.length === n.slots, focus: null }) : undefined;
+  return <OrderBody slots={n.slots} planks={n.planks} circular={n.circular} property={n.property} direction={n.direction} onSubmit={submit} onDraft={draft} disabled={disabled} />;
 }
 
 function OrderBody({
@@ -101,6 +103,7 @@ function OrderBody({
   property,
   direction,
   onSubmit,
+  onDraft,
   disabled,
 }: {
   slots: number;
@@ -109,10 +112,15 @@ function OrderBody({
   property?: string;
   direction?: "ascending" | "descending";
   onSubmit: (keys: string[]) => void;
+  onDraft?: (keys: string[]) => void;
   disabled?: boolean;
 }) {
   const view = { slots, planks, circular, property, direction };
   const [placed, setPlaced] = useState<string[]>([]);
+  useEffect(() => {
+    onDraft?.(placed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [placed]);
   const [focusIndex, setFocusIndex] = useState(0);
   const pool = view.planks.filter((p) => !placed.includes(p.key));
   const items = [...placed.map((key) => ({ key, placed: true })), ...pool.map((p) => ({ key: p.key, placed: false }))];

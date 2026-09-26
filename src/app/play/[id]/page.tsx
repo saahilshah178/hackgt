@@ -2,7 +2,9 @@ import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import type { GameSpec } from "@/contracts/gamespec";
 import { validateGameSpec, type ValidationResult } from "@/pipeline/validate/validate-gamespec";
+import { expeditionSfxOn } from "@/server/env";
 import { getGameSpecById } from "@/server/storage";
+import { loadWorldFor } from "@/server/worlds";
 import { PlayClient } from "./PlayClient";
 
 /** `fixture-<name>` resolves to `fixtures/<name>.json` when it exists (e.g. mystery/puzzle fixtures
@@ -40,9 +42,15 @@ async function loadAndValidate(id: string): Promise<ValidationResult> {
   return validateGameSpec(spec);
 }
 
-/** /play/[id]: validates the GameSpec, then hands it to the client-only game (Phaser is WebGL-only). */
-export default async function PlayPage({ params }: { params: Promise<{ id: string }> }) {
+/**
+ * /play/[id]: validates the GameSpec, resolves its Expedition world (side-car by id → by source → spec.world; null: the
+ * legacy host, docs/design/20 §1.2), then hands both to the client-only game (Phaser is WebGL-only). `?host=legacy`
+ * skips the world entirely, so the legacy path renders exactly as before.
+ */
+export default async function PlayPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { id } = await params;
+  const host = (await searchParams).host;
+  const legacy = (Array.isArray(host) ? host[0] : host) === "legacy";
   const result = await loadAndValidate(id);
 
   if (!result.ok) {
@@ -65,5 +73,7 @@ export default async function PlayPage({ params }: { params: Promise<{ id: strin
     );
   }
 
-  return <PlayClient spec={result.spec} />;
+  const loaded = legacy ? null : await loadWorldFor(result.spec);
+  if (!loaded) return <PlayClient spec={result.spec} />;
+  return <PlayClient spec={result.spec} world={loaded.world} worldSource={loaded.source} sfx={expeditionSfxOn()} />;
 }

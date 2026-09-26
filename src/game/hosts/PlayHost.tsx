@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, lazy, Suspense, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { DomHost } from "./dom/DomHost";
 import { MysteryHost } from "./mystery/MysteryHost";
 import type { HostHandle, HostProps } from "./types";
@@ -14,12 +14,28 @@ function webglAvailable(): boolean {
   }
 }
 
+// ---- Expedition branch (docs/design/20 §2.2, H1): a resolved world plays on the Expedition host (Phaser, or its reduced
+// DOM fallback with ?renderer=dom / no WebGL / a boot failure). Loaded lazily so legacy games never fetch it; without a
+// world the legacy path below is untouched (?host=legacy is decided by GameClient, which then passes no world).
+const ExpeditionHost = lazy(() => import("./expedition/ExpeditionHost").then((m) => ({ default: m.ExpeditionHost })));
+
+export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(props, ref) {
+  if (props.world) {
+    return (
+      <Suspense fallback={<p role="status" style={{ fontSize: 20, padding: 16 }}>Loading the expedition…</p>}>
+        <ExpeditionHost ref={ref} {...props} />
+      </Suspense>
+    );
+  }
+  return <LegacyPlayHost ref={ref} {...props} />;
+});
+
 /**
  * Boots the Phaser Dungeon host when WebGL is available, otherwise (or on any boot failure) renders
  * the DOM fallback host. Both paths expose the same HostHandle, so GameClient never needs to know
  * which one is live (MEGAPROMPT P3.6).
  */
-export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(props, ref) {
+const LegacyPlayHost = forwardRef<HostHandle, HostProps>(function LegacyPlayHost(props, ref) {
   const { spec } = props;
   const isDungeon = spec.genre === "dungeon";
   const isPlatformer = spec.genre === "platformer";

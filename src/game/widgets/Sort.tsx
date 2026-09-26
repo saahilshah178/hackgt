@@ -67,30 +67,45 @@ export function vennToInput(assignments: Record<string, string[]>): SortVennInpu
  * that bin, Backspace to unplace. Clicking a bin also assigns the focused item. Submits only once every
  * item is placed.
  */
-export function Sort({ view, onSubmit, disabled }: WidgetProps<AnySortView, AnySortInput>) {
+export function Sort({ view, onSubmit, onDraft, disabled }: WidgetProps<AnySortView, AnySortInput>) {
+  const allPlaced = (a: Record<string, string>) => view.items.every((i) => a[i.key] !== undefined);
   if (isHierarchyView(view))
     return (
       <BinsSort
         view={{ bins: view.levels.map((lvl) => ({ id: lvl, label: lvl })), items: view.items }}
         onSubmit={(assignments) => onSubmit(placementsToInput(assignments))}
+        onDraft={onDraft ? (a) => onDraft({ input: placementsToInput(a), complete: allPlaced(a), focus: null }) : undefined}
         disabled={disabled}
       />
     );
   if (isVennView(view))
     return <VennSort view={view} onSubmit={(assignments) => onSubmit(vennToInput(assignments))} disabled={disabled} />;
-  return <BinsSort view={view} onSubmit={(assignments) => onSubmit(assignmentsToInput(assignments))} disabled={disabled} />;
+  return (
+    <BinsSort
+      view={view}
+      onSubmit={(assignments) => onSubmit(assignmentsToInput(assignments))}
+      onDraft={onDraft ? (a) => onDraft({ input: assignmentsToInput(a), complete: allPlaced(a), focus: null }) : undefined}
+      disabled={disabled}
+    />
+  );
 }
 
 function BinsSort({
   view,
   onSubmit,
+  onDraft,
   disabled,
 }: {
   view: SortView;
   onSubmit: (assignments: Record<string, string>) => void;
+  onDraft?: (assignments: Record<string, string>) => void;
   disabled?: boolean;
 }) {
   const [assignments, setAssignments] = useState<Record<string, string>>({});
+  useEffect(() => {
+    onDraft?.(assignments);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assignments]);
   const [focusIndex, setFocusIndex] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 

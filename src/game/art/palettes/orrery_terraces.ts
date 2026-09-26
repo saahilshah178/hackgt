@@ -1,6 +1,6 @@
 /**
- * src/game/art/palettes/orrery_terraces.ts — W0 seed (docs/design/20 §5.7; bible §2.1–2.2; trig §2.2). Owned by C0
- * then C1 (§7.3). Token path → colour; hero SVGs and kit params reference `{{token.path}}`.
+ * src/game/art/palettes/orrery_terraces.ts — W0 seed, completed by C0 from trig §2.2–§2.4, §3.1 and 02 §3b.4 (rig roles).
+ * Owned by C1 from T0 + 6 (docs/design/20 §7.3). Token path → colour; hero SVGs and kit params reference `{{token.path}}`.
  */
 export const ORRERY_TERRACES_PALETTE = {
   namespace: "orrery_terraces",
@@ -59,14 +59,38 @@ export const ORRERY_TERRACES_PALETTE = {
     "dome.violet": "#5B4B8A",
     "dome.violet.mid": "#7E6A9E",
     "dome.violet.hi": "#B7A2D9",
-    // ---- rig recolour (02 §3b.4 roles → char.<id>.<role>)
+    "sky.dusk.low": "#F7C9B8",
+    "sky.dome.top": "#5B4B8A",
+    "sky.dome.mid": "#7E6A9E",
+    "sky.dome.horizon": "#B7A2D9",
+    // ---- per-zone far colours and dressing (trig §2.4, §7)
+    "mesa.z1": "#8FA6A0",
+    "mesa.z2": "#C9A99E",
+    "mesa.z3": "#7E6A9E",
+    "cloud.underside": "#E6DDEA",
+    "pollen": "#FFF4D6",
+    "crystal.trunk": "#B7C4C8",
+    "canal.slate": "#0F2A33",
+    "cog.eye": "#6ED2F2",
+    // ---- rig recolour (02 §3b.4 Wren column; roles → char.<id>.<role>)
     "char.wren.skin": "#A8714F",
-    "char.wren.skin_shade": "#8A5A3E",
+    "char.wren.skinShade": "#8A5A3E",
     "char.wren.hair": "#2B2A33",
-    "char.wren.vest": "#27466A",
-    "char.wren.tunic": "#F2E3C6",
-    "char.wren.trousers": "#2F5A5E",
+    "char.wren.hairHi": "#3A3945",
+    "char.wren.ink": "#2B2A33",
+    "char.wren.band": "#2B2A33",
+    "char.wren.top": "#27466A",
+    "char.wren.topMid": "#22405F",
+    "char.wren.topShade": "#1B3150",
+    "char.wren.sleeve": "#F2E3C6",
+    "char.wren.sleeveShade": "#D9C3A0",
+    "char.wren.bottom": "#2F5A5E",
+    "char.wren.sock": "#2F5A5E",
     "char.wren.boots": "#C69A6B",
     "char.wren.strap": "#8A5A3E",
+    // ---- costume overlays (trig §3.1)
+    "costume.wren.scarf": "#4FA3A0",
+    "costume.wren.scarf.hi": "#7CC7C0",
+    "costume.wren.staff": "#C99A4A",
   } as Readonly<Record<string, string>>,
 } as const;

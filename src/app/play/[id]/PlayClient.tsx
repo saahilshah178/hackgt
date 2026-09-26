@@ -2,6 +2,8 @@
 
 import dynamic from "next/dynamic";
 import type { GameSpec } from "@/contracts/gamespec";
+import type { WorldOverlay } from "@/contracts/world";
+import type { WorldSource } from "@/world/types";
 
 /*
  * Phaser is WebGL-only and must never touch the server, so the actual game client is loaded with
@@ -17,6 +19,7 @@ const GameClient = dynamic(() => import("@/game/GameClient").then((m) => m.GameC
   ),
 });
 
-export function PlayClient({ spec }: { spec: GameSpec }) {
-  return <GameClient spec={spec} />;
+/** `world`/`worldSource` come from the server's `loadWorldFor` (null: the legacy host); `sfx` is EXPEDITION_SFX ≠ off. */
+export function PlayClient({ spec, world = null, worldSource = null, sfx = true }: { spec: GameSpec; world?: WorldOverlay | null; worldSource?: WorldSource | null; sfx?: boolean }) {
+  return <GameClient spec={spec} world={world} worldSource={worldSource} sfx={sfx} />;
 }

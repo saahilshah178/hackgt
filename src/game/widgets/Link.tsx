@@ -164,14 +164,37 @@ export function pathToInput(path: string[]): LinkPathInput {
  * link: connects pairs or edges in a graph, or (for investigator.elimination) picks a surviving
  * hypothesis. The variant is read from the view's shape.
  */
-export function Link({ view, onSubmit, disabled }: WidgetProps<LinkView, LinkInput>) {
-  if (isPairsView(view)) return <PairsLink view={view} onSubmit={onSubmit as (i: LinkPairsInput) => void} disabled={disabled} />;
+export function Link({ view, onSubmit, onDraft, disabled }: WidgetProps<LinkView, LinkInput>) {
+  if (isPairsView(view))
+    return (
+      <PairsLink
+        view={view}
+        onSubmit={onSubmit as (i: LinkPairsInput) => void}
+        onDraft={onDraft ? (links) => onDraft({ input: pairsToInput(links), complete: view.lefts.every((l) => links[l.key]), focus: null }) : undefined}
+        disabled={disabled}
+      />
+    );
   if (isArgumentView(view)) return <ArgumentLink view={view} onSubmit={onSubmit as (i: LinkArgumentInput) => void} disabled={disabled} />;
   if (isPerspectiveView(view)) return <PerspectiveLink view={view} onSubmit={onSubmit as (i: LinkPerspectiveInput) => void} disabled={disabled} />;
   if (isNetworkView(view)) return <NetworkLink view={view} onSubmit={onSubmit as (i: LinkNetworkInput) => void} disabled={disabled} />;
   if (isPathView(view)) return <PathLink view={view} onSubmit={onSubmit as (i: LinkPathInput) => void} disabled={disabled} />;
-  if (isChainView(view)) return <ChainLink view={view} onSubmit={onSubmit as (i: LinkChainInput) => void} disabled={disabled} />;
-  return <EliminationLink view={view} onSubmit={onSubmit as (i: LinkEliminationInput) => void} disabled={disabled} />;
+  if (isChainView(view))
+    return (
+      <ChainLink
+        view={view}
+        onSubmit={onSubmit as (i: LinkChainInput) => void}
+        onDraft={onDraft ? (edges) => onDraft({ input: chainToInput(edges), complete: Object.keys(edges).length === view.edgeCount, focus: null }) : undefined}
+        disabled={disabled}
+      />
+    );
+  return (
+    <EliminationLink
+      view={view}
+      onSubmit={onSubmit as (i: LinkEliminationInput) => void}
+      onFocusItem={onDraft ? (id) => onDraft({ input: null, complete: false, focus: id }) : undefined}
+      disabled={disabled}
+    />
+  );
 }
 
 /** investigator.argument: pin each card as a support, a counter, or leave it unused. Keyboard: focus a
@@ -466,8 +489,22 @@ function useConnectors(containerRef: RefObject<HTMLDivElement | null>, keys: str
   return lines;
 }
 
-function PairsLink({ view, onSubmit, disabled }: { view: LinkPairsView; onSubmit: (i: LinkPairsInput) => void; disabled?: boolean }) {
+function PairsLink({
+  view,
+  onSubmit,
+  onDraft,
+  disabled,
+}: {
+  view: LinkPairsView;
+  onSubmit: (i: LinkPairsInput) => void;
+  onDraft?: (links: Record<string, string>) => void;
+  disabled?: boolean;
+}) {
   const [links, setLinks] = useState<Record<string, string>>({});
+  useEffect(() => {
+    onDraft?.(links);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [links]);
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
   const [selectedRight, setSelectedRight] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -561,8 +598,22 @@ function PairsLink({ view, onSubmit, disabled }: { view: LinkPairsView; onSubmit
   );
 }
 
-function ChainLink({ view, onSubmit, disabled }: { view: LinkChainView; onSubmit: (i: LinkChainInput) => void; disabled?: boolean }) {
+function ChainLink({
+  view,
+  onSubmit,
+  onDraft,
+  disabled,
+}: {
+  view: LinkChainView;
+  onSubmit: (i: LinkChainInput) => void;
+  onDraft?: (edges: Record<string, string>) => void;
+  disabled?: boolean;
+}) {
   const [edges, setEdges] = useState<Record<string, string>>({});
+  useEffect(() => {
+    onDraft?.(edges);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [edges]);
   const [from, setFrom] = useState<string | null>(null);
 
   const edgeList = Object.entries(edges);
@@ -629,13 +680,20 @@ function ChainLink({ view, onSubmit, disabled }: { view: LinkChainView; onSubmit
 function EliminationLink({
   view,
   onSubmit,
+  onFocusItem,
   disabled,
 }: {
   view: LinkEliminationView;
   onSubmit: (i: LinkEliminationInput) => void;
+  onFocusItem?: (hypothesisId: string) => void;
   disabled?: boolean;
 }) {
   const [focused, setFocused] = useState(0);
+  useEffect(() => {
+    const h = view.hypotheses[focused];
+    if (h) onFocusItem?.(h.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused]);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {

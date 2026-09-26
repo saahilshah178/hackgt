@@ -1,6 +1,7 @@
 /**
  * switchboard prefab core (docs/design/20 §2.5.5). Owned by KC (L8). Dispatches to one file per skin through the
- * static skins/index.ts, so a skin can be owned by a different lane than this core. W0: every skin is a labelled box.
+ * static skins/index.ts; the skin plugs a SwitchboardSkin into shared.ts `createSwitchboardView` (patch cords from
+ * prefabs/_cables, failure and success beat playback).
  */
 import type { SwitchboardConfig } from "@/world/contraptions/switchboard.config";
 import { switchboardMeta, type SwitchboardPose } from "@/world/contraptions/switchboard.meta";

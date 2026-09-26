@@ -1,5 +1,6 @@
 /**
- * src/game/art/palettes/living_gate.ts — W0 seed (docs/design/20 §5.7; bible §2.1; cell §2.2). Owned by C0 then C2.
+ * src/game/art/palettes/living_gate.ts — W0 seed, completed by C0 from cell §2.2, §3.1 and 02 §3b.4.
+ * Owned by C2 from T0 + 6.5 (docs/design/20 §7.3).
  * No pure black: the darkest colours are lifted (#433748, #27405F) per cell §2.2.
  */
 export const LIVING_GATE_PALETTE = {
@@ -65,9 +66,42 @@ export const LIVING_GATE_PALETTE = {
     "atp.gold": "#F6D27A",
     "atp.gold.core": "#FFF6D8",
     "hall.ceiling": "#433748",
+    "oil.seam.shadow": "#22385A",
     // ---- molecule colours (cell §2.2; fixed across world and panel)
     "mol.o2": "#8CC0EE",
     "mol.co2": "#A9C3BF",
     "mol.na": "#EE8A9A",
+    "mol.k": "#9C82E0",
+    "mol.cl": "#7FD6B0",
+    "mol.h": "#F7F0A0",
+    "mol.glucose": "#F6E3B4",
+    "mol.glucose.outline": "#D9A441",
+    "mol.steroid": "#E6B85C",
+    "mol.water": "#4F92E6",
+    "mol.dye": "#D46BA8",
+    "mol.salt": "#FFFFFF",
+    "mol.atp": "#F6D27A",
+    "mol.atp.core": "#FFFFFF",
+    // ---- rig recolour (cell §3.1, 02 §3b.4 Diver column; roles → char.<id>.<role>)
+    "char.diver.skin": "#C68B5E",
+    "char.diver.skinShade": "#A06E48",
+    "char.diver.hair": "#3A2A24",
+    "char.diver.hairHi": "#5A3E32",
+    "char.diver.ink": "#2B2A33",
+    "char.diver.band": "#3A2A24",
+    "char.diver.top": "#F2E3C6",
+    "char.diver.topMid": "#E6D5B5",
+    "char.diver.topShade": "#D9C3A0",
+    "char.diver.sleeve": "#F2E3C6",
+    "char.diver.sleeveShade": "#D9C3A0",
+    "char.diver.bottom": "#27466A",
+    "char.diver.sock": "#27466A",
+    "char.diver.boots": "#6E4A2E",
+    "char.diver.strap": "#A8782E",
+    // ---- costume overlays (cell §3.1)
+    "costume.diver.helmet": "#C9F3FF",
+    "costume.diver.helmet.ring": "#D9A441",
+    "costume.diver.scarf": "#4CB6D0",
+    "costume.diver.scarf.stripe": "#8FE0EA",
   } as Readonly<Record<string, string>>,
 } as const;

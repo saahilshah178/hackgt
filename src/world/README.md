@@ -61,7 +61,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 
 | Export | Kind | Purpose |
 |---|---|---|
-| `aidTierOf` | function | The one definition of the aid tier (docs/design/20 §2.5.1, amendment 10): |
+| `aidTierOf` | function | The one definition of the aid tier (docs/design/20 §2.5.1, amendment 10): aidTier = min(2, max(hintsUsed, failedVerifies > 0 ? 1 : 0)). |
 | `toHintsUsed` | function | Clamps any count to the HintsUsed range (the runner's hint counter can be read as a plain number). |
 | `tierUnlocked` | function | True when a card or overlay gated at tier is unlocked at current. |
 
@@ -85,9 +85,9 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `eliminationToInput` | function | = Link.eliminationToInput |
 | `toSubmitInput` | function | The mode's exact Input from a control's draft input. |
 | `isDraftComplete` | function | View-aware completeness for the draft modes (what enables Verify). |
-| `fromSubmitInput` | function | The inverse of toSubmitInput for the draft modes: |
+| `fromSubmitInput` | function | The inverse of toSubmitInput for the draft modes: a mode Input (e.g. |
 | `emptyDraftInput` | function | The untouched control state for a draft mode (scalar modes start at the dial/line minimum from the view). |
-| `makeDraft` | function | A Draft with every UI channel at rest; |
+| `makeDraft` | function | A Draft with every UI channel at rest; controls and tests spread their changes over it. |
 
 #### `ease.ts` (79 lines)
 
@@ -102,9 +102,9 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `lerp` | function | linear interpolation |
 | `lerpAngle` | function | Shortest-path angle interpolation (radians). |
 | `snap` | function | Discrete fields snap to to once t ≥ threshold (ContraptionMeta.lerp contract). |
-| `smoothingFactor` | function | Per-frame smoothing factor 1 − e^(−dt/τ); |
+| `smoothingFactor` | function | Per-frame smoothing factor 1 − e^(−dt/τ); reduced motion passes 1. |
 | `approach` | function | Moves from toward to by one smoothing step. |
-| `lerpRecord` | function | Generic pose lerp for flat records: |
+| `lerpRecord` | function | Generic pose lerp for flat records: numbers interpolate, every other field (booleans, strings, arrays, objects) snaps at t ≥ 0.5. |
 
 #### `geom.ts` (128 lines)
 
@@ -120,7 +120,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `deg` | function | radians → degrees |
 | `rad` | function | degrees → radians |
 | `wrapAngle` | function | Wraps an angle into (−π, π]. |
-| `pointOnCircle` | function | Point on a circle with y DOWN: |
+| `pointOnCircle` | function | Point on a circle with y DOWN: θ = 0 is to the right, θ = π/2 is straight up (C + r(cos θ, −sin θ)). |
 | `rect` | function | make a Rect |
 | `rectRight` | function | x + w |
 | `rectBottom` | function | y + h |
@@ -133,7 +133,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `rectsIntersect` | function | rect overlap |
 | `isStrictlyAscending` | function | True when the polyline's x values strictly increase (heightfields, platforms). |
 | `polylineSpan` | function | [first x, last x] of a polyline, or null when empty. |
-| `polylineYAt` | function | y on an x-ascending polyline at x (linear interpolation); |
+| `polylineYAt` | function | y on an x-ascending polyline at x (linear interpolation); null outside its span. |
 | `pointAlong` | function | Point at arc-length fraction u ∈ [0, 1] along a polyline (record_lens rails, ride paths). |
 
 #### `types.ts` (710 lines)
@@ -141,11 +141,11 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | Export | Kind | Purpose |
 |---|---|---|
 | `HintTarget` | re-export | re-export from ../contracts/world |
-| `ModeKey` | type | "tuner.oscillator": |
-| `AidTier` | type | 0 | 1 | 2 |
-| `HintsUsed` | type | 0 | 1 | 2 | 3 |
-| `HintRung` | type | 1 | 2 | 3 |
-| `OscillatorView` | type | Metas read views only through these shapes; |
+| `ModeKey` | type | "tuner.oscillator": ${familyId}.${mode}. |
+| `AidTier` | type | 0 \| 1 \| 2 |
+| `HintsUsed` | type | 0 \| 1 \| 2 \| 3 |
+| `HintRung` | type | 1 \| 2 \| 3 |
+| `OscillatorView` | type | Metas read views only through these shapes; tests/world-contract.test.ts checks them against the fixtures. |
 | `FormulaView` | type | view mirror: tuner.formula |
 | `NumberLineView` | type | view mirror: mapper.number_line |
 | `MimicView` | type | view mirror: truth_finder.mimic |
@@ -157,7 +157,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `ChainView` | type | view mirror: linker.chain |
 | `EliminationView` | type | view mirror: investigator.elimination |
 | `ShowcaseViews` | type | mode key → view mirror |
-| `DraftInputs` | type | Draft-input shapes per mode: |
+| `DraftInputs` | type | Draft-input shapes per mode: what a control holds while the player works (possibly partial). |
 | `DraftModeKey` | type | The modes with a native DraftInputs shape (every other implemented mode drafts through its widget). |
 | `Draft` | type | Live, possibly partial player input plus the UI-only channels. |
 | `PoseInput` | type | ================================================================ pose inputs, sims |
@@ -166,7 +166,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `SimCtx` | type | sim step context |
 | `SimSpec` | type | Pure, seeded, fixed-step simulation (amendment 4). |
 | `FnColor` | type | ================================================================ describe, skins, plans |
-| `ChipSpec` | type | "g(T): |
+| `ChipSpec` | type | "g(T): 1.7π" at anchor "inner_hub" |
 | `PinSpec` | type | world pin |
 | `Described` | type | describe() output: chips, pins, srText, nearMiss |
 | `SnapshotPart` | type | DOM snapshot part |
@@ -209,22 +209,22 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `SandboxPoseInput` | type | sandbox pose input |
 | `SandboxMeta` | type | the pure half of a sandbox |
 | `AnySandboxMeta` | type | eslint-disable-next-line @typescript-eslint/no-explicit-any |
-| `WorldSource` | type | ================================================================ resolved world (§1.5; |
+| `WorldSource` | type | ================================================================ resolved world (§1.5; implemented by V1 in resolve-world.ts) |
 | `SpeakerInfo` | type | a resolved speaker |
-| `SpeakerDirectory` | type | id → speaker; |
+| `SpeakerDirectory` | type | id → speaker; built by src/world/speakers.ts from spec.characters ∪ cast.extras ∪ {player, narrator}. |
 | `ResolvedStation` | type | Station + index, meta, parsedConfig, layout, probe |
 | `ResolvedSandbox` | type | Sandbox + meta + parsedConfig |
 | `ResolvedWorld` | type | the client-side resolved world (V1's resolveWorld builds it) |
-| `WorldState` | type | ================================================================ world state (§2.4.6; |
+| `WorldState` | type | ================================================================ world state (§2.4.6; implemented by S1 in state/**) |
 | `WorldStateEvent` | type | world-state reducer events |
 | `ReqCtx` | type | requirement context |
 | `WorldStateApi` | type | Signatures S1 implements (state/world-state.ts, npc-state.ts, quests.ts, requirements.ts). |
-| `GroundTemplate` | type | ================================================================ biome kits (§6.4; |
+| `GroundTemplate` | type | ================================================================ biome kits (§6.4; implemented by V1 in biomes.ts) |
 | `BiomeKit` | type | a biome kit (V1's BIOME_KITS implements; successPose) |
-| `WORLD_RULE_IDS` | const | ================================================================ validateWorld rule ids (§1.5; |
+| `WORLD_RULE_IDS` | const | ================================================================ validateWorld rule ids (§1.5; V1 implements the rules) |
 | `WorldRuleId` | type | type: R1…R16, W1…W3 |
-| `WORLD_RULES` | const | One line per rule; |
-| `ValidateWorldResult` | type | validateWorld(spec, world) returns the same split validateGameSpec uses; |
+| `WORLD_RULES` | const | One line per rule; severity is the default (R9's word budget and a few sub-checks are warnings inside V1). |
+| `ValidateWorldResult` | type | validateWorld(spec, world) returns the same split validateGameSpec uses; issue messages start with "R5: …". |
 
 ### Library and seams
 
@@ -242,7 +242,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `ArchetypeId` | type | type: the 13 archetype ids |
 | `SANDBOX_IDS` | const | The 3 sandbox ids (§2.4b). |
 | `SandboxId` | type | type: the 3 sandbox ids |
-| `POST_DEMO_ARCHETYPE_IDS` | const | §4 rows 14–17: |
+| `POST_DEMO_ARCHETYPE_IDS` | const | §4 rows 14–17: kept on the roadmap, not registered; console_slate covers their modes (amendment 38). |
 | `implementedModeKeys` | function | Every implemented family·mode key, from the mechanics registry. |
 | `CONTRAPTION_LIBRARY` | const | archetype id → meta (console_slate carries every implemented mode) |
 | `SANDBOX_LIBRARY` | const | sandbox id → SandboxMeta |
@@ -252,10 +252,10 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `getSandbox` | function | sandbox meta by id |
 | `skinOf` | function | a meta's skin by id |
 | `allSkins` | function | Every skin of every contraption and sandbox (art contract listings, asset tests). |
-| `contraptionsForMode` | function | Contraptions whose meta.modes include the mode: |
+| `contraptionsForMode` | function | Contraptions whose meta.modes include the mode: native first (library order), console_slate last. |
 | `AUTO_ARCHETYPE_BY_MODE` | const | autoWorld's archetype per mode (§4.4). |
-| `contraptionFor` | function | The contraption autoWorld and the fallback ladder use for a mode: |
-| `configCtxFor` | function | ConfigCtx for one encounter of a spec (validators, defaults, fromWriterConfig; |
+| `contraptionFor` | function | The contraption autoWorld and the fallback ladder use for a mode: total over every implemented mode (anything without a native archetype gets console_slate). |
+| `configCtxFor` | function | ConfigCtx for one encounter of a spec (validators, defaults, fromWriterConfig; server/tests only — reads the solution). |
 | `writerCtxFor` | function | WriterCtx for one encounter (the World Writer menu, §6.2). |
 
 #### `record-strip.ts` (57 lines)
@@ -263,14 +263,14 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | Export | Kind | Purpose |
 |---|---|---|
 | `TimelineCard` | type | type: the timeline CardModel variant |
-| `recordCard` | function | RECORD = the earned pins of solved encounters (spanTo → a band) + the meta's recordPins; |
+| `recordCard` | function | RECORD = the earned pins of solved encounters (spanTo → a band) + the meta's recordPins; from/to = the probe window, else the pins' span ± 1 year; cursor = the live pr… |
 | `lensTarget` | function | Where the record_lens carriage sits on its rail for a probe value inside the window (fractional years). |
 
 #### `residency.ts` (89 lines)
 
 | Export | Kind | Purpose |
 |---|---|---|
-| `assetsForZone` | function | Every asset key the zone references: |
+| `assetsForZone` | function | Every asset key the zone references: its layers, ground, platforms, props, hub, interiors, ladder and ride assets; its stations' skin parts, consoles, accessories and … |
 
 ### Contraption helpers
 
@@ -278,8 +278,8 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 
 | Export | Kind | Purpose |
 |---|---|---|
-| `Tier` | const + type | ---------------------------------------------------------------- §4.2 primitives |
-| `Expr` | const + type | exact mathjs expression; |
+| `Tier` | const + type | zod: aid tier 0\|1\|2 that unlocks a card/overlay |
+| `Expr` | const + type | exact mathjs expression; x is the only free symbol |
 | `ItemKey` | const + type | i0, s2, d0, l1, r3, x0, n4 |
 | `ClaimTrace` | const + type | zod: a claim drawn literally (fns, brackets, markers) |
 | `Footprint` | const + type | zod: a history claim's FILE-card footprint |
@@ -287,26 +287,26 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `HintPin` | const + type | zod: a RECORD hint pin per rung |
 | `FileDate` | const + type | zod: a FILE-card date |
 | `ProbeSpec` | re-export | re-export from  |
-| `err` | function | ---------------------------------------------------------------- issues |
+| `err` | function | ConfigIssue helper (error) |
 | `warn` | function | ConfigIssue helper (warning) |
 | `hasErrors` | function | true when any ConfigIssue is an error |
-| `coverExactlyOnce` | function | Every expected key exactly once in got (keyed configs, §4.2: |
+| `coverExactlyOnce` | function | Every expected key exactly once in got (keyed configs, §4.2: "validateConfig requires every key exactly once"). |
 | `subsetOf` | function | Every key in got exists in allowed (subsets are fine). |
 | `probeRangeIssues` | function | ProbeSpec sanity checks (min<max, initial, window) |
-| `exprValue` | function | ---------------------------------------------------------------- expressions (evalExactAt, §4.4) |
+| `exprValue` | function | evalExact of a constant expression (null unless finite) |
 | `exprSampleRatio` | function | Fraction of n evenly spaced samples over [x0, x1] where expr (free symbol x) is a finite number. |
-| `exprEvaluatesOver` | function | True when expr evaluates at ≥ minRatio of 64 samples over [x0, x1] (claim traces: |
-| `MONTH_NAMES` | const | ---------------------------------------------------------------- dates in texts (§4.4 date rule) |
+| `exprEvaluatesOver` | function | True when expr evaluates at ≥ minRatio of 64 samples over [x0, x1] (claim traces: 90 %). |
+| `MONTH_NAMES` | const | january … december (the §4.4 date rule) |
 | `DateParts` | type | type: {year, month, day} |
 | `dateParts` | function | parse a DateString |
-| `datePrecision` | function | year | month | day of a DateString |
-| `fracYearOf` | function | Fractional year: |
-| `dateAppearsIn` | function | The §4.4 date rule: |
+| `datePrecision` | function | year \| month \| day of a DateString |
+| `fracYearOf` | function | Fractional year: "1965-03" → 1965.167, "1955-12-01" → 1955.917 (day-of-month ignored below month precision). |
+| `dateAppearsIn` | function | The §4.4 date rule: the year's digits appear in one text; month precision also needs that month's name (or its 3-letter abbreviation) in the SAME text; day precision a… |
 | `yearAppearsIn` | function | The year (±slack, for "within the year" footprints) appears in some text. |
 | `findYears` | function | Four-digit years 1000–2099 mentioned in a text, in order of appearance, de-duplicated. |
-| `findDates` | function | Dates a text states, most precise form first per mention: |
+| `findDates` | function | Dates a text states, most precise form first per mention: "December 1, 1955" → "1955-12-01", "March 1965" → "1965-03", a bare "1957" → "1957". |
 | `yearProbeFor` | function | A year probe (history stations) whose window spans the given years ± 1. |
-| `viewRows` | function | Keyed rows of a view list: |
+| `viewRows` | function | Keyed rows of a view list: {key, text} by default, or any other key/text field names. |
 | `statementIndicesOf` | const | view reader: mimic statement indices |
 | `optionIndicesOf` | const | view reader: predict_reveal option indices |
 | `plankKeysOf` | const | view reader: linear plank keys |
@@ -321,15 +321,15 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `clueIndicesOf` | const | view reader: elimination clue indices |
 | `viewTextOf` | function | The display text for a keyed row in any of the showcase views ("" when absent). |
 | `clueTextOf` | function | view reader: clue text by index |
-| `writerItemKeys` | function | The item keys a writer schema enumerates and probes reference, per mode (WriterCtx.itemKeys): |
+| `writerItemKeys` | function | The item keys a writer schema enumerates and probes reference, per mode (WriterCtx.itemKeys): mimic → statement indices, predict_reveal → option indices, linear → plan… |
 | `stringsIn` | function | Every string inside a value (params walk for ConfigCtx.texts). |
-| `encounterTexts` | function | ConfigCtx.texts for an encounter: |
+| `encounterTexts` | function | ConfigCtx.texts for an encounter: every string in params + prompt + hints + sourceRef.quote. |
 
 #### `contraptions/placeholder.ts` (108 lines)
 
 | Export | Kind | Purpose |
 |---|---|---|
-| `SlatePose` | type | The console-slate pose: |
+| `SlatePose` | type | The console-slate pose: slate brightness, what the slate mirrors, and the gate behind it. |
 | `SLATE_FOOTPRINT` | const | placeholder footprint |
 | `SLATE_FRAME` | const | placeholder frame bounds |
 | `slatePose` | function | placeholder pose from a PoseInput |
@@ -359,8 +359,8 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `wProbe` | const | writer: nullable probe object |
 | `wEnumOrNull` | const | writer: enum or null (z.null when empty) |
 | `WriterProbe` | type | Writer output of wProbe(). |
-| `probeFromWriter` | function | Stored ProbeSpec from a writer probe (clipped to the stored limits; |
-| `GLYPH_LIBRARY` | const | Content glyphs a writer may put on a plank, item or node: |
+| `probeFromWriter` | function | Stored ProbeSpec from a writer probe (clipped to the stored limits; year formats get a window = [min, max]). |
+| `GLYPH_LIBRARY` | const | Content glyphs a writer may put on a plank, item or node: what the step SAYS, never whether it belongs. |
 | `GlyphId` | type | type: a GLYPH_LIBRARY id |
 | `PROBE_KEY_SLOTS` | const | Probe-key slots the World Writer fills (their lines live in dialogue.fail.byKey). |
 
@@ -432,7 +432,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 
 | Export | Kind | Purpose |
 |---|---|---|
-| `StageSemantic` | const + type | zod: count | atp | beacon cartridge semantic |
+| `StageSemantic` | const + type | zod: count \| atp \| beacon cartridge semantic |
 | `StageMachineConfig` | const + type | zod: stage_machine config (§4.2) |
 
 #### `contraptions/step-bridge.config.ts` (27 lines)
@@ -474,7 +474,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `ClaimHoldersConfig` | re-export | re-export from ./claim-holders.config |
 | `CLAIM_HOLDERS_SUCCESS_ONLY` | re-export | re-export from ./claim-holders.config |
 | `RefSimId` | re-export | re-export from ./claim-holders.config |
-| `CLAIM_HOLDERS_SKINS` | const | ---------------------------------------------------------------- skins (§4.3 + the round-2 slots) |
+| `CLAIM_HOLDERS_SKINS` | const | skins resonance_pillars, treasury_pillars, specimen_pods, witness_projector |
 | `validateClaimHolders` | function | claim_holders validateConfig (coverage, traces, ghosts + honesty, footprints, probe) |
 | `claimHoldersWriterSchema` | function | claim_holders strict-mode writer schema (§4.4) |
 | `ClaimHoldersPose` | type | The archetype's pose. |
@@ -581,7 +581,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 |---|---|---|
 | `SwitchboardConfig` | re-export | re-export from ./switchboard.config |
 | `SWITCHBOARD_SKINS` | const | skin switchboard |
-| `hintNamesDecoy` | function | True when hint 3 names a decoy right (docs/design/20 §4.4): |
+| `hintNamesDecoy` | function | True when hint 3 names a decoy right (docs/design/20 §4.4): its full text, or at least two of its non-stopword tokens (civil O8: e7's "signed the act" shares signed, a… |
 | `SwitchboardPose` | type | The archetype's pose. |
 | `switchboardMeta` | const | ContraptionMeta for switchboard |
 
@@ -701,7 +701,7 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | `FoldState` | type | type: membrane state per stage |
 | `FOLD_START` | const | the unfolded membrane |
 | `foldStage` | function | One stage applied to a membrane state. |
-| `membraneFold` | function | The cumulative states after each stage of an order: |
+| `membraneFold` | function | The cumulative states after each stage of an order: result[i] = after stages[0..i]. |
 
 #### `sims/osmotic-cell.ts` (21 lines)
 
@@ -715,9 +715,9 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 | Export | Kind | Purpose |
 |---|---|---|
 | `PendulumBeatState` | type | type: pendulum_beat state |
-| `syncBrightness` | function | Sync-thread brightness for a phase difference Δφ: |
-| `beatHz` | function | Beat frequency between the guardian period t0 and the dialled period t (seconds): |
-| `pendulumBeat` | const | STUB: |
+| `syncBrightness` | function | Sync-thread brightness for a phase difference Δφ: ½(1 + cos Δφ). |
+| `beatHz` | function | Beat frequency between the guardian period t0 and the dialled period t (seconds): /1/t0 − 1/t/. |
+| `pendulumBeat` | const | STUB: phases stay at the common start; KA3 advances them with the view's period and the draft's T. |
 
 #### `sims/pump-flume.ts` (21 lines)
 
@@ -770,10 +770,10 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 
 | Export | Kind | Purpose |
 |---|---|---|
-| `AssetIndexEntry` | type | Entry shape of the per-namespace generated asset index (docs/design/20 §5.1, R1): |
+| `AssetIndexEntry` | type | Entry shape of the per-namespace generated asset index (docs/design/20 §5.1, R1): what validators need to know about an asset without touching the filesystem. |
 | `AssetIndex` | type | type: key → AssetIndexEntry |
 
-## Seams outside src/world that lanes rely on
+## Seams outside src/world that lanes rely on (summary; full export tables below)
 
 - `src/contracts/world.ts` — the stored schema (§1.3, verified equal to the doc's code block, 86 schemas), re-exported
   from `src/contracts/index.ts`; `GameSpec.world` is `WorldOverlay.optional()`; `Owner` gains `"world_writer"`.
@@ -787,3 +787,320 @@ exported `<X>Pose` type (skins import it by name), and keep every other export.
 - `src/game/expedition/dialogue/types.ts` — `DialogueLine`, `SayRequest`, `DialogueSnapshot`, `DialogueEngineApi`.
 - `src/mechanics/util.ts` — `evalExactAt(expr, scope)`.
 - `src/game/art/palettes/<ns>.ts` — seeded token maps; `art/<ns>/biome.json` + empty fragments (§5.1).
+
+## Export index: seams outside src/world
+
+`src/game/hosts/types.ts` lists only what W0 added (the legacy `RoomPlacement`, `HostProps` core fields, `HostHandle.warpTo`/`setLiveValue`/`celebrate` and `buildRooms` are unchanged). `src/mechanics/util.ts` gains one export, `evalExactAt(expr, scope)`: the `evalExact` sandbox with at most 8 identifier-named finite numbers, copied into a fresh Map per call.
+
+#### `src/contracts/world.ts` (1000 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `WORLD_VERSION` | const | the overlay format version (2); WorldOverlay.worldVersion must equal it |
+| `AssetKey` | const + type | "<namespace>.<group>.<name>[.<variant>]"; namespace = "shared" or a biome id (§5.1). |
+| `HexColor` | const + type | zod: #rrggbb colour |
+| `CueId` | const + type | A §2.12 cue-bank id. |
+| `HERO_CAP_PER_NAMESPACE` | const | Hand-authored hero SVG files allowed per namespace (02 §3a; AssetManifest.heroCount enforces it). |
+| `ASSET_NAMESPACES` | const | The namespaces the showcase ships (§5.1). |
+| `AssetNamespace` | type | type: one of ASSET_NAMESPACES |
+| `X` | const | zod: per-zone x (0…12000) |
+| `Y` | const | zod: per-zone y, down from the zone top (−400 lets crowns bleed off the top) |
+| `Ms` | const | zod: milliseconds (int 0…30000) |
+| `Point` | const + type | zod: [x, y] in zone units |
+| `SurfaceRef` | const + type | A walkable surface: the zone heightfield ("ground") or a platform id in the same zone. |
+| `Requirement` | const + type | An availability gate. |
+| `DateString` | const + type | Calendar dates as "YYYY", "YYYY-MM" or "YYYY-MM-DD". |
+| `ProbeFormat` | const + type | zod: probe readout format enum |
+| `ProbeSpec` | const + type | The ungraded orange scrubber (amendment 3). |
+| `ProbeSpecInput` | type | type: ProbeSpec input (defaults optional) |
+| `EarnedPin` | const + type | zod: a RECORD pin a solve earns (date, precision, lane, spanTo) |
+| `PLAYER_SPEAKER` | const | speakerId ∈ spec.characters ∪ cast.extras ∪ {PLAYER_SPEAKER, NARRATOR_SPEAKER} (R2). |
+| `NARRATOR_SPEAKER` | const | speaker id "narrator" |
+| `Mood` | const + type | zod: line mood enum |
+| `WorldLine` | const + type | zod: a spoken line {speakerId, text, mood} |
+| `LineSlot` | const + type | A station dialogue slot. |
+| `EmblemGlyph` | const + type | zod: emblem centre glyph enum |
+| `Emblem` | const + type | zod: dialogue-bar emblem {glyph, ring, accent, gaps} |
+| `PoseName` | const + type | Kenney pose names are camelCase ("walk0", "cheer1"); they name atlas frames (§5.5). |
+| `RigAnchor` | const + type | Per-frame rig anchors, COMPUTED by the rig build from the vector's transforms (§5.5; 02 §3b.3): hand_r = 02's handF (the hand painted in front), hand_l = handB; face a… |
+| `CharacterLook` | const + type | A human character on the one Kenney rig (§5.5): a recoloured body atlas + costume overlays on per-frame anchors. |
+| `Speaker` | const + type | A speaker that is not a spec character: NPCs, mimics, the recorded astronomer, the narrator voice (amendment 1). |
+| `Cast` | const + type | zod: protagonist, guide (+ companion with awakeFlag), boss speakers, extras |
+| `Meter` | const + type | zod: purpose meter (e.g. GRADIENT) with per-encounter values |
+| `ProgressEffect` | const + type | zod: beam_line \| prop_state \| label_swap \| hub_socket progress effects |
+| `MapOverlay` | const + type | zod: the M-key map card |
+| `JournalSpec` | const + type | zod: journal title + style |
+| `RecordStrip` | const + type | History games: the RECORD card's lanes and the pins each solve earns (civil §5.0.2). |
+| `Story` | const + type | zod: logline, objective, ring label, intro/finale ids, meter, effects, map, journal, record strip |
+| `Sky` | const + type | zod: 3–6 gradient stops + haze |
+| `Depth` | const + type | zod: parallax depth enum L1…L6 |
+| `ParallaxLayer` | const + type | zod: one parallax strip |
+| `LayerSet` | const + type | zod: a named set of ≥ 3 layers |
+| `AmbientLight` | const + type | zod: light preset enum |
+| `Ambient` | const + type | zod: light, particles, shadow colour, dapple, camera grade (.prefault) |
+| `Weather` | const + type | zod: weather enum |
+| `MusicCue` | const + type | zod: segment music enum |
+| `Segment` | const + type | A lighting/look span of a zone. |
+| `Interior` | const + type | A cutaway interior: while the player's x is in [x0, x1] the façade fades to 20 % over 300 ms (civil §2.4). |
+| `Ground` | const + type | zod: the zone heightfield + surface art + maxStepUp |
+| `Platform` | const + type | zod: a walkable polyline (optionally gated) |
+| `LinkEnd` | const + type | zod: {surface, x} end of a traversal link |
+| `TraversalLink` | const + type | Authored traversal (amendment 2). |
+| `TraversalLinkKind` | type | type: TraversalLink kind |
+| `ZoneExit` | const + type | zod: an exit to another zone (transition, requires, cutscene) |
+| `Hub` | const + type | zod: the zone's big machine (svg or puppet; anims.partial/restored) |
+| `ZoneCamera` | const + type | zod: deadzones, lerp, zoom clamp (.prefault) |
+| `Zone` | const + type | zod: one zone: size, layer sets, segments, interiors, ground, platforms, links, exits, hub, entry, camera |
+| `LayoutMode` | const + type | zod: panel layout scrub \| board \| vault |
+| `PayoffKind` | const + type | zod: terrain \| ride \| remove_blocker \| carry |
+| `PayoffVertical` | const + type | zod: up \| down \| none |
+| `PayoffAnim` | const + type | zod: the 16 payoff animations |
+| `PAYOFF_ANIMS` | const | the PayoffAnim values |
+| `PAYOFF_KIND_OF` | const | PayoffAnim → PayoffKind (R6) |
+| `Payoff` | const + type | zod: a station payoff (kind, vertical, anim, noun, blocker, terrain, ride) |
+| `AxisUnit` | const + type | zod: card axis unit enum |
+| `Axis` | const + type | zod: card axis override |
+| `CardOverride` | const + type | Presentation overrides only: card DATA always comes from the contraption meta + the encounter view. |
+| `PanelOverride` | const + type | zod: layout, input symbol, Verify label, success badge, card overrides |
+| `MisconceptionProbe` | const + type | Misconception probes (amendment 11): evaluated ONLY after a failed Verify, against the submitted Input (src/world/probes.ts). |
+| `ProbePredicate` | type | type: MisconceptionProbe predicate |
+| `PinGlyph` | const + type | zod: pin glyph enum |
+| `PinPlacement` | const + type | zod: a pin on a prefab anchor |
+| `Accessory` | const + type | zod: record_lens accessory |
+| `AccessoryKind` | type | type: accessory kind |
+| `HintTarget` | const + type | Where the companion flies on a hint rung (amendment 10, A7). |
+| `BossStaging` | const + type | Boss staging (amendments 8, 18). |
+| `StationDialogue` | const + type | zod: approach, instruction, tutorial, insight, hints, fail, success, payoffLine, after |
+| `Station` | const + type | zod: one station per encounter (console, anchor, contraption, skin, config, nouns, probes, hintTargets, panel, dialogue, payoff, boss) |
+| `PropState` | const + type | zod: prop state enum |
+| `PropPlacement` | const + type | zod: a placed prop (states, touch target) |
+| `NpcPose` | const + type | zod: NPC pose enum |
+| `NpcState` | const + type | zod: one NPC state (requires, position, lines, pose, follow, setFlag, anim) |
+| `Npc` | const + type | zod: an NPC (look xor asset) with states |
+| `QuestStep` | const + type | zod: talk \| collect \| touch \| afterSeal \| visit |
+| `Quest` | const + type | zod: a side quest with reward |
+| `Trigger` | const + type | zod: ambient/arrival/hint trigger (lines, flag, cue, cutsceneId) |
+| `Collectible` | const + type | zod: shard/page/negative pickup |
+| `Plaque` | const + type | zod: readable lore plate (plaque/document/photo_withheld) |
+| `Sandbox` | const + type | A contraption-like interactable with no runner, no Verify and no grade (amendment 17, §2.4b). |
+| `InteractRef` | const + type | zod: await_interact target |
+| `StateTarget` | const + type | zod: set_state target |
+| `CameraShot` | const + type | zod: {x, y, zoom} |
+| `CutsceneStep` | const + type | zod: the 18 cutscene verbs (ride has toSurface) |
+| `CutsceneVerb` | type | type: CutsceneStep verb |
+| `Cutscene` | const + type | zod: {id, skippable, steps} |
+| `FeedbackNoun` | const + type | Display-only nouns applied to grade() feedback text (amendment 36): "chest" → "singer". |
+| `WorldOverlay` | const + type | zod: the whole world overlay (root) |
+| `WorldOverlayInput` | type | type: WorldOverlay input |
+| `WorldFile` | const + type | Side-car wrapper: which specs this overlay dresses. |
+| `WorldFileInput` | type | type: WorldFile input |
+| `ZoneTag` | const + type | Residency bucket (A4, §5.7): "all" = resident for the whole game; otherwise the zone whose set loads it. |
+| `AssetSource` | const + type | "hero" (hand-authored; counts against heroCap), "kit:<generator>" (§5.4) or "rig:<body>" (§5.5). |
+| `PuppetAnim` | const + type | A puppet animation (§5.5): per-part tracks of waves or keyframes. |
+| `CharacterBody` | const + type | zod: the 4 Kenney bodies |
+| `ManifestEntry` | const + type | zod: svg \| puppet \| atlas manifest entry |
+| `ManifestEntryKind` | type | type: manifest entry kind |
+| `AssetManifest` | const + type | zod: a namespace manifest (hero cap 40, vram per zone, swap peak) |
+
+#### `src/game/hosts/types.ts` (134 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `RoomPlacement` | type | One prefab chunk placed in the level, with its definition and (if any) the encounter it hosts. |
+| `HostProps` | type | host props (legacy + optional Expedition fields) |
+| `HostHandle` | type | Imperative controls GameClient uses regardless of which host (Phaser or DOM) is mounted. |
+| `ExpeditionProgress` | type | type |
+| `SafeRect` | type | CSS px of the visible world area (the part of the stage the panel does not cover). |
+| `LayoutKind` | type | explore \| scrub \| board \| vault \| sandbox |
+| `LayoutState` | type | panel layout + safe rect + focus |
+| `LinkVerb` | type | traversal verb |
+| `InteractTarget` | type | what E would interact with |
+| `HostEvent` | type | Esc pressed in-canvas |
+| `ExpeditionHostDebug` | type | debug snapshot of the Expedition host (textures added in rev 3) |
+| `buildRooms` | function | (unchanged) legacy room placement |
+
+#### `src/game/hosts/expedition/bridge.ts` (104 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `EmoteGlyph` | type | cutscene emote glyph |
+| `StationAnim` | type | cutscene station anim |
+| `HubState` | type | hub state |
+| `CameraEase` | type | camera ease |
+| `CutsceneEndState` | type | The final world state a cutscene leaves behind (cutscene/timeline.ts endState); skip() applies it at once. |
+| `CutsceneStage` | type | The verbs of CutsceneStep (§1.3, §2.8) as scene operations. |
+| `SceneApi` | type | What React calls on the running scene. |
+| `SceneEvents` | type | What the scene emits. |
+| `ExpeditionSceneData` | type | Scene init data (ExpeditionScene init). |
+
+#### `src/game/hosts/expedition/contraptions/types.ts` (173 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `ResolvedSandbox` | re-export | re-export from ../../../../world/types |
+| `ResolvedStation` | re-export | re-export from ../../../../world/types |
+| `XY` | type | type |
+| `BiomePalette` | type | Palette tokens for Phaser drawing: token path ("stone.lit", "fn.f", "glow.cyan") → "#rrggbb". |
+| `BeamHandle` | type | A beam = three stacked lines (core 2, inner 6, outer 18) plus an end-cap glow and ±8 % shimmer (§2.2 fx/beam.ts). |
+| `PooledStripHandle` | type | A window of pooled sprites along a strip (cell lipid heads, §2.11). |
+| `FxKit` | type | Shared effects every prefab may use (implemented by H1 in fx/*.ts). |
+| `PrefabProps` | type | type |
+| `ContraptionState` | type | type |
+| `PoseView` | type | What a prefab author writes. |
+| `ContraptionPrefab` | type | type |
+| `definePrefab` | function | identity helper that types a ContraptionPrefab |
+| `SkinPrefab` | type | One file per skin (prefabs/<id>/skins/<skin>.ts): it draws that skin's parts and applies the archetype's Pose. |
+| `AnyContraptionPrefab` | type | eslint-disable-next-line @typescript-eslint/no-explicit-any |
+| `ContraptionInstance` | type | What the host sees per station (built by ContraptionController around a PoseView). |
+| `SandboxPrefabProps` | type | type |
+| `SandboxPrefab` | type | Sandbox prefabs use the same PoseView; their meta is a SandboxMeta and they receive SandboxPrefabProps. |
+| `defineSandboxPrefab` | function | identity helper that types a SandboxPrefab |
+| `SandboxSkinPrefab` | type | A sandbox skin file (prefabs/<sandbox id>/skins/<skin>.ts), dispatched the same way as SkinPrefab. |
+| `AnySandboxPrefab` | type | eslint-disable-next-line @typescript-eslint/no-explicit-any |
+| `SandboxInstance` | type | type |
+| `SnapshotProps` | type | DOM fallback (amendment 31): no per-prefab component. |
+| `AnyContraptionMeta` | re-export | re-export from  |
+| `AnySandboxMeta` | re-export | re-export from  |
+
+#### `src/game/hosts/expedition/contraptions/registry.ts` (54 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `PREFABS` | const | archetype id → ContraptionPrefab (one line per prefab) |
+| `SANDBOX_PREFABS` | const | sandbox id → SandboxPrefab |
+| `prefabFor` | function | The prefab for a contraption id; unknown ids fall back to console_slate. |
+| `sandboxPrefabFor` | function | The prefab for a sandbox id, or null when unknown (the sandbox is then not built). |
+
+#### `src/game/hosts/expedition/contraptions/prefabs/_stub.ts` (83 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `StubBoxOptions` | type | stub box options |
+| `StubPose` | type | Minimal pose the stub reads: SlatePose and SandboxSlatePose both satisfy it. |
+| `stubBox` | function | the W0 labelled-box PoseView |
+
+#### `src/game/expedition/dialogue/types.ts` (71 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `DialogueKind` | type | src/game/expedition/dialogue/types.ts (W0, main) — the dialogue engine's public types (docs/design/20 §2.7). |
+| `Channel` | type | type |
+| `Priority` | type | Ascending: critical > instruction > story > ambient. |
+| `PRIORITY_ORDER` | const | dialogue priorities, ascending |
+| `DialogueMood` | type | type |
+| `DialogueLine` | type | type |
+| `SayRequest` | type | type |
+| `ActiveLine` | type | type |
+| `PinnedLines` | type | type |
+| `DialogueSnapshot` | type | type |
+| `DialogueEngineOptions` | type | type |
+| `DEFAULT_CPS` | const | typewriter speed, 45 characters per second |
+| `DEFAULT_MIN_TOAST_MS` | const | minimum toast duration, 2500 ms |
+| `DialogueEngineApi` | type | The class S1 writes (export class DialogueEngine implements DialogueEngineApi). |
+
+#### `src/game/art/palettes/shared.ts` (49 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `SHARED_PALETTE` | const | src/game/art/palettes/shared.ts — W0 seed (docs/design/20 §5.7; bible §2.3). |
+
+#### `src/game/art/palettes/orrery_terraces.ts` (72 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `ORRERY_TERRACES_PALETTE` | const | src/game/art/palettes/orrery_terraces.ts — W0 seed (docs/design/20 §5.7; bible §2.1–2.2; trig §2.2). |
+
+#### `src/game/art/palettes/living_gate.ts` (73 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `LIVING_GATE_PALETTE` | const | src/game/art/palettes/living_gate.ts — W0 seed (docs/design/20 §5.7; bible §2.1; cell §2.2). |
+
+#### `src/game/art/palettes/archive_of_voices.ts` (80 lines)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `ARCHIVE_OF_VOICES_PALETTE` | const | src/game/art/palettes/archive_of_voices.ts — W0 seed (docs/design/20 §5.7; bible §2.1; civil §2.2). |
+
+#### Prefab stubs (`src/game/hosts/expedition/contraptions/prefabs/`)
+
+Every `prefab.ts` exports `prefab` (the archetype's `ContraptionPrefab` / `SandboxPrefab`, dispatching to `skinPrefabFor(props.station.skin)`) and `default`; every `shared.ts` re-exports `stubBox` / `StubBoxOptions` and exports `ARCHETYPE_ID` (or `SANDBOX_ID`) and `STUB_COLOR`; every `skins/<skin>.ts` exports `skin` (a labelled-box `SkinPrefab` / `SandboxSkinPrefab`) and `default`; every `skins/index.ts` (main-owned) exports `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS` and `skinPrefabFor(skinId)`.
+
+| File | Lines | Exports |
+|---|---|---|
+| `cause_tubes/prefab.ts` | 14 | `prefab` |
+| `cause_tubes/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `cause_tubes/skins/big_board.ts` | 21 | `skin` |
+| `cause_tubes/skins/broadcast_relay.ts` | 21 | `skin` |
+| `cause_tubes/skins/index.ts` | 22 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `cause_tubes/skins/relay_line.ts` | 21 | `skin` |
+| `claim_holders/prefab.ts` | 14 | `prefab` |
+| `claim_holders/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `claim_holders/skins/index.ts` | 24 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `claim_holders/skins/resonance_pillars.ts` | 21 | `skin` |
+| `claim_holders/skins/specimen_pods.ts` | 21 | `skin` |
+| `claim_holders/skins/treasury_pillars.ts` | 21 | `skin` |
+| `claim_holders/skins/witness_projector.ts` | 21 | `skin` |
+| `console_slate/prefab.ts` | 16 | `prefab` |
+| `console_slate/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `console_slate/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `console_slate/skins/lectern_slate.ts` | 21 | `skin` |
+| `darkroom/prefab.ts` | 13 | `prefab` |
+| `darkroom/shared.ts` | 7 | `stubBox`, `StubBoxOptions`, `SANDBOX_ID`, `STUB_COLOR` |
+| `darkroom/skins/darkroom_trays.ts` | 20 | `skin` |
+| `darkroom/skins/index.ts` | 17 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `emitter_rail/prefab.ts` | 14 | `prefab` |
+| `emitter_rail/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `emitter_rail/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `emitter_rail/skins/vesper_dial.ts` | 21 | `skin` |
+| `music_box/prefab.ts` | 13 | `prefab` |
+| `music_box/shared.ts` | 7 | `stubBox`, `StubBoxOptions`, `SANDBOX_ID`, `STUB_COLOR` |
+| `music_box/skins/astronomer_box.ts` | 20 | `skin` |
+| `music_box/skins/index.ts` | 17 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `oracle_ticker/prefab.ts` | 14 | `prefab` |
+| `oracle_ticker/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `oracle_ticker/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `oracle_ticker/skins/wire_ticker.ts` | 21 | `skin` |
+| `pendulum_sync/prefab.ts` | 14 | `prefab` |
+| `pendulum_sync/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `pendulum_sync/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `pendulum_sync/skins/wardens_shield.ts` | 21 | `skin` |
+| `plant_garden/prefab.ts` | 13 | `prefab` |
+| `plant_garden/shared.ts` | 7 | `stubBox`, `StubBoxOptions`, `SANDBOX_ID`, `STUB_COLOR` |
+| `plant_garden/skins/index.ts` | 17 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `plant_garden/skins/plant_pool.ts` | 20 | `skin` |
+| `ring_gate/prefab.ts` | 14 | `prefab` |
+| `ring_gate/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `ring_gate/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `ring_gate/skins/ring_gate.ts` | 21 | `skin` |
+| `router_lanes/prefab.ts` | 14 | `prefab` |
+| `router_lanes/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `router_lanes/skins/carrier_lanes.ts` | 21 | `skin` |
+| `router_lanes/skins/filing_cabinets.ts` | 21 | `skin` |
+| `router_lanes/skins/gatekeeper_maws.ts` | 21 | `skin` |
+| `router_lanes/skins/index.ts` | 26 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `router_lanes/skins/membrane_router.ts` | 21 | `skin` |
+| `router_lanes/skins/provenance_drawers.ts` | 21 | `skin` |
+| `sluice_waves/prefab.ts` | 14 | `prefab` |
+| `sluice_waves/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `sluice_waves/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `sluice_waves/skins/tonicity_sluices.ts` | 21 | `skin` |
+| `stage_machine/prefab.ts` | 14 | `prefab` |
+| `stage_machine/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `stage_machine/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `stage_machine/skins/pump_rewiring.ts` | 21 | `skin` |
+| `step_bridge/prefab.ts` | 14 | `prefab` |
+| `step_bridge/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `step_bridge/skins/endocytosis_lift.ts` | 21 | `skin` |
+| `step_bridge/skins/floating_steps.ts` | 21 | `skin` |
+| `step_bridge/skins/index.ts` | 24 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `step_bridge/skins/timeline_bridge.ts` | 21 | `skin` |
+| `step_bridge/skins/walking_road.ts` | 21 | `skin` |
+| `switchboard/prefab.ts` | 14 | `prefab` |
+| `switchboard/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `switchboard/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `switchboard/skins/switchboard.ts` | 21 | `skin` |
+| `tumbler_vault/prefab.ts` | 14 | `prefab` |
+| `tumbler_vault/shared.ts` | 9 | `stubBox`, `StubBoxOptions`, `ARCHETYPE_ID`, `STUB_COLOR` |
+| `tumbler_vault/skins/index.ts` | 18 | `SKIN_IDS`, `DEFAULT_SKIN`, `SKINS`, `skinPrefabFor` |
+| `tumbler_vault/skins/tumbler_vault.ts` | 21 | `skin` |

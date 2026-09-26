@@ -1,4 +1,6 @@
 import type { MasteryState, TelemetryEvent } from "../contracts/telemetry";
+import type { PhaseKind } from "./expedition/client/machine";
+import type { ExpeditionHostDebug } from "./hosts/types";
 
 export interface GameDebugState {
   finished: boolean;
@@ -14,6 +16,41 @@ export interface GameDebugHandle {
   autoSolve(): void;
   events(): readonly TelemetryEvent[];
   mastery(): MasteryState;
+  /** Present only while an Expedition world plays (docs/design/20 §2.10); legacy specs never see it. */
+  expedition?: ExpeditionDebugApi;
+}
+
+/**
+ * `__GAME_DEBUG__.expedition` (docs/design/20 §2.10). The client (ExpeditionClient) installs every field; the host
+ * (hosts/expedition/debug-api.ts) merges its own `host`/`walkTo`/`useLink`/`interact`/`freeze`/`skipCutscene` and a
+ * few host-only probes over them once Phaser (or the DOM host) is ready.
+ */
+export interface ExpeditionDebugApi {
+  host(): ExpeditionHostDebug | null;
+  phase(): PhaseKind;
+  dialogue(): { speakerId: string; text: string; typing: boolean } | null;
+  worldState(): { flags: string[]; collected: string[]; touched: string[] };
+  /** same as pressing E */
+  interact(): void;
+  /** drives the controller (not a teleport) until x or a blocker */
+  walkTo(x: number, surface?: string): Promise<void>;
+  /** runs a traversal link as a key press would */
+  useLink(id: string): Promise<void>;
+  /** warp to the current station and open its panel */
+  openPanel(): void;
+  /** sets the open control to mode.solutionInput(...) THROUGH the control API */
+  applySolutionDraft(): void;
+  /** moves the probe scrubber (or a scalar station's input) through its control API */
+  setProbe(value: number): void;
+  /** same as pressing (i) */
+  hint(): void;
+  openSandbox(id: string): void;
+  express(on: boolean): void;
+  skipCutscene(): void;
+  /** pause tweens/typewriter/particles/clocks for deterministic screenshots */
+  freeze(on: boolean): void;
+  /** the client's half of freeze (the typewriter); the host's installer chains it into `freeze` */
+  freezeClient?(on: boolean): void;
 }
 
 /*

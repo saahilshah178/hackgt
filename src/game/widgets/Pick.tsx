@@ -212,8 +212,18 @@ export function wavesToInput(answers: { waveIndex: number; categoryId: string }[
  * pick: choose one of N. Variant is read from the view's shape: `chests` (mimic, one-shot pick),
  * `waves` (type_match, timed sequence), or `options` (predict_reveal, one-shot pick).
  */
-export function Pick({ view, onSubmit, disabled }: WidgetProps<PickView, PickInput>) {
-  if (isWavesView(view)) return <WavesPick view={view} onSubmit={onSubmit as (i: PickWavesInput) => void} disabled={disabled} />;
+export function Pick({ view, onSubmit, onDraft, disabled }: WidgetProps<PickView, PickInput>) {
+  // one-shot picks submit on choose, so their draft carries only the keyboard focus (the world previews it)
+  const onFocusItem = onDraft ? (optionIndex: number) => onDraft({ input: null, complete: false, focus: String(optionIndex) }) : undefined;
+  if (isWavesView(view))
+    return (
+      <WavesPick
+        view={view}
+        onSubmit={onSubmit as (i: PickWavesInput) => void}
+        onDraft={onDraft ? (answers) => onDraft({ input: wavesToInput(answers), complete: false, focus: null }) : undefined}
+        disabled={disabled}
+      />
+    );
   if (isFunctionMachineView(view))
     return <FunctionMachinePick view={view} onSubmit={onSubmit as (i: PickFunctionMachineInput) => void} disabled={disabled} />;
   if (isTraceView(view)) return <TracePick view={view} onSubmit={onSubmit as (i: PickTraceInput) => void} disabled={disabled} />;
@@ -245,12 +255,14 @@ export function Pick({ view, onSubmit, disabled }: WidgetProps<PickView, PickInp
         disabled={disabled}
       />
     );
-  if (isOptionsView(view)) return <OneShotPick label="Predict what happens." items={view.options} onSubmit={(i) => onSubmit(optionsToInput(i))} disabled={disabled} />;
+  if (isOptionsView(view))
+    return <OneShotPick label="Predict what happens." items={view.options} onSubmit={(i) => onSubmit(optionsToInput(i))} onFocusItem={onFocusItem} disabled={disabled} />;
   return (
     <OneShotPick
       label="Choose the one that's false."
       items={view.chests.map((c) => ({ optionIndex: c.statementIndex, text: c.text }))}
       onSubmit={(i) => onSubmit(chestsToInput(i))}
+      onFocusItem={onFocusItem}
       disabled={disabled}
     />
   );
@@ -350,11 +362,13 @@ function OneShotPick({
   label,
   items,
   onSubmit,
+  onFocusItem,
   disabled,
 }: {
   label: string;
   items: { optionIndex: number; text: string }[];
   onSubmit: (optionIndex: number) => void;
+  onFocusItem?: (optionIndex: number) => void;
   disabled?: boolean;
 }) {
   const [focused, setFocused] = useState(0);
@@ -362,6 +376,9 @@ function OneShotPick({
 
   useEffect(() => {
     refs.current[focused]?.focus();
+    const it = items[focused];
+    if (it) onFocusItem?.(it.optionIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused]);
 
   return (
@@ -417,9 +434,23 @@ function OneShotPick({
 }
 
 /** Timed waves: one wave at a time with a countdown; an unanswered wave (timeout) is skipped. */
-function WavesPick({ view, onSubmit, disabled }: { view: PickWavesView; onSubmit: (i: PickWavesInput) => void; disabled?: boolean }) {
+function WavesPick({
+  view,
+  onSubmit,
+  onDraft,
+  disabled,
+}: {
+  view: PickWavesView;
+  onSubmit: (i: PickWavesInput) => void;
+  onDraft?: (answers: { waveIndex: number; categoryId: string }[]) => void;
+  disabled?: boolean;
+}) {
   const [waveIndex, setWaveIndex] = useState(0);
   const [answers, setAnswers] = useState<{ waveIndex: number; categoryId: string }[]>([]);
+  useEffect(() => {
+    onDraft?.(answers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answers]);
   const [secondsLeft, setSecondsLeft] = useState(view.secondsPerWave);
   const [focused, setFocused] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);

@@ -1,0 +1,6009 @@
+{
+ "namespace": "shared",
+ "paletteId": "shared",
+ "heroCap": 40,
+ "heroCount": 0,
+ "entries": [
+  {
+   "kind": "atlas",
+   "key": "shared.char.diver",
+   "zone": "all",
+   "source": "rig:female_adventurer",
+   "sha1": "82ba622885c3c1936f947441f1b7540f1a8d9286",
+   "legacyId": null,
+   "body": "female_adventurer",
+   "image": "shared/char/diver.png",
+   "frames": "shared/char/diver.json",
+   "frameWidth": 192,
+   "frameHeight": 256,
+   "displayWidth": 168,
+   "displayHeight": 224,
+   "poses": [
+    "idle",
+    "walk0",
+    "walk1",
+    "walk2",
+    "walk3",
+    "walk4",
+    "walk5",
+    "walk6",
+    "walk7",
+    "run0",
+    "run1",
+    "run2",
+    "jump",
+    "fall",
+    "duck",
+    "hang",
+    "climb0",
+    "climb1",
+    "interact",
+    "switch0",
+    "switch1",
+    "talk",
+    "think",
+    "show",
+    "hold",
+    "cheer0",
+    "cheer1",
+    "back"
+   ],
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "pose": "idle",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.9,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.9,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 33.3,
+       "y": 165,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125,
+       "y": 166.9,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 134.3,
+       "rot": 3
+      },
+      {
+       "name": "face",
+       "x": 89.3,
+       "y": 99.4,
+       "rot": 3
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 182.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 151.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.9,
+       "y": 179.8,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 117.3,
+       "y": 179.5,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk3",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": -2.5
+      },
+      {
+       "name": "face",
+       "x": 86,
+       "y": 92.3,
+       "rot": -2.5
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.1,
+       "y": 170.1,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 118.4,
+       "y": 171.4,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk4",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 32.8,
+       "y": 169.7,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125.2,
+       "y": 171.6,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk5",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 134.3,
+       "rot": 3.2
+      },
+      {
+       "name": "face",
+       "x": 89.5,
+       "y": 99.4,
+       "rot": 3.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 182.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 151.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38,
+       "y": 179.4,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 118.1,
+       "y": 181.6,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk6",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk7",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.1,
+       "y": 170.1,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 116.8,
+       "y": 171.6,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.9,
+       "y": 137.7,
+       "rot": 8.5
+      },
+      {
+       "name": "face",
+       "x": 100.1,
+       "y": 103.1,
+       "rot": 8.5
+      },
+      {
+       "name": "torso",
+       "x": 82.7,
+       "y": 184.2,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.6,
+       "y": 153.1,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 86.7,
+       "y": 183.7,
+       "rot": 135
+      },
+      {
+       "name": "hand_l",
+       "x": 41.9,
+       "y": 172.6,
+       "rot": -127.9
+      },
+      {
+       "name": "feet",
+       "x": 82.7,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.9,
+       "y": 128.5,
+       "rot": 3
+      },
+      {
+       "name": "face",
+       "x": 96.8,
+       "y": 93.6,
+       "rot": 3
+      },
+      {
+       "name": "torso",
+       "x": 82.7,
+       "y": 175,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.6,
+       "y": 143.9,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 129.6,
+       "y": 179.6,
+       "rot": 120
+      },
+      {
+       "name": "hand_l",
+       "x": 30.9,
+       "y": 159.9,
+       "rot": -135
+      },
+      {
+       "name": "feet",
+       "x": 82.7,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.6,
+       "y": 124.2,
+       "rot": 8.5
+      },
+      {
+       "name": "face",
+       "x": 99.8,
+       "y": 89.5,
+       "rot": 8.5
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 170.6,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.3,
+       "y": 139.5,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 141.1,
+       "y": 168.3,
+       "rot": 105
+      },
+      {
+       "name": "hand_l",
+       "x": 24.4,
+       "y": 136.2,
+       "rot": -112.3
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "jump",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.4,
+       "y": 122,
+       "rot": -7
+      },
+      {
+       "name": "face",
+       "x": 82.1,
+       "y": 87.2,
+       "rot": -7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 27.7,
+       "y": 162.8,
+       "rot": -172
+      },
+      {
+       "name": "hand_l",
+       "x": 139.5,
+       "y": 116.5,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "fall",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.8,
+       "y": 122,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 89.7,
+       "y": 87.1,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 29,
+       "y": 150,
+       "rot": -120
+      },
+      {
+       "name": "hand_l",
+       "x": 141.7,
+       "y": 142.7,
+       "rot": -75
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "duck",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 82.2,
+       "y": 157.7,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 85.1,
+       "y": 122.8,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 200,
+       "rot": -5
+      },
+      {
+       "name": "back",
+       "x": 81.3,
+       "y": 168.6,
+       "rot": -5
+      },
+      {
+       "name": "hand_r",
+       "x": 117.8,
+       "y": 200.2,
+       "rot": 60
+      },
+      {
+       "name": "hand_l",
+       "x": 39.2,
+       "y": 200.3,
+       "rot": 160.3
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hang",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.4,
+       "y": 122,
+       "rot": -7
+      },
+      {
+       "name": "face",
+       "x": 82.1,
+       "y": 87.2,
+       "rot": -7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 34.7,
+       "y": 169.8,
+       "rot": -172
+      },
+      {
+       "name": "hand_l",
+       "x": 125.6,
+       "y": 86,
+       "rot": -98.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "climb0",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 81.3,
+       "y": 131.3,
+       "rot": 3.2
+      },
+      {
+       "name": "face",
+       "x": 83.3,
+       "y": 96.3,
+       "rot": 3.2
+      },
+      {
+       "name": "torso",
+       "x": 78.6,
+       "y": 171.6,
+       "rot": -5.7
+      },
+      {
+       "name": "back",
+       "x": 75.4,
+       "y": 140.2,
+       "rot": -5.7
+      },
+      {
+       "name": "hand_r",
+       "x": 36.7,
+       "y": 132.4,
+       "rot": 148.5
+      },
+      {
+       "name": "hand_l",
+       "x": 126.3,
+       "y": 104,
+       "rot": 15
+      },
+      {
+       "name": "feet",
+       "x": 78.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "climb1",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 80.4,
+       "y": 130.8,
+       "rot": -3.3
+      },
+      {
+       "name": "face",
+       "x": 78.4,
+       "y": 95.9,
+       "rot": -3.3
+      },
+      {
+       "name": "torso",
+       "x": 79.6,
+       "y": 171.6,
+       "rot": -174.3
+      },
+      {
+       "name": "back",
+       "x": 76.5,
+       "y": 202.9,
+       "rot": -174.3
+      },
+      {
+       "name": "hand_r",
+       "x": 121.5,
+       "y": 132.4,
+       "rot": 31.5
+      },
+      {
+       "name": "hand_l",
+       "x": 31.9,
+       "y": 104,
+       "rot": 165
+      },
+      {
+       "name": "feet",
+       "x": 79.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "interact",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 131.7,
+       "rot": 4.2
+      },
+      {
+       "name": "face",
+       "x": 87.9,
+       "y": 96.8,
+       "rot": 4.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 180.1,
+       "rot": -156.3
+      },
+      {
+       "name": "hand_l",
+       "x": 143.7,
+       "y": 157.2,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "switch0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 78.6,
+       "y": 128.4,
+       "rot": -7.2
+      },
+      {
+       "name": "face",
+       "x": 74.2,
+       "y": 93.6,
+       "rot": -7.2
+      },
+      {
+       "name": "torso",
+       "x": 83.4,
+       "y": 175,
+       "rot": -7.5
+      },
+      {
+       "name": "back",
+       "x": 79.3,
+       "y": 143.8,
+       "rot": -7.5
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 183,
+       "rot": -163.7
+      },
+      {
+       "name": "hand_l",
+       "x": 140.5,
+       "y": 126.6,
+       "rot": -127.5
+      },
+      {
+       "name": "feet",
+       "x": 83.4,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "switch1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 91.6,
+       "y": 131.7,
+       "rot": 16.4
+      },
+      {
+       "name": "face",
+       "x": 101.5,
+       "y": 98.1,
+       "rot": 16.4
+      },
+      {
+       "name": "torso",
+       "x": 83.2,
+       "y": 174.8,
+       "rot": 12.9
+      },
+      {
+       "name": "back",
+       "x": 90.3,
+       "y": 144.1,
+       "rot": 12.9
+      },
+      {
+       "name": "hand_r",
+       "x": 28.2,
+       "y": 161.4,
+       "rot": -147.6
+      },
+      {
+       "name": "hand_l",
+       "x": 139,
+       "y": 183.7,
+       "rot": -68.3
+      },
+      {
+       "name": "feet",
+       "x": 83.2,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "talk",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": -4.7
+      },
+      {
+       "name": "face",
+       "x": 84.3,
+       "y": 95,
+       "rot": -4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 139.2,
+       "y": 173.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "think",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 139.9,
+       "rot": 7.5
+      },
+      {
+       "name": "face",
+       "x": 90.6,
+       "y": 105.2,
+       "rot": 7.5
+      },
+      {
+       "name": "torso",
+       "x": 83.6,
+       "y": 181.6,
+       "rot": -4.7
+      },
+      {
+       "name": "back",
+       "x": 81,
+       "y": 150.2,
+       "rot": -4.7
+      },
+      {
+       "name": "hand_r",
+       "x": 41.5,
+       "y": 187.3,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 81.1,
+       "y": 168.8,
+       "rot": 112.6
+      },
+      {
+       "name": "feet",
+       "x": 83.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "show",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 136.3,
+       "rot": -8
+      },
+      {
+       "name": "face",
+       "x": 81.2,
+       "y": 101.7,
+       "rot": -8
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 183,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 82.3,
+       "y": 151.5,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 43.5,
+       "y": 111.2,
+       "rot": 97
+      },
+      {
+       "name": "hand_l",
+       "x": 118.7,
+       "y": 102.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hold",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.2,
+       "y": 130.4,
+       "rot": 7
+      },
+      {
+       "name": "face",
+       "x": 90.4,
+       "y": 95.6,
+       "rot": 7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 123,
+       "y": 175.7,
+       "rot": 75
+      },
+      {
+       "name": "hand_l",
+       "x": 55.5,
+       "y": 177.4,
+       "rot": 105
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 132.2,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 97.3,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 120.7,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 118.9,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 119.1,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 84.2,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 165.5,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 134,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 107.5,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 105.8,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "back",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    }
+   ],
+   "fallback": {
+    "image": "shared/char/kenney/character_femaleAdventurer_sheetHD.png",
+    "xml": "shared/char/kenney/character_femaleAdventurer_sheetHD.xml",
+    "frameNames": {
+     "idle": "idle",
+     "walk0": "walk0",
+     "walk1": "walk1",
+     "walk2": "walk2",
+     "walk3": "walk3",
+     "walk4": "walk4",
+     "walk5": "walk5",
+     "walk6": "walk6",
+     "walk7": "walk7",
+     "run0": "run0",
+     "run1": "run1",
+     "run2": "run2",
+     "jump": "jump",
+     "fall": "fall",
+     "duck": "duck",
+     "hang": "hang",
+     "climb0": "climb0",
+     "climb1": "climb1",
+     "interact": "interact",
+     "switch0": "switch0",
+     "switch1": "switch1",
+     "talk": "talk",
+     "think": "think",
+     "show": "show",
+     "hold": "hold",
+     "cheer0": "cheer0",
+     "cheer1": "cheer1",
+     "back": "back"
+    }
+   }
+  },
+  {
+   "kind": "atlas",
+   "key": "shared.char.ida",
+   "zone": "all",
+   "source": "rig:female_person",
+   "sha1": "a3b78b137fcb9d90af6ee54135dc44f3ab8be097",
+   "legacyId": null,
+   "body": "female_person",
+   "image": "shared/char/ida.png",
+   "frames": "shared/char/ida.json",
+   "frameWidth": 192,
+   "frameHeight": 256,
+   "displayWidth": 168,
+   "displayHeight": 224,
+   "poses": [
+    "idle",
+    "walk0",
+    "walk2",
+    "walk4",
+    "walk6",
+    "talk",
+    "think",
+    "show",
+    "interact",
+    "cheer0",
+    "duck",
+    "hold"
+   ],
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "pose": "idle",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.9,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.9,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 33.3,
+       "y": 165,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125,
+       "y": 166.9,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk4",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 32.8,
+       "y": 169.7,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125.2,
+       "y": 171.6,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk6",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "talk",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": -4.7
+      },
+      {
+       "name": "face",
+       "x": 84.3,
+       "y": 95,
+       "rot": -4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 139.2,
+       "y": 173.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "think",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 139.9,
+       "rot": 7.5
+      },
+      {
+       "name": "face",
+       "x": 90.6,
+       "y": 105.2,
+       "rot": 7.5
+      },
+      {
+       "name": "torso",
+       "x": 83.6,
+       "y": 181.6,
+       "rot": -4.7
+      },
+      {
+       "name": "back",
+       "x": 81,
+       "y": 150.2,
+       "rot": -4.7
+      },
+      {
+       "name": "hand_r",
+       "x": 41.5,
+       "y": 187.3,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 81.1,
+       "y": 168.8,
+       "rot": 112.6
+      },
+      {
+       "name": "feet",
+       "x": 83.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "show",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 136.3,
+       "rot": -8
+      },
+      {
+       "name": "face",
+       "x": 81.2,
+       "y": 101.7,
+       "rot": -8
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 183,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 82.3,
+       "y": 151.5,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 43.5,
+       "y": 111.2,
+       "rot": 97
+      },
+      {
+       "name": "hand_l",
+       "x": 118.7,
+       "y": 102.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "interact",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 131.7,
+       "rot": 4.2
+      },
+      {
+       "name": "face",
+       "x": 87.9,
+       "y": 96.8,
+       "rot": 4.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 180.1,
+       "rot": -156.3
+      },
+      {
+       "name": "hand_l",
+       "x": 143.7,
+       "y": 157.2,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 132.2,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 97.3,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 120.7,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 118.9,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "duck",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 82.2,
+       "y": 157.7,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 85.1,
+       "y": 122.8,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 200,
+       "rot": -5
+      },
+      {
+       "name": "back",
+       "x": 81.3,
+       "y": 168.6,
+       "rot": -5
+      },
+      {
+       "name": "hand_r",
+       "x": 117.8,
+       "y": 200.2,
+       "rot": 60
+      },
+      {
+       "name": "hand_l",
+       "x": 39.2,
+       "y": 200.3,
+       "rot": 160.3
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hold",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.2,
+       "y": 130.4,
+       "rot": 7
+      },
+      {
+       "name": "face",
+       "x": 90.4,
+       "y": 95.6,
+       "rot": 7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 123,
+       "y": 175.7,
+       "rot": 75
+      },
+      {
+       "name": "hand_l",
+       "x": 55.5,
+       "y": 177.4,
+       "rot": 105
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    }
+   ],
+   "fallback": {
+    "image": "shared/char/kenney/character_femalePerson_sheetHD.png",
+    "xml": "shared/char/kenney/character_femalePerson_sheetHD.xml",
+    "frameNames": {
+     "idle": "idle",
+     "walk0": "walk0",
+     "walk2": "walk2",
+     "walk4": "walk4",
+     "walk6": "walk6",
+     "talk": "talk",
+     "think": "think",
+     "show": "show",
+     "interact": "interact",
+     "cheer0": "cheer0",
+     "duck": "duck",
+     "hold": "hold"
+    }
+   }
+  },
+  {
+   "kind": "atlas",
+   "key": "shared.char.nell",
+   "zone": "all",
+   "source": "rig:female_adventurer",
+   "sha1": "d077af7de2d6f31fb6c2df0f50c8e94289cc1cb5",
+   "legacyId": null,
+   "body": "female_adventurer",
+   "image": "shared/char/nell.png",
+   "frames": "shared/char/nell.json",
+   "frameWidth": 192,
+   "frameHeight": 256,
+   "displayWidth": 168,
+   "displayHeight": 224,
+   "poses": [
+    "idle",
+    "walk0",
+    "walk1",
+    "walk2",
+    "walk3",
+    "walk4",
+    "walk5",
+    "walk6",
+    "walk7",
+    "run0",
+    "run1",
+    "run2",
+    "jump",
+    "fall",
+    "duck",
+    "hang",
+    "climb0",
+    "climb1",
+    "interact",
+    "switch0",
+    "switch1",
+    "talk",
+    "think",
+    "show",
+    "hold",
+    "cheer0",
+    "cheer1",
+    "back"
+   ],
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "pose": "idle",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.9,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.9,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 33.3,
+       "y": 165,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125,
+       "y": 166.9,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 134.3,
+       "rot": 3
+      },
+      {
+       "name": "face",
+       "x": 89.3,
+       "y": 99.4,
+       "rot": 3
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 182.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 151.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.9,
+       "y": 179.8,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 117.3,
+       "y": 179.5,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk3",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": -2.5
+      },
+      {
+       "name": "face",
+       "x": 86,
+       "y": 92.3,
+       "rot": -2.5
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.1,
+       "y": 170.1,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 118.4,
+       "y": 171.4,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk4",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 32.8,
+       "y": 169.7,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125.2,
+       "y": 171.6,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk5",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 134.3,
+       "rot": 3.2
+      },
+      {
+       "name": "face",
+       "x": 89.5,
+       "y": 99.4,
+       "rot": 3.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 182.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 151.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38,
+       "y": 179.4,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 118.1,
+       "y": 181.6,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk6",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk7",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.1,
+       "y": 170.1,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 116.8,
+       "y": 171.6,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.9,
+       "y": 137.7,
+       "rot": 8.5
+      },
+      {
+       "name": "face",
+       "x": 100.1,
+       "y": 103.1,
+       "rot": 8.5
+      },
+      {
+       "name": "torso",
+       "x": 82.7,
+       "y": 184.2,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.6,
+       "y": 153.1,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 86.7,
+       "y": 183.7,
+       "rot": 135
+      },
+      {
+       "name": "hand_l",
+       "x": 41.9,
+       "y": 172.6,
+       "rot": -127.9
+      },
+      {
+       "name": "feet",
+       "x": 82.7,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.9,
+       "y": 128.5,
+       "rot": 3
+      },
+      {
+       "name": "face",
+       "x": 96.8,
+       "y": 93.6,
+       "rot": 3
+      },
+      {
+       "name": "torso",
+       "x": 82.7,
+       "y": 175,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.6,
+       "y": 143.9,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 129.6,
+       "y": 179.6,
+       "rot": 120
+      },
+      {
+       "name": "hand_l",
+       "x": 30.9,
+       "y": 159.9,
+       "rot": -135
+      },
+      {
+       "name": "feet",
+       "x": 82.7,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.6,
+       "y": 124.2,
+       "rot": 8.5
+      },
+      {
+       "name": "face",
+       "x": 99.8,
+       "y": 89.5,
+       "rot": 8.5
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 170.6,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.3,
+       "y": 139.5,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 141.1,
+       "y": 168.3,
+       "rot": 105
+      },
+      {
+       "name": "hand_l",
+       "x": 24.4,
+       "y": 136.2,
+       "rot": -112.3
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "jump",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.4,
+       "y": 122,
+       "rot": -7
+      },
+      {
+       "name": "face",
+       "x": 82.1,
+       "y": 87.2,
+       "rot": -7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 27.7,
+       "y": 162.8,
+       "rot": -172
+      },
+      {
+       "name": "hand_l",
+       "x": 139.5,
+       "y": 116.5,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "fall",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.8,
+       "y": 122,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 89.7,
+       "y": 87.1,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 29,
+       "y": 150,
+       "rot": -120
+      },
+      {
+       "name": "hand_l",
+       "x": 141.7,
+       "y": 142.7,
+       "rot": -75
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "duck",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 82.2,
+       "y": 157.7,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 85.1,
+       "y": 122.8,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 200,
+       "rot": -5
+      },
+      {
+       "name": "back",
+       "x": 81.3,
+       "y": 168.6,
+       "rot": -5
+      },
+      {
+       "name": "hand_r",
+       "x": 117.8,
+       "y": 200.2,
+       "rot": 60
+      },
+      {
+       "name": "hand_l",
+       "x": 39.2,
+       "y": 200.3,
+       "rot": 160.3
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hang",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.4,
+       "y": 122,
+       "rot": -7
+      },
+      {
+       "name": "face",
+       "x": 82.1,
+       "y": 87.2,
+       "rot": -7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 34.7,
+       "y": 169.8,
+       "rot": -172
+      },
+      {
+       "name": "hand_l",
+       "x": 125.6,
+       "y": 86,
+       "rot": -98.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "climb0",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 81.3,
+       "y": 131.3,
+       "rot": 3.2
+      },
+      {
+       "name": "face",
+       "x": 83.3,
+       "y": 96.3,
+       "rot": 3.2
+      },
+      {
+       "name": "torso",
+       "x": 78.6,
+       "y": 171.6,
+       "rot": -5.7
+      },
+      {
+       "name": "back",
+       "x": 75.4,
+       "y": 140.2,
+       "rot": -5.7
+      },
+      {
+       "name": "hand_r",
+       "x": 36.7,
+       "y": 132.4,
+       "rot": 148.5
+      },
+      {
+       "name": "hand_l",
+       "x": 126.3,
+       "y": 104,
+       "rot": 15
+      },
+      {
+       "name": "feet",
+       "x": 78.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "climb1",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 80.4,
+       "y": 130.8,
+       "rot": -3.3
+      },
+      {
+       "name": "face",
+       "x": 78.4,
+       "y": 95.9,
+       "rot": -3.3
+      },
+      {
+       "name": "torso",
+       "x": 79.6,
+       "y": 171.6,
+       "rot": -174.3
+      },
+      {
+       "name": "back",
+       "x": 76.5,
+       "y": 202.9,
+       "rot": -174.3
+      },
+      {
+       "name": "hand_r",
+       "x": 121.5,
+       "y": 132.4,
+       "rot": 31.5
+      },
+      {
+       "name": "hand_l",
+       "x": 31.9,
+       "y": 104,
+       "rot": 165
+      },
+      {
+       "name": "feet",
+       "x": 79.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "interact",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 131.7,
+       "rot": 4.2
+      },
+      {
+       "name": "face",
+       "x": 87.9,
+       "y": 96.8,
+       "rot": 4.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 180.1,
+       "rot": -156.3
+      },
+      {
+       "name": "hand_l",
+       "x": 143.7,
+       "y": 157.2,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "switch0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 78.6,
+       "y": 128.4,
+       "rot": -7.2
+      },
+      {
+       "name": "face",
+       "x": 74.2,
+       "y": 93.6,
+       "rot": -7.2
+      },
+      {
+       "name": "torso",
+       "x": 83.4,
+       "y": 175,
+       "rot": -7.5
+      },
+      {
+       "name": "back",
+       "x": 79.3,
+       "y": 143.8,
+       "rot": -7.5
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 183,
+       "rot": -163.7
+      },
+      {
+       "name": "hand_l",
+       "x": 140.5,
+       "y": 126.6,
+       "rot": -127.5
+      },
+      {
+       "name": "feet",
+       "x": 83.4,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "switch1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 91.6,
+       "y": 131.7,
+       "rot": 16.4
+      },
+      {
+       "name": "face",
+       "x": 101.5,
+       "y": 98.1,
+       "rot": 16.4
+      },
+      {
+       "name": "torso",
+       "x": 83.2,
+       "y": 174.8,
+       "rot": 12.9
+      },
+      {
+       "name": "back",
+       "x": 90.3,
+       "y": 144.1,
+       "rot": 12.9
+      },
+      {
+       "name": "hand_r",
+       "x": 28.2,
+       "y": 161.4,
+       "rot": -147.6
+      },
+      {
+       "name": "hand_l",
+       "x": 139,
+       "y": 183.7,
+       "rot": -68.3
+      },
+      {
+       "name": "feet",
+       "x": 83.2,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "talk",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": -4.7
+      },
+      {
+       "name": "face",
+       "x": 84.3,
+       "y": 95,
+       "rot": -4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 139.2,
+       "y": 173.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "think",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 139.9,
+       "rot": 7.5
+      },
+      {
+       "name": "face",
+       "x": 90.6,
+       "y": 105.2,
+       "rot": 7.5
+      },
+      {
+       "name": "torso",
+       "x": 83.6,
+       "y": 181.6,
+       "rot": -4.7
+      },
+      {
+       "name": "back",
+       "x": 81,
+       "y": 150.2,
+       "rot": -4.7
+      },
+      {
+       "name": "hand_r",
+       "x": 41.5,
+       "y": 187.3,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 81.1,
+       "y": 168.8,
+       "rot": 112.6
+      },
+      {
+       "name": "feet",
+       "x": 83.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "show",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 136.3,
+       "rot": -8
+      },
+      {
+       "name": "face",
+       "x": 81.2,
+       "y": 101.7,
+       "rot": -8
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 183,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 82.3,
+       "y": 151.5,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 43.5,
+       "y": 111.2,
+       "rot": 97
+      },
+      {
+       "name": "hand_l",
+       "x": 118.7,
+       "y": 102.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hold",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.2,
+       "y": 130.4,
+       "rot": 7
+      },
+      {
+       "name": "face",
+       "x": 90.4,
+       "y": 95.6,
+       "rot": 7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 123,
+       "y": 175.7,
+       "rot": 75
+      },
+      {
+       "name": "hand_l",
+       "x": 55.5,
+       "y": 177.4,
+       "rot": 105
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 132.2,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 97.3,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 120.7,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 118.9,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 119.1,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 84.2,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 165.5,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 134,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 107.5,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 105.8,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "back",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    }
+   ],
+   "fallback": {
+    "image": "shared/char/kenney/character_femaleAdventurer_sheetHD.png",
+    "xml": "shared/char/kenney/character_femaleAdventurer_sheetHD.xml",
+    "frameNames": {
+     "idle": "idle",
+     "walk0": "walk0",
+     "walk1": "walk1",
+     "walk2": "walk2",
+     "walk3": "walk3",
+     "walk4": "walk4",
+     "walk5": "walk5",
+     "walk6": "walk6",
+     "walk7": "walk7",
+     "run0": "run0",
+     "run1": "run1",
+     "run2": "run2",
+     "jump": "jump",
+     "fall": "fall",
+     "duck": "duck",
+     "hang": "hang",
+     "climb0": "climb0",
+     "climb1": "climb1",
+     "interact": "interact",
+     "switch0": "switch0",
+     "switch1": "switch1",
+     "talk": "talk",
+     "think": "think",
+     "show": "show",
+     "hold": "hold",
+     "cheer0": "cheer0",
+     "cheer1": "cheer1",
+     "back": "back"
+    }
+   }
+  },
+  {
+   "kind": "atlas",
+   "key": "shared.char.otis",
+   "zone": "all",
+   "source": "rig:male_person",
+   "sha1": "13e3a6cc95dcee5d8ab16dc1e86acf85e627edc8",
+   "legacyId": null,
+   "body": "male_person",
+   "image": "shared/char/otis.png",
+   "frames": "shared/char/otis.json",
+   "frameWidth": 192,
+   "frameHeight": 256,
+   "displayWidth": 168,
+   "displayHeight": 224,
+   "poses": [
+    "idle",
+    "walk0",
+    "walk2",
+    "walk4",
+    "walk6",
+    "talk",
+    "think",
+    "show",
+    "interact",
+    "cheer0",
+    "duck",
+    "hold"
+   ],
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "pose": "idle",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.9,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.9,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 33.3,
+       "y": 165,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125,
+       "y": 166.9,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk4",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 32.8,
+       "y": 169.7,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125.2,
+       "y": 171.6,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk6",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "talk",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": -4.7
+      },
+      {
+       "name": "face",
+       "x": 84.3,
+       "y": 95,
+       "rot": -4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 139.2,
+       "y": 173.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "think",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 139.9,
+       "rot": 7.5
+      },
+      {
+       "name": "face",
+       "x": 90.6,
+       "y": 105.2,
+       "rot": 7.5
+      },
+      {
+       "name": "torso",
+       "x": 83.6,
+       "y": 181.6,
+       "rot": -4.7
+      },
+      {
+       "name": "back",
+       "x": 81,
+       "y": 150.2,
+       "rot": -4.7
+      },
+      {
+       "name": "hand_r",
+       "x": 41.5,
+       "y": 187.3,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 81.1,
+       "y": 168.8,
+       "rot": 112.6
+      },
+      {
+       "name": "feet",
+       "x": 83.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "show",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 136.3,
+       "rot": -8
+      },
+      {
+       "name": "face",
+       "x": 81.2,
+       "y": 101.7,
+       "rot": -8
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 183,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 82.3,
+       "y": 151.5,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 43.5,
+       "y": 111.2,
+       "rot": 97
+      },
+      {
+       "name": "hand_l",
+       "x": 118.7,
+       "y": 102.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "interact",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 131.7,
+       "rot": 4.2
+      },
+      {
+       "name": "face",
+       "x": 87.9,
+       "y": 96.8,
+       "rot": 4.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 180.1,
+       "rot": -156.3
+      },
+      {
+       "name": "hand_l",
+       "x": 143.7,
+       "y": 157.2,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 132.2,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 97.3,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 120.7,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 118.9,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "duck",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 82.2,
+       "y": 157.7,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 85.1,
+       "y": 122.8,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 200,
+       "rot": -5
+      },
+      {
+       "name": "back",
+       "x": 81.3,
+       "y": 168.6,
+       "rot": -5
+      },
+      {
+       "name": "hand_r",
+       "x": 117.8,
+       "y": 200.2,
+       "rot": 60
+      },
+      {
+       "name": "hand_l",
+       "x": 39.2,
+       "y": 200.3,
+       "rot": 160.3
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hold",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.2,
+       "y": 130.4,
+       "rot": 7
+      },
+      {
+       "name": "face",
+       "x": 90.4,
+       "y": 95.6,
+       "rot": 7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 123,
+       "y": 175.7,
+       "rot": 75
+      },
+      {
+       "name": "hand_l",
+       "x": 55.5,
+       "y": 177.4,
+       "rot": 105
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    }
+   ],
+   "fallback": {
+    "image": "shared/char/kenney/character_malePerson_sheetHD.png",
+    "xml": "shared/char/kenney/character_malePerson_sheetHD.xml",
+    "frameNames": {
+     "idle": "idle",
+     "walk0": "walk0",
+     "walk2": "walk2",
+     "walk4": "walk4",
+     "walk6": "walk6",
+     "talk": "talk",
+     "think": "think",
+     "show": "show",
+     "interact": "interact",
+     "cheer0": "cheer0",
+     "duck": "duck",
+     "hold": "hold"
+    }
+   }
+  },
+  {
+   "kind": "atlas",
+   "key": "shared.char.wren",
+   "zone": "all",
+   "source": "rig:female_adventurer",
+   "sha1": "57af87184842adc3e41def78b7862123b48e0e06",
+   "legacyId": null,
+   "body": "female_adventurer",
+   "image": "shared/char/wren.png",
+   "frames": "shared/char/wren.json",
+   "frameWidth": 192,
+   "frameHeight": 256,
+   "displayWidth": 168,
+   "displayHeight": 224,
+   "poses": [
+    "idle",
+    "walk0",
+    "walk1",
+    "walk2",
+    "walk3",
+    "walk4",
+    "walk5",
+    "walk6",
+    "walk7",
+    "run0",
+    "run1",
+    "run2",
+    "jump",
+    "fall",
+    "duck",
+    "hang",
+    "climb0",
+    "climb1",
+    "interact",
+    "switch0",
+    "switch1",
+    "talk",
+    "think",
+    "show",
+    "hold",
+    "cheer0",
+    "cheer1",
+    "back"
+   ],
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "pose": "idle",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.9,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.9,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 33.3,
+       "y": 165,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125,
+       "y": 166.9,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 134.3,
+       "rot": 3
+      },
+      {
+       "name": "face",
+       "x": 89.3,
+       "y": 99.4,
+       "rot": 3
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 182.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 151.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.9,
+       "y": 179.8,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 117.3,
+       "y": 179.5,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk3",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": -2.5
+      },
+      {
+       "name": "face",
+       "x": 86,
+       "y": 92.3,
+       "rot": -2.5
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.1,
+       "y": 170.1,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 118.4,
+       "y": 171.4,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk4",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 32.8,
+       "y": 169.7,
+       "rot": -134
+      },
+      {
+       "name": "hand_l",
+       "x": 125.2,
+       "y": 171.6,
+       "rot": -31.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk5",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 134.3,
+       "rot": 3.2
+      },
+      {
+       "name": "face",
+       "x": 89.5,
+       "y": 99.4,
+       "rot": 3.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 182.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 151.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38,
+       "y": 179.4,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 118.1,
+       "y": 181.6,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk6",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 130.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 95.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 179,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 147.6,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 44.2,
+       "y": 178.9,
+       "rot": -164
+      },
+      {
+       "name": "hand_l",
+       "x": 110.1,
+       "y": 179,
+       "rot": -1.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "walk7",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.5,
+       "y": 127.3,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.5,
+       "y": 92.3,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 175.5,
+       "rot": -4.6
+      },
+      {
+       "name": "back",
+       "x": 81.5,
+       "y": 144.1,
+       "rot": -4.6
+      },
+      {
+       "name": "hand_r",
+       "x": 38.1,
+       "y": 170.1,
+       "rot": -149
+      },
+      {
+       "name": "hand_l",
+       "x": 116.8,
+       "y": 171.6,
+       "rot": -16.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.9,
+       "y": 137.7,
+       "rot": 8.5
+      },
+      {
+       "name": "face",
+       "x": 100.1,
+       "y": 103.1,
+       "rot": 8.5
+      },
+      {
+       "name": "torso",
+       "x": 82.7,
+       "y": 184.2,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.6,
+       "y": 153.1,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 86.7,
+       "y": 183.7,
+       "rot": 135
+      },
+      {
+       "name": "hand_l",
+       "x": 41.9,
+       "y": 172.6,
+       "rot": -127.9
+      },
+      {
+       "name": "feet",
+       "x": 82.7,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.9,
+       "y": 128.5,
+       "rot": 3
+      },
+      {
+       "name": "face",
+       "x": 96.8,
+       "y": 93.6,
+       "rot": 3
+      },
+      {
+       "name": "torso",
+       "x": 82.7,
+       "y": 175,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.6,
+       "y": 143.9,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 129.6,
+       "y": 179.6,
+       "rot": 120
+      },
+      {
+       "name": "hand_l",
+       "x": 30.9,
+       "y": 159.9,
+       "rot": -135
+      },
+      {
+       "name": "feet",
+       "x": 82.7,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "run2",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 94.6,
+       "y": 124.2,
+       "rot": 8.5
+      },
+      {
+       "name": "face",
+       "x": 99.8,
+       "y": 89.5,
+       "rot": 8.5
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 170.6,
+       "rot": 9
+      },
+      {
+       "name": "back",
+       "x": 87.3,
+       "y": 139.5,
+       "rot": 9
+      },
+      {
+       "name": "hand_r",
+       "x": 141.1,
+       "y": 168.3,
+       "rot": 105
+      },
+      {
+       "name": "hand_l",
+       "x": 24.4,
+       "y": 136.2,
+       "rot": -112.3
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "jump",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.4,
+       "y": 122,
+       "rot": -7
+      },
+      {
+       "name": "face",
+       "x": 82.1,
+       "y": 87.2,
+       "rot": -7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 27.7,
+       "y": 162.8,
+       "rot": -172
+      },
+      {
+       "name": "hand_l",
+       "x": 139.5,
+       "y": 116.5,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "fall",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.8,
+       "y": 122,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 89.7,
+       "y": 87.1,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 29,
+       "y": 150,
+       "rot": -120
+      },
+      {
+       "name": "hand_l",
+       "x": 141.7,
+       "y": 142.7,
+       "rot": -75
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "duck",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 82.2,
+       "y": 157.7,
+       "rot": 4.7
+      },
+      {
+       "name": "face",
+       "x": 85.1,
+       "y": 122.8,
+       "rot": 4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 200,
+       "rot": -5
+      },
+      {
+       "name": "back",
+       "x": 81.3,
+       "y": 168.6,
+       "rot": -5
+      },
+      {
+       "name": "hand_r",
+       "x": 117.8,
+       "y": 200.2,
+       "rot": 60
+      },
+      {
+       "name": "hand_l",
+       "x": 39.2,
+       "y": 200.3,
+       "rot": 160.3
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hang",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.4,
+       "y": 122,
+       "rot": -7
+      },
+      {
+       "name": "face",
+       "x": 82.1,
+       "y": 87.2,
+       "rot": -7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 169.8,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 138.3,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 34.7,
+       "y": 169.8,
+       "rot": -172
+      },
+      {
+       "name": "hand_l",
+       "x": 125.6,
+       "y": 86,
+       "rot": -98.2
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "climb0",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 81.3,
+       "y": 131.3,
+       "rot": 3.2
+      },
+      {
+       "name": "face",
+       "x": 83.3,
+       "y": 96.3,
+       "rot": 3.2
+      },
+      {
+       "name": "torso",
+       "x": 78.6,
+       "y": 171.6,
+       "rot": -5.7
+      },
+      {
+       "name": "back",
+       "x": 75.4,
+       "y": 140.2,
+       "rot": -5.7
+      },
+      {
+       "name": "hand_r",
+       "x": 36.7,
+       "y": 132.4,
+       "rot": 148.5
+      },
+      {
+       "name": "hand_l",
+       "x": 126.3,
+       "y": 104,
+       "rot": 15
+      },
+      {
+       "name": "feet",
+       "x": 78.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "climb1",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 80.4,
+       "y": 130.8,
+       "rot": -3.3
+      },
+      {
+       "name": "face",
+       "x": 78.4,
+       "y": 95.9,
+       "rot": -3.3
+      },
+      {
+       "name": "torso",
+       "x": 79.6,
+       "y": 171.6,
+       "rot": -174.3
+      },
+      {
+       "name": "back",
+       "x": 76.5,
+       "y": 202.9,
+       "rot": -174.3
+      },
+      {
+       "name": "hand_r",
+       "x": 121.5,
+       "y": 132.4,
+       "rot": 31.5
+      },
+      {
+       "name": "hand_l",
+       "x": 31.9,
+       "y": 104,
+       "rot": 165
+      },
+      {
+       "name": "feet",
+       "x": 79.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "interact",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 131.7,
+       "rot": 4.2
+      },
+      {
+       "name": "face",
+       "x": 87.9,
+       "y": 96.8,
+       "rot": 4.2
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 180.1,
+       "rot": -156.3
+      },
+      {
+       "name": "hand_l",
+       "x": 143.7,
+       "y": 157.2,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "switch0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 78.6,
+       "y": 128.4,
+       "rot": -7.2
+      },
+      {
+       "name": "face",
+       "x": 74.2,
+       "y": 93.6,
+       "rot": -7.2
+      },
+      {
+       "name": "torso",
+       "x": 83.4,
+       "y": 175,
+       "rot": -7.5
+      },
+      {
+       "name": "back",
+       "x": 79.3,
+       "y": 143.8,
+       "rot": -7.5
+      },
+      {
+       "name": "hand_r",
+       "x": 33.5,
+       "y": 183,
+       "rot": -163.7
+      },
+      {
+       "name": "hand_l",
+       "x": 140.5,
+       "y": 126.6,
+       "rot": -127.5
+      },
+      {
+       "name": "feet",
+       "x": 83.4,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "switch1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 91.6,
+       "y": 131.7,
+       "rot": 16.4
+      },
+      {
+       "name": "face",
+       "x": 101.5,
+       "y": 98.1,
+       "rot": 16.4
+      },
+      {
+       "name": "torso",
+       "x": 83.2,
+       "y": 174.8,
+       "rot": 12.9
+      },
+      {
+       "name": "back",
+       "x": 90.3,
+       "y": 144.1,
+       "rot": 12.9
+      },
+      {
+       "name": "hand_r",
+       "x": 28.2,
+       "y": 161.4,
+       "rot": -147.6
+      },
+      {
+       "name": "hand_l",
+       "x": 139,
+       "y": 183.7,
+       "rot": -68.3
+      },
+      {
+       "name": "feet",
+       "x": 83.2,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "talk",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": -4.7
+      },
+      {
+       "name": "face",
+       "x": 84.3,
+       "y": 95,
+       "rot": -4.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 139.2,
+       "y": 173.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "think",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 139.9,
+       "rot": 7.5
+      },
+      {
+       "name": "face",
+       "x": 90.6,
+       "y": 105.2,
+       "rot": 7.5
+      },
+      {
+       "name": "torso",
+       "x": 83.6,
+       "y": 181.6,
+       "rot": -4.7
+      },
+      {
+       "name": "back",
+       "x": 81,
+       "y": 150.2,
+       "rot": -4.7
+      },
+      {
+       "name": "hand_r",
+       "x": 41.5,
+       "y": 187.3,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 81.1,
+       "y": 168.8,
+       "rot": 112.6
+      },
+      {
+       "name": "feet",
+       "x": 83.6,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "show",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.1,
+       "y": 136.3,
+       "rot": -8
+      },
+      {
+       "name": "face",
+       "x": 81.2,
+       "y": 101.7,
+       "rot": -8
+      },
+      {
+       "name": "torso",
+       "x": 82.3,
+       "y": 183,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 82.3,
+       "y": 151.5,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 43.5,
+       "y": 111.2,
+       "rot": 97
+      },
+      {
+       "name": "hand_l",
+       "x": 118.7,
+       "y": 102.1,
+       "rot": 90
+      },
+      {
+       "name": "feet",
+       "x": 82.3,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "hold",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 86.2,
+       "y": 130.4,
+       "rot": 7
+      },
+      {
+       "name": "face",
+       "x": 90.4,
+       "y": 95.6,
+       "rot": 7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 123,
+       "y": 175.7,
+       "rot": 75
+      },
+      {
+       "name": "hand_l",
+       "x": 55.5,
+       "y": 177.4,
+       "rot": 105
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer0",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 132.2,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 97.3,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 120.7,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 118.9,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "cheer1",
+     "facing": "front",
+     "points": [
+      {
+       "name": "head",
+       "x": 85.3,
+       "y": 119.1,
+       "rot": -3.7
+      },
+      {
+       "name": "face",
+       "x": 83.1,
+       "y": 84.2,
+       "rot": -3.7
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 165.5,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 134,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 33.9,
+       "y": 107.5,
+       "rot": 150
+      },
+      {
+       "name": "hand_l",
+       "x": 136.6,
+       "y": 105.8,
+       "rot": 30
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    },
+    {
+     "pose": "back",
+     "facing": "back",
+     "points": [
+      {
+       "name": "head",
+       "x": 87.2,
+       "y": 129.8,
+       "rot": 0
+      },
+      {
+       "name": "face",
+       "x": 87.2,
+       "y": 94.8,
+       "rot": 0
+      },
+      {
+       "name": "torso",
+       "x": 84,
+       "y": 178.6,
+       "rot": 0
+      },
+      {
+       "name": "back",
+       "x": 84,
+       "y": 147.1,
+       "rot": 0
+      },
+      {
+       "name": "hand_r",
+       "x": 37.9,
+       "y": 188.8,
+       "rot": 180
+      },
+      {
+       "name": "hand_l",
+       "x": 130.1,
+       "y": 188.8,
+       "rot": 0
+      },
+      {
+       "name": "feet",
+       "x": 84,
+       "y": 222.3,
+       "rot": 0
+      }
+     ]
+    }
+   ],
+   "fallback": {
+    "image": "shared/char/kenney/character_femaleAdventurer_sheetHD.png",
+    "xml": "shared/char/kenney/character_femaleAdventurer_sheetHD.xml",
+    "frameNames": {
+     "idle": "idle",
+     "walk0": "walk0",
+     "walk1": "walk1",
+     "walk2": "walk2",
+     "walk3": "walk3",
+     "walk4": "walk4",
+     "walk5": "walk5",
+     "walk6": "walk6",
+     "walk7": "walk7",
+     "run0": "run0",
+     "run1": "run1",
+     "run2": "run2",
+     "jump": "jump",
+     "fall": "fall",
+     "duck": "duck",
+     "hang": "hang",
+     "climb0": "climb0",
+     "climb1": "climb1",
+     "interact": "interact",
+     "switch0": "switch0",
+     "switch1": "switch1",
+     "talk": "talk",
+     "think": "think",
+     "show": "show",
+     "hold": "hold",
+     "cheer0": "cheer0",
+     "cheer1": "cheer1",
+     "back": "back"
+    }
+   }
+  },
+  {
+   "kind": "puppet",
+   "key": "shared.companion.guide_standin",
+   "zone": "all",
+   "source": "kit:companionStandin",
+   "sha1": "ec3a8411a0aeedc150c3ee7f0e1aec078656440d",
+   "legacyId": "cog-standin",
+   "file": "shared/companion/guide_standin.svg",
+   "restFile": "shared/companion/guide_standin.rest.svg",
+   "width": 72,
+   "height": 72,
+   "rasterScale": 1.5,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "parts": [
+    {
+     "name": "wing_l",
+     "frames": 1,
+     "rest": [
+      24,
+      42
+     ],
+     "pivot": [
+      0.4722,
+      0.8472
+     ],
+     "z": -2,
+     "box": [
+      0,
+      0,
+      36,
+      36
+     ]
+    },
+    {
+     "name": "wing_r",
+     "frames": 1,
+     "rest": [
+      48,
+      42
+     ],
+     "pivot": [
+      0.4722,
+      0.8472
+     ],
+     "z": -2,
+     "box": [
+      0,
+      40,
+      36,
+      36
+     ]
+    },
+    {
+     "name": "feet",
+     "frames": 1,
+     "rest": [
+      36,
+      56
+     ],
+     "pivot": [
+      0.4643,
+      0.1667
+     ],
+     "z": -1,
+     "box": [
+      0,
+      80,
+      28,
+      12
+     ]
+    },
+    {
+     "name": "body",
+     "frames": 1,
+     "rest": [
+      36,
+      42
+     ],
+     "pivot": [
+      0.475,
+      0.475
+     ],
+     "z": 0,
+     "box": [
+      0,
+      96,
+      40,
+      40
+     ]
+    },
+    {
+     "name": "belly_gears",
+     "frames": 1,
+     "rest": [
+      36,
+      44
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 1,
+     "box": [
+      0,
+      140,
+      20,
+      20
+     ]
+    },
+    {
+     "name": "head",
+     "frames": 1,
+     "rest": [
+      36,
+      22
+     ],
+     "pivot": [
+      0.4722,
+      0.4722
+     ],
+     "z": 2,
+     "box": [
+      0,
+      164,
+      36,
+      36
+     ]
+    },
+    {
+     "name": "key",
+     "frames": 1,
+     "rest": [
+      54,
+      50
+     ],
+     "pivot": [
+      0.45,
+      0.4167
+     ],
+     "z": 1,
+     "box": [
+      0,
+      204,
+      20,
+      12
+     ]
+    },
+    {
+     "name": "eye_glow",
+     "frames": 1,
+     "rest": [
+      36,
+      22
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 3,
+     "box": [
+      0,
+      220,
+      32,
+      32
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 1250,
+     "tracks": [
+      {
+       "part": "body",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 0.8,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 0.8,
+        "phase": 0.05
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 0.8,
+        "phase": 0.05
+       },
+       "keys": []
+      },
+      {
+       "part": "belly_gears",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 0.8,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "belly_gears",
+       "prop": "rot",
+       "wave": {
+        "amp": 90,
+        "hz": 0.25,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": -18,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": 18,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.5
+        ],
+        [
+         625,
+         0.7
+        ],
+        [
+         1250,
+         0.5
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "talk",
+     "loop": true,
+     "ms": 500,
+     "tracks": [
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": {
+        "amp": 4,
+        "hz": 2,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.4
+        ],
+        [
+         250,
+         0.95
+        ],
+        [
+         500,
+         0.4
+        ]
+       ]
+      },
+      {
+       "part": "belly_gears",
+       "prop": "rot",
+       "wave": {
+        "amp": 180,
+        "hz": 0.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": -10,
+        "hz": 2,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": 10,
+        "hz": 2,
+        "phase": 0
+       },
+       "keys": []
+      }
+     ]
+    },
+    {
+     "id": "cue",
+     "loop": true,
+     "ms": 600,
+     "tracks": [
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": -34,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": 34,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         300,
+         1.4
+        ],
+        [
+         600,
+         1
+        ]
+       ]
+      },
+      {
+       "part": "eye_glow",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         300,
+         1.4
+        ],
+        [
+         600,
+         1
+        ]
+       ]
+      },
+      {
+       "part": "eye_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.7
+        ],
+        [
+         300,
+         1
+        ],
+        [
+         600,
+         0.7
+        ]
+       ]
+      },
+      {
+       "part": "key",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         150,
+         -1
+        ],
+        [
+         300,
+         1
+        ],
+        [
+         450,
+         -1
+        ],
+        [
+         600,
+         1
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "anchors": []
+  }
+ ],
+ "totalBytes": 21976,
+ "gzipBytes": 4456,
+ "vram": [
+  {
+   "zone": "all",
+   "mb": 20.4
+  }
+ ],
+ "swapPeakMb": 20.4
+}
