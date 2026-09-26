@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { ratio } from "./ratio";
+import { torque } from "./torque";
 import { chem_equation } from "./chem_equation";
 import { equation } from "./equation";
 import { ledger } from "./ledger";
@@ -23,7 +25,7 @@ export const balance = defineFamily({
     equation,
     chem_equation,
     ledger,
-    torque: s("torque", "Torque", "Masses at distances; balanced when Σm·d = 0."),
-    ratio: s("ratio", "Ratio", "Recipe or stoichiometric ratios and limiting reagent.", true),
+    torque,
+    ratio,
   },
 });
