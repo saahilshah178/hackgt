@@ -30,6 +30,10 @@ export const EnvSchema = z.object({
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: optional(),
   SUPABASE_SECRET_KEY: optional(),
   GOOGLE_GENERATIVE_AI_API_KEY: optional(),
+  /** JSON object overriding the voiceArchetype -> ElevenLabs voice id map (see src/pipeline/audio/voices.ts). */
+  ELEVENLABS_VOICE_MAP: optional(),
+  /** "1" enables the two-speaker Text to Dialogue intro when AUDIO_MODE=live (stretch flag). */
+  AUDIO_DIALOGUE: z.preprocess(empty, z.enum(["0", "1"]).default("0")),
   /** Absolute or cwd-relative folder for the LocalDriver. Defaults to .data/ */
   DATA_DIR: z.preprocess(empty, z.string().default(".data")),
 });
