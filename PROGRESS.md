@@ -23,78 +23,78 @@ Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: re
 - [x] 4. Strict-schema audit green
 - [x] 5. Mock pipeline test reproduces v2 fixture exactly
 
-## P2 — Library encoding (checkpoint: library-catalog)
-- [ ] 1. Every §6 card + 5 generic §7 cards in src/library/catalog/*.ts with learningInsight
-- [ ] 2. genres.ts from §1 and §5
-- [ ] 3. retrieval.ts
-- [ ] 4. pnpm library:report
-- [ ] 5. Tests: catalog validation, golden retrieval, implemented-filtering
+## P2 — Library encoding (checkpoint: library-catalog) — done 00:58 (316 cards)
+- [x] 1. Every §6 card + 5 generic §7 cards in src/library/catalog/*.ts with learningInsight
+- [x] 2. genres.ts from §1 and §5
+- [x] 3. retrieval.ts
+- [x] 4. pnpm library:report
+- [x] 5. Tests: catalog validation, golden retrieval, implemented-filtering
 
-## P3 — Runtime + Dungeon host (checkpoint: runtime-dungeon)
-- [ ] 1. /play/[id] loads a spec; /play/fixture-trig in dev
-- [ ] 2. Dungeon host (prefab rooms, palette tint, freeze at socket, consequence/failure overlay)
-- [ ] 3. Widgets: dial, pick, order, place
-- [ ] 4. Hint familiar, consequence overlay, mastery HUD, end screen posting telemetry
-- [ ] 5. window.__GAME_DEBUG__
-- [ ] 6. Playwright smoke: trig fixture autoSolve, zero console errors
+## P3 — Runtime + Dungeon host (checkpoint: runtime-dungeon) — done (checkpoint 07)
+- [x] 1. /play/[id] loads a spec; /play/fixture-trig in dev
+- [x] 2. Dungeon host (prefab rooms, palette tint, freeze at socket, consequence/failure overlay)
+- [x] 3. Widgets: dial, pick, order, place
+- [x] 4. Hint familiar, consequence overlay, mastery HUD, end screen posting telemetry
+- [x] 5. window.__GAME_DEBUG__
+- [x] 6. Playwright smoke: trig fixture autoSolve, zero console errors (dev server on port 3100; port 3000 is taken on this machine)
 
-## P5a — Pipeline foundation (checkpoint: pipeline-foundation)
-- [ ] 1. llm.ts + models.ts incl. mock mode
+## P5a — Pipeline foundation (checkpoint: pipeline-foundation) — done 01:08
+- [x] 1. llm.ts + models.ts incl. mock mode
 - [ ] 2. env.ts, event bus, storage drivers (local complete, supabase untested)
-- [ ] 3. supabase/schema.sql
-- [ ] 4. scripts/build-samples.ts → 3 sample PDFs from markdown notes
-- [ ] 5. POST /api/sources (pdf ≤40 pages | text | topic) with unpdf
-- [ ] 6. Quote verification utility + tests
+- [x] 3. supabase/schema.sql
+- [x] 4. scripts/build-samples.ts → 3 sample PDFs from markdown notes
+- [x] 5. POST /api/sources (pdf ≤40 pages | text | topic) with unpdf
+- [x] 6. Quote verification utility + tests
 
-## P4 — Wave-1 families (checkpoint: families-wave1)
-- [ ] 1. tuner(oscillator, formula), truth_finder(mimic, predict_reveal), sequencer(linear, cycle, rank), mapper(number_line, plane), sorter(bins, type_match), linker(pairs, chain), investigator(elimination)
-- [ ] 2. sort + link widgets, Dungeon skins
-- [ ] 3. 9 wave-1 flagships playable in Dungeon via fixtures
+## P4 — Wave-1 families (checkpoints: families-wave1a, families-wave1b, families-wave1-widgets) — done
+- [x] 1. wave-1 modes: sorter.bins/type_match, linker.pairs/chain, investigator.elimination (checkpoint 05); tuner.formula, truth_finder.predict_reveal, sequencer.cycle/rank, mapper.plane (checkpoint 06)
+- [x] 2. sort + link widgets, Dungeon skins (checkpoint 09)
+- [x] 3. wave-1 flagships playable: phase_gate, number_line_leap, domino_engine, evidence_board, formula_engine + generic mimic_chest/chrono_bridge/type_matched_weapon/grapple_anchors/cycle_wheel (fixtures wave1a/wave1b; cell + history games)
 
-## P5b — Front-half agents (checkpoint: pipeline-agents)
-- [ ] 1. gatekeeper, curriculum (+quote verification), intake endpoint, matcher
-- [ ] 2. prompt + schema + checker + mock responses for all 3 samples, per agent
-- [ ] 3. Genre-agnostic mock mode + "Mock mode" banner
-- [ ] 4. pnpm try:pdf
+## P5b — Front-half agents (checkpoint: pipeline-agents) — done
+- [x] 1. gatekeeper, curriculum (+quote verification), intake endpoint, matcher
+- [x] 2. prompt + schema + checker + mock responses for all 3 samples, per agent
+- [x] 3. Genre-agnostic mock mode + "Mock mode" banner
+- [x] 4. pnpm try:pdf
 
-## P6 — Orchestrator back half (checkpoint: orchestrator)
-- [ ] 1. POST /api/games → {jobId}
-- [ ] 2. GET /api/jobs/:id/stream (SSE) ending with {done, gameId}
-- [ ] 3. Director (dynamic schema), challenge writers ×N, narrative, assessment, assemble, verifier + blind solve, routed repair + fallback
-- [ ] 4. POST /api/games/:id/regenerate {genre}
-- [ ] 5. Shared context first in every builder prompt
-- [ ] 6. Challenge bank (optional)
-- [ ] 7. Mock e2e test: sample PDF → validated GameSpec → headless autoSolve
+## P6 — Orchestrator back half (checkpoint: orchestrator) — done (checkpoint 21)
+- [x] 1. POST /api/games → {jobId}
+- [x] 2. GET /api/jobs/:id/stream (SSE) ending with {done, gameId}
+- [x] 3. Director (dynamic schema), challenge writers ×N, narrative, assessment, assemble, verifier + blind solve, routed repair + fallback
+- [x] 4. POST /api/games/:id/regenerate {genre}
+- [x] 5. Shared context first in every builder prompt
+- [~] 6. Challenge bank (optional) — skipped tonight; noted in MORNING_REPORT
+- [x] 7. Mock e2e test: sample PDF → validated GameSpec → headless autoSolve
 
 ## P7 — UI + golden path (checkpoints: golden-path, review-fixes)
-- [ ] 1. Pages: /, /intake/[id], /forge/[id], /play/[id], /debrief/[id], /library
-- [ ] 2. Projector-friendly design, no layout shift
-- [ ] 3. Playwright e2e golden path + screenshots in docs/overnight/screens/
-- [ ] 4. pnpm build passes
-- [ ] 5. reviewer pass; fix critical + high
+- [x] 1. Pages: /, /intake/[id], /forge/[id], /play/[id], /debrief/[id], /library (live against the mock pipeline; projector polish done, checkpoint 30)
+- [x] 2. Projector-friendly design, no layout shift (dark theme default, skeletons, fixed-height forge cards)
+- [x] 3. Playwright e2e golden path + screenshots in docs/overnight/screens/ (checkpoint 23)
+- [x] 4. pnpm build passes
+- [~] 5. reviewer pass done; fixes in progress: C1 widget coverage (engine), M1–M9 pipeline hardening (pipeline), H2–H4 + test gaps (mechanics); H1 fixed by main
 
 ## P11 — Demo insurance (checkpoint: showcase)
-- [ ] 1. Three showcase games as fixtures (trig, cell transport, history)
-- [ ] 2. Wired to home cards
+- [x] 1. Showcase fixtures: trig-dungeon, cell-transport-dungeon, civil-rights-dungeon, civil-rights-mystery (+ wave2-dungeon proving ground), all built by `pnpm fixtures:build`
+- [x] 2. Wired to home cards (ui-dev polishing)
 - [ ] 3. Regenerate-as-genre on showcase games
 
-## P9 — Wave-2 families (one checkpoint per 1–2 families)
-- [ ] 1. function_world (limit, slope)
-- [ ] 2. balance (equation, chem_equation, ledger)
-- [ ] 3. simulator (intervene, sample, predict)
+## P9 — Wave-2 families (one checkpoint per 1–2 families) — done except the modes listed in MORNING_REPORT §2
+- [x] 1. function_world limit (main) + slope (worker) — checkpoint 11
+- [x] 2. balance (equation, chem_equation, ledger) — checkpoint 11
+- [x] 3. simulator (intervene, sample, predict, reach_state) + 6. accumulator (riemann, area, signed, rate_total, average_value) — checkpoints 20, 28
 - [ ] 4. builder (circuit, molecule) + build widget
-- [ ] 5. transformer (encode, function_machine, trace)
+- [x] 5. transformer: encode + function_machine (checkpoint 12), trace (checkpoint 14) by main
 - [ ] 6. accumulator (riemann, area)
 - [ ] 7. recall (rapid, cloze) + type widget
 
-## P10 — More genres (one checkpoint per genre)
-- [ ] 1. Mystery host
+## P10 — More genres (one checkpoint per genre) — Mystery in progress
+- [x] 1. Mystery host (checkpoint 15; genre enabled; 4 play e2e tests)
 - [ ] 2. Platformer host
 - [ ] 3. Puzzle host
 - [ ] 4. Strategy (stretch)
 
-## P8 — Audio, code only (checkpoint: audio)
-- [ ] scripts/audio-library.ts, src/pipeline/audio/, smoke:elevenlabs, AUDIO_MODE=off no-ops
+## P8 — Audio, code only (checkpoint: audio) — done by main (checkpoint 10)
+- [x] scripts/audio-library.ts, src/pipeline/audio/ (Flash TTS, concurrency 4, hash cache, 25 s deadline, dialogue flag), smoke:elevenlabs, AUDIO_MODE=off no-ops; wired into the orchestrator after the verifier
 
 ## P12 — Final pass (checkpoint: overnight-final)
 - [ ] 1. typecheck, test, e2e, build

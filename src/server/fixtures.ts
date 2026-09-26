@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import type { GameRecord } from "../contracts/storage";
 import type { Intake } from "../contracts/knowledge";
@@ -19,18 +19,45 @@ export function isFixtureId(id: string): boolean {
   return id.startsWith("fixture-");
 }
 
+const FIXTURES_DIR = path.join(process.cwd(), "fixtures");
+
+async function readSpecFile(file: string): Promise<GameSpec | null> {
+  try {
+    const r = validateGameSpec(JSON.parse(await readFile(path.join(FIXTURES_DIR, file), "utf8")));
+    return r.ok ? r.spec : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A fixture spec by its OWN id (e.g. `trig_demo_001`). The play runner's end screen posts telemetry
+ * and links to the debrief under `spec.id`, not under the `/play/fixture-<name>` route id, so the
+ * game routes must recognise both spellings. Ids are validated before touching the filesystem.
+ */
+export async function findFixtureSpecById(id: string): Promise<GameSpec | null> {
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(id)) return null;
+  let files: string[];
+  try {
+    files = (await readdir(FIXTURES_DIR)).filter((f) => f.endsWith(".json"));
+  } catch {
+    return null;
+  }
+  for (const file of files) {
+    const spec = await readSpecFile(file);
+    if (spec?.id === id) return spec;
+  }
+  return null;
+}
+
+/** Loads a fixture GameSpec for either `fixture-<name>` (file name) or a spec's own id; null when neither matches. */
 export async function loadFixtureSpec(id: string): Promise<GameSpec | null> {
-  if (!isFixtureId(id)) return null;
+  if (!isFixtureId(id)) return findFixtureSpecById(id);
   const name = id.slice("fixture-".length);
   if (!/^[a-z0-9-]{1,64}$/.test(name)) return null;
   for (const file of [`${name}.json`, `${name}-dungeon.json`]) {
-    try {
-      const raw = await readFile(path.join(process.cwd(), "fixtures", file), "utf8");
-      const r = validateGameSpec(JSON.parse(raw));
-      if (r.ok) return r.spec;
-    } catch {
-      // try the next name
-    }
+    const spec = await readSpecFile(file);
+    if (spec) return spec;
   }
   return null;
 }
