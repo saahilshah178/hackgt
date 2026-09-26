@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { ProgressEvent } from "@/contracts/progress";
 import { api, titleCase } from "@/components/flow/client-fetch";
+import { ForgeSpot } from "@/components/illustrations";
 
 interface AgentCard {
   agent: string;
@@ -99,30 +100,42 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
   }, [jobId, router]);
 
   const list = useMemo(() => Object.values(cards).sort((a, b) => rank(a.agent) - rank(b.agent) || a.startedAt - b.startedAt), [cards]);
+  const finished = list.filter((c) => c.status === "done").length;
 
   return (
     <div data-testid="forge-board">
-      <h1 className="text-4xl font-bold tracking-tight">Forging your game</h1>
-      <p className="mt-2 text-xl text-muted-foreground">
-        One card per agent. The verifier checks every encounter is winnable and never leaks an answer.
-      </p>
-      <div role="status" aria-live="polite" className="mt-4 min-h-8 text-lg">
-        {done?.error && <span className="text-destructive">Generation failed: {done.error}</span>}
-        {done?.gameId && <span>Done. Opening your game…</span>}
-        {!done && `${list.filter((c) => c.status === "done").length} of ${Math.max(list.length, 1)} agents finished`}
+      <div className="flex flex-col-reverse items-start gap-6 rounded-3xl bg-gradient-to-br from-accent via-card to-card p-6 ring-1 ring-border sm:flex-row sm:items-center sm:p-8">
+        <div className="w-full flex-1">
+          <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Forging your game</h1>
+          <p className="mt-2 text-lg text-muted-foreground">
+            One card per agent. The verifier checks every encounter is winnable and never leaks an answer.
+          </p>
+          <div role="status" aria-live="polite" className="mt-4 min-h-7 text-base font-medium">
+            {done?.error && <span className="text-destructive">Generation failed: {done.error}</span>}
+            {done?.gameId && <span className="text-success">Done. Opening your game…</span>}
+            {!done && `${finished} of ${Math.max(list.length, 1)} agents finished`}
+          </div>
+          <div className="mt-3 h-2.5 w-full max-w-xl overflow-hidden rounded-full bg-secondary" aria-hidden>
+            <div
+              className={`h-full rounded-full transition-[width] duration-500 ${done?.gameId ? "bg-success" : "bg-brand"}`}
+              style={{ width: `${done?.gameId ? 100 : list.length ? Math.round((finished / list.length) * 100) : 4}%` }}
+            />
+          </div>
+        </div>
+        <ForgeSpot className="w-28 shrink-0 sm:w-36" />
       </div>
 
       {done?.gameId && (
         <Link
           href={`/play/${done.gameId}`}
-          className="mt-4 inline-flex h-14 items-center justify-center rounded-md bg-primary px-8 text-xl font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+          className="mt-4 inline-flex h-14 items-center justify-center rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground shadow-md shadow-sky-600/20 transition hover:bg-primary/90"
         >
           Enter the game
         </Link>
       )}
 
       {done?.error && (
-        <div className="mt-4 flex flex-col gap-2 rounded-lg border border-destructive/50 bg-destructive/10 p-4">
+        <div className="mt-4 flex flex-col gap-2 rounded-2xl border border-destructive/30 bg-destructive/5 p-4">
           <p className="text-lg">{done.error}</p>
           {sourceId && (
             <Link href={`/intake/${sourceId}`} className="text-lg font-medium underline underline-offset-4">
@@ -136,14 +149,14 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
         {list.map((c) => {
           const elapsed = ((c.endedAt ?? now) - c.startedAt) / 1000;
           const tone =
-            c.status === "done" ? "border-emerald-500/60" : c.status === "failed" ? "border-destructive" : c.status === "fallback" ? "border-amber-400" : "border-primary/60 animate-pulse";
+            c.status === "done" ? "border-success/50" : c.status === "failed" ? "border-destructive" : c.status === "fallback" ? "border-amber-300" : "border-primary/60 animate-pulse";
           return (
-            <article key={c.agent} className={`flex h-40 flex-col rounded-lg border-2 bg-card p-4 ${tone}`} data-testid="agent-card" data-agent={c.agent} data-status={c.status}>
+            <article key={c.agent} className={`flex h-40 flex-col rounded-2xl border-2 bg-card p-4 ${tone}`} data-testid="agent-card" data-agent={c.agent} data-status={c.status}>
               <div className="flex items-baseline justify-between gap-2">
                 <h2 className="truncate text-xl font-semibold">{label(c.agent)}</h2>
                 <span className="text-base tabular-nums text-muted-foreground">{elapsed.toFixed(1)}s</span>
               </div>
-              <p className={`mt-1 text-lg ${c.status === "fallback" ? "font-semibold text-amber-400" : ""}`}>
+              <p className={`mt-1 text-lg ${c.status === "fallback" ? "font-semibold text-warning" : ""}`}>
                 {c.status === "start" && "working…"}
                 {c.status === "repair" && `repairing (${c.repairs})…`}
                 {c.status === "done" && "done"}
@@ -152,7 +165,7 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
               </p>
               <p
                 className={`mt-auto line-clamp-2 text-base ${
-                  c.status === "fallback" || c.status === "repair" ? "font-medium text-amber-400" : "text-muted-foreground"
+                  c.status === "fallback" || c.status === "repair" ? "font-medium text-warning" : "text-muted-foreground"
                 }`}
                 title={c.note}
               >
@@ -162,7 +175,7 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
           );
         })}
         {list.length === 0 && !done && (
-          <article className="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-border p-4 text-lg text-muted-foreground">
+          <article className="flex h-40 items-center justify-center rounded-2xl border-2 border-dashed border-border p-4 text-lg text-muted-foreground">
             Connecting to the forge…
           </article>
         )}
@@ -170,7 +183,7 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
 
       <div className="mt-10 grid gap-8 md:grid-cols-2">
         <section aria-labelledby="catches-heading">
-          <h2 id="catches-heading" className="text-2xl font-semibold">
+          <h2 id="catches-heading" className="text-2xl font-bold tracking-tight">
             Verifier catches
           </h2>
           <ul className="mt-3 min-h-16 space-y-2 text-lg">
@@ -180,8 +193,8 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
                 key={c.text}
                 className={
                   c.warn
-                    ? "rounded-md border border-amber-400/40 bg-amber-500/10 px-3 py-2 font-medium text-amber-300"
-                    : "rounded-md bg-secondary px-3 py-2"
+                    ? "rounded-xl border border-amber-200 bg-warning-soft px-3 py-2 font-medium text-warning"
+                    : "rounded-xl bg-secondary px-3 py-2"
                 }
               >
                 {c.text}
@@ -190,13 +203,13 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
           </ul>
         </section>
         <section aria-labelledby="wishlist-heading">
-          <h2 id="wishlist-heading" className="text-2xl font-semibold">
+          <h2 id="wishlist-heading" className="text-2xl font-bold tracking-tight">
             Wishlist: great mechanics whose family isn&apos;t built yet
           </h2>
           <ul className="mt-3 min-h-16 space-y-2 text-lg">
             {wishlist.length === 0 && <li className="text-muted-foreground">No wishlist for this material.</li>}
             {wishlist.map((w) => (
-              <li key={`${w.conceptId}:${w.teachingMechanicId}`} className="rounded-md bg-secondary px-3 py-2">
+              <li key={`${w.conceptId}:${w.teachingMechanicId}`} className="rounded-xl bg-secondary px-3 py-2">
                 {titleCase(w.teachingMechanicId)} <span className="text-muted-foreground">for {w.conceptId}</span>
               </li>
             ))}

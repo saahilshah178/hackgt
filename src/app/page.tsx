@@ -1,191 +1,215 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 import Link from "next/link";
+import { ArrowRight, BarChart3, Clock, FileUp, Gamepad2, Layers, ListChecks, Play, SlidersHorizontal, Sparkles, Wand2 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { UploadPanel } from "@/components/upload-panel";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Genre } from "@/contracts/common";
-import { GENRE_INFO } from "@/library/genres";
+import { CourseProgress } from "@/components/course-progress";
+import { HeroIllustration, LibrarySpot, SubjectArt } from "@/components/illustrations";
 import { APP_TAGLINE } from "@/config";
+import { CARDS } from "@/library";
+import { loadCourses, type Course } from "@/server/courses";
 
-/** Demo insurance (MEGAPROMPT P11): showcase games that play from fixtures with zero keys. */
-interface Showcase {
-  title: string;
-  href: string;
-  blurb: string;
-  concepts: string;
-  conceptCount: number;
-  genre: string;
-}
-
-const SHOWCASE_META: { fixture: string; href: string; blurb: string }[] = [
-  {
-    fixture: "trig-dungeon",
-    href: "/play/fixture-trig",
-    blurb: "Dial a vault door's period, expose the amplitude mimic, lay the planks that solve 2sin(x) = 1.",
-  },
-  {
-    fixture: "cell-transport-dungeon",
-    href: "/play/fixture-cell-transport",
-    blurb: "Route molecules through the membrane, predict which way water moves, pump ions against the gradient.",
-  },
-  {
-    fixture: "civil-rights-mystery",
-    href: "/play/fixture-civil-rights-mystery",
-    blurb: "Chain causes to consequences, sort primary from secondary sources, eliminate hypotheses on the corkboard.",
-  },
-];
-
-const WAVE2 = {
-  fixture: "wave2-dungeon",
-  href: "/play/fixture-wave2",
-  blurb: "The proving ground for wave-2 mechanic families as they land tonight.",
-};
-
-const PLATFORMER = {
-  fixture: "trig-platformer",
-  href: "/play/fixture-trig-platformer",
-  blurb: "The same trig material as a side-scroller: bridge the gaps, open the gates, start the moving platform.",
-};
-
-/** Reads a shipped fixture GameSpec for its title, genre and concept count instead of hand-copying them here. */
-async function readFixtureMeta(fixture: string): Promise<{ title: string; genre: string; conceptCount: number } | null> {
-  try {
-    const raw = await readFile(path.join(process.cwd(), "fixtures", `${fixture}.json`), "utf8");
-    const spec = JSON.parse(raw) as { title: string; genre: Genre; concepts: { id: string }[] };
-    return { title: spec.title, genre: GENRE_INFO[spec.genre]?.name ?? spec.genre, conceptCount: spec.concepts.length };
-  } catch {
-    return null;
-  }
-}
-
-const HOW_IT_WORKS: { step: string; detail: string }[] = [
-  { step: "Upload", detail: "a PDF chapter, pasted notes, or just a topic name" },
-  { step: "Intake", detail: "confidence per unit, goal, length, genre, a 3-question check" },
-  { step: "Forge", detail: "agents build a validated GameSpec, live on screen, ~60–90 s" },
-  { step: "Play", detail: "the concept is the ruleset, not trivia between jumps" },
-  { step: "Debrief", detail: "pre → post score, mastery per concept, what you just did" },
+const HOW_IT_WORKS = [
+  { step: "Upload", detail: "A PDF chapter, pasted notes, or just a topic name.", icon: FileUp },
+  { step: "Intake", detail: "Rate your confidence, pick a goal and length, answer a 3-question check.", icon: SlidersHorizontal },
+  { step: "Forge", detail: "We build and verify your game live on screen in about a minute.", icon: Wand2 },
+  { step: "Play", detail: "The concept is the ruleset, not trivia between jumps.", icon: Gamepad2 },
+  { step: "Debrief", detail: "See your before → after score and mastery for every concept.", icon: BarChart3 },
 ];
 
 export default async function Home() {
-  const metas = await Promise.all(SHOWCASE_META.map((s) => readFixtureMeta(s.fixture)));
-  const showcase: (Showcase & { subject: string })[] = SHOWCASE_META.map((s, i) => {
-    const m = metas[i];
-    return {
-      title: subjectFor(s.fixture),
-      subject: m?.title ?? subjectFor(s.fixture),
-      href: s.href,
-      blurb: s.blurb,
-      concepts: "",
-      conceptCount: m?.conceptCount ?? 0,
-      genre: m?.genre ?? "",
-    };
-  });
-  const wave2Meta = await readFixtureMeta(WAVE2.fixture);
-  const platformerMeta = await readFixtureMeta(PLATFORMER.fixture);
+  const courses = await loadCourses();
 
   return (
     <AppShell>
-      <section className="mb-12">
-        <h1 className="text-5xl font-bold leading-tight tracking-tight">{APP_TAGLINE}</h1>
-        <p className="mt-4 max-w-3xl text-xl text-muted-foreground">
-          Upload a chapter, paste notes, or name a topic. Tell us what you&apos;re shaky on. In about a minute you get a
-          game where the concept <em>is</em> the rules: you tune the gate&apos;s period to open the door, you don&apos;t answer
-          trivia between jumps.
-        </p>
+      <section className="grid items-center gap-10 pb-6 md:grid-cols-[1.1fr_1fr] lg:gap-16">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3.5 py-1.5 text-sm font-semibold text-accent-foreground">
+            <Sparkles className="size-4" aria-hidden />
+            Learn by playing
+          </span>
+          <h1 className="mt-5 text-4xl leading-[1.1] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">{APP_TAGLINE}</h1>
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            Upload a chapter, paste notes, or name a topic. Tell us what you&apos;re shaky on. In about a minute you get a
+            game where the concept <em>is</em> the rules: you tune the gate&apos;s period to open the door, you don&apos;t
+            answer trivia between jumps.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="#start"
+              className="inline-flex h-12 items-center gap-2 rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground shadow-md shadow-sky-600/20 transition hover:-translate-y-0.5 hover:bg-primary/90"
+            >
+              Start a new lesson
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+            <Link
+              href="#examples"
+              className="inline-flex h-12 items-center rounded-full border border-border bg-card px-6 text-base font-semibold transition hover:border-brand hover:bg-accent"
+            >
+              See example games
+            </Link>
+          </div>
+          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
+            {[
+              [String(courses.length), "example games"],
+              ["~1 min", "to build a game"],
+              ["3 + 3", "check questions"],
+            ].map(([value, label]) => (
+              <div key={label}>
+                <dt className="sr-only">{label}</dt>
+                <dd className="text-2xl font-extrabold text-foreground">{value}</dd>
+                <dd className="text-sm text-muted-foreground">{label}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <HeroIllustration className="mx-auto w-full max-w-md md:max-w-none" />
       </section>
 
-      <UploadPanel />
+      <section id="start" className="mt-16 scroll-mt-24" aria-labelledby="start-heading">
+        <div className="grid gap-8 rounded-3xl bg-gradient-to-br from-accent via-card to-card p-6 ring-1 ring-border sm:p-10 lg:grid-cols-[1fr_1.4fr] lg:gap-12">
+          <div>
+            <p className="text-sm font-semibold tracking-wide text-primary uppercase">Make your own</p>
+            <h2 id="start-heading" className="mt-1 text-3xl font-bold tracking-tight">
+              Start a new lesson
+            </h2>
+            <p className="mt-3 text-lg leading-relaxed text-muted-foreground">
+              Bring your own material. We&apos;ll map the concepts, ask what you already know, and build a game around the
+              parts you&apos;re least sure of.
+            </p>
+            <ul className="mt-6 flex flex-col gap-3 text-base">
+              {["Works with a chapter PDF up to 40 pages", "Or paste notes, or just name a topic", "Every game is checked to be winnable"].map((t) => (
+                <li key={t} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-soft text-accent-foreground">
+                    <ListChecks className="size-3.5" aria-hidden />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <UploadPanel />
+        </div>
+      </section>
 
-      <section className="mt-16" aria-labelledby="how-heading">
-        <h2 id="how-heading" className="text-2xl font-semibold">
+      <section id="examples" className="mt-20 scroll-mt-24" aria-labelledby="showcase-heading">
+        <p className="text-sm font-semibold tracking-wide text-primary uppercase">Examples</p>
+        <h2 id="showcase-heading" className="mt-1 text-3xl font-bold tracking-tight">
+          Showcase games
+        </h2>
+        <p className="mt-2 max-w-3xl text-lg text-muted-foreground">
+          Games our AI generated from real study material. Play one to see what yours could look like.
+        </p>
+        <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {courses.map((c) => (
+            <li key={c.routeId}>
+              <CourseCard course={c} />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="how" className="mt-20 scroll-mt-24" aria-labelledby="how-heading">
+        <p className="text-sm font-semibold tracking-wide text-primary uppercase">The path</p>
+        <h2 id="how-heading" className="mt-1 text-3xl font-bold tracking-tight">
           How it works
         </h2>
-        <ol className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {HOW_IT_WORKS.map((s, i) => (
-            <li key={s.step} className="rounded-lg border border-border/60 bg-card p-4">
-              <div className="text-base text-muted-foreground">Step {i + 1}</div>
-              <div className="text-xl font-semibold">{s.step}</div>
-              <p className="mt-1 text-base text-muted-foreground">{s.detail}</p>
+            <li key={s.step} className="relative rounded-2xl border border-border bg-card p-5">
+              <div className="flex items-center justify-between">
+                <span className="flex size-11 items-center justify-center rounded-xl bg-brand-soft text-accent-foreground">
+                  <s.icon className="size-5" aria-hidden />
+                </span>
+                <span className="text-sm font-semibold text-muted-foreground">Step {i + 1}</span>
+              </div>
+              <h3 className="mt-4 text-lg font-bold">{s.step}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.detail}</p>
             </li>
           ))}
         </ol>
-        <p className="mt-4 max-w-3xl text-lg">
-          The core claim: <strong>the concept becomes the rules of the game.</strong> Games are data (a validated
-          GameSpec), rendered and graded by hand-built genre hosts and mechanic families &mdash; never generated code.
+        <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground">
+          <strong className="text-foreground">The concept becomes the rules of the game.</strong> Games are data (a
+          validated GameSpec), rendered and graded by hand-built genre hosts and mechanic families, never generated code.
         </p>
       </section>
 
-      <section className="mt-16" aria-labelledby="showcase-heading">
-        <h2 id="showcase-heading" className="text-3xl font-semibold">
-          Showcase games
-        </h2>
-        <p className="mt-2 text-lg text-muted-foreground">Pre-generated and playable right now, no keys needed.</p>
-        <div className="mt-6 grid gap-6 md:grid-cols-3">
-          {showcase.map((g) => (
-            <Card key={g.href} className="flex flex-col">
-              <CardHeader>
-                <CardTitle className="text-2xl">{g.title}</CardTitle>
-                <CardDescription className="text-base">
-                  {g.subject} · {g.genre}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-1 flex-col gap-4">
-                <p className="text-lg">{g.blurb}</p>
-                <p className="text-sm text-muted-foreground">{g.conceptCount} concept{g.conceptCount === 1 ? "" : "s"}</p>
-                <Link
-                  href={g.href}
-                  className="mt-auto inline-flex h-12 items-center justify-center rounded-md bg-primary px-6 text-lg font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
-                >
-                  Play
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-        <Card className="max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-xl">Trigonometry as a Platformer</CardTitle>
-            <CardDescription className="text-base">{platformerMeta?.genre ?? "Platformer"}</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-3">
-            <p className="text-base">{PLATFORMER.blurb}</p>
-            <p className="text-sm text-muted-foreground">{platformerMeta?.conceptCount ?? 0} concepts</p>
-            <Link
-              href={PLATFORMER.href}
-              className="inline-flex h-10 items-center justify-center rounded-md bg-secondary px-5 text-base font-semibold hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
-            >
-              Play
-            </Link>
-          </CardContent>
-        </Card>
-        <Card className="max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-xl">Wave-2 proving ground</CardTitle>
-            <CardDescription className="text-base">{wave2Meta?.genre ?? "Dungeon"}</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-3">
-            <p className="text-base">{WAVE2.blurb}</p>
-            <p className="text-sm text-muted-foreground">{wave2Meta?.conceptCount ?? 0} concepts</p>
-            <Link
-              href={WAVE2.href}
-              className="inline-flex h-10 items-center justify-center rounded-md bg-secondary px-5 text-base font-semibold hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
-            >
-              Play
-            </Link>
-          </CardContent>
-        </Card>
+      <section className="mt-20" aria-labelledby="library-cta-heading">
+        <div className="flex flex-col items-center gap-6 rounded-3xl bg-secondary/70 p-8 text-center sm:flex-row sm:p-10 sm:text-left">
+          <LibrarySpot className="w-32 shrink-0 sm:w-40" />
+          <div className="flex-1">
+            <h2 id="library-cta-heading" className="text-2xl font-bold tracking-tight">
+              Explore the teaching-mechanic library
+            </h2>
+            <p className="mt-2 text-base text-muted-foreground">
+              {CARDS.length} concept-specific exercise designs across math, science, and the humanities. Filter by subject
+              and see what&apos;s playable today.
+            </p>
+          </div>
+          <Link
+            href="/library"
+            className="inline-flex h-12 shrink-0 items-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground transition hover:bg-primary/90"
+          >
+            Open the library
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
         </div>
       </section>
     </AppShell>
   );
 }
 
-function subjectFor(fixture: string): string {
-  if (fixture.startsWith("trig")) return "Trigonometry";
-  if (fixture.startsWith("cell")) return "Cell transport";
-  if (fixture.startsWith("civil-rights")) return "Civil rights history";
-  return fixture;
+function CourseCard({ course: c }: { course: Course }) {
+  return (
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:border-brand hover:shadow-xl hover:shadow-sky-900/5">
+      <div className="relative aspect-[16/9] overflow-hidden">
+        <SubjectArt subject={c.subject} className="size-full transition-transform duration-500 group-hover:scale-105" />
+        <span className="absolute top-3 left-3 rounded-full bg-card/90 px-3 py-1 text-xs font-semibold shadow-sm backdrop-blur">{c.subjectLabel}</span>
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-xs font-semibold text-accent-foreground shadow-sm backdrop-blur">
+          <Sparkles className="size-3.5" aria-hidden />
+          AI-generated
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col gap-4 p-5">
+        <div>
+          {c.genre && <p className="text-sm font-medium text-primary">{c.genre}</p>}
+          <h3 className="mt-1 text-xl leading-snug font-bold">{c.title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+        </div>
+        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+          <li className="inline-flex items-center gap-1.5">
+            <Layers className="size-4" aria-hidden />
+            {c.conceptCount} concept{c.conceptCount === 1 ? "" : "s"}
+          </li>
+          <li className="inline-flex items-center gap-1.5">
+            <ListChecks className="size-4" aria-hidden />
+            {c.exerciseCount} exercises
+          </li>
+          {c.minutes > 0 && (
+            <li className="inline-flex items-center gap-1.5">
+              <Clock className="size-4" aria-hidden />
+              {c.minutes} min
+            </li>
+          )}
+        </ul>
+        <div className="mt-auto flex flex-col gap-4">
+          <CourseProgress specId={c.specId} exerciseCount={c.exerciseCount} title={c.title} />
+          <div className="flex gap-2">
+            <Link
+              href={`/play/${c.routeId}`}
+              className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-primary px-5 font-semibold text-primary-foreground transition hover:bg-primary/90"
+            >
+              <Play className="size-4 fill-current" aria-hidden />
+              Play
+            </Link>
+            <Link
+              href={`/learn/${c.routeId}`}
+              className="inline-flex h-11 items-center justify-center rounded-full border border-border px-5 font-semibold transition hover:border-brand hover:bg-accent"
+            >
+              Overview
+            </Link>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
 }

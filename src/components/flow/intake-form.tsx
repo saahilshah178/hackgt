@@ -94,7 +94,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           <p className="mt-6 text-2xl">Reading your material and mapping the concepts…</p>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {[0, 1].map((i) => (
-              <div key={i} className="h-56 rounded-lg border border-border/60 bg-card p-5">
+              <div key={i} className="h-56 rounded-2xl border border-border bg-card p-5">
                 <div className="h-7 w-48 rounded bg-secondary" />
                 <div className="mt-4 h-4 w-full rounded bg-secondary" />
                 <div className="mt-2 h-4 w-5/6 rounded bg-secondary" />
@@ -105,12 +105,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         </div>
         <div className="grid animate-pulse gap-8 md:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-40 rounded-lg border border-border/60 bg-card" />
+            <div key={i} className="h-40 rounded-2xl border border-border bg-card" />
           ))}
         </div>
         <div className="grid animate-pulse gap-4 md:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-32 rounded-lg border border-border/60 bg-card" />
+            <div key={i} className="h-32 rounded-2xl border border-border bg-card" />
           ))}
         </div>
       </div>
@@ -148,11 +148,11 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           {data.source.title} · {data.source.pageCount} page{data.source.pageCount === 1 ? "" : "s"} · {km.subject.domain} / {km.subject.topic}
           {km.unsourced && " · unsourced (built from general knowledge)"}
         </p>
-        <h1 id="found-heading" className="mt-1 text-4xl font-bold tracking-tight">
+        <h1 id="found-heading" className="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl">
           Here&apos;s what I found
         </h1>
         {data.gatekeeper.tooBig && data.gatekeeper.outline.length > 0 && (
-          <fieldset className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4">
+          <fieldset className="mt-6 rounded-2xl border border-amber-200 bg-warning-soft p-4">
             <legend className="px-2 text-lg font-semibold">This is more than one game&apos;s worth. Pick the sections to play:</legend>
             <div className="grid gap-2 md:grid-cols-2">
               {data.gatekeeper.outline.map((o) => (
@@ -176,9 +176,9 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         )}
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           {km.units.map((u) => (
-            <div key={u.id} className="rounded-lg border border-border/60 bg-card p-5">
+            <div key={u.id} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h2 className="text-2xl font-semibold">{u.name}</h2>
+                <h2 className="text-2xl font-bold tracking-tight">{u.name}</h2>
                 {unitPageRange(km, u.conceptIds) && <span className="text-base text-muted-foreground">{unitPageRange(km, u.conceptIds)}</span>}
               </div>
               <ul className="mt-3 space-y-2">
@@ -190,8 +190,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                     <li key={cid} className="text-lg">
                       <span className="font-medium">{c.name}</span>
                       {range && <span className="text-muted-foreground"> · {range}</span>}
-                      <span className="ml-2 rounded bg-secondary px-2 py-0.5 text-sm">{c.knowledgeType}</span>
-                      {c.importance === "core" && <span className="ml-2 rounded bg-primary/20 px-2 py-0.5 text-sm">core</span>}
+                      <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-xs font-medium">{c.knowledgeType}</span>
+                      {c.importance === "core" && <span className="ml-2 rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-accent-foreground">core</span>}
                     </li>
                   );
                 })}
@@ -229,10 +229,10 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           Game setup
         </h2>
         <fieldset>
-          <legend className="text-2xl font-semibold">Goal</legend>
+          <legend className="text-2xl font-bold tracking-tight">Goal</legend>
           <div className="mt-3 flex flex-col gap-2">
             {GOALS.map((g) => (
-              <label key={g.id} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${goal === g.id ? "border-primary bg-primary/10" : "border-border"}`}>
+              <label key={g.id} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-lg ${goal === g.id ? "border-primary bg-primary/10" : "border-border"}`}>
                 <input type="radio" name="goal" value={g.id} checked={goal === g.id} onChange={() => setGoal(g.id)} className="h-5 w-5" />
                 <span>
                   {g.label} <span className="text-muted-foreground">· {g.hint}</span>
@@ -242,10 +242,10 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           </div>
         </fieldset>
         <fieldset>
-          <legend className="text-2xl font-semibold">Length</legend>
+          <legend className="text-2xl font-bold tracking-tight">Length</legend>
           <div className="mt-3 flex flex-col gap-2">
             {MINUTES.map((m) => (
-              <label key={m} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}>
+              <label key={m} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}>
                 <input type="radio" name="minutes" value={m} checked={minutes === m} onChange={() => setMinutes(m)} className="h-5 w-5" />
                 {m} minutes
               </label>
@@ -253,14 +253,14 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           </div>
         </fieldset>
         <fieldset>
-          <legend className="text-2xl font-semibold">Genre</legend>
+          <legend className="text-2xl font-bold tracking-tight">Genre</legend>
           <div className="mt-3 flex flex-col gap-2">
-            <label className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${genre === "auto" ? "border-primary bg-primary/10" : "border-border"}`}>
+            <label className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-lg ${genre === "auto" ? "border-primary bg-primary/10" : "border-border"}`}>
               <input type="radio" name="genre" value="auto" checked={genre === "auto"} onChange={() => setGenre("auto")} className="h-5 w-5" />
               Pick for me
             </label>
             {GENRES.map((g) => (
-              <label key={g} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${genre === g ? "border-primary bg-primary/10" : "border-border"}`}>
+              <label key={g} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-lg ${genre === g ? "border-primary bg-primary/10" : "border-border"}`}>
                 <input type="radio" name="genre" value={g} checked={genre === g} onChange={() => setGenre(g)} className="h-5 w-5" />
                 {GENRE_LABEL[g]}
                 {!HOSTS_BUILT.includes(g) && <span className="text-sm text-muted-foreground">(host coming; falls back)</span>}
@@ -271,16 +271,16 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
       </section>
 
       <section aria-labelledby="precheck-heading">
-        <h2 id="precheck-heading" className="text-2xl font-semibold">
+        <h2 id="precheck-heading" className="text-2xl font-bold tracking-tight">
           Quick check: three questions before you play
         </h2>
         <div className="mt-4 grid gap-4 md:grid-cols-3">
           {data.preCheck.map((q, i) => (
-            <fieldset key={i} className="rounded-lg border border-border/60 bg-card p-4" data-testid={`precheck-${i}`}>
+            <fieldset key={i} className="rounded-2xl border border-border bg-card p-4" data-testid={`precheck-${i}`}>
               <legend className="px-1 text-lg font-medium">{q.prompt}</legend>
               <div className="mt-2 flex flex-col gap-2">
                 {q.choices.map((choice, ci) => (
-                  <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-md border p-2 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
+                  <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-2.5 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
                     <input
                       type="radio"
                       name={`pre-${i}`}
@@ -296,7 +296,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                     {choice}
                   </label>
                 ))}
-                <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-2 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
+                <label className={`flex cursor-pointer items-center gap-3 rounded-xl border border-dashed p-2.5 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
                   <input
                     type="radio"
                     name={`pre-${i}`}
@@ -319,7 +319,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
       </section>
 
       <div className="flex items-center gap-4">
-        <Button size="lg" className="h-14 px-8 text-xl" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
+        <Button size="lg" className="h-12 rounded-full px-8 text-base font-semibold" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
           {busy ? "Starting the forge…" : "Forge my game"}
         </Button>
         {!ready && <span className="text-lg text-muted-foreground">Answer the three questions to continue.</span>}

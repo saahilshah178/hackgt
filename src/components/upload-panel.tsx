@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
+import { ClipboardType, FileUp, Lightbulb, UploadCloud } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Tab = "pdf" | "text" | "topic";
@@ -48,18 +49,18 @@ export function UploadPanel() {
     void submit({ method: "POST", body: form });
   };
 
-  const tabs: { id: Tab; label: string }[] = [
-    { id: "pdf", label: "Upload a PDF" },
-    { id: "text", label: "Paste text" },
-    { id: "topic", label: "Type a topic" },
+  const tabs: { id: Tab; label: string; icon: typeof FileUp }[] = [
+    { id: "pdf", label: "Upload a PDF", icon: FileUp },
+    { id: "text", label: "Paste text", icon: ClipboardType },
+    { id: "topic", label: "Type a topic", icon: Lightbulb },
   ];
 
   return (
-    <section aria-labelledby="upload-heading" className="rounded-xl border border-border/60 bg-card p-6">
+    <section aria-labelledby="upload-heading" className="rounded-3xl border border-border bg-card p-5 shadow-sm sm:p-6">
       <h2 id="upload-heading" className="sr-only">
         Start a new game
       </h2>
-      <div role="tablist" aria-label="Source type" className="mb-6 flex flex-wrap gap-2">
+      <div role="tablist" aria-label="Source type" className="mb-6 grid grid-cols-3 gap-1 rounded-full bg-secondary p-1">
         {tabs.map((t) => (
           <button
             key={t.id}
@@ -67,10 +68,11 @@ export function UploadPanel() {
             type="button"
             aria-selected={tab === t.id}
             onClick={() => setTab(t.id)}
-            className={`h-12 rounded-md px-5 text-lg font-medium focus-visible:outline-2 focus-visible:outline-ring ${
-              tab === t.id ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground hover:opacity-90"
+            className={`inline-flex h-10 items-center justify-center gap-2 rounded-full px-2 text-sm font-semibold transition sm:text-base ${
+              tab === t.id ? "bg-card text-accent-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
             }`}
           >
+            <t.icon className="hidden size-4 sm:block" aria-hidden />
             {t.label}
           </button>
         ))}
@@ -99,12 +101,17 @@ export function UploadPanel() {
             setDragging(false);
             sendFile(e.dataTransfer.files[0]);
           }}
-          className={`flex min-h-48 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 text-center text-xl transition-colors focus-visible:outline-2 focus-visible:outline-ring ${
-            dragging ? "border-primary bg-primary/10" : "border-border"
+          className={`flex min-h-56 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-8 text-center transition-colors ${
+            dragging ? "border-brand bg-accent" : "border-input hover:border-brand hover:bg-accent/50"
           }`}
         >
-          <p className="font-semibold">Drop a chapter PDF here</p>
-          <p className="mt-2 text-lg text-muted-foreground">up to 40 pages · or click to choose a file</p>
+          <span className="flex size-14 items-center justify-center rounded-2xl bg-brand-soft text-accent-foreground">
+            <UploadCloud className="size-7" aria-hidden />
+          </span>
+          <p className="mt-4 text-lg font-semibold">Drop a chapter PDF here</p>
+          <p className="mt-1 text-base text-muted-foreground">
+            up to 40 pages · or <span className="font-semibold text-primary underline-offset-4 hover:underline">choose a file</span>
+          </p>
           <input
             ref={fileInput}
             type="file"
@@ -125,7 +132,7 @@ export function UploadPanel() {
           }}
           className="flex flex-col gap-4"
         >
-          <label htmlFor="paste-text" className="text-lg font-medium">
+          <label htmlFor="paste-text" className="text-base font-semibold">
             Paste your notes
           </label>
           <textarea
@@ -133,10 +140,10 @@ export function UploadPanel() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={8}
-            className="w-full rounded-md border border-input bg-background p-4 text-lg focus-visible:outline-2 focus-visible:outline-ring"
+            className="w-full rounded-2xl border border-input bg-card p-4 text-base leading-relaxed focus:border-ring focus:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
             placeholder="Paste a chapter, lecture notes, or a study guide…"
           />
-          <Button type="submit" size="lg" disabled={busy} className="h-12 self-start text-lg">
+          <Button type="submit" size="lg" disabled={busy} className="h-11 self-start rounded-full px-6 text-base font-semibold">
             {busy ? "Reading…" : "Continue"}
           </Button>
         </form>
@@ -151,29 +158,29 @@ export function UploadPanel() {
           }}
           className="flex flex-col gap-4"
         >
-          <label htmlFor="topic-text" className="text-lg font-medium">
+          <label htmlFor="topic-text" className="text-base font-semibold">
             Topic (built from general knowledge; the game is labeled &ldquo;unsourced&rdquo;)
           </label>
           <input
             id="topic-text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            className="h-14 w-full rounded-md border border-input bg-background px-4 text-xl focus-visible:outline-2 focus-visible:outline-ring"
+            className="h-12 w-full rounded-full border border-input bg-card px-5 text-base focus:border-ring focus:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
             placeholder="e.g. Limits and continuity"
           />
-          <Button type="submit" size="lg" disabled={busy} className="h-12 self-start text-lg">
+          <Button type="submit" size="lg" disabled={busy} className="h-11 self-start rounded-full px-6 text-base font-semibold">
             {busy ? "Thinking…" : "Continue"}
           </Button>
         </form>
       )}
 
       {busy && tab === "pdf" && (
-        <p role="status" className="mt-4 text-lg">
+        <p role="status" className="mt-4 text-base font-medium text-accent-foreground">
           Reading your PDF…
         </p>
       )}
       {error && (
-        <p role="alert" className="mt-4 text-lg text-destructive">
+        <p role="alert" className="mt-4 rounded-xl bg-destructive/10 px-4 py-2 text-base text-destructive">
           {error}
         </p>
       )}
