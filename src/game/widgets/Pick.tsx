@@ -441,11 +441,11 @@ function WavesPick({ view, onSubmit, disabled }: { view: PickWavesView; onSubmit
 
   useEffect(() => {
     if (disabled) return;
-    if (secondsLeft <= 0) {
-      advance(null);
-      return;
-    }
-    const t = setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
+    // The timer callback (not the effect body) decides: tick down, or time out this wave when the last second ends.
+    const t = setTimeout(() => {
+      if (secondsLeft <= 1) advance(null);
+      else setSecondsLeft((s) => s - 1);
+    }, 1000);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [secondsLeft, waveIndex, disabled]);

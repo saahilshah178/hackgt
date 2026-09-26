@@ -586,7 +586,7 @@ function GeneticsBuild({ view, onSubmit, disabled }: { view: GeneticsView; onSub
         </table>
       ) : (
         <label className="flex flex-col gap-1">
-          <span style={{ fontSize: 16 }}>Fraction with {view.dominantPhenotype} (e.g. "3/4")</span>
+          <span style={{ fontSize: 16 }}>Fraction with {view.dominantPhenotype} (e.g. &quot;3/4&quot;)</span>
           <input
             value={fraction}
             disabled={disabled}

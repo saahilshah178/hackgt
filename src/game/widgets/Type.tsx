@@ -135,11 +135,11 @@ function RapidType({ view, onSubmit, disabled }: { view: RapidView; onSubmit: (i
 
   useEffect(() => {
     if (disabled || done) return;
-    if (secondsLeft <= 0) {
-      advance(text.trim() || null);
-      return;
-    }
-    const t = setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
+    // The timer callback (not the effect body) decides: tick down, or submit what was typed when the last second ends.
+    const t = setTimeout(() => {
+      if (secondsLeft <= 1) advance(text.trim() || null);
+      else setSecondsLeft((s) => s - 1);
+    }, 1000);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [secondsLeft, pos, disabled, done]);

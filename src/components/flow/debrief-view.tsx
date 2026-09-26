@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
 import { GENRES, type Genre } from "@/contracts/common";
 import type { GameSpec } from "@/contracts/gamespec";
@@ -20,25 +20,39 @@ interface Props {
 const score = (items: GameSpec["assessment"]["pre"], answers: readonly number[]) =>
   items.reduce((n, q, i) => n + (answers[i] === q.correctIndex ? 1 : 0), 0);
 
+const subscribeNoop = () => () => {};
+
+function readStash(gameId: string): string | null {
+  try {
+    return sessionStorage.getItem(`qf:telemetry:${gameId}`);
+  } catch {
+    return null;
+  }
+}
+
 export function DebriefView({ spec, serverTelemetry, insights, skipServerPostcheck = false }: Props) {
   const router = useRouter();
-  const [telemetry, setTelemetry] = useState<TelemetryEvent[]>(serverTelemetry);
+  // The end screen also stashes telemetry in sessionStorage (fixtures have no server record). Read it as an
+  // external store so the server render (no telemetry) and the client render (stash) stay consistent.
+  const stashed = useSyncExternalStore(
+    subscribeNoop,
+    () => readStash(spec.id),
+    () => null,
+  );
+  const telemetry = useMemo<TelemetryEvent[]>(() => {
+    if (serverTelemetry.length > 0) return serverTelemetry;
+    if (!stashed) return [];
+    try {
+      return JSON.parse(stashed) as TelemetryEvent[];
+    } catch {
+      return [];
+    }
+  }, [serverTelemetry, stashed]);
   const [answers, setAnswers] = useState<(number | undefined)[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [genre, setGenre] = useState<Genre | "auto">("auto");
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  // The end screen also stashes telemetry in sessionStorage (fixtures have no server record).
-  useEffect(() => {
-    if (telemetry.length > 0) return;
-    try {
-      const raw = sessionStorage.getItem(`qf:telemetry:${spec.id}`);
-      if (raw) setTelemetry(JSON.parse(raw) as TelemetryEvent[]);
-    } catch {
-      /* ignore */
-    }
-  }, [spec.id, telemetry.length]);
 
   const mastery = useMemo(() => {
     let s = emptyMastery(

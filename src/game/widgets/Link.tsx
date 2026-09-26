@@ -346,7 +346,7 @@ function NetworkLink({ view, onSubmit, disabled }: { view: LinkNetworkView; onSu
   return (
     <div className="flex flex-col gap-4">
       <p className="text-lg" style={{ fontSize: 18 }}>
-        Draw every pair where "{view.relation}" holds{view.directed ? " (order matters: pick the source first)" : ""}.
+        Draw every pair where &quot;{view.relation}&quot; holds{view.directed ? " (order matters: pick the source first)" : ""}.
       </p>
       <div className="flex flex-wrap gap-2" role="listbox" aria-label="Nodes">
         {view.nodes.map((n) => (
@@ -475,13 +475,21 @@ function PairsLink({ view, onSubmit, disabled }: { view: LinkPairsView; onSubmit
   const lineKeys = Object.entries(links).map(([l, r]) => `${l}|${r}`);
   const lines = useConnectors(containerRef, lineKeys);
 
-  useEffect(() => {
-    if (selectedLeft && selectedRight) {
-      setLinks((l) => ({ ...l, [selectedLeft]: selectedRight }));
+  // Selecting the second side of a pair completes the link right in the handler (no state sync in an effect).
+  const pickLeft = (key: string) => {
+    if (selectedRight) {
+      setLinks((l) => ({ ...l, [key]: selectedRight }));
       setSelectedLeft(null);
       setSelectedRight(null);
-    }
-  }, [selectedLeft, selectedRight]);
+    } else setSelectedLeft(key);
+  };
+  const pickRight = (key: string) => {
+    if (selectedLeft) {
+      setLinks((l) => ({ ...l, [selectedLeft]: key }));
+      setSelectedLeft(null);
+      setSelectedRight(null);
+    } else setSelectedRight(key);
+  };
 
   const allLinked = view.lefts.every((l) => links[l.key]);
 
@@ -504,8 +512,8 @@ function PairsLink({ view, onSubmit, disabled }: { view: LinkPairsView; onSubmit
               role="option"
               aria-selected={selectedLeft === l.key}
               disabled={disabled || Boolean(links[l.key])}
-              onClick={() => setSelectedLeft(l.key)}
-              onKeyDown={(e) => e.key === "Enter" && setSelectedLeft(l.key)}
+              onClick={() => pickLeft(l.key)}
+              onKeyDown={(e) => e.key === "Enter" && pickLeft(l.key)}
               className="rounded-lg border-2 px-3 py-2 text-left"
               style={{
                 fontSize: 16,
@@ -530,8 +538,8 @@ function PairsLink({ view, onSubmit, disabled }: { view: LinkPairsView; onSubmit
               role="option"
               aria-selected={selectedRight === r.key}
               disabled={disabled || usedRights.has(r.key)}
-              onClick={() => setSelectedRight(r.key)}
-              onKeyDown={(e) => e.key === "Enter" && setSelectedRight(r.key)}
+              onClick={() => pickRight(r.key)}
+              onKeyDown={(e) => e.key === "Enter" && pickRight(r.key)}
               className="rounded-lg border-2 px-3 py-2 text-left"
               style={{
                 fontSize: 16,
