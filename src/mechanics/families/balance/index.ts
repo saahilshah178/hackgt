@@ -1,5 +1,8 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { chem_equation } from "./chem_equation";
+import { equation } from "./equation";
+import { ledger } from "./ledger";
 
 const s = (id: string, name: string, blurb: string, blind = false) =>
   stubMode({ id, name, widget: "build", knowledgeTypes: ["quantitative", "system"], blindSolvable: blind, directorBlurb: blurb });
@@ -17,9 +20,9 @@ export const balance = defineFamily({
     strategy: { sockets: ["ledger"], skin: "Balance budgets and flows" },
   },
   modes: {
-    equation: s("equation", "Equation", "Apply operations to both sides until x is alone; success verified by substitution."),
-    chem_equation: s("chem_equation", "Chemical equation", "Set integer coefficients so every atom balances."),
-    ledger: s("ledger", "Ledger", "Nodes with flows where inflow equals outflow; fill the missing values.", true),
+    equation,
+    chem_equation,
+    ledger,
     torque: s("torque", "Torque", "Masses at distances; balanced when Σm·d = 0."),
     ratio: s("ratio", "Ratio", "Recipe or stoichiometric ratios and limiting reagent.", true),
   },

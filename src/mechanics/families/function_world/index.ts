@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { limit } from "./limit";
+import { slope } from "./slope";
 
 const s = (id: string, name: string, blurb: string, widget: "dial" | "place" | "pick" = "place") =>
   stubMode({ id, name, widget, knowledgeTypes: ["quantitative"], blindSolvable: false, directorBlurb: blurb });
@@ -17,10 +19,10 @@ export const functionWorld = defineFamily({
     strategy: { sockets: ["market"], skin: "Price curve over time" },
   },
   modes: {
-    limit: s("limit", "Limit", "Approach x = a from the left, right, or both; the answer is a value or DNE."),
+    limit,
     continuity: s("continuity", "Continuity", "Find or fix a discontinuity."),
     asymptote: s("asymptote", "Asymptote", "Behavior as x → ±∞."),
-    slope: s("slope", "Slope", "Sign, zero, steepest point, concavity, inflection of the terrain."),
+    slope,
     secant: s("secant", "Secant", "Shrink Δx toward the derivative at a.", "dial"),
     roots: s("roots", "Roots", "Mark every point where f = 0."),
     squeeze: s("squeeze", "Squeeze", "Bounds converge at a; predict where the trapped orb ends.", "pick"),
