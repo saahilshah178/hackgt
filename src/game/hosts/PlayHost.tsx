@@ -22,6 +22,9 @@ function webglAvailable(): boolean {
 export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(props, ref) {
   const { spec } = props;
   const isDungeon = spec.genre === "dungeon";
+  const isPlatformer = spec.genre === "platformer";
+  const isPhaserGenre = isDungeon || isPlatformer;
+  const sceneKey = isPlatformer ? "PlatformerScene" : "DungeonScene";
   const [mode, setMode] = useState<"checking" | "phaser" | "dom">("checking");
   const gameRef = useRef<import("phaser").Game | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,9 +37,9 @@ export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(prop
   propsRef.current = props;
 
   useEffect(() => {
-    // Only the dungeon genre ever boots Phaser (LIBRARY §1: mystery is "mostly UI"; other genres
-    // aren't built yet). Every other genre goes straight to a DOM fallback host.
-    if (!isDungeon) {
+    // Dungeon and Platformer boot Phaser (LIBRARY §1: mystery is "mostly UI"; puzzle/strategy aren't
+    // built yet). Every other genre goes straight to a DOM fallback host.
+    if (!isPhaserGenre) {
       setMode("dom");
       return;
     }
@@ -47,18 +50,21 @@ export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(prop
     let cancelled = false;
     (async () => {
       try {
-        const [{ default: Phaser }, { createDungeonScene }] = await Promise.all([
+        const [{ default: Phaser }, sceneModule] = await Promise.all([
           import("phaser"),
-          import("./dungeon/DungeonScene"),
+          isPlatformer ? import("./platformer/PlatformerScene") : import("./dungeon/DungeonScene"),
         ]);
         if (cancelled || !containerRef.current) return;
-        const SceneClass = createDungeonScene(Phaser);
+        const SceneClass = isPlatformer
+          ? (sceneModule as typeof import("./platformer/PlatformerScene")).createPlatformerScene(Phaser)
+          : (sceneModule as typeof import("./dungeon/DungeonScene")).createDungeonScene(Phaser);
         const game = new Phaser.Game({
           type: Phaser.WEBGL,
           width: 800,
           height: 480,
           parent: containerRef.current,
           backgroundColor: "#000000",
+          physics: isPlatformer ? { default: "arcade", arcade: { gravity: { x: 0, y: 1500 }, debug: false } } : undefined,
           scene: [SceneClass],
         });
         const canvas = game.canvas;
@@ -68,12 +74,19 @@ export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(prop
           return;
         }
         gameRef.current = game;
-        game.scene.start("DungeonScene", {
+        game.scene.start(sceneKey, {
           rooms: propsRef.current.rooms,
           palette: propsRef.current.palette,
           onReachSocket: (id: string) => propsRef.current.onReachSocket(id),
-          onReady: (bridge: HostHandle) => {
+          onReady: (bridge: HostHandle & { playerX?: () => number }) => {
             bridgeRef.current = bridge;
+            // P10.2 e2e hook: window.__GAME_DEBUG__ (src/game/debug.ts, owned by GameClient) has no
+            // "host" field, so we attach one directly here rather than editing files outside our
+            // paths. Purely additive; every other genre's debug handle is untouched.
+            if (isPlatformer && typeof bridge.playerX === "function" && typeof window !== "undefined") {
+              const w = window as unknown as { __GAME_DEBUG__?: { host?: { playerX: () => number } } };
+              if (w.__GAME_DEBUG__) w.__GAME_DEBUG__.host = { playerX: bridge.playerX };
+            }
           },
         });
         if (!cancelled) setMode("phaser");
@@ -89,16 +102,16 @@ export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(prop
       gameRef.current?.destroy(true);
       gameRef.current = null;
     };
-    // isDungeon derives from spec.genre, which never changes for a mounted GameClient; propsRef.current
-    // is read live inside the async body for everything else.
+    // isPhaserGenre/isPlatformer/sceneKey derive from spec.genre, which never changes for a mounted
+    // GameClient; propsRef.current is read live inside the async body for everything else.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Keep the live Phaser scene's "frozen" flag in sync without re-booting the game.
   useEffect(() => {
-    const scene = gameRef.current?.scene.getScene("DungeonScene") as { setFrozen?: (v: boolean) => void } | null;
+    const scene = gameRef.current?.scene.getScene(sceneKey) as { setFrozen?: (v: boolean) => void } | null;
     scene?.setFrozen?.(props.frozen);
-  }, [props.frozen]);
+  }, [props.frozen, sceneKey]);
 
   useImperativeHandle(ref, () => ({
     warpTo(encounterId) {
@@ -115,10 +128,10 @@ export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(prop
     },
   }));
 
-  if (!isDungeon) {
+  if (!isPhaserGenre) {
     // Mystery and every genre without a Phaser host never attempt to boot Phaser at all.
     if (spec.genre === "mystery") return <MysteryHost ref={fallbackRef} {...props} />;
-    // Genre host not built yet (platformer/puzzle/strategy): play as a DOM room strip, clearly labeled.
+    // Genre host not built yet (puzzle/strategy): play as a DOM room strip, clearly labeled.
     return (
       <div className="flex flex-col gap-2">
         <div
