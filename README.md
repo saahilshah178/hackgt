@@ -3,7 +3,7 @@
 **Turn any chapter into a game where the concept is the rules.** Upload a PDF, paste notes, or type a topic. After a
 60-second intake, Quest Forge generates a playable educational game built around what you are shaky on: you tune a
 gate's period to open the door, balance the equation to stop the leak, or walk the number line to find the limit.
-You never answer trivia between jumps.
+The mechanic library includes manipulation, sorting, evidence analysis, and retrieval practice.
 
 Built for HackGT 13. Next.js 16 · React 19 · TypeScript · Phaser 4 · AI SDK v7 · zod.
 
@@ -40,18 +40,38 @@ Try the showcase games:
 
 | Game | URL |
 |---|---|
-| Trigonometry (Dungeon) | http://localhost:3000/play/fixture-trig |
-| Cell transport (Dungeon) | http://localhost:3000/play/fixture-cell-transport |
-| Civil rights history (Mystery) | http://localhost:3000/play/fixture-civil-rights-mystery |
-| Trigonometry (Platformer) | http://localhost:3000/play/fixture-trig-platformer |
-| Wave-2 proving ground (nine mechanics) | http://localhost:3000/play/fixture-wave2 |
+| The Last Light of Meridian (trigonometry, 6 locations) | http://localhost:3000/play/fixture-trig |
+| The Living Sanctuary (cell transport, 11 locations) | http://localhost:3000/play/fixture-cell-transport |
+| The Unfinished Public Record (civil rights, 12 locations) | http://localhost:3000/play/fixture-civil-rights-mystery |
+| Meridian's Skywalk (trigonometry platformer, 6 locations) | http://localhost:3000/play/fixture-trig-platformer |
+| The Nine Systems of Aurora (mixed subjects, 9 locations) | http://localhost:3000/play/fixture-wave2 |
 | Mechanic library browser | http://localhost:3000/library |
 
 Then upload `samples/cell-transport.pdf` on the home page and walk the whole flow. In mock mode every upload maps to the
 closest recorded sample (trig, cell transport, civil rights).
 
-Controls: arrow keys or WASD to move, Space to jump in the Platformer, E or Enter at an obstacle to open its
-challenge, Tab to reach every widget. Add `?debug=1` to a play URL to expose `window.__GAME_DEBUG__` (state, autoSolve).
+Showcase controls: arrow keys or WASD to move, Space to jump in the skywalk, E near an object to interact,
+or select an object button for assisted travel and interaction. Click the ground to travel; Tab reaches the
+object buttons and apparatus controls. Add `?debug=1` to a play URL to expose `window.__GAME_DEBUG__` (state, autoSolve).
+
+## Authored showcase adventures
+
+The five demos above use original illustrated 2D scenes and 44 hand-authored missions. As a skywright, restore
+Meridian's harbor beacon; as a transport steward, stabilize a model cell; as an archive researcher, reconstruct
+an evidence-based civil rights exhibit; as a courier, traverse the observatory's skywalk; or as a systems
+apprentice, bring Aurora's research station out of shutdown. Each expedition has a fictional guide, three acts,
+optional journal notes, a progress map, and a finale.
+
+Explore, speak with the guide, collect notes, activate a relay, and manipulate the apparatus. A correct submission
+unlocks the exit and displays the mission's restoration consequence. Mistakes can be retried, and skywalk hazards
+return the character to safe ground. The underlying fixture grading, sources, telemetry, and learning debrief
+remain authoritative. The civil rights story is a simplified classroom account; its historian guide is fictional.
+
+These showcases share subject-specific scene art and include both bespoke instruments and existing mechanic
+widgets in themed workbenches. Their room names and consequences are authored fiction, with restoration shown
+through light, status, particles, and departure. Generated PDF games continue to use the established genre hosts;
+uploads do not yet produce these authored adventures. See the [showcase implementation plan](docs/SHOWCASE_ADVENTURE_PLAN.md)
+and the [future PDF adventure contract and validation design](docs/ADVENTURE_GENERATION.md) for scope and limitations.
 
 ## Going live
 

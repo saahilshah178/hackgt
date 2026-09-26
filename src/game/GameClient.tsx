@@ -21,6 +21,8 @@ import { HintPanel } from "./systems/HintPanel";
 import { ConsequenceOverlay } from "./systems/ConsequenceOverlay";
 import { MasteryHud } from "./systems/MasteryHud";
 import { EndScreen } from "./systems/EndScreen";
+import { AdventureGame } from "./adventure/AdventureGame";
+import { getAdventureCampaign } from "./adventure/campaigns";
 
 type Phase = "walking" | "widget" | "consequence" | "finished";
 
@@ -138,6 +140,12 @@ function describeAnswer(mode: string, view: unknown, input: unknown): string | u
 }
 
 export function GameClient({ spec }: { spec: GameSpec }) {
+  const campaign = getAdventureCampaign(spec);
+  if (campaign) return <AdventureGame spec={spec} campaign={campaign} />;
+  return <StandardGameClient spec={spec} />;
+}
+
+function StandardGameClient({ spec }: { spec: GameSpec }) {
   const runnerRef = useRef<EncounterRunner | null>(null);
   if (!runnerRef.current) runnerRef.current = new EncounterRunner(spec);
   const runner = runnerRef.current;
