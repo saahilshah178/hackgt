@@ -50,3 +50,7 @@ test("fixture-trig: autoSolve to the end screen with zero console errors", async
 test("fixture-cell-transport: autoSolve to the end screen with zero console errors", async ({ page }) => {
   await autoSolveFixture(page, "fixture-cell-transport");
 });
+
+test("fixture-wave2: autoSolve every wave-2 widget (balance/transformer/recall/function_world) to the end screen", async ({ page }) => {
+  await autoSolveFixture(page, "fixture-wave2");
+});

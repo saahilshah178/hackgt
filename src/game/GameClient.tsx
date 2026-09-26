@@ -89,6 +89,48 @@ function describeAnswer(mode: string, view: unknown, input: unknown): string | u
       const { kind, value } = input as { kind: string; value: number | null };
       return kind === "value" ? String(value?.toFixed(2)) : kind;
     }
+    if (mode === "equation") {
+      const ops = (input as { ops: { op: string; value: string }[] }).ops;
+      return ops.map((o) => `${o.op} ${o.value}`).join(", ") || "(no operations)";
+    }
+    if (mode === "chem_equation") {
+      return (input as { coefficients: number[] }).coefficients.join(", ");
+    }
+    if (mode === "ledger") {
+      const values = (input as { values: { flowKey: string; value: number }[] }).values;
+      return values.map((v) => `${v.flowKey} = ${v.value}`).join(", ");
+    }
+    if (mode === "encode") {
+      return (input as { output: string[] }).output.join(" ");
+    }
+    if (mode === "function_machine") {
+      const v = view as { ruleOptions: { ruleIndex: number; text: string }[] };
+      const { value, ruleIndex } = input as { value: number | null; ruleIndex: number | null };
+      if (ruleIndex !== null) return v.ruleOptions.find((r) => r.ruleIndex === ruleIndex)?.text ?? String(ruleIndex);
+      return value === null ? undefined : String(value);
+    }
+    if (mode === "trace") {
+      const v = view as { options: { optionIndex: number; text: string }[] };
+      const i = (input as { optionIndex: number }).optionIndex;
+      return v.options.find((o) => o.optionIndex === i)?.text;
+    }
+    if (mode === "rapid") {
+      const v = view as { prompts: { itemIndex: number; prompt: string }[] };
+      const answers = (input as { answers: { itemIndex: number; text: string }[] }).answers;
+      return answers
+        .map((a) => `${v.prompts.find((p) => p.itemIndex === a.itemIndex)?.prompt ?? a.itemIndex}: ${a.text}`)
+        .join(", ");
+    }
+    if (mode === "cloze") {
+      return (input as { text: string }).text;
+    }
+    if (mode === "slope") {
+      const inp = input as { sign?: string; concavity?: string; x?: number; xs?: number[] };
+      if (inp.sign !== undefined) return inp.sign;
+      if (inp.concavity !== undefined) return inp.concavity;
+      if (inp.x !== undefined) return `x ≈ ${inp.x.toFixed(2)}`;
+      if (inp.xs !== undefined) return inp.xs.map((x) => x.toFixed(2)).join(", ");
+    }
   } catch {
     return undefined;
   }

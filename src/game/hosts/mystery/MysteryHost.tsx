@@ -42,6 +42,31 @@ function iconForMode(mode: string | undefined): string {
     case "error_hunt":
     case "counterexample":
       return "❓";
+    case "equation":
+    case "chem_equation":
+    case "ledger":
+      return "⚖️";
+    case "encode":
+    case "function_machine":
+    case "trace":
+      return "🧬";
+    case "rapid":
+    case "cloze":
+      return "🗣️";
+    case "riemann":
+    case "area":
+    case "signed":
+    case "rate_total":
+    case "average_value":
+      return "📦";
+    case "intervene":
+    case "reach_state":
+    case "predict":
+    case "sample":
+      return "💉";
+    case "limit":
+    case "slope":
+      return "📈";
     default:
       return "•";
   }

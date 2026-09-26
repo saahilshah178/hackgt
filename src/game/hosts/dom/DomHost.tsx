@@ -28,7 +28,30 @@ function iconForMode(mode: string | undefined): string {
     case "predict_reveal":
       return "◆"; // truth_finder
     case "limit":
+    case "slope":
       return "〜"; // function_world
+    case "equation":
+    case "chem_equation":
+    case "ledger":
+      return "⚖"; // balance
+    case "encode":
+    case "function_machine":
+    case "trace":
+      return "⚙"; // transformer
+    case "rapid":
+    case "cloze":
+      return "🗲"; // recall (flashcard bolt)
+    case "riemann":
+    case "area":
+    case "signed":
+    case "rate_total":
+    case "average_value":
+      return "▤"; // accumulator (reservoir)
+    case "intervene":
+    case "reach_state":
+    case "predict":
+    case "sample":
+      return "☢"; // simulator (reactor)
     default:
       return "";
   }

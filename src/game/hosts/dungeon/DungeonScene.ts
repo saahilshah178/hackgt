@@ -29,7 +29,21 @@ const PLAYER_SPEED = 260;
  * Per-family dungeon skins (LIBRARY §5): a small tinted shape drawn in the room so each family reads
  * differently at a glance, even with placeholder art. Keyed by the encounter's mechanic `mode`.
  */
-type RoomIcon = "swatches" | "chain" | "door_glyph" | "rune_grid" | "ring" | "dial" | "gem" | "wave" | "none";
+type RoomIcon =
+  | "swatches"
+  | "chain"
+  | "door_glyph"
+  | "rune_grid"
+  | "ring"
+  | "dial"
+  | "gem"
+  | "wave"
+  | "scale"
+  | "gear"
+  | "flashcard"
+  | "reservoir"
+  | "reactor"
+  | "none";
 
 function iconForMode(mode: string | undefined): RoomIcon {
   switch (mode) {
@@ -50,7 +64,30 @@ function iconForMode(mode: string | undefined): RoomIcon {
     case "predict_reveal":
       return "gem"; // truth_finder: the reveal plays after the pick
     case "limit":
+    case "slope":
       return "wave"; // function_world: rune track shaped by f(x)
+    case "equation":
+    case "chem_equation":
+    case "ledger":
+      return "scale"; // balance: altar alchemy scale
+    case "encode":
+    case "function_machine":
+    case "trace":
+      return "gear"; // transformer: forge crafting bench
+    case "rapid":
+    case "cloze":
+      return "flashcard"; // recall: enemy spell-flashcards
+    case "riemann":
+    case "area":
+    case "signed":
+    case "rate_total":
+    case "average_value":
+      return "reservoir"; // accumulator: forge reservoir
+    case "intervene":
+    case "reach_state":
+    case "predict":
+    case "sample":
+      return "reactor"; // simulator: enemy reactor
     default:
       return "none";
   }
@@ -203,6 +240,34 @@ export function createDungeonScene(PhaserLib: typeof Phaser): typeof Phaser.Scen
           for (let dx = -30; dx <= 30; dx += 12) parts.push(this.add.circle(x + dx, 40 + Math.sin(dx * 0.3) * 10, 3, palette.accent));
           break;
         }
+        case "scale": {
+          // balance: an alchemy scale, two pans on a beam
+          const beam = this.add.line(x, 32, -22, 0, 22, 0, palette.accent, 1).setLineWidth(3);
+          parts.push(beam, this.add.rectangle(x - 22, 44, 14, 10, palette.player), this.add.rectangle(x + 22, 44, 14, 10, palette.player));
+          break;
+        }
+        case "gear": {
+          // transformer: a crafting-bench gear
+          parts.push(this.add.circle(x, 40, 16, 0x000000, 0).setStrokeStyle(4, palette.accent));
+          for (let a = 0; a < 6; a++) {
+            const angle = (a / 6) * Math.PI * 2;
+            parts.push(this.add.circle(x + Math.cos(angle) * 16, 40 + Math.sin(angle) * 16, 3, palette.accent));
+          }
+          break;
+        }
+        case "flashcard":
+          // recall: a spell-flashcard
+          parts.push(this.add.rectangle(x, 40, 26, 18, 0x000000, 0).setStrokeStyle(3, palette.accent), this.add.text(x, 40, "?", { fontSize: "14px", color: "#f5f3ee" }).setOrigin(0.5));
+          break;
+        case "reservoir": {
+          // accumulator: a forge reservoir filling up
+          parts.push(this.add.rectangle(x, 44, 24, 20, 0x000000, 0).setStrokeStyle(3, palette.accent), this.add.rectangle(x, 48, 20, 10, palette.player));
+          break;
+        }
+        case "reactor":
+          // simulator: an enemy reactor pulse
+          parts.push(this.add.circle(x, 40, 18, 0x000000, 0).setStrokeStyle(3, palette.accent), this.add.circle(x, 40, 8, palette.player));
+          break;
       }
       if (parts.length === 0) return;
       const container = this.add.container(0, 0, parts);

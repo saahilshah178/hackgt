@@ -52,14 +52,35 @@ export interface LimitInput {
   value: number | null;
 }
 
-export type PlaceView = NumberLineView | PlaneView | LimitView;
-export type PlaceInput = NumberLineInput | PlaneInput | LimitInput;
+/** Matches mode slope's View (src/mechanics/families/function_world/slope.ts). */
+export type SlopeAsk = "sign_at" | "steepest" | "critical_points" | "concavity_at" | "inflection_points";
+export interface SlopeView {
+  ask: SlopeAsk;
+  a: number | null;
+  xMin: number;
+  xMax: number;
+  yMin: number;
+  yMax: number;
+  samples: { x: number; y: number | null }[];
+  pieces: string[];
+}
+export type SlopeInput =
+  | { sign: "positive" | "negative" | "zero" }
+  | { x: number }
+  | { xs: number[] }
+  | { concavity: "up" | "down" };
+
+export type PlaceView = NumberLineView | PlaneView | LimitView | SlopeView;
+export type PlaceInput = NumberLineInput | PlaneInput | LimitInput | SlopeInput;
 
 export function isPlaneView(view: PlaceView): view is PlaneView {
   return "gridStep" in view;
 }
 export function isLimitView(view: PlaceView): view is LimitView {
-  return "samples" in view;
+  return "samples" in view && "at" in view;
+}
+export function isSlopeView(view: PlaceView): view is SlopeView {
+  return "samples" in view && "ask" in view;
 }
 
 /** Pure: the number-line fraction's value -> the input number_line's grade() expects. */
@@ -74,6 +95,22 @@ export function planeToInput(x: number, y: number): PlaneInput {
 export function limitToInput(kind: LimitAnswerKind, value: number | null): LimitInput {
   return { kind, value: kind === "value" ? value : null };
 }
+/** Pure: the reported sign -> the input slope (ask=sign_at) grade() expects. */
+export function slopeSignToInput(sign: "positive" | "negative" | "zero"): SlopeInput {
+  return { sign };
+}
+/** Pure: the reported concavity -> the input slope (ask=concavity_at) grade() expects. */
+export function slopeConcavityToInput(concavity: "up" | "down"): SlopeInput {
+  return { concavity };
+}
+/** Pure: the placed x marker -> the input slope (ask=steepest) grade() expects. */
+export function slopeXToInput(x: number): SlopeInput {
+  return { x };
+}
+/** Pure: the placed x markers -> the input slope (ask=critical_points/inflection_points) grade() expects. */
+export function slopeXsToInput(xs: number[]): SlopeInput {
+  return { xs };
+}
 
 function fractionToValue(view: NumberLineView, fraction: number): number {
   if (view.scale === "log") {
@@ -87,6 +124,7 @@ function fractionToValue(view: NumberLineView, fraction: number): number {
 /** place: a marker on a number line, a 2-D plane, or (for function_world.limit) a scrubbable function path. */
 export function Place({ view, onSubmit, onLive, disabled }: WidgetProps<PlaceView, PlaceInput>) {
   if (isPlaneView(view)) return <PlanePlace view={view} onSubmit={onSubmit as (i: PlaneInput) => void} disabled={disabled} />;
+  if (isSlopeView(view)) return <SlopePlace view={view} onSubmit={onSubmit as (i: SlopeInput) => void} disabled={disabled} />;
   if (isLimitView(view)) return <LimitPlace view={view} onSubmit={onSubmit as (i: LimitInput) => void} disabled={disabled} />;
   return <NumberLinePlace view={view} onSubmit={onSubmit as (i: NumberLineInput) => void} onLive={onLive} disabled={disabled} />;
 }
@@ -356,6 +394,142 @@ function LimitPlace({ view, onSubmit, disabled }: { view: LimitView; onSubmit: (
           size="lg"
           disabled={disabled}
           onClick={() => onSubmit(limitToInput(kind, kind === "value" ? answerY : null))}
+          data-testid="widget-submit"
+        >
+          Lock in answer
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function SlopePlace({ view, onSubmit, disabled }: { view: SlopeView; onSubmit: (i: SlopeInput) => void; disabled?: boolean }) {
+  const [scrubX, setScrubX] = useState((view.xMin + view.xMax) / 2);
+  const [sign, setSign] = useState<"positive" | "negative" | "zero">("positive");
+  const [concavity, setConcavity] = useState<"up" | "down">("up");
+  const [markers, setMarkers] = useState<number[]>([]);
+
+  const xFrac = (v: number) => (v - view.xMin) / (view.xMax - view.xMin);
+  const yFrac = (v: number) => 1 - (v - view.yMin) / (view.yMax - view.yMin);
+
+  const segments: string[] = [];
+  let current: string[] = [];
+  for (const s of view.samples) {
+    if (s.y === null) {
+      if (current.length > 1) segments.push(current.join(" "));
+      current = [];
+      continue;
+    }
+    current.push(`${xFrac(s.x) * 100},${yFrac(s.y) * 100}`);
+  }
+  if (current.length > 1) segments.push(current.join(" "));
+
+  const needsMultiple = view.ask === "critical_points" || view.ask === "inflection_points";
+  const questionText =
+    view.ask === "sign_at"
+      ? `What is the sign of the slope at x = ${view.a}?`
+      : view.ask === "concavity_at"
+        ? `Is the curve concave up or down at x = ${view.a}?`
+        : view.ask === "steepest"
+          ? "Scrub to the steepest point, then place a marker."
+          : view.ask === "critical_points"
+            ? "Mark every x where the slope is zero."
+            : "Mark every x where the concavity flips.";
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-lg" style={{ fontSize: 18 }}>
+        {questionText}
+      </p>
+      <div className="relative aspect-video w-full rounded-lg border-2" data-testid="slope-plot">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="h-full w-full" aria-hidden>
+          {segments.map((pts, i) => (
+            <polyline key={i} points={pts} fill="none" stroke="currentColor" strokeWidth={0.8} vectorEffect="non-scaling-stroke" />
+          ))}
+          {view.a !== null && (
+            <line x1={xFrac(view.a) * 100} y1={0} x2={xFrac(view.a) * 100} y2={100} stroke="currentColor" strokeWidth={0.4} opacity={0.5} />
+          )}
+          {(view.ask === "steepest" || needsMultiple) && (
+            <circle cx={xFrac(scrubX) * 100} cy={50} r={1.4} fill="currentColor" opacity={0.85} />
+          )}
+          {markers.map((m, i) => (
+            <circle key={i} cx={xFrac(m) * 100} cy={50} r={1.6} fill="none" stroke="currentColor" strokeWidth={0.6} />
+          ))}
+        </svg>
+      </div>
+
+      {(view.ask === "steepest" || needsMultiple) && (
+        <div className="flex items-center gap-4">
+          <label className="text-sm opacity-80" style={{ fontSize: 15 }}>
+            Scrub x
+          </label>
+          <input
+            type="range"
+            min={view.xMin}
+            max={view.xMax}
+            step={(view.xMax - view.xMin) / 400}
+            value={scrubX}
+            disabled={disabled}
+            onChange={(e) => setScrubX(Number(e.target.value))}
+            className="flex-1"
+          />
+          <output className="tabular-nums" style={{ fontSize: 16 }} data-testid="slope-scrub-readout">
+            x={scrubX.toFixed(2)}
+          </output>
+          {needsMultiple && (
+            <Button variant="outline" disabled={disabled} onClick={() => setMarkers((m) => [...m, scrubX])} data-testid="slope-add-marker">
+              Add marker
+            </Button>
+          )}
+        </div>
+      )}
+
+      {needsMultiple && markers.length > 0 && (
+        <ul className="flex flex-wrap gap-2" aria-label="Markers placed" data-testid="slope-markers">
+          {markers.map((m, i) => (
+            <li key={i}>
+              <Button variant="outline" size="sm" disabled={disabled} onClick={() => setMarkers((ms) => ms.filter((_, j) => j !== i))}>
+                x = {m.toFixed(2)} &times;
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {view.ask === "sign_at" && (
+        <div className="flex flex-wrap gap-2">
+          <Button variant={sign === "positive" ? "default" : "outline"} disabled={disabled} onClick={() => setSign("positive")}>
+            Positive
+          </Button>
+          <Button variant={sign === "negative" ? "default" : "outline"} disabled={disabled} onClick={() => setSign("negative")}>
+            Negative
+          </Button>
+          <Button variant={sign === "zero" ? "default" : "outline"} disabled={disabled} onClick={() => setSign("zero")}>
+            Zero
+          </Button>
+        </div>
+      )}
+      {view.ask === "concavity_at" && (
+        <div className="flex flex-wrap gap-2">
+          <Button variant={concavity === "up" ? "default" : "outline"} disabled={disabled} onClick={() => setConcavity("up")}>
+            Concave up
+          </Button>
+          <Button variant={concavity === "down" ? "default" : "outline"} disabled={disabled} onClick={() => setConcavity("down")}>
+            Concave down
+          </Button>
+        </div>
+      )}
+
+      <div>
+        <Button
+          size="lg"
+          disabled={disabled || (needsMultiple && markers.length === 0)}
+          onClick={() => {
+            if (view.ask === "sign_at") onSubmit(slopeSignToInput(sign));
+            else if (view.ask === "concavity_at") onSubmit(slopeConcavityToInput(concavity));
+            else if (view.ask === "steepest") onSubmit(slopeXToInput(scrubX));
+            else onSubmit(slopeXsToInput(markers));
+          }}
           data-testid="widget-submit"
         >
           Lock in answer

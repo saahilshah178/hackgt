@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import type { WidgetProps } from "./Dial";
 
 /** Matches mode mimic's View (src/mechanics/families/truth_finder/mimic.ts). */
@@ -30,14 +31,45 @@ export interface PickOptionsInput {
   optionIndex: number;
 }
 
-export type PickView = PickChestsView | PickWavesView | PickOptionsView;
-export type PickInput = PickChestsInput | PickWavesInput | PickOptionsInput;
+/** Matches mode function_machine's View (src/mechanics/families/transformer/function_machine.ts). */
+export interface PickFunctionMachineView {
+  ask: "output" | "rule";
+  examples: { x: number; y: number }[];
+  query: number | null;
+  ruleOptions: { ruleIndex: number; text: string }[];
+  inputLabel: string;
+  outputLabel: string;
+}
+export interface PickFunctionMachineInput {
+  value: number | null;
+  ruleIndex: number | null;
+}
+
+/** Matches mode trace's View (src/mechanics/families/transformer/trace.ts). */
+export interface PickTraceView {
+  program: string[];
+  ask: "final_value" | "output";
+  variable: string;
+  options: { optionIndex: number; text: string }[];
+}
+export interface PickTraceInput {
+  optionIndex: number;
+}
+
+export type PickView = PickChestsView | PickWavesView | PickOptionsView | PickFunctionMachineView | PickTraceView;
+export type PickInput = PickChestsInput | PickWavesInput | PickOptionsInput | PickFunctionMachineInput | PickTraceInput;
 
 export function isWavesView(view: PickView): view is PickWavesView {
   return "waves" in view;
 }
 export function isOptionsView(view: PickView): view is PickOptionsView {
-  return "options" in view;
+  return "options" in view && "scenario" in view;
+}
+export function isFunctionMachineView(view: PickView): view is PickFunctionMachineView {
+  return "examples" in view;
+}
+export function isTraceView(view: PickView): view is PickTraceView {
+  return "program" in view;
 }
 
 /** Pure: the picked chest -> the input mimic's grade() expects. */
@@ -46,6 +78,18 @@ export function chestsToInput(statementIndex: number): PickChestsInput {
 }
 /** Pure: the picked option -> the input predict_reveal's grade() expects. */
 export function optionsToInput(optionIndex: number): PickOptionsInput {
+  return { optionIndex };
+}
+/** Pure: the predicted numeric output -> the input function_machine (ask=output) grade() expects. */
+export function functionMachineOutputToInput(value: number): PickFunctionMachineInput {
+  return { value, ruleIndex: null };
+}
+/** Pure: the chosen rule's original index -> the input function_machine (ask=rule) grade() expects. */
+export function functionMachineRuleToInput(ruleIndex: number): PickFunctionMachineInput {
+  return { value: null, ruleIndex };
+}
+/** Pure: the picked option's index -> the input trace's grade() expects. */
+export function traceToInput(optionIndex: number): PickTraceInput {
   return { optionIndex };
 }
 /** Pure: the per-wave answers gathered so far -> the input type_match's grade() expects. A wave with no
@@ -60,6 +104,9 @@ export function wavesToInput(answers: { waveIndex: number; categoryId: string }[
  */
 export function Pick({ view, onSubmit, disabled }: WidgetProps<PickView, PickInput>) {
   if (isWavesView(view)) return <WavesPick view={view} onSubmit={onSubmit as (i: PickWavesInput) => void} disabled={disabled} />;
+  if (isFunctionMachineView(view))
+    return <FunctionMachinePick view={view} onSubmit={onSubmit as (i: PickFunctionMachineInput) => void} disabled={disabled} />;
+  if (isTraceView(view)) return <TracePick view={view} onSubmit={onSubmit as (i: PickTraceInput) => void} disabled={disabled} />;
   if (isOptionsView(view)) return <OneShotPick label="Predict what happens." items={view.options} onSubmit={(i) => onSubmit(optionsToInput(i))} disabled={disabled} />;
   return (
     <OneShotPick
@@ -237,6 +284,100 @@ function WavesPick({ view, onSubmit, disabled }: { view: PickWavesView; onSubmit
           Last wave: answering locks in your run.
         </p>
       )}
+    </div>
+  );
+}
+
+/** transformer.function_machine: the examples table, then either a numeric guess (ask=output) or the
+ * shuffled rule options (ask=rule). */
+function FunctionMachinePick({
+  view,
+  onSubmit,
+  disabled,
+}: {
+  view: PickFunctionMachineView;
+  onSubmit: (i: PickFunctionMachineInput) => void;
+  disabled?: boolean;
+}) {
+  const [value, setValue] = useState("");
+
+  return (
+    <div className="flex flex-col gap-4">
+      <table className="border-collapse text-left" data-testid="function-machine-examples" style={{ fontSize: 16 }}>
+        <thead>
+          <tr>
+            <th className="border-b p-1">{view.inputLabel}</th>
+            <th className="border-b p-1">{view.outputLabel}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {view.examples.map((e, i) => (
+            <tr key={i}>
+              <td className="p-1 tabular-nums">{e.x}</td>
+              <td className="p-1 tabular-nums">{e.y}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {view.ask === "output" ? (
+        <>
+          <p className="text-lg" style={{ fontSize: 18 }}>
+            What {view.outputLabel} does the machine produce for {view.query}?
+          </p>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              aria-label={`Predicted ${view.outputLabel}`}
+              value={value}
+              disabled={disabled}
+              onChange={(e) => setValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && value.trim()) onSubmit(functionMachineOutputToInput(Number(value)));
+              }}
+              className="rounded-lg border-2 px-3 py-2 text-lg tabular-nums"
+              style={{ fontSize: 18, width: 140 }}
+              data-testid="function-machine-value"
+            />
+            <Button
+              size="lg"
+              disabled={disabled || value.trim() === ""}
+              onClick={() => onSubmit(functionMachineOutputToInput(Number(value)))}
+              data-testid="widget-submit"
+            >
+              Submit
+            </Button>
+          </div>
+        </>
+      ) : (
+        <OneShotPick
+          label="Which rule is the machine using?"
+          items={view.ruleOptions.map((o) => ({ optionIndex: o.ruleIndex, text: o.text }))}
+          onSubmit={(i) => onSubmit(functionMachineRuleToInput(i))}
+          disabled={disabled}
+        />
+      )}
+    </div>
+  );
+}
+
+/** transformer.trace: the program in a monospace panel, then the shuffled candidate answers. */
+function TracePick({ view, onSubmit, disabled }: { view: PickTraceView; onSubmit: (i: PickTraceInput) => void; disabled?: boolean }) {
+  return (
+    <div className="flex flex-col gap-4">
+      <pre
+        className="overflow-x-auto rounded-lg border-2 p-3 font-mono"
+        style={{ fontSize: 15 }}
+        data-testid="trace-program"
+      >
+        {view.program.join("\n")}
+      </pre>
+      <OneShotPick
+        label={view.ask === "output" ? "What does the program print?" : `What is the final value of ${view.variable}?`}
+        items={view.options}
+        onSubmit={(i) => onSubmit(traceToInput(i))}
+        disabled={disabled}
+      />
     </div>
   );
 }
