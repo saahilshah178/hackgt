@@ -2,6 +2,7 @@ import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
 import { cycle } from "./cycle";
 import { linear } from "./linear";
+import { timeline } from "./timeline";
 import { rank } from "./rank";
 
 export const sequencer = defineFamily({
@@ -19,7 +20,7 @@ export const sequencer = defineFamily({
   modes: {
     linear,
     cycle,
-    timeline: stubMode({ id: "timeline", name: "Timeline", widget: "order", knowledgeTypes: ["sequence", "fact"], blindSolvable: true, directorBlurb: "Events with sourced dates; the dates are revealed after placing." }),
+    timeline,
     rank,
   },
 });

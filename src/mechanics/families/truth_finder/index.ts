@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { counterexample } from "./counterexample";
+import { errorHunt } from "./error_hunt";
 import { mimic } from "./mimic";
 import { predictReveal } from "./predict_reveal";
 
@@ -18,7 +20,7 @@ export const truthFinder = defineFamily({
   modes: {
     mimic,
     predict_reveal: predictReveal,
-    error_hunt: stubMode({ id: "error_hunt", name: "Error hunt", widget: "pick", knowledgeTypes: ["procedure"], blindSolvable: true, directorBlurb: "A worked solution, proof, or code with exactly one wrong line; find it." }),
-    counterexample: stubMode({ id: "counterexample", name: "Counterexample", widget: "pick", knowledgeTypes: ["argument"], blindSolvable: true, directorBlurb: "Pick the case that breaks the rule." }),
+    error_hunt: errorHunt,
+    counterexample,
   },
 });
