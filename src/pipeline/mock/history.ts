@@ -31,6 +31,7 @@ const precheck: PreCheckSlice = {
 };
 
 registerMockSample("civil_rights", {
+  km: historyKnowledgeMap,
   gatekeeper: gatekeeperFromKnowledgeMap(historyKnowledgeMap),
   curriculum: curriculumFromKnowledgeMap(historyKnowledgeMap),
   precheck,

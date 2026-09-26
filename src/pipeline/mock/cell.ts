@@ -16,6 +16,7 @@ const precheck: PreCheckSlice = {
 };
 
 registerMockSample("cell", {
+  km: cellKnowledgeMap,
   gatekeeper: gatekeeperFromKnowledgeMap(cellKnowledgeMap),
   curriculum: curriculumFromKnowledgeMap(cellKnowledgeMap),
   precheck,

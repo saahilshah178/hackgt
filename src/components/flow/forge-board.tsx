@@ -1,0 +1,174 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import type { ProgressEvent } from "@/contracts/progress";
+import { api, titleCase } from "@/components/flow/client-fetch";
+
+interface AgentCard {
+  agent: string;
+  status: ProgressEvent["status"];
+  startedAt: number;
+  endedAt: number | null;
+  note: string;
+  repairs: number;
+}
+
+const ORDER = ["gatekeeper", "curriculum", "matcher", "director", "challenge", "narrative", "assessment", "audio", "verifier"];
+const label = (agent: string) => {
+  const [kind, id] = agent.split(":");
+  if (kind === "challenge") return `Challenge writer · ${id}`;
+  if (kind === "blind") return `Blind solver · ${id}`;
+  return titleCase(kind);
+};
+const rank = (agent: string) => {
+  const i = ORDER.indexOf(agent.split(":")[0]);
+  return i === -1 ? ORDER.length : i;
+};
+
+/**
+ * /forge/[jobId]: one live card per agent (status, elapsed, latest note) fed by the SSE stream.
+ * Cards keep a fixed height and are added in pipeline order so nothing shifts while streaming.
+ */
+export function ForgeBoard({ jobId }: { jobId: string }) {
+  const router = useRouter();
+  const [cards, setCards] = useState<Record<string, AgentCard>>({});
+  const [catches, setCatches] = useState<string[]>([]);
+  const [done, setDone] = useState<{ gameId: string | null; error: string | null } | null>(null);
+  const [wishlist, setWishlist] = useState<{ conceptId: string; teachingMechanicId: string }[]>([]);
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    // Create in the effect and close in its cleanup: React StrictMode runs this twice in dev, and a ref
+    // guard here would leave the page listening to an EventSource the first cleanup already closed.
+    const es = new EventSource(`/api/jobs/${jobId}/stream`);
+    const onProgress = (raw: MessageEvent) => {
+      const e = JSON.parse(raw.data) as ProgressEvent;
+      const at = e.at ? Date.parse(e.at) : Date.now();
+      setCards((prev) => {
+        const cur = prev[e.agent] ?? { agent: e.agent, status: "start", startedAt: at, endedAt: null, note: "", repairs: 0 };
+        const next: AgentCard = {
+          ...cur,
+          status: e.status,
+          note: e.note ?? cur.note,
+          repairs: cur.repairs + (e.status === "repair" ? 1 : 0),
+          endedAt: e.status === "done" || e.status === "failed" || e.status === "fallback" ? at : cur.endedAt,
+        };
+        return { ...prev, [e.agent]: next };
+      });
+      if (e.note && (e.agent === "verifier" || e.status === "fallback" || e.status === "repair")) {
+        setCatches((prev) => (prev.includes(`${e.agent}: ${e.note}`) ? prev : [...prev, `${e.agent}: ${e.note}`]));
+      }
+    };
+    const onDone = (raw: MessageEvent) => {
+      const d = JSON.parse(raw.data) as { gameId: string | null; error: string | null };
+      setDone(d);
+      es.close();
+      if (d.gameId) setTimeout(() => router.push(`/play/${d.gameId}`), 1200);
+    };
+    es.addEventListener("progress", onProgress);
+    es.addEventListener("done", onDone);
+    es.onmessage = onProgress; // servers that don't name events
+    es.onerror = () => {
+      // The stream closes on completion; if we never got "done", poll the job once.
+      api<{ status: string; gameId: string | null; error: string | null }>(`/api/jobs/${jobId}`)
+        .then((j) => {
+          if (j.status === "done" || j.status === "failed") setDone({ gameId: j.gameId, error: j.error });
+        })
+        .catch(() => undefined);
+    };
+    api<{ sourceId: string }>(`/api/jobs/${jobId}`)
+      .then((j) => api<{ conceptId: string; wishlist: { teachingMechanicId: string }[] }[] | { pending: true }>(`/api/sources/${j.sourceId}/matches`))
+      .then((m) => {
+        if (Array.isArray(m)) setWishlist(m.flatMap((r) => r.wishlist.slice(0, 2).map((w) => ({ conceptId: r.conceptId, teachingMechanicId: w.teachingMechanicId }))));
+      })
+      .catch(() => undefined);
+    return () => es.close();
+  }, [jobId, router]);
+
+  const list = useMemo(() => Object.values(cards).sort((a, b) => rank(a.agent) - rank(b.agent) || a.startedAt - b.startedAt), [cards]);
+
+  return (
+    <div data-testid="forge-board">
+      <h1 className="text-4xl font-bold tracking-tight">Forging your game</h1>
+      <p className="mt-2 text-xl text-muted-foreground">
+        One card per agent. The verifier checks every encounter is winnable and never leaks an answer.
+      </p>
+      <div role="status" aria-live="polite" className="mt-4 min-h-8 text-lg">
+        {done?.error && <span className="text-destructive">Generation failed: {done.error}</span>}
+        {done?.gameId && (
+          <span>
+            Done. Opening your game… <Link href={`/play/${done.gameId}`} className="underline">or click here</Link>
+          </span>
+        )}
+        {!done && `${list.filter((c) => c.status === "done").length} of ${Math.max(list.length, 1)} agents finished`}
+      </div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {list.map((c) => {
+          const elapsed = ((c.endedAt ?? now) - c.startedAt) / 1000;
+          const tone =
+            c.status === "done" ? "border-emerald-500/60" : c.status === "failed" ? "border-destructive" : c.status === "fallback" ? "border-amber-400" : "border-primary/60 animate-pulse";
+          return (
+            <article key={c.agent} className={`flex h-40 flex-col rounded-lg border-2 bg-card p-4 ${tone}`} data-testid="agent-card" data-agent={c.agent} data-status={c.status}>
+              <div className="flex items-baseline justify-between gap-2">
+                <h2 className="truncate text-xl font-semibold">{label(c.agent)}</h2>
+                <span className="text-base tabular-nums text-muted-foreground">{elapsed.toFixed(1)}s</span>
+              </div>
+              <p className="mt-1 text-lg">
+                {c.status === "start" && "working…"}
+                {c.status === "repair" && `repairing (${c.repairs})…`}
+                {c.status === "done" && "done"}
+                {c.status === "fallback" && "fell back"}
+                {c.status === "failed" && "failed"}
+              </p>
+              <p className="mt-auto line-clamp-2 text-base text-muted-foreground" title={c.note}>
+                {c.note}
+              </p>
+            </article>
+          );
+        })}
+        {list.length === 0 && !done && (
+          <article className="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-border p-4 text-lg text-muted-foreground">
+            Connecting to the forge…
+          </article>
+        )}
+      </div>
+
+      <div className="mt-10 grid gap-8 md:grid-cols-2">
+        <section aria-labelledby="catches-heading">
+          <h2 id="catches-heading" className="text-2xl font-semibold">
+            Verifier catches
+          </h2>
+          <ul className="mt-3 min-h-16 space-y-2 text-lg">
+            {catches.length === 0 && <li className="text-muted-foreground">Nothing caught yet.</li>}
+            {catches.map((c) => (
+              <li key={c} className="rounded-md bg-secondary px-3 py-2">
+                {c}
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section aria-labelledby="wishlist-heading">
+          <h2 id="wishlist-heading" className="text-2xl font-semibold">
+            Wishlist: great mechanics whose family isn&apos;t built yet
+          </h2>
+          <ul className="mt-3 min-h-16 space-y-2 text-lg">
+            {wishlist.length === 0 && <li className="text-muted-foreground">No wishlist for this material.</li>}
+            {wishlist.map((w) => (
+              <li key={`${w.conceptId}:${w.teachingMechanicId}`} className="rounded-md bg-secondary px-3 py-2">
+                {titleCase(w.teachingMechanicId)} <span className="text-muted-foreground">for {w.conceptId}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </div>
+  );
+}

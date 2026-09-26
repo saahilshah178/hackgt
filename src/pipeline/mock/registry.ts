@@ -5,6 +5,8 @@
  */
 
 export interface MockSampleResponses {
+  /** The fixture KnowledgeMap the canned replies were written against (lets the mock adapt to the live job). */
+  km?: import("../../contracts/knowledge").KnowledgeMap;
   gatekeeper?: unknown;
   curriculum?: unknown;
   matcher?: unknown;

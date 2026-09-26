@@ -30,6 +30,7 @@ const precheck: PreCheckSlice = {
 };
 
 registerMockSample("trig", {
+  km: trigKnowledgeMap,
   gatekeeper: gatekeeperFromKnowledgeMap(trigKnowledgeMap),
   curriculum: curriculumFromKnowledgeMap(trigKnowledgeMap),
   precheck,

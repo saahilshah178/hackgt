@@ -10,13 +10,17 @@ import { getGameSpecById, getStorage } from "@/server/storage";
 
 async function loadSpec(id: string): Promise<GameSpec | null> {
   if (id.startsWith("fixture-")) {
-    try {
-      const raw = await readFile(path.join(process.cwd(), "fixtures", `${id.slice("fixture-".length)}-dungeon.json`), "utf8");
-      const r = validateGameSpec(JSON.parse(raw));
-      return r.ok ? r.spec : null;
-    } catch {
-      return null;
+    const name = id.slice("fixture-".length);
+    for (const file of [`${name}.json`, `${name}-dungeon.json`]) {
+      try {
+        const raw = await readFile(path.join(process.cwd(), "fixtures", file), "utf8");
+        const r = validateGameSpec(JSON.parse(raw));
+        return r.ok ? r.spec : null;
+      } catch {
+        // try the next name
+      }
     }
+    return null;
   }
   return getGameSpecById(id);
 }

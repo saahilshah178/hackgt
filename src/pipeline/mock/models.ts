@@ -1,5 +1,7 @@
 import { MockLanguageModelV4 } from "ai/test";
 import type { Tier } from "../models";
+import type { BlueprintEncounter, BlueprintSlice, NarrativeSlice } from "../../contracts/slices";
+import { adaptBlueprint, adaptNarrative, lastAdaptedBlueprint, mimicChallengeFor, parseDirectorConstraints } from "./adapt";
 import { getMockSample, resolveMockSample } from "./registry";
 import "./trig"; // registers the trig sample as a side effect (P5a)
 import "./cell"; // registers the cell-transport sample as a side effect (P5b)
@@ -63,11 +65,23 @@ async function doGenerate(options: DoGenerateOptions): Promise<DoGenerateResult>
   const sample = getMockSample(sampleId);
   if (!sample) throw new Error(`mock model: no registered sample "${sampleId}"`);
 
+  if (key === "director" && sample.km && sample.director) {
+    // Adapt the canned blueprint to this job's schema (encounter range, card enum, misconception enum).
+    const constraints = parseDirectorConstraints(user, sample.km);
+    return reply(adaptBlueprint(sampleId, sample.director as BlueprintSlice, sample.km, constraints));
+  }
+  if (key === "narrative" && sample.narrative) {
+    return reply(adaptNarrative(sample.narrative as NarrativeSlice, lastAdaptedBlueprint(sampleId)));
+  }
   if (key === "challenges") {
     const id = /ENCOUNTER_ID:\s*(\S+)/.exec(user)?.[1];
     const slice = id ? sample.challenges?.[id] : undefined;
-    if (!slice) throw new Error(`mock model: no challenge fixture for encounter "${id ?? "?"}" in sample "${sampleId}"`);
-    return reply(slice);
+    if (slice) return reply(slice);
+    // A padded mock-mode encounter (mx_*): build its Mimic Chest from the sample's knowledge map.
+    const bp = lastAdaptedBlueprint(sampleId);
+    const e = bp?.encounters.find((x) => x.id === id) as BlueprintEncounter | undefined;
+    if (sample.km && bp && e) return reply(mimicChallengeFor(sample.km, e, bp.genre));
+    throw new Error(`mock model: no challenge fixture for encounter "${id ?? "?"}" in sample "${sampleId}"`);
   }
   const value = (sample as Record<string, unknown>)[key];
   if (value === undefined) throw new Error(`mock model: sample "${sampleId}" has no "${key}" fixture`);

@@ -140,3 +140,27 @@ code runs (schemas, checks, repairs, assembly, verification); only the network i
 mode map to the trig sample and the UI shows a "Mock mode" banner. `STORAGE_DRIVER=local` writes JSON under `.data/`
 (gitignored), served by `/api/blobs/[...path]`. `AUDIO_MODE=off` makes the audio pipeline a no-op. The whole demo,
 every test, and every e2e run works with zero keys.
+
+## 9. HTTP API contract (server routes in `src/app/api/`, consumed by the pages)
+
+All JSON. Errors are `{ error: string, step?: string }` with a 4xx/5xx status; `step` names the FIRST_RUN.md step when a key is missing.
+
+| Route | Body → Response |
+|---|---|
+| `POST /api/sources` | multipart `file` (PDF ≤ 40 pages) **or** `{ text, title? }` **or** `{ topic }` → `{ sourceId, kind: "pdf"\|"text"\|"topic", title, pageCount }` |
+| `GET /api/sources/:id` | → `SourceRecord & { pageCount }` |
+| `GET /api/sources/:id/intake` | runs S1 gatekeeper → S2 curriculum (+ quote verification) → FAST pre-check once, caches in storage, starts S4 matcher in the background → `{ source, gatekeeper: GatekeeperSlice, knowledgeMap: KnowledgeMap, dropped: { conceptId, page, quote }[], preCheck: Mcq[3], mock: boolean }` |
+| `GET /api/sources/:id/matches` | → `MatchResult[]` (waits for the background matcher; `{ pending: true }` with 202 if still running) |
+| `POST /api/games` | `{ sourceId, intake: Intake, sections?: string[] }` → stores the intake, starts S6–S9 as a job → `{ jobId }` (202). `sections` = outline titles the student ticked when the source was too big (optional; the Director may ignore it tonight) |
+| `GET /api/jobs/:id` | → `JobRecord` |
+| `GET /api/jobs/:id/stream` | SSE: `event: progress` / `data: ProgressEvent` per line, replayed from history for late subscribers; ends with `event: done` / `data: { done: true, gameId, error }` |
+| `GET /api/games/:id` | → `GameRecord` (spec inside) |
+| `POST /api/games/:id/regenerate` | `{ genre: Genre \| "auto", focusWeak?: boolean }` → reuses the KnowledgeMap, intake and matches → `{ jobId }` |
+| `POST /api/games/:id/telemetry` | `TelemetryEvent[]` → `{ ok: true, count }` |
+| `POST /api/games/:id/postcheck` | `{ answers: number[] }` → `{ ok: true, pre: number, post: number }` (stores the post-check answers; scores are also computed client-side) |
+| `GET /api/games/:id/telemetry` | → `TelemetryEvent[]` |
+| `GET /api/games` | → `GameSummary[]` |
+| `GET /api/blobs/*path` | the stored blob (LocalDriver) |
+
+Page ids: `/intake/[sourceId]`, `/forge/[jobId]`, `/play/[gameId]` (also `/play/fixture-<name>` in dev), `/debrief/[gameId]`.
+Mock mode: `GET /api/sources/:id/intake` returns `mock: true` and every page shows a "Mock mode" banner from `src/components/mock-banner.tsx`.
