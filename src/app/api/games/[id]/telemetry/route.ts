@@ -25,3 +25,10 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   await getStorage().appendTelemetry(id, parsed.data);
   return NextResponse.json({ ok: true, count: parsed.data.length });
 }
+
+/** GET /api/games/[id]/telemetry: every stored TelemetryEvent for a game. */
+export async function GET(_request: Request, context: { params: Promise<{ id: string }> }): Promise<Response> {
+  const { id } = await context.params;
+  const events = await getStorage().getTelemetry(id);
+  return NextResponse.json(events);
+}

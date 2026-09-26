@@ -6,6 +6,7 @@ import { isMockLLM } from "../../server/env";
 import { verifyKnowledgeMapQuotes, type DroppedFact } from "../../server/ingest";
 import { getStorage } from "../../server/storage";
 import { emit } from "../events";
+import { resolveMockSampleDetailed } from "../mock/registry";
 import { curriculumToKnowledgeMap, runCurriculum } from "./curriculum";
 import { runGatekeeper } from "./gatekeeper";
 import { runMatcher } from "./matcher";
@@ -91,14 +92,6 @@ function toMcqs(sourceId: string, items: readonly PreCheckItemLike[]): Mcq[] {
   });
 }
 
-// TODO(overnight): a topic or short paste (1-3 pages) that doesn't match any keyword in
-// src/pipeline/mock/registry.ts falls back to the trig mock sample (MEGAPROMPT §8), but that
-// fixture's gatekeeper/curriculum outline references pages 1-4. checkGatekeeper/checkCurriculum's
-// page-bound checks then fail every repair attempt against a canned mock reply that can never
-// change, and prepareIntake throws. Long uploads (>= 4 pages) are unaffected (see
-// tests/pipeline-agents.test.ts). A real fix would add a minimal 1-page mock sample for this case,
-// or make the page-bound checks advisory (like the curriculum "soft:" rule) when the model is mocked.
-
 async function loadPages(source: SourceRecord): Promise<{ pages: PageRecord[]; unsourced: boolean; pageCount: number }> {
   if (source.kind === "topic") {
     const text = source.topic ?? source.title;
@@ -133,8 +126,15 @@ export async function prepareIntake(sourceId: string): Promise<IntakeResult> {
 
   const { pages, unsourced, pageCount } = await loadPages(source);
 
-  const gatekeeper = await runGatekeeper({ jobId, title: source.title, pages, pageCount });
-  const slice = await runCurriculum({ jobId, title: source.title, pages, pageCount, unsourced });
+  // In mock mode, an upload short enough (or a bare topic) that no fixture's keywords match it falls
+  // back to the trig sample (src/pipeline/mock/registry.ts), whose canned gatekeeper/curriculum reply
+  // references trig's own page range. That reply can never change, so its page-bound checks (outline
+  // ranges, fact page numbers) are treated as advisory instead of hard failures here — otherwise every
+  // repair attempt fails the same way and prepareIntake throws (see tests/pipeline-agents.test.ts).
+  const pageBoundAdvisory = isMockLLM() && !resolveMockSampleDetailed({ sourceId: source.id, title: source.title, text: pages[0]?.text }).matched;
+
+  const gatekeeper = await runGatekeeper({ jobId, title: source.title, pages, pageCount, pageBoundAdvisory });
+  const slice = await runCurriculum({ jobId, title: source.title, pages, pageCount, unsourced, pageBoundAdvisory });
 
   let km = curriculumToKnowledgeMap(slice, sourceId, unsourced);
   let dropped: DroppedFact[] = [];

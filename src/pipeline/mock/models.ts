@@ -57,7 +57,9 @@ async function doGenerate(options: DoGenerateOptions): Promise<DoGenerateResult>
   const match = AGENT_PREFIXES.find(([prefix]) => system.startsWith(prefix));
   if (!match) throw new Error(`mock model: unrecognized agent (system prompt starts with "${system.slice(0, 40)}")`);
   const [, key] = match;
-  const sampleId = resolveMockSample({ text: `${system}\n${user}` });
+  // Match on the user turn only (the source's actual title/text): the system prompt is fixed
+  // boilerplate per agent and matching against it too risks a spurious keyword hit.
+  const sampleId = resolveMockSample({ text: user });
   const sample = getMockSample(sampleId);
   if (!sample) throw new Error(`mock model: no registered sample "${sampleId}"`);
 

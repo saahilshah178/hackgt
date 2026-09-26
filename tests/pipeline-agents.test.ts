@@ -152,8 +152,7 @@ describe("resolveMockSample", () => {
 describe("an unknown text upload", () => {
   it("resolves to the trig sample in mock mode", async () => {
     // Long enough (>= 4 pages at the ingest splitter's ~1800-char page size) that it spans the same
-    // page range the trig fixture's gatekeeper/curriculum mocks assume; see the TODO(overnight) in
-    // src/pipeline/agents/intake.ts about very short unmatched uploads.
+    // page range the trig fixture's gatekeeper/curriculum mocks assume.
     const text = "A passage about gardening techniques, composting, and soil pH, with no math content at all. ".repeat(120);
     const res = await postSources(
       new Request("http://test/api/sources", {
@@ -167,6 +166,30 @@ describe("an unknown text upload", () => {
     const result = await prepareIntake(sourceId);
     expect(result.mock).toBe(true);
     expect(result.knowledgeMap.subject.topic).toBe("Trigonometric functions");
+    await matcherJob(sourceId);
+  });
+});
+
+describe("a bare topic upload", () => {
+  it("prepares intake without throwing, even though it falls back to the (page-mismatched) trig mock", async () => {
+    // "Limits and continuity" matches none of the registry's keywords, so it falls back to the trig
+    // fixture (1 page vs. trig's own 4). checkGatekeeper/checkCurriculum treat that mismatch as
+    // advisory in mock mode (src/pipeline/agents/intake.ts), so this must succeed instead of throwing.
+    const res = await postSources(
+      new Request("http://test/api/sources", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ topic: "Limits and continuity" }),
+      }),
+    );
+    expect(res.status).toBe(200);
+    const { sourceId } = await res.json();
+
+    const result = await prepareIntake(sourceId);
+    expect(result.mock).toBe(true);
+    expect(result.knowledgeMap.unsourced).toBe(true);
+    expect(result.knowledgeMap.units.length).toBeGreaterThan(0);
+    expect(result.knowledgeMap.concepts.length).toBeGreaterThan(0);
     await matcherJob(sourceId);
   });
 });

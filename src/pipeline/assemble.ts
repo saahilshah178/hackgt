@@ -1,10 +1,12 @@
 import { SCHEMA_VERSION } from "../contracts/common";
 import type { Encounter, GameSpec } from "../contracts/gamespec";
 import type { Intake, KnowledgeMap } from "../contracts/knowledge";
-import type { AssessmentSlice, BlueprintSlice, ChallengeSlice, NarrativeSlice } from "../contracts/slices";
+import type { TeachingMechanic } from "../contracts/library";
+import type { AssessmentSlice, BlueprintEncounter, BlueprintSlice, ChallengeSlice, NarrativeSlice } from "../contracts/slices";
 import { DEFAULT_MASTERY } from "../contracts/telemetry";
 import { getCard } from "../library";
 import { getMode } from "../mechanics/registry";
+import type { AnyFamilyMode } from "../mechanics/types";
 import { hashString, renderTemplate, seededShuffle } from "../mechanics/util";
 import { layoutFromEncounters } from "./layout";
 import { mergeLockedParams } from "./validate/checks";
@@ -23,6 +25,37 @@ export interface Slices {
 }
 
 /**
+ * One encounter's worth of the assembly step: merges locked params, computes the answer key from
+ * code (never from the model), and renders every {{placeholder}}. Shared by assembleGameSpec() and
+ * the blind-solver's regenerate-and-reassemble path (src/pipeline/agents/blind-solver.ts).
+ */
+export function assembleEncounter(b: BlueprintEncounter, card: TeachingMechanic, m: AnyFamilyMode, c: ChallengeSlice): Encounter {
+  const params = m.paramsSchema.parse(mergeLockedParams(c.params, card.lockedParams)); // code enforces the card's locks
+  const solution = m.resolve(params); // the answer key comes from code, never from the model
+  const vars = m.templateVars(params, solution);
+  const render = (t: string) => renderTemplate(t, vars);
+
+  return {
+    id: b.id,
+    conceptIds: b.conceptIds,
+    teachingMechanicId: card.id,
+    socket: b.socket,
+    role: b.role,
+    difficulty: b.difficulty,
+    targetMisconception: b.targetMisconception,
+    familyId: card.family,
+    mode: card.mode,
+    prompt: render(c.prompt),
+    params,
+    hints: c.hints.map(render),
+    wrongFeedback: render(c.wrongFeedback),
+    debriefLine: render(c.debriefLine),
+    sourceRef: c.sourceRef,
+    solution,
+  };
+}
+
+/**
  * Pure and deterministic: same slices -> byte-identical spec. The output is NOT trusted:
  * callers must run validateGameSpec() on it. Slices should already have passed checks.ts.
  */
@@ -36,30 +69,7 @@ export function assembleGameSpec(s: Slices): GameSpec {
     if (!m) throw new Error(`assemble: card "${card.id}" names unknown mode ${card.family}.${card.mode}`);
     const c = s.challenges[b.id];
     if (!c) throw new Error(`assemble: no challenge slice for encounter ${b.id}`);
-
-    const params = m.paramsSchema.parse(mergeLockedParams(c.params, card.lockedParams)); // code enforces the card's locks
-    const solution = m.resolve(params); // the answer key comes from code, never from the model
-    const vars = m.templateVars(params, solution);
-    const render = (t: string) => renderTemplate(t, vars);
-
-    return {
-      id: b.id,
-      conceptIds: b.conceptIds,
-      teachingMechanicId: card.id,
-      socket: b.socket,
-      role: b.role,
-      difficulty: b.difficulty,
-      targetMisconception: b.targetMisconception,
-      familyId: card.family,
-      mode: card.mode,
-      prompt: render(c.prompt),
-      params,
-      hints: c.hints.map(render),
-      wrongFeedback: render(c.wrongFeedback),
-      debriefLine: render(c.debriefLine),
-      sourceRef: c.sourceRef,
-      solution,
-    };
+    return assembleEncounter(b, card, m, c);
   });
 
   const mcqs = (items: AssessmentSlice["post"], salt: number) =>

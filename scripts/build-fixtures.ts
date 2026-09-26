@@ -1,10 +1,16 @@
 import { writeFileSync } from "node:fs";
+import { cellSlices } from "../fixtures/cell-transport.slices";
+import { historySlices } from "../fixtures/civil-rights.slices";
 import { trigSlices } from "../fixtures/trig.slices";
 import { assembleGameSpec } from "../src/pipeline/assemble";
 import { validateGameSpec } from "../src/pipeline/validate/validate-gamespec";
 
 // Slices -> assemble -> validate -> fixtures/<name>.json. No LLM involved. Never hand-edit the JSON.
-const fixtures = [{ slices: trigSlices, file: "trig-dungeon.json" }];
+const fixtures = [
+  { slices: trigSlices, file: "trig-dungeon.json" },
+  { slices: cellSlices, file: "cell-transport-dungeon.json" },
+  { slices: historySlices, file: "civil-rights-dungeon.json" },
+];
 
 let failed = false;
 for (const f of fixtures) {

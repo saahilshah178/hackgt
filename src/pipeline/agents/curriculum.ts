@@ -14,6 +14,8 @@ export interface CurriculumContext {
   /** the source's actual page count (1 for an unpaged topic) */
   pageCount: number;
   unsourced: boolean;
+  /** Mock mode only: see GatekeeperContext.pageBoundAdvisory in gatekeeper.ts for why. */
+  pageBoundAdvisory?: boolean;
 }
 
 /**
@@ -51,9 +53,10 @@ export function checkCurriculum(c: CurriculumSlice, ctx: CurriculumContext): str
       problems.push(`core concept "${concept.id}" needs at least one misconception`);
     }
     if (!ctx.unsourced) {
+      const prefix = ctx.pageBoundAdvisory ? "soft: " : "";
       concept.facts.forEach((f, i) => {
         if (f.sourceRef && ctx.pageCount > 0 && f.sourceRef.page > ctx.pageCount) {
-          problems.push(`concept "${concept.id}" fact ${i}: page ${f.sourceRef.page} is beyond the source's ${ctx.pageCount} page(s)`);
+          problems.push(`${prefix}concept "${concept.id}" fact ${i}: page ${f.sourceRef.page} is beyond the source's ${ctx.pageCount} page(s)`);
         }
       });
     }
@@ -110,6 +113,7 @@ export function curriculumToKnowledgeMap(slice: CurriculumSlice, sourceId: strin
 export interface RunCurriculumArgs extends CurriculumSource {
   jobId: string;
   pageCount: number;
+  pageBoundAdvisory?: boolean;
   /** Overrides the SMART model (tests inject a mock model here). */
   model?: LanguageModel;
 }
@@ -124,8 +128,12 @@ export function runCurriculum(a: RunCurriculumArgs): Promise<CurriculumSlice> {
     system: CURRICULUM_SYSTEM,
     prompt: curriculumPrompt({ title: a.title, pages: a.pages, unsourced: a.unsourced }),
     // the soft size rule is a nudge, not a hard requirement: don't let a short-but-legitimate
-    // source loop through repairs forever trying to hit 4-8 units.
-    check: (c) => checkCurriculum(c, { pageCount: a.pageCount, unsourced: a.unsourced }).filter((p) => !p.startsWith("soft:")),
+    // source loop through repairs forever trying to hit 4-8 units. In mock mode, an unmatched
+    // upload's page-bound facts are advisory too (see CurriculumContext.pageBoundAdvisory).
+    check: (c) =>
+      checkCurriculum(c, { pageCount: a.pageCount, unsourced: a.unsourced, pageBoundAdvisory: a.pageBoundAdvisory }).filter(
+        (p) => !p.startsWith("soft:"),
+      ),
     maxRepairs: 2,
   });
 }

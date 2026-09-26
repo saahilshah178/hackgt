@@ -54,11 +54,21 @@ function containsKeyword(haystack: string, word: string): boolean {
   return new RegExp(`\\b${escaped}\\b`).test(haystack);
 }
 
-/** Matches a job's source against the registry by keyword; unknown input falls back to "trig". */
-export function resolveMockSample(hint: ResolveHint): string {
+/**
+ * Matches a job's source against the registry by keyword; unknown input falls back to "trig".
+ * `matched` is false exactly when nothing in the hint matched any registered sample's keywords, i.e.
+ * the caller is about to be served a fixture (trig) that has nothing to do with its actual content —
+ * useful for callers that need to treat that fixture's page-bound details as advisory (see
+ * prepareIntake's mock-mode handling of short/topic uploads).
+ */
+export function resolveMockSampleDetailed(hint: ResolveHint): { sampleId: string; matched: boolean } {
   const haystack = [hint.sourceId, hint.title, hint.text].filter(Boolean).join(" ").toLowerCase();
   for (const [sampleId, words] of Object.entries(KEYWORDS)) {
-    if (registry.has(sampleId) && words.some((w) => containsKeyword(haystack, w))) return sampleId;
+    if (registry.has(sampleId) && words.some((w) => containsKeyword(haystack, w))) return { sampleId, matched: true };
   }
-  return "trig";
+  return { sampleId: "trig", matched: false };
+}
+
+export function resolveMockSample(hint: ResolveHint): string {
+  return resolveMockSampleDetailed(hint).sampleId;
 }

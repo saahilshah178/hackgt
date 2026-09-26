@@ -20,6 +20,7 @@ import {
 import { cardPlaysIn, getCard, isCardImplemented } from "../library";
 import { autoSelectGenre, BOSS_SOCKET, IMPLEMENTED_GENRES } from "../library/genres";
 import { getMode, socketsFor } from "../mechanics/registry";
+import { emit } from "./events";
 import { AgentError, runAgent, type Progress } from "./llm";
 import { checkAssessment, checkBlueprint, checkChallenge, checkNarrative } from "./validate/checks";
 import { validateGameSpec } from "./validate/validate-gamespec";
@@ -193,9 +194,16 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
   const [minE, maxE] = encounterRange(a.intake.minutes);
   const progress = a.onProgress;
   const jobId = a.jobId ?? a.gameId;
+  // Every runAgent() call below auto-emits to the job's event bus (llm.ts); these few notes are
+  // generated directly by this function (not through runAgent), so they need the same treatment to
+  // reach the SSE stream (GET /api/jobs/:id/stream) — not just callers that pass onProgress.
+  const note = (p: Progress) => {
+    progress?.(p);
+    emit(jobId, p);
+  };
   const bossSocket = BOSS_SOCKET[genre];
   const menu = buildDirectorMenu(a.km, a.matches, genre);
-  if (reason !== "requested") progress?.({ agent: "director", status: "start", note: `genre ${genre}: ${reason}` });
+  if (reason !== "requested") note({ agent: "director", status: "start", note: `genre ${genre}: ${reason}` });
 
   // 1. Director: the only sequential LLM step.
   const blueprint: BlueprintSlice = await callAgent({
@@ -285,13 +293,13 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     }
     const fb = fallbackMimic(a.km, r.e, genre);
     if (fb) {
-      progress?.({ agent: `challenge:${r.e.id}`, status: "fallback", note: "replaced with a Mimic Chest from verified facts" });
+      note({ agent: `challenge:${r.e.id}`, status: "fallback", note: "replaced with a Mimic Chest from verified facts" });
       encounters.push(fb.encounter);
       challenges[r.e.id] = fb.slice;
     } else if (r.e.role === "boss") {
       throw r.error;
     } else {
-      progress?.({ agent: `challenge:${r.e.id}`, status: "fallback", note: "dropped" });
+      note({ agent: `challenge:${r.e.id}`, status: "fallback", note: "dropped" });
     }
   }
   const kept = new Set(encounters.map((e) => e.id));
@@ -309,7 +317,7 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
   };
 
   // 4. Assemble + validate. On failure, route each issue to the agent that owns it, once.
-  progress?.({ agent: "verifier", status: "start" });
+  note({ agent: "verifier", status: "start" });
   let result = validateGameSpec(assembleGameSpec(slices));
   let repairs = 0;
   if (!result.ok) {
@@ -332,6 +340,6 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     result = validateGameSpec(assembleGameSpec(slices));
     if (!result.ok) throw new GenerationError(result.issues);
   }
-  progress?.({ agent: "verifier", status: "done", note: repairs ? `repaired ${repairs} slice(s)` : "all checks passed" });
+  note({ agent: "verifier", status: "done", note: repairs ? `repaired ${repairs} slice(s)` : "all checks passed" });
   return { spec: result.spec, warnings: result.warnings, repairs, genre };
 }
