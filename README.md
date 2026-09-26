@@ -60,9 +60,11 @@ The five demos above use original illustrated 2D scenes and 44 hand-authored mis
 Meridian's harbor beacon; as a transport steward, stabilize a model cell; as an archive researcher, reconstruct
 an evidence-based civil rights exhibit; as a courier, traverse the observatory's skywalk; or as a systems
 apprentice, bring Aurora's research station out of shutdown. Each expedition has a fictional guide, three acts,
-optional journal notes, a progress map, and a finale.
+optional journal notes, a progress map, and a finale. Every location has its own equipment and scene. A worked
+example and ungraded prediction lead into a scored field operation; clean, unassisted answers gradually reduce
+guidance, while mistakes or hints bring it back.
 
-Explore, speak with the guide, collect notes, activate a relay, and manipulate the apparatus. A correct submission
+Explore, speak with the guide, collect notes, reconnect a relay through its rotating-conduit puzzle, and manipulate the apparatus. A correct submission
 unlocks the exit and displays the mission's restoration consequence. Mistakes can be retried, and skywalk hazards
 return the character to safe ground. The underlying fixture grading, sources, telemetry, and learning debrief
 remain authoritative. The civil rights story is a simplified classroom account; its historian guide is fictional.

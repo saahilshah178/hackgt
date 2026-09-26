@@ -1,16 +1,13 @@
-import { expect, test } from "@playwright/test";
+﻿import { expect, test } from "@playwright/test";
 
 /*
- * Platformer host smoke test (MEGAPROMPT P10.2, checkpoint genre-platformer): the trig-platformer
- * fixture drives PlatformerScene end to end (autoSolve to the end screen, zero console errors), plus
- * a keyboard-path check that ArrowRight actually moves the player right (LIBRARY §1 platformer:
- * "run and jump to the exit").
+ * Showcase grading regression plus real keyboard movement and jumping checks.
+ * Human-input relay and apparatus progression is covered in adventure.spec.ts.
  */
 
 type DebugHandle = {
   state(): { finished: boolean; index: number; encounterId: string | null };
   autoSolve(): void;
-  host?: { playerX(): number };
 };
 
 test("fixture-trig-platformer: autoSolve to the end screen with zero console errors", async ({ page }) => {
@@ -49,33 +46,15 @@ test("fixture-trig-platformer: ArrowRight moves the player to the right", async 
     timeout: 30_000,
   });
 
-  const phaserHost = page.getByTestId("phaser-host");
-  const domHost = page.getByTestId("dom-host");
-  const gotPhaser = await phaserHost
-    .waitFor({ state: "visible", timeout: 10_000 })
-    .then(() => true)
-    .catch(() => false);
-
-  if (!gotPhaser) {
-    // Headless Chromium without WebGL: falls back to the DOM host, which has no player-x concept.
-    // The autoSolve test above still covers the full run end to end in that environment.
-    await expect(domHost).toBeVisible();
-    return;
-  }
-
-  await page.waitForFunction(
-    () => typeof (window as unknown as { __GAME_DEBUG__: DebugHandle }).__GAME_DEBUG__.host?.playerX === "function",
-    null,
-    { timeout: 15_000 },
-  );
-
-  const startX = await page.evaluate(() => (window as unknown as { __GAME_DEBUG__: DebugHandle }).__GAME_DEBUG__.host!.playerX());
-
-  await phaserHost.click();
+  await page.getByRole("button", { name: /Begin expedition/ }).click();
+  const world = page.getByRole("group", { name: /exploration\./ }).first();
+  const actor = page.locator(".adventure-player");
+  const startX = await actor.evaluate(element => parseFloat((element as HTMLElement).style.left));
+  await world.focus();
   await page.keyboard.down("ArrowRight");
-  await page.waitForTimeout(1000);
+  await expect.poll(async () => actor.evaluate(element => parseFloat((element as HTMLElement).style.left))).toBeGreaterThan(startX + 3);
   await page.keyboard.up("ArrowRight");
-
-  const endX = await page.evaluate(() => (window as unknown as { __GAME_DEBUG__: DebugHandle }).__GAME_DEBUG__.host!.playerX());
-  expect(endX).toBeGreaterThan(startX);
+  const startY = await actor.evaluate(element => parseFloat((element as HTMLElement).style.top));
+  await page.keyboard.press("Space");
+  await expect.poll(async () => actor.evaluate(element => parseFloat((element as HTMLElement).style.top))).toBeLessThan(startY - 2);
 });

@@ -8,9 +8,9 @@ The five homepage showcases have deterministic, hand-authored campaign manifests
 
 The history companion Mara Ellis is explicitly fictional. Her dialogue guides source analysis; it is not historical testimony. The archive repairs exhibit labels and explanations rather than staging civil-rights suffering as combat. The cell sanctuary is explicitly a scientific model, so its garden fiction does not imply that a real cell contains human-operated rooms.
 
-The integrated showcase runtime uses original illustrated 2D scenes, a moving character and guide, optional field notes, a relay, an apparatus, and an exit. Keyboard movement and assisted object travel reach these props; the skywalk adds ledges, jumping, and recoverable hazards. A relay is required before opening the apparatus, a correct graded submission restores the scene and unlocks departure, and collected notes remain in the journal during the expedition. Closing the apparatus keeps its mounted input state.
+The integrated showcase runtime uses original illustrated 2D scenes, a moving character and guide, optional field notes, chapter-specific equipment and an exit. Keyboard movement and assisted object travel reach these props; the skywalk adds ledges, jumping and recoverable hazards. A nine-tile routing puzzle is an opening field setup, not a gate repeated at every level. Later chapters open their local operation directly. Every encounter has a short separate worked example and an ungraded interactive prediction before the scored operation. Examples use training values and do not read the live answer. A wrong practice response shows its reasoning and can be revised. Two consecutive clean first-try answers fade the walkthrough; a wrong graded attempt or used hint restores it. Only the original mode grader restores the scene and unlocks departure. Collected notes remain in the journal, and closing the apparatus keeps mounted input state.
 
-The locations share subject-specific scene compositions and machine art. Chapter-specific names and restoration descriptions supply narrative detail; a shutter chamber and a crown beacon are not separately simulated machines or uniquely modeled rooms. Restoration is shown through lighting, machine status, particles, and an open exit, accompanied by the chapter's written consequence. Several modes have bespoke apparatus views (including circular angle placement, wave calibration, membrane routing, claim inspection, archive elimination, and recall); other modes use the existing widgets inside a themed workbench. This is a 2D authored presentation layer, not a 3D world or a complete physical simulation. Its map is a progress list rather than a navigable spatial map. The history account is explicitly a classroom simplification.
+The 38 non-platformer locations have distinct illustrated equipment scenes, with different machinery and room composition for every chapter; the six skywalk locations have their own cliff, ledge and equipment variants. The painted background is a shared environment plate per subject, layered with this room-specific machinery. Restoration is shown through lighting, machine status, particles and an open exit, accompanied by the chapter's written consequence. Several modes have bespoke apparatus views (including circular angle and coordinate modeling, a live wave graph, membrane transport, claim analysis, archival evidence reconstruction and recall); other modes use existing widgets inside the locally relevant equipment. The ungraded training laboratories provide worked examples for unit-circle coordinates, sinusoidal controls, membrane structure and transport, source analysis, timelines, calculus, balances, chemistry, ledgers, translation, functions and program state. Examples precede the encounter, derive from the skill rather than its stored answer, and provide feedback without adding assessment telemetry. Guidance level uses the preceding graded encounters and hints, separately from grading or mastery. This is a 2D authored presentation layer, not a 3D world or a complete physical simulation. Its map is a progress list rather than a navigable spatial map. The history account is explicitly a classroom simplification.
 
 Campaign coverage tests in `tests/adventure-campaigns.test.ts` verify every shipped encounter, distinct substantive fields, all three acts, the history alias, generated fallback, encounter drift, ordering, and caller isolation. Runtime interaction, accessibility, artwork, and browser verification must be reported separately by the integration work; a campaign unit test does not establish their quality.
 
@@ -38,6 +38,14 @@ type AdventureSpec = {
     machine: {
       id: string; conceptRelationship: string; modeId: string;
       inputSource: "encounter.params"; feedbackModel: string;
+    };
+    instruction: {
+      conceptId: string;
+      verifiedSourceSpanIds: string[];
+      workedExample: { trainingScenario: string; steps: [string, string, string]; interactiveLab: string };
+      guidedPrediction: { prompt: string; options: [string, string, string]; correctIndex: number; feedback: string; telemetry: "none" };
+      transferGoal: string;
+      guidance: { initial: "supported"; reduceAfter: { consecutiveFirstTry: 2; hintsUsed: 0 }; restoreAfter: "incorrect_attempt_or_hint" };
     };
     props: Array<{ id: string; role: "note" | "relay" | "machine" | "exit"; zoneId: string }>;
     prerequisites: string[];
@@ -102,6 +110,10 @@ For a PDF passage stating that the period of `y = sin(bx)` is `2π/|b|`, preserv
 ```
 
 This is a fragment of a planned full contract. The renderer would also require a reachable entrance, note prop, companion position, relay, apparatus, safe recovery, and exit. The world consequence follows the studied relationship: synchronized repetition permits the light path. A generic chest opening after an unrelated question fails this requirement.
+
+Learning follows **worked example → ungraded prediction → consequential transfer task**. The supported example uses new numbers or an explicitly synthetic scenario, shows its reasoning, and links the concept to the local apparatus. It cannot disclose the live task's target or present invented training data as verified evidence. The prediction explains wrong choices without penalty or assessment telemetry. The graded field operation asks the learner to apply the principle to the supplied evidence, mechanism, or constraint. Avoid bare recall, isolated arithmetic, and mechanically identical mode sequences. A source-backed example cites a verified span; synthetic training data is labeled as such.
+
+Adapt scaffolding from demonstrated performance: start supported, fade only after two clean first-try solves without hints, and restore guided steps after a mistake or hint. Adapt explanation depth, never the concept target or grader. Track instructional practice separately from mastery events. Compare adjacent levels before accepting a generated campaign: location, apparatus, player verb, real-world constraint, worked-example topic, transfer decision, and world consequence must vary. Shared art can establish a setting, but each chapter needs its own substantive scene dressing. A universal circuit puzzle cannot gate every level.
 
 ## Generation stages and provenance
 

@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
+import { readAdventureFixture, solveRelay } from "./adventure-helpers";
 
 /*
- * Mystery host smoke test (MEGAPROMPT P10 part 1, checkpoint genre-mystery): the civil-rights-mystery
- * fixture drives MysteryHost end to end (autoSolve to the end screen, zero console errors), plus a
- * keyboard-path check that the first room's socket-specific frame and widget actually render.
+ * Archive showcase grading regression plus real relay and evidence-apparatus opening.
+ * Human-input evidence submission and departure are covered in adventure.spec.ts.
  */
 
 type DebugHandle = {
@@ -41,17 +41,13 @@ test("fixture-civil-rights-mystery: autoSolve to the end screen with zero consol
   expect(errors, `console/page errors:\n${errors.join("\n")}`).toEqual([]);
 });
 
-test("fixture-civil-rights-mystery: ArrowRight from arrival opens the first room's cross_exam frame", async ({ page }) => {
+test("fixture-civil-rights-mystery: archive exploration opens the first evidence apparatus", async ({ page }) => {
   await page.goto("/play/fixture-civil-rights-mystery?debug=1");
 
-  const host = page.getByTestId("mystery-host");
-  await expect(host).toBeVisible();
-  await expect(page.getByTestId("scene-arrival")).toBeVisible();
-
-  await host.focus();
-  await page.keyboard.press("ArrowRight");
-
-  // First encounter in the fixture (e1_brown) is a truth_finder.mimic on the cross_exam socket.
-  await expect(page.getByTestId("scene-cross_exam")).toBeVisible();
-  await expect(page.getByTestId("widget-first-option")).toBeVisible();
+  await expect(page.getByTestId("adventure-game")).toBeVisible();
+  await page.getByRole("button", { name: /Begin expedition/ }).click();
+  await solveRelay(page, readAdventureFixture("civil-rights-mystery").seed);
+  await page.getByRole("button", { name: "Inspect apparatus", exact: true }).click();
+  await expect(page.getByTestId("adventure-instrument")).toBeVisible();
+  await expect(page.locator(".ai-claim-plate")).toHaveCount(3);
 });
