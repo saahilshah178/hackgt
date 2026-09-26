@@ -3,6 +3,7 @@ import { z } from "zod";
 import { GenreOrAuto } from "../../../../../contracts/common";
 import type { Intake } from "../../../../../contracts/knowledge";
 import { startGameJob } from "../../../../../pipeline/orchestrator";
+import { isFixtureId, materializeFixtureGame } from "../../../../../server/fixtures";
 import { getStorage } from "../../../../../server/storage";
 
 /*
@@ -31,7 +32,7 @@ function intakeFromSpec(spec: { intake: { goal: Intake["goal"]; minutes: Intake[
 export async function POST(request: Request, context: { params: Promise<{ id: string }> }): Promise<Response> {
   const { id } = await context.params;
   const storage = getStorage();
-  const record = await storage.getGame(id);
+  const record = (await storage.getGame(id)) ?? (isFixtureId(id) ? await materializeFixtureGame(id) : null);
   if (!record) return jsonError(404, `No game with id "${id}".`);
 
   let json: unknown;
