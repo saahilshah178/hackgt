@@ -92,3 +92,34 @@ describe("transformer.function_machine", () => {
     expect(functionMachine.check({ ...out, rule: "2.0001*x" }).join(" ")).toMatch(/rounded decimal/);
   });
 });
+
+describe("transformer.trace", () => {
+  const p = {
+    program: ["x = 3", "y = x * 2 + 1", "if y > 6: x = x + 10 else: x = 0", "a = [4, 7, 9]", "print a[0]", "print x"],
+    ask: "output" as const,
+    variable: "",
+    options: ["4 13", "7 13", "4 3", "7 0"],
+  };
+  it("executes assignments, conditionals, lists (zero-based) and print", async () => {
+    const { trace, runProgram } = await import("../src/mechanics/families/transformer/trace");
+    expect(trace.check(p)).toEqual([]);
+    const s = trace.resolve(p);
+    expect(s.answer).toBe("4 13");
+    expect(s.correctIndex).toBe(0);
+    expect(trace.grade(p, trace.solutionInput(p, s)).correct).toBe(true);
+    const miss = trace.grade(p, { optionIndex: 1 });
+    expect(miss.correct).toBe(false);
+    expect(miss.feedback).toMatch(/halfway through, x = 3, y = 7/);
+    expect(runProgram(["i = 0", "while i < 5: i = i + 2", "print i"]).output).toEqual(["6"]);
+    const fv = { ...p, ask: "final_value" as const, variable: "x", options: ["13", "3", "0"] };
+    expect(trace.resolve(fv).answer).toBe("13");
+    expect(trace.present(fv, 3).options.map((o) => o.optionIndex).sort()).toEqual([0, 1, 2]);
+  });
+  it("rejects programs that fail, never-ending loops, and option sets without the answer", async () => {
+    const { trace } = await import("../src/mechanics/families/transformer/trace");
+    expect(trace.check({ ...p, program: ["x = 3", "print a[0]"] }).join(" ")).toMatch(/program error: line 2/);
+    expect(trace.check({ ...p, program: ["i = 0", "while i < 1: x = 1", "print i"] }).join(" ")).toMatch(/too long/);
+    expect(trace.check({ ...p, options: ["7 13", "4 3"] }).join(" ")).toMatch(/none of the options/);
+    expect(trace.check({ ...p, ask: "final_value", variable: "zz", options: ["1", "2"] }).join(" ")).toMatch(/never assigned/);
+  });
+});
