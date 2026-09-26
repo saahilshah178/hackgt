@@ -44,11 +44,21 @@ const KEYWORDS: Record<string, string[]> = {
   civil_rights: ["civil rights", "montgomery", "voting rights act", "brown v. board", "selma", "freedom rides"],
 };
 
+/**
+ * Word-boundary substring match: a plain `includes()` would let a short keyword like "sine" match
+ * inside an unrelated word (e.g. DOMAINS includes "business", which contains "sine"), which matters
+ * once every agent's system prompt embeds shared lists like the Domain enum.
+ */
+function containsKeyword(haystack: string, word: string): boolean {
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`\\b${escaped}\\b`).test(haystack);
+}
+
 /** Matches a job's source against the registry by keyword; unknown input falls back to "trig". */
 export function resolveMockSample(hint: ResolveHint): string {
   const haystack = [hint.sourceId, hint.title, hint.text].filter(Boolean).join(" ").toLowerCase();
   for (const [sampleId, words] of Object.entries(KEYWORDS)) {
-    if (registry.has(sampleId) && words.some((w) => haystack.includes(w))) return sampleId;
+    if (registry.has(sampleId) && words.some((w) => containsKeyword(haystack, w))) return sampleId;
   }
   return "trig";
 }

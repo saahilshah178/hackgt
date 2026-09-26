@@ -252,6 +252,15 @@ export class SupabaseDriver implements StorageDriver {
     return path;
   }
 
+  /** Reads back a blob written by putBlob (e.g. the original PDF, or a small JSON side record). */
+  async getBlob(path: string): Promise<Uint8Array | null> {
+    const bucket = path.startsWith("audio/") ? "audio" : "sources";
+    const key = path.startsWith("audio/") ? path.slice("audio/".length) : path;
+    const { data, error } = await this.client.storage.from(bucket).download(key);
+    if (error || !data) return null;
+    return new Uint8Array(await data.arrayBuffer());
+  }
+
   blobUrl(path: string): string {
     const bucket = path.startsWith("audio/") ? "audio" : "sources";
     const key = path.startsWith("audio/") ? path.slice("audio/".length) : path;

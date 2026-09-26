@@ -1,7 +1,9 @@
 import { MockLanguageModelV4 } from "ai/test";
 import type { Tier } from "../models";
 import { getMockSample, resolveMockSample } from "./registry";
-import "./trig"; // registers the trig sample as a side effect (P5a); later samples import here too.
+import "./trig"; // registers the trig sample as a side effect (P5a)
+import "./cell"; // registers the cell-transport sample as a side effect (P5b)
+import "./history"; // registers the civil-rights sample as a side effect (P5b)
 
 /*
  * The mock model every tier resolves to when LLM_MODE=mock. It dispatches on the system prompt's
