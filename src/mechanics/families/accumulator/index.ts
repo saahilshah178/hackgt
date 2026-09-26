@@ -1,5 +1,8 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { averageValue } from "./average_value";
+import { rateTotal } from "./rate_total";
+import { signed } from "./signed";
 import { area } from "./area";
 import { riemann } from "./riemann";
 
@@ -21,8 +24,8 @@ export const accumulator = defineFamily({
   modes: {
     riemann,
     area,
-    signed: s("signed", "Signed area", "Net area above and below the axis."),
-    rate_total: s("rate_total", "Rate to total", "Predict the accumulated total at time t."),
-    average_value: s("average_value", "Average value", "Level the reservoir."),
+    signed: signed,
+    rate_total: rateTotal,
+    average_value: averageValue,
   },
 });

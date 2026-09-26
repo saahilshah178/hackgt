@@ -1,5 +1,6 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { reachState } from "./reach_state";
 import { intervene } from "./intervene";
 import { predict } from "./predict";
 import { sample } from "./sample";
@@ -18,14 +19,7 @@ export const simulator = defineFamily({
   },
   modes: {
     intervene,
-    reach_state: stubMode({
-      id: "reach_state",
-      name: "Reach state",
-      widget: "dial",
-      knowledgeTypes: ["system", "causal"],
-      blindSolvable: false,
-      directorBlurb: "Set initial parameters or rates so the state hits a target at tick T.",
-    }),
+    reach_state: reachState,
     predict,
     sample,
   },
