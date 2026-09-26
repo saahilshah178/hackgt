@@ -1,40 +1,66 @@
 import type { Genre } from "../contracts/common";
-import type { Intake, KnowledgeMap } from "../contracts/knowledge";
-import type { BlueprintEncounter, BlueprintSlice } from "../contracts/slices";
-import { directorMenu } from "../mechanics/registry";
+import { conceptWeight, type Intake, type KnowledgeMap } from "../contracts/knowledge";
+import type { TeachingMechanic } from "../contracts/library";
+import type { BlueprintEncounter, BlueprintSlice, DirectorMenuFamily } from "../contracts/slices";
+import { getFamily } from "../mechanics/registry";
+import type { AnyFamilyMode } from "../mechanics/types";
 
 /**
  * Identical for every agent in a job and placed FIRST in each prompt, so provider prompt caching
  * can reuse it across the parallel calls. Anything call-specific goes after it.
  */
 export function sharedContext(km: KnowledgeMap, intake: Intake, genre: Genre): string {
+  const units = km.units.map((u) => ({ id: u.id, name: u.name, learnerConfidence: intake.confidence[u.id] ?? 3 }));
   const concepts = km.concepts.map((c) => ({
     id: c.id,
+    unit: c.unitId,
     name: c.name,
     type: c.knowledgeType,
+    importance: c.importance,
+    weight: conceptWeight(c, intake),
     summary: c.summary,
-    learnerConfidence: intake.confidence[c.id] ?? 3,
+    objective: c.learningObjective,
     facts: c.facts.map((f) => (f.sourceRef ? `${f.statement} [p.${f.sourceRef.page}: "${f.sourceRef.quote}"]` : f.statement)),
     misconceptions: c.misconceptions.map((m) => `${m.belief} -> actually: ${m.correction}`),
+    formulas: c.formulas.map((f) => `${f.label}: ${f.mathjs}`),
   }));
   return [
-    `# Source: ${km.title} (${km.subject}, ${km.level})${km.unsourced ? " [UNSOURCED: from general knowledge]" : ""}`,
-    `# Learner: goal=${intake.goal}, minutes=${intake.minutes}. Confidence is 1 (lost) to 5 (solid).`,
+    `# Source: ${km.title} (${km.subject.domain} / ${km.subject.topic}, ${km.level})${km.unsourced ? " [UNSOURCED: from general knowledge]" : ""}`,
+    `# Learner: goal=${intake.goal}, minutes=${intake.minutes}. Confidence is 1 (lost) to 5 (solid). Weight = (core ? 2 : 1) × (6 − confidence); higher weight = needs more practice.`,
     `# Genre: ${genre}`,
+    "# Units",
+    JSON.stringify(units),
     "# Concepts",
     JSON.stringify(concepts, null, 1),
-    "# Mechanics available in this genre",
-    directorMenu(genre),
   ].join("\n");
+}
+
+/** The Director's menu: per family, its sockets in this genre and the shortlisted cards. */
+export function directorMenu(families: readonly DirectorMenuFamily[], genre: Genre): string {
+  return families
+    .filter((f) => f.cards.length > 0)
+    .map((f) => {
+      const fam = getFamily(f.familyId);
+      const skin = fam?.genres[genre]?.skin ?? "";
+      const cards = f.cards
+        .map(
+          (c) =>
+            `  - ${c.id} [${c.family}.${c.mode}] "${c.concept}": ${c.playerAction}. Breaks: "${c.misconception}".${c.genreNotes?.[genre] ? ` In this genre: ${c.genreNotes[genre]}.` : ""}`,
+        )
+        .join("\n");
+      return `- family ${f.familyId} (${fam?.name ?? f.familyId}); sockets: ${f.sockets.join("/")}; look: ${skin}\n${cards}`;
+    })
+    .join("\n");
 }
 
 export const DIRECTOR_SYSTEM = `You are the Director of an educational game generator. You design the game's structure; other agents write the details.
 
 Design rules:
-- Every encounter makes the player USE the concept to win. If a player could win while ignoring the concept, choose another mechanic.
-- Weight toward weak concepts (low confidence): each weak concept appears 2-3 times through DIFFERENT mechanics; strong concepts once.
+- Every encounter makes the player USE the concept to win. If a player could win while ignoring the concept, choose another card.
+- Weight toward weak concepts (high weight): each weak concept appears 2-3 times through DIFFERENT families; strong concepts once.
 - Order: teach before practice; include one "review" of an earlier concept after at least two other encounters.
 - The last encounter is the boss: it combines the 2-3 weakest concepts and uses the boss socket.
+- Target a listed misconception whenever the card allows it (targetMisconception must be copied exactly from the concept's list, or null).
 - Theme the whole game around the subject (e.g. cell biology -> a submarine inside a cell). 1-3 characters, one of them a helper.
 - designNote tells the challenge writer what the encounter should make the player think about. Be specific.`;
 
@@ -42,7 +68,7 @@ export const CHALLENGE_SYSTEM = `You are the Challenge Writer for one encounter 
 
 Rules:
 - Ground the challenge in the listed facts. If a fact has a [p.N: "quote"], copy that page and quote into sourceRef exactly; for unsourced topics use null.
-- Build wrong options and wrongFeedback from the concept's listed misconceptions.
+- Build wrong options and wrongFeedback from the concept's listed misconceptions, especially the encounter's target misconception.
 - Never write computed values (answers, periods, positions) as literal text. Use the mechanic's {{placeholders}}; code fills them in from the params.
 - The prompt and first hint must not give the answer away. Hints climb: nudge -> method -> nearly the answer.
 - The debriefLine names the concept outright and connects it to what the player just did.
@@ -53,18 +79,32 @@ export const NARRATIVE_SYSTEM = `You are the Narrative Writer. Write short spoke
 - Characters stay in voice. The helper character gives encouragement, never answers.
 - Never state a correct answer or a computed value.`;
 
-export const ASSESSMENT_SYSTEM = `You are the Assessment Writer. Write 3 pre-check and 3 post-check multiple-choice items covering the learner's weakest concepts.
-- One unambiguous correct answer; three distractors drawn from real misconceptions.
-- Post-check items test the same concepts with NEW questions, not rewordings of the pre-check.`;
+export const ASSESSMENT_SYSTEM = `You are the Assessment Writer. Write the 3 post-check multiple-choice items for after the game.
+- Cover the same concepts as the pre-check items listed in the prompt, with NEW questions (not rewordings).
+- One unambiguous correct answer; three distractors drawn from real misconceptions.`;
 
-export function directorPrompt(shared: string, minEncounters: number, maxEncounters: number): string {
-  return `${shared}\n\n# Task\nDesign the game blueprint with ${minEncounters}-${maxEncounters} encounters.`;
+export const PRECHECK_SYSTEM = `You are the Pre-check Writer. Write 3 quick multiple-choice items that measure the learner's weakest concepts before the game.
+- One unambiguous correct answer; three distractors drawn from real misconceptions.
+- Short prompts a student can answer in 20 seconds each.`;
+
+export function directorPrompt(shared: string, menu: string, minEncounters: number, maxEncounters: number): string {
+  return `${shared}\n\n# Cards available in this genre (choose only from these)\n${menu}\n\n# Task\nDesign the game blueprint with ${minEncounters}-${maxEncounters} encounters.`;
 }
 
-export function challengePrompt(shared: string, bp: BlueprintSlice, e: BlueprintEncounter, attemptNotes = ""): string {
+export function challengePrompt(
+  shared: string,
+  bp: BlueprintSlice,
+  e: BlueprintEncounter,
+  card: TeachingMechanic,
+  mode: AnyFamilyMode,
+  attemptNotes = "",
+): string {
+  const locked = card.lockedParams ? `\nLocked by the card (already set, do not write them): ${JSON.stringify(card.lockedParams)}` : "";
   return [
     shared,
     `# Game: ${bp.title}. ${bp.premise} Setting: ${bp.theme.setting}. Tone: ${bp.theme.tone}.`,
+    `# Card: ${card.id} (${card.family}.${card.mode})\nConcept: ${card.concept}\nPlayer does: ${card.playerAction}\nMisconception it breaks: ${card.misconception}${card.authoringNotes ? `\nAuthoring notes: ${card.authoringNotes}` : ""}${locked}`,
+    `# Mode: ${mode.name}\n${mode.authoringGuide}`,
     `# Your encounter\nENCOUNTER_ID: ${e.id}`,
     JSON.stringify(e, null, 1),
     attemptNotes,
@@ -72,13 +112,18 @@ export function challengePrompt(shared: string, bp: BlueprintSlice, e: Blueprint
 }
 
 export function narrativePrompt(shared: string, bp: BlueprintSlice): string {
-  const plan = bp.encounters.map((e) => `${e.id} (${e.role}, ${e.mechanicId}): ${e.designNote}`).join("\n");
+  const plan = bp.encounters.map((e) => `${e.id} (${e.role}, ${e.teachingMechanicId}): ${e.designNote}`).join("\n");
   const cast = bp.characters.map((c) => `${c.id}: ${c.name}, ${c.role} (${c.voiceArchetype})`).join("\n");
   return `${shared}\n\n# Game: ${bp.title}\n${bp.premise}\n# Cast\n${cast}\n# Encounters\n${plan}`;
 }
 
-export function assessmentPrompt(shared: string): string {
-  return `${shared}\n\n# Task\nWrite the pre-check and post-check.`;
+export function assessmentPrompt(shared: string, preCheck: readonly { conceptId: string; prompt: string }[]): string {
+  const pre = preCheck.map((q) => `- [${q.conceptId}] ${q.prompt}`).join("\n");
+  return `${shared}\n\n# Pre-check items already asked (same concepts, do NOT reuse these questions)\n${pre}\n\n# Task\nWrite the post-check.`;
+}
+
+export function preCheckPrompt(shared: string, weakestConceptIds: readonly string[]): string {
+  return `${shared}\n\n# Task\nWrite 3 pre-check items, one each for the weakest concepts: ${weakestConceptIds.join(", ")}.`;
 }
 
 /** Appended to a prompt when an agent's previous answer failed checks. */

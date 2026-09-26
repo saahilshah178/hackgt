@@ -1,6 +1,8 @@
 import { z } from "zod";
-import { defineMechanic } from "./types";
-import { shuffleNotIdentity } from "./util";
+import { defineMode } from "../../types";
+import { shuffleNotIdentity } from "../../util";
+
+/* truth_finder · mimic: exactly one false claim, built from a misconception. The universal fallback. */
 
 const Statement = z.object({
   text: z.string().describe("A claim about the concept, under 120 characters"),
@@ -31,12 +33,13 @@ function solve(p: Params): Solution {
   return { mimicIndex: p.statements.findIndex((s) => !s.isTrue) };
 }
 
-export const mimicChest = defineMechanic({
-  id: "mimic_chest",
-  name: "Mimic Chest",
-  widget: "pick",
-  knowledgeTypes: ["fact", "category", "quantitative", "causal", "argument", "procedure", "sequence", "spatial"],
+export const mimic = defineMode({
+  id: "mimic",
+  name: "Mimic",
   implemented: true,
+  blindSolvable: true,
+  widget: "pick",
+  knowledgeTypes: ["fact", "category", "quantitative", "causal", "argument", "procedure", "sequence", "spatial", "system"],
   directorBlurb:
     "Several claims, exactly one false (built from a misconception); the player exposes the lie. Works for any concept; the universal fallback.",
   authoringGuide: [
@@ -44,12 +47,6 @@ export const mimicChest = defineMechanic({
     "Make the true claims similar in length and tone to the false one: length is a giveaway.",
     "{{mimic}} (the false claim's text) is the answer: use it only in the last hint and the debrief line.",
   ].join("\n"),
-  genres: {
-    dungeon: { sockets: ["chest"], skin: "Treasure chests; the one bearing the false claim is a mimic" },
-    platformer: { sockets: ["gate"], skin: "Three doors; the one with the false claim collapses" },
-    mystery: { sockets: ["cross_exam", "conversation", "accusation"], skin: "One witness's claim contradicts the facts" },
-    puzzle: { sockets: ["tile_puzzle"], skin: "Remove the odd tile to release the chain" },
-  },
   paramsSchema: Params,
   check(p) {
     const problems: string[] = [];
@@ -92,4 +89,15 @@ export const mimicChest = defineMechanic({
     };
   },
   solutionInput: (_p, s) => ({ statementIndex: s.mimicIndex }),
+  blind: {
+    schema: z.object({
+      chest: z.number().int().min(0).max(3).describe("Position (0-based) of the FALSE claim in the list shown"),
+      why: z.string().describe("One sentence"),
+    }),
+    describe: (_p, view: View) => view.chests.map((c, i) => `${i}. ${c.text}`).join("\n"),
+    toInput: (_p, view: View, out) => {
+      const o = out as { chest: number };
+      return { statementIndex: view.chests[o.chest]?.statementIndex ?? -1 };
+    },
+  },
 });

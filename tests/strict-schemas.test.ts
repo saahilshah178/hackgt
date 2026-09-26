@@ -2,8 +2,20 @@ import { zodSchema } from "ai";
 import { describe, expect, it } from "vitest";
 import type { z } from "zod";
 import { GENRES } from "../src/contracts/common";
-import { assessmentSchema, challengeSchema, directorSchema, narrativeSchema } from "../src/contracts/slices";
-import { MECHANICS, mechanicsFor } from "../src/mechanics/registry";
+import {
+  assessmentSchema,
+  challengeSchema,
+  curriculumSchema,
+  directorSchema,
+  gatekeeperSchema,
+  matcherSchema,
+  narrativeSchema,
+  preCheckSchema,
+  type DirectorMenuFamily,
+} from "../src/contracts/slices";
+import { CARDS, cardsFor } from "../src/library";
+import { BOSS_SOCKET } from "../src/library/genres";
+import { allModes, familiesFor, implementedModes, socketsFor } from "../src/mechanics/registry";
 
 /*
  * Walks the JSON Schema the AI SDK actually sends and enforces the strict-mode subset we rely on.
@@ -14,7 +26,7 @@ const BANNED = ["oneOf", "allOf", "not", "const", "minLength", "maxLength", "pat
 
 type Node = Record<string, unknown>;
 
-function audit(schema: z.ZodType) {
+export function audit(schema: z.ZodType) {
   const json = zodSchema(schema).jsonSchema as Node;
   const errors: string[] = [];
   const stats = { properties: 0, enumValues: 0, maxDepth: 0 };
@@ -51,21 +63,63 @@ function audit(schema: z.ZodType) {
 }
 
 const conceptIds = ["c_radians", "c_period", "c_amplitude", "c_solve"];
+const beliefs = ["π radians is a full circle.", "Amplitude is the distance from peak to trough."];
+
+function menuFor(genre: (typeof GENRES)[number]): DirectorMenuFamily[] {
+  const cards = cardsFor(genre);
+  return familiesFor(genre).map((f) => ({
+    familyId: f.id,
+    sockets: socketsFor(f.id, genre, BOSS_SOCKET[genre]),
+    cards: cards.filter((c) => c.family === f.id),
+  }));
+}
 
 describe("LLM-facing schemas are strict-mode legal", () => {
+  it("gatekeeper schema", () => expect(audit(gatekeeperSchema()).errors).toEqual([]));
+  it("curriculum schema", () => expect(audit(curriculumSchema()).errors).toEqual([]));
+  it("matcher schema (with and without misconceptions)", () => {
+    expect(audit(matcherSchema(["phase_gate", "mimic_chest", "pulse_matcher"], beliefs)).errors).toEqual([]);
+    expect(audit(matcherSchema(["phase_gate", "mimic_chest"], [])).errors).toEqual([]);
+  });
+  it("pre-check schema", () => expect(audit(preCheckSchema(conceptIds)).errors).toEqual([]));
+  it("assessment schema", () => expect(audit(assessmentSchema(conceptIds)).errors).toEqual([]));
+  it("narrative schema", () => expect(audit(narrativeSchema(["cog", "warden"], ["e1", "e2"])).errors).toEqual([]));
+
   for (const genre of GENRES) {
     it(`director schema (${genre})`, () => {
-      const schema = directorSchema({ genre, conceptIds, mechanics: mechanicsFor(genre), minEncounters: 5, maxEncounters: 9 });
+      const schema = directorSchema({ genre, conceptIds, families: menuFor(genre), beliefs, bossSocket: BOSS_SOCKET[genre], minEncounters: 5, maxEncounters: 9 });
       expect(audit(schema).errors).toEqual([]);
     });
   }
 
-  for (const m of MECHANICS) {
-    it(`challenge schema for ${m.id}`, () => expect(audit(challengeSchema(m)).errors).toEqual([]));
+  it("director schema with the whole catalog for dungeon stays under the limits", () => {
+    const genre = "dungeon";
+    const cards = cardsFor(genre, { includeUnimplemented: true });
+    const families = familiesFor(genre).map((f) => ({ familyId: f.id, sockets: socketsFor(f.id, genre, "boss"), cards: cards.filter((c) => c.family === f.id) }));
+    const { errors, stats } = audit(directorSchema({ genre, conceptIds, families, beliefs: [], bossSocket: "boss", minEncounters: 5, maxEncounters: 9 }));
+    expect(errors).toEqual([]);
+    expect(stats.enumValues).toBeLessThan(1000);
+  });
+
+  for (const { mode, key } of implementedModes()) {
+    it(`challenge schema for ${key}`, () => expect(audit(challengeSchema(mode.paramsSchema)).errors).toEqual([]));
+    const lockedCards = CARDS.filter((c) => `${c.family}.${c.mode}` === key && c.lockedParams);
+    for (const card of lockedCards) {
+      it(`challenge schema for ${key} with ${card.id}'s locked params omitted`, () => {
+        const schema = challengeSchema(mode.paramsSchema, Object.keys(card.lockedParams!));
+        expect(audit(schema).errors).toEqual([]);
+        const json = zodSchema(schema).jsonSchema as { properties: { params: { properties: Record<string, unknown> } } };
+        for (const k of Object.keys(card.lockedParams!)) expect(json.properties.params.properties).not.toHaveProperty(k);
+      });
+    }
   }
 
-  it("narrative schema", () => expect(audit(narrativeSchema(["cog", "warden"], ["e1", "e2"])).errors).toEqual([]));
-  it("assessment schema", () => expect(audit(assessmentSchema(conceptIds)).errors).toEqual([]));
+  for (const { mode, key } of allModes().filter((m) => m.mode.implemented && m.mode.blindSolvable)) {
+    it(`blind-solve schema for ${key}`, () => {
+      expect(mode.blind, `${key} is blindSolvable but has no blind solver`).toBeDefined();
+      expect(audit(mode.blind!.schema).errors).toEqual([]);
+    });
+  }
 
   it("the walker actually catches violations", async () => {
     const { z } = await import("zod");

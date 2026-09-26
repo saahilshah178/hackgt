@@ -1,7 +1,18 @@
 import { z } from "zod";
-import { BOSS_SOCKET } from "../library/genres";
-import type { AnyMechanic } from "../mechanics/types";
-import { EncounterRole, type Genre, MusicMood, PaletteId, SourceRef, VoiceArchetype } from "./common";
+import {
+  DOMAINS,
+  EncounterRole,
+  type FamilyId,
+  type Genre,
+  KNOWLEDGE_TYPES,
+  KnowledgeType,
+  MusicMood,
+  PaletteId,
+  SourceRef,
+  VoiceArchetype,
+  type Domain,
+} from "./common";
+import type { TeachingMechanic } from "./library";
 
 /*
  * LLM-FACING SCHEMAS. Each agent call gets its own small schema, built at call time.
@@ -15,30 +26,216 @@ import { EncounterRole, type Genre, MusicMood, PaletteId, SourceRef, VoiceArchet
  *   - .describe() text is sent to the model: treat it as inline instructions
  * tests/strict-schemas.test.ts walks the generated JSON Schema and enforces all of this.
  *
- * The big trick: ids the model must reference (concepts, mechanics, sockets, characters, encounters)
- * are ENUMS generated from the current game, so constrained decoding makes a dangling reference impossible.
+ * The big trick: ids the model must reference (concepts, cards, sockets, characters, encounters,
+ * misconceptions) are ENUMS generated from the current job, so a dangling reference is unrepresentable.
  */
 
 type NonEmpty = [string, ...string[]];
 
-function asTuple(values: readonly string[], what: string): NonEmpty {
+export function asTuple(values: readonly string[], what: string): NonEmpty {
   if (values.length === 0) throw new Error(`cannot build an enum of ${what}: list is empty`);
   return [...values] as NonEmpty;
 }
 
-// ---------------------------------------------------------------- Director
+// ---------------------------------------------------------------- S1 Gatekeeper (FAST)
+
+export interface GatekeeperSlice {
+  educational: boolean;
+  estimatedConcepts: number;
+  tooBig: boolean;
+  tooSmall: boolean;
+  outline: { title: string; pageStart: number; pageEnd: number }[];
+  followUps: string[];
+}
+
+export function gatekeeperSchema(): z.ZodType<GatekeeperSlice> {
+  return z.object({
+    educational: z.boolean().describe("true when the material teaches something a student could be tested on"),
+    estimatedConcepts: z.number().int().min(0).max(500).describe("How many distinct teachable concepts the material contains"),
+    tooBig: z.boolean().describe("true when there is far more than one game's worth (roughly > 30 concepts or > 40 pages)"),
+    tooSmall: z.boolean().describe("true when there is less than one concept's worth of material"),
+    outline: z
+      .array(
+        z.object({
+          title: z.string(),
+          pageStart: z.number().int().min(1).max(5000),
+          pageEnd: z.number().int().min(1).max(5000),
+        }),
+      )
+      .min(0)
+      .max(40)
+      .describe("Chapter/section outline with page ranges; empty for short or unpaged material"),
+    followUps: z.array(z.string()).min(0).max(3).describe("Questions to ask the student when the material is ambiguous; usually empty"),
+  }) as unknown as z.ZodType<GatekeeperSlice>;
+}
+
+// ---------------------------------------------------------------- S2 Curriculum (SMART)
+
+export interface CurriculumConceptSlice {
+  id: string;
+  unitId: string;
+  name: string;
+  summary: string;
+  knowledgeType: KnowledgeType;
+  learningObjective: string;
+  importance: "core" | "supporting";
+  difficulty: number;
+  prerequisites: string[];
+  keywords: string[];
+  facts: { statement: string; sourceRef: { page: number; quote: string } | null }[];
+  misconceptions: { belief: string; correction: string }[];
+  formulas: { label: string; mathjs: string; variables: { name: string; unit: string; min: number; max: number }[] }[];
+}
+
+export interface CurriculumSlice {
+  title: string;
+  domain: Domain;
+  topic: string;
+  level: string;
+  outline: { title: string; pageStart: number; pageEnd: number }[];
+  units: { id: string; name: string }[];
+  concepts: CurriculumConceptSlice[];
+}
+
+export function curriculumSchema(): z.ZodType<CurriculumSlice> {
+  const concept = z.object({
+    id: z.string().describe("Unique snake_case id starting with c_, e.g. c_period"),
+    unitId: z.string().describe("The id of the unit this concept belongs to (must be one of the units above)"),
+    name: z.string(),
+    summary: z.string().describe("One or two sentences, under 200 characters"),
+    knowledgeType: z.enum(KNOWLEDGE_TYPES),
+    learningObjective: z.string().describe('"The student can …" in one sentence'),
+    importance: z.enum(["core", "supporting"]),
+    difficulty: z.number().int().min(1).max(3),
+    prerequisites: z.array(z.string()).min(0).max(5).describe("ids of concepts in this map that must come first"),
+    keywords: z.array(z.string()).min(1).max(10).describe("lowercase search words and synonyms for this concept"),
+    facts: z
+      .array(
+        z.object({
+          statement: z.string().describe("A verifiable claim, under 160 characters"),
+          sourceRef: SourceRef.nullable().describe("Page and VERBATIM quote from the material; null only for unsourced topics"),
+        }),
+      )
+      .min(1)
+      .max(6),
+    misconceptions: z
+      .array(z.object({ belief: z.string().describe("The wrong idea, as a student would state it"), correction: z.string() }))
+      .min(0)
+      .max(4),
+    formulas: z
+      .array(
+        z.object({
+          label: z.string(),
+          mathjs: z.string().describe('A mathjs expression, e.g. "2 * pi / abs(b)"'),
+          variables: z
+            .array(z.object({ name: z.string(), unit: z.string(), min: z.number(), max: z.number() }))
+            .min(0)
+            .max(6),
+        }),
+      )
+      .min(0)
+      .max(4),
+  });
+  return z.object({
+    title: z.string().describe("Title of the material, under 80 characters"),
+    domain: z.enum(DOMAINS),
+    topic: z.string().describe('Short topic label, e.g. "Trigonometric functions"'),
+    level: z.string().describe('e.g. "High school", "Intro college"'),
+    outline: z
+      .array(z.object({ title: z.string(), pageStart: z.number().int().min(1).max(5000), pageEnd: z.number().int().min(1).max(5000) }))
+      .min(0)
+      .max(40),
+    units: z
+      .array(z.object({ id: z.string().describe("snake_case starting with u_"), name: z.string() }))
+      .min(1)
+      .max(8)
+      .describe("4-8 units for chapter-sized material; fewer only when the material is short"),
+    concepts: z.array(concept).min(1).max(25).describe("8-25 concepts for chapter-sized material"),
+  }) as unknown as z.ZodType<CurriculumSlice>;
+}
+
+// ---------------------------------------------------------------- S4 Matcher (FAST)
+
+export interface MatcherSlice {
+  picks: { teachingMechanicId: string; reason: string; targetsMisconception: string | null }[];
+}
+
+/** Picks the best cards for one concept from a code-retrieved shortlist; misconceptions are an enum of the concept's beliefs. */
+export function matcherSchema(cardIds: readonly string[], beliefs: readonly string[], picks = 3): z.ZodType<MatcherSlice> {
+  const n = Math.min(picks, cardIds.length);
+  const misconception = beliefs.length > 0 ? z.enum(asTuple(beliefs, "misconceptions")).nullable() : z.null();
+  return z.object({
+    picks: z
+      .array(
+        z.object({
+          teachingMechanicId: z.enum(asTuple(cardIds, "card ids")),
+          reason: z.string().describe("One sentence: why this mechanic makes the player USE this concept"),
+          targetsMisconception: misconception.describe("The listed misconception this card breaks, or null"),
+        }),
+      )
+      .min(n)
+      .max(n)
+      .describe(`Exactly ${n} cards, best first, no repeats`),
+  }) as unknown as z.ZodType<MatcherSlice>;
+}
+
+// ---------------------------------------------------------------- S3 Pre-check + S7 Assessment (FAST)
+
+export interface AssessmentItemSlice {
+  conceptId: string;
+  prompt: string;
+  correct: string;
+  distractors: string[];
+}
+export interface PreCheckSlice {
+  items: AssessmentItemSlice[];
+}
+export interface AssessmentSlice {
+  post: AssessmentItemSlice[];
+}
+
+function assessmentItem(conceptIds: readonly string[]) {
+  return z.object({
+    conceptId: z.enum(asTuple(conceptIds, "concept ids")),
+    prompt: z.string(),
+    correct: z.string().describe("The single correct answer"),
+    distractors: z.array(z.string()).min(3).max(3).describe("Three wrong answers drawn from real misconceptions"),
+  });
+}
+
+/** Three items written at intake time, before the game exists. Code shuffles the choices. */
+export function preCheckSchema(conceptIds: readonly string[]): z.ZodType<PreCheckSlice> {
+  return z.object({
+    items: z.array(assessmentItem(conceptIds)).min(3).max(3).describe("One item per weakest concept, quick to answer"),
+  }) as unknown as z.ZodType<PreCheckSlice>;
+}
+
+/** The post-check, written during generation: same concepts as the pre-check, new questions. */
+export function assessmentSchema(conceptIds: readonly string[]): z.ZodType<AssessmentSlice> {
+  return z.object({
+    post: z
+      .array(assessmentItem(conceptIds))
+      .min(3)
+      .max(3)
+      .describe("After the game: the same concepts as the pre-check, NEW questions (not rewordings)"),
+  }) as unknown as z.ZodType<AssessmentSlice>;
+}
+
+// ---------------------------------------------------------------- S6 Director (SMART)
 
 export interface BlueprintEncounter {
   id: string;
   conceptIds: string[];
-  mechanicId: string;
+  teachingMechanicId: string;
   socket: string;
   role: z.infer<typeof EncounterRole>;
   difficulty: number;
+  targetMisconception: string | null;
   designNote: string;
 }
 
 export interface BlueprintSlice {
+  genre: Genre;
   title: string;
   theme: { setting: string; tone: string; paletteId: z.infer<typeof PaletteId>; musicMood: z.infer<typeof MusicMood> };
   premise: string;
@@ -46,34 +243,49 @@ export interface BlueprintSlice {
   encounters: BlueprintEncounter[];
 }
 
+/** What the Director may choose from: per family, the sockets it can mount on in this genre and the shortlisted cards. */
+export interface DirectorMenuFamily {
+  familyId: FamilyId;
+  sockets: readonly string[];
+  cards: readonly TeachingMechanic[];
+}
+
 export function directorSchema(args: {
   genre: Genre;
   conceptIds: readonly string[];
-  mechanics: readonly AnyMechanic[];
+  families: readonly DirectorMenuFamily[];
+  /** every misconception belief across the concepts, for targetMisconception */
+  beliefs: readonly string[];
+  bossSocket: string;
   minEncounters: number;
   maxEncounters: number;
 }): z.ZodType<BlueprintSlice> {
   const conceptEnum = z.enum(asTuple(args.conceptIds, "concept ids"));
+  const misconception = args.beliefs.length > 0 ? z.enum(asTuple(args.beliefs, "misconceptions")).nullable() : z.null();
 
-  // One variant per mechanic, each listing only the sockets that mechanic supports in this genre.
-  // An incompatible mechanic/socket pair is therefore unrepresentable.
-  const variants = args.mechanics.map((m) =>
-    z.object({
-      id: z.string().describe("Unique snake_case id, e.g. e3_amplitude"),
-      conceptIds: z.array(conceptEnum).min(1).max(3).describe("1 concept normally; 2-3 only for the boss"),
-      mechanicId: z.enum([m.id]),
-      socket: z.enum(asTuple(m.genres[args.genre]!.sockets, `${m.id} sockets`)),
-      role: EncounterRole,
-      difficulty: z.number().int().min(1).max(3),
-      designNote: z
-        .string()
-        .describe("One sentence for the challenge writer: what this encounter should make the player think about"),
-    }),
-  );
-  if (variants.length === 0) throw new Error(`no implemented mechanics for genre ${args.genre}`);
+  // One variant per family, each listing only that family's shortlisted cards and the sockets it supports
+  // in this genre. An incompatible card/socket pair is therefore unrepresentable.
+  const variants = args.families
+    .filter((f) => f.cards.length > 0)
+    .map((f) =>
+      z.object({
+        id: z.string().describe("Unique snake_case id, e.g. e3_amplitude"),
+        conceptIds: z.array(conceptEnum).min(1).max(3).describe("1 concept normally; 2-3 only for the boss"),
+        teachingMechanicId: z.enum(asTuple(f.cards.map((c) => c.id), `${f.familyId} cards`)),
+        socket: z.enum(asTuple(f.sockets, `${f.familyId} sockets`)),
+        role: EncounterRole,
+        difficulty: z.number().int().min(1).max(3),
+        targetMisconception: misconception.describe("The listed misconception this encounter attacks, or null"),
+        designNote: z
+          .string()
+          .describe("One sentence for the challenge writer: what this encounter should make the player think about"),
+      }),
+    );
+  if (variants.length === 0) throw new Error(`no implemented cards for genre ${args.genre}`);
   const encounter = variants.length === 1 ? variants[0] : z.union(variants as unknown as [z.ZodTypeAny, z.ZodTypeAny]);
 
   return z.object({
+    genre: z.enum([args.genre]),
     title: z.string().describe("Game title, under 40 characters"),
     theme: z.object({
       setting: z.string().describe("Where the game takes place; tie it to the subject"),
@@ -98,12 +310,12 @@ export function directorSchema(args: {
       .min(args.minEncounters)
       .max(args.maxEncounters)
       .describe(
-        `In play order. The last one is the boss (role "boss", socket "${BOSS_SOCKET[args.genre]}"); no other encounter uses that socket.`,
+        `In play order. The last one is the boss (role "boss", socket "${args.bossSocket}"); no other encounter uses that socket.`,
       ),
   }) as unknown as z.ZodType<BlueprintSlice>;
 }
 
-// ---------------------------------------------------------------- Challenge writer
+// ---------------------------------------------------------------- S7 Challenge writer (SMART)
 
 export interface ChallengeSlice {
   prompt: string;
@@ -114,13 +326,21 @@ export interface ChallengeSlice {
   sourceRef: z.infer<typeof SourceRef> | null;
 }
 
-/** Built per encounter: `params` is exactly that mechanic's schema, not a union of every mechanic. */
-export function challengeSchema(m: AnyMechanic): z.ZodType<ChallengeSlice> {
+/**
+ * Built per encounter: `params` is exactly that mode's schema, minus any keys the card locks
+ * (code merges lockedParams afterwards, so the model can't fight them).
+ */
+export function challengeSchema(paramsSchema: z.ZodType, lockedKeys: readonly string[] = []): z.ZodType<ChallengeSlice> {
+  let params: z.ZodType = paramsSchema;
+  if (lockedKeys.length > 0 && paramsSchema instanceof z.ZodObject) {
+    const shape = paramsSchema.shape as Record<string, z.ZodType>;
+    params = z.object(Object.fromEntries(Object.entries(shape).filter(([k]) => !lockedKeys.includes(k))));
+  }
   return z.object({
     prompt: z
       .string()
       .describe("What the player is told at this socket, under 160 characters. May use {{placeholders}}"),
-    params: m.paramsSchema,
+    params,
     hints: z
       .array(z.string())
       .min(3)
@@ -136,7 +356,7 @@ export function challengeSchema(m: AnyMechanic): z.ZodType<ChallengeSlice> {
   }) as unknown as z.ZodType<ChallengeSlice>;
 }
 
-// ---------------------------------------------------------------- Narrative writer
+// ---------------------------------------------------------------- S7 Narrative writer (FAST)
 
 export interface NarrativeSlice {
   intro: { speakerId: string; text: string }[];
@@ -162,31 +382,4 @@ export function narrativeSchema(characterIds: readonly string[], encounterIds: r
       .min(0)
       .max(encounterIds.length * 2),
   }) as unknown as z.ZodType<NarrativeSlice>;
-}
-
-// ---------------------------------------------------------------- Assessment writer
-
-export interface AssessmentItemSlice {
-  conceptId: string;
-  prompt: string;
-  correct: string;
-  distractors: string[];
-}
-export interface AssessmentSlice {
-  pre: AssessmentItemSlice[];
-  post: AssessmentItemSlice[];
-}
-
-/** The model writes the right answer in its own field; code shuffles the choices (no position bias, no bad index). */
-export function assessmentSchema(conceptIds: readonly string[]): z.ZodType<AssessmentSlice> {
-  const item = z.object({
-    conceptId: z.enum(asTuple(conceptIds, "concept ids")),
-    prompt: z.string(),
-    correct: z.string().describe("The single correct answer"),
-    distractors: z.array(z.string()).min(3).max(3).describe("Three wrong answers drawn from real misconceptions"),
-  });
-  return z.object({
-    pre: z.array(item).min(3).max(3).describe("Before the game: one item per weakest concept"),
-    post: z.array(item).min(3).max(3).describe("After the game: same concepts, new questions (not rewordings)"),
-  }) as unknown as z.ZodType<AssessmentSlice>;
 }

@@ -5,7 +5,6 @@ import { CHUNKS } from "../library/genres";
 /**
  * Layout is computed, not generated: start chunk, then one prefab per encounter whose socket matches,
  * rotating through variants, with a connector every other room. Instant, free, and solvable by construction.
- * (An LLM "level designer" that picks among variants is an optional upgrade, not a requirement.)
  */
 export function layoutFromEncounters(
   genre: Genre,

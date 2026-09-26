@@ -16,12 +16,12 @@ Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: re
 - [x] 10. scripts/doctor.ts
 - [ ] Accept: typecheck + test + build pass, doctor runs → checkpoint `bootstrap`
 
-## P1 — Contracts v2 (checkpoint: contracts-v2)
-- [ ] 1. Section 5 contracts (enums, KnowledgeMap, Intake, TeachingMechanic, MechanicFamily, MatchResult, Blueprint, GameSpec v2, Telemetry, Mastery, ProgressEvent, StorageDriver)
-- [ ] 2. Migrate 4 seed mechanics into families/modes
-- [ ] 3. Trig fixture rebuilt to v2 from slices
-- [ ] 4. Strict-schema audit green
-- [ ] 5. Mock pipeline test reproduces v2 fixture exactly
+## P1 — Contracts v2 (checkpoint: contracts-v2) — done 00:05
+- [x] 1. Section 5 contracts (enums, KnowledgeMap, Intake, TeachingMechanic, MechanicFamily, MatchResult, Blueprint, GameSpec v2, Telemetry, Mastery, ProgressEvent, StorageDriver)
+- [x] 2. Migrate 4 seed mechanics into families/modes
+- [x] 3. Trig fixture rebuilt to v2 from slices
+- [x] 4. Strict-schema audit green
+- [x] 5. Mock pipeline test reproduces v2 fixture exactly
 
 ## P2 — Library encoding (checkpoint: library-catalog)
 - [ ] 1. Every §6 card + 5 generic §7 cards in src/library/catalog/*.ts with learningInsight

@@ -1,10 +1,10 @@
 import type { z } from "zod";
-import type { Genre, KnowledgeType, Widget } from "../contracts/common";
+import type { FamilyId, Genre, KnowledgeType, Widget } from "../contracts/common";
 
 export interface GenreSkin {
-  /** Sockets in that genre this mechanic can mount on. */
+  /** Sockets in that genre this family can mount on (the genre's boss socket is always added by the registry). */
   sockets: readonly string[];
-  /** One line for the Director and the art/level hosts: how it looks in this genre. */
+  /** One line for the Director and the art/level hosts: how it looks in this genre (LIBRARY §5). */
   skin: string;
 }
 
@@ -15,20 +15,33 @@ export interface Grade {
 }
 
 /**
- * One file per mechanic implements this. The model only ever writes `params`;
- * everything derived (answer key, shuffles, numbers shown to the player) comes from these functions.
+ * For blindSolvable modes: how a FAST model answers the encounter WITHOUT the key. The model only ever
+ * sees what the player sees (`describe`), answers in display terms (`schema`), and code maps that back
+ * onto the grader's input (`toInput`). Disagreement with resolve() is a verifier catch.
  */
-export interface MechanicDefinition<Schema extends z.ZodType = z.ZodType, Solution = unknown, Input = unknown, View = unknown> {
+export interface BlindSolver<Params, View, Input> {
+  schema: z.ZodType;
+  describe(params: Params, view: View): string;
+  toInput(params: Params, view: View, output: unknown): Input;
+}
+
+/**
+ * One file per mode implements this (the seed's plugin contract plus implemented / blindSolvable / widget).
+ * The model only ever writes `params`; everything derived (answer key, shuffles, numbers shown to the
+ * player) comes from these functions.
+ */
+export interface FamilyMode<Schema extends z.ZodType = z.ZodType, Solution = unknown, Input = unknown, View = unknown> {
+  /** mode name inside the family, e.g. "oscillator" */
   id: string;
   name: string;
+  implemented: boolean;
+  blindSolvable: boolean;
   widget: Widget;
   knowledgeTypes: readonly KnowledgeType[];
-  implemented: boolean;
   /** One line the Director reads when choosing mechanics. */
   directorBlurb: string;
-  /** Instructions appended to the challenge writer's system prompt for this mechanic. */
+  /** Instructions appended to the challenge writer's system prompt for this mode. */
   authoringGuide: string;
-  genres: Partial<Record<Genre, GenreSkin>>;
   /** LLM-facing params schema. Must stay strict-structured-output friendly (see tests/strict-schemas.test.ts). */
   paramsSchema: Schema;
   /** Semantic rules JSON Schema can't express. Return problems as sentences; [] means valid. */
@@ -38,19 +51,39 @@ export interface MechanicDefinition<Schema extends z.ZodType = z.ZodType, Soluti
   /** Values that LLM-written text may reference as {{name}} placeholders. */
   templateVars(params: z.infer<Schema>, solution: Solution): Record<string, string>;
   /** Placeholders that reveal the answer: forbidden in the prompt, the first hint, and wrongFeedback. */
-  answerVars: readonly string[];
+  answerVars: readonly string[] | ((params: z.infer<Schema>) => readonly string[]);
   /** What the widget renders. Shuffles derive from the seed so a replay looks identical. */
   present(params: z.infer<Schema>, seed: number): View;
   grade(params: z.infer<Schema>, input: Input): Grade;
   /** An input that solves the encounter. Used by autoSolve, tests, and the verifier's self-solve check. */
   solutionInput(params: z.infer<Schema>, solution: Solution): Input;
+  /** Present when blindSolvable. */
+  blind?: BlindSolver<z.infer<Schema>, View, Input>;
 }
 
-export function defineMechanic<Schema extends z.ZodType, Solution, Input, View>(
-  def: MechanicDefinition<Schema, Solution, Input, View>,
-): MechanicDefinition<Schema, Solution, Input, View> {
+export function defineMode<Schema extends z.ZodType, Solution, Input, View>(
+  def: FamilyMode<Schema, Solution, Input, View>,
+): FamilyMode<Schema, Solution, Input, View> {
   return def;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyMechanic = MechanicDefinition<z.ZodType, any, any, any>;
+export type AnyFamilyMode = FamilyMode<z.ZodType, any, any, any>;
+
+/** A family: engine code shared by its modes, plus its genre adapters (LIBRARY §4, §5). */
+export interface MechanicFamily {
+  id: FamilyId;
+  name: string;
+  widgets: readonly Widget[];
+  knowledgeTypes: readonly KnowledgeType[];
+  genres: Partial<Record<Genre, GenreSkin>>;
+  modes: Record<string, AnyFamilyMode>;
+}
+
+export function defineFamily(def: MechanicFamily): MechanicFamily {
+  return def;
+}
+
+export function answerVarsFor(mode: AnyFamilyMode, params: unknown): readonly string[] {
+  return typeof mode.answerVars === "function" ? mode.answerVars(params) : mode.answerVars;
+}

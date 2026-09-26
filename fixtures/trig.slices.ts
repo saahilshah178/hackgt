@@ -1,9 +1,10 @@
-import type { Slices } from "../src/pipeline/assemble";
 import type { AssessmentSlice, BlueprintSlice, ChallengeSlice, NarrativeSlice } from "../src/contracts/slices";
-import { trigKnowledgeMap } from "./trig.knowledge-map";
+import type { Slices } from "../src/pipeline/assemble";
+import { trigIntake, trigKnowledgeMap } from "./trig.knowledge-map";
 
 /** What the Director returns. */
 export const trigBlueprint: BlueprintSlice = {
+  genre: "dungeon",
   title: "The Clockwork Crypt",
   theme: {
     setting: "A crypt of brass gears beneath an abandoned observatory",
@@ -18,20 +19,20 @@ export const trigBlueprint: BlueprintSlice = {
     { id: "warden", name: "The Warden", role: "clockwork guardian of the chart", voiceArchetype: "gruff_guard" },
   ],
   encounters: [
-    { id: "e1_radians", conceptIds: ["c_radians"], mechanicId: "number_line_leap", socket: "altar", role: "teach", difficulty: 1, designNote: "Make the player see radians as distance along an unrolled circle." },
-    { id: "e2_period", conceptIds: ["c_period"], mechanicId: "phase_gate", socket: "door", role: "teach", difficulty: 1, designNote: "First contact with period = 2π/|b|, using an integer b." },
-    { id: "e3_amplitude", conceptIds: ["c_amplitude"], mechanicId: "mimic_chest", socket: "chest", role: "practice", difficulty: 1, designNote: "Target the peak-to-trough misconception." },
-    { id: "e4_solve", conceptIds: ["c_solve"], mechanicId: "chrono_bridge", socket: "door", role: "teach", difficulty: 2, designNote: "The order of moves for solving 2sin(x) = 1, with a tempting wrong first move." },
-    { id: "e5_period_review", conceptIds: ["c_period"], mechanicId: "mimic_chest", socket: "chest", role: "review", difficulty: 2, designNote: "Spaced review of period, attacking the 'bigger b means longer period' error." },
-    { id: "e6_boss", conceptIds: ["c_period", "c_amplitude"], mechanicId: "phase_gate", socket: "boss", role: "boss", difficulty: 3, designNote: "Combine both: a large amplitude the player must ignore when finding a non-integer b's period." },
+    { id: "e1_radians", conceptIds: ["c_radians"], teachingMechanicId: "radian_rune_line", socket: "altar", role: "teach", difficulty: 1, targetMisconception: "π radians is a full circle.", designNote: "Make the player see radians as distance along an unrolled circle." },
+    { id: "e2_period", conceptIds: ["c_period"], teachingMechanicId: "phase_gate", socket: "door", role: "teach", difficulty: 1, targetMisconception: "sin(2x) has period 4π, twice as long as sin(x).", designNote: "First contact with period = 2π/|b|, using an integer b." },
+    { id: "e3_amplitude", conceptIds: ["c_amplitude"], teachingMechanicId: "mimic_chest", socket: "chest", role: "teach", difficulty: 1, targetMisconception: "Amplitude is the distance from peak to trough.", designNote: "Target the peak-to-trough misconception." },
+    { id: "e4_solve", conceptIds: ["c_solve"], teachingMechanicId: "trig_solve_bridge", socket: "door", role: "teach", difficulty: 2, targetMisconception: "sin(x) = 1/2 has only one solution on [0, 2π).", designNote: "The order of moves for solving 2sin(x) = 1, with a tempting wrong first move." },
+    { id: "e5_period_review", conceptIds: ["c_period"], teachingMechanicId: "mimic_chest", socket: "chest", role: "review", difficulty: 2, targetMisconception: "sin(2x) has period 4π, twice as long as sin(x).", designNote: "Spaced review of period, attacking the 'bigger b means longer period' error." },
+    { id: "e6_boss", conceptIds: ["c_period", "c_amplitude"], teachingMechanicId: "phase_gate", socket: "boss", role: "boss", difficulty: 3, targetMisconception: null, designNote: "Combine both: a large amplitude the player must ignore when finding a non-integer b's period." },
   ],
 };
 
-/** What each challenge writer returns, keyed by encounter id. Note the {{placeholders}}: no computed values. */
+/** What each challenge writer returns, keyed by encounter id. Note the {{placeholders}}: no computed values. Locked params (ask, scale, labels) are absent: code merges them. */
 export const trigChallenges: Record<string, ChallengeSlice> = {
   e1_radians: {
     prompt: "The altar's rune line runs from 0 to 2π. Step onto {{target}}.",
-    params: { min: "0", max: "2*pi", target: "5*pi/6", landmarkStep: "pi/2", labels: "pi" },
+    params: { min: "0", max: "2*pi", target: "5*pi/6", landmarkStep: "pi/2" },
     hints: [
       "A full turn is 2π, so π sits exactly halfway along the line.",
       "5π/6 is a little less than π. Count in sixths of π.",
@@ -39,11 +40,11 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     ],
     wrongFeedback: "Radians measure distance around the circle: π is half a turn, so fractions of π land proportionally along the line.",
     debriefLine: "The rune line was the unit circle unrolled: {{target}} is 5/12 of a full turn.",
-    sourceRef: { page: 212, quote: "An angle of π radians corresponds to half a revolution." },
+    sourceRef: { page: 1, quote: "An angle of π radians corresponds to half a revolution." },
   },
   e2_period: {
     prompt: "The vault door's rings spin on {{equation}}. Set the dial to one full period so the rings lock.",
-    params: { wave: "sin", amplitude: 1, b: "2" },
+    params: { wave: "sin", amplitude: 1, b: "2", c: "0", d: 0 },
     hints: [
       "A period is how long the rings take to come back to where they started.",
       "For y = sin(b·t), one period lasts 2π/|b|.",
@@ -51,7 +52,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     ],
     wrongFeedback: "Doubling b doesn't double the period, it halves it: the rings spin faster, so each cycle is shorter.",
     debriefLine: "The door followed {{equation}}; its period is {{period}}, because 2π/|b| with b = {{b}}.",
-    sourceRef: { page: 231, quote: "The period of y = sin(bx) is 2π/|b|." },
+    sourceRef: { page: 3, quote: "The period of y = sin(bx) is 2π/|b|." },
   },
   e3_amplitude: {
     prompt: "Three chests, three claims about amplitude. One is a mimic. Point your lantern at the lie.",
@@ -69,7 +70,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     ],
     wrongFeedback: "That chest is honest. Look for the claim that measures the whole swing.",
     debriefLine: "The mimic's claim, \"{{mimic}}\", confused the full swing with the amplitude, which is |A|.",
-    sourceRef: { page: 229, quote: "The amplitude of y = A sin x is |A|." },
+    sourceRef: { page: 2, quote: "The amplitude of y = A sin x is |A|." },
   },
   e4_solve: {
     prompt: "The glyph door opens only if its planks show how to solve 2sin(x) = 1 on [0, 2π). One plank doesn't belong.",
@@ -89,7 +90,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     ],
     wrongFeedback: "Order matters: you can't find the angle until the sine is alone.",
     debriefLine: "You solved 2sin(x) = 1 in {{count}} moves: isolate, reference angle, quadrants, both solutions.",
-    sourceRef: { page: 247, quote: "To solve a trigonometric equation, first isolate the trigonometric function." },
+    sourceRef: { page: 4, quote: "To solve a trigonometric equation, first isolate the trigonometric function." },
   },
   e5_period_review: {
     prompt: "The treasury's chests remember the vault door. One of them is lying about periods.",
@@ -107,11 +108,11 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     ],
     wrongFeedback: "That chest is telling the truth. Test each claim with 2π/|b|.",
     debriefLine: "Review: the mimic claimed \"{{mimic}}\", but a bigger b shrinks the period.",
-    sourceRef: { page: 232, quote: "Larger values of b compress the graph horizontally." },
+    sourceRef: { page: 3, quote: "Larger values of b compress the graph horizontally." },
   },
   e6_boss: {
     prompt: "The Warden's shield spins on {{equation}}. Match its period to break through, and don't let the big swing fool you.",
-    params: { wave: "sin", amplitude: 3, b: "pi/2" },
+    params: { wave: "sin", amplitude: 3, b: "pi/2", c: "0", d: 0 },
     hints: [
       "The 3 in front sets how far the shield swings, not how fast.",
       "Period = 2π/|b|, and here b = {{b}}.",
@@ -119,7 +120,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     ],
     wrongFeedback: "The amplitude doesn't change the timing. Only b does.",
     debriefLine: "The Warden's shield followed {{equation}}: amplitude 3 (how far), period {{period}} (how fast).",
-    sourceRef: { page: 230, quote: "The value of A stretches the graph vertically but leaves the period unchanged." },
+    sourceRef: { page: 2, quote: "The value of A stretches the graph vertically but leaves the period unchanged." },
   },
 };
 
@@ -136,29 +137,20 @@ export const trigNarrative: NarrativeSlice = {
   ],
 };
 
-/** What the assessment writer returns. Code shuffles the choices. */
+/** What the assessment writer returns: the post-check only (the pre-check came from the intake). Code shuffles the choices. */
 export const trigAssessment: AssessmentSlice = {
-  pre: [
-    { conceptId: "c_period", prompt: "What is the period of y = sin(3x)?", correct: "2π/3", distractors: ["6π", "3", "π/3"] },
-    { conceptId: "c_amplitude", prompt: "What is the amplitude of y = -4cos(x)?", correct: "4", distractors: ["-4", "8", "2"] },
-    { conceptId: "c_radians", prompt: "How many degrees is 3π/4 radians?", correct: "135°", distractors: ["45°", "270°", "75°"] },
-  ],
   post: [
     { conceptId: "c_period", prompt: "What is the period of y = cos(x/3)?", correct: "6π", distractors: ["2π/3", "π/3", "3"] },
     { conceptId: "c_amplitude", prompt: "Which equation swings twice as high as y = sin(x)?", correct: "y = 2sin(x)", distractors: ["y = sin(2x)", "y = sin(x) + 2", "y = sin(x/2)"] },
-    { conceptId: "c_solve", prompt: "How many solutions does sin(x) = 1/2 have on [0, 2π)?", correct: "2", distractors: ["1", "4", "0"] },
+    { conceptId: "c_radians", prompt: "Which angle is a quarter turn?", correct: "π/2", distractors: ["π", "2π", "π/4"] },
   ],
 };
 
 export const trigSlices: Slices = {
-  meta: {
-    id: "trig_demo_001",
-    createdAt: "2026-09-26T02:00:00.000Z",
-    source: { sourceId: trigKnowledgeMap.sourceId, title: trigKnowledgeMap.title, unsourced: false },
-    genre: "dungeon",
-    targetMinutes: 8,
-  },
-  concepts: trigKnowledgeMap.concepts.map(({ id, name, knowledgeType }) => ({ id, name, knowledgeType })),
+  id: "trig_demo_001",
+  createdAt: "2026-09-26T02:00:00.000Z",
+  km: trigKnowledgeMap,
+  intake: trigIntake,
   blueprint: trigBlueprint,
   challenges: trigChallenges,
   narrative: trigNarrative,

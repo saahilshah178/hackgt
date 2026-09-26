@@ -1,6 +1,8 @@
 import { z } from "zod";
-import { defineMechanic } from "./types";
-import { shuffleNotIdentity } from "./util";
+import { defineMode } from "../../types";
+import { shuffleNotIdentity } from "../../util";
+
+/* sequencer · linear: steps in correct order, plus 0-2 decoys. */
 
 const Params = z.object({
   steps: z
@@ -39,12 +41,13 @@ function textForKey(p: Params, key: string): string {
   return (key.startsWith("d") ? p.decoys[i] : p.steps[i]) ?? key;
 }
 
-export const chronoBridge = defineMechanic({
-  id: "chrono_bridge",
-  name: "Chrono-Bridge",
+export const linear = defineMode({
+  id: "linear",
+  name: "Linear sequence",
+  implemented: true,
+  blindSolvable: true,
   widget: "order",
   knowledgeTypes: ["sequence", "procedure"],
-  implemented: true,
   directorBlurb:
     "The player places steps (planks, glyphs, timeline cards) in the right order; decoys don't belong. Processes, timelines, solution procedures.",
   authoringGuide: [
@@ -53,12 +56,6 @@ export const chronoBridge = defineMechanic({
     "Decoys should be tempting mistakes (a common wrong first move), not nonsense.",
     "Placeholders available: {{count}}, {{first}}, {{last}}. {{first}} gives away the start, so keep it out of the prompt and first hint.",
   ].join("\n"),
-  genres: {
-    dungeon: { sockets: ["door", "altar"], skin: "Glyph door pressed in process order" },
-    platformer: { sockets: ["gap"], skin: "Bridge planks; the wrong order leaves a gap" },
-    mystery: { sockets: ["corkboard"], skin: "Reconstruct the timeline on the corkboard" },
-    puzzle: { sockets: ["goal_pad", "pipe"], skin: "Order parcels on a conveyor" },
-  },
   paramsSchema: Params,
   check(p) {
     const problems: string[] = [];
@@ -95,4 +92,19 @@ export const chronoBridge = defineMechanic({
     };
   },
   solutionInput: (_p, s) => ({ keys: s.order }),
+  blind: {
+    schema: z.object({
+      order: z
+        .array(z.number().int().min(0).max(8))
+        .min(3)
+        .max(7)
+        .describe("Positions (0-based) of the planks shown, in the correct order; leave out any plank that doesn't belong"),
+    }),
+    describe: (p, view: View) =>
+      `${view.slots} slots to fill. Planks shown:\n${view.planks.map((pl, i) => `${i}. ${pl.text}`).join("\n")}`,
+    toInput: (_p, view: View, out) => {
+      const o = out as { order: number[] };
+      return { keys: o.order.map((i) => view.planks[i]?.key ?? "?") };
+    },
+  },
 });

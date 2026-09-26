@@ -1,41 +1,97 @@
 import { z } from "zod";
-import { Genre, Id, KnowledgeType, SourceRef } from "./common";
+import { Domain, GenreOrAuto, Id, Importance, KnowledgeType, SourceRef } from "./common";
 
-/** Output of the curriculum agent (upstream of game generation). Stored, then summarized into prompts. */
+/*
+ * STORED knowledge documents (curriculum output, intake). These use string lengths, records and
+ * literals freely; the LLM-facing curriculum slice lives in slices.ts and is strict-mode legal.
+ */
+
+export const Formula = z.object({
+  label: z.string(),
+  /** mathjs expression, e.g. "2 * pi / abs(b)" */
+  mathjs: z.string(),
+  variables: z.array(z.object({ name: z.string(), unit: z.string(), min: z.number(), max: z.number() })),
+});
+export type Formula = z.infer<typeof Formula>;
+
+export const Fact = z.object({ statement: z.string().min(1), sourceRef: SourceRef.nullable() });
+export type Fact = z.infer<typeof Fact>;
+
+export const Misconception = z.object({ belief: z.string().min(1), correction: z.string().min(1) });
+export type Misconception = z.infer<typeof Misconception>;
+
 export const Concept = z.object({
   id: Id,
+  unitId: Id,
   name: z.string().min(1),
   summary: z.string().min(1),
   knowledgeType: KnowledgeType,
+  learningObjective: z.string().min(1),
+  importance: Importance,
   difficulty: z.number().int().min(1).max(3),
   prerequisites: z.array(Id),
-  facts: z.array(z.object({ statement: z.string().min(1), sourceRef: SourceRef.nullable() })),
-  misconceptions: z.array(z.object({ belief: z.string().min(1), correction: z.string().min(1) })),
-  formulas: z.array(
-    z.object({
-      label: z.string(),
-      mathjs: z.string(),
-      variables: z.array(z.object({ name: z.string(), unit: z.string(), min: z.number(), max: z.number() })),
-    }),
-  ),
+  keywords: z.array(z.string()),
+  facts: z.array(Fact),
+  misconceptions: z.array(Misconception),
+  formulas: z.array(Formula),
 });
 export type Concept = z.infer<typeof Concept>;
+
+export const OutlineEntry = z.object({
+  title: z.string().min(1),
+  pageStart: z.number().int().min(1),
+  pageEnd: z.number().int().min(1),
+});
+export type OutlineEntry = z.infer<typeof OutlineEntry>;
+
+export const Unit = z.object({ id: Id, name: z.string().min(1), conceptIds: z.array(Id) });
+export type Unit = z.infer<typeof Unit>;
 
 export const KnowledgeMap = z.object({
   sourceId: z.string().min(1),
   title: z.string().min(1),
-  subject: z.string().min(1),
+  subject: z.object({ domain: Domain, topic: z.string().min(1) }),
   level: z.string().min(1),
+  /** true for topic-only games built from general knowledge (no PDF); shown as a label in the UI */
   unsourced: z.boolean(),
+  outline: z.array(OutlineEntry),
+  units: z.array(Unit).min(1),
   concepts: z.array(Concept).min(1),
 });
 export type KnowledgeMap = z.infer<typeof KnowledgeMap>;
 
+/** A multiple-choice item with choices already shuffled by code. */
+export const Mcq = z.object({
+  conceptId: Id,
+  prompt: z.string().min(1),
+  choices: z.array(z.string().min(1)).length(4),
+  correctIndex: z.number().int().min(0).max(3),
+});
+export type Mcq = z.infer<typeof Mcq>;
+
+export const IntakeGoal = z.enum(["learn", "review", "test"]);
+export type IntakeGoal = z.infer<typeof IntakeGoal>;
+export const INTAKE_MINUTES = [5, 10, 15] as const;
+export const IntakeMinutes = z.union([z.literal(5), z.literal(10), z.literal(15)]);
+export type IntakeMinutes = z.infer<typeof IntakeMinutes>;
+
 /** What the intake screen collects. Not LLM-authored, so records are fine here. */
 export const Intake = z.object({
-  goal: z.enum(["exam", "understand", "curious"]),
-  minutes: z.number().int().min(3).max(30),
-  genre: Genre,
+  goal: IntakeGoal,
+  minutes: IntakeMinutes,
+  genre: GenreOrAuto,
+  /** unitId -> 1 (lost) … 5 (solid) */
   confidence: z.record(z.string(), z.number().int().min(1).max(5)),
+  preCheck: z.object({
+    items: z.array(Mcq).length(3),
+    /** chosen choice index per item; may be shorter than items while the student is still answering */
+    answers: z.array(z.number().int().min(0).max(3)).max(3),
+  }),
 });
 export type Intake = z.infer<typeof Intake>;
+
+/** Director weight for a concept (LIBRARY §8): core concepts count double, low confidence counts more. */
+export function conceptWeight(concept: Pick<Concept, "importance" | "unitId">, intake: Pick<Intake, "confidence">): number {
+  const confidence = intake.confidence[concept.unitId] ?? 3;
+  return (concept.importance === "core" ? 2 : 1) * (6 - confidence);
+}

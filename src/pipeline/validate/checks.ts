@@ -1,8 +1,8 @@
 import type { Genre } from "../../contracts/common";
-import type { AssessmentSlice, BlueprintSlice, ChallengeSlice, NarrativeSlice } from "../../contracts/slices";
-import { BOSS_SOCKET } from "../../library/genres";
-import { getMechanic } from "../../mechanics/registry";
-import type { AnyMechanic } from "../../mechanics/types";
+import type { Concept } from "../../contracts/knowledge";
+import type { TeachingMechanic } from "../../contracts/library";
+import type { AssessmentItemSlice, AssessmentSlice, BlueprintSlice, ChallengeSlice, NarrativeSlice, PreCheckSlice } from "../../contracts/slices";
+import { answerVarsFor, type AnyFamilyMode } from "../../mechanics/types";
 import { placeholders } from "../../mechanics/util";
 
 /*
@@ -14,9 +14,20 @@ import { placeholders } from "../../mechanics/util";
 const SNAKE = /^[a-z][a-z0-9_]{0,47}$/;
 const words = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
 
-export function checkBlueprint(bp: BlueprintSlice, ctx: { genre: Genre; conceptIds: readonly string[] }): string[] {
+export interface BlueprintContext {
+  genre: Genre;
+  conceptIds: readonly string[];
+  bossSocket: string;
+  getCard: (id: string) => TeachingMechanic | undefined;
+  /** when given, targetMisconception must be one of the encounter's concepts' beliefs */
+  concepts?: readonly Concept[];
+}
+
+export function checkBlueprint(bp: BlueprintSlice, ctx: BlueprintContext): string[] {
   const problems: string[] = [];
-  const bossSocket = BOSS_SOCKET[ctx.genre];
+  const bossSocket = ctx.bossSocket;
+
+  if (bp.genre !== ctx.genre) problems.push(`genre must be "${ctx.genre}"`);
 
   const ids = bp.encounters.map((e) => e.id);
   if (new Set(ids).size !== ids.length) problems.push("encounter ids must be unique");
@@ -30,11 +41,21 @@ export function checkBlueprint(bp: BlueprintSlice, ctx: { genre: Genre; conceptI
   bp.encounters.forEach((e, i) => {
     const last = i === bp.encounters.length - 1;
     if (e.role === "boss" && !last) problems.push(`"${e.id}" is a boss but not the last encounter`);
-    if (last && e.role !== "boss") problems.push("the last encounter must have role \"boss\"");
+    if (last && e.role !== "boss") problems.push('the last encounter must have role "boss"');
     if (e.role === "boss" && e.socket !== bossSocket) problems.push(`the boss must use socket "${bossSocket}"`);
     if (e.role !== "boss" && e.socket === bossSocket) problems.push(`"${e.id}" uses the boss socket but is not the boss`);
     if (new Set(e.conceptIds).size !== e.conceptIds.length) problems.push(`"${e.id}" lists a concept twice`);
     if (e.role !== "boss" && e.conceptIds.length > 1) problems.push(`"${e.id}": only the boss may combine concepts`);
+    if (e.role === "boss" && ctx.conceptIds.length >= 2 && e.conceptIds.length < 2) {
+      problems.push(`the boss "${e.id}" must combine the 2-3 weakest concepts`);
+    }
+    if (!ctx.getCard(e.teachingMechanicId)) problems.push(`"${e.id}" uses unknown card "${e.teachingMechanicId}"`);
+    if (e.targetMisconception !== null && ctx.concepts) {
+      const beliefs = ctx.concepts.filter((c) => e.conceptIds.includes(c.id)).flatMap((c) => c.misconceptions.map((m) => m.belief));
+      if (!beliefs.includes(e.targetMisconception)) {
+        problems.push(`"${e.id}": targetMisconception must be one of its concepts' listed misconceptions, or null`);
+      }
+    }
   });
 
   const covered = new Set(bp.encounters.flatMap((e) => e.conceptIds));
@@ -43,17 +64,32 @@ export function checkBlueprint(bp: BlueprintSlice, ctx: { genre: Genre; conceptI
     .forEach((c) => problems.push(`concept "${c}" is never practiced; give it at least one encounter`));
 
   const seen = new Set<string>();
-  bp.encounters.forEach((e) => {
-    if (e.role === "review" && !e.conceptIds.some((c) => seen.has(c))) {
-      problems.push(`"${e.id}" is a review, but its concept hasn't appeared earlier`);
+  bp.encounters.forEach((e, i) => {
+    if (e.role === "review") {
+      if (!e.conceptIds.some((c) => seen.has(c))) problems.push(`"${e.id}" is a review, but its concept hasn't appeared earlier`);
+      if (i < 2) problems.push(`"${e.id}" is a review but comes before two other encounters; place reviews after at least 2 encounters`);
     }
-    e.conceptIds.forEach((c) => seen.add(c));
+    e.conceptIds.forEach((c) => {
+      if (!seen.has(c) && e.role !== "teach" && e.role !== "boss") {
+        problems.push(`"${e.id}" is the first encounter for concept "${c}" but its role is "${e.role}"; teach before practice`);
+      }
+      if (!seen.has(c) && e.role === "boss") {
+        problems.push(`concept "${c}" first appears in the boss; teach it in an earlier encounter`);
+      }
+      seen.add(c);
+    });
   });
   return problems;
 }
 
-export function checkChallenge(m: AnyMechanic, slice: ChallengeSlice): string[] {
-  const parsed = m.paramsSchema.safeParse(slice.params);
+/** Merges the card's lockedParams over the model's params (code wins), then runs the mode's checks. */
+export function mergeLockedParams(params: unknown, locked?: Record<string, unknown>): unknown {
+  if (!locked || typeof params !== "object" || params === null) return params;
+  return { ...(params as Record<string, unknown>), ...locked };
+}
+
+export function checkChallenge(m: AnyFamilyMode, slice: ChallengeSlice, locked?: Record<string, unknown>): string[] {
+  const parsed = m.paramsSchema.safeParse(mergeLockedParams(slice.params, locked));
   if (!parsed.success) return parsed.error.issues.map((i) => `params.${i.path.join(".")}: ${i.message}`);
 
   const problems = m.check(parsed.data);
@@ -61,6 +97,7 @@ export function checkChallenge(m: AnyMechanic, slice: ChallengeSlice): string[] 
 
   const solution = m.resolve(parsed.data);
   const known = Object.keys(m.templateVars(parsed.data, solution));
+  const answerVars = answerVarsFor(m, parsed.data);
   const texts: [string, string][] = [
     ["prompt", slice.prompt],
     ...slice.hints.map((h, i): [string, string] => [`hints[${i}]`, h]),
@@ -74,7 +111,7 @@ export function checkChallenge(m: AnyMechanic, slice: ChallengeSlice): string[] 
     for (const name of placeholders(text)) {
       if (!known.includes(name)) {
         problems.push(`${field} uses unknown placeholder {{${name}}}. Allowed: ${known.map((k) => `{{${k}}}`).join(", ")}`);
-      } else if (leakProne.has(field) && m.answerVars.includes(name)) {
+      } else if (leakProne.has(field) && answerVars.includes(name)) {
         problems.push(`${field} gives away the answer via {{${name}}}; only later hints and the debrief may use it`);
       }
     }
@@ -97,19 +134,26 @@ export function checkNarrative(slice: NarrativeSlice): string[] {
   return problems;
 }
 
-export function checkAssessment(slice: AssessmentSlice): string[] {
+function checkItems(items: readonly AssessmentItemSlice[], label: string): string[] {
   const problems: string[] = [];
-  [...slice.pre.map((q) => ["pre", q] as const), ...slice.post.map((q) => ["post", q] as const)].forEach(([set, q], i) => {
+  items.forEach((q, i) => {
     const options = [q.correct, ...q.distractors].map((o) => o.trim().toLowerCase());
-    if (new Set(options).size !== options.length) problems.push(`${set} item ${i}: the correct answer and distractors must all differ`);
+    if (new Set(options).size !== options.length) problems.push(`${label} item ${i}: the correct answer and distractors must all differ`);
+    if (!q.prompt.trim()) problems.push(`${label} item ${i}: prompt is empty`);
   });
-  const pre = new Set(slice.pre.map((q) => q.prompt.trim().toLowerCase()));
-  if (slice.post.some((q) => pre.has(q.prompt.trim().toLowerCase()))) problems.push("post-check questions must not repeat pre-check questions");
+  const prompts = items.map((q) => q.prompt.trim().toLowerCase());
+  if (new Set(prompts).size !== prompts.length) problems.push(`${label}: questions must be distinct`);
   return problems;
 }
 
-/** Convenience for callers holding only a mechanic id. */
-export function checkChallengeById(mechanicId: string, slice: ChallengeSlice): string[] {
-  const m = getMechanic(mechanicId);
-  return m ? checkChallenge(m, slice) : [`unknown mechanic "${mechanicId}"`];
+export function checkPreCheck(slice: PreCheckSlice): string[] {
+  return checkItems(slice.items, "pre-check");
+}
+
+/** The post-check must not repeat the pre-check prompts (passed in from the intake). */
+export function checkAssessment(slice: AssessmentSlice, prePrompts: readonly string[] = []): string[] {
+  const problems = checkItems(slice.post, "post-check");
+  const pre = new Set(prePrompts.map((p) => p.trim().toLowerCase()));
+  if (slice.post.some((q) => pre.has(q.prompt.trim().toLowerCase()))) problems.push("post-check questions must not repeat pre-check questions");
+  return problems;
 }
