@@ -1,8 +1,8 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
-
-const s = (id: string, name: string, blurb: string, widget: "dial" | "pick" = "dial", blind = false) =>
-  stubMode({ id, name, widget, knowledgeTypes: ["system", "causal"], blindSolvable: blind, directorBlurb: blurb });
+import { intervene } from "./intervene";
+import { predict } from "./predict";
+import { sample } from "./sample";
 
 export const simulator = defineFamily({
   id: "simulator",
@@ -17,9 +17,16 @@ export const simulator = defineFamily({
     strategy: { sockets: ["crisis", "policy_dial"], skin: "Run the economy or ecosystem" },
   },
   modes: {
-    intervene: s("intervene", "Intervene", "Keep a variable in a band for T ticks with limited actions."),
-    reach_state: s("reach_state", "Reach state", "Set initial parameters or rates so the state hits a target at tick T."),
-    predict: s("predict", "Predict", "Predict the direction of the outcome before running, then watch.", "pick", true),
-    sample: s("sample", "Sample", "Repeated stochastic trials; the player estimates or decides.", "pick"),
+    intervene,
+    reach_state: stubMode({
+      id: "reach_state",
+      name: "Reach state",
+      widget: "dial",
+      knowledgeTypes: ["system", "causal"],
+      blindSolvable: false,
+      directorBlurb: "Set initial parameters or rates so the state hits a target at tick T.",
+    }),
+    predict,
+    sample,
   },
 });

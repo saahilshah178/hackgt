@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { area } from "./area";
+import { riemann } from "./riemann";
 
 const s = (id: string, name: string, blurb: string, widget: "dial" | "place" = "dial") =>
   stubMode({ id, name, widget, knowledgeTypes: ["quantitative"], blindSolvable: false, directorBlurb: blurb });
@@ -17,8 +19,8 @@ export const accumulator = defineFamily({
     strategy: { sockets: ["production_line"], skin: "Output over time" },
   },
   modes: {
-    riemann: s("riemann", "Riemann sum", "n rectangles, left, right, or midpoint under the curve.", "place"),
-    area: s("area", "Area", "Choose the bound so the integral hits the target."),
+    riemann,
+    area,
     signed: s("signed", "Signed area", "Net area above and below the axis."),
     rate_total: s("rate_total", "Rate to total", "Predict the accumulated total at time t."),
     average_value: s("average_value", "Average value", "Level the reservoir."),
