@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { chain } from "./chain";
+import { pairs } from "./pairs";
 
 const s = (id: string, name: string, blurb: string, blind = true) =>
   stubMode({ id, name, widget: "link", knowledgeTypes: ["fact", "causal"], blindSolvable: blind, directorBlurb: blurb });
@@ -17,8 +19,8 @@ export const linker = defineFamily({
     strategy: { sockets: ["research_node"], skin: "Supply links" },
   },
   modes: {
-    pairs: s("pairs", "Pairs", "3 to 6 matched pairs."),
-    chain: s("chain", "Chain", "Ordered cause → effect links."),
+    pairs,
+    chain,
     network: s("network", "Network", "Edges by a stated relation.", false),
     path: s("path", "Path", "A weighted graph; find the shortest or valid path (Dijkstra/BFS in code).", false),
   },

@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { bins } from "./bins";
+import { type_match } from "./type_match";
 
 const s = (id: string, name: string, blurb: string, widget: "sort" | "pick" = "sort") =>
   stubMode({ id, name, widget, knowledgeTypes: ["category"], blindSolvable: true, directorBlurb: blurb });
@@ -17,9 +19,9 @@ export const sorter = defineFamily({
     strategy: { sockets: ["market"], skin: "Route goods to districts" },
   },
   modes: {
-    bins: s("bins", "Bins", "Drag items into 2 to 4 categories."),
+    bins,
     venn: s("venn", "Venn", "2 to 3 sets, including a 'neither' region."),
     hierarchy: s("hierarchy", "Hierarchy", "Nesting, or a tree."),
-    type_match: s("type_match", "Type match", "Real-time bins: a labeled enemy appears and the player answers with the right category.", "pick"),
+    type_match,
   },
 });
