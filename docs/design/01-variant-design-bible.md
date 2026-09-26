@@ -7,6 +7,13 @@
 | 2026-09-26 | **§9 extended.** Added game-feel items (37)–(44) (non-walk verbs per zone, orange input binds the world, staged boss taunts, hints act in the world, 150 ms first reaction, payoff-is-used, explore never silent > 20 s, sandbox/quest touch per zone). Renumbered the mandatory ★ set to add 38, 40, 42 (14 mandatory total). Raised the target to ≥ 39/44 with all mandatory items passing. | critique amendment 29 |
 | 2026-09-26 | **§6.1 asset path/naming updated** to match `02-assets-and-art-pipeline.md` §3.0: namespaces `orrery_terraces` / `living_gate` / `archive_of_voices` (+ `shared`), keys `ns.group.name`, output path `public/assets/expedition/<ns>/<group>/<name>.svg`, pivots as fractions. Retires the old `public/assets/variant/<biome>/…` path and px pivots. | critique §1.4 "Asset namespaces", amendment 22 |
 | 2026-09-26 | **New §11 "Scoring protocol"** for the fidelity critic: capture inputs, output JSON shape, and the rule that a panel item cannot pass from a screenshot without the panel open. | brief (fidelity critic needs a machine-checkable protocol) |
+| 2026-09-26 | **§6.1 repointed** at `20-expedition-architecture.md` §5.1 for asset naming/paths (was §02 §3.0, which round 2 found disagreed with 20); the duplicated namespace/key/path table is removed and left as a one-line pointer. | critique round 2, amendment 2 |
+| 2026-09-26 | **§6.3 replaced.** The protagonist is no longer an SVG puppet; it is the **one recoloured Kenney rig** (20 §5.5), one body/pose set reused by all three games and re-costumed per biome (Wren / the Diver / Nell — three costumes). Guide companions (Cog, Pip, Ida's lantern moth/archive drone) stay small SVG puppets, as do bosses. | critique round 2, amendment 19 (via A13) |
+| 2026-09-26 | **§6.4 replaced.** "jump (Space)" is retired for the full traversal-verb table of 20 §2.4.2 (hop, climb, ladder, drop, timed hop, ride, cosmetic hop). "3 zones per game" is retired for the actual per-game counts: trig 3, cell transport 4, civil rights 8. | critique round 2, amendments 2, 28 (via A13) |
+| 2026-09-26 | **§7 headed** "superseded for bindings by 20 §4 / §4.1; kept as the pitch-level target." §7.1–§7.3's revision-1 per-encounter tables (Radian Rail, Proof Press, "Morgue → Wire Room → Vault", ATP in `ui.accent`) are replaced with a pointer to each game doc's own binding table plus a 6-row sample whose archetype/skin ids are copied verbatim from those tables. | critique round 2, amendment 13 (A13) |
+| 2026-09-26 | **§8 mode table deleted.** §8 now points at `20-expedition-architecture.md` §4 (the 13 demo contraption archetypes) and §6 (the World Writer, S7.5) as the implementable contract; this section stays the pitch-level rationale only. | critique round 2, amendment 13 (A13) |
+| 2026-09-26 | **§9 item 39 reworded** from "≥ 2 presentation waves… ≥ 1 taunt on approach and on fail" (unmeetable for a real-time boss like the Warden's Shield) to "the boss is staged: arena, taunts, phases or real-time motion," matching 20 §8.3's item 39. | critique round 2, amendment 5 (A5) |
+| 2026-09-26 | **§11 gains a P0 scoring rule**: items 37, 43 and 44 (traversal variety, explore-never-silent, sandbox/quest touch) are scored on **zone 1 only** at P0, since later zones' triggers, sandboxes and traversal beats are P1; the P0 target is all ★ items passing plus ≥ 36/44 (the full-game target stays ≥ 39/44). | critique round 2, amendment 5 (A5) |
 
 **Scope.** This is the visual and interaction target for the three showcase games (The Clockwork Crypt / trig,
 The Membrane Vault / cell transport, The 1965 Files / civil rights). It is written so that later a
@@ -436,13 +443,11 @@ orb, emblem, objective ring, knob-ish teardrop) ties world and UI together.
   code drives live preview and success animation.
 - **Mystery host (civil rights)**: move to the same side-view world (a walkable archive street + interiors);
   the DOM MysteryHost becomes the Board/Vault mode panel content.
-- **Assets**: hand-authored (hero) and kit-generated SVG under the namespaces `orrery_terraces` (trig),
-  `living_gate` (cell), `archive_of_voices` (civil), plus `shared` (see `02-assets-and-art-pipeline.md` §3.0 for
-  the full table). Keys are `ns.group.name`; output files land at
-  `public/assets/expedition/<ns>/<group>/<name>.svg`. Each part carries a named pivot as **fractions**
-  (`data-pivot="fx,fy"`, `[0.5, 0.5]` for a rotating hub) and named anchors, recorded in the build manifest, so
-  rotating pieces rotate about their hub. This retires the old `public/assets/variant/<biome>/…` path and px
-  pivots.
+- **Assets**: namespaces, keys, directory layout, output paths and pivot conventions are **not repeated here** —
+  see `20-expedition-architecture.md` §5.1 ("Naming table and directory convention") for the single, current
+  table. In short: hand-authored (hero) and kit-generated SVG live under the namespaces `orrery_terraces` (trig),
+  `living_gate` (cell), `archive_of_voices` (civil), plus `shared`; this retires the old `public/assets/variant/<biome>/…`
+  path and px pivots.
 
 ### 6.2 Element-by-element recipe
 
@@ -468,23 +473,41 @@ orb, emblem, objective ring, knob-ish teardrop) ties world and UI together.
 | **Objective ring** (all) | DOM SVG top-left; arc fills per restored node. |
 
 ### 6.3 Characters
-- **Protagonist** (shared across games, re-costumed per biome): a side-view **SVG puppet** (head, torso, upper
-  and lower arms, legs, scarf, staff/tool) with 6 animations built from part tweens: idle (breath 2 %),
-  walk (8-frame cycle), run, jump, climb-step, interact (reach toward console). Silhouette readable at 1 H:
-  scarf trailing, tool diagonal (the staff in 5.png).
-- **Guide**: an **emblem** in the dialogue bar (concentric-circle style, recoloured per guide) + an in-world
-  companion that floats near the player's shoulder (Cog the brass owl; Ora's mini-sub drone; Ida's lantern
-  moth / archive drone). When the guide speaks, the companion pulses.
-- **Guardians/bosses** are machines, not people (Warden = clockwork sentinel; Gatekeeper = colossal pump
-  protein; the Editor = the vault's press-organ voice).
+- **Protagonist: one recoloured Kenney rig.** All three protagonists share a single rig — the Kenney
+  `toon-characters` pack, one body, recoloured and rendered to one 45-pose atlas layout with one anchor table
+  (`shared.char.<id>`; see `20-expedition-architecture.md` §5.5). The "shared protagonist" is literally one rig,
+  re-costumed per biome into **three costumes**: Wren (trig: teal scarf, satchel, sighting staff), the Diver
+  (cell: bubble helmet, tide scarf, probe-staff), Nell (civil: salmon scarf, satchel strap). This retires the
+  revision-1 SVG-puppet protagonist.
+- **Guide**: an **emblem** in the dialogue bar (concentric-circle style, recoloured per guide) + a small in-world
+  companion built as an **SVG puppet** (≤ 8 parts, not the shared rig) that floats near the player's shoulder:
+  Cog the brass owl (trig), Pip / Ora's mini-sub drone (cell), Ida's lantern moth / archive drone (civil). When
+  the guide speaks, the companion pulses.
+- **Guardians/bosses** are also machines built as SVG puppets, not people (Warden = clockwork sentinel;
+  Gatekeeper = colossal pump protein; the Editor = the vault's press-organ voice).
 
 ### 6.4 Explore layer (what you do between puzzles)
-- **Traversal verbs**: walk, jump (Space), climb what puzzles build, ride what puzzles power (lifts, rafts).
+- **Traversal verbs** (walk plus the full link table of `20-expedition-architecture.md` §2.4.2, not just "jump
+  (Space)"):
+
+  | Verb | Key | What happens |
+  |---|---|---|
+  | Hop | Space | a parabolic arc between two ends; land squash + dust puff |
+  | Climb | W/↑ (S/↓ back on two-way links) | a straight climb segment at 8 fps |
+  | Ladder | W/↑, S/↓ | a straight vertical segment; the ladder asset is drawn between the ends |
+  | Drop | S/↓, or walking off an edge | an eased fall with a small drift, landing dust |
+  | Timed hop | Space | two-arc hop through a cycling driver prop's window, else a miss-hop with a "!" emote; no damage |
+  | Ride | W/↑ or E | the player locks to a vehicle that tweens along a path |
+  | Cosmetic hop | Space, no link in range | a small non-traversal bounce; never changes surface |
+
+  Interact prompts name the verb ("Space · Hop", "W · Climb", "E · Board"). Every zone offers **≥ 2 non-walk
+  verbs other than its own payoffs** (game-feel item 37).
 - **Paths branch** lightly: a side ledge with a **collectible** (indigo wisp = "insight shard" that unlocks a
   bonus line in the debrief).
 - **Guide beats** play in the dialogue bar while walking (short, never blocking).
-- **Zones**: each game = 3 zones (e.g. plaza → cliffs → vault), each zone ends in a hub node that the zone's
-  puzzles power; the boss is the hub of the last zone.
+- **Zones**: the zone count is **per game**, not a fixed three — trig 3 zones, cell transport 4 zones, civil
+  rights 8 zones (see each game doc §2 and `20-expedition-architecture.md` §0.1.2). Each zone ends in a hub node
+  that the zone's puzzles power; the boss is the hub of the last zone.
 
 ---
 
@@ -494,6 +517,11 @@ All three share the protagonist, the UI, the scrub/board/vault modes and the suc
 biome, guide, contraptions and panel **instrument cards** (a graph card for trig; concentration/energy gauges
 for biology; a date-axis timeline card for history).
 
+**Superseded for bindings by `20-expedition-architecture.md` §4 (the contraption library) and §4.1 (all 29
+encounters); kept here as the pitch-level target.** Each game doc (`10-`, `11-`, `12-`) owns the authoritative
+per-encounter binding table (control, live world, verify, payoff) and its `config` objects; §7.1–§7.3 below point
+at those tables and give a 6-row sample whose archetype and skin ids are copied verbatim from them.
+
 ### 7.1 The Clockwork Crypt → "The Orrery Terraces" (trig)
 - **Biome**: the Variant base palette almost 1:1 (cream stone, gold, navy, teal crystals, salmon trees); zones
   Sunward Terrace (day) → Crystal Stair (peach) → Warden's Dome (dusk violet, star map ceiling).
@@ -501,14 +529,18 @@ for biology; a date-axis timeline card for history).
   rhythms so starlight flows through the beams back to the chart. Guide: **Cog** (brass owl, gold emblem).
 - **Instrument**: stacked graph cards in π units; the scrubber input is θ or t.
 
-| Enc | Mode | Contraption | Control | Live world | Verify / payoff |
-|---|---|---|---|---|---|
-| e1_radians | mapper.number_line | **Radian Rail**: a curved gold rail around a sun-dial disc, emitter carriage rides it | scrub θ ∈ [0, 2π], chip "0.83π" | carriage slides along the arc, beam sweeps; π/2 landmarks glow on the rail | carriage on 5π/6 → beam hits the dial's node, sun-disc rotates, terrace door opens |
-| e2_period | tuner.oscillator | **Ring Gate** (P3): two notched rings spin on y = sin(2t) | dial the period T (π ticks) | rings animate one cycle in the chosen T; ghost notch shows where the rings end at T | notches align → doorway; wrong T shows notches misaligned by the phase error |
-| e3_amplitude | truth_finder.mimic | **Resonance Pillars**: three pillars, each a plaque with a claim and a mini wave on its slate | aim the pedestal emitter at one pillar (pick) | beam swings to the chosen pillar; its wave animates the claim | the false pillar cracks, a clockwork mimic skitters out and powers down; the true ones hum |
-| e4_solve | sequencer.linear | **Step Bridge**: floating stone steps over a chasm | order planks (decoy included) | each placed plank rises as the next step; decoy plank crumbles when placed | full order → bridge solid, player crosses; the two solutions π/6, 5π/6 light as twin beacons |
-| e5_period_review | truth_finder.mimic | Resonance Pillars (treasury variant, graphs of sin 2x / cos x/2 on slates) | aim | slates animate each claimed period | mimic unmasked, treasury chest opens (insight shard) |
-| e6_boss | tuner.oscillator | **Warden's Shield**: a giant ring shield swinging 3 sin((π/2)t) | dial T | shield's swing drawn as live graph + in-world swing; amplitude is visibly big (the trap) | match T → shield freezes open, Warden bows, dome's star map lights |
+**Bindings**: see `10-game-trig.md` §5 (per-station write-ups) and §5.7 ("Summary: bindings at a glance") for the
+complete, current table of all 6 encounters and §5.8 for their `config` objects. Trig happens to have exactly 6
+stations, so the sample below is the full set; archetype/skin ids are copied verbatim from §5.7.
+
+| Enc | Contraption (archetype / skin) | Layout | Verify | Payoff |
+|---|---|---|---|---|
+| e1_radians | Vesper Dial (`emitter_rail` / `vesper_dial`) | scrub | ALIGN THE DIAL | terrain: spoke stair rises |
+| e2_period | Tidewheel Gate (`ring_gate` / `ring_gate`) | scrub | LOCK THE RINGS | blocker removed: door opens |
+| e3_amplitude | Echo Choir (`claim_holders` / `resonance_pillars`) | board | EXPOSE THE MIMIC | ride: Echo Lift rises |
+| e4_solve | Solving Span (`step_bridge` / `floating_steps`) | board | LAY THE SPAN | terrain: bridge forms over the gap |
+| e5_period_review | Chime Treasury (`claim_holders` / `treasury_pillars`) | board | EXPOSE THE MIMIC | terrain: rim stair rises |
+| e6_boss | Warden's Shield (`pendulum_sync` / `wardens_shield`) | scrub | MATCH THE RHYTHM | blocker removed: door opens → finale |
 
 ### 7.2 The Membrane Vault → "The Living Gate" (cell transport)
 - **Biome**: inside a cell rendered as ancient tech: the **membrane is a colonnade** of phospholipid pillars
@@ -522,19 +554,19 @@ for biology; a date-axis timeline card for history).
 - **Instrument**: **gradient card** (bars for inside vs outside concentration, arrow of net flow),
   **energy card** (ATP gauge in `ui.accent`), and item lists; the scrubber (where used) is concentration.
 
-| Enc | Mode | Contraption | Control | Live world | Verify / payoff |
-|---|---|---|---|---|---|
-| e1_bilayer | mimic | **Specimen Pods**: three glass pods, each running a tiny simulation of its claim (rigid wall with holes vs fluid bilayer) | aim the probe beam | chosen pod's sim plays in the world | false pod fogs and cracks; the colonnade shimmers (fluid) and parts for the sub |
-| e2_selectivity | sorter.bins | **Membrane Router**: molecules drift in on the current toward the colonnade | assign each item to lane: "bilayer" / "protein gate" | assigned molecule animates its route live: O₂ slips between pillars; ions bounce off the lipids and need a gate | all correct → gates cycle, a path of molecules forms a floating walkway |
-| e3_diffusion | mimic | Specimen Pods (dye cloud sims) | aim | dye particles spread randomly in each pod | mimic pod (particles steering "on purpose") exposed |
-| e4_osmosis | mimic | Specimen Pods (cell in salt bath) | aim | pods show water arrows / salt arrows | mimic exposed; water level in the chamber equalizes, raising a raft |
-| e5_tonicity | sorter.type_match | **Tonicity Sluices**: cells drift past three sluice gates | label each wave before it passes | the cell swells/shrinks/steady live as the chosen solution floods its lock | correct wave passes through; all waves → sluice drains and the next hall opens |
-| e6_facilitated | sorter.bins | Membrane Router (passive vs active lanes) | assign | active lane draws from the ATP gauge (orange drain), passive lane doesn't | all correct → carrier protein gate rotates open |
-| e7_active | mimic | Specimen Pods in the Pump Hall | aim | pods show uphill vs downhill flow | mimic exposed; ATP lanterns ignite |
-| e8_pump | linker.pairs | **Pump Rewiring**: the Na⁺/K⁺ pump as a two-drum machine with cable sockets | link part → value | each linked cable glows; drums preview 3 out / 2 in | full wiring → pump cycles (3 Na⁺ out, 2 K⁺ in, 1 ATP spent) and lifts the hall gate |
-| e9_osmosis_review | type_match | Tonicity Sluices (review) | label waves | cells respond live | sluice drains |
-| e10_bulk | sequencer.linear | **Endocytosis Lift**: the membrane folds around the sub | order planks | each step animates the membrane fold stage | vesicle pinches off carrying the sub inward (the payoff is transport of the player!) |
-| e11_boss | sorter.bins | **The Gatekeeper**: a colossal pump protein with three maws | sort mixed cargo into simple / facilitated / active | each item enters its maw with its route animation; ATP gauge drains only for active | all correct → Gatekeeper turns, nuclear pore opens |
+**Bindings**: see `11-game-cell-transport.md` §5 for the full write-up of all 11 encounters (§5.0–§5.11). The
+sample below is one station per distinct contraption archetype the game uses (`claim_holders` reuses the same
+skin for e1/e3/e4/e7; `sluice_waves`/`tonicity_sluices` reuses for e9), plus the boss, with archetype/skin ids
+copied verbatim from that doc's `config` blocks.
+
+| Enc | Contraption (archetype / skin) | Layout | Live world |
+|---|---|---|---|
+| e1_bilayer | Specimen Pods (`claim_holders` / `specimen_pods`) | scrub | aim → the chosen pod's sim plays (reused for e3/e4/e7) |
+| e2_selectivity | Membrane Router (`router_lanes` / `membrane_router`) | board | assign → each molecule animates its route |
+| e5_tonicity | Tonicity Sluices (`sluice_waves` / `tonicity_sluices`) | scrub + waves | label → the cell's fate plays live at its lock (reused for e9) |
+| e8_pump | Pump Rewiring (`stage_machine` / `pump_rewiring`) | scrub | link → the drums preview the cycle |
+| e10_bulk | Endocytosis Lift (`step_bridge` / `endocytosis_lift`) | scrub + plank rail | order → each step animates the membrane fold |
+| e11_boss | The Gatekeeper (`router_lanes` / `gatekeeper_maws`) | board | sort → each item enters its maw with its route |
 
 ### 7.3 The 1965 Files → "The Archive of Voices" (civil rights history)
 - **Biome**: a rain-washed dusk city of archives (the violet/pink palette of 6.png): brick and cream stone
@@ -550,53 +582,41 @@ for biology; a date-axis timeline card for history).
 - **Instrument**: a **timeline card** (x-axis = years 1954–1966, labelled ticks; the orange scrubber is a
   **year cursor**), a **document card**, and a **cause-graph card** (nodes and arrows).
 
-| Enc | Mode | Contraption | Control | Live world | Verify / payoff |
-|---|---|---|---|---|---|
-| e1_brown | mimic | **Proof Press**: three galley proofs on the press bed | pick the false proof | the lamp swings over the chosen proof; its type lifts | the false proof is struck with "RETRACT"; the press prints the true headline, the stack door opens |
-| e2_montgomery | sequencer.linear | **Timeline Rail**: a brass rail with date slots; plank = dated card | order cards (+decoy) | each placed card slides onto the rail at its year; the year cursor jumps | complete → a tram along the rail carries the player to the next stack |
-| e3_little_rock | predict_reveal | **Wire Ticker**: a teletype | choose a prediction | ticker chatters; paper feeds | the tape prints the reveal (sourced); the headline is framed on the wall |
-| e4_sit_ins | mimic | Proof Press | pick | as e1 | as e1 |
-| e5_freedom_rides | linker.chain | **Pneumatic Cause Board**: brass tubes between event canisters | connect cause → effect | a canister shoots through each connected tube; wrong links jam with a puff | all links → board rings, a lift rises |
-| e6_birmingham | linker.chain | Pneumatic Cause Board | connect | as e5 | as e5 |
-| e7_march | linker.pairs | **Switchboard**: plug cables from name cards to role cards | link | each plug lights its lamp and plays a quoted line in the dialogue bar | all correct → switchboard opens the Wire Room door |
-| e8_cra | sorter.bins | **Filing Cabinets**: two labelled drawers (1964 Act / 1965 Act) | file provisions | each document flies into the drawer; the timeline card marks the year | drawers lock, cabinet swings aside |
-| e9_selma | sequencer.linear | Timeline Rail (dated planks) | order | cards slot by date | tram departs |
-| e10_sources | sorter.bins | Filing Cabinets (primary / secondary) | file | document shows a "made then / made later" stamp animation | cabinet opens |
-| e11_causation | linker.chain | the **Big Board**: the whole cause graph across one wall | connect 1963→1965 | canisters traverse the full chain live | the board's lamps all light and the vault's first bolt slides |
-| e12_boss | investigator.elimination | **The Editor's Vault**: hypothesis tumblers on a vault door | pin clues, eliminate hypotheses | each clue rotates a tumbler to "eliminated" (red lamp) | the surviving tumbler aligns; the door opens, the sealed story prints (Vault mode, modal) |
+**Bindings**: see `12-game-civil-rights.md` §5 for the full write-up of all 12 encounters (§5.1–§5.12) and §5.13
+for the complete binding table. The sample below is one station per distinct contraption archetype (`claim_holders`
+reuses for e4 with a different aimer; `step_bridge` reuses for e9; `router_lanes` reuses for e10), plus the boss;
+it omits `cause_tubes` (e5/e6/e11) to keep the sample at 6 rows — see §5.13 for those. Archetype/skin ids are
+copied verbatim from that doc.
+
+| Enc | Contraption (archetype / skin) | Layout | Live world |
+|---|---|---|---|
+| e1_brown | Witness Projector (`claim_holders` / `witness_projector`) | scrub | aim → the beam lifts the chosen proof's type (reused for e4) |
+| e2_montgomery | Walking Road (`step_bridge` / `walking_road`) | board | slots → slabs rise from the water (reused for e9 as Timeline Bridge) |
+| e3_little_rock | Wire Ticker (`oracle_ticker` / `wire_ticker`) | scrub | pick → the tape prints the reveal |
+| e7_march | Switchboard (`switchboard` / `switchboard`) | board | link → jack lamps turn cyan, the document prints |
+| e8_cra | Filing Cabinets (`router_lanes` / `filing_cabinets`) | board | file → each document flies into its drawer (reused for e10 as Provenance Drawers) |
+| e12_boss | Editor's Vault (`tumbler_vault` / `tumbler_vault`) | vault | eliminate → tumblers align, the door opens |
 
 ---
 
 ## 8 · Generalization: the contraption library (for PDF-generated games)
 
-The pipeline must be able to produce §7-level games for any upload. The design splits cleanly:
+The pipeline must be able to produce §7-level games for any upload. **Superseded for implementation by
+`20-expedition-architecture.md` §4 (the contraption library) and §6 (the World Writer); this section stays the
+pitch-level rationale, not the contract.** The design splits cleanly:
 
-1. **Contraption archetypes** (code, hand-built, reusable), keyed by `familyId.mode`. Each archetype declares
-   its *skin slots* (nouns, colours, SVG part set per biome) and a `pose(input)` function.
-2. **Biome kits** (art, hand-built): 6–8 kits (orrery terraces, living cell, archive city, plus forest,
-   desert observatory, harbour, …) each with sky gradient, 4 parallax layers, crystal/foliage tints, pillar and
-   gate part sets, and a `theme.paletteId` mapping.
-3. **World overlay** (LLM-written, strict schema): biome id, guide name + emblem colour, zone names, and per
-   encounter: contraption id (from the dynamic enum of archetypes that support its mode), object nouns
-   ("Resonance Pillars"), instruction line, insight line, success line. This belongs in a new GameSpec
-   section owned by the architect (`src/contracts/`), so this bible only proposes the fields.
-
-| Mode | Default archetype | Alternate archetypes |
-|---|---|---|
-| tuner.oscillator | Ring Gate | Warden's Shield, Tide Lock |
-| tuner.formula | Counterweight Lift (value sets lift height) | Catapult, Alchemy Dials |
-| mapper.number_line | Radian Rail / Emitter Rail | Bridge Span, Thermometer Tower |
-| mapper.plane | Beam Table (orb on a plane; beam hits the point) | Star Chart |
-| truth_finder.mimic | Resonance / Specimen Pods / Proof Press (claim holders + aimable beam) | — |
-| truth_finder.predict_reveal | Oracle Ticker / Pod Simulation | — |
-| sequencer.linear | Step Bridge / Timeline Rail | Lift Stages |
-| sequencer.cycle | Rotating Glyph Ring | — |
-| sequencer.rank | Pillar Staircase (heights by value) | — |
-| sorter.bins | Router Lanes / Filing Cabinets | Sluice Locks |
-| sorter.type_match | Sluice Waves | Conveyor Gates |
-| linker.pairs | Switchboard / Pump Rewiring | Constellation Lines |
-| linker.chain | Pneumatic Cause Board | Domino Aqueduct |
-| investigator.elimination | Tumbler Vault | Room-of-Hypotheses |
+1. **Contraption archetypes** (code, hand-built, reusable): 20 §4 defines the 13 demo archetypes, keyed by
+   `familyId.mode`. Each archetype declares its *skin slots* (nouns, colours, SVG part set per biome) and a
+   `pose(input)` function. The old mode → archetype table that used to live here is retired; 20 §4's table
+   (with status, layout and skins per archetype) is the current one.
+2. **Biome kits** (art, hand-built): the three showcase kits (orrery terraces, living cell, archive of voices)
+   plus `shared`; see 20 §6.4 (`src/world/biomes.ts`) for the kit shape and ranking used by generalized games.
+3. **World overlay**: 20 §6 ("Generalization: the World Writer (S7.5) and `autoWorld`") is the implemented
+   contract — a single FAST LLM call (`worldWriterSchema`) that writes biome id, guide, zone names, and per
+   encounter the contraption/skin choice (from the dynamic enum of archetypes that support its mode), object
+   nouns, instruction/insight/success lines and misconception probes, while code derives geometry, traversal
+   links, parallax, props, cutscenes and plaques. It lives in `src/contracts/slices.ts` (`WorldSlice`), not as a
+   bible proposal.
 
 Rule for new archetypes: it must satisfy all five parts of §4 (console, control, live link, verify, payoff)
 and pass the checklist in §9.
@@ -683,8 +703,8 @@ Score from a 1920×1080 screenshot or short capture of each showcase game. "Pane
     reachable in play.
 38. ★ **Orange input moves the world**: the orange scrubber/control drives a visible world object in every
     encounter, not only the panel. *Pass*: no encounter's live link is "panel-only".
-39. **Boss staging**: the boss is presented in waves, not one flat batch, and taunts the player in-fiction on
-    approach and on failure. *Pass*: ≥ 2 presentation waves, with ≥ 1 taunt line on approach and ≥ 1 on fail.
+39. **Boss staging**: the boss is staged: arena, taunts, phases or real-time motion. *Pass*: a boss frame showing
+    staged presentation (an arena, a phase change or continuous real-time motion) plus a fail-taunt capture.
 40. ★ **Hints act in the world**: taking a hint moves or points the guide/companion at the relevant part, not
     only a text panel. *Pass*: the companion's position or pose visibly changes when a hint is opened.
 41. **Fast first reaction**: the first visible world change after an input arrives within 150 ms of the input
@@ -737,3 +757,8 @@ fails any ★ item is not at Variant fidelity regardless of score. Target ≥ 39
 **Rule.** A screenshot taken with the instrument panel closed can never pass a **panel** item (15–26) or a
 **dialogue bar** item (27–29): those items require the scrub/board (or vault) capture, and the critic marks
 them `pass: false` with evidence `"panel not open"` rather than guessing from an explore-mode shot.
+
+**P0 scoring rule.** Items 37 (traversal variety), 43 (explore never silent) and 44 (sandbox/quest touch) are
+scored on **zone 1 only** at P0: later zones' triggers, sandboxes and traversal beats are P1 work, so scoring them
+game-wide before P1 lands would fail items that cannot yet pass. The P0 target is **all ★ items passing, plus
+≥ 36/44**; the full-game target (all zones scored) stays ≥ 39/44 with all ★ items passing.
