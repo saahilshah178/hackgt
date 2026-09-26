@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { hierarchy } from "./hierarchy";
+import { venn } from "./venn";
 import { bins } from "./bins";
 import { type_match } from "./type_match";
 
@@ -20,8 +22,8 @@ export const sorter = defineFamily({
   },
   modes: {
     bins,
-    venn: s("venn", "Venn", "2 to 3 sets, including a 'neither' region."),
-    hierarchy: s("hierarchy", "Hierarchy", "Nesting, or a tree."),
+    venn: venn,
+    hierarchy: hierarchy,
     type_match,
   },
 });

@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { network } from "./network";
+import { path } from "./path";
 import { chain } from "./chain";
 import { pairs } from "./pairs";
 
@@ -21,7 +23,7 @@ export const linker = defineFamily({
   modes: {
     pairs,
     chain,
-    network: s("network", "Network", "Edges by a stated relation.", false),
-    path: s("path", "Path", "A weighted graph; find the shortest or valid path (Dijkstra/BFS in code).", false),
+    network: network,
+    path: path,
   },
 });

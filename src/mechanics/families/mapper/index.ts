@@ -1,5 +1,6 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { search } from "./search";
 import { numberLine } from "./number_line";
 import { plane } from "./plane";
 
@@ -19,6 +20,6 @@ export const mapper = defineFamily({
     number_line: numberLine,
     plane,
     map: stubMode({ id: "map", name: "Map", widget: "place", knowledgeTypes: ["spatial", "fact"], blindSolvable: false, directorBlurb: "Place items onto a region graph defined as data." }),
-    search: stubMode({ id: "search", name: "Search", widget: "place", knowledgeTypes: ["procedure", "quantitative"], blindSolvable: false, directorBlurb: "Find a hidden value with higher/lower probes within a probe budget (binary search)." }),
+    search,
   },
 });
