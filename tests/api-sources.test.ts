@@ -3,6 +3,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { PDFDocument } from "pdf-lib";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import fixtureSpec from "../fixtures/trig-dungeon.json";
+import type { GameRecord } from "../src/contracts/storage";
 import { GET as getSource } from "../src/app/api/sources/[id]/route";
 import { POST as postSources } from "../src/app/api/sources/route";
 import { GET as getBlob } from "../src/app/api/blobs/[...path]/route";
@@ -23,7 +25,7 @@ afterEach(async () => {
   delete process.env.DATA_DIR;
   resetEnvCache();
   resetStorage();
-  await rm(dir, { recursive: true, force: true });
+  await rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
 });
 
 function jsonRequest(url: string, body: unknown, method = "POST") {
@@ -87,6 +89,36 @@ describe("POST /api/sources", () => {
     const json = await res.json();
     expect(json.error).toMatch(/40/);
   });
+
+  // M9: reject oversized input with 4xx before the heavier work (PDF decode, page splitting) runs.
+  it("rejects a file over 20 MB with 413, before decoding it as a PDF", async () => {
+    const oversized = new Uint8Array(20 * 1024 * 1024 + 1);
+    const form = new FormData();
+    form.set("file", new File([oversized], "huge.pdf", { type: "application/pdf" }));
+    const res = await postSources(new Request("http://test/api/sources", { method: "POST", body: form }));
+    expect(res.status).toBe(413);
+    const json = await res.json();
+    expect(json.error).toMatch(/20 MB/);
+  });
+
+  it("rejects text over 200k characters with 400", async () => {
+    const res = await postSources(jsonRequest("http://test/api/sources", { text: "a".repeat(200_001) }));
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toMatch(/200,000/);
+  });
+
+  it("rejects a topic over 200 characters with 400", async () => {
+    const res = await postSources(jsonRequest("http://test/api/sources", { topic: "a".repeat(201) }));
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toMatch(/200/);
+  });
+
+  it("accepts text right at the 200k character limit", async () => {
+    const res = await postSources(jsonRequest("http://test/api/sources", { text: "a".repeat(200_000) }));
+    expect(res.status).toBe(200);
+  });
 });
 
 describe("GET /api/sources/[id]", () => {
@@ -101,13 +133,26 @@ describe("GET /api/sources/[id]", () => {
     const res = await getSource(new Request(`http://test/api/sources/${sourceId}`), { params: Promise.resolve({ id: sourceId }) });
     expect(res.status).toBe(200);
     const json = await res.json();
-    expect(json.source.id).toBe(sourceId);
+    // instructions.md §9: SourceRecord & { pageCount }, flat (not nested under `source`).
+    expect(json.id).toBe(sourceId);
     expect(json.pageCount).toBe(0);
   });
 });
 
 describe("POST /api/games/[id]/telemetry", () => {
+  it("returns 404 for a game that was never stored (and isn't a fixture)", async () => {
+    const res = await postTelemetry(jsonRequest("http://test/api/games/no_such_game/telemetry", []), {
+      params: Promise.resolve({ id: "no_such_game" }),
+    });
+    expect(res.status).toBe(404);
+  });
+
   it("appends valid telemetry events", async () => {
+    // POST /api/games/[id]/telemetry now materializes the game before accepting telemetry for it
+    // (src/server/fixtures.ts), so a plain (non-fixture) game id must already be stored.
+    const record: GameRecord = { id: "game_1", sourceId: "src_1", jobId: null, createdAt: new Date().toISOString(), spec: fixtureSpec as GameRecord["spec"] };
+    await getStorage().putGame(record);
+
     const events = [
       {
         gameId: "game_1",

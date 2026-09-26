@@ -1,3 +1,4 @@
+import pLimit from "p-limit";
 import type { Genre } from "../../contracts/common";
 import type { Encounter, GameSpec } from "../../contracts/gamespec";
 import type { Intake, KnowledgeMap } from "../../contracts/knowledge";
@@ -14,6 +15,8 @@ import { runAgent, type Progress } from "../llm";
 import { CHALLENGE_SYSTEM, challengePrompt, repairNote, sharedContext } from "../prompts";
 import { checkChallenge } from "../validate/checks";
 import { validateGameSpec } from "../validate/validate-gamespec";
+
+const errMsg = (err: unknown) => (err instanceof Error ? err.message : String(err));
 
 /*
  * S9 blind solve: for every blindSolvable encounter, a FAST model answers using ONLY what the player
@@ -81,18 +84,28 @@ export async function blindSolveOne(
     const input = mode.solutionInput(e.params, mode.resolve(e.params));
     return mode.grade(e.params, input).correct;
   }
-  const output = await runAgent({
-    jobId,
-    agent: `blind:${e.id}`,
-    tier: "fast",
-    model: models.fast,
-    schema: mode.blind.schema,
-    system: BLIND_SOLVER_SYSTEM,
-    prompt: `${e.prompt}\n\n${mode.blind.describe(e.params, view)}`,
-    onProgress,
-  });
-  const input = mode.blind.toInput(e.params, view, output);
-  return mode.grade(e.params, input).correct;
+  try {
+    const output = await runAgent({
+      jobId,
+      agent: `blind:${e.id}`,
+      tier: "fast",
+      model: models.fast,
+      schema: mode.blind.schema,
+      system: BLIND_SOLVER_SYSTEM,
+      prompt: `${e.prompt}\n\n${mode.blind.describe(e.params, view)}`,
+      onProgress,
+    });
+    const input = mode.blind.toInput(e.params, view, output);
+    return mode.grade(e.params, input).correct;
+  } catch (err) {
+    // M2: a throw from runAgent (network error, or the solver's own repair budget exhausted on a
+    // schema mismatch) must not fail the job. Treat it as agreeing (the safer default: a false
+    // "disagree" would trigger an unnecessary regenerate/fallback for an encounter that may be fine).
+    const note = `blind solver for "${e.id}" failed (${errMsg(err)}); treating it as agreeing`;
+    onProgress?.({ agent: `blind:${e.id}`, status: "failed", note });
+    emit(jobId, { agent: `blind:${e.id}`, status: "failed", note });
+    return true;
+  }
 }
 
 /** Regenerates one encounter's challenge through the writer, with a repair note aimed at ambiguity. */
@@ -141,10 +154,16 @@ function replaceWithFallback(km: KnowledgeMap, e: Encounter, genre: Genre): Enco
  * GameSpec. Returns the same spec when nothing needed to change; otherwise reassembles the layout and
  * re-validates. Every catch is reported as a "Verifier: ..." progress note for the Forge screen.
  */
+interface BlindSolveOutcome {
+  index: number;
+  /** null when the encounter must be dropped (non-boss, disagreed, no fallback available). */
+  encounter: Encounter | null;
+  changed: boolean;
+}
+
 export async function blindSolveAndFix(a: BlindSolveArgs): Promise<GameSpec> {
   const spec = a.spec;
-  const encounters: Encounter[] = [...spec.encounters];
-  let changed = false;
+  const limit = pLimit(6); // M2: blind solves run in parallel, capped like every other LLM fan-out.
 
   // Every runAgent() call inside blindSolveOne()/regenerate() auto-emits to the job's event bus
   // (llm.ts); these notes are generated directly by this loop, so they need the same treatment to
@@ -154,37 +173,43 @@ export async function blindSolveAndFix(a: BlindSolveArgs): Promise<GameSpec> {
     emit(a.jobId, p);
   };
 
-  for (let i = 0; i < encounters.length; i++) {
-    const e = encounters[i];
-    const mode = getMode(e.familyId, e.mode);
-    if (!mode || !mode.blindSolvable || !mode.blind) continue;
-    const seed = spec.seed + i;
+  const outcomes = await Promise.all(
+    spec.encounters.map((e, i) =>
+      limit(async (): Promise<BlindSolveOutcome> => {
+        const mode = getMode(e.familyId, e.mode);
+        if (!mode || !mode.blindSolvable || !mode.blind) return { index: i, encounter: e, changed: false };
+        const seed = spec.seed + i;
 
-    const agree = await blindSolveOne(mode, e, seed, a.models, a.jobId, a.onProgress);
-    if (agree) continue;
+        const agree = await blindSolveOne(mode, e, seed, a.models, a.jobId, a.onProgress);
+        if (agree) return { index: i, encounter: e, changed: false };
 
-    note({ agent: "verifier", status: "repair", note: `Verifier: blind solver disagreed with "${e.id}"; regenerating` });
-    const regenerated = await regenerate(spec, e, a);
-    const agreeAfterRegen = regenerated ? await blindSolveOne(mode, regenerated, seed, a.models, a.jobId, a.onProgress) : false;
-    if (regenerated && agreeAfterRegen) {
-      encounters[i] = regenerated;
-      changed = true;
-      continue;
-    }
+        note({ agent: "verifier", status: "repair", note: `Verifier: blind solver disagreed with "${e.id}"; regenerating` });
+        const regenerated = await regenerate(spec, e, a);
+        const agreeAfterRegen = regenerated ? await blindSolveOne(mode, regenerated, seed, a.models, a.jobId, a.onProgress) : false;
+        if (regenerated && agreeAfterRegen) {
+          return { index: i, encounter: regenerated, changed: true };
+        }
 
-    const fallback = replaceWithFallback(a.km, e, spec.genre);
-    if (fallback) {
-      encounters[i] = fallback;
-      changed = true;
-      note({ agent: "verifier", status: "fallback", note: `Verifier: replaced ${e.id}, the blind solver disagreed` });
-    } else if (e.role === "boss") {
-      throw new Error(`Verifier: the boss encounter "${e.id}" failed blind-solve and has no fallback`);
-    } else {
-      note({ agent: "verifier", status: "failed", note: `Verifier: "${e.id}" failed blind-solve and could not be replaced; left as-is` });
-    }
-  }
+        const fallback = replaceWithFallback(a.km, e, spec.genre);
+        if (fallback) {
+          note({ agent: "verifier", status: "fallback", note: `Verifier: replaced ${e.id}, the blind solver disagreed` });
+          return { index: i, encounter: fallback, changed: true };
+        }
+        if (e.role === "boss") {
+          throw new Error(`Verifier: the boss encounter "${e.id}" failed blind-solve and has no fallback`);
+        }
+        // M2: a non-boss encounter that still disagrees and has no fallback is dropped outright.
+        note({ agent: "verifier", status: "fallback", note: `Verifier: dropped ${e.id}` });
+        return { index: i, encounter: null, changed: true };
+      }),
+    ),
+  );
 
-  if (!changed) return spec;
+  if (!outcomes.some((o) => o.changed)) return spec;
+  const encounters = outcomes
+    .slice()
+    .sort((x, y) => x.index - y.index)
+    .flatMap((o) => (o.encounter ? [o.encounter] : []));
   const layout = layoutFromEncounters(spec.genre, encounters);
   const result = validateGameSpec({ ...spec, encounters, layout });
   if (!result.ok) throw new GenerationError(result.issues);

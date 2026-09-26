@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { Intake } from "../../../contracts/knowledge";
-import { prepareIntake } from "../../../pipeline/agents/intake";
+import { GatekeeperRejectedError, loadStoredPreCheck, prepareIntake } from "../../../pipeline/agents/intake";
 import { startGameJob } from "../../../pipeline/orchestrator";
 import { getStorage } from "../../../server/storage";
 
@@ -41,12 +41,26 @@ export async function POST(request: Request): Promise<Response> {
     try {
       await prepareIntake(parsed.data.sourceId);
     } catch (err) {
+      if (err instanceof GatekeeperRejectedError) {
+        return NextResponse.json({ error: err.message, step: "gatekeeper" }, { status: 422 });
+      }
       return jsonError(500, err instanceof Error ? err.message : String(err));
     }
   }
 
+  // The client sends the whole Intake back, including preCheck.items (with correctIndex) — never
+  // trust that: a modified correctIndex would let a student report a perfect pre-check score
+  // regardless of what they actually answered. Load the real items from the server's own prep record
+  // when one exists and keep only the client's `answers`; when there's no prep record (a fixture or a
+  // test that built an Intake by hand, skipping GET /api/sources/:id/intake), the client's items are
+  // all there is, so accept them as before.
+  const storedPreCheck = await loadStoredPreCheck(parsed.data.sourceId);
+  const intake = storedPreCheck
+    ? { ...parsed.data.intake, preCheck: { items: storedPreCheck, answers: parsed.data.intake.preCheck.answers } }
+    : parsed.data.intake;
+
   try {
-    const { jobId } = await startGameJob({ sourceId: parsed.data.sourceId, intake: parsed.data.intake, sections: parsed.data.sections });
+    const { jobId } = await startGameJob({ sourceId: parsed.data.sourceId, intake, sections: parsed.data.sections });
     return NextResponse.json({ jobId }, { status: 202 });
   } catch (err) {
     return jsonError(500, err instanceof Error ? err.message : String(err));

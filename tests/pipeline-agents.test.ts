@@ -24,7 +24,7 @@ afterEach(async () => {
   delete process.env.DATA_DIR;
   resetEnvCache();
   resetStorage();
-  await rm(dir, { recursive: true, force: true });
+  await rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
 });
 
 async function uploadPdf(path: string, filename: string): Promise<string> {

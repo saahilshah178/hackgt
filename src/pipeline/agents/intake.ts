@@ -19,6 +19,24 @@ import { runPrecheck } from "./precheck";
  * (GET /api/sources/:id/intake) and MEGAPROMPT §3/§4.
  */
 
+/**
+ * M6: the gatekeeper says this material can't become a game — not educational, or not enough of it.
+ * The route (GET /api/sources/[id]/intake) turns this into 422 { error, step: "gatekeeper" }, which
+ * the intake page shows as `error`. `tooBig` is NOT rejected here: the outline checklist handles it.
+ */
+export class GatekeeperRejectedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "GatekeeperRejectedError";
+  }
+}
+
+function rejectionReason(gatekeeper: Pick<GatekeeperSlice, "educational" | "tooSmall">): string | null {
+  if (!gatekeeper.educational) return "This doesn't look like educational material we can turn into a game.";
+  if (gatekeeper.tooSmall) return "There's not enough material here for a full game yet; try adding more.";
+  return null;
+}
+
 export interface IntakeResult {
   source: { id: string; kind: SourceRecord["kind"]; title: string; pageCount: number };
   gatekeeper: GatekeeperSlice;
@@ -64,6 +82,22 @@ export function matcherJob(sourceId: string): Promise<void> | undefined {
 /** Test hook: forget in-memory matcher job state (a fresh process would start clean anyway). */
 export function resetMatcherJobs(): void {
   matcherJobs.clear();
+}
+
+/**
+ * The pre-check items (question + choices + correctIndex) as this server actually wrote them during
+ * intake prep, or null when no prep record exists for this source (fixtures/tests that build an
+ * Intake by hand without going through GET /api/sources/:id/intake first).
+ *
+ * POST /api/games trusts only the client's `answers`, never its `items`: an item's `correctIndex`
+ * chosen by the client could otherwise let a student report a perfect pre-check score regardless of
+ * what they actually answered.
+ */
+export async function loadStoredPreCheck(sourceId: string): Promise<Mcq[] | null> {
+  const raw = await getStorage().getBlob(prepPath(sourceId));
+  if (!raw) return null;
+  const cached = JSON.parse(Buffer.from(raw).toString("utf8")) as PrepSideRecord;
+  return cached.preCheck;
 }
 
 /** The 3 concepts likely weakest for a learner: core concepts first, hardest first. */
@@ -112,6 +146,8 @@ export async function prepareIntake(sourceId: string): Promise<IntakeResult> {
     const km = await storage.getKnowledgeMap(sourceId);
     if (km) {
       const cached = JSON.parse(Buffer.from(cachedRaw).toString("utf8")) as PrepSideRecord;
+      const rejected = rejectionReason(cached.gatekeeper);
+      if (rejected) throw new GatekeeperRejectedError(rejected);
       startMatcher(sourceId, km, jobId);
       return {
         source: { id: source.id, kind: source.kind, title: source.title, pageCount: source.pageCount },
@@ -134,6 +170,8 @@ export async function prepareIntake(sourceId: string): Promise<IntakeResult> {
   const pageBoundAdvisory = isMockLLM() && !resolveMockSampleDetailed({ sourceId: source.id, title: source.title, text: pages[0]?.text }).matched;
 
   const gatekeeper = await runGatekeeper({ jobId, title: source.title, pages, pageCount, pageBoundAdvisory });
+  const rejected = rejectionReason(gatekeeper);
+  if (rejected) throw new GatekeeperRejectedError(rejected);
   const slice = await runCurriculum({ jobId, title: source.title, pages, pageCount, unsourced, pageBoundAdvisory });
 
   let km = curriculumToKnowledgeMap(slice, sourceId, unsourced);

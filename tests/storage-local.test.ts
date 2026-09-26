@@ -28,7 +28,7 @@ beforeEach(async () => {
 afterEach(async () => {
   delete process.env.DATA_DIR;
   resetEnvCache();
-  await rm(dir, { recursive: true, force: true });
+  await rm(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
 });
 
 describe("LocalDriver", () => {
@@ -129,6 +129,35 @@ describe("LocalDriver", () => {
     expect(await storage.getTelemetry("game_1")).toEqual([]);
     await storage.appendTelemetry("game_1", [e1]);
     expect(await storage.getTelemetry("game_1")).toEqual([e1]);
+  });
+
+  // M7: appendEvents/appendTelemetry used to be read-modify-write (read the file, append in memory,
+  // rename over it), so concurrent appends to the same job could silently drop each other's lines.
+  it("keeps every line from 20 concurrent appendEvents calls to the same job", async () => {
+    await Promise.all(
+      Array.from({ length: 20 }, (_, i) => storage.appendEvents("job_concurrent", [{ jobId: "job_concurrent", agent: `agent_${i}`, status: "start" }])),
+    );
+    const events = await storage.getEvents("job_concurrent");
+    expect(events).toHaveLength(20);
+    expect(new Set(events.map((e) => e.agent)).size).toBe(20);
+  });
+
+  it("keeps every line from 20 concurrent appendTelemetry calls to the same game", async () => {
+    const event = (i: number): TelemetryEvent => ({
+      gameId: "game_concurrent",
+      encounterId: `e${i}`,
+      conceptIds: ["c1"],
+      teachingMechanicId: "phase_gate",
+      attempt: 1,
+      correct: true,
+      hintsUsed: 0,
+      ms: 100,
+      at: "2026-09-26T02:05:00.000Z",
+    });
+    await Promise.all(Array.from({ length: 20 }, (_, i) => storage.appendTelemetry("game_concurrent", [event(i)])));
+    const events = await storage.getTelemetry("game_concurrent");
+    expect(events).toHaveLength(20);
+    expect(new Set(events.map((e) => e.encounterId)).size).toBe(20);
   });
 
   it("round-trips a blob and reports its URL", async () => {

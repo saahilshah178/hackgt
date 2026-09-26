@@ -76,6 +76,11 @@ async function generateWithRetry<T>(o: RunAgentOptions<T>, model: LanguageModel,
         system: o.system,
         prompt: o.prompt + notes,
         output: Output.object({ schema: o.schema, name: o.agent.replace(/[^a-zA-Z0-9_-]/g, "_") }),
+        // The AI SDK retries transient errors itself (default 2) and then throws a RetryError,
+        // which APICallError.isInstance() below doesn't match, so our own 429/503 backoff loop
+        // would never see the underlying APICallError. Disabling the SDK's retries lets this
+        // loop own retry/backoff decisions (honoring Retry-After) end to end.
+        maxRetries: 0,
         ...(providerOptions ? { providerOptions } : {}),
       });
       return output as T;
@@ -117,7 +122,13 @@ async function runAgentUnlimited<T>(o: RunAgentOptions<T>): Promise<T> {
       }
       throw err; // network/auth/rate-limit-exhausted errors: let the caller decide
     }
-    problems = o.check?.(output) ?? [];
+    try {
+      problems = o.check?.(output) ?? [];
+    } catch (err) {
+      // A checker that throws (a bug in the check itself, or unexpected shape) becomes a repair
+      // note like any other problem, instead of an unhandled rejection that fails the whole job.
+      problems = [`internal check error: ${err instanceof Error ? err.message : String(err)}`];
+    }
     if (problems.length === 0) {
       report("done", { ms: Date.now() - t0 });
       return output;

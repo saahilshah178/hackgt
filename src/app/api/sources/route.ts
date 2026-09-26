@@ -16,6 +16,10 @@ import { getStorage } from "../../../server/storage";
  */
 
 export const MAX_PDF_PAGES = 40;
+// M9: reject oversized input before the heavier work (PDF decode, page splitting) runs on it.
+export const MAX_FILE_BYTES = 20 * 1024 * 1024; // 20 MB
+export const MAX_TEXT_CHARS = 200_000;
+export const MAX_TOPIC_CHARS = 200;
 
 const TextBody = z.object({ text: z.string().min(1), title: z.string().min(1).nullable().optional() });
 const TopicBody = z.object({ topic: z.string().min(1) });
@@ -39,8 +43,15 @@ export async function POST(request: Request): Promise<Response> {
     if (file.type && file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
       return jsonError(400, "Only PDF uploads are supported.");
     }
+    // M9: check the size the browser already reported before reading the whole file into memory.
+    if (file.size > MAX_FILE_BYTES) {
+      return jsonError(413, `That file is ${(file.size / (1024 * 1024)).toFixed(1)} MB; the limit is ${MAX_FILE_BYTES / (1024 * 1024)} MB.`);
+    }
 
     const bytes = new Uint8Array(await file.arrayBuffer());
+    if (bytes.byteLength > MAX_FILE_BYTES) {
+      return jsonError(413, `That file is ${(bytes.byteLength / (1024 * 1024)).toFixed(1)} MB; the limit is ${MAX_FILE_BYTES / (1024 * 1024)} MB.`);
+    }
     // unpdf/pdf.js transfers (detaches) the buffer it's given, so each call needs its own copy.
     let pageCount: number;
     try {
@@ -84,6 +95,9 @@ export async function POST(request: Request): Promise<Response> {
 
   const asTopic = TopicBody.safeParse(body);
   if (asTopic.success) {
+    if (asTopic.data.topic.length > MAX_TOPIC_CHARS) {
+      return jsonError(400, `That topic is ${asTopic.data.topic.length} characters; keep it under ${MAX_TOPIC_CHARS}.`);
+    }
     const id = newId("src");
     const storage = getStorage();
     await storage.putPages(id, []);
@@ -104,6 +118,9 @@ export async function POST(request: Request): Promise<Response> {
 
   const asText = TextBody.safeParse(body);
   if (asText.success) {
+    if (asText.data.text.length > MAX_TEXT_CHARS) {
+      return jsonError(400, `That text is ${asText.data.text.length.toLocaleString()} characters; the limit is ${MAX_TEXT_CHARS.toLocaleString()}. Try a shorter excerpt.`);
+    }
     const id = newId("src");
     const pages = splitTextIntoPages(id, asText.data.text);
     const storage = getStorage();

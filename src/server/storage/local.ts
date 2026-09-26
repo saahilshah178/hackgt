@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
+import { appendFile, mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import type { Intake, KnowledgeMap } from "../../contracts/knowledge";
 import type { MatchResult } from "../../contracts/match";
@@ -28,6 +28,17 @@ function isSafeRelativePath(path: string): boolean {
   if (path.startsWith("/") || path.includes("..")) return false;
   return path.length > 0;
 }
+
+/*
+ * M7: appendJsonl() used to be read-modify-write (read the whole file, append in memory, rename over
+ * it), so two concurrent appends to the SAME path (e.g. two runAgent() progress events landing at
+ * once, or two telemetry POSTs) could both read the same "existing" content and the second rename
+ * would silently drop the first append's line. A per-path promise chain serializes every append to a
+ * given path within this process, which is exactly the concurrency this driver needs to handle (one
+ * Node process per dev/deploy); the module-level map (not a class field) keeps two LocalDriver
+ * instances pointed at the same file serialized too.
+ */
+const appendQueues = new Map<string, Promise<void>>();
 
 export class LocalDriver implements StorageDriver {
   readonly name = "local" as const;
@@ -64,18 +75,21 @@ export class LocalDriver implements StorageDriver {
     }
   }
 
-  /** Appends one JSON-lines record atomically relative to concurrent readers (write temp, then rename over a merged file). */
-  private async appendJsonl(path: string, lines: unknown[]): Promise<void> {
-    if (lines.length === 0) return;
-    await mkdir(dirname(path), { recursive: true });
-    const existing = await readFile(path, "utf8").catch((err) => {
-      if ((err as NodeJS.ErrnoException).code === "ENOENT") return "";
-      throw err;
-    });
+  /**
+   * Appends one JSON-lines record. Queued per path (see appendQueues above) so concurrent appends to
+   * the same file never race a read-modify-write and drop each other's lines; each queued turn does a
+   * plain fs.appendFile, which is append-only (no read of the existing content to go stale).
+   */
+  private appendJsonl(path: string, lines: unknown[]): Promise<void> {
+    if (lines.length === 0) return Promise.resolve();
     const addition = lines.map((l) => JSON.stringify(l)).join("\n") + "\n";
-    const tmp = join(dirname(path), `.tmp-${randomBytes(6).toString("hex")}`);
-    await writeFile(tmp, existing + addition, "utf8");
-    await rename(tmp, path);
+    const previous = appendQueues.get(path) ?? Promise.resolve();
+    const next = previous.catch(() => {}).then(async () => {
+      await mkdir(dirname(path), { recursive: true });
+      await appendFile(path, addition, "utf8");
+    });
+    appendQueues.set(path, next);
+    return next;
   }
 
   private async readJsonl<T>(path: string): Promise<T[]> {

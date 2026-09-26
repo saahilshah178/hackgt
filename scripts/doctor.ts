@@ -67,6 +67,7 @@ for (const issue of report.issues) {
   lines.push(bad(issue));
   problems.push(issue);
 }
+for (const warning of report.warnings) lines.push(info(warning)); // non-blocking: never added to `problems`
 lines.push("");
 
 lines.push("Storage");

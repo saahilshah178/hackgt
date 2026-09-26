@@ -114,4 +114,53 @@ describe("blind-solver", () => {
     // every other encounter is untouched
     expect(fixed.encounters.filter((e) => e.id !== "e3_amplitude")).toEqual(spec.encounters.filter((e) => e.id !== "e3_amplitude"));
   });
+
+  // M2: a throw from runAgent (network/schema) must be treated as agreeing, never fail the job; and a
+  // non-boss encounter that still disagrees with no fallback available must be dropped outright.
+  it("treats a throwing blind solver as agreeing, and drops a non-boss encounter with no fallback available", async () => {
+    const { runAgent } = await import("../src/pipeline/llm");
+    const mockRunAgent = runAgent as unknown as Mock;
+
+    const e3 = spec.encounters.find((e) => e.id === "e3_amplitude")!;
+    const index = spec.encounters.indexOf(e3);
+    const mode = getMode(e3.familyId, e3.mode)!;
+    const seed = spec.seed + index;
+    const view = mode.present(e3.params, seed) as { chests: { statementIndex: number; text: string }[] };
+    const wrongChest = view.chests.findIndex((c) => c.statementIndex !== 1);
+    expect(wrongChest).toBeGreaterThanOrEqual(0);
+
+    const e5 = spec.encounters.find((e) => e.id === "e5_period_review")!;
+
+    // c_amplitude needs >= 2 facts and >= 1 misconception for fallbackMimic() to succeed; trim it so
+    // e3_amplitude's disagreement, after a failed regenerate, has no fallback and must be dropped.
+    const km = structuredClone(trigKnowledgeMap);
+    km.concepts.find((c) => c.id === "c_amplitude")!.facts.length = 1;
+
+    mockRunAgent.mockImplementation(async (o: { agent: string }) => {
+      if (o.agent === `blind:${e3.id}`) return { chest: wrongChest, why: "a confident but wrong guess" };
+      if (o.agent === `blind:${e5.id}`) throw new Error("network error: connection reset");
+      if (o.agent === `challenge:${e3.id}`) throw new Error("regenerate also failed");
+      throw new Error(`unexpected agent "${o.agent}" in this test`);
+    });
+
+    const { blindSolveAndFix } = await importBlindSolver();
+    const events: { agent: string; status: string; note?: string }[] = [];
+    const fixed = await blindSolveAndFix({
+      spec,
+      km,
+      intake: trigIntake,
+      models: { fast: {} as never, smart: {} as never },
+      jobId: "job_test",
+      onProgress: (e) => events.push(e),
+    });
+
+    // e5's blind solver threw: treated as agreeing, left untouched.
+    expect(fixed.encounters.find((e) => e.id === "e5_period_review")).toEqual(e5);
+    expect(events).toContainEqual(expect.objectContaining({ agent: `blind:${e5.id}`, status: "failed", note: expect.stringMatching(/treating it as agreeing/) }));
+
+    // e3 disagreed, regenerate failed, and no fallback exists for the trimmed concept: dropped.
+    expect(fixed.encounters.some((e) => e.id === "e3_amplitude")).toBe(false);
+    expect(events).toContainEqual(expect.objectContaining({ agent: "verifier", status: "fallback", note: "Verifier: dropped e3_amplitude" }));
+    expect(fixed.layout.chunks.every((c) => c.encounterId !== "e3_amplitude")).toBe(true);
+  });
 });

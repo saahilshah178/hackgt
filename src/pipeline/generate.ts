@@ -11,6 +11,8 @@ import {
   challengeSchema,
   directorSchema,
   narrativeSchema,
+  type AssessmentItemSlice,
+  type AssessmentSlice,
   type BlueprintEncounter,
   type BlueprintSlice,
   type ChallengeSlice,
@@ -185,6 +187,50 @@ export function fallbackMimic(
   return checkChallenge(mode, slice, card.lockedParams).length === 0 ? { encounter, slice } : null;
 }
 
+const errMsg = (err: unknown) => (err instanceof Error ? err.message : String(err));
+
+/** M1: a narrative writer that fails outright (AgentError or network) never fails the job: a minimal narrative keeps the game playable. */
+function minimalNarrative(blueprint: BlueprintSlice): NarrativeSlice {
+  const speakerId = blueprint.characters[0].id;
+  return { intro: [{ speakerId, text: blueprint.premise }], outro: [{ speakerId, text: "Well played." }], beats: [] };
+}
+
+/**
+ * M1: last resort for an assessment writer that fails twice: derive the post-check straight from the
+ * pre-check's concepts and misconceptions instead of calling the model again. For each pre-check
+ * concept, the correct answer is the listed misconception's correction; distractors are that
+ * misconception's belief plus other concepts' beliefs, padded with facts if there still aren't three.
+ */
+export function deriveAssessmentFromPreCheck(km: KnowledgeMap, preCheckItems: readonly { conceptId: string }[]): AssessmentSlice {
+  const allBeliefs = km.concepts.flatMap((c) => c.misconceptions.map((m) => m.belief));
+  const post: AssessmentItemSlice[] = preCheckItems.map((item) => {
+    const concept = km.concepts.find((c) => c.id === item.conceptId);
+    const name = concept?.name ?? item.conceptId;
+    const misconception = concept?.misconceptions[0];
+    const correct = misconception?.correction ?? concept?.facts[0]?.statement ?? `${name} works as described in the notes.`;
+    const factFillers = (concept?.facts ?? []).map((f) => f.statement);
+    const pool = [misconception?.belief, ...allBeliefs, ...factFillers].filter((s): s is string => !!s && s !== correct);
+    const distractors = [...new Set(pool)].slice(0, 3);
+    while (distractors.length < 3) distractors.push(`Not related to ${name}.`);
+    return { conceptId: item.conceptId, prompt: `After playing, which statement about ${name} is correct?`, correct, distractors };
+  });
+  return { post };
+}
+
+/**
+ * M8: when an encounter is dropped outright (no fallback possible) and it was the first ("teach")
+ * encounter for one of its concepts, that concept would otherwise be practiced before it's taught.
+ * Promotes the next remaining encounter for that concept to role "teach" — since the boss is always
+ * last, a promoted non-boss encounter always precedes it.
+ */
+export function promoteTeachForDropped(encounters: BlueprintEncounter[], droppedTeachConceptIds: readonly string[]): void {
+  for (const conceptId of droppedTeachConceptIds) {
+    if (encounters.some((e) => e.role === "teach" && e.conceptIds.includes(conceptId))) continue;
+    const next = encounters.find((e) => e.role !== "boss" && e.conceptIds.includes(conceptId));
+    if (next) next.role = "teach";
+  }
+}
+
 export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; warnings: Issue[]; repairs: number; genre: Genre }> {
   const { genre, reason } = resolveGenre(a.km, a.intake);
   const conceptIds = a.km.concepts.map((c) => c.id);
@@ -268,6 +314,32 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
       }),
     );
 
+  // M1: a narrative writer that fails outright (its own repair budget exhausted, or a network error)
+  // must never fail the job: fall back to a minimal narrative instead of rejecting.
+  const writeNarrativeSafe = (notes = ""): Promise<NarrativeSlice> =>
+    writeNarrative(notes).catch((err: unknown) => {
+      note({ agent: "narrative", status: "fallback", note: `writer failed (${errMsg(err)}); using a minimal narrative` });
+      return minimalNarrative(blueprint);
+    });
+  // M1: same for the assessment (post-check) writer, but it gets one retry first since a good
+  // post-check matters more than a good narrative line.
+  const writeAssessmentSafe = async (notes = ""): Promise<AssessmentSlice> => {
+    try {
+      return await writeAssessment(notes);
+    } catch {
+      try {
+        return await writeAssessment(notes);
+      } catch (err) {
+        note({
+          agent: "assessment",
+          status: "fallback",
+          note: `writer failed twice (${errMsg(err)}); deriving the post-check from the pre-check's concepts`,
+        });
+        return deriveAssessmentFromPreCheck(a.km, a.intake.preCheck.items);
+      }
+    }
+  };
+
   // 2. Fan-out: one challenge writer per encounter, plus narrative and assessment, all in parallel.
   const [challengeResults, narrative, assessment] = await Promise.all([
     Promise.all(
@@ -278,13 +350,14 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
         ),
       ),
     ),
-    writeNarrative(),
-    writeAssessment(),
+    writeNarrativeSafe(),
+    writeAssessmentSafe(),
   ]);
 
   // 3. Fallbacks: a failed encounter becomes a Mimic Chest from verified facts, or is dropped (never the boss).
   const encounters: BlueprintEncounter[] = [];
   const challenges: Record<string, ChallengeSlice> = {};
+  const droppedTeachConceptIds: string[] = [];
   for (const r of challengeResults) {
     if (r.ok) {
       encounters.push(r.e);
@@ -300,8 +373,10 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
       throw r.error;
     } else {
       note({ agent: `challenge:${r.e.id}`, status: "fallback", note: "dropped" });
+      if (r.e.role === "teach") droppedTeachConceptIds.push(...r.e.conceptIds);
     }
   }
+  promoteTeachForDropped(encounters, droppedTeachConceptIds);
   const kept = new Set(encounters.map((e) => e.id));
   const trimBeats = (n: NarrativeSlice): NarrativeSlice => ({ ...n, beats: n.beats.filter((b) => kept.has(b.encounterId)) });
 
@@ -328,14 +403,41 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     issues
       .filter((i) => i.owner === "challenge_writer" && i.encounterId)
       .forEach((i) => byEncounter.set(i.encounterId!, [...(byEncounter.get(i.encounterId!) ?? []), i.message]));
+    // M1: a repair write that rejects (AgentError from an exhausted repair budget, or a network
+    // failure) must not reject Promise.all and fail the whole job — fall back the same way step 3
+    // does: a Mimic Chest from verified facts, or drop the encounter (never the boss).
     const jobs: Promise<unknown>[] = [...byEncounter].map(([id, messages]) => {
       const e = encounters.find((x) => x.id === id)!;
-      return writeChallenge(e, repairNote(messages, challenges[id])).then((s) => (challenges[id] = s));
+      return writeChallenge(e, repairNote(messages, challenges[id])).then(
+        (s) => {
+          challenges[id] = s;
+        },
+        (error: unknown) => {
+          const idx = encounters.findIndex((x) => x.id === id);
+          const current = encounters[idx];
+          const fb = fallbackMimic(a.km, current, genre);
+          if (fb) {
+            note({ agent: `challenge:${id}`, status: "fallback", note: "replaced with a Mimic Chest from verified facts" });
+            encounters[idx] = fb.encounter;
+            challenges[id] = fb.slice;
+            return;
+          }
+          if (current.role === "boss") throw error;
+          note({ agent: `challenge:${id}`, status: "fallback", note: "dropped" });
+          if (current.role === "teach") droppedTeachConceptIds.push(...current.conceptIds);
+          encounters.splice(idx, 1);
+          delete challenges[id];
+        },
+      );
     });
     const own = (owner: Issue["owner"]) => issues.filter((i) => i.owner === owner).map((i) => `${i.path.join(".")}: ${i.message}`);
-    if (own("narrative").length) jobs.push(writeNarrative(repairNote(own("narrative"))).then((n) => (slices.narrative = trimBeats(n))));
-    if (own("assessment").length) jobs.push(writeAssessment(repairNote(own("assessment"))).then((s) => (slices.assessment = s)));
+    if (own("narrative").length) jobs.push(writeNarrativeSafe(repairNote(own("narrative"))).then((n) => (slices.narrative = n)));
+    if (own("assessment").length) jobs.push(writeAssessmentSafe(repairNote(own("assessment"))).then((s) => (slices.assessment = s)));
     await Promise.all(jobs);
+    promoteTeachForDropped(encounters, droppedTeachConceptIds);
+    slices.blueprint = { ...slices.blueprint, encounters };
+    const keptAfterRepair = new Set(encounters.map((e) => e.id));
+    slices.narrative = { ...slices.narrative, beats: slices.narrative.beats.filter((b) => keptAfterRepair.has(b.encounterId)) };
     repairs = jobs.length;
     result = validateGameSpec(assembleGameSpec(slices));
     if (!result.ok) throw new GenerationError(result.issues);

@@ -1,5 +1,5 @@
 import type { JobDone, ProgressEvent } from "../../../../../contracts/progress";
-import { onClose, subscribe } from "../../../../../pipeline/events";
+import { history, onClose, subscribe } from "../../../../../pipeline/events";
 import { getStorage } from "../../../../../server/storage";
 
 /*
@@ -7,17 +7,38 @@ import { getStorage } from "../../../../../server/storage";
  * this) then streams live events, a `: heartbeat` comment every 15s, and ends with `event: done`.
  * If the job is already finished when the stream opens, onClose() fires immediately (events.ts), so
  * history + done are still delivered in order. See instructions.md §9.
+ *
+ * M7: that in-memory bus is empty after a process restart or an HMR reload, so a late subscriber to
+ * an already-finished job would otherwise wait forever (subscribe() replays nothing, onClose() never
+ * fires again). When the stored job is already done/failed and the bus has no history, replay from
+ * persisted storage (getEvents()) instead and close immediately.
  */
 export const dynamic = "force-dynamic";
 
 const HEARTBEAT_MS = 15_000;
+const SSE_HEADERS = { "Content-Type": "text/event-stream", "Cache-Control": "no-cache, no-transform", Connection: "keep-alive" };
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }): Promise<Response> {
   const { id } = await context.params;
-  const job = await getStorage().getJob(id);
+  const storage = getStorage();
+  const job = await storage.getJob(id);
   if (!job) return new Response(JSON.stringify({ error: `No job with id "${id}".` }), { status: 404, headers: { "Content-Type": "application/json" } });
 
   const encoder = new TextEncoder();
+
+  if ((job.status === "done" || job.status === "failed") && history(id).length === 0) {
+    const events = await storage.getEvents(id);
+    const done: JobDone = { done: true, gameId: job.gameId, error: job.error };
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        for (const event of events) controller.enqueue(encoder.encode(`event: progress\ndata: ${JSON.stringify(event)}\n\n`));
+        controller.enqueue(encoder.encode(`event: done\ndata: ${JSON.stringify(done)}\n\n`));
+        controller.close();
+      },
+    });
+    return new Response(stream, { headers: SSE_HEADERS });
+  }
+
   let unsubscribe = () => {};
   let unclose = () => {};
   let heartbeat: ReturnType<typeof setInterval> | undefined;
@@ -68,11 +89,5 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
     },
   });
 
-  return new Response(stream, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache, no-transform",
-      Connection: "keep-alive",
-    },
-  });
+  return new Response(stream, { headers: SSE_HEADERS });
 }

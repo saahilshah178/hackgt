@@ -36,6 +36,8 @@ export const EnvSchema = z.object({
   AUDIO_DIALOGUE: z.preprocess(empty, z.enum(["0", "1"]).default("0")),
   /** Absolute or cwd-relative folder for the LocalDriver. Defaults to .data/ */
   DATA_DIR: z.preprocess(empty, z.string().default(".data")),
+  /** "1" silences the mixed-modes warning (e.g. LLM_MODE=mock with STORAGE_DRIVER=supabase). */
+  ALLOW_MIXED_MODES: z.preprocess(empty, z.enum(["0", "1"]).default("0")),
 });
 export type Env = z.infer<typeof EnvSchema>;
 
@@ -74,7 +76,10 @@ export class EnvError extends Error {
  * Node >= 21 ships process.loadEnvFile; this never throws when the file is absent.
  */
 export function loadLocalEnvFile(file = ".env.local"): boolean {
-  const path = resolve(process.cwd(), file);
+  // Turbopack's build-time trace flags this as "dynamic filesystem access" that could pull the whole
+  // project into the server bundle; it's actually always cwd + a fixed filename, so opt out per the
+  // warning's own suggested fix.
+  const path = resolve(/* turbopackIgnore: true */ process.cwd(), file);
   if (!existsSync(path)) return false;
   try {
     process.loadEnvFile(path);
@@ -92,6 +97,21 @@ export interface EnvReport {
   /** Per stage: what would be needed to switch it live, and which of those are already set. */
   stages: { stage: Stage; label: string; step: string; vars: { name: string; set: boolean }[]; active: boolean }[];
   issues: string[];
+  /** Non-blocking: e.g. LLM_MODE=mock with a live storage/audio driver. Never affects getEnv()/exit codes. */
+  warnings: string[];
+}
+
+/** Mock LLM calls but a live downstream service is a likely misconfiguration (accidentally hitting Supabase/ElevenLabs from a mock run). Silenced by ALLOW_MIXED_MODES=1. */
+function mixedModeWarnings(env: Env): string[] {
+  if (env.LLM_MODE !== "mock" || env.ALLOW_MIXED_MODES === "1") return [];
+  const warnings: string[] = [];
+  if (env.STORAGE_DRIVER === "supabase") {
+    warnings.push("mock mode with a live service: LLM_MODE=mock but STORAGE_DRIVER=supabase; set ALLOW_MIXED_MODES=1 to silence");
+  }
+  if (env.AUDIO_MODE === "live") {
+    warnings.push("mock mode with a live service: LLM_MODE=mock but AUDIO_MODE=live; set ALLOW_MIXED_MODES=1 to silence");
+  }
+  return warnings;
 }
 
 /** Non-throwing inspection used by `pnpm doctor` and the smoke scripts. */
@@ -112,6 +132,7 @@ export function inspectEnv(source: NodeJS.ProcessEnv = process.env): EnvReport {
     missing,
     stages,
     issues,
+    warnings: mixedModeWarnings(env),
   };
 }
 

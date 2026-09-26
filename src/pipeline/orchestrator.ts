@@ -150,7 +150,12 @@ export async function startGameJob(a: StartGameJobArgs): Promise<{ jobId: string
   await storage.putIntake(a.sourceId, intake);
   await storage.putJob({ id: jobId, sourceId: a.sourceId, status: "queued", gameId: null, error: null, createdAt: now(), updatedAt: now() });
 
-  void runJob({ jobId, gameId, sourceId: a.sourceId, km, intake, models: getModels() });
+  // runJob() has its own try/catch that reports failures through the job record and the event bus, but
+  // a throw from ITS OWN catch block (e.g. storage.putJob() failing while already handling an error)
+  // would otherwise be an unhandled rejection on this fire-and-forget promise; log it as a last resort.
+  void runJob({ jobId, gameId, sourceId: a.sourceId, km, intake, models: getModels() }).catch((err: unknown) => {
+    console.error(`[orchestrator] job ${jobId} failed outside its own error handling:`, err);
+  });
 
   return { jobId };
 }

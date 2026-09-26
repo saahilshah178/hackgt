@@ -3,6 +3,7 @@ import type { KnowledgeMap } from "../../contracts/knowledge";
 import type { BlueprintEncounter, BlueprintSlice, ChallengeSlice, NarrativeSlice } from "../../contracts/slices";
 import { getCard } from "../../library";
 import { BOSS_SOCKET } from "../../library/genres";
+import { hashString } from "../../mechanics/util";
 import { socketsFor } from "../../mechanics/registry";
 import { fallbackMimic } from "../generate";
 
@@ -35,11 +36,34 @@ export function parseDirectorConstraints(prompt: string, km: KnowledgeMap): Dire
   return { genre, min, max, cardIds, conceptIds };
 }
 
+/*
+ * M5: mock state used to be keyed by sample id, so two concurrent jobs on the same sample (e.g. two
+ * browser tabs both generating from the trig fixture) could race — the second job's Director call
+ * would overwrite the first job's adapted blueprint in this memo, and the first job's challenge/
+ * narrative writer calls would then read back the WRONG job's encounters. sharedContext() (prompts.ts)
+ * is byte-identical for every writer call within one job (it's placed first in every prompt so a real
+ * provider's prompt caching can reuse it), so hashing that shared block gives a per-job key that every
+ * agent's prompt in that job can recompute independently, without threading a jobId through prompts
+ * (prompts must stay identical between mock and live).
+ */
+const SHARED_CONTEXT_MARKERS = ["\n\n# Game:", "# Cards available in this genre"];
+
+/** Extracts the shared-context block (everything before the first per-call marker) from a prompt's user text. */
+function sharedContextBlock(userText: string): string {
+  const indices = SHARED_CONTEXT_MARKERS.map((m) => userText.indexOf(m)).filter((i) => i >= 0);
+  return indices.length > 0 ? userText.slice(0, Math.min(...indices)) : userText;
+}
+
+/** The per-job memo key: a hash of the prompt's shared-context block, recomputable from any agent's prompt in the same job. */
+export function sharedContextKey(userText: string): string {
+  return `sc_${hashString(sharedContextBlock(userText))}`;
+}
+
 const memo = new Map<string, BlueprintSlice>();
 
-/** The blueprint the mock Director last produced for a sample (so the mock writers can stay consistent). */
-export function lastAdaptedBlueprint(sampleId: string): BlueprintSlice | undefined {
-  return memo.get(sampleId);
+/** The blueprint the mock Director last produced for this job's shared context (so the mock writers can stay consistent). */
+export function lastAdaptedBlueprint(key: string): BlueprintSlice | undefined {
+  return memo.get(key);
 }
 
 function legalSocket(cardId: string, genre: Genre, boss: boolean): string | null {
@@ -50,7 +74,7 @@ function legalSocket(cardId: string, genre: Genre, boss: boolean): string | null
   return sockets.find((s) => s !== BOSS_SOCKET[genre]) ?? null;
 }
 
-export function adaptBlueprint(sampleId: string, canned: BlueprintSlice, km: KnowledgeMap, c: DirectorConstraints): BlueprintSlice {
+export function adaptBlueprint(key: string, canned: BlueprintSlice, km: KnowledgeMap, c: DirectorConstraints): BlueprintSlice {
   const beliefs = new Set(km.concepts.flatMap((x) => x.misconceptions.map((m) => m.belief)));
   const mimicOk = c.cardIds.has("mimic_chest");
   const fixTarget = (t: string | null) => (t !== null && beliefs.has(t) ? t : null);
@@ -136,7 +160,7 @@ export function adaptBlueprint(sampleId: string, canned: BlueprintSlice, km: Kno
   }
 
   const result: BlueprintSlice = { ...canned, genre: c.genre, encounters: boss ? [...ordered, boss] : ordered };
-  memo.set(sampleId, result);
+  memo.set(key, result);
   return result;
 }
 

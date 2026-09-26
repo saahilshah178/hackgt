@@ -7,7 +7,10 @@ import { getStorage } from "../../../../../server/storage";
  * spec.assessment. See instructions.md §9.
  */
 
-const Body = z.object({ answers: z.array(z.number().int().min(0).max(3)) });
+// M9: unanswered pre-check items may arrive as -1 (see the Intake.preCheck.answers contract change
+// this calls for below); this route's own Body schema isn't the shared contract, so it can already
+// accept -1 as "skipped" instead of rejecting the whole postcheck with 400.
+const Body = z.object({ answers: z.array(z.number().int().min(-1).max(3)) });
 
 function jsonError(status: number, error: string) {
   return NextResponse.json({ error }, { status });

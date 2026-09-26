@@ -8,5 +8,6 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
   const source = await storage.getSource(id);
   if (!source) return NextResponse.json({ error: `No source with id "${id}".` }, { status: 404 });
   const pages = await storage.getPages(id);
-  return NextResponse.json({ source, pageCount: pages.length });
+  // instructions.md §9: SourceRecord & { pageCount } — a flat spread, not { source, pageCount }.
+  return NextResponse.json({ ...source, pageCount: pages.length });
 }
