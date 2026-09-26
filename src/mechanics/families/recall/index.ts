@@ -1,5 +1,7 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { cloze } from "./cloze";
+import { rapid } from "./rapid";
 
 const s = (id: string, name: string, blurb: string, widget: "type" | "pick" | "place" = "type") =>
   stubMode({ id, name, widget, knowledgeTypes: ["fact"], blindSolvable: true, directorBlurb: blurb });
@@ -17,8 +19,8 @@ export const recall = defineFamily({
     strategy: { sockets: ["research_node"], skin: "Quick recall boosts research" },
   },
   modes: {
-    rapid: s("rapid", "Rapid recall", "Accepted answers plus fuzzy matching; cooldowns follow spacing intervals."),
-    cloze: s("cloze", "Cloze", "Fill a blank in a source sentence."),
+    rapid,
+    cloze,
     memory_palace: s("memory_palace", "Memory palace", "Items placed in rooms, recalled later.", "place"),
     listen: s("listen", "Listen", "An ElevenLabs TTS cue to identify.", "pick"),
     teach_back: s("teach_back", "Teach back", "An LLM-graded explanation that earns a bonus only (catalog-only)."),
