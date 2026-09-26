@@ -1,4 +1,5 @@
-import { GENRES, type Genre, type KnowledgeType } from "../contracts/common";
+import { GENRES, type FamilyId, type Genre, type KnowledgeType } from "../contracts/common";
+import { FAMILIES } from "../mechanics/registry";
 
 /*
  * Genre definitions (LIBRARY §1, §1.1, §5). Sockets are the mount points a genre host provides;
@@ -169,4 +170,27 @@ export const CHUNKS: Record<Genre, ChunkDef[]> = {
 
 export function chunkById(genre: Genre, id: string): ChunkDef | undefined {
   return CHUNKS[genre].find((c) => c.id === id);
+}
+
+export interface AdapterCell {
+  sockets: readonly string[];
+  skin: string;
+}
+
+/**
+ * LIBRARY §5: the family × genre adapter matrix, read directly off each family's `genres` (the
+ * source of truth in `src/mechanics/families/<family>/index.ts`). `null` where a family has no
+ * adapter for that genre. Used by the `/library` page.
+ */
+export function genreAdapterMatrix(): Record<FamilyId, Partial<Record<Genre, AdapterCell | null>>> {
+  const matrix = {} as Record<FamilyId, Partial<Record<Genre, AdapterCell | null>>>;
+  for (const family of FAMILIES) {
+    const row: Partial<Record<Genre, AdapterCell | null>> = {};
+    for (const genre of GENRES) {
+      const skin = family.genres[genre];
+      row[genre] = skin ? { sockets: skin.sockets, skin: skin.skin } : null;
+    }
+    matrix[family.id] = row;
+  }
+  return matrix;
 }
