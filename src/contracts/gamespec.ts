@@ -71,7 +71,8 @@ export const IntakeSummary = z.object({
   minutes: IntakeMinutes,
   requestedGenre: GenreOrAuto,
   confidence: z.array(z.object({ unitId: Id, level: z.number().int().min(1).max(5) })),
-  preCheckAnswers: z.array(z.number().int().min(0).max(3)).max(3),
+  /** Copied from Intake.preCheck.answers; -1 = "not sure" (skipped). */
+  preCheckAnswers: z.array(z.number().int().min(-1).max(3)).max(3),
 });
 export type IntakeSummary = z.infer<typeof IntakeSummary>;
 

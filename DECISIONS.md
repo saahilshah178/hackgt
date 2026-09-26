@@ -60,3 +60,12 @@ Format: one line of decision, one line of the alternative not taken. Newest at t
 - 01:50 **Golden-path screenshots use `caret: "initial"`** and wait for network idle: Playwright's default caret hiding injects a `caret-color` style during hydration, which React reports as a hydration mismatch in the console and would fail the zero-console-errors assertion on a healthy page.
 - 02:05 **Reviewer ran `git add -N .` (intent-to-add) while inspecting the diff**: an index-only write, no commits, no content changes. Undone with `rm .git/index` (there are no commits, so the index held only those entries). Checkpoints use a private index and were unaffected. Logged here because rule 1 forbids git writes even when harmless.
 - 02:06 **Storage ids are validated in `LocalDriver.path()`** (letters, digits, `.`, `_`, `-`; no `..`), fixture names in the three fixture loaders must match `/^[a-z0-9-]{1,64}$/`, and telemetry POSTs require an existing (or fixture) game: closes the reviewer's path-traversal finding (H1).
+
+
+## Fixture games are recognised by their spec id too (P7 review fixes)
+- **Context:** The play runner's end screen posts telemetry and links to the debrief under `spec.id` (e.g. `trig_demo_001`), while the fixture route id is `fixture-trig`. After hardening the telemetry route to 404 on unknown games, the play → debrief e2e flow logged a 404.
+- **Decision:** `src/server/fixtures.ts` gains `findFixtureSpecById` and `loadFixtureSpec`/`materializeFixtureGame` accept either spelling. Telemetry and regenerate routes materialize on first contact for any id that resolves to a fixture; everything else is 404. Ids are regex-validated before touching the filesystem (H1 remains fixed).
+
+## Pre-check answers allow -1 ("not sure")
+- **Context:** Reviewer / pipeline worker asked for a skip value. Forcing a guess on the pre-check inflates the pre score randomly and muddies the pre → post delta shown on the debrief.
+- **Decision:** `Intake.preCheck.answers` and `GameSpec.intake.preCheckAnswers` accept `-1`; it never scores as correct. The intake form offers a dashed "Not sure yet" radio per question (`precheck-<i>-skip`). Storage/API unchanged otherwise. Test: `tests/intake-skip.test.ts`.

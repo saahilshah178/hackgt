@@ -157,7 +157,7 @@ All JSON. Errors are `{ error: string, step?: string }` with a 4xx/5xx status; `
 | `GET /api/games/:id` | → `GameRecord` (spec inside) |
 | `POST /api/games/:id/regenerate` | `{ genre: Genre \| "auto", focusWeak?: boolean }` → reuses the KnowledgeMap, intake and matches → `{ jobId }` |
 | `POST /api/games/:id/telemetry` | `TelemetryEvent[]` → `{ ok: true, count }` |
-| `POST /api/games/:id/postcheck` | `{ answers: number[] }` → `{ ok: true, pre: number, post: number }` (stores the post-check answers; scores are also computed client-side) |
+| `POST /api/games/:id/postcheck` | `{ answers: number[] (option index per item, or -1 = "not sure"; -1 never scores) }` → `{ ok: true, pre: number, post: number }` (stores the post-check answers; scores are also computed client-side) |
 | `GET /api/games/:id/telemetry` | → `TelemetryEvent[]` |
 | `GET /api/games` | → `GameSummary[]` |
 | `GET /api/blobs/*path` | the stored blob (LocalDriver) |

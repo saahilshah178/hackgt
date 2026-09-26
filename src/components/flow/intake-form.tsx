@@ -296,6 +296,22 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                     {choice}
                   </label>
                 ))}
+                <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-2 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
+                  <input
+                    type="radio"
+                    name={`pre-${i}`}
+                    value={-1}
+                    checked={answers[i] === -1}
+                    onChange={() => {
+                      const next = [...answers];
+                      next[i] = -1;
+                      setAnswers(next);
+                    }}
+                    className="h-5 w-5"
+                    data-testid={`precheck-${i}-skip`}
+                  />
+                  <span className="text-muted-foreground">Not sure yet</span>
+                </label>
               </div>
             </fieldset>
           ))}

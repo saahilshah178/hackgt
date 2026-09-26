@@ -85,7 +85,8 @@ export const Intake = z.object({
   preCheck: z.object({
     items: z.array(Mcq).length(3),
     /** chosen choice index per item; may be shorter than items while the student is still answering */
-    answers: z.array(z.number().int().min(0).max(3)).max(3),
+    /** Index of the chosen option per item; -1 = "not sure" (skipped), which never scores as correct. */
+    answers: z.array(z.number().int().min(-1).max(3)).max(3),
   }),
 });
 export type Intake = z.infer<typeof Intake>;
