@@ -9,8 +9,9 @@ Built for HackGT 13. Next.js 16 · React 19 · TypeScript · Phaser 4 · AI SDK 
 
 ## How a session works
 
-1. **Upload** a PDF chapter (up to 40 pages), pasted text, or a topic name.
-2. **Intake** shows the concepts the pipeline extracted, with page ranges. You set a confidence slider per unit, a goal
+1. **Upload** a PDF (a chapter or a whole textbook; there is no page cap), pasted text, or a topic name.
+2. **Intake** shows the concepts the pipeline extracted, with page ranges (a long book is read in section-sized parts). You tick
+   the concepts to play (a chapter starts fully ticked, a book starts empty), set a confidence slider per unit, a goal
    (learn / review / test), a length (5, 10, or 15 minutes), a genre, and answer a 3-question pre-check
    ("Not sure yet" is allowed).
 3. **Forge** streams one live card per AI agent while the game is generated and verified (about 60 to 90 seconds live,

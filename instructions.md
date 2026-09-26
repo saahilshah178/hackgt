@@ -147,11 +147,12 @@ All JSON. Errors are `{ error: string, step?: string }` with a 4xx/5xx status; `
 
 | Route | Body → Response |
 |---|---|
-| `POST /api/sources` | multipart `file` (PDF ≤ 40 pages) **or** `{ text, title? }` **or** `{ topic }` → `{ sourceId, kind: "pdf"\|"text"\|"topic", title, pageCount }` |
+| `POST /api/sources` | multipart `file` (PDF of any page count, ≤ 200 MB) **or** `{ text, title? }` **or** `{ topic }` → `{ sourceId, kind: "pdf"\|"text"\|"topic", title, pageCount }` |
 | `GET /api/sources/:id` | → `SourceRecord & { pageCount }` |
-| `GET /api/sources/:id/intake` | runs S1 gatekeeper → S2 curriculum (+ quote verification) → FAST pre-check once, caches in storage, starts S4 matcher in the background → `{ source, gatekeeper: GatekeeperSlice, knowledgeMap: KnowledgeMap, dropped: { conceptId, page, quote }[], preCheck: Mcq[3], mock: boolean }` |
+| `GET /api/sources/:id/intake` | runs S1 gatekeeper → S2 curriculum (+ quote verification) → FAST pre-check once, caches in storage, starts S4 matcher in the background → `{ source, gatekeeper: GatekeeperSlice, knowledgeMap: KnowledgeMap, dropped: { conceptId, page, quote }[], preCheck: Mcq[3], mock: boolean, parts: number }` (`parts` = how many curriculum calls the document took; a long book is read in section-aligned parts) |
+| `POST /api/sources/:id/precheck` | `{ conceptIds: string[] }` → three pre-check questions for the ticked concepts → `{ preCheck: Mcq[3], conceptIds, derived: boolean, cached: boolean }`. An empty or complete selection returns the whole-map prep items; any other selection is written once (Pre-check Writer on the sub-map, or `derivePreCheck` when it fails) and cached per selection |
 | `GET /api/sources/:id/matches` | → `MatchResult[]` (waits for the background matcher; `{ pending: true }` with 202 if still running) |
-| `POST /api/games` | `{ sourceId, intake: Intake, sections?: string[] }` → stores the intake, starts S6–S9 as a job → `{ jobId }` (202). `sections` = outline titles the student ticked when the source was too big (optional; the Director may ignore it tonight) |
+| `POST /api/games` | `{ sourceId, intake: Intake }` → stores the intake, starts S6–S9 as a job → `{ jobId }` (202). `intake.conceptIds` (optional) = the concepts the student ticked; the job runs on that subset (`selectConcepts`) and the pre-check items are looked up for the same selection, never taken from the client. The old `sections` field is still accepted and ignored |
 | `GET /api/jobs/:id` | → `JobRecord` |
 | `GET /api/jobs/:id/stream` | SSE: `event: progress` / `data: ProgressEvent` per line, replayed from history for late subscribers; ends with `event: done` / `data: { done: true, gameId, error }` |
 | `GET /api/games/:id` | → `GameRecord` (spec inside) |
