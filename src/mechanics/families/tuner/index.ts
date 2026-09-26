@@ -1,6 +1,8 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
 import { formula } from "./formula";
+import { curve } from "./curve";
+import { optimize } from "./optimize";
 import { oscillator } from "./oscillator";
 
 export const tuner = defineFamily({
@@ -18,7 +20,7 @@ export const tuner = defineFamily({
   modes: {
     oscillator,
     formula,
-    curve: stubMode({ id: "curve", name: "Curve tuner", widget: "dial", knowledgeTypes: ["quantitative"], blindSolvable: false, directorBlurb: "Tune the parameters of a linear, quadratic or exponential template so the curve passes through the checkpoints." }),
-    optimize: stubMode({ id: "optimize", name: "Optimizer", widget: "dial", knowledgeTypes: ["quantitative"], blindSolvable: false, directorBlurb: "Find the input that maximizes or minimizes a unimodal objective on an interval." }),
+    curve,
+    optimize,
   },
 });
