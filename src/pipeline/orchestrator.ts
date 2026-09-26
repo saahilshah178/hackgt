@@ -6,6 +6,7 @@ import { newId } from "../server/ids";
 import { getStorage } from "../server/storage";
 import { matcherJob } from "./agents/intake";
 import { blindSolveAndFix } from "./agents/blind-solver";
+import { attachAudio } from "./audio";
 import { runMatcher } from "./agents/matcher";
 import { emit, close } from "./events";
 import { generateGame, type Models } from "./generate";
@@ -107,7 +108,14 @@ async function runJob(args: {
     // second emit(jobId, e) here would just duplicate every event on the SSE stream.
 
     const { spec: generated } = await generateGame({ gameId, jobId, km, intake, matches, models });
-    const spec = await blindSolveAndFix({ spec: generated, km, intake, models, jobId });
+    const verified = await blindSolveAndFix({ spec: generated, km, intake, models, jobId });
+
+    // S7 audio (optional): a no-op with AUDIO_MODE=off; with a key it voices the narrative lines within a
+    // 25 s deadline and ships whatever finished (the rest stays text-only). Never fails the job.
+    const t0 = Date.now();
+    emit(jobId, { agent: "audio", status: "start" });
+    const spec = await attachAudio(verified, { storage, onProgress: (note) => emit(jobId, { agent: "audio", status: "repair", note }) }).catch(() => verified);
+    emit(jobId, { agent: "audio", status: "done", ms: Date.now() - t0, note: spec.audio.voice.length ? `${spec.audio.voice.length} voice lines` : "text-only (audio off)" });
 
     const record: GameRecord = { id: gameId, sourceId, jobId, createdAt: now(), spec };
     await storage.putGame(record);

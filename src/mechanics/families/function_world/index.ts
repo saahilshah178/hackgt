@@ -1,6 +1,9 @@
 import { stubMode } from "../../stub";
 import { defineFamily } from "../../types";
+import { asymptote } from "./asymptote";
+import { continuity } from "./continuity";
 import { limit } from "./limit";
+import { roots } from "./roots";
 import { slope } from "./slope";
 
 const s = (id: string, name: string, blurb: string, widget: "dial" | "place" | "pick" = "place") =>
@@ -20,11 +23,11 @@ export const functionWorld = defineFamily({
   },
   modes: {
     limit,
-    continuity: s("continuity", "Continuity", "Find or fix a discontinuity."),
-    asymptote: s("asymptote", "Asymptote", "Behavior as x → ±∞."),
+    continuity,
+    asymptote,
     slope,
     secant: s("secant", "Secant", "Shrink Δx toward the derivative at a.", "dial"),
-    roots: s("roots", "Roots", "Mark every point where f = 0."),
+    roots,
     squeeze: s("squeeze", "Squeeze", "Bounds converge at a; predict where the trapped orb ends.", "pick"),
     epsilon_delta: s("epsilon_delta", "Epsilon-delta", "Choose δ for a given ε (catalog-only).", "dial"),
   },
