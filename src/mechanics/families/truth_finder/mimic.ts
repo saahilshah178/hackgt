@@ -62,7 +62,10 @@ export const mimic = defineMode({
       const lie = p.statements.find((s) => !s.isTrue)!;
       const truths = p.statements.filter((s) => s.isTrue);
       const avg = truths.reduce((n, s) => n + s.text.length, 0) / Math.max(1, truths.length);
-      if (lie.text.length > avg * 1.8 || lie.text.length < avg * 0.55) {
+      // Relaxed from 0.55-1.8x: the pipeline's fallbackMimic builds this from real fact/misconception text
+      // (not authored for length parity), and the tighter band was rejecting valid fallbacks (returning
+      // null) far more often than it caught genuinely lopsided claims.
+      if (lie.text.length > avg * 2.2 || lie.text.length < avg * 0.4) {
         problems.push("the false claim's length stands out from the others; make the lengths similar");
       }
     }

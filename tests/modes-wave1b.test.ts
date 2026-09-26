@@ -73,6 +73,37 @@ describe("tuner.formula", () => {
     expect(formula.check(nonMonotonic).join(" ")).toMatch(/not monotonic/);
   });
 
+  it("rejects a flat expression that doesn't depend on the controlled input (H4)", () => {
+    // Output is constant (m * 0) regardless of the controlled input F: dialing it can never change anything.
+    const flat = { ...p, expression: "m * 0", fixed: [{ name: "m", value: "5" }], solution: "20" };
+    expect(formula.check(flat).join(" ")).toMatch(/flat|doesn't depend/);
+  });
+
+  it("H4: grade compares the OUTPUT to the target (tolerance scales with the output's range)", () => {
+    // Output is much less sensitive to F than F's own range: expression divides F by a large fixed m,
+    // so the output range over F's full domain is tiny. A dial value far from the exact solution but
+    // whose OUTPUT is still close to target should pass; one whose output is far off should fail.
+    const insensitive = {
+      expression: "F / m",
+      outputName: "acceleration",
+      outputUnit: "m/s^2",
+      inputs: [
+        { name: "F", unit: "N", min: 0, max: 1000 },
+        { name: "m", unit: "kg", min: 500, max: 500 },
+      ],
+      controlled: "F",
+      fixed: [{ name: "m", value: "500" }],
+      solution: "500", // target output = 1
+    };
+    const sol = formula.resolve(insensitive);
+    expect(sol.target).toBe(1);
+    // Output range over F in [0,1000] with m=500 is [0,2]; 3% of that is 0.06 output units, i.e. F within +-30.
+    const close = formula.grade(insensitive, { value: sol.controlled + 20 }); // output off by 0.04
+    expect(close.correct).toBe(true);
+    const far = formula.grade(insensitive, { value: sol.controlled + 400 }); // output off by 0.8
+    expect(far.correct).toBe(false);
+  });
+
   it("rejects both controlled and fixed on the same symbol, and a rounded-decimal solution", () => {
     expect(formula.check({ ...p, fixed: [{ name: "F", value: "5" }, { name: "m", value: "5" }] }).join(" ")).toMatch(
       /both controlled and fixed/,

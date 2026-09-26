@@ -59,6 +59,42 @@ describe("mapper.number_line", () => {
   });
 });
 
+describe("truth_finder.mimic check/resolve", () => {
+  const p = {
+    statements: [
+      { text: "Water boils at 100 °C at sea level", isTrue: true, explanation: "Standard pressure." },
+      { text: "Water always boils at 100 °C", isTrue: false, explanation: "Boiling point drops with pressure." },
+      { text: "Water boils at a lower temperature on a mountain", isTrue: true, explanation: "Lower pressure." },
+    ],
+  };
+
+  it("valid params pass check; resolve finds the false statement", () => {
+    expect(mimic.check(p)).toEqual([]);
+    expect(mimic.resolve(p)).toEqual({ mimicIndex: 1 });
+    expect(mimic.grade(p, mimic.solutionInput(p, mimic.resolve(p))).correct).toBe(true);
+  });
+
+  it("rejects zero or two false statements, duplicate text, and a false-claim length outlier", () => {
+    const allTrue = { statements: p.statements.map((s) => ({ ...s, isTrue: true })) };
+    expect(mimic.check(allTrue).join(" ")).toMatch(/exactly one statement must be false \(found 0\)/);
+
+    const twoFalse = { statements: p.statements.map((s, i) => ({ ...s, isTrue: i === 2 ? false : s.isTrue })) };
+    expect(mimic.check(twoFalse).join(" ")).toMatch(/exactly one statement must be false \(found 2\)/);
+
+    const dup = { statements: [p.statements[0], p.statements[0], p.statements[2]] };
+    expect(mimic.check(dup).join(" ")).toMatch(/distinct/);
+
+    const outlier = {
+      statements: [
+        p.statements[0],
+        { text: "No", isTrue: false, explanation: "Too short compared to the true claims." },
+        p.statements[2],
+      ],
+    };
+    expect(mimic.check(outlier).join(" ")).toMatch(/length stands out/);
+  });
+});
+
 describe("truth_finder.mimic blind solver", () => {
   const p = {
     statements: [
@@ -73,6 +109,22 @@ describe("truth_finder.mimic blind solver", () => {
     expect(mimic.blind!.describe(p, view)).toContain("0. ");
     expect(mimic.blind!.toInput(p, view, { chest: pos, why: "" })).toEqual({ statementIndex: 1 });
     expect(mimic.grade(p, mimic.blind!.toInput(p, view, { chest: pos, why: "" })).correct).toBe(true);
+  });
+});
+
+describe("sequencer.linear check/resolve", () => {
+  const p = { steps: ["a", "b", "c"], decoys: ["x"] };
+
+  it("valid params pass check; resolve gives the steps' identity keys in order", () => {
+    expect(linear.check(p)).toEqual([]);
+    expect(linear.resolve(p)).toEqual({ order: ["s0", "s1", "s2"] });
+    expect(linear.grade(p, linear.solutionInput(p, linear.resolve(p))).correct).toBe(true);
+  });
+
+  it("rejects a duplicate step/decoy and an over-length item", () => {
+    expect(linear.check({ steps: ["a", "a", "c"], decoys: [] }).join(" ")).toMatch(/distinct/);
+    expect(linear.check({ steps: ["a", "b", "x"], decoys: ["x"] }).join(" ")).toMatch(/distinct/);
+    expect(linear.check({ steps: ["a".repeat(120), "b", "c"], decoys: [] }).join(" ")).toMatch(/keep steps under 110/);
   });
 });
 

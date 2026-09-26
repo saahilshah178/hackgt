@@ -20,8 +20,8 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
         watch: "cell_volume",
         question: "What happens to the cell?",
         options: [
-          { text: "Water leaves the cell down its own concentration gradient, and the cell shrinks", isCorrect: true, explanation: "Water crosses the semipermeable membrane toward the higher solute concentration; the solute itself mostly can't cross, so water leaves and the cell shrinks." },
-          { text: "Salt moves into the cell to even out the concentrations, and the cell stays the same size", isCorrect: false, explanation: "The membrane is far more permeable to water than to solute, so it's water, not salt, that moves." },
+          { text: "Water leaves the cell down its own concentration gradient, and the cell shrinks", asserts: "decreases", explanation: "Water crosses the semipermeable membrane toward the higher solute concentration; the solute itself mostly can't cross, so water leaves and the cell shrinks." },
+          { text: "Salt moves into the cell to even out the concentrations, and the cell stays the same size", asserts: "stays", explanation: "The membrane is far more permeable to water than to solute, so it's water, not salt, that moves." },
         ],
         comparison: "decreases",
         threshold: "50",

@@ -13,22 +13,24 @@ import { checkSimulationSpec, simulate, SimulationSpec, type SimulationSpecT } f
  * dock_blocker.
  */
 
+const Comparison = z.enum(["increases", "decreases", "stays", "ends_above", "ends_below"]);
+
 const Option = z.object({
   text: z.string().describe("One possible outcome, under 140 characters"),
-  isCorrect: z.boolean(),
+  asserts: Comparison.describe(
+    "What this option claims `watch` actually does by the end of the run; code (not the model) decides which option is correct by matching this against the simulation",
+  ),
   explanation: z.string().describe("Why this outcome is right or wrong, under 200 characters; shown after the pick"),
 });
-
-const Comparison = z.enum(["increases", "decreases", "stays", "ends_above", "ends_below"]);
 
 const Params = z.object({
   system: SimulationSpec,
   scenario: z.string().describe("What is about to happen, under 200 characters"),
   watch: z.string().describe("The variable name (in system.variables) whose fate the player predicts"),
   question: z.string().describe("The question shown with the options, under 160 characters"),
-  options: z.array(Option).min(2).max(4).describe("2-4 outcome options; EXACTLY ONE has isCorrect: true"),
+  options: z.array(Option).min(2).max(4).describe("2-4 outcome options, each with a distinct `asserts` value"),
   comparison: Comparison.describe(
-    "How `watch` actually moves by the end of the run: increases/decreases/stays (vs its initial value, 2% band) or ends_above/ends_below (vs threshold)",
+    "Your declared expectation for how `watch` actually moves by the end of the run: increases/decreases/stays (vs its initial value, 2% band) or ends_above/ends_below (vs threshold). Must match the simulation and one option's `asserts` (check() verifies both; a mismatch is a repair note)",
   ),
   threshold: z.string().describe("Exact mathjs expression; only used when comparison is ends_above or ends_below"),
 });
@@ -78,8 +80,8 @@ function computeOutcome(p: Params, seed: number): { outcome: Outcome; initial: n
 }
 
 function solve(p: Params): Solution {
-  const correctIndex = p.options.findIndex((o) => o.isCorrect);
   const { outcome, initial, final } = computeOutcome(p, 0);
+  const correctIndex = p.options.findIndex((o) => o.asserts === outcome);
   return { correctIndex, outcome, initial, final };
 }
 
@@ -110,7 +112,7 @@ export const predict = defineMode({
   authoringGuide: [
     "Write system.variables (1-6, exact initial values) and system.rules (1-4, mathjs over variable names, t, and rand()); set system.ticks.",
     "Set comparison to what `watch` actually does by the end of the run: increases/decreases/stays (vs its start) or ends_above/ends_below (vs threshold).",
-    "Write 2-4 options with EXACTLY ONE isCorrect: true, describing plausible predictions; the simulation, not your judgment, is checked against comparison.",
+    "Write 2-4 options, each with a distinct `asserts` value describing a plausible prediction; code decides which one is correct by matching `asserts` against what the simulation actually does.",
     "If a rule uses rand(), keep the outcome robust: the same comparison must hold whether the run is lucky or unlucky.",
     "{{correct}} (the correct option's text) is the answer: use it only in the last hint and the debrief line.",
   ].join("\n"),
@@ -118,8 +120,8 @@ export const predict = defineMode({
   check(p) {
     const problems = [...checkSimulationSpec(p.system)];
     if (watchIndex(p) === -1) problems.push(`watch "${p.watch}" is not one of system.variables[].name`);
-    const correctCount = p.options.filter((o) => o.isCorrect).length;
-    if (correctCount !== 1) problems.push(`exactly one option must be isCorrect: true (found ${correctCount})`);
+    const asserts = p.options.map((o) => o.asserts);
+    if (new Set(asserts).size !== asserts.length) problems.push("options[].asserts must be distinct (each option must claim a different outcome)");
     const texts = p.options.map((o) => o.text.trim().toLowerCase());
     if (new Set(texts).size !== texts.length) problems.push("options must be distinct");
     if (p.comparison === "ends_above" || p.comparison === "ends_below") {
@@ -136,6 +138,10 @@ export const predict = defineMode({
     const actual = outcomes[0];
     if (actual !== p.comparison) {
       problems.push(`comparison says "${p.comparison}" but the simulation actually shows ${describeOutcome(p, actual)}; fix comparison or the system`);
+    }
+    const matching = p.options.filter((o) => o.asserts === actual).length;
+    if (matching !== 1) {
+      problems.push(`exactly one option's asserts must equal the simulated outcome (${actual}); found ${matching}`);
     }
     return problems;
   },
@@ -163,10 +169,11 @@ export const predict = defineMode({
     if (input.optionIndex === s.correctIndex) {
       return { correct: true, feedback: `${describeOutcome(p, s.outcome)}: ${p.options[s.correctIndex].explanation}` };
     }
-    const correct = p.options[s.correctIndex];
+    const picked = p.options[input.optionIndex];
+    if (!picked) return { correct: false, feedback: "Pick one of the options." };
     return {
       correct: false,
-      feedback: `Watch it run again: ${describeOutcome(p, s.outcome)} (from ${trimNumber(s.initial)} to ${trimNumber(s.final)}). ${correct?.explanation ?? ""}`.trim(),
+      feedback: `${picked.explanation} Watch how ${p.watch} responds when you run it again.`.trim(),
     };
   },
   solutionInput: (_p, s) => ({ optionIndex: s.correctIndex }),

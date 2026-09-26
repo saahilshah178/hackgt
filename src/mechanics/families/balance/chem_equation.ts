@@ -8,6 +8,16 @@ import { defineMode } from "../../types";
  * Card: atom_conservation ★.
  */
 
+// First 56 elements of the periodic table (H..Ba) — plenty for any chemistry a card will reasonably use.
+const KNOWN_ELEMENTS = new Set([
+  "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne",
+  "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca",
+  "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn",
+  "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr",
+  "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn",
+  "Sb", "Te", "I", "Xe", "Cs", "Ba",
+]);
+
 const Params = z.object({
   reactants: z
     .array(z.string())
@@ -223,6 +233,11 @@ export const chem_equation = defineMode({
     const parsed = all.map((f) => parseFormula(f));
     parsed.forEach((m, i) => {
       if (m === null) problems.push(`"${all[i]}" doesn't parse as a chemical formula`);
+    });
+    if (problems.length > 0) return problems;
+    parsed.forEach((m, i) => {
+      const unknown = Object.keys(m as Record<string, number>).filter((el) => !KNOWN_ELEMENTS.has(el));
+      if (unknown.length > 0) problems.push(`"${all[i]}" uses unknown element symbol(s): ${unknown.join(", ")}`);
     });
     if (problems.length > 0) return problems;
     const texts = all.map((f) => f.trim());

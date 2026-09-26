@@ -44,6 +44,18 @@ describe("truth_finder.counterexample", () => {
     expect(counterexample.grade(p, { caseIndex: 0 }).feedback).toMatch(/satisfies the rule/);
     expect(counterexample.check({ ...p, cases: [p.cases[0], p.cases[0], p.cases[1]] }).join(" ")).toMatch(/distinct/);
   });
+
+  it("resolve returns the breaking case's index directly", () => {
+    expect(counterexample.resolve(p)).toEqual({ breakerIndex: 1 });
+    expect(counterexample.grade(p, counterexample.solutionInput(p, counterexample.resolve(p))).correct).toBe(true);
+  });
+
+  it("rejects zero or two rule-breaking cases", () => {
+    const none = { ...p, cases: p.cases.map((c) => ({ ...c, breaksRule: false })) };
+    expect(counterexample.check(none).join(" ")).toMatch(/exactly one case must break the rule \(found 0\)/);
+    const two = { ...p, cases: p.cases.map((c, i) => ({ ...c, breaksRule: i !== 2 })) };
+    expect(counterexample.check(two).join(" ")).toMatch(/exactly one case must break the rule \(found 2\)/);
+  });
 });
 
 describe("sequencer.timeline", () => {

@@ -169,14 +169,16 @@ export const trace = defineMode({
     const s = solve(p);
     if (input.optionIndex === s.correctIndex) return { correct: true, feedback: "That is exactly what the machine produced." };
     const picked = p.options[input.optionIndex];
-    // Informative failure: show the state after the first few lines so the player can re-trace.
+    // Informative failure: show the state after the first few lines so the player can re-trace. Never leak
+    // the asked variable's final value (H-low): drop it from the snapshot for ask=final_value, and drop the
+    // whole snapshot if its rendered text happens to contain the answer.
     const partial = runProgram(p.program.slice(0, Math.max(1, Math.floor(p.program.length / 3))));
-    const snapshot = Object.entries(partial.state)
-      .map(([k, v]) => `${k} = ${fmt(v)}`)
-      .join(", ");
+    const entries = Object.entries(partial.state).filter(([k]) => !(p.ask === "final_value" && k === p.variable));
+    const snapshot = entries.map(([k, v]) => `${k} = ${fmt(v)}`).join(", ");
+    const safeSnapshot = snapshot && !normOpt(snapshot).includes(normOpt(s.answer)) ? snapshot : "";
     return {
       correct: false,
-      feedback: `${picked === undefined ? "Pick an option." : `"${picked}" isn't what the program produces.`} Trace it line by line: after the first few lines, ${snapshot || "nothing has been assigned yet"}.`,
+      feedback: `${picked === undefined ? "Pick an option." : `"${picked}" isn't what the program produces.`} Trace it line by line: after the first few lines, ${safeSnapshot || "nothing safe to show yet — restart the trace from the top"}.`,
     };
   },
   solutionInput: (_p, s) => ({ optionIndex: s.correctIndex }),

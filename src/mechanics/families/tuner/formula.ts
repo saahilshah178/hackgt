@@ -225,6 +225,17 @@ export const formula = defineMode({
       problems.push(
         `the output is not monotonic in "${p.controlled}" over [${trimNumber(spec.min)}, ${trimNumber(spec.max)}]; the target could have more than one solution`,
       );
+      return problems;
+    }
+    if (increasing && decreasing) {
+      // Both directions hold (non-strict) only when every sample is equal: the output doesn't depend on the controlled input.
+      problems.push(`the output doesn't depend on "${p.controlled}" (it is flat over its range); dialing it can never change the result`);
+      return problems;
+    }
+    const target = evaluateAt(p, fixed, solutionValue);
+    const outputRange = Math.abs(samples[samples.length - 1] - samples[0]);
+    if (target !== null && outputRange <= 1e-6 * (1 + Math.abs(target))) {
+      problems.push(`the output range over "${p.controlled}"'s span is too small (${trimNumber(outputRange)}) to reliably hit a target`);
     }
     return problems;
   },
@@ -255,14 +266,28 @@ export const formula = defineMode({
   grade(p, input: Input) {
     const s = solve(p);
     const spec = controlledSpec(p)!;
-    const tol = TOLERANCE * (spec.max - spec.min);
     const fixed = fixedValues(p) ?? {};
     const got = evaluateAt(p, fixed, input.value);
-    if (Math.abs(input.value - s.controlled) <= tol) {
+    if (got === null) return { correct: false, feedback: "That setting doesn't produce a valid reading; try a value inside the dial's range." };
+
+    // Output-range tolerance (H4): sample the output's span over the controlled input's domain so the
+    // acceptance band scales with how sensitive the formula actually is, not with the dial's raw span.
+    const N = 50;
+    let lo = Infinity;
+    let hi = -Infinity;
+    for (let i = 0; i <= N; i++) {
+      const v = evaluateAt(p, fixed, spec.min + ((spec.max - spec.min) * i) / N);
+      if (v === null) continue;
+      lo = Math.min(lo, v);
+      hi = Math.max(hi, v);
+    }
+    const outputRange = Number.isFinite(lo) && Number.isFinite(hi) ? hi - lo : Math.abs(s.target) || 1;
+    const tol = TOLERANCE * (outputRange || 1);
+    if (Math.abs(got - s.target) <= tol) {
       return { correct: true, feedback: `${p.outputName} hits ${s.targetLabel}: the mechanism locks in.` };
     }
-    if (got === null) return { correct: false, feedback: "That setting doesn't produce a valid reading; try a value inside the dial's range." };
     const direction = got > s.target ? "too high" : "too low";
+    // Report direction from the input side without revealing the exact controlled value.
     const dialDirection = input.value > s.controlled ? "lower the dial" : "raise the dial";
     return {
       correct: false,

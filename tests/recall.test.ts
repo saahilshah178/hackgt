@@ -67,4 +67,9 @@ describe("recall.cloze", () => {
     expect(cloze.check({ ...p, hint: "it is the solute" }).join(" ")).toMatch(/contains the answer/);
     expect(cloze.check({ ...p, wordBank: ["salt"] }).join(" ")).toMatch(/accepted answer/);
   });
+
+  it("resolve returns the canonical (first-listed) answer", () => {
+    expect(cloze.resolve(p)).toEqual({ answer: "solute" });
+    expect(cloze.grade(p, cloze.solutionInput(p, cloze.resolve(p))).correct).toBe(true);
+  });
 });

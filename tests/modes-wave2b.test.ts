@@ -62,8 +62,8 @@ const predictParams = {
   watch: "population",
   question: "What happens to the population over time?",
   options: [
-    { text: "It grows and levels off near a stable carrying capacity", isCorrect: true, explanation: "Logistic growth slows as resources become scarce, leveling off near the habitat's carrying capacity." },
-    { text: "It stays exactly the same the whole time", isCorrect: false, explanation: "With food and space available, the population grows; it doesn't sit still." },
+    { text: "It grows and levels off near a stable carrying capacity", asserts: "increases" as const, explanation: "Logistic growth slows as resources become scarce, leveling off near the habitat's carrying capacity." },
+    { text: "It stays exactly the same the whole time", asserts: "stays" as const, explanation: "With food and space available, the population grows; it doesn't sit still." },
   ],
   comparison: "increases" as const,
   threshold: "50",
@@ -133,11 +133,35 @@ describe("simulator.predict", () => {
     expect(predict.check(predictParams)).toEqual([]);
   });
 
-  it("rejects: unknown watch, no correct option, comparison contradicting the simulation", () => {
+  it("rejects: unknown watch, no option asserting the outcome, comparison contradicting the simulation", () => {
     expect(predict.check({ ...predictParams, watch: "nope" }).join(" ")).toMatch(/watch/);
-    const noCorrect = { ...predictParams, options: predictParams.options.map((o) => ({ ...o, isCorrect: false })) };
-    expect(predict.check(noCorrect).join(" ")).toMatch(/exactly one option/);
+    const noMatch = {
+      ...predictParams,
+      options: predictParams.options.map((o) => (o.asserts === "increases" ? { ...o, asserts: "decreases" as const } : o)),
+    };
+    expect(predict.check(noMatch).join(" ")).toMatch(/exactly one option's asserts/);
     expect(predict.check({ ...predictParams, comparison: "decreases" as const }).join(" ")).toMatch(/comparison says "decreases"/);
+  });
+
+  it("rejects: flagged option doesn't match the simulated outcome (negative test, H3)", () => {
+    // Both options assert something other than what the simulation actually does.
+    const mismatched = {
+      ...predictParams,
+      options: [
+        { text: "It shrinks to nothing", asserts: "decreases" as const, explanation: "wrong" },
+        { text: "It stays flat", asserts: "stays" as const, explanation: "wrong" },
+      ],
+    };
+    const problems = predict.check(mismatched);
+    expect(problems.join(" ")).toMatch(/comparison says|asserts/);
+  });
+
+  it("rejects: duplicate asserts values", () => {
+    const dup = {
+      ...predictParams,
+      options: predictParams.options.map((o) => ({ ...o, asserts: "increases" as const })),
+    };
+    expect(predict.check(dup).join(" ")).toMatch(/asserts must be distinct/);
   });
 
   it("resolve + solutionInput passes grade", () => {
@@ -145,13 +169,17 @@ describe("simulator.predict", () => {
     expect(predict.grade(predictParams, predict.solutionInput(predictParams, sol)).correct).toBe(true);
   });
 
-  it("wrong pick gives informative feedback without the option text", () => {
+  it("wrong pick explains the PICKED option without stating the true direction (H2)", () => {
     const sol = predict.resolve(predictParams);
     const wrongIndex = sol.correctIndex === 0 ? 1 : 0;
     const miss = predict.grade(predictParams, { optionIndex: wrongIndex });
     expect(miss.correct).toBe(false);
-    expect(miss.feedback).toMatch(/increases/);
+    // Feedback explains why the PICKED option is wrong (its own explanation text), not the picked option's display text.
+    expect(miss.feedback).toContain(predictParams.options[wrongIndex].explanation);
     expect(miss.feedback).not.toContain(predictParams.options[wrongIndex].text);
+    // Never states the true outcome ("increases") or the correct option's explanation on a miss.
+    expect(miss.feedback).not.toMatch(/increases/);
+    expect(miss.feedback).not.toContain(predictParams.options[sol.correctIndex].explanation);
   });
 
   it("present is deterministic for a seed and shuffles options", () => {

@@ -205,10 +205,13 @@ export const sample = defineMode({
     if (input.optionIndex === s.correctIndex) {
       return { correct: true, feedback: `Across ${p.trials} trials, ${statisticLabel(p, s.value)}. ${p.options[s.correctIndex].explanation}` };
     }
-    const correct = p.options[s.correctIndex];
+    const picked = p.options[input.optionIndex];
+    if (!picked) return { correct: false, feedback: "Pick one of the options." };
+    // Informative failure (H2-style): explain why the PICKED option is wrong without stating the
+    // computed statistic or the correct option's explanation, which would hand over the answer.
     return {
       correct: false,
-      feedback: `Across ${p.trials} trials, ${statisticLabel(p, s.value)}, not what you picked. ${correct?.explanation ?? ""}`.trim(),
+      feedback: `${picked.explanation} Run the ${p.trials} trials again and compare against this option's range.`.trim(),
     };
   },
   solutionInput: (_p, s) => ({ optionIndex: s.correctIndex }),
