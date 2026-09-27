@@ -23,8 +23,6 @@ interface IntakeData {
   parts?: number;
 }
 
-/** Up to this many concepts (one chapter's worth) everything starts ticked; above it the student picks. */
-export const SELECT_ALL_UP_TO = 25;
 /** How long after the last tick before asking the server for questions on the new selection. */
 const PRECHECK_DEBOUNCE_MS = 700;
 
@@ -34,6 +32,8 @@ const GOALS: { id: Intake["goal"]; label: string; hint: string }[] = [
   { id: "test", label: "Test me", hint: "exam soon" },
 ];
 const MINUTES: Intake["minutes"][] = [5, 10, 15];
+/** The length the page opens on; its concept limit decides whether everything starts ticked. */
+const DEFAULT_MINUTES: Intake["minutes"] = 10;
 
 /** The intake is three steps: what to play, what the student brings to it, and the game itself. */
 const STEPS = [
@@ -67,7 +67,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   const [data, setData] = useState<IntakeData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [goal, setGoal] = useState<Intake["goal"]>("review");
-  const [minutes, setMinutes] = useState<Intake["minutes"]>(10);
+  const [minutes, setMinutes] = useState<Intake["minutes"]>(DEFAULT_MINUTES);
   const [genre, setGenre] = useState<Intake["genre"]>("auto");
   const [confidence, setConfidence] = useState<Record<string, number>>({});
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -91,7 +91,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         setData(d);
         setConfidence(Object.fromEntries(d.knowledgeMap.units.map((u) => [u.id, 3])));
         const all = d.knowledgeMap.concepts.map((c) => c.id);
-        setSelected(new Set(all.length <= SELECT_ALL_UP_TO ? all : []));
+        // Everything fits in the default length: start fully ticked. Otherwise the student picks which ones.
+        setSelected(new Set(all.length <= CONCEPTS_PER_GAME[DEFAULT_MINUTES] ? all : []));
       })
       .catch((e) => !cancelled && setError(e instanceof Error ? e.message : String(e)));
     return () => {
@@ -101,6 +102,9 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
 
   const total = data?.knowledgeMap.concepts.length ?? 0;
   const allSelected = total > 0 && selected.size === total;
+  // The game covers exactly the ticked concepts, so the length caps how many can be ticked.
+  const cap = CONCEPTS_PER_GAME[minutes];
+  const overCap = selected.size > cap;
   const selectionKey = useMemo(() => [...selected].sort().join(","), [selected]);
   const needsSubset = data !== null && selected.size > 0 && !allSelected;
   // Questions follow the selection: the prep pre-check covers the whole map, so a subset gets its own.
@@ -154,7 +158,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     headingRef.current?.focus();
   }, [step]);
 
-  const ready = !!data && selected.size > 0 && !preCheckBusy && preCheck.length > 0 && answers.length === preCheck.length && answers.every((a) => a !== undefined);
+  const ready = !!data && selected.size > 0 && !overCap && !preCheckBusy && preCheck.length > 0 && answers.length === preCheck.length && answers.every((a) => a !== undefined);
 
   if (error) {
     return (
@@ -204,6 +208,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     setAnswers([]);
   };
   const toggleConcept = (id: string, on: boolean) => {
+    if (on && selected.size >= cap) return;
     const next = new Set(selected);
     if (on) next.add(id);
     else next.delete(id);
@@ -212,8 +217,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   const setUnit = (u: Unit, on: boolean) => {
     const next = new Set(selected);
     for (const id of u.conceptIds) {
-      if (on) next.add(id);
-      else next.delete(id);
+      if (on && next.size < cap) next.add(id);
+      else if (!on) next.delete(id);
     }
     changeSelection(next);
   };
@@ -245,7 +250,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     }
   };
 
-  const bigUpload = total > SELECT_ALL_UP_TO;
+  const bigUpload = total > cap;
+  const atCap = selected.size >= cap;
   const parts = data.parts ?? 1;
 
   return (
@@ -276,19 +282,42 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
 
       {step === 0 && (
         <section aria-labelledby="step-heading">
+          <fieldset>
+            <legend className="text-2xl font-semibold">How long a game?</legend>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {MINUTES.map((m) => (
+                <label
+                  key={m}
+                  className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}
+                >
+                  <input type="radio" name="minutes" value={m} checked={minutes === m} onChange={() => setMinutes(m)} className="h-5 w-5" data-testid={`minutes-${m}`} />
+                  <span>
+                    {m} minutes <span className="text-muted-foreground">· up to {CONCEPTS_PER_GAME[m]} concepts</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
           {bigUpload && (
             <p className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4 text-lg" data-testid="big-upload-note">
-              This is more than one game&apos;s worth: {km.units.length} units and {total} concepts. Tick the concepts you want in this game: a 5-minute game holds
-              about {CONCEPTS_PER_GAME[5]}, a 15-minute one about {CONCEPTS_PER_GAME[15]}.
+              I found {total} concepts in {km.units.length} unit{km.units.length === 1 ? "" : "s"}, more than a {minutes}-minute game covers. Tick the {cap} you want
+              this game to cover, or pick a longer game.
             </p>
           )}
-          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-lg" data-testid="selection-summary">
+          {overCap && (
+            <p role="alert" className="mt-4 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-lg" data-testid="over-cap-note">
+              A {minutes}-minute game covers up to {cap} concepts. Untick {selected.size - cap} or pick a longer game.
+            </p>
+          )}
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-lg" data-testid="selection-summary" aria-live="polite">
             <span>
-              <strong>{selected.size}</strong> of {total} concept{total === 1 ? "" : "s"} selected
+              <strong>{selected.size}</strong> of up to {cap} picked · {total} concept{total === 1 ? "" : "s"} found
             </span>
-            <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectAll} data-testid="select-all">
-              Select all
-            </button>
+            {total <= cap && (
+              <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectAll} data-testid="select-all">
+                Select all
+              </button>
+            )}
             <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectNone} data-testid="select-none">
               Select none
             </button>
@@ -309,6 +338,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                           if (el) el.indeterminate = picked > 0 && !unitAll;
                         }}
                         onChange={(e) => setUnit(u, e.target.checked)}
+                        disabled={!unitAll && picked === 0 && selected.size >= cap}
                         aria-label={`Select every concept in ${u.name}`}
                         data-testid={`unit-${u.id}`}
                       />
@@ -323,11 +353,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                       const range = pageRange(km, cid);
                       return (
                         <li key={cid} className="text-lg">
-                          <label className="flex cursor-pointer items-start gap-3">
+                          <label className={`flex items-start gap-3 ${atCap && !selected.has(cid) ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}>
                             <input
                               type="checkbox"
                               className="mt-1.5 h-5 w-5 shrink-0"
                               checked={selected.has(cid)}
+                              disabled={atCap && !selected.has(cid)}
                               onChange={(e) => toggleConcept(cid, e.target.checked)}
                               data-testid={`concept-${cid}`}
                             />
@@ -376,7 +407,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
 
       {step === 2 && (
         <>
-          <section aria-labelledby="setup-heading" className="grid gap-8 md:grid-cols-3">
+          <section aria-labelledby="setup-heading" className="grid gap-8 md:grid-cols-2">
             <h2 id="setup-heading" className="sr-only">
               Game setup
             </h2>
@@ -392,23 +423,6 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                   </label>
                 ))}
               </div>
-            </fieldset>
-            <fieldset>
-              <legend className="text-2xl font-semibold">Length</legend>
-              <div className="mt-3 flex flex-col gap-2">
-                {MINUTES.map((m) => (
-                  <label key={m} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}>
-                    <input type="radio" name="minutes" value={m} checked={minutes === m} onChange={() => setMinutes(m)} className="h-5 w-5" />
-                    {m} minutes
-                  </label>
-                ))}
-              </div>
-              {selected.size > CONCEPTS_PER_GAME[minutes] && (
-                <p className="mt-3 text-base text-muted-foreground" data-testid="focus-note">
-                  A {minutes}-minute game holds about {CONCEPTS_PER_GAME[minutes]} of your {selected.size} concepts. It will focus on the ones you
-                  need most (the ones you flagged and rated lowest); pick a longer game to cover more.
-                </p>
-              )}
             </fieldset>
             <GenrePicker genre={genre} onChange={setGenre} recommendations={recs?.key === recKey ? recs.items : null} />
           </section>
@@ -481,7 +495,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           </Button>
         )}
         {step < 2 ? (
-          <Button size="lg" className="h-14 px-8 text-xl" disabled={selected.size === 0} onClick={() => setStep(step + 1)} data-testid="step-next">
+          <Button size="lg" className="h-14 px-8 text-xl" disabled={selected.size === 0 || overCap} onClick={() => setStep(step + 1)} data-testid="step-next">
             {step === 0 ? "Next: a few questions" : "Next: your game"}
           </Button>
         ) : (
@@ -490,10 +504,11 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           </Button>
         )}
         {step === 0 && selected.size === 0 && <span className="text-lg text-muted-foreground">Pick at least one concept to continue.</span>}
+        {step === 0 && overCap && <span className="text-lg text-muted-foreground">Untick {selected.size - cap} to continue.</span>}
         {step === 1 && <span className="text-lg text-muted-foreground">Every question here is optional.</span>}
         {step === 2 && !ready && (
           <span className="text-lg text-muted-foreground">
-            {selected.size === 0 ? "Pick at least one concept to continue." : preCheckBusy ? "Waiting for your questions…" : "Answer the three questions to continue."}
+            {selected.size === 0 ? "Pick at least one concept to continue." : overCap ? "Too many concepts for this length: go back a step." : preCheckBusy ? "Waiting for your questions…" : "Answer the three questions to continue."}
           </span>
         )}
       </div>

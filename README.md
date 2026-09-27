@@ -10,11 +10,11 @@ Built for HackGT 13. Next.js 16 · React 19 · TypeScript · Phaser 4 · AI SDK 
 ## How a session works
 
 1. **Upload** a PDF (a chapter or a whole textbook; there is no page cap), pasted text, or a topic name.
-2. **Intake**, in three steps. *Concepts:* the concepts the pipeline extracted, with page ranges (a long book is read in
-   section-sized parts); you tick the ones to play (a chapter starts fully ticked, a book starts empty) and set a confidence
-   slider per unit. *About you:* for the weakest concepts, tick the statements that sound true (their misconceptions mixed
+2. **Intake**, in three steps. *Concepts:* pick a length (5, 10 or 15 minutes, which covers up to 4, 7 or 10 concepts),
+   then tick exactly the concepts the game covers from the ones the pipeline extracted, with page ranges (a long book is read
+   in section-sized parts; everything starts ticked when it fits the length), and set a confidence slider per unit. *About you:* for the weakest concepts, tick the statements that sound true (their misconceptions mixed
    with one true fact), pick interests, say what it's for, add a note; all optional. *Your game:* a goal (learn / review /
-   test), a length (5, 10, or 15 minutes), a genre ranked for you with reasons, and a 3-question pre-check ("Not sure yet"
+   test), a genre ranked for you with reasons, and a 3-question pre-check ("Not sure yet"
    is allowed). The concepts are mapped to library mechanics automatically; what you ticked becomes the game's targets and
    your interests its theme.
 3. **Forge** streams one live card per AI agent while the game is generated and verified (about 60 to 90 seconds live,
