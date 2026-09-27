@@ -3,7 +3,7 @@
    `Widget` is a lookup into WIDGET_REGISTRY (src/game/widgets/registry.ts), a stable map of module-level component
    references; widgetFor() never creates a new component type. */
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { GameSpec } from "../../contracts/gamespec";
 import type { Palette } from "../engine/palettes";
 import type { Current } from "../runner/encounter-runner";
@@ -44,6 +44,8 @@ export function ChallengePanel(props: ChallengePanelProps) {
   const { spec, palette, current, heading, hintsUsed, lastHint, result } = props;
   const Widget = useMemo(() => widgetFor(current.mode.widget, current.view), [current.mode.widget, current.view]);
   const resultRef = useRef<HTMLDivElement>(null);
+  /** "Start over" remounts the widget, which every widget treats as a fresh, empty answer */
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     if (result) resultRef.current?.focus();
   }, [result]);
@@ -143,9 +145,18 @@ export function ChallengePanel(props: ChallengePanelProps) {
         // hints sit UNDER the widget: board hosts put this panel in side columns, where a second column squeezes it
         <div className="flex flex-col gap-4">
           <div className="min-w-0" data-testid="widget-root">
-            <Widget view={current.view} onSubmit={props.onSubmit} />
+            <Widget key={attempt} view={current.view} onSubmit={props.onSubmit} />
           </div>
-          <aside className="flex flex-wrap items-center gap-3" aria-label="Hints">
+          <aside className="flex flex-wrap items-center gap-3" aria-label="Hints and take-backs">
+            <button
+              type="button"
+              onClick={() => setAttempt((a) => a + 1)}
+              data-testid="challenge-reset"
+              className="rounded-md border px-3 py-2 text-base hover:opacity-80 focus-visible:outline-2"
+              style={{ borderColor: "currentColor" }}
+            >
+              Start over
+            </button>
             {lastHint && (
               <p className="w-full text-base" style={{ fontSize: 18 }} data-testid="hint-text">
                 Hint {hintsUsed}/{hintsAvailable}: {lastHint}

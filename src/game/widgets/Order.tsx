@@ -152,7 +152,7 @@ function OrderBody({
           {view.circular
             ? `Arrange the ${view.slots} stages around the ring; any starting point is fine as long as the order holds.`
             : `Arrange the ${view.slots} steps in order.`}{" "}
-          Enter places or removes; Backspace clears the last slot.
+          Click a step (or press Enter) to place it, and click it again to take it back; Backspace clears the last slot.
         </p>
       )}
       <div
