@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" width="340" height="340" data-pivot="0.5,0.5">
+<!-- Tidewheel inner disc (trig A87): cream disc, three navy inlay rings, the arched doorway cutout from its bottom edge, a gold hub boss. -->
+<defs><radialGradient id="face" gradientUnits="userSpaceOnUse" cx="170" cy="170" r="170" fx="140" fy="136"><stop offset="0" stop-color="{{stone.lit}}"/><stop offset="0.75" stop-color="{{stone.base}}"/><stop offset="1" stop-color="{{stone.shade}}"/></radialGradient><radialGradient id="hub" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="24" fx="-6" fy="-7"><stop offset="0" stop-color="{{gold.hi}}"/><stop offset="0.6" stop-color="{{gold.base}}"/><stop offset="1" stop-color="{{gold.deep}}"/></radialGradient><clipPath id="cut"><path clip-rule="evenodd" d="M0 0 H340 V340 H0 Z M95 328.6 L95 194 A75 75 0 0 1 245 194 L245 328.6 Z"/></clipPath></defs>
+<g clip-path="url(#cut)">
+<circle cx="170" cy="170" r="170" fill="{{gold.deep}}"/>
+<circle cx="170" cy="170" r="167" fill="{{gold.base}}"/>
+<circle cx="170" cy="170" r="162" fill="url(#face)"/>
+<path d="M16.5 170 a153.5 153.5 0 1 0 307 0 a153.5 153.5 0 1 0 -307 0 Z M23.5 170 a146.5 146.5 0 1 0 293 0 a146.5 146.5 0 1 0 -293 0 Z" fill-rule="evenodd" fill="{{inlay.navy}}"/>
+<path d="M15 170 a155 155 0 1 0 310 0 a155 155 0 1 0 -310 0 Z M16.5 170 a153.5 153.5 0 1 0 307 0 a153.5 153.5 0 1 0 -307 0 Z" fill-rule="evenodd" fill="{{stone.lit}}" opacity="0.9"/>
+<path d="M48.5 170 a121.5 121.5 0 1 0 243 0 a121.5 121.5 0 1 0 -243 0 Z M55.5 170 a114.5 114.5 0 1 0 229 0 a114.5 114.5 0 1 0 -229 0 Z" fill-rule="evenodd" fill="{{inlay.navy}}"/>
+<path d="M47 170 a123 123 0 1 0 246 0 a123 123 0 1 0 -246 0 Z M48.5 170 a121.5 121.5 0 1 0 243 0 a121.5 121.5 0 1 0 -243 0 Z" fill-rule="evenodd" fill="{{stone.lit}}" opacity="0.9"/>
+<path d="M80.5 170 a89.5 89.5 0 1 0 179 0 a89.5 89.5 0 1 0 -179 0 Z M87.5 170 a82.5 82.5 0 1 0 165 0 a82.5 82.5 0 1 0 -165 0 Z" fill-rule="evenodd" fill="{{inlay.navy}}"/>
+<path d="M79 170 a91 91 0 1 0 182 0 a91 91 0 1 0 -182 0 Z M80.5 170 a89.5 89.5 0 1 0 179 0 a89.5 89.5 0 1 0 -179 0 Z" fill-rule="evenodd" fill="{{stone.lit}}" opacity="0.9"/>
+</g>
+<path d="M92 319.6 L92 194 A78 78 0 0 1 248 194 L248 319.6" fill="none" stroke="{{gold.base}}" stroke-width="5"/>
+<path d="M92 194 A78 78 0 0 1 209 126.5" fill="none" stroke="{{gold.hi}}" stroke-width="2.5"/>
+<g transform="translate(170 84)"><circle r="25" fill="{{gold.deep}}"/><circle r="22" fill="url(#hub)"/><circle r="9" fill="{{inlay.navy}}"/><circle r="3.5" fill="{{gold.hi}}"/></g>
+<circle id="anchor-inner_hub" cx="170" cy="84" r="0"/>
+<circle id="anchor-center" cx="170" cy="170" r="0"/>
+</svg>

@@ -1,7 +1,8 @@
 /**
- * src/game/art/palettes/living_gate.ts — W0 seed, completed by C0 from cell §2.2, §3.1 and 02 §3b.4.
+ * src/game/art/palettes/living_gate.ts — W0 seed, completed by C0 from cell §2.2, §3.1 and 02 §3b.4; C2 added the
+ * hero tokens (nucleus dome, hall vault, Ora, Poro, the Mimic Mote, the Halcyon) from cell §7.
  * Owned by C2 from T0 + 6.5 (docs/design/20 §7.3).
- * No pure black: the darkest colours are lifted (#433748, #27405F) per cell §2.2.
+ * No pure black: the darkest colours are lifted (#433748, #27405F, inlay.navy.dark #22385A) per cell §2.2.
  */
 export const LIVING_GATE_PALETTE = {
   namespace: "living_gate",
@@ -16,7 +17,7 @@ export const LIVING_GATE_PALETTE = {
     "gold.base": "#D9A441",
     "gold.deep": "#A8782E",
     "inlay.navy": "#27466A",
-    "inlay.navy.dark": "#1B3150",
+    "inlay.navy.dark": "#22385A", // lifted from the bible's #1B3150 (cell §2.2)
     "bronze.ring": "#6E4A2E",
     "rock.light": "#8FA6A0",
     "rock.base": "#5F7B7A",
@@ -103,5 +104,31 @@ export const LIVING_GATE_PALETTE = {
     "costume.diver.helmet.ring": "#D9A441",
     "costume.diver.scarf": "#4CB6D0",
     "costume.diver.scarf.stripe": "#8FE0EA",
+    "costume.diver.valve": "#27466A",
+    // ---- C2 hero tokens (cell §7.2–§7.9)
+    "nucleus.dome": "#C98BB0",
+    "nucleus.dome.lit": "#E2B3CC",
+    "nucleus.dome.shade": "#A56F93",
+    "nucleus.rim": "#F4DCE8",
+    "hall.wall": "#4E3C44",
+    "hall.wall.lit": "#624B52",
+    "hall.wall.shade": "#433748",
+    "hall.glass": "#F6C48E",
+    "mote.jelly": "#E8F6F8",
+    "mote.jelly.shade": "#B9D9DE",
+    "mote.eye": "#27466A",
+    "glass.tint": "#C9F3FF",
+    "cell.cyto": "#F6C48E",
+    "cell.nucleus": "#C98BB0",
+    "gel.frost.lit": "#F4FAFB",
+    "gel.frost.shade": "#AFC6CC",
+    "char.ora.skin": "#9A6444",
+    "char.ora.skinShade": "#7A4C33",
+    "char.ora.hair": "#3A2A24",
+    "char.ora.hairHi": "#5A3E32",
+    "char.ora.suit": "#4CB6D0",
+    "char.ora.suitShade": "#3A93AB",
+    "char.ora.lip": "#6B3A2A",
+    "poro.water": "#8FE0EA",
   } as Readonly<Record<string, string>>,
 } as const;

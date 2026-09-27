@@ -108,7 +108,7 @@ Times are local (America/New_York). `[ ]` todo · `[x]` done · `[~] blocked: re
 Plan: docs/design/40-implementation-plan.md; spec: docs/design/20-expedition-architecture.md §7 (10 lanes).
 - [x] V.0 Design docs 00–31 (runtime map, bible, assets, three game docs, architecture rev 3, two critiques, reconciliation) — 14:55
 - [x] V.1 Wave 0: world contract, world library skeleton, real config schemas, prefab stubs, side-car skeletons, tests (63 files / 1063 tests green) — 15:50, commit 5edae8e
-- [ ] V.2 Wave 1a (running 15:55): V1 validation, H1 host core, P1 panel, S1 story systems, A1 art pipeline, KA1–2 / KB1–2 / KC1–2 contraptions, C0 side-cars, E1 harness, H2 client → verification report docs/design/w1a-report.md
-- [ ] V.3 Wave 1b: H3 integration, A2–A3 kit zones + vistas, KA3–4 / KB3–4 / KC3–4, C1–C3 content + hero art, E2–E3 e2e + captures, Gate V critic, fidelity rounds, P0 freeze report + docs/ADVANCED_GAMES.md
+- [x] V.2 Wave 1a (15:55–19:25; 15 agents; typecheck 0, 139 files / 1960 tests, e2e 19 passed, build green; all three games boot the Expedition host): V1 validation, H1 host core, P1 panel, S1 story systems, A1 art pipeline, KA1–2 / KB1–2 / KC1–2 contraptions, C0 side-cars, E1 harness, H2 client → verification report docs/design/w1a-report.md
+- [ ] V.3 Wave 1b (running 19:35): main fix 20:05 — R1 missing-asset keys are warnings for side-cars (errors only for World Writer output) so all three worlds keep resolving while art lands; H3 integration, A2–A3 kit zones + vistas, KA3–4 / KB3–4 / KC3–4, C1–C3 content + hero art, E2–E3 e2e + captures, Gate V critic, fidelity rounds, P0 freeze report + docs/ADVANCED_GAMES.md
 - [ ] V.4 P1/P2 (sandboxes, side quests, remaining art, maps) if time remains
 

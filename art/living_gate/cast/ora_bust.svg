@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220" data-pivot="0.5,0.5">
+  <!-- living_gate.companion.ora_bust (cell §3.2): Pilot Ora in the Halcyon's comms porthole, grinning. 8 parts: the
+       bronze porthole frame, torso with the back hair cloud (clipped to the glass), head with the front fringe,
+       brass headset, goggles pushed up, eyes (open / blink), brows (grin / focus) and mouth (grin / open). -->
+  <defs>
+    <clipPath id="glass"><circle cx="110" cy="110" r="97"/></clipPath>
+    <radialGradient id="back" cx="0.4" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.6" stop-color="{{tide.shallow|mix:stone.lit:0.55}}"/>
+      <stop offset="1" stop-color="{{tide.deep|mix:stone.base:0.35}}"/>
+    </radialGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="{{char.ora.suit|light:0.15}}"/>
+      <stop offset="0.6" stop-color="{{char.ora.suit}}"/>
+      <stop offset="1" stop-color="{{char.ora.suitShade}}"/>
+    </linearGradient>
+    <radialGradient id="face" cx="0.38" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="{{char.ora.skin|light:0.12}}"/>
+      <stop offset="0.7" stop-color="{{char.ora.skin}}"/>
+      <stop offset="1" stop-color="{{char.ora.skinShade}}"/>
+    </radialGradient>
+    <radialGradient id="lens" cx="0.35" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="{{crystal.hi}}"/>
+      <stop offset="1" stop-color="{{crystal.base}}"/>
+    </radialGradient>
+  </defs>
+  <g id="part-frame" data-pivot="110,110" data-z="-3" data-box="0 0 220 220">
+    <circle cx="110" cy="110" r="99" fill="url(#back)"/>
+    <circle cx="110" cy="110" r="103" fill="none" stroke="{{bronze.ring}}" stroke-width="12"/>
+    <circle cx="110" cy="110" r="108" fill="none" stroke="{{gold.deep}}" stroke-width="2"/>
+    <path d="M 26 72 A 92 92 0 0 1 72 24" fill="none" stroke="{{gold.hi|alpha:0.7}}" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="204.6" cy="148.2" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/><circle cx="149.9" cy="203.9" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/><circle cx="71.8" cy="204.6" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/><circle cx="16.1" cy="149.9" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/><circle cx="15.4" cy="71.8" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/><circle cx="70.1" cy="16.1" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/><circle cx="148.2" cy="15.4" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/><circle cx="203.9" cy="70.1" r="3.4" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1"/>
+  </g>
+  <g id="part-torso" data-pivot="110,200" data-z="-2" data-box="13 13 194 194" clip-path="url(#glass)">
+    <circle cx="110" cy="56" r="34" fill="{{char.ora.hair}}"/><circle cx="80" cy="66" r="27" fill="{{char.ora.hair}}"/><circle cx="140" cy="66" r="27" fill="{{char.ora.hair}}"/><circle cx="64" cy="92" r="21" fill="{{char.ora.hair}}"/><circle cx="156" cy="92" r="21" fill="{{char.ora.hair}}"/><circle cx="92" cy="44" r="22" fill="{{char.ora.hair}}"/><circle cx="128" cy="44" r="22" fill="{{char.ora.hair}}"/><circle cx="60" cy="116" r="15" fill="{{char.ora.hair}}"/><circle cx="160" cy="116" r="15" fill="{{char.ora.hair}}"/><circle cx="70" cy="136" r="11" fill="{{char.ora.hair}}"/><circle cx="150" cy="136" r="11" fill="{{char.ora.hair}}"/>
+    <path d="M 89.6 44.1 A 23.8 23.8 0 0 1 113.4 32.2" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/><path d="M 63.8 56.5 A 18.9 18.9 0 0 1 82.7 47.1" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/><path d="M 123.8 56.5 A 18.9 18.9 0 0 1 142.7 47.1" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/><path d="M 51.4 84.7 A 14.7 14.7 0 0 1 66.1 77.3" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/><path d="M 143.4 84.7 A 14.7 14.7 0 0 1 158.1 77.3" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/><path d="M 78.8 36.3 A 15.4 15.4 0 0 1 94.2 28.6" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/><path d="M 114.8 36.3 A 15.4 15.4 0 0 1 130.2 28.6" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 97 138 L 123 138 L 125 172 L 95 172 Z" fill="{{char.ora.skinShade}}"/>
+    <path d="M 30 220 C 34 190 52 176 90 168 L 110 186 L 130 168 C 168 176 186 190 190 220 Z" fill="url(#suit)"/>
+    <path d="M 90 168 L 110 186 L 130 168 L 124 166 L 110 178 L 96 166 Z" fill="{{stone.lit}}"/>
+    <path d="M 110 186 L 110 220" stroke="{{stone.lit}}" stroke-width="3"/>
+    <path d="M 56 188 C 62 200 64 210 64 220 M 164 188 C 158 200 156 210 156 220" fill="none" stroke="{{stone.base}}" stroke-width="2.5"/>
+    <circle cx="142" cy="198" r="10" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1.5"/>
+    <circle cx="142" cy="198" r="6.5" fill="{{inlay.navy}}"/>
+    <path d="M 137.5 199 C 139 195.5 143 194.5 146.5 197 C 144 200.5 140 201 137.5 199 Z" fill="{{gold.hi}}"/>
+  </g>
+  <g id="part-head" data-pivot="110,150" data-z="0" data-box="64 62 92 96">
+    <ellipse cx="72" cy="116" rx="8" ry="11" fill="{{char.ora.skinShade}}"/>
+    <ellipse cx="148" cy="116" rx="8" ry="11" fill="{{char.ora.skinShade}}"/>
+    <ellipse cx="110" cy="112" rx="37" ry="43" fill="url(#face)"/>
+    <path d="M 132 140 C 124 152 96 152 88 140 C 98 150 122 150 132 140 Z" fill="{{char.ora.skinShade|alpha:0.6}}"/>
+    <ellipse cx="88" cy="128" rx="7" ry="4.5" fill="{{mito.coral|alpha:0.35}}"/>
+    <ellipse cx="132" cy="128" rx="7" ry="4.5" fill="{{mito.coral|alpha:0.35}}"/>
+    <path d="M 108 116 C 106 122 105 126 108 128 C 111 129 114 128 115 126" fill="none" stroke="{{char.ora.skinShade}}" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 73 96 C 72 76 88 66 110 66 C 132 66 148 76 147 96 C 140 86 132 88 124 84 C 118 90 104 90 97 84 C 88 90 80 88 73 96 Z" fill="{{char.ora.hair}}"/>
+    <path d="M 82 80 C 88 72 98 70 106 71" fill="none" stroke="{{char.ora.hairHi}}" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g id="part-headset" data-pivot="110,110" data-z="1" data-box="60 32 100 116">
+    <path d="M 70 112 C 64 64 84 36 110 36 C 136 36 156 64 150 112" fill="none" stroke="{{gold.deep}}" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 71 108 C 66 64 86 38 110 38 C 134 38 154 64 149 108" fill="none" stroke="{{gold.base}}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 84 52 C 92 44 100 41 110 41" fill="none" stroke="{{gold.hi}}" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="151" cy="116" r="12" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="2"/>
+    <circle cx="151" cy="116" r="6.5" fill="{{inlay.navy}}"/>
+    <path d="M 146 126 C 144 138 138 142 128 142" fill="none" stroke="{{bronze.ring}}" stroke-width="3" stroke-linecap="round"/>
+    <rect x="120" y="138" width="11" height="7" rx="3.5" fill="{{inlay.navy}}"/>
+    <circle cx="69" cy="116" r="8" fill="{{gold.deep}}"/>
+  </g>
+  <g id="part-goggles" data-pivot="110,76" data-z="2" data-box="68 60 84 32">
+    <path d="M 70 80 C 84 74 136 74 150 80" fill="none" stroke="{{bronze.ring}}" stroke-width="5"/>
+    <circle cx="95" cy="76" r="13" fill="url(#lens)" stroke="{{gold.deep}}" stroke-width="4"/>
+    <circle cx="125" cy="76" r="13" fill="url(#lens)" stroke="{{gold.deep}}" stroke-width="4"/>
+    <circle cx="95" cy="76" r="13" fill="none" stroke="{{gold.hi}}" stroke-width="1.2"/>
+    <circle cx="125" cy="76" r="13" fill="none" stroke="{{gold.hi}}" stroke-width="1.2"/>
+    <ellipse cx="91" cy="72" rx="4" ry="2.5" fill="{{haze|alpha:0.85}}"/>
+    <ellipse cx="121" cy="72" rx="4" ry="2.5" fill="{{haze|alpha:0.85}}"/>
+    <rect x="106" y="73" width="8" height="5" rx="2" fill="{{gold.base}}"/>
+  </g>
+  <g id="part-eyes" data-pivot="110,110" data-z="3" data-box="84 100 52 20">
+    <g id="f0">
+      <ellipse cx="96" cy="110" rx="5.5" ry="7" fill="{{char.ora.hair}}"/>
+      <ellipse cx="124" cy="110" rx="5.5" ry="7" fill="{{char.ora.hair}}"/>
+      <circle cx="94.5" cy="107.5" r="2" fill="{{haze}}"/>
+      <circle cx="122.5" cy="107.5" r="2" fill="{{haze}}"/>
+    </g>
+    <g id="f1">
+      <path d="M 89 111 C 93 114 99 114 103 111 M 117 111 C 121 114 127 114 131 111" fill="none" stroke="{{char.ora.hair}}" stroke-width="2.6" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g id="part-brows" data-pivot="110,95" data-z="4" data-box="84 86 52 16">
+    <g id="f0">
+      <path d="M 88 97 C 92 91 100 90 104 93 M 116 93 C 120 90 128 91 132 97" fill="none" stroke="{{char.ora.hair}}" stroke-width="3.4" stroke-linecap="round"/>
+    </g>
+    <g id="f1">
+      <path d="M 88 93 C 94 94 100 96 104 99 M 116 99 C 120 96 126 94 132 93" fill="none" stroke="{{char.ora.hair}}" stroke-width="3.6" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g id="part-mouth" data-pivot="110,137" data-z="3" data-box="94 128 32 18">
+    <g id="f0">
+      <path d="M 96 132 C 102 144 118 144 124 132 C 116 135 104 135 96 132 Z" fill="{{char.ora.lip}}"/>
+      <path d="M 99 133 C 106 135.5 114 135.5 121 133 L 120 136 C 113 138 107 138 100 136 Z" fill="{{haze}}"/>
+    </g>
+    <g id="f1">
+      <ellipse cx="110" cy="137" rx="8" ry="6.5" fill="{{char.ora.lip}}"/>
+      <path d="M 104 134.5 C 108 133 112 133 116 134.5" fill="none" stroke="{{haze|alpha:0.8}}" stroke-width="1.6"/>
+    </g>
+  </g>
+  <circle id="anchor-face" cx="110" cy="112" r="0"/>
+</svg>

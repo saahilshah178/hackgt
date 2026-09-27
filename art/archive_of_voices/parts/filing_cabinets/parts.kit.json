@@ -1,3 +1,12 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"archive_of_voices.part.filing_cabinets_cabinet","zone":"s6_memorial","gen":"shelving","params":{"w":440,"h":920,"style":"filing_drawers","shelves":4,"bays":1,"fill":["box"],"endPanel":null,"crank":false,"ramp":{"lit":"wood.lit","base":"wood.base","shade":"wood.shade"},"finish":{"ao":true,"rim":true,"haze":0}},"rasterScale":0.75},
+    {"key":"archive_of_voices.part.filing_cabinets_drawer","zone":"s6_memorial","gen":"plate","params":{"w":380,"h":160,"style":"slab","bevel":10,"rivets":0,"screen":false,"ramp":{"lit":"wood.lit","base":"wood.base","shade":"wood.shade"},"face":"wood.base","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.filing_cabinets_meter","zone":"s6_memorial","gen":"gauge","params":{"kind":"arc_meter","len":220,"ticks":[{"at":0,"major":true,"label":null},{"at":0.25,"major":false,"label":null},{"at":0.5,"major":true,"label":null},{"at":0.75,"major":false,"label":null},{"at":1,"major":true,"label":null}],"ramp":{"lit":"brass.hi","base":"brass.base","shade":"brass.deep"},"tickTok":"ink","backing":"paper","legend":"SIGNAL"},"rasterScale":1},
+    {"key":"archive_of_voices.part.filing_cabinets_shutter","zone":"s6_memorial","gen":"plate","params":{"w":300,"h":60,"style":"slab","bevel":4,"rivets":0,"screen":false,"ramp":{"lit":"brass.hi","base":"brass.base","shade":"brass.deep"},"face":"brass.base","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.filing_cabinets_slip","zone":"s6_memorial","gen":"plate","params":{"w":180,"h":110,"style":"paper_card","bevel":7,"rivets":0,"screen":false,"ramp":{"lit":"paper","base":"paper","shade":"paper.aged"},"face":"paper","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.filing_cabinets_pneumatic_drop","zone":"s6_memorial","gen":"linkStrip","params":{"len":520,"axis":"y","style":"tube_window","thick":60,"bandEvery":null,"band":null,"ramp":{"lit":"brass.hi","base":"brass.base","shade":"brass.deep"}},"rasterScale":1},
+    {"key":"archive_of_voices.part.filing_cabinets_stairwell","zone":"s6_memorial","gen":"stairs","params":{"steps":6,"rise":85,"tread":50,"depth":30,"style":"stone","dir":"up_right","nosing":"gold.base","cheekWalls":false,"ramp":{"lit":"stone.lit","base":"stone.base","shade":"stone.shade"},"finish":{"ao":true,"rim":true,"haze":0}},"rasterScale":1},
+    {"key":"archive_of_voices.part.filing_cabinets_console","zone":"s6_memorial","gen":"lectern","params":{"h":210,"style":"microfilm","ramp":{"lit":"wood.lit","base":"wood.base","shade":"wood.shade"},"trim":"brass.base","screen":"ui.card","emblem":true},"rasterScale":1}
+  ]
 }

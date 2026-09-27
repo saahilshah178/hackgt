@@ -1,3 +1,5 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"shared.fx.vignette","zone":"all","file":"vignette.svg"}
+  ]
 }

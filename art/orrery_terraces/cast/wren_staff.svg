@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 136 180" width="136" height="180" data-pivot="0.206,0.206">
+<!-- Wren's sighting staff (trig A153): a 1.1 H brass rod with navy grip wraps and a two-ring gold astrolabe with a cyan bead; pivot = the grip, authored in the front hand's local frame. -->
+<defs><linearGradient id="rod" gradientUnits="userSpaceOnUse" x1="-3" y1="0" x2="3" y2="0"><stop offset="0" stop-color="{{orrery.brass.hi}}"/><stop offset="0.5" stop-color="{{orrery.brass}}"/><stop offset="1" stop-color="{{orrery.brass.deep}}"/></linearGradient><radialGradient id="bead" gradientUnits="userSpaceOnUse" cx="0" cy="149.6" r="6"><stop offset="0" stop-color="{{crystal.hi}}"/><stop offset="0.6" stop-color="{{crystal.base}}"/><stop offset="1" stop-color="{{crystal.shade}}"/></radialGradient></defs>
+<g transform="translate(28 37) rotate(-36)">
+<rect x="-3.2" y="-37.4" width="6.4" height="173" rx="3" fill="url(#rod)"/>
+<rect x="-4" y="-37.4" width="8" height="8" rx="2" fill="{{orrery.brass.deep}}"/>
+<rect x="-4.2" y="-14.5" width="8.4" height="5" rx="1.5" fill="{{inlay.navy}}"/>
+<rect x="-4.2" y="-6.5" width="8.4" height="5" rx="1.5" fill="{{inlay.navy}}"/>
+<rect x="-4.2" y="1.5" width="8.4" height="5" rx="1.5" fill="{{inlay.navy}}"/>
+<rect x="-4.2" y="9.5" width="8.4" height="5" rx="1.5" fill="{{inlay.navy}}"/>
+<rect x="-4.5" y="119.6" width="9" height="6" rx="2" fill="{{gold.base}}"/>
+<g transform="translate(0 147.6)">
+<path d="M-16 0 a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0 Z M-12.5 0 a12.5 12.5 0 1 0 25 0 a12.5 12.5 0 1 0 -25 0 Z" fill-rule="evenodd" fill="{{gold.base}}"/>
+<path d="M-16 0 a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0 Z" fill="none" stroke="{{gold.deep}}" stroke-width="1.2"/>
+<ellipse cx="0" cy="0" rx="9.5" ry="4.5" fill="none" stroke="{{gold.hi}}" stroke-width="2.6" transform="rotate(35)"/>
+<rect x="-1.4" y="-16" width="2.8" height="32" fill="{{gold.deep}}"/>
+<circle r="4.5" fill="url(#bead)"/><circle cx="-1.4" cy="-1.4" r="1.3" fill="{{glass}}"/>
+<path d="M-3 16 L0 24 L3 16 Z" fill="{{gold.base}}"/>
+</g></g>
+<circle id="anchor-astrolabe" cx="114.8" cy="156.4" r="0"/>
+</svg>

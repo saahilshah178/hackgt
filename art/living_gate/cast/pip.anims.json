@@ -1,0 +1,35 @@
+[
+  {
+    "id": "idle",
+    "loop": true,
+    "ms": 2500,
+    "tracks": [
+      { "part": "prop", "prop": "frame", "wave": { "amp": 1, "hz": 6, "phase": 0 }, "keys": [] },
+      { "part": "porthole_glow", "prop": "alpha", "wave": { "amp": 0.12, "hz": 0.8, "phase": 0 }, "keys": [[0, 0.86]] },
+      { "part": "lens_cone", "prop": "alpha", "wave": null, "keys": [[0, 0]] }
+    ]
+  },
+  {
+    "id": "talk",
+    "loop": true,
+    "ms": 600,
+    "tracks": [
+      { "part": "prop", "prop": "frame", "wave": { "amp": 1, "hz": 6, "phase": 0 }, "keys": [] },
+      { "part": "porthole_glow", "prop": "scaleX", "wave": { "amp": 0.075, "hz": 3.33, "phase": 0 }, "keys": [[0, 1.075]] },
+      { "part": "porthole_glow", "prop": "scaleY", "wave": { "amp": 0.075, "hz": 3.33, "phase": 0 }, "keys": [[0, 1.075]] },
+      { "part": "lens_cone", "prop": "alpha", "wave": null, "keys": [[0, 0]] }
+    ]
+  },
+  {
+    "id": "cue",
+    "loop": true,
+    "ms": 1200,
+    "tracks": [
+      { "part": "prop", "prop": "frame", "wave": { "amp": 1, "hz": 10, "phase": 0 }, "keys": [] },
+      { "part": "lens_cone", "prop": "alpha", "wave": { "amp": 0.15, "hz": 0.83, "phase": 0 }, "keys": [[0, 0.85]] },
+      { "part": "lens_cone", "prop": "scaleX", "wave": { "amp": 0.06, "hz": 0.83, "phase": 0.25 }, "keys": [] },
+      { "part": "porthole_glow", "prop": "scaleX", "wave": null, "keys": [[0, 1.18]] },
+      { "part": "porthole_glow", "prop": "scaleY", "wave": null, "keys": [[0, 1.18]] }
+    ]
+  }
+]

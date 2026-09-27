@@ -42,6 +42,12 @@ export class StubUrlCache {
     return s;
   }
 
+  /** True when A1's manifests list the key as a drawable file (svg or puppet); stand-ins are drawn otherwise. */
+  hasArt(key: string): boolean {
+    const e = this.catalog?.entries.get(key);
+    return !!e && e.kind !== "atlas";
+  }
+
   url(key: string): string {
     const hit = this.urls.get(key);
     if (hit) return hit;

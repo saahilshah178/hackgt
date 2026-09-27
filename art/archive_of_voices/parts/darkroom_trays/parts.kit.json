@@ -1,3 +1,9 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"archive_of_voices.part.darkroom_trays_tray","zone":"kit","gen":"plate","params":{"w":200,"h":50,"style":"slab","bevel":3,"rivets":0,"screen":false,"ramp":{"lit":"safelight|light:0.2","base":"safelight","shade":"handle.red"},"face":"safelight","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.darkroom_trays_enlarger","zone":"kit","gen":"compose","params":{"w":160,"h":300,"tileWidth":null,"finish":{"ao":false,"rim":false,"haze":0},"items":[{"gen":"column","params":{"w":20,"h":240,"style":"pole","flutes":0,"capital":"none","base":"step","bands":0,"broken":0,"socket":false,"ramp":{"lit":"steel|light:0.3","base":"steel","shade":"steel.shade"},"trim":"gold.base","inlay":"inlay.navy","finish":{"ao":true,"rim":true,"haze":0}},"seed":null,"x":50,"y":300,"scale":1,"flip":false,"alpha":1},{"gen":"plate","params":{"w":120,"h":80,"style":"slab","bevel":5,"rivets":0,"screen":false,"ramp":{"lit":"steel|light:0.3","base":"steel","shade":"steel.shade"},"face":"steel","engraved":null},"seed":null,"x":90,"y":70,"scale":1,"flip":false,"alpha":1}]},"rasterScale":1},
+    {"key":"archive_of_voices.part.darkroom_trays_safelight","zone":"kit","gen":"glowSprite","params":{"size":80,"shape":"radial","core":"safelight","edge":"safelight","falloff":0.5,"frames":1},"rasterScale":1},
+    {"key":"archive_of_voices.part.darkroom_trays_line","zone":"kit","gen":"linkStrip","params":{"len":512,"axis":"x","style":"cable","thick":4,"bandEvery":null,"band":null,"ramp":{"lit":"steel|light:0.3","base":"steel","shade":"steel.shade"}},"rasterScale":1},
+    {"key":"archive_of_voices.part.darkroom_trays_console","zone":"kit","gen":"lectern","params":{"h":210,"style":"microfilm","ramp":{"lit":"wood.lit","base":"wood.base","shade":"wood.shade"},"trim":"brass.base","screen":"ui.card","emblem":true},"rasterScale":1}
+  ]
 }

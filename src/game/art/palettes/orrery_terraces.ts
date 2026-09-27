@@ -91,6 +91,23 @@ export const ORRERY_TERRACES_PALETTE = {
     // ---- costume overlays (trig §3.1)
     "costume.wren.scarf": "#4FA3A0",
     "costume.wren.scarf.hi": "#7CC7C0",
+    "costume.wren.scarf.deep": "#357F7C",
     "costume.wren.staff": "#C99A4A",
+    "costume.wren.hair": "#2B2A33",
+    "costume.wren.hair.hi": "#4A4856",
+    "leather": "#8A5A3E",
+    "leather.hi": "#A8714F",
+    "leather.deep": "#6A4430",
+    // ---- C1 zone-1 heroes (trig §3.2, §3.3, §7.10, §7.13): recesses, glass, Brasswick's copper and moss
+    "recess": "#2B3A44",
+    "recess.hi": "#3F5857",
+    "glass": "#DDF4F7",
+    "copper": "#C07A48",
+    "copper.hi": "#E09A66",
+    "copper.deep": "#8A4E2E",
+    "moss": "#7FA86A",
+    "moss.hi": "#A6C98A",
+    "moss.deep": "#557A4E",
+    "tread": "#4A5560",
   } as Readonly<Record<string, string>>,
 } as const;

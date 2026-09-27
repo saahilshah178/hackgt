@@ -32,7 +32,8 @@ import type { HostAction } from "./input/keymap";
 import type { LabelStore } from "./labels/label-store";
 import { CameraDirector } from "./scene/camera-director";
 import { inputToward, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharCtx, type CharInput, type CharState } from "./scene/character";
-import { defaultSafeRect, unionRect, type ZoneFrame } from "./scene/framing";
+import { countDrawn, type DrawNode } from "./scene/draw-count";
+import { defaultSafeRect, playerFrameRect, unionRect, type ZoneFrame } from "./scene/framing";
 import { interactLabel, nearest, targetKey, type Interactable } from "./scene/proximity";
 import { activeNpcState, reqCtxOf, requirementMet } from "./scene/requirements";
 import { planRoute, type RouteStep } from "./scene/route";
@@ -809,7 +810,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
         const f = layout.focus;
         const vp = this.cam.viewport;
         const safe = layout.safeRect.w > 0 && layout.safeRect.h > 0 ? layout.safeRect : defaultSafeRect(layout.mode, vp);
-        const playerRect = { x: this.char.x - 70, y: this.char.y - 240, w: 140, h: 240 };
+        const playerRect = playerFrameRect(this.char.x, this.char.y);
         if (layout.mode !== "explore" && f?.kind === "station") {
           const ctl = this.controllers.get(f.encounterId);
           this.openStation = f.encounterId;
@@ -986,7 +987,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
         },
         cutscene: this.runner?.running ?? null,
         fps: Math.round(this.fps),
-        drawObjects: this.children?.list.filter((o) => (o as unknown as { visible?: boolean }).visible !== false).length ?? 0,
+        drawObjects: countDrawn(this.children?.list as unknown as DrawNode[] | undefined),
       };
     }
 

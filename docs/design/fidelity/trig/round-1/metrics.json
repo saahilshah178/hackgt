@@ -1,0 +1,97 @@
+{
+  "game": "trig",
+  "round": 1,
+  "tier": "P0",
+  "capturedAt": "2026-09-26T23:44:15.641Z",
+  "z1_establish": {
+    "kind": "establish",
+    "description": "Z1 Sunward Terrace, explore, companion visible",
+    "fps": 41,
+    "drawObjects": 94
+  },
+  "e1_scrub_mid": {
+    "kind": "scrub",
+    "description": "panel open mid-scrub, scrub layout",
+    "latencyMs": 6525,
+    "strip": [
+      "e1_scrub_mid-frame0.png",
+      "e1_scrub_mid-frame1.png",
+      "e1_scrub_mid-frame2.png"
+    ],
+    "fps": 7,
+    "drawObjects": 97
+  },
+  "e1_probe": {
+    "kind": "probe",
+    "description": "probe moves a world object (needle/carriage)",
+    "fps": 5,
+    "drawObjects": 97
+  },
+  "e1_fail": {
+    "kind": "fail",
+    "description": "failed verify: fail line + display feedback, draft kept",
+    "fps": 3,
+    "drawObjects": 97
+  },
+  "e1_hint": {
+    "kind": "hint",
+    "description": "hint in the world: companion moves toward the hint anchor",
+    "fps": 2,
+    "drawObjects": 97
+  },
+  "e1_success": {
+    "kind": "success",
+    "description": "success-badge frame",
+    "fps": 2,
+    "drawObjects": 99
+  },
+  "e1_payoff": {
+    "kind": "payoff",
+    "description": "payoff traversal (terrace/stair forms)",
+    "fps": 2,
+    "drawObjects": 100
+  },
+  "e2_scrub_mid": {
+    "kind": "scrub",
+    "description": "Gate V: e2 (Tidewheel Gate) panel open mid-scrub",
+    "latencyMs": 2739,
+    "strip": [
+      "e2_scrub_mid-frame0.png",
+      "e2_scrub_mid-frame1.png",
+      "e2_scrub_mid-frame2.png"
+    ],
+    "fps": 3,
+    "drawObjects": 101
+  },
+  "e2_payoff": {
+    "kind": "payoff",
+    "description": "Gate V: e2 payoff (the Tidewheel doorway opens)",
+    "fps": 2,
+    "drawObjects": 102
+  },
+  "e6_boss": {
+    "kind": "boss",
+    "description": "Warden boss staging: arena trigger, taunt",
+    "fps": 13,
+    "drawObjects": 72
+  },
+  "dialogue_closeup": {
+    "kind": "dialogue",
+    "description": "dialogue bar close-up (Cog or Wren line)",
+    "fps": 10,
+    "drawObjects": 72
+  },
+  "finale_vista": {
+    "kind": "finale",
+    "description": "finale cutscene: orrery_terraces.vista.canyon pan",
+    "fps": 14,
+    "drawObjects": 104
+  },
+  "legibility_720p": {
+    "kind": "legibility",
+    "description": "1280x720 legibility shot",
+    "fps": 17,
+    "drawObjects": 70
+  },
+  "consoleErrors": []
+}

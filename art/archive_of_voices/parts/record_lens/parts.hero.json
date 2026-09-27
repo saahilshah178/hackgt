@@ -1,3 +1,10 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "archive_of_voices.part.lens_carriage",
+   "legacyId": "cr.part.lens_carriage",
+   "zone": "all",
+   "file": "lens_carriage.svg"
+  }
+ ]
 }

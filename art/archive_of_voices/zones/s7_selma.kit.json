@@ -1,3 +1,6 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"archive_of_voices.layer.far_river_bluffs","zone":"s7_selma","rasterScale":0.5,"legacyId":"cr.far.river_bluffs","gen":"compose","params":{"w":2048,"h":480,"tileWidth":2048,"finish":{"ao":false,"rim":false,"haze":0},"items":[{"gen":"ridgeBand","params":{"w":2048,"h":420,"style":"bluff","peaks":4,"height":[140,320],"flutes":0,"ramp":{"lit":"far.city.night|light:0.15","base":"far.city.night","shade":"far.city.night|dim:0.2"},"rimLine":null,"finish":{"ao":false,"rim":true,"haze":0.12}},"seed":null,"x":0,"y":480,"scale":1,"flip":false,"alpha":1},{"gen":"skyline","params":{"w":2048,"h":300,"blocks":10,"height":[40,110],"features":["pine_line","steeple","pine_line"],"fill":"far.city.night|dim:0.1","windowTok":"window.dot","windowDensity":0.05,"finish":{"ao":false,"rim":false,"haze":0.08}},"seed":null,"x":0,"y":300,"scale":1,"flip":false,"alpha":1}]}},
+    {"key":"archive_of_voices.layer.mid_river","zone":"s7_selma","rasterScale":0.5,"legacyId":"cr.mid.river","gen":"waterBand","params":{"w":2048,"h":300,"style":"tide","deep":"far.city.night","shallow":"asphalt.sheen","highlight":"recordlight.hi","flecks":{"tok":"lamp","count":10},"debris":"none","waveAmp":4,"waveCycles":8}}
+  ]
 }

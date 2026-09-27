@@ -1,3 +1,6 @@
 {
-  "entries": []
+  "entries": [
+    { "key": "orrery_terraces.layer.orrery_tower", "file": "orrery_tower.svg", "zone": "all", "rasterScale": 0.5, "legacyId": "A11" },
+    { "key": "orrery_terraces.prop.gondola", "file": "gondola.svg", "zone": "z1_sunward", "legacyId": "A59" }
+  ]
 }

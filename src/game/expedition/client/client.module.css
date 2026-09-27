@@ -15,6 +15,26 @@
   inset: 0;
   outline: none;
 }
+/* The HUD's containing block: the whole stage in explore, the world side while a side panel is open (w1a fix 6).
+   No z-index, so the HUD's own layers (30/31) keep stacking against the panel and dialogue in .layout. */
+.hudRegion {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  transition: right 280ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hudRegion {
+    transition: none;
+  }
+}
+/* the key legend's dim + card still cover the whole stage (the panel too) while the region is inset */
+.hudRegion [data-testid="key-legend-overlay"] {
+  position: fixed;
+  inset: 0;
+}
 .skip {
   position: absolute;
   top: 84px;

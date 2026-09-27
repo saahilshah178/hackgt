@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  baseZoom, centredView, clampView, defaultSafeRect, followView, frameFor, fromScroll, lerpFactor, rectInSafe, toScroll, unionRect,
+  baseZoom, centredView, clampView, defaultSafeRect, followView, frameFor, fromScroll, innerSafe, lerpFactor, playerFrameRect, rectInSafe, toScroll, unionRect,
   viewSize, worldToScreen, type ZoneFrame,
 } from "./framing";
 
@@ -19,6 +19,25 @@ describe("framing: frameFor keeps frameBounds in the safe rect", () => {
     });
   }
 
+  it("keeps a margin between the target and the safe rect's edges, so the player at the edge is not clipped (H3)", () => {
+    const safe = defaultSafeRect("scrub", vp);
+    const inner = innerSafe(safe);
+    expect(inner.x).toBeGreaterThan(safe.x);
+    expect(inner.w).toBeLessThan(safe.w);
+    // e1-like: a wide dial with the player at the console on the far left
+    const station = { x: 4180, y: 380, w: 1370, h: 1130 };
+    const target = unionRect(station, playerFrameRect(4300, 1140));
+    const f = frameFor(target, safe, vp, { ...zone, width: 9000, height: 1600, camera: { ...zone.camera, minZoom: 0.5 } }, null);
+    expect(rectInSafe(target, inner, f)).toBe(true);
+    const p = playerFrameRect(4300, 1140);
+    expect((p.x - f.viewX) * f.zoom).toBeGreaterThanOrEqual(inner.x - 0.5);
+  });
+  it("the player box covers the companion on either shoulder", () => {
+    const r = playerFrameRect(1000, 800);
+    expect(r.x).toBeLessThanOrEqual(1000 - 120);
+    expect(r.x + r.w).toBeGreaterThanOrEqual(1000 + 120);
+    expect(r.y + r.h).toBe(800);
+  });
   it("frameZoom overrides the fit", () => {
     const safe = defaultSafeRect("scrub", vp);
     const f = frameFor(bounds, safe, vp, zone, 0.7);

@@ -14,6 +14,12 @@
  * `unloadZone(scene, catalog, world, prevId, nextId)` removes every key of the previous zone that is neither "all" nor
  * needed by the next zone (call it after the transition wipe). k = ceil4(rasterScale × min(dpr, 1.5)); `?lowres=1`
  * caps dpr at 1. Phaser is imported for types only, so the pure helpers run in node tests.
+ *
+ * Missing art in normal play (the W1a fix list): a referenced `<ns>.companion.*` key with no manifest entry resolves to
+ * the shared kit stand-in puppet (`shared.companion.guide_standin`, fallback ladder step 1) under its own key; a
+ * referenced `costume` overlay with no entry becomes a blank 2 × 2 texture, so the host's debug stand-in never paints a
+ * disc on a face or a hand. Both keep their `console.warn`. `?artdebug=1` turns the blanking off (the host's stand-ins
+ * then show every missing overlay).
  */
 import type Phaser from "phaser";
 import { AssetManifest, type ManifestEntry, type WorldOverlay } from "../../contracts/world";
@@ -31,6 +37,8 @@ export interface LoaderFlags {
   dpr: number; // window.devicePixelRatio
   lowres: boolean; // ?lowres=1
   charFallback: boolean; // ?charfallback=1
+  /** ?artdebug=1: missing costume overlays are left to the host's visible debug stand-ins instead of drawing nothing */
+  artDebug: boolean;
   base: string; // URL prefix of public/assets/expedition/
 }
 export interface ArtCatalog {
@@ -42,7 +50,7 @@ export interface ArtCatalog {
 /** Flags from a location search string (`?lowres=1&charfallback=1`) and the device pixel ratio. */
 export function flagsFrom(search: string, dpr: number, base = ASSET_BASE): LoaderFlags {
   const q = new URLSearchParams(search);
-  return { dpr: Number.isFinite(dpr) && dpr > 0 ? dpr : 1, lowres: q.get("lowres") === "1", charFallback: q.get("charfallback") === "1", base };
+  return { dpr: Number.isFinite(dpr) && dpr > 0 ? dpr : 1, lowres: q.get("lowres") === "1", charFallback: q.get("charfallback") === "1", artDebug: q.get("artdebug") === "1", base };
 }
 
 /** Build a catalog from parsed manifests (pure). Later namespaces never override earlier keys. */
@@ -88,6 +96,42 @@ function groupOf(key: string): string {
 }
 function nsOf(key: string): string {
   return key.split(".")[0] ?? "";
+}
+
+/** The kit stand-in every guide companion falls back to (a ≤ 8-part puppet with idle, talk and cue). */
+export const COMPANION_STANDIN = "shared.companion.guide_standin";
+/** Groups whose missing keys draw nothing in normal play (overlays on a character must never show a debug disc). */
+export const BLANK_WHEN_MISSING: ReadonlySet<string> = new Set(["costume"]);
+
+/**
+ * The entry a key resolves to when no manifest provides it: a missing `<ns>.companion.<name>` resolves to the shared
+ * stand-in puppet re-keyed under the missing key (so its textures, part frames and anims live under that key). Null for
+ * every other group, for keys the catalog already has, and when the stand-in itself is absent. Pure.
+ */
+export function fallbackEntryFor(catalog: ArtCatalog, key: string): ManifestEntry | null {
+  if (catalog.entries.has(key) || groupOf(key) !== "companion") return null;
+  const standin = catalog.entries.get(COMPANION_STANDIN);
+  return standin && standin.kind === "puppet" ? { ...standin, key } : null;
+}
+/**
+ * Registers the fallback entries for the keys a world references (see `fallbackEntryFor`) in the catalog, once per key,
+ * with a console.warn each. Returns the keys it added. Idempotent.
+ */
+export function registerFallbacks(catalog: ArtCatalog, keys: readonly string[]): string[] {
+  const added: string[] = [];
+  for (const k of keys) {
+    const e = fallbackEntryFor(catalog, k);
+    if (!e) continue;
+    (catalog.entries as Map<string, ManifestEntry>).set(k, e);
+    added.push(k);
+    console.warn(`[art] ${k}: no manifest entry yet; the kit stand-in companion (${COMPANION_STANDIN}) plays in its place`);
+  }
+  return added;
+}
+/** Referenced keys that should draw nothing while they have no entry (costume overlays), unless `?artdebug=1`. */
+export function blankKeys(catalog: ArtCatalog, keys: readonly string[]): string[] {
+  if (catalog.flags.artDebug) return [];
+  return keys.filter((k) => !catalog.entries.has(k) && BLANK_WHEN_MISSING.has(groupOf(k)));
 }
 
 /** Every key resident while `zoneId` is current (sorted). Keys the catalog does not know are left out (see `missingKeys`). */
@@ -202,6 +246,18 @@ export interface ZoneLoadResult {
   queued: string[]; // newly requested
   missing: string[]; // referenced but in no manifest
   failed: string[]; // requested but failed (no fallback)
+  /** missing costume overlays given a blank texture (nothing draws; `?artdebug=1` leaves them to the host's stand-ins) */
+  blanked: string[];
+}
+
+/** A transparent 2 × 2 texture under `key` (so nothing, not a debug stand-in, draws for it). False without a canvas API. */
+function blankTexture(scene: Phaser.Scene, key: string): boolean {
+  const tm = scene.textures as unknown as { exists(k: string): boolean; createCanvas?: (k: string, w: number, h: number) => { refresh(): unknown } | null };
+  if (tm.exists(key) || typeof tm.createCanvas !== "function") return false;
+  const tex = tm.createCanvas(key, 2, 2);
+  tex?.refresh();
+  setMeta(scene, key, { k: 1 });
+  return tex !== null && tex !== undefined;
 }
 
 /**
@@ -209,15 +265,18 @@ export interface ZoneLoadResult {
  * loader itself). Resolves when the queue completes; never rejects; logs only console.warn.
  */
 export function loadZone(scene: Phaser.Scene, catalog: ArtCatalog, world: WorldOverlay, zoneId: string, onProgress?: (fraction: number) => void): Promise<ZoneLoadResult> {
+  registerFallbacks(catalog, assetsForZone(world, zoneId));
   const keys = zoneKeys(catalog, world, zoneId);
   const missing = missingKeys(catalog, world, zoneId);
   if (missing.length) console.warn(`[art] zone ${zoneId}: ${missing.length} referenced asset(s) have no manifest entry yet: ${missing.slice(0, 6).join(", ")}${missing.length > 6 ? "…" : ""}`);
+  // before anything else can paint a stand-in for them: missing costume overlays draw nothing in normal play
+  const blanked = blankKeys(catalog, missing).filter((k) => blankTexture(scene, k));
   const queued = keys.filter((k) => queueEntry(scene, catalog, catalog.entries.get(k)!));
   const failed: string[] = [];
   const fellBack = new Set<string>();
   return new Promise((resolve) => {
     if (queued.length === 0) {
-      resolve({ keys, queued, missing, failed });
+      resolve({ keys, queued, missing, failed, blanked });
       return;
     }
     const onProgressEv = (v: number) => onProgress?.(v);
@@ -242,7 +301,7 @@ export function loadZone(scene: Phaser.Scene, catalog: ArtCatalog, world: WorldO
         const e = catalog.entries.get(k);
         if (e) finalize(scene, catalog, e, fellBack.has(k));
       }
-      resolve({ keys, queued, missing, failed: [...new Set(failed.filter((k) => !fellBack.has(k) || !scene.textures.exists(k)))] });
+      resolve({ keys, queued, missing, failed: [...new Set(failed.filter((k) => !fellBack.has(k) || !scene.textures.exists(k)))], blanked });
     });
     if (!scene.load.isLoading()) scene.load.start();
   });
@@ -268,7 +327,7 @@ export function anchorsOf(catalog: ArtCatalog, key: string): Readonly<Record<str
 }
 /** The URL of an asset's file (the DOM host and snapshots draw `<img>` from it; puppets use the rest pose). */
 export function assetUrl(catalog: ArtCatalog, key: string): string | null {
-  const e = catalog.entries.get(key);
+  const e = catalog.entries.get(key) ?? fallbackEntryFor(catalog, key);
   if (!e) return null;
   const file = e.kind === "atlas" ? e.image : e.kind === "puppet" ? e.restFile : e.file;
   return catalog.flags.base + file;
@@ -311,6 +370,7 @@ export interface ManifestZoneLoader {
 export function createManifestZoneLoader(catalog: ArtCatalog): ManifestZoneLoader {
   let scene: Phaser.Scene | null = null;
   const owned = new Set<string>();
+  const blank = new Set<string>();
   let last: ZoneLoadResult | null = null;
   const resident = (key: string) => scene !== null && scene.textures.exists(key);
   return {
@@ -323,14 +383,19 @@ export function createManifestZoneLoader(catalog: ArtCatalog): ManifestZoneLoade
       scene = sc;
       last = await loadZone(sc, catalog, world, zoneId, onProgress);
       last.queued.forEach((k) => owned.add(k));
+      last.blanked.forEach((k) => {
+        owned.add(k);
+        blank.add(k);
+      });
     },
     unloadZone(sc, world, prev, next) {
       for (const k of unloadZone(sc, catalog, world, prev, next)) owned.delete(k);
     },
     texture(key) {
-      return catalog.entries.has(key) && resident(key) ? key : null;
+      return (catalog.entries.has(key) || blank.has(key)) && resident(key) ? key : null;
     },
     info(key) {
+      if (blank.has(key) && resident(key)) return { key, kind: "svg", w: 2, h: 2, pivot: [0.5, 0.5], anchors: {}, scale: 1 };
       const e = catalog.entries.get(key);
       if (!e || !resident(key)) return null;
       if (e.kind === "atlas") return { key, kind: "atlas", w: e.displayWidth, h: e.displayHeight, pivot: e.pivot, anchors: {}, scale: e.displayWidth / e.frameWidth };
@@ -348,6 +413,7 @@ export function createManifestZoneLoader(catalog: ArtCatalog): ManifestZoneLoade
     destroy(sc) {
       for (const k of owned) if (sc.textures.exists(k)) sc.textures.remove(k);
       owned.clear();
+      blank.clear();
       scene = null;
     },
   };

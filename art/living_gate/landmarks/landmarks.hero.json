@@ -1,3 +1,31 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "living_gate.prop.stiff_ridge",
+   "file": "stiff_ridge.svg",
+   "zone": "zone_a",
+   "legacyId": "#33"
+  },
+  {
+   "key": "living_gate.prop.nuclear_pore",
+   "file": "nuclear_pore.svg",
+   "zone": "zone_d",
+   "legacyId": "#149"
+  },
+  {
+   "key": "living_gate.layer.hall_vault",
+   "file": "hall_vault.svg",
+   "zone": "zone_c",
+   "tileWidth": 2048,
+   "scroll": 0.15,
+   "legacyId": "#9"
+  },
+  {
+   "key": "living_gate.layer.nucleus_dome",
+   "file": "nucleus_dome.svg",
+   "zone": "zone_d",
+   "scroll": 0.15,
+   "legacyId": "#11"
+  }
+ ]
 }

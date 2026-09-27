@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" data-pivot="0.5,0.5">
+<!-- Vesper's Lens (trig A83): a three-facet crystal in a bronze bracket with three claws, set into rock. -->
+<defs><linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{{rock.light}}"/><stop offset="0.5" stop-color="{{rock.base}}"/><stop offset="1" stop-color="{{rock.shade}}"/></linearGradient><linearGradient id="bronze" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{{gold.base}}"/><stop offset="0.5" stop-color="{{bronze.ring}}"/><stop offset="1" stop-color="{{inlay.navy.dark}}"/></linearGradient><filter id="sh" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter></defs>
+<path d="M14 40 L30 14 L62 6 L92 16 L110 42 L112 74 L96 104 L60 114 L26 104 L8 76 Z" fill="{{shadow}}" opacity="0.3" filter="url(#sh)" transform="translate(4 4)"/>
+<path d="M14 40 L30 14 L62 6 L92 16 L110 42 L112 74 L96 104 L60 114 L26 104 L8 76 Z" fill="url(#rock)"/>
+<path d="M14 40 L30 14 L62 6 L60 20 L34 26 Z" fill="{{rock.light}}" opacity="0.8"/>
+<path d="M112 74 L96 104 L60 114 L64 100 L94 92 Z" fill="{{rock.shade}}" opacity="0.7"/>
+<circle cx="60" cy="60" r="41" fill="url(#bronze)"/>
+<path d="M19 60 a41 41 0 1 0 82 0 a41 41 0 1 0 -82 0 Z M24 60 a36 36 0 1 0 72 0 a36 36 0 1 0 -72 0 Z" fill-rule="evenodd" fill="{{gold.base}}"/>
+<path d="M46.7 23.4 A39 39 0 0 1 96.6 46.7" fill="none" stroke="{{gold.hi}}" stroke-width="3" stroke-linecap="round"/>
+<circle cx="60" cy="60" r="34" fill="{{crystal.base}}"/>
+<path d="M54 54 L60 26 A34 34 0 0 1 30.6 77 Z" fill="{{crystal.hi}}"/>
+<path d="M54 54 L30.6 77 A34 34 0 0 1 89.4 77 Z" fill="{{crystal.base}}"/>
+<path d="M54 54 L89.4 77 A34 34 0 0 1 60 26 Z" fill="{{crystal.shade}}"/>
+<path d="M54 54 L60 26 M54 54 L30.6 77 M54 54 L89.4 77" stroke="{{glass}}" stroke-width="1.5" opacity="0.7"/>
+<circle cx="44" cy="46" r="5" fill="{{glass}}"/>
+<path d="M50.9 17 Q60 12 69.1 17 L60 30 Z" fill="{{bronze.ring}}" stroke="{{gold.base}}" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M27.3 89.4 Q18.4 84 18.2 73.6 L34 75 Z" fill="{{bronze.ring}}" stroke="{{gold.base}}" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M101.8 73.6 Q101.6 84 92.7 89.4 L86 75 Z" fill="{{bronze.ring}}" stroke="{{gold.base}}" stroke-width="1.5" stroke-linejoin="round"/>
+<circle id="anchor-lens" cx="60" cy="60" r="0"/>
+</svg>

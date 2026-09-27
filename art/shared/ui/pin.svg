@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 120" width="88" height="120" data-pivot="0.5,1">
+  <g id="glow"><path d="M44 6C24 6 9 21 9 40c0 22 23 38 35 52 12-14 35-30 35-52C79 21 64 6 44 6Z" fill="{{ui.line.glow}}"/></g>
+  <g id="lit"><path d="M44 10C26 10 13 23 13 40c0 19 20 34 31 47 11-13 31-28 31-47C75 23 62 10 44 10Z" fill="{{ui.card}}" stroke="{{ui.line}}" stroke-width="3" stroke-linejoin="round"/></g>
+  <g id="trim"><path d="M30 98l14 12 14-12" fill="none" stroke="{{ui.line}}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <circle id="anchor-label" cx="44" cy="40" r="0"/>
+</svg>

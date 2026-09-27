@@ -1,3 +1,6 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"shared.ui.pin","zone":"all","file":"pin.svg"},
+    {"key":"shared.ui.interact","zone":"all","file":"interact.svg"}
+  ]
 }

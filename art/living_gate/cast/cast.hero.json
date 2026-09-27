@@ -1,3 +1,42 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "living_gate.costume.diver_helmet",
+   "file": "diver_helmet.svg",
+   "legacyId": "#174",
+   "rasterScale": 1.5
+  },
+  {
+   "key": "living_gate.costume.diver_scarf",
+   "file": "diver_scarf.svg",
+   "legacyId": "#175",
+   "rasterScale": 1.5
+  },
+  {
+   "key": "living_gate.costume.probe_staff",
+   "file": "probe_staff.svg",
+   "legacyId": "#176",
+   "rasterScale": 1.5
+  },
+  {
+   "key": "living_gate.companion.pip",
+   "kind": "puppet",
+   "file": "pip.svg",
+   "anims": "pip.anims.json",
+   "legacyId": "#177"
+  },
+  {
+   "key": "living_gate.companion.ora_bust",
+   "kind": "puppet",
+   "file": "ora_bust.svg",
+   "anims": "ora_bust.anims.json",
+   "legacyId": "#179"
+  },
+  {
+   "key": "living_gate.npc.poro",
+   "file": "poro.svg",
+   "zone": "zone_b",
+   "legacyId": "#186"
+  }
+ ]
 }

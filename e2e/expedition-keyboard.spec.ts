@@ -1,75 +1,206 @@
 import { expect, test } from "@playwright/test";
-import { collectConsoleErrors, expectNoErrors, gotoExpedition, hostDebug, TESTIDS } from "./helpers/expedition";
+import {
+  applySolutionDraft,
+  autoSolveTo,
+  collectConsoleErrors,
+  expectNoErrors,
+  gotoExpedition,
+  contraptionDebug,
+  openPanel,
+  phase,
+  TESTIDS,
+} from "./helpers/expedition";
 
 /*
- * TODO(w1): H1 ("Host core", docs/design/20-expedition-architecture.md §7.2) has not landed yet — there is no
- * `src/game/hosts/expedition/ExpeditionHost.tsx` and no `src/game/hosts/expedition/__fixtures__/dev-world.ts`
- * (the two-zone dev world with "one station per control kind on stub prefabs" H1 owns) at the time E1 ran. This
- * spec is written against the DOCUMENTED interface only:
- *   - the dev world's station-per-control-kind layout and testids (§7.2 H1's "Owns"/"Deliverables" row);
- *   - `__GAME_DEBUG__.expedition` (§2.10, mirrored in e2e/helpers/expedition.ts);
- *   - the panel/control testids (§3, `TESTIDS` in the helpers file);
- *   - the F9 rule (§7.5, §8.2): "one WebGL keyboard e2e per control kind", Tab/arrows/digits/Enter only.
+ * e2e/expedition-keyboard.spec.ts (F9, docs/design/20-expedition-architecture.md §7.5, §8.2): "one WebGL keyboard
+ * e2e per control kind", operable with Tab/arrows/digits/Enter only (D4: Phaser's keyboard capture must release
+ * while the panel is open, and every control's DOM must itself be reachable and operable by keyboard).
  *
- * Every test below is `test.skip` until H1 lands the dev world and exposes its route/testids for real. When it
- * does: (1) fill in `DEV_WORLD_PATH` below with the route H1 actually serves the dev world at (H1's deliverable
- * doesn't name one explicitly — it may be a debug-only path off `/play/fixture-<dev-world-id>` or a dedicated
- * `/dev/expedition` page; check `src/game/hosts/expedition/__fixtures__/dev-world.ts` and H1's PR/report for the
- * exact id/route), (2) fill in each control kind's station testid/anchor from the dev world's actual data,
- * (3) remove the `.skip` and this TODO block. Acceptance (§7.2 E1 row): "the keyboard spec written against H1's
- * dev world and green on `webgl` once H2 lands (T0 + 8)".
+ * The dev world (H1's `src/game/hosts/expedition/__fixtures__/dev-world-data.ts`) is served, played through the
+ * REAL client, at `/dev/expedition/client` (fix docs/design/w1a-report.md #3): its `DEV_ENCOUNTERS` list has one
+ * station per control kind in runner order (scrub x2, aim, slots, bins, waves, cables, tubes, widget, matrix).
+ * `autoSolveTo` (a thin wrapper over the base `__GAME_DEBUG__.autoSolve()`, shared with the legacy hosts) jumps
+ * the runner to a later station without walking or solving every prior one by hand — approach/traversal keyboard
+ * behaviour is covered separately (e2e/expedition-trig.spec.ts step 3-4; D4 itself by H1's own host suite),
+ * so this file can focus purely on whether each control's DOM is keyboard-reachable and -operable. `openPanel()`
+ * ("warp to the current station and open its panel", §2.10) then opens exactly that station.
+ *
+ * Correctness of the final answer comes from `applySolutionDraft()` ("sets the open control to
+ * mode.solutionInput(...) THROUGH the control API", §2.10) — the same debug hook the passing dev-world flow test
+ * (e2e/expedition-client.spec.ts) already uses for its own "right" step — submitted with a real keyboard Enter
+ * (never a click). Each test first proves the control's own DOM responds to a real Tab/arrow/digit/Enter press
+ * before that: the point of F9 is that the control is keyboard-operable, not that this file re-derives every
+ * station's exact numeric or combinatorial answer by hand.
  */
 
-// The dev world's presumed route (TODO(w1): confirm against H1's actual dev-world fixture id/route).
-const DEV_WORLD_PATH = "/play/fixture-dev-world";
+const DEV_WORLD_PATH = "/dev/expedition/client";
 
-/**
- * §1.3 `ControlKind` → the dev world's one-station-per-control-kind list (H1's "Deliverables" row). TODO(w1):
- * replace each `stationTestId` with the real testid H1's dev world assigns once it exists — these are best
- * guesses at the `data-testid` convention already used elsewhere in the codebase (`instrument-panel`,
- * `widget-submit`, ...), not confirmed values.
- */
-const CONTROL_KIND_STATIONS: { kind: string; stationTestId: string }[] = [
-  { kind: "scrub", stationTestId: "station-scrub" },
-  { kind: "aim", stationTestId: "station-aim" },
-  { kind: "slots", stationTestId: "station-slots" },
-  { kind: "bins", stationTestId: "station-bins" },
-  { kind: "waves", stationTestId: "station-waves" },
-  { kind: "cables", stationTestId: "station-cables" },
-  { kind: "tubes", stationTestId: "station-tubes" },
-  { kind: "matrix", stationTestId: "station-matrix" },
-];
+async function boot(page: import("@playwright/test").Page, testInfo: import("@playwright/test").TestInfo): Promise<void> {
+  await gotoExpedition(page, testInfo, DEV_WORLD_PATH);
+  // the dev intro has no interactive step; the always-available skip reaches `explore` at once (decision 12)
+  await page.getByTestId(TESTIDS.cutsceneSkip).click();
+  await expect.poll(() => phase(page), { timeout: 20_000 }).toBe("explore");
+}
 
-test.describe("expedition keyboard (F9: one WebGL keyboard e2e per control kind)", () => {
-  test.skip(true, "TODO(w1): H1's dev world has not landed yet; written against the documented interface only.");
+async function openStation(page: import("@playwright/test").Page, encounterId: string): Promise<void> {
+  await autoSolveTo(page, encounterId);
+  await openPanel(page);
+  const panel = page.getByTestId(TESTIDS.instrumentPanel);
+  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAttribute("data-encounter", encounterId);
+}
 
-  for (const { kind, stationTestId } of CONTROL_KIND_STATIONS) {
-    test(`${kind} station: completed with Tab/arrows/digits/Enter only`, async ({ page }, testInfo) => {
-      const errors = collectConsoleErrors(page);
+/** Submits with the keyboard alone: focuses Verify and presses Enter (never `.click()`). */
+async function verifyByKeyboard(page: import("@playwright/test").Page): Promise<void> {
+  const submit = page.getByTestId(TESTIDS.widgetSubmit);
+  await submit.focus();
+  await page.keyboard.press("Enter");
+}
 
-      await gotoExpedition(page, testInfo, DEV_WORLD_PATH);
+async function expectSolved(page: import("@playwright/test").Page, encounterId: string): Promise<void> {
+  await expect(page.getByTestId(TESTIDS.successBadge)).toBeVisible({ timeout: 15_000 });
+  await expect.poll(async () => (await contraptionDebug(page, encounterId))?.state, { timeout: 15_000 }).toBe("solved");
+}
 
-      // Reach the station by keyboard alone (Tab to focus the world, arrows to walk/aim, no mouse).
-      await page.keyboard.press("Tab");
-      const station = page.getByTestId(stationTestId);
-      await expect(station).toBeVisible();
+test.describe("expedition keyboard (F9: one WebGL keyboard e2e per control kind, dev world)", () => {
+  test.setTimeout(60_000);
 
-      // Approach and open its panel with keyboard only, then focus the control slot.
-      await page.keyboard.press("Enter"); // interact() equivalent, per doc §8.2 step 4 ("E" -> instrument-panel)
-      await expect(page.getByTestId(TESTIDS.instrumentPanel)).toBeVisible();
+  test("scrub (e1_radians, Vesper Dial): the slider steps with ArrowRight", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e1_radians");
 
-      // Every control kind is operable with Tab (focus), ArrowLeft/Right/Up/Down (adjust), digits (some
-      // controls, e.g. matrix/slots) and Enter (commit/Verify) only — never a mouse (§7.5 D4, F9).
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("ArrowRight");
-      await page.keyboard.press("Enter");
+    const scrubber = page.getByTestId("scrubber");
+    await scrubber.focus();
+    const before = await scrubber.getAttribute("aria-valuenow");
+    await page.keyboard.press("ArrowRight");
+    await expect.poll(() => scrubber.getAttribute("aria-valuenow")).not.toBe(before);
 
-      await expect(page.getByTestId(TESTIDS.successBadge)).toBeVisible({ timeout: 15_000 });
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e1_radians");
+    expectNoErrors(errors);
+  });
 
-      const dbg = await hostDebug(page);
-      expect(dbg?.contraption()?.state).toBe("solved");
+  test("aim (e3_amplitude, Resonance Pillars): a claim radio is focusable and Enter chooses it", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e3_amplitude");
 
-      expectNoErrors(errors);
-    });
-  }
+    const first = page.getByTestId("widget-first-option");
+    await first.focus();
+    await expect(first).toHaveAttribute("aria-checked", "false");
+    await page.keyboard.press("Enter"); // a real <button role="radio">: Enter fires its click, per browser default
+    await expect(first).toHaveAttribute("aria-checked", "true");
+
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e3_amplitude");
+    expectNoErrors(errors);
+  });
+
+  test("slots (e4_solve, Floating Steps): Enter lays the focused tray plank onto the rail", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e4_solve");
+
+    const tray = page.getByTestId("plank-tray");
+    const before = await tray.locator("button").count();
+    await page.getByTestId("widget-first-option").focus();
+    await page.keyboard.press("Enter");
+    await expect.poll(() => tray.locator("button").count()).toBe(before - 1);
+
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e4_solve");
+    expectNoErrors(errors);
+  });
+
+  test("bins (e2_selectivity, Membrane Router): a digit key routes the focused item to a lane", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e2_selectivity");
+
+    const first = page.getByTestId("widget-first-option");
+    await first.focus();
+    const laneBefore = await page.getByTestId("lane-diffuses").getAttribute("aria-label");
+    await page.keyboard.press("1"); // the item's own onKeyDown: digit N -> route to the Nth lane
+    await expect.poll(() => page.getByTestId("lane-diffuses").getAttribute("aria-label")).not.toBe(laneBefore);
+
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e2_selectivity");
+    expectNoErrors(errors);
+  });
+
+  test("waves (e5_tonicity, Tonicity Sluices): a digit key answers the focused wave", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e5_tonicity");
+
+    await page.getByTestId("widget-first-option").focus();
+    await expect(page.getByText(/Wave 1 of/)).toBeVisible();
+    await page.keyboard.press("1"); // the valve grid's roving onKeyDown: digit N -> quick-select + answer
+    await expect(page.getByText(/Wave 2 of/)).toBeVisible({ timeout: 5_000 });
+
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e5_tonicity");
+    expectNoErrors(errors);
+  });
+
+  test("cables (e7_march, Switchboard): Tab moves between the socket and cartridge lists; Enter seats a cord", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e7_march");
+
+    const leftFirst = page.getByTestId("widget-first-option"); // the first socket (left listbox)
+    await leftFirst.focus();
+    await page.keyboard.press("Enter"); // picks it
+    await expect(leftFirst).toHaveAttribute("aria-selected", "true");
+    await page.keyboard.press("Tab"); // only one item per listbox is tabbable (roving): Tab reaches the right list
+    await page.keyboard.press("Enter"); // seats the cord between the two picks
+    await expect.poll(() => leftFirst.getAttribute("aria-label")).toMatch(/connected to/);
+
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e7_march");
+    expectNoErrors(errors);
+  });
+
+  test("tubes (e5_freedom_rides, Big Board): Tab moves between housings; Enter starts and lays a tube", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e5_freedom_rides");
+
+    const gauge = page.getByTestId("tube-gauge");
+    await page.getByTestId("widget-first-option").focus();
+    await page.keyboard.press("Enter"); // picks the first housing
+    await page.keyboard.press("Tab"); // plain buttons, natural DOM order: the next housing
+    await page.keyboard.press("Enter"); // lays a tube from the first to the second
+    await expect(gauge).toContainText("1 of");
+
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e5_freedom_rides");
+    expectNoErrors(errors);
+  });
+
+  test("matrix (e12_boss, Tumbler Vault): a strike toggle and the accuse socket are Tab/Enter-operable", async ({ page }, testInfo) => {
+    const errors = collectConsoleErrors(page);
+    await boot(page, testInfo);
+    await openStation(page, "e12_boss");
+
+    const accuse = page.getByTestId("widget-first-option"); // the first row's ACCUSE button
+    await accuse.focus();
+    await expect(accuse).toHaveAttribute("aria-pressed", "false");
+    await page.keyboard.press("Enter");
+    await expect(accuse).toHaveAttribute("aria-pressed", "true");
+
+    // applySolutionDraft() resets the marks/accusation to the real solution through the control API
+    await applySolutionDraft(page);
+    await verifyByKeyboard(page);
+    await expectSolved(page, "e12_boss");
+    expectNoErrors(errors);
+  });
 });

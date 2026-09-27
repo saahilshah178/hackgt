@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 140" width="128" height="140" data-pivot="0.5,0.657">
+  <!-- living_gate.costume.diver_helmet (cell §3.1): a clear bubble helmet over the rig head. The pivot (64, 92)
+       sits on the rig's `head` anchor (+ dy −6), so the bubble centres on the head and the gold collar rests on the
+       shoulders. Glass is translucent so the face reads through it. -->
+  <defs>
+    <radialGradient id="glass" cx="0.36" cy="0.32" r="0.72">
+      <stop offset="0" stop-color="{{glass.tint|alpha:0.06}}"/>
+      <stop offset="0.78" stop-color="{{glass.tint|alpha:0.2}}"/>
+      <stop offset="1" stop-color="{{crystal.base|alpha:0.5}}"/>
+    </radialGradient>
+    <linearGradient id="collar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{gold.hi}}"/>
+      <stop offset="0.55" stop-color="{{gold.base}}"/>
+      <stop offset="1" stop-color="{{gold.deep}}"/>
+    </linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+  </defs>
+  <g id="trim">
+    <!-- air-valve nub on the back of the helmet -->
+    <rect x="109" y="50" width="15" height="22" rx="5" fill="{{costume.diver.valve}}"/>
+    <rect x="111" y="53" width="5" height="15" rx="2.5" fill="{{inlay.navy|light:0.3}}"/>
+    <circle cx="120" cy="61" r="2.5" fill="{{gold.base}}"/>
+    <!-- back half of the neck ring (behind the neck) -->
+    <path d="M 26 120 A 38 9 0 0 1 102 120" fill="none" stroke="{{gold.deep}}" stroke-width="4"/>
+  </g>
+  <g id="glass-shell">
+    <circle cx="64" cy="64" r="57" fill="url(#glass)"/>
+    <circle cx="64" cy="64" r="57" fill="none" stroke="{{crystal.hi}}" stroke-width="2.5"/>
+    <path d="M 108 34 A 57 57 0 0 1 90 115" fill="none" stroke="{{crystal.shade|alpha:0.4}}" stroke-width="3.5"/>
+    <path d="M 30 106 A 57 57 0 0 0 64 121" fill="none" stroke="{{crystal.base|alpha:0.5}}" stroke-width="2"/>
+  </g>
+  <g id="glow">
+    <path d="M 18 58 A 47 47 0 0 1 56 17" fill="none" stroke="{{haze|alpha:0.8}}" stroke-width="5.5" stroke-linecap="round" filter="url(#soft)"/>
+    <ellipse cx="36" cy="36" rx="8" ry="4.5" transform="rotate(-42 36 36)" fill="{{haze|alpha:0.9}}"/>
+    <circle cx="96" cy="94" r="3" fill="{{haze|alpha:0.55}}"/>
+  </g>
+  <g id="lit">
+    <!-- front half of the gold neck ring -->
+    <path d="M 26 120 A 38 9 0 0 0 102 120" fill="none" stroke="url(#collar)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M 30 121 A 34 7 0 0 0 58 128" fill="none" stroke="{{gold.hi}}" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="44" cy="126" r="1.8" fill="{{gold.deep}}"/>
+    <circle cx="64" cy="129" r="1.8" fill="{{gold.deep}}"/>
+    <circle cx="84" cy="126" r="1.8" fill="{{gold.deep}}"/>
+  </g>
+</svg>

@@ -4,8 +4,13 @@
  * positioned divs (chips, pins, the interact diamond + verb, NPC names, plaque titles, label_swap texts, emotes)
  * transformed from the LabelStore each requestAnimationFrame. It never re-renders React. `aria-hidden`: screen-reader
  * text lives in the dialogue and panel live regions. Projector floor: ≥ 20 px text, high contrast.
+ *
+ * Collision avoidance (H3, w1a fix 8): each frame that anything changed, the layer writes text and styles first, then
+ * measures only the labels whose text or style changed (one layout read per change, cached), then asks the pure
+ * `layoutLabels` for a vertical nudge or a hide per label (the interact prompt wins, then chips, then pins and names).
  */
 import { useEffect, useRef } from "react";
+import { layoutLabels, type LabelBox, type LabelPlacement } from "./label-layout";
 import type { Label, LabelStore } from "./label-store";
 
 const FN: Readonly<Record<string, string>> = { f: "#F5F8F8", g: "#6FD98E", h: "#4F92E6", accent: "#E2892C", gold: "#F6D27A" };
@@ -52,7 +57,8 @@ function textFor(l: Label): string {
 export function WorldLabelLayer({ store, className }: { store: LabelStore; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const nodes = new Map<string, { el: HTMLDivElement; key: string }>();
+    const nodes = new Map<string, { el: HTMLDivElement; key: string; w: number; h: number; measured: boolean }>();
+    let previous = new Map<string, LabelPlacement>();
     let raf = 0;
     let lastVersion = -1;
     let lastView = "";
@@ -66,7 +72,9 @@ export function WorldLabelLayer({ store, className }: { store: LabelStore; class
       lastVersion = store.version;
       lastView = viewKey;
       const seen = new Set<string>();
-      for (const l of store.hidden ? [] : store.all()) {
+      const live: Label[] = store.hidden ? [] : store.all();
+      // 1 · writes: text and styles
+      for (const l of live) {
         seen.add(l.id);
         let node = nodes.get(l.id);
         const styleKey = `${l.kind}|${l.color ?? ""}|${l.glyph ?? ""}|${l.text}`;
@@ -75,17 +83,47 @@ export function WorldLabelLayer({ store, className }: { store: LabelStore; class
           Object.assign(el.style, BASE);
           if (l.kind === "interact") el.setAttribute("data-testid", "interact-prompt");
           el.dataset.kind = l.kind;
+          el.dataset.labelId = l.id;
           root.appendChild(el);
-          node = { el, key: "" };
+          node = { el, key: "", w: 0, h: 0, measured: false };
           nodes.set(l.id, node);
         }
         if (node.key !== styleKey) {
           Object.assign(node.el.style, styleFor(l));
           node.el.textContent = textFor(l);
           node.key = styleKey;
+          node.measured = false;
         }
+      }
+      // 2 · reads: sizes of the labels whose text or style changed
+      for (const l of live) {
+        const node = nodes.get(l.id);
+        if (!node || node.measured) continue;
+        node.w = node.el.offsetWidth;
+        node.h = node.el.offsetHeight;
+        node.measured = true;
+      }
+      // 3 · layout, then transforms
+      const boxes: LabelBox[] = [];
+      const at = new Map<string, { sx: number; sy: number }>();
+      for (const l of live) {
+        const node = nodes.get(l.id);
+        if (!node) continue;
         const p = store.project(l);
-        node.el.style.transform = `translate(${p.sx.toFixed(1)}px, ${p.sy.toFixed(1)}px) translate(-50%, -100%)`;
+        at.set(l.id, p);
+        boxes.push({ id: l.id, kind: l.kind, sx: p.sx, sy: p.sy, w: node.w, h: node.h });
+      }
+      const placed = layoutLabels(boxes, { previous });
+      previous = placed;
+      for (const l of live) {
+        const node = nodes.get(l.id);
+        const p = at.get(l.id);
+        if (!node || !p) continue;
+        const pl = placed.get(l.id);
+        const hidden = pl?.hidden ?? false;
+        node.el.style.visibility = hidden ? "hidden" : "visible";
+        node.el.dataset.nudged = pl && pl.dy !== 0 ? "true" : "false";
+        node.el.style.transform = `translate(${p.sx.toFixed(1)}px, ${(p.sy + (pl?.dy ?? 0)).toFixed(1)}px) translate(-50%, -100%)`;
       }
       for (const [id, n] of nodes) {
         if (!seen.has(id)) {

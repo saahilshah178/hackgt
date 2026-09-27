@@ -1,3 +1,8 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"living_gate.part.plant_pool_pool","zone":"kit","gen":"waterBand","params":{"w":400,"h":160,"style":"pool","deep":"tide.deep","shallow":"tide.shallow","highlight":"haze","flecks":null,"debris":"none","waveAmp":3,"waveCycles":4},"rasterScale":1},
+    {"key":"living_gate.part.plant_pool_plant_cell","zone":"kit","gen":"molecule","params":{"shape":"cell","atoms":[{"dx":0,"dy":0,"r":70,"tok":"grass.light"}],"charge":null,"outline":null,"lit":true,"cell":{"wall":"grass.base","fill":"cell.cyto","nucleus":"cell.nucleus"}},"rasterScale":1},
+    {"key":"living_gate.part.plant_pool_salt_hopper","zone":"kit","gen":"compose","params":{"w":160,"h":220,"tileWidth":null,"finish":{"ao":false,"rim":false,"haze":0},"items":[{"gen":"plate","params":{"w":140,"h":120,"style":"slab","bevel":7,"rivets":0,"screen":false,"ramp":{"lit":"lipid.head.lit","base":"protein.stone","shade":"protein.stone.shade"},"face":"protein.stone","engraved":null},"seed":null,"x":80,"y":90,"scale":1,"flip":false,"alpha":1},{"gen":"linkStrip","params":{"len":80,"axis":"y","style":"pipe","thick":24,"bandEvery":null,"band":null,"ramp":{"lit":"gold.hi","base":"gold.base","shade":"gold.deep"}},"seed":null,"x":80,"y":150,"scale":1,"flip":false,"alpha":1}]},"rasterScale":1},
+    {"key":"living_gate.part.plant_pool_console","zone":"kit","gen":"lectern","params":{"h":125,"style":"lectern","ramp":{"lit":"lipid.head.lit","base":"protein.stone","shade":"protein.stone.shade"},"trim":"gold.base","screen":"ui.card","emblem":true},"rasterScale":1}
+  ]
 }

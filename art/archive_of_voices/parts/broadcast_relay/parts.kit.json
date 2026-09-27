@@ -1,3 +1,8 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"archive_of_voices.part.broadcast_relay_mast","zone":"s5_church_mast","gen":"truss","params":{"w":460,"h":1700,"shape":"lattice_mast","bays":12,"member":8,"tok":"steel","edge":"steel|dim:0.3","rivets":true,"platforms":[0.18,0.36,0.54,0.72,0.9],"deckGaps":[]},"rasterScale":0.6},
+    {"key":"archive_of_voices.part.broadcast_relay_relay_dish","zone":"s5_church_mast","gen":"ringStack","params":{"size":90,"ellipse":0.6,"rings":[{"r":40,"width":10,"tok":"steel","edge":null,"gaps":[],"notches":[],"studs":null,"teeth":null,"grooves":null,"spokes":null,"wave":null,"sockets":null,"ticks":null,"labels":[]}],"hub":{"r":12,"ramp":{"lit":"brass.hi","base":"brass.base","shade":"brass.deep"}},"cutout":null,"knurl":false},"rasterScale":1},
+    {"key":"archive_of_voices.part.broadcast_relay_lift_cage","zone":"s5_church_mast","gen":"truss","params":{"w":180,"h":240,"shape":"cage","bays":6,"member":8,"tok":"steel","edge":"steel|dim:0.3","rivets":true,"platforms":[],"deckGaps":[]},"rasterScale":1},
+    {"key":"archive_of_voices.part.broadcast_relay_console","zone":"s5_church_mast","gen":"lectern","params":{"h":210,"style":"microfilm","ramp":{"lit":"wood.lit","base":"wood.base","shade":"wood.shade"},"trim":"brass.base","screen":"ui.card","emblem":true},"rasterScale":1}
+  ]
 }

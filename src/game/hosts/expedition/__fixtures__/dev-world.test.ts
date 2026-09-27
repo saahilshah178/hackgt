@@ -38,13 +38,17 @@ describe("dev world", () => {
 });
 
 describe("dev world resolution", () => {
-  it("resolves every station natively (no console_slate fallback) with a view-backed probe where configured", async () => {
+  it("resolves every station natively (no console_slate fallback) with a view-backed probe where configured", { timeout: 20_000 }, async () => {
     const { devWorld } = await import("./dev-world");
     const { spec, world } = devWorld();
     expect(spec.encounters.map((e) => e.id)).toEqual(DEV_ENCOUNTERS.map((e) => e.id));
     expect(world.stations).toHaveLength(DEV_ENCOUNTERS.length);
     const byId = Object.fromEntries(world.stations.map((s) => [s.encounterId, s.contraption]));
-    expect(byId).toMatchObject({ e1_radians: "emitter_rail", e2_period: "ring_gate", e3_amplitude: "claim_holders", e4_solve: "step_bridge", e2_selectivity: "router_lanes", e5_tonicity: "sluice_waves", e7_march: "switchboard", e5_freedom_rides: "cause_tubes", w1_slope: "console_slate", e12_boss: "tumbler_vault" });
+    expect(byId).toMatchObject({ e1_radians: "emitter_rail", e2_period: "ring_gate", e3_amplitude: "claim_holders", e4_solve: "step_bridge", e2_selectivity: "router_lanes", e5_tonicity: "sluice_waves", e7_march: "switchboard", e5_freedom_rides: "cause_tubes", w1_slope: "console_slate", e6_boss: "pendulum_sync", e8_pump: "stage_machine", e3_little_rock: "oracle_ticker", e12_boss: "tumbler_vault" });
+    // every demo archetype has a dev station (H3 wires each prefab as it lands); the boss stays last (D2: finale)
+    const { ARCHETYPE_IDS } = await import("../../../../world/library");
+    expect(new Set(world.stations.map((s) => s.contraption))).toEqual(new Set(ARCHETYPE_IDS));
+    expect(world.stations[world.stations.length - 1]?.encounterId).toBe("e12_boss");
     expect(world.sandboxes).toHaveLength(1);
     expect(world.speakers.has("otis")).toBe(true);
   });

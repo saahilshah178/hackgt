@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 70" width="180" height="70" data-pivot="0.5,0.5">
+  <!-- living_gate.part.endocytosis_lift_dynamin_collar: the e10 dynamin collar (cell §5.10): a coiled gold helix that wraps the vesicle's neck and tightens (scaleX) to pinch it off. -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{gold.hi}}"/>
+      <stop offset="0.55" stop-color="{{gold.base}}"/>
+      <stop offset="1" stop-color="{{gold.deep}}"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0.36" cy="0.34" r="0.7">
+      <stop offset="0" stop-color="{{haze}}"/>
+      <stop offset="0.45" stop-color="{{crystal.hi}}"/>
+      <stop offset="1" stop-color="{{crystal.base}}"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+    
+  </defs>
+  <g id="lit">
+    <path d="M 14 60 C 8 38 24 8 40 8" fill="none" stroke="{{gold.deep}}" stroke-width="12" stroke-linecap="round"/><path d="M 44 60 C 38 38 54 8 70 8" fill="none" stroke="{{gold.deep}}" stroke-width="12" stroke-linecap="round"/><path d="M 74 60 C 68 38 84 8 100 8" fill="none" stroke="{{gold.deep}}" stroke-width="12" stroke-linecap="round"/><path d="M 104 60 C 98 38 114 8 130 8" fill="none" stroke="{{gold.deep}}" stroke-width="12" stroke-linecap="round"/><path d="M 134 60 C 128 38 144 8 160 8" fill="none" stroke="{{gold.deep}}" stroke-width="12" stroke-linecap="round"/><path d="M 40 8 C 54 8 56 40 44 62" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/><path d="M 42 12 C 50 14 52 30 48 42" fill="none" stroke="{{gold.hi}}" stroke-width="3" stroke-linecap="round"/><path d="M 70 8 C 84 8 86 40 74 62" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/><path d="M 72 12 C 80 14 82 30 78 42" fill="none" stroke="{{gold.hi}}" stroke-width="3" stroke-linecap="round"/><path d="M 100 8 C 114 8 116 40 104 62" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/><path d="M 102 12 C 110 14 112 30 108 42" fill="none" stroke="{{gold.hi}}" stroke-width="3" stroke-linecap="round"/><path d="M 130 8 C 144 8 146 40 134 62" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/><path d="M 132 12 C 140 14 142 30 138 42" fill="none" stroke="{{gold.hi}}" stroke-width="3" stroke-linecap="round"/><path d="M 160 8 C 174 8 176 40 164 62" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linecap="round"/><path d="M 162 12 C 170 14 172 30 168 42" fill="none" stroke="{{gold.hi}}" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <circle id="anchor-collar" cx="90" cy="35" r="0"/>
+</svg>

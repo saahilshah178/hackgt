@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 150" width="60" height="150" data-pivot="0.5,1">
+  <!-- living_gate.part.specimen_pods_probe_emitter: the pedestal probe emitter (cell §5.P, bible frame 9): a coiled cream stem on a gold base ring, a cyan orb on top (anchor orb, where the probe beam starts). -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{gold.hi}}"/>
+      <stop offset="0.55" stop-color="{{gold.base}}"/>
+      <stop offset="1" stop-color="{{gold.deep}}"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0.36" cy="0.34" r="0.7">
+      <stop offset="0" stop-color="{{haze}}"/>
+      <stop offset="0.45" stop-color="{{crystal.hi}}"/>
+      <stop offset="1" stop-color="{{crystal.base}}"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+    
+  </defs>
+  <g id="shade">
+    <ellipse cx="32" cy="146" rx="26" ry="4" fill="{{shadow|alpha:0.3}}" filter="url(#soft)"/>
+  </g>
+  <g id="lit">
+    <ellipse cx="30" cy="140" rx="26" ry="9" fill="{{gold.deep}}"/>
+    <ellipse cx="30" cy="136" rx="26" ry="9" fill="url(#gold)"/>
+    <ellipse cx="30" cy="134" rx="16" ry="5" fill="{{inlay.navy}}"/>
+    <rect x="26" y="40" width="8" height="94" fill="{{stone.shade}}"/>
+    <path d="M 18 128 C 18 118 42 122 42 112" fill="none" stroke="{{stone.shade}}" stroke-width="7" stroke-linecap="round"/><path d="M 18 128 C 18 118 42 122 42 112" fill="none" stroke="{{stone.lit}}" stroke-width="4" stroke-linecap="round"/><path d="M 18 112 C 18 102 42 106 42 96" fill="none" stroke="{{stone.shade}}" stroke-width="7" stroke-linecap="round"/><path d="M 18 112 C 18 102 42 106 42 96" fill="none" stroke="{{stone.lit}}" stroke-width="4" stroke-linecap="round"/><path d="M 18 96 C 18 86 42 90 42 80" fill="none" stroke="{{stone.shade}}" stroke-width="7" stroke-linecap="round"/><path d="M 18 96 C 18 86 42 90 42 80" fill="none" stroke="{{stone.lit}}" stroke-width="4" stroke-linecap="round"/><path d="M 18 80 C 18 70 42 74 42 64" fill="none" stroke="{{stone.shade}}" stroke-width="7" stroke-linecap="round"/><path d="M 18 80 C 18 70 42 74 42 64" fill="none" stroke="{{stone.lit}}" stroke-width="4" stroke-linecap="round"/><path d="M 18 64 C 18 54 42 58 42 48" fill="none" stroke="{{stone.shade}}" stroke-width="7" stroke-linecap="round"/><path d="M 18 64 C 18 54 42 58 42 48" fill="none" stroke="{{stone.lit}}" stroke-width="4" stroke-linecap="round"/><path d="M 18 48 C 18 38 42 42 42 32" fill="none" stroke="{{stone.shade}}" stroke-width="7" stroke-linecap="round"/><path d="M 18 48 C 18 38 42 42 42 32" fill="none" stroke="{{stone.lit}}" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 16 40 L 44 40 L 38 50 L 22 50 Z" fill="url(#gold)"/>
+  </g>
+  <g id="glow">
+    <circle cx="30" cy="22" r="20" fill="{{crystal.hi|alpha:0.45}}" filter="url(#soft)"/>
+    <circle cx="30" cy="22" r="15" fill="url(#orb)" stroke="{{crystal.hi}}" stroke-width="1.5"/>
+    <ellipse cx="25" cy="16" rx="5" ry="3.5" fill="{{haze|alpha:0.9}}"/>
+  </g>
+  <circle id="anchor-orb" cx="30" cy="22" r="0"/>
+  <circle id="anchor-beam_origin" cx="30" cy="22" r="0"/>
+</svg>

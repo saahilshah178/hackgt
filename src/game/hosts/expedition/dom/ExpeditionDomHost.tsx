@@ -20,7 +20,7 @@ import { actionFor, isTypingTarget } from "../input/keymap";
 import { LabelStore } from "../labels/label-store";
 import { WorldLabelLayer } from "../labels/WorldLabelLayer";
 import { inputToward, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharInput, type CharState } from "../scene/character";
-import { baseZoom, centredView, defaultSafeRect, followView, frameFor, lerpFactor, unionRect, type CameraView } from "../scene/framing";
+import { baseZoom, centredView, defaultSafeRect, followView, frameFor, lerpFactor, playerFrameRect, unionRect, type CameraView } from "../scene/framing";
 import { interactLabel, nearest, targetKey, type Interactable } from "../scene/proximity";
 import { EMPTY_WORLD_STATE, reqCtxOf, requirementMet } from "../scene/requirements";
 import { planRoute, type RouteStep } from "../scene/route";
@@ -29,9 +29,11 @@ import { buildSurfaces, heightAt } from "../scene/surfaces";
 import { blockers as blockersOf, exitReachX, sheerEdges } from "../scene/terrain";
 import { linkPrompt, linksInRange, planLink, timedHopOpen } from "../scene/traversal";
 import { emptyTriggerTracker, stepTriggers } from "../scene/triggers";
+import { viewsFor } from "../scene/views";
 import { DomActor, setActor } from "./DomActor";
 import { DomStage } from "./DomStage";
 import { StubUrlCache } from "./stub-urls";
+import { silhouetteTones, type SilBounds } from "../contraptions/silhouettes";
 
 const DEFAULT_LAYOUT: LayoutState = { mode: "explore", safeRect: { x: 0, y: 0, w: 0, h: 0 }, focus: null };
 
@@ -68,6 +70,21 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
   }, [art, world]);
   const labels = useMemo(() => new LabelStore(), []);
   const colors = useMemo(() => ({ top: palette["sand.path"] ?? "#EBCFAE", body: palette["rock.shade"] ?? "#3F5857", plat: palette["stone.shade"] ?? "#D9C3A0" }), [palette]);
+  const tones = useMemo(() => silhouetteTones(palette), [palette]);
+  const spec = props.spec;
+  const frames = useMemo(() => {
+    const out = new Map<string, SilBounds | null>();
+    if (!world) return out;
+    const views = viewsFor(spec);
+    for (const s of world.stations) {
+      try {
+        out.set(s.encounterId, s.meta.frameBounds(s.parsedConfig, views(s.encounterId)));
+      } catch {
+        out.set(s.encounterId, null); // the silhouette falls back to a default box
+      }
+    }
+    return out;
+  }, [world, spec]);
 
   const firstZone = world?.zones[0];
   const [zoneId, setZoneId] = useState(firstZone?.id ?? "");
@@ -362,7 +379,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
       else if (layout.mode !== "explore" && layout.focus?.kind === "station") {
         const st = w.stationByEncounter.get(layout.focus.encounterId);
         const fb = st ? st.meta.frameBounds(st.parsedConfig, null) : { x: -420, y: -560, w: 840, h: 640 };
-        const rect = st ? unionRect({ x: st.anchor.x + fb.x, y: st.anchor.y + fb.y, w: fb.w, h: fb.h }, { x: c.x - 70, y: c.y - 240, w: 140, h: 240 }) : { x: c.x - 400, y: c.y - 500, w: 800, h: 600 };
+        const rect = st ? unionRect({ x: st.anchor.x + fb.x, y: st.anchor.y + fb.y, w: fb.w, h: fb.h }, playerFrameRect(c.x, c.y)) : { x: c.x - 400, y: c.y - 500, w: 800, h: 600 };
         const safe = layout.safeRect.w > 0 ? layout.safeRect : defaultSafeRect(layout.mode, vp);
         target = frameFor(rect, safe, vp, zf, st?.frameZoom ?? null);
       } else target = followView({ ...viewRef.current, zoom: baseZoom(vp) }, c, vp, zf, arena.current);
@@ -663,7 +680,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
     <div ref={stageRef} data-testid="dom-host" data-renderer="dom" style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", background: "#20303a" }}>
       <div ref={skyRef} aria-hidden="true" style={{ position: "absolute", inset: 0 }} />
       <div ref={worldRef} key={zone.id} style={{ position: "absolute", left: 0, top: 0, transformOrigin: "0 0", willChange: "transform" }}>
-        <DomStage world={world} zone={zone} model={model} solved={solved} collected={collected} art={art} colors={colors} registerLayer={registerLayer} registerFacade={registerFacade} />
+        <DomStage world={world} zone={zone} model={model} solved={solved} collected={collected} art={art} colors={colors} tones={tones} frames={frames} registerLayer={registerLayer} registerFacade={registerFacade} />
         {npcs.map(({ npc, st, y }) =>
           npc.look ? (
             <div key={npc.id} role="img" aria-label={npc.name} style={{ position: "absolute", left: st.x - 84, top: y - 224, width: 168, height: 224, backgroundImage: `url(${art.rig(npc.look.atlas).url})`, backgroundRepeat: "no-repeat", zIndex: 70 }} />
@@ -674,7 +691,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
         )}
         <DomActor ref={actorRef} sheet={sheet} label={world.overlay.cast.protagonist.name} testId="dom-player" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img ref={companionRef} src={art.url(world.overlay.cast.guide.companion.asset)} alt="" style={{ position: "absolute", left: 0, top: 0, width: 84, height: 84, maxWidth: "none", zIndex: 72, pointerEvents: "none" }} />
+        <img ref={companionRef} src={art.url(world.overlay.cast.guide.companion.asset)} alt="" style={{ position: "absolute", left: 0, top: 0, width: 84, height: 84, maxWidth: "none", zIndex: 72, pointerEvents: "none", willChange: "transform" }} />
       </div>
       <WorldLabelLayer store={labels} />
       <div ref={fadeRef} aria-hidden="true" style={{ position: "absolute", inset: 0, background: "#000", opacity: 0, pointerEvents: "none", zIndex: 5 }} />
