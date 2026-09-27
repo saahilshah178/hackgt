@@ -15,7 +15,7 @@ interface AgentCard {
   repairs: number;
 }
 
-const ORDER = ["gatekeeper", "curriculum", "matcher", "personalize", "director", "challenge", "narrative", "assessment", "audio", "verifier"];
+const ORDER = ["gatekeeper", "curriculum", "matcher", "focus", "personalize", "director", "challenge", "narrative", "assessment", "audio", "verifier"];
 const label = (agent: string) => {
   const [kind, id] = agent.split(":");
   if (kind === "challenge") return `Challenge writer · ${id}`;

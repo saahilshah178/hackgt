@@ -74,7 +74,8 @@ describe("the mock golden path: upload -> intake -> job -> game", () => {
     // (built from the matcher's shortlist) accepts the same card choices cellBlueprint makes.
     await getStorage().putMatch(sourceId, cellMatches);
 
-    const { jobId } = await startGameJob({ sourceId, intake: cellIntake });
+    // 15 minutes holds all 9 concepts; at 10 the job would focus down to 7 (focusConcepts, tested in personalize.test.ts)
+    const { jobId } = await startGameJob({ sourceId, intake: { ...cellIntake, minutes: 15 } });
     const done = await waitForJob(jobId);
     expect(done).toEqual({ done: true, gameId: expect.any(String), error: null });
     const gameId = done.gameId!;

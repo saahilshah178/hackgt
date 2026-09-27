@@ -3,17 +3,18 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { trigIntake, trigKnowledgeMap, trigMatches } from "../fixtures/trig.knowledge-map";
+import { historyIntake, historyKnowledgeMap } from "../fixtures/civil-rights.knowledge-map";
 import { trigBlueprint } from "../fixtures/trig.slices";
 import { conceptWeight, Intake, LearnerProfile, struggledConceptIds } from "../src/contracts/knowledge";
 import type { BlueprintSlice } from "../src/contracts/slices";
 import { POST as postRecommend } from "../src/app/api/sources/[id]/recommend/route";
 import { POST as postSources } from "../src/app/api/sources/route";
 import { loadMatches, matcherJob, prepareIntake, resetMatcherJobs, storedMatches } from "../src/pipeline/agents/intake";
-import { clarifyProbes, isEmptyProfile, profileFromAnswers } from "../src/pipeline/clarify";
-import { buildDirectorMenu, generateGame, resolveGenre } from "../src/pipeline/generate";
+import { clarifyProbes, CONCEPTS_PER_GAME, MAX_CONCEPTS_PER_GAME, isEmptyProfile, profileFromAnswers } from "../src/pipeline/clarify";
+import { buildDirectorMenu, encounterRange, generateGame, resolveGenre } from "../src/pipeline/generate";
 import { getModels } from "../src/pipeline/models";
 import { validateGameSpec } from "../src/pipeline/validate/validate-gamespec";
-import { applyProfileTargets, cardGenreFit, personalCards, profileContext, profileSummary, recommendGenres } from "../src/pipeline/personalize";
+import { applyProfileTargets, cardGenreFit, focusConcepts, personalCards, profileContext, profileSummary, recommendGenres } from "../src/pipeline/personalize";
 import { sharedContext } from "../src/pipeline/prompts";
 import { getCard } from "../src/library";
 import { resetEnvCache } from "../src/server/env";
@@ -176,6 +177,48 @@ describe("recommendGenres", () => {
     const card = getCard("phase_gate")!;
     expect(cardGenreFit(card, "puzzle")).toBeGreaterThanOrEqual(0.5);
     expect(cardGenreFit(getCard("mimic_chest")!, "dungeon")).toBeGreaterThan(0);
+  });
+});
+
+describe("focusConcepts: more concepts than the game length holds", () => {
+  it("leaves one fewer concept than the minimum encounters, for every length", () => {
+    for (const m of [5, 10, 15] as const) {
+      expect(CONCEPTS_PER_GAME[m]).toBe(encounterRange(m)[0] - 1);
+      expect(MAX_CONCEPTS_PER_GAME[m]).toBe(encounterRange(m)[1] - 2);
+    }
+  });
+
+  it("keeps a map that fits unchanged", () => {
+    const r = focusConcepts(trigKnowledgeMap, { ...trigIntake, minutes: 5 });
+    expect(r.km).toBe(trigKnowledgeMap);
+    expect(r.dropped).toEqual([]);
+  });
+
+  it("keeps the pre-check concepts, then the flagged ones, then by weight, and drops the rest", () => {
+    const km = historyKnowledgeMap;
+    expect(km.concepts.length).toBeGreaterThan(CONCEPTS_PER_GAME[5]);
+    const pre = [...new Set(historyIntake.preCheck.items.map((i) => i.conceptId))];
+    const flaggedId = km.concepts.find((c) => !pre.includes(c.id))!.id;
+    const intake = { ...historyIntake, minutes: 5 as const, profile: profile({ struggles: [{ conceptId: flaggedId, beliefs: [], unsure: true }] }) };
+    const { km: focused, dropped } = focusConcepts(km, intake);
+    const kept = focused.concepts.map((c) => c.id);
+    expect(kept).toHaveLength(CONCEPTS_PER_GAME[5]);
+    for (const id of pre) expect(kept).toContain(id);
+    expect(kept).toContain(flaggedId);
+    expect(dropped.length + kept.length).toBe(km.concepts.length);
+    for (const u of focused.units) for (const id of u.conceptIds) expect(kept).toContain(id);
+  });
+
+  it("stretches up to the ceiling so every flagged concept stays, but never past it", () => {
+    const km = historyKnowledgeMap;
+    const pre = new Set(historyIntake.preCheck.items.map((i) => i.conceptId));
+    const others = km.concepts.filter((c) => !pre.has(c.id)).map((c) => c.id);
+    const flag = (ids: string[]) => profile({ struggles: ids.map((conceptId) => ({ conceptId, beliefs: [], unsure: true })) });
+    const two = focusConcepts(km, { ...historyIntake, minutes: 5, profile: flag(others.slice(0, 2)) }).km.concepts.map((c) => c.id);
+    expect(two).toHaveLength(pre.size + 2);
+    for (const id of others.slice(0, 2)) expect(two).toContain(id);
+    const many = focusConcepts(km, { ...historyIntake, minutes: 5, profile: flag(others.slice(0, 5)) }).km.concepts;
+    expect(many).toHaveLength(MAX_CONCEPTS_PER_GAME[5]);
   });
 });
 

@@ -28,6 +28,18 @@ export interface ProbeAnswer {
   unsure: boolean;
 }
 
+/**
+ * How many concepts one game of each length can hold: one fewer than the encounter minimum (encounterRange in
+ * generate.ts: 5 -> 5-7, 10 -> 8-12, 15 -> 11-14), leaving room for the boss and a repeat of a weak concept.
+ * A bigger selection is focused down to the concepts the student needs most (focusConcepts, personalize.ts).
+ */
+export const CONCEPTS_PER_GAME: Record<5 | 10 | 15, number> = { 5: 4, 10: 7, 15: 10 };
+/**
+ * The hard ceiling (encounter maximum minus 2: one encounter per concept, plus the boss and a spare). Concepts the
+ * student flagged and the pre-check's concepts may stretch a game up to it; nothing else does.
+ */
+export const MAX_CONCEPTS_PER_GAME: Record<5 | 10 | 15, number> = { 5: 5, 10: 10, 15: 12 };
+
 /** Enough to keep the step near a minute. */
 export const MAX_PROBES = 5;
 const MAX_BELIEFS_PER_PROBE = 2;

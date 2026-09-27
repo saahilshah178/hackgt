@@ -8,7 +8,8 @@ import { loadMatches } from "./agents/intake";
 import { blindSolveAndFix } from "./agents/blind-solver";
 import { attachAudio } from "./audio";
 import { emit, close } from "./events";
-import { generateGame, type Models } from "./generate";
+import { generateGame, resolveGenre, type Models } from "./generate";
+import { focusConcepts } from "./personalize";
 import { getModels } from "./models";
 
 /*
@@ -89,8 +90,20 @@ async function runJob(args: {
     // emit directly too (see the `note()` helpers in generate.ts and blind-solver.ts) — passing a
     // second emit(jobId, e) here would just duplicate every event on the SSE stream.
 
-    const { spec: generated } = await generateGame({ gameId, jobId, km, intake, matches, models });
-    const verified = await blindSolveAndFix({ spec: generated, km, intake, models, jobId });
+    // Genre first, on everything the student ticked: the same ranking the intake page showed them.
+    const resolved = resolveGenre(km, intake, matches);
+    // More concepts than this game length holds: play the ones the student needs most (and say which were left out).
+    const { km: focused, dropped } = focusConcepts(km, intake);
+    if (dropped.length > 0) {
+      emit(jobId, {
+        agent: "focus",
+        status: "done",
+        note: `${km.concepts.length} concepts is more than a ${intake.minutes}-minute game holds: focusing on the ${focused.concepts.length} you need most (left out: ${dropped.map((c) => c.name).join(", ")})`,
+      });
+    }
+
+    const { spec: generated } = await generateGame({ gameId, jobId, km: focused, intake, matches, models, resolved });
+    const verified = await blindSolveAndFix({ spec: generated, km: focused, intake, models, jobId });
 
     // S7 audio (optional): a no-op with AUDIO_MODE=off; with a key it voices the narrative lines within a
     // 25 s deadline and ships whatever finished (the rest stays text-only). Never fails the job.

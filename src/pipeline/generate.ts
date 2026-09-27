@@ -66,6 +66,11 @@ export interface GenerateArgs {
   now?: () => Date;
   onProgress?: (p: Progress) => void;
   concurrency?: number;
+  /**
+   * The genre already resolved by the caller (the orchestrator resolves it on the student's whole selection,
+   * before focusing a big one down, so "Pick for me" plays what the intake page recommended).
+   */
+  resolved?: { genre: Genre; reason: string };
 }
 
 export { AgentError };
@@ -253,7 +258,7 @@ export function promoteTeachForDropped(encounters: BlueprintEncounter[], dropped
 }
 
 export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; warnings: Issue[]; repairs: number; genre: Genre }> {
-  const { genre, reason } = resolveGenre(a.km, a.intake, a.matches);
+  const { genre, reason } = a.resolved ?? resolveGenre(a.km, a.intake, a.matches);
   const conceptIds = a.km.concepts.map((c) => c.id);
   const beliefs = [...new Set(a.km.concepts.flatMap((c) => c.misconceptions.map((m) => m.belief)))];
   const shared = sharedContext(a.km, a.intake, genre);

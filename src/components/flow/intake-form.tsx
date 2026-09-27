@@ -8,7 +8,7 @@ import type { GatekeeperSlice } from "@/contracts/slices";
 import { api } from "@/components/flow/client-fetch";
 import { EMPTY_CLARIFY, IntakeClarify, type ClarifyState } from "@/components/flow/intake-clarify";
 import { GenrePicker } from "@/components/flow/intake-genre";
-import { clarifyProbes, isEmptyProfile, profileFromAnswers } from "@/pipeline/clarify";
+import { clarifyProbes, CONCEPTS_PER_GAME, isEmptyProfile, profileFromAnswers } from "@/pipeline/clarify";
 import type { GenreRecommendation } from "@/pipeline/personalize";
 
 /** Response of GET /api/sources/:id/intake (instructions.md §9). */
@@ -278,8 +278,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         <section aria-labelledby="step-heading">
           {bigUpload && (
             <p className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4 text-lg" data-testid="big-upload-note">
-              This is more than one game&apos;s worth: {km.units.length} units and {total} concepts. Tick the concepts you want in this game; a 10-minute game
-              works best with about 8 to 12.
+              This is more than one game&apos;s worth: {km.units.length} units and {total} concepts. Tick the concepts you want in this game: a 5-minute game holds
+              about {CONCEPTS_PER_GAME[5]}, a 15-minute one about {CONCEPTS_PER_GAME[15]}.
             </p>
           )}
           <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-lg" data-testid="selection-summary">
@@ -403,6 +403,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                   </label>
                 ))}
               </div>
+              {selected.size > CONCEPTS_PER_GAME[minutes] && (
+                <p className="mt-3 text-base text-muted-foreground" data-testid="focus-note">
+                  A {minutes}-minute game holds about {CONCEPTS_PER_GAME[minutes]} of your {selected.size} concepts. It will focus on the ones you
+                  need most (the ones you flagged and rated lowest); pick a longer game to cover more.
+                </p>
+              )}
             </fieldset>
             <GenrePicker genre={genre} onChange={setGenre} recommendations={recs?.key === recKey ? recs.items : null} />
           </section>
