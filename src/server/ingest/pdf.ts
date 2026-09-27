@@ -22,7 +22,7 @@ export async function extractPages(data: Uint8Array, sourceId: string): Promise<
   }));
 }
 
-/** Total page count without extracting text; used to reject uploads over the 40-page cap early. */
+/** Total page count without extracting text. Uploads have no page cap any more; kept for scripts and tests. */
 export async function countPages(data: Uint8Array): Promise<number> {
   const doc = await getDocumentProxy(data);
   return doc.numPages;

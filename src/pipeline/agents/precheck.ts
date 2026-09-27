@@ -43,3 +43,60 @@ export function runPrecheck(a: RunPrecheckArgs): Promise<PreCheckSlice> {
     maxRepairs: 1,
   });
 }
+
+const PROMPT_VARIANTS = [
+  (name: string) => `Which statement about ${name} is correct?`,
+  (name: string) => `Which of these is true of ${name}?`,
+  (name: string) => `Pick the accurate statement about ${name}.`,
+];
+
+/**
+ * Code-only fallback for the Pre-check Writer: three items on the weakest concepts, built from their
+ * misconceptions and facts, never calling a model. Used when the agent fails its checks; in mock
+ * mode the canned reply is about the sample's own concepts, so any other selection lands here.
+ * Mirrors deriveAssessmentFromPreCheck (generate.ts) for the post-check.
+ */
+export function derivePreCheck(km: KnowledgeMap, weakestConceptIds: readonly string[]): PreCheckSlice {
+  const pool = weakestConceptIds.length > 0 ? [...weakestConceptIds] : km.concepts.slice(0, 3).map((c) => c.id);
+  const byId = new Map(km.concepts.map((c) => [c.id, c]));
+  const items: AssessmentItemSlice[] = [];
+  for (let i = 0; i < 3; i++) {
+    const conceptId = pool[i % pool.length];
+    const concept = byId.get(conceptId);
+    const variant = Math.floor(i / pool.length);
+    const name = concept?.name ?? conceptId;
+    const candidates = [
+      concept?.misconceptions[variant]?.correction,
+      concept?.facts[variant]?.statement,
+      concept?.misconceptions[0]?.correction,
+      concept?.facts[0]?.statement,
+      concept?.summary,
+      concept?.learningObjective,
+      `${name} is part of ${km.subject.topic}.`,
+    ].filter((s): s is string => typeof s === "string" && s.trim().length > 0);
+    const usedCorrect = new Set(items.filter((it) => it.conceptId === conceptId).map((it) => it.correct));
+    const correct = candidates.find((s) => !usedCorrect.has(s)) ?? candidates[0];
+
+    const others = km.concepts.filter((c) => c.id !== conceptId);
+    const pool2 = [
+      ...(concept?.misconceptions ?? []).map((m) => m.belief),
+      ...others.flatMap((c) => c.misconceptions.map((m) => m.belief)),
+      ...others.flatMap((c) => c.facts.map((f) => f.statement)),
+      ...others.map((c) => c.summary),
+      `${name} is not covered in these notes.`,
+      `${name} has no effect on anything else in ${km.subject.topic}.`,
+      `There is no way to check a claim about ${name}.`,
+    ];
+    const seen = new Set<string>([correct]);
+    const distractors: string[] = [];
+    for (const s of pool2) {
+      if (distractors.length === 3) break;
+      if (!s || seen.has(s)) continue;
+      seen.add(s);
+      distractors.push(s);
+    }
+    while (distractors.length < 3) distractors.push(`Option ${distractors.length + 1} does not apply to ${name}.`);
+    items.push({ conceptId, prompt: PROMPT_VARIANTS[variant % PROMPT_VARIANTS.length](name), correct, distractors });
+  }
+  return { items };
+}

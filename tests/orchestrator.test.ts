@@ -58,7 +58,7 @@ async function readSse(res: Response): Promise<string> {
 }
 
 describe("the mock golden path: upload -> intake -> job -> game", () => {
-  it("produces a validated, playable 11-encounter dungeon GameSpec and streams progress to done", async () => {
+  it("produces a validated, playable 11-encounter GameSpec with lessons and streams progress to done", async () => {
     const bytes = await readFile("samples/cell-transport.pdf");
     const form = new FormData();
     form.set("file", new File([bytes], "cell-transport.pdf", { type: "application/pdf" }));
@@ -74,7 +74,9 @@ describe("the mock golden path: upload -> intake -> job -> game", () => {
     // (built from the matcher's shortlist) accepts the same card choices cellBlueprint makes.
     await getStorage().putMatch(sourceId, cellMatches);
 
-    const { jobId } = await startGameJob({ sourceId, intake: cellIntake });
+    // 15 minutes holds all 9 concepts; at 10 the job would focus down to 7 (focusConcepts, tested in personalize.test.ts)
+    // cellIntake asks for the withdrawn dungeon: the job plays an offered genre instead
+    const { jobId } = await startGameJob({ sourceId, intake: { ...cellIntake, minutes: 15 } });
     const done = await waitForJob(jobId);
     expect(done).toEqual({ done: true, gameId: expect.any(String), error: null });
     const gameId = done.gameId!;
@@ -86,7 +88,8 @@ describe("the mock golden path: upload -> intake -> job -> game", () => {
     const gameRes = await getGame(new Request(`http://test/api/games/${gameId}`), { params: Promise.resolve({ id: gameId }) });
     expect(gameRes.status).toBe(200);
     const record = await gameRes.json();
-    expect(record.spec.genre).toBe("dungeon");
+    expect(["mystery", "strategy", "explorer", "story"]).toContain(record.spec.genre);
+    expect(record.spec.lessons.map((l: { conceptId: string }) => l.conceptId)).toEqual(record.spec.concepts.map((c: { id: string }) => c.id));
     expect(record.spec.encounters).toHaveLength(11);
     const validated = validateGameSpec(record.spec);
     expect(validated.ok).toBe(true);

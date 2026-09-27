@@ -9,6 +9,7 @@ import type { MatchResult } from "../contracts/match";
 import {
   assessmentSchema,
   challengeSchema,
+  tutorSchema,
   directorSchema,
   narrativeSchema,
   type AssessmentItemSlice,
@@ -18,20 +19,24 @@ import {
   type ChallengeSlice,
   type DirectorMenuFamily,
   type NarrativeSlice,
+  type TutorSlice,
 } from "../contracts/slices";
 import { cardPlaysIn, getCard, isCardImplemented } from "../library";
-import { autoSelectGenre, BOSS_SOCKET, IMPLEMENTED_GENRES } from "../library/genres";
+import { autoSelectGenre, BOSS_SOCKET, OFFERED_GENRES } from "../library/genres";
 import { getMode, socketsFor } from "../mechanics/registry";
 import { emit } from "./events";
 import { AgentError, runAgent, type Progress } from "./llm";
-import { checkAssessment, checkBlueprint, checkChallenge, checkNarrative } from "./validate/checks";
+import { checkAssessment, checkBlueprint, checkChallenge, checkNarrative, checkTutor } from "./validate/checks";
+import { isMockLLM } from "../server/env";
 import { validateGameSpec } from "./validate/validate-gamespec";
 import { assembleGameSpec, type Slices } from "./assemble";
+import { applyProfileTargets, personalCards, profileSummary, recommendGenres } from "./personalize";
 import {
   ASSESSMENT_SYSTEM,
   CHALLENGE_SYSTEM,
   DIRECTOR_SYSTEM,
   NARRATIVE_SYSTEM,
+  TUTOR_SYSTEM,
   assessmentPrompt,
   challengePrompt,
   directorMenu,
@@ -39,6 +44,7 @@ import {
   narrativePrompt,
   repairNote,
   sharedContext,
+  tutorPrompt,
 } from "./prompts";
 
 /*
@@ -65,6 +71,11 @@ export interface GenerateArgs {
   now?: () => Date;
   onProgress?: (p: Progress) => void;
   concurrency?: number;
+  /**
+   * The genre already resolved by the caller (the orchestrator resolves it on the student's whole selection,
+   * before focusing a big one down, so "Pick for me" plays what the intake page recommended).
+   */
+  resolved?: { genre: Genre; reason: string };
 }
 
 export { AgentError };
@@ -109,13 +120,22 @@ export function encounterRange(minutes: number): [number, number] {
   return [11, 14];
 }
 
-/** Genre resolution: the requested genre when its host exists, else auto-select from the weights (LIBRARY §1.1). */
-export function resolveGenre(km: KnowledgeMap, intake: Intake): { genre: Genre; reason: string } {
-  if (intake.genre !== "auto" && IMPLEMENTED_GENRES.includes(intake.genre)) return { genre: intake.genre, reason: "requested" };
+/**
+ * Genre resolution: the requested genre when its host exists, else auto-select. With the matcher's results
+ * in hand, "auto" plays the top of recommendGenres (material fit + matched components + interests); without
+ * them it falls back to the knowledge-type weights alone (LIBRARY §1.1).
+ */
+export function resolveGenre(km: KnowledgeMap, intake: Intake, matches?: readonly MatchResult[]): { genre: Genre; reason: string } {
+  if (intake.genre !== "auto" && OFFERED_GENRES.includes(intake.genre)) return { genre: intake.genre, reason: "requested" };
+  const why = intake.genre === "auto" ? "auto-selected" : `"${intake.genre}" is no longer offered; auto-selected`;
+  if (matches && matches.length > 0) {
+    const [top] = recommendGenres(km, intake, matches);
+    if (top) return { genre: top.genre, reason: `${why} for this learner (${top.reasons[0] ?? `fit ${top.score}`})` };
+  }
   const weights: Partial<Record<KnowledgeMap["concepts"][number]["knowledgeType"], number>> = {};
   for (const c of km.concepts) weights[c.knowledgeType] = (weights[c.knowledgeType] ?? 0) + conceptWeight(c, intake);
   const { genre } = autoSelectGenre(weights);
-  return { genre, reason: intake.genre === "auto" ? "auto-selected from knowledge-type weights" : `"${intake.genre}" has no host yet; auto-selected` };
+  return { genre, reason: `${why} from knowledge-type weights` };
 }
 
 /**
@@ -123,8 +143,15 @@ export function resolveGenre(km: KnowledgeMap, intake: Intake): { genre: Genre; 
  * family with the sockets each family can use. Every concept keeps at least one option (mimic_chest), and the
  * universal teach_back card (explain it in your own words) is always offered.
  */
-export function buildDirectorMenu(km: KnowledgeMap, matches: readonly MatchResult[], genre: Genre): DirectorMenuFamily[] {
+export function buildDirectorMenu(
+  km: KnowledgeMap,
+  matches: readonly MatchResult[],
+  genre: Genre,
+  /** extra implemented cards for this learner (personalCards: the ones that break their flagged misconceptions) */
+  extra: readonly TeachingMechanic[] = [],
+): DirectorMenuFamily[] {
   const chosen = new Map<string, TeachingMechanic>();
+  for (const card of extra) if (isCardImplemented(card) && cardPlaysIn(card, genre)) chosen.set(card.id, card);
   const fallback = getCard("mimic_chest");
   for (const c of km.concepts) {
     const picks = matches.find((m) => m.conceptId === c.id)?.picks ?? [];
@@ -236,7 +263,7 @@ export function promoteTeachForDropped(encounters: BlueprintEncounter[], dropped
 }
 
 export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; warnings: Issue[]; repairs: number; genre: Genre }> {
-  const { genre, reason } = resolveGenre(a.km, a.intake);
+  const { genre, reason } = a.resolved ?? resolveGenre(a.km, a.intake, a.matches);
   const conceptIds = a.km.concepts.map((c) => c.id);
   const beliefs = [...new Set(a.km.concepts.flatMap((c) => c.misconceptions.map((m) => m.belief)))];
   const shared = sharedContext(a.km, a.intake, genre);
@@ -252,8 +279,13 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     emit(jobId, p);
   };
   const bossSocket = BOSS_SOCKET[genre];
-  const menu = buildDirectorMenu(a.km, a.matches, genre);
+  const extraCards = personalCards(a.km, a.intake.profile, genre);
+  const menu = buildDirectorMenu(a.km, a.matches, genre, extraCards);
+  const baseMenu = new Set(buildDirectorMenu(a.km, a.matches, genre).flatMap((f) => f.cards.map((c) => c.id)));
+  const addedCards = extraCards.filter((c) => !baseMenu.has(c.id) && menu.some((f) => f.cards.some((x) => x.id === c.id)));
   if (reason !== "requested") note({ agent: "director", status: "start", note: `genre ${genre}: ${reason}` });
+  const summary = profileSummary(a.km, a.intake.profile, addedCards);
+  if (summary) note({ agent: "personalize", status: "done", note: summary });
 
   // 1. Director: the only sequential LLM step.
   const blueprint: BlueprintSlice = await callAgent({
@@ -268,6 +300,11 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     maxRepairs: 2,
     onProgress: progress,
   });
+  // Code, not the model, guarantees that every misconception the learner ticked is attacked somewhere.
+  const retargeted = applyProfileTargets(blueprint, a.km, a.intake.profile);
+  if (retargeted > 0) {
+    note({ agent: "personalize", status: "done", note: `aimed ${retargeted} encounter${retargeted === 1 ? "" : "s"} at the misconceptions you flagged` });
+  }
 
   const writeChallenge = (e: BlueprintEncounter, notes = "") =>
     limit(() => {
@@ -344,8 +381,31 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     }
   };
 
-  // 2. Fan-out: one challenge writer per encounter, plus narrative and assessment, all in parallel.
-  const [challengeResults, narrative, assessment] = await Promise.all([
+  // The Tutor writes the plain-words explanation and worked example for every lesson. Code builds the rest of
+  // each lesson from the knowledge map (lessons.ts), so a failed or skipped tutor still ships a lesson per concept;
+  // mock mode has no recorded tutor replies, so it is skipped there.
+  const writeTutorSafe = (): Promise<TutorSlice | null> =>
+    isMockLLM()
+      ? Promise.resolve(null)
+      : limit(() =>
+          callAgent({
+            agent: "tutor",
+            tier: "fast",
+            model: a.models.fast,
+            jobId,
+            schema: tutorSchema(conceptIds),
+            system: TUTOR_SYSTEM,
+            prompt: tutorPrompt(shared, conceptIds),
+            check: (s) => checkTutor(s, conceptIds),
+            onProgress: progress,
+          }),
+        ).catch((err: unknown) => {
+          note({ agent: "tutor", status: "fallback", note: `tutor failed (${errMsg(err)}); lessons use the source's facts only` });
+          return null;
+        });
+
+  // 2. Fan-out: one challenge writer per encounter, plus narrative, assessment and tutor, all in parallel.
+  const [challengeResults, narrative, assessment, tutor] = await Promise.all([
     Promise.all(
       blueprint.encounters.map((e) =>
         writeChallenge(e).then(
@@ -356,6 +416,7 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     ),
     writeNarrativeSafe(),
     writeAssessmentSafe(),
+    writeTutorSafe(),
   ]);
 
   // 3. Fallbacks: a failed encounter becomes a Mimic Chest from verified facts, or is dropped (never the boss).
@@ -393,6 +454,7 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     challenges,
     narrative: trimBeats(narrative),
     assessment,
+    tutor,
   };
 
   // 4. Assemble + validate. On failure, route each issue to the agent that owns it, once.

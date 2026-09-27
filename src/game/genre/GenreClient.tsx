@@ -13,7 +13,10 @@ import { getPalette } from "../engine/palettes";
 import { EncounterRunner, type Current } from "../runner/encounter-runner";
 import { EndScreen } from "../systems/EndScreen";
 import { MasteryHud } from "../systems/MasteryHud";
-import { ChallengePanel, type ChallengeResult } from "./ChallengePanel";
+import { ChallengePanel, type ChallengeResult, type ChallengeTeach } from "./ChallengePanel";
+import { BookIcon, FieldGuide } from "./teach/FieldGuide";
+import { conceptsToTeach, lessonMap } from "./teach/lessons";
+import { TEACH_CSS } from "./teach/teach.styles";
 import type { BoardHostHandle, BoardHostProps, LastResult } from "./types";
 
 /*
@@ -69,10 +72,25 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
   const [ended, setEnded] = useState(false);
   const seq = useRef(0);
 
+  // ---- teaching (./teach): session-only, never persisted. Refs, like the runner, because the debug handle installed
+  // once on mount calls open()/autoSolve() through its first-render closures.
+  const lessons = useMemo(() => lessonMap(spec), [spec]);
+  const taughtRef = useRef<Set<string>>(new Set());
+  /** the concepts the open challenge teaches first (snapshot at open; shrinks as the player reads) */
+  const planRef = useRef<string[]>([]);
+  const [guide, setGuide] = useState<{ open: boolean; focus: string | null }>({ open: false, focus: null });
+  const learn = (conceptId: string) => {
+    taughtRef.current.add(conceptId);
+    bump();
+  };
+  const openGuide = (conceptId: string | null) => setGuide({ open: true, focus: conceptId });
+
   const open = (id: string) => {
     if (runner.finished || !runner.available().includes(id)) return;
     runner.focus(id);
-    setActive(runner.peek(id));
+    const cur = runner.peek(id);
+    planRef.current = cur ? conceptsToTeach(cur.encounter, taughtRef.current, spec) : [];
+    setActive(cur);
     setResult(null);
     setLastHint(null);
     bump();
@@ -100,6 +118,20 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
 
   // window.__GAME_DEBUG__: the legacy shape (state/skipTo/autoSolve/events/mastery) plus `board` for free order.
   useEffect(() => {
+    // `board` also carries the teaching hooks (beyond BoardDebugApi in ../debug.ts): lesson() = concept ids still to
+    // read before the open challenge, dismissLesson() = read them all, taught() = concepts taught this session
+    const board = {
+      available: () => runner.available(),
+      solved: () => [...runner.solved()],
+      active: () => runner.focused,
+      open: (id: string) => open(id),
+      lesson: () => planRef.current.filter((c) => !taughtRef.current.has(c)),
+      dismissLesson: () => {
+        for (const c of planRef.current) taughtRef.current.add(c);
+        bump();
+      },
+      taught: () => [...taughtRef.current],
+    };
     const handle: GameDebugHandle = {
       state: () => {
         const cur = runner.finished ? null : runner.current();
@@ -107,6 +139,8 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
       },
       skipTo: (encounterId) => {
         runner.skipTo(encounterId);
+        // the debug jump lands on the challenge itself (no lesson step)
+        planRef.current = [];
         setActive(runner.peek(encounterId));
         setResult(null);
         hostHandle.current?.warpTo?.(encounterId);
@@ -122,6 +156,9 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
         if (runner.focused !== cur.encounter.id) runner.focus(cur.encounter.id);
         hostHandle.current?.warpTo?.(cur.encounter.id);
         const g = runner.autoSolve();
+        // autoSolve skips the lesson step; count its concepts as taught so the Field Guide reflects the run
+        for (const c of cur.encounter.conceptIds) taughtRef.current.add(c);
+        planRef.current = [];
         setLastResult({ encounterId: cur.encounter.id, correct: g.correct, seq: ++seq.current });
         setActive(null);
         setResult(null);
@@ -131,16 +168,27 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
       },
       events: () => runner.telemetry(),
       mastery: () => runner.mastery(),
-      board: {
-        available: () => runner.available(),
-        solved: () => [...runner.solved()],
-        active: () => runner.focused,
-        open: (id) => open(id),
-      },
+      board,
     };
     return installGameDebug(handle) ?? undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // G opens the Field Guide from anywhere on the board (never while typing; inside the guide, G closes it)
+  const activeConcepts = active?.encounter.conceptIds;
+  useEffect(() => {
+    if (ended) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "g" && e.key !== "G") return;
+      if (e.defaultPrevented || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      e.preventDefault();
+      setGuide({ open: true, focus: activeConcepts?.[0] ?? null });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [ended, activeConcepts]);
 
   if (ended) {
     const { mastery, lines } = runner.debrief();
@@ -148,6 +196,13 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
   }
 
   const Host = HOSTS[spec.genre];
+  const teach: ChallengeTeach = {
+    lessons,
+    plan: planRef.current,
+    pending: planRef.current.filter((c) => !taughtRef.current.has(c)),
+    onLearned: learn,
+    onReview: (conceptId) => openGuide(conceptId),
+  };
   const challenge = active ? (
     <ChallengePanel
       key={active.encounter.id}
@@ -162,13 +217,20 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
       onContinue={close}
       onRetry={() => setResult(null)}
       onClose={close}
+      teach={teach}
     />
   ) : null;
 
   const masteryConcepts = spec.concepts.map((c) => ({ id: c.id, name: c.name, score: runner.mastery()[c.id]?.score ?? 0 }));
 
   return (
-    <div className="flex min-h-screen flex-col gap-2 px-3 pb-3 pt-2" style={{ background: palette.css.background, color: inkOn(palette.css.background, palette.css.text) }} data-testid="board-client" data-genre={spec.genre}>
+    <div
+      className="flex min-h-screen flex-col gap-2 px-3 pb-3 pt-2"
+      style={{ background: palette.css.background, color: inkOn(palette.css.background, palette.css.text), ["--tg-accent" as string]: palette.css.accent }}
+      data-testid="board-client"
+      data-genre={spec.genre}
+    >
+      <style>{TEACH_CSS}</style>
       {/* compact header: the hosts need the vertical space; mastery opens as a dropdown over the board */}
       <header className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-bold" style={{ fontSize: 24 }}>
@@ -178,6 +240,17 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
           <p className="text-lg" style={{ fontSize: 18 }} data-testid="board-progress">
             {runner.solved().size} / {spec.encounters.length} solved
           </p>
+          <button
+            type="button"
+            onClick={() => openGuide(active?.encounter.conceptIds[0] ?? null)}
+            data-testid="field-guide-button"
+            aria-haspopup="dialog"
+            aria-keyshortcuts="G"
+            className="tg-guide-btn rounded-md border px-3 py-1 text-base font-semibold hover:opacity-80 focus-visible:outline-2"
+            style={{ borderColor: "currentColor", fontSize: 18 }}
+          >
+            <BookIcon /> Field guide <kbd aria-hidden>G</kbd>
+          </button>
           <details className="relative">
             <summary className="cursor-pointer rounded-md border px-3 py-1 text-base focus-visible:outline-2" style={{ borderColor: "currentColor" }}>
               Mastery
@@ -223,6 +296,14 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
       ) : (
         <p role="alert">No host for genre {spec.genre}.</p>
       )}
+      <FieldGuide
+        spec={spec}
+        open={guide.open}
+        focusConceptId={guide.focus}
+        current={active?.encounter.conceptIds ?? []}
+        taught={taughtRef.current}
+        onClose={() => setGuide((g) => (g.open ? { open: false, focus: g.focus } : g))}
+      />
     </div>
   );
 }

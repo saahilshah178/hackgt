@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
+import { Filter, Layers, Lightbulb, PlayCircle, Puzzle, Search, Shapes, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { LibrarySpot } from "@/components/illustrations";
 import { DOMAINS, GENRES, type Domain, type FamilyId, type Genre } from "@/contracts/common";
 import { CARDS, isCardImplemented } from "@/library";
 import { BOSS_SOCKET, GENRE_INFO, IMPLEMENTED_GENRES } from "@/library/genres";
@@ -9,6 +11,12 @@ import { FAMILIES, allModes, socketsFor } from "@/mechanics/registry";
 type Filters = { domain?: string; family?: string; status?: string; q?: string; show?: string };
 
 const PAGE_SIZE = 48;
+
+function chip(active: boolean): string {
+  return `rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
+    active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card hover:border-brand hover:bg-accent"
+  }`;
+}
 
 /**
  * /library: the catalog browser. Judges should see the size of the library here: every teaching-mechanic card,
@@ -59,32 +67,68 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
 
   return (
     <AppShell wide>
-      <h1 className="text-4xl font-bold tracking-tight">Teaching-mechanic library</h1>
-      <p className="mt-3 max-w-4xl text-xl text-muted-foreground">
-        Every card is a concept-specific configuration of one mechanic family. Cards are data; families are engine
-        code. A card is playable as soon as its family·mode is implemented.
-      </p>
+      <div className="flex flex-col-reverse items-start gap-6 rounded-3xl bg-gradient-to-br from-accent via-card to-card p-6 ring-1 ring-border sm:flex-row sm:items-center sm:p-10">
+        <div className="flex-1">
+          <p className="text-sm font-semibold tracking-wide text-primary uppercase">Library</p>
+          <h1 className="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl">Teaching-mechanic library</h1>
+          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-muted-foreground">
+            Every card is a concept-specific configuration of one mechanic family. Cards are data; families are engine
+            code. A card is playable as soon as its family·mode is implemented.
+          </p>
+        </div>
+        <LibrarySpot className="w-28 shrink-0 sm:w-40" />
+      </div>
 
-      <dl className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-5" aria-label="Library counts">
-        {[
-          ["Cards", total],
-          ["Playable now", implementedCount],
-          ["Flagships", flagships.length],
-          ["Families", FAMILIES.length],
-          ["Modes", `${implementedModes.length} / ${modes.length}`],
-        ].map(([label, value]) => (
-          <div key={String(label)} className="rounded-lg border border-border/60 bg-card p-4">
-            <dt className="text-base text-muted-foreground">{label}</dt>
-            <dd className="text-4xl font-bold">{value}</dd>
+      <dl className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5" aria-label="Library counts">
+        {(
+          [
+            ["Cards", total, Layers],
+            ["Playable now", implementedCount, PlayCircle],
+            ["Flagships", flagships.length, Star],
+            ["Families", FAMILIES.length, Shapes],
+            ["Modes", `${implementedModes.length} / ${modes.length}`, Puzzle],
+          ] as const
+        ).map(([label, value, Icon]) => (
+          <div key={label} className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-accent-foreground">
+              <Icon className="size-5" aria-hidden />
+            </span>
+            <div>
+              <dt className="text-sm text-muted-foreground">{label}</dt>
+              <dd className="text-2xl font-extrabold tabular-nums">{value}</dd>
+            </div>
           </div>
         ))}
       </dl>
 
-      <section className="mt-10" aria-labelledby="filters-heading">
-        <h2 id="filters-heading" className="text-2xl font-semibold">
+      <section className="mt-10 rounded-3xl border border-border bg-card p-5 sm:p-6" aria-labelledby="filters-heading">
+        <h2 id="filters-heading" className="flex items-center gap-2 text-lg font-bold">
+          <Filter className="size-5 text-primary" aria-hidden />
           Filter
         </h2>
-        <div className="mt-3 flex flex-wrap gap-2" aria-label="Status">
+        <form className="mt-4 flex flex-col gap-2 sm:flex-row" action="/library" method="get" role="search">
+          {domain && <input type="hidden" name="domain" value={domain} />}
+          {family && <input type="hidden" name="family" value={family} />}
+          {status && <input type="hidden" name="status" value={status} />}
+          <label htmlFor="q" className="sr-only">
+            Search cards
+          </label>
+          <div className="relative w-full max-w-xl">
+            <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-muted-foreground" aria-hidden />
+            <input
+              id="q"
+              name="q"
+              defaultValue={q}
+              placeholder="Search concept, misconception, keyword…"
+              className="h-12 w-full rounded-full border border-input bg-card pr-4 pl-12 text-base focus:border-ring focus:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            />
+          </div>
+          <button type="submit" className="h-12 rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground transition hover:bg-primary/90">
+            Search
+          </button>
+        </form>
+        <p className="mt-5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">Status</p>
+        <div className="mt-2 flex flex-wrap gap-2" aria-label="Status">
           {[
             ["all", "All", undefined],
             ["implemented", "Playable now", "implemented"],
@@ -94,44 +138,30 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
               key={key}
               href={link({ status: val as string | undefined })}
               aria-current={status === val || (!status && !val) ? "page" : undefined}
-              className={`rounded-md px-4 py-2 text-lg focus-visible:outline-2 focus-visible:outline-ring ${
-                status === val || (!status && !val) ? "bg-primary text-primary-foreground" : "bg-secondary"
-              }`}
+              className={chip(status === val || (!status && !val))}
             >
               {label}
             </Link>
           ))}
         </div>
-        <div className="mt-3 flex flex-wrap gap-2" aria-label="Domain">
-          <Link href={link({ domain: undefined })} className={`rounded-md px-3 py-1.5 text-base ${!domain ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>
+        <p className="mt-5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">Subject</p>
+        <div className="mt-2 flex flex-wrap gap-2" aria-label="Domain">
+          <Link href={link({ domain: undefined })} className={chip(!domain)}>
             every domain
           </Link>
           {byDomain.map((d) => (
-            <Link
-              key={d.domain}
-              href={link({ domain: d.domain })}
-              aria-current={domain === d.domain ? "page" : undefined}
-              className={`rounded-md px-3 py-1.5 text-base focus-visible:outline-2 focus-visible:outline-ring ${
-                domain === d.domain ? "bg-primary text-primary-foreground" : "bg-secondary"
-              }`}
-            >
+            <Link key={d.domain} href={link({ domain: d.domain })} aria-current={domain === d.domain ? "page" : undefined} className={chip(domain === d.domain)}>
               {d.domain} <span className="opacity-70">{d.count}</span>
             </Link>
           ))}
         </div>
-        <div className="mt-3 flex flex-wrap gap-2" aria-label="Family">
-          <Link href={link({ family: undefined })} className={`rounded-md px-3 py-1.5 text-base ${!family ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>
+        <p className="mt-5 text-xs font-semibold tracking-wide text-muted-foreground uppercase">Mechanic family</p>
+        <div className="mt-2 flex flex-wrap gap-2" aria-label="Family">
+          <Link href={link({ family: undefined })} className={chip(!family)}>
             every family
           </Link>
           {byFamily.map((fam) => (
-            <Link
-              key={fam.id}
-              href={link({ family: fam.id })}
-              aria-current={family === fam.id ? "page" : undefined}
-              className={`rounded-md px-3 py-1.5 text-base focus-visible:outline-2 focus-visible:outline-ring ${
-                family === fam.id ? "bg-primary text-primary-foreground" : "bg-secondary"
-              }`}
-            >
+            <Link key={fam.id} href={link({ family: fam.id })} aria-current={family === fam.id ? "page" : undefined} className={chip(family === fam.id)}>
               {fam.name} <span className="opacity-70">{fam.count}</span>{" "}
               <span className="opacity-70">
                 ({fam.implementedModes}/{fam.modeCount} modes)
@@ -139,62 +169,74 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
             </Link>
           ))}
         </div>
-        <form className="mt-3 flex gap-2" action="/library" method="get">
-          {domain && <input type="hidden" name="domain" value={domain} />}
-          {family && <input type="hidden" name="family" value={family} />}
-          {status && <input type="hidden" name="status" value={status} />}
-          <label htmlFor="q" className="sr-only">
-            Search cards
-          </label>
-          <input
-            id="q"
-            name="q"
-            defaultValue={q}
-            placeholder="Search concept, misconception, keyword…"
-            className="h-12 w-full max-w-xl rounded-md border border-input bg-background px-4 text-lg"
-          />
-          <button type="submit" className="h-12 rounded-md bg-secondary px-5 text-lg">
-            Search
-          </button>
-        </form>
       </section>
 
-      <section className="mt-8" aria-live="polite">
-        <h2 className="text-2xl font-semibold">
+      <section className="mt-10" aria-live="polite">
+        <h2 className="text-2xl font-bold tracking-tight">
           {rows.length} card{rows.length === 1 ? "" : "s"}
-          {rows.length > show && <span className="text-lg font-normal text-muted-foreground"> (showing {show})</span>}
+          {rows.length > show && <span className="text-base font-normal text-muted-foreground"> (showing {show})</span>}
         </h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {rows.length === 0 && (
+          <div className="mt-6 flex flex-col items-center gap-3 rounded-3xl border border-dashed border-border p-10 text-center">
+            <LibrarySpot className="w-28" />
+            <p className="text-lg font-semibold">No cards match those filters</p>
+            <Link href="/library" className="font-semibold text-primary hover:underline">
+              Clear all filters
+            </Link>
+          </div>
+        )}
+        <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {rows.slice(0, show).map(({ card, implemented }) => (
-            <article key={card.id} className="flex flex-col gap-2 rounded-lg border border-border/60 bg-card p-4" data-testid="library-card">
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="text-xl font-semibold">
-                  {card.flagship ? "★ " : ""}
+            <article
+              key={card.id}
+              className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 transition hover:border-brand hover:shadow-lg hover:shadow-sky-900/5"
+              data-testid="library-card"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="text-lg leading-snug font-bold">
+                  {card.flagship && <Star className="mr-1.5 inline size-4 -translate-y-0.5 fill-amber-400 text-amber-400" aria-label="Flagship" />}
                   {card.name}
                 </h3>
-                <Badge variant={implemented ? "default" : "secondary"}>{implemented ? "playable" : "catalog"}</Badge>
+                <Badge
+                  variant={implemented ? "default" : "secondary"}
+                  className={implemented ? "h-6 bg-success-soft px-2.5 text-success" : "h-6 px-2.5 text-muted-foreground"}
+                >
+                  {implemented ? "playable" : "catalog"}
+                </Badge>
               </div>
-              <p className="text-base text-muted-foreground">
-                <code>{card.id}</code> · {card.domain} · {card.family}.{card.mode}
+              <p className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                <code className="rounded-md bg-secondary px-1.5 py-0.5">{card.id}</code>
+                <span className="rounded-full bg-accent px-2 py-0.5 font-medium text-accent-foreground">{card.domain}</span>
+                <span>
+                  {card.family}.{card.mode}
+                </span>
               </p>
-              <p className="text-lg">
-                <strong>Concept:</strong> {card.concept}
+              <dl className="flex flex-col gap-2 text-sm leading-relaxed">
+                <div>
+                  <dt className="font-semibold">Concept</dt>
+                  <dd className="text-muted-foreground">{card.concept}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold">Player does</dt>
+                  <dd className="text-muted-foreground">{card.playerAction}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold">Breaks the misconception</dt>
+                  <dd className="text-muted-foreground">{card.misconception}</dd>
+                </div>
+              </dl>
+              <p className="mt-auto flex gap-2 rounded-xl bg-brand-soft/70 p-3 text-sm leading-relaxed text-accent-foreground">
+                <Lightbulb className="mt-0.5 size-4 shrink-0" aria-hidden />
+                {card.learningInsight}
               </p>
-              <p className="text-lg">
-                <strong>Player does:</strong> {card.playerAction}
-              </p>
-              <p className="text-lg">
-                <strong>Breaks:</strong> {card.misconception}
-              </p>
-              <p className="text-base text-muted-foreground">{card.learningInsight}</p>
             </article>
           ))}
         </div>
         {rows.length > show && (
-          <div className="mt-6 flex justify-center">
+          <div className="mt-8 flex justify-center">
             <Link
               href={link({ show: String(Math.min(show + PAGE_SIZE, rows.length)) })}
-              className="rounded-md bg-secondary px-6 py-3 text-lg font-medium hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+              className="rounded-full border border-border bg-card px-6 py-3 text-base font-semibold transition hover:border-brand hover:bg-accent"
             >
               Show {Math.min(PAGE_SIZE, rows.length - show)} more
             </Link>
@@ -202,21 +244,21 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
         )}
       </section>
 
-      <section className="mt-12" aria-labelledby="matrix-heading">
-        <h2 id="matrix-heading" className="text-2xl font-semibold">
+      <section className="mt-14" aria-labelledby="matrix-heading">
+        <h2 id="matrix-heading" className="text-2xl font-bold tracking-tight">
           Family × genre adapters
         </h2>
-        <p className="mt-2 text-lg text-muted-foreground">
+        <p className="mt-2 max-w-4xl text-base text-muted-foreground">
           Which socket each family mounts on in each genre (LIBRARY §5). The boss socket is always allowed. All{" "}
           {IMPLEMENTED_GENRES.length} genres have a host; five of them progress without walking right.
         </p>
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[1400px] border-collapse text-base">
-            <thead>
+        <div className="mt-5 overflow-x-auto rounded-2xl border border-border bg-card">
+          <table className="w-full min-w-[1400px] border-collapse text-sm">
+            <thead className="bg-secondary/70">
               <tr>
-                <th className="border-b border-border p-2 text-left">Family</th>
+                <th className="border-b border-border p-3 text-left">Family</th>
                 {GENRES.map((g: Genre) => (
-                  <th key={g} className="border-b border-border p-2 text-left">
+                  <th key={g} className="border-b border-border p-3 text-left">
                     {GENRE_INFO[g].name}
                     <div className="text-sm font-normal text-muted-foreground">boss: {BOSS_SOCKET[g]}</div>
                   </th>
@@ -226,13 +268,13 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
             <tbody>
               {FAMILIES.map((fam) => (
                 <tr key={fam.id}>
-                  <th scope="row" className="border-b border-border/60 p-2 text-left align-top font-semibold">
+                  <th scope="row" className="border-b border-border/60 p-3 text-left align-top font-semibold">
                     {fam.name}
                   </th>
                   {GENRES.map((g: Genre) => {
                     const skin = fam.genres[g];
                     return (
-                      <td key={g} className="border-b border-border/60 p-2 align-top">
+                      <td key={g} className="border-b border-border/60 p-3 align-top">
                         {skin ? (
                           <>
                             <div className="font-medium">{socketsFor(fam.id, g, BOSS_SOCKET[g]).join(" / ")}</div>

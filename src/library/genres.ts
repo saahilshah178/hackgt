@@ -1,5 +1,8 @@
 import { GENRES, type FamilyId, type Genre, type KnowledgeType } from "../contracts/common";
 import { FAMILIES } from "../mechanics/registry";
+import { OFFERED_GENRES } from "./genre-labels";
+
+export { OFFERED_GENRES };
 
 /*
  * Genre definitions (LIBRARY §1, §1.1, §5). Sockets are the mount points a genre host provides;
@@ -98,7 +101,7 @@ export const BOARD_GENRES: readonly Genre[] = ["mystery", "puzzle", "strategy", 
  * Genres the auto-selector may choose when the intake says "auto". Platformer is explicit-request only: its host has
  * trigger-only obstacles, and the quantitative/spatial weights would otherwise send most math uploads to it.
  */
-export const AUTO_GENRES: readonly Genre[] = ["dungeon", "mystery", "puzzle", "strategy", "explorer", "story"];
+export const AUTO_GENRES: readonly Genre[] = OFFERED_GENRES;
 
 /**
  * LIBRARY §1.1: knowledge type → genre weight, extended so each knowledge type has a home that is not a side-scroller:

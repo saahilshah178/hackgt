@@ -52,7 +52,7 @@ export function gatekeeperSchema(): z.ZodType<GatekeeperSlice> {
   return z.object({
     educational: z.boolean().describe("true when the material teaches something a student could be tested on"),
     estimatedConcepts: z.number().int().min(0).max(500).describe("How many distinct teachable concepts the material contains"),
-    tooBig: z.boolean().describe("true when there is far more than one game's worth (roughly > 30 concepts or > 40 pages)"),
+    tooBig: z.boolean().describe("true when there is far more than one game's worth (roughly > 30 concepts); a hint only, the student picks concepts"),
     tooSmall: z.boolean().describe("true when there is less than one concept's worth of material"),
     outline: z
       .array(
@@ -63,8 +63,8 @@ export function gatekeeperSchema(): z.ZodType<GatekeeperSlice> {
         }),
       )
       .min(0)
-      .max(40)
-      .describe("Chapter/section outline with page ranges; empty for short or unpaged material"),
+      .max(100)
+      .describe("Chapter/section outline with page ranges (chapters and major sections for a whole book); empty for short or unpaged material"),
     followUps: z.array(z.string()).min(0).max(3).describe("Questions to ask the student when the material is ambiguous; usually empty"),
   }) as unknown as z.ZodType<GatekeeperSlice>;
 }
@@ -219,6 +219,31 @@ export function assessmentSchema(conceptIds: readonly string[]): z.ZodType<Asses
       .max(3)
       .describe("After the game: the same concepts as the pre-check, NEW questions (not rewordings)"),
   }) as unknown as z.ZodType<AssessmentSlice>;
+}
+
+// ---------------------------------------------------------------- S7 Tutor (FAST)
+
+/** Per concept in the game: the idea explained plainly, and one worked example. Code adds the rest of the lesson. */
+export interface TutorSlice {
+  lessons: { conceptId: string; explanation: string; example: string }[];
+}
+
+export function tutorSchema(conceptIds: readonly string[]): z.ZodType<TutorSlice> {
+  return z.object({
+    lessons: z
+      .array(
+        z.object({
+          conceptId: z.enum(asTuple(conceptIds, "concepts")).describe("The concept this lesson teaches"),
+          explanation: z
+            .string()
+            .describe("2-4 short sentences, plain words, like a patient tutor: what it is, why it works, how to use it. Grounded in the listed facts."),
+          example: z
+            .string()
+            .describe("One short worked example or concrete case (1-3 sentences) that shows the idea in action, with the reasoning spelled out."),
+        }),
+      )
+      .describe("Exactly one lesson per concept listed in the task, in that order"),
+  }) as unknown as z.ZodType<TutorSlice>;
 }
 
 // ---------------------------------------------------------------- S6 Director (SMART)

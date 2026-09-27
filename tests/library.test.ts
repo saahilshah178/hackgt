@@ -60,19 +60,22 @@ describe("genres", () => {
     }
   });
 
-  it("auto-selects the genre from knowledge-type weights, restricted to implemented genres", () => {
-    // every knowledge type has a home, and most of them are not side-scrollers
+  it("auto-selects the genre from knowledge-type weights, restricted to the offered genres", () => {
+    // only the four offered genres are ever auto-selected (dungeon, puzzle and platformer were withdrawn)
+    expect(AUTO_GENRES).toEqual(["mystery", "strategy", "explorer", "story"]);
     expect(autoSelectGenre({ argument: 10 }).genre).toBe("story");
     expect(autoSelectGenre({ causal: 10 }).genre).toBe("mystery");
-    expect(autoSelectGenre({ sequence: 10 }).genre).toBe("puzzle");
-    expect(autoSelectGenre({ procedure: 10 }).genre).toBe("puzzle");
+    expect(autoSelectGenre({ sequence: 10 }).genre).toBe("mystery");
+    expect(autoSelectGenre({ procedure: 10 }).genre).toBe("strategy");
     expect(autoSelectGenre({ system: 10 }).genre).toBe("strategy");
     expect(autoSelectGenre({ category: 10 }).genre).toBe("strategy");
     expect(autoSelectGenre({ spatial: 10 }).genre).toBe("explorer");
-    expect(autoSelectGenre({ fact: 10 }).genre).toBe("dungeon");
-    expect(autoSelectGenre({ quantitative: 10 }).genre).toBe("puzzle"); // platformer ties, but auto-selection only picks AUTO_GENRES
-    expect(IMPLEMENTED_GENRES).toContain("platformer"); // explicit requests (and Regenerate as platformer) do play it
-    expect(AUTO_GENRES).not.toContain("platformer");
+    expect(autoSelectGenre({ fact: 10 }).genre).toBe("mystery");
+    expect(autoSelectGenre({ quantitative: 10 }).genre).toBe("strategy");
+    for (const g of ["dungeon", "puzzle", "platformer"] as const) {
+      expect(IMPLEMENTED_GENRES).toContain(g); // the hosts stay for old games and fixtures
+      expect(AUTO_GENRES).not.toContain(g);
+    }
     expect(autoSelectGenre({ quantitative: 10 }, GENRES).genre).toBe("platformer");
     expect(autoSelectGenre({ fact: 4, category: 4 }, GENRES).genre).toBe("dungeon");
     for (const g of GENRES) expect(IMPLEMENTED_GENRES, g).toContain(g);

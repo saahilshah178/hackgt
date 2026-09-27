@@ -4,11 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
-import { GENRES, type Genre } from "@/contracts/common";
-import { GENRE_LABELS } from "@/library/genre-labels";
+import type { Genre } from "@/contracts/common";
+import { GENRE_LABELS, OFFERED_GENRES } from "@/library/genre-labels";
 import type { GameSpec } from "@/contracts/gamespec";
 import { emptyMastery, updateMastery, type TelemetryEvent } from "@/contracts/telemetry";
 import { api } from "@/components/flow/client-fetch";
+import { TrophySpot } from "@/components/illustrations";
+import { ArrowRight } from "lucide-react";
 
 interface Props {
   spec: GameSpec;
@@ -96,15 +98,15 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
     return (
       <div data-testid="postcheck">
         <p className="text-lg text-muted-foreground">{spec.title}</p>
-        <h1 className="mt-1 text-4xl font-bold tracking-tight">Before the debrief: three questions</h1>
+        <h1 className="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl">Before the debrief: three questions</h1>
         <p className="mt-2 text-xl text-muted-foreground">Same concepts as your pre-check, new questions.</p>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {spec.assessment.post.map((q, i) => (
-            <fieldset key={i} className="rounded-lg border border-border/60 bg-card p-4" data-testid={`postcheck-${i}`}>
+            <fieldset key={i} className="rounded-2xl border border-border bg-card p-4" data-testid={`postcheck-${i}`}>
               <legend className="px-1 text-lg font-medium">{q.prompt}</legend>
               <div className="mt-2 flex flex-col gap-2">
                 {q.choices.map((choice, ci) => (
-                  <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-md border p-2 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
+                  <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-2.5 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
                     <input
                       type="radio"
                       name={`post-${i}`}
@@ -124,7 +126,7 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
             </fieldset>
           ))}
         </div>
-        <Button size="lg" className="mt-6 h-14 px-8 text-xl" disabled={!ready} onClick={finish} data-testid="postcheck-submit">
+        <Button size="lg" className="mt-6 h-12 rounded-full px-8 text-base font-semibold" disabled={!ready} onClick={finish} data-testid="postcheck-submit">
           See my results
         </Button>
       </div>
@@ -133,26 +135,29 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
 
   return (
     <div data-testid="debrief" className="flex flex-col gap-10">
-      <section>
-        <p className="text-lg text-muted-foreground">{spec.title}</p>
-        <h1 className="mt-1 text-4xl font-bold tracking-tight">Debrief</h1>
-        <div className="mt-6 flex flex-wrap items-end gap-8">
+      <section className="rounded-3xl bg-gradient-to-br from-accent via-card to-card p-6 ring-1 ring-border sm:p-8">
+        <div className="flex items-start justify-between gap-6">
           <div>
-            <div className="text-base text-muted-foreground">Before</div>
-            <div className="text-6xl font-bold tabular-nums" data-testid="pre-score">
+            <p className="text-sm font-semibold text-primary">{spec.title}</p>
+            <h1 className="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl">Debrief</h1>
+          </div>
+          <TrophySpot className="hidden w-28 shrink-0 sm:block" />
+        </div>
+        <div className="mt-6 flex flex-wrap items-center gap-4 sm:gap-6">
+          <div className="rounded-2xl border border-border bg-card px-6 py-4">
+            <div className="text-sm font-medium text-muted-foreground">Before</div>
+            <div className="text-5xl font-extrabold tabular-nums" data-testid="pre-score">
               {pre}/{spec.assessment.pre.length}
             </div>
           </div>
-          <div className="pb-3 text-4xl text-muted-foreground" aria-hidden>
-            →
-          </div>
-          <div>
-            <div className="text-base text-muted-foreground">After</div>
-            <div className="text-6xl font-bold tabular-nums" data-testid="post-score">
+          <ArrowRight className="size-8 text-brand" aria-hidden />
+          <div className="rounded-2xl border border-brand bg-card px-6 py-4 shadow-sm shadow-sky-500/10">
+            <div className="text-sm font-medium text-muted-foreground">After</div>
+            <div className="text-5xl font-extrabold text-primary tabular-nums" data-testid="post-score">
               {post}/{spec.assessment.post.length}
             </div>
           </div>
-          <p className="max-w-md pb-3 text-xl">
+          <p className="max-w-md text-lg leading-relaxed">
             {post !== null && post > pre && "You moved. The game made you use the ideas, not just recognize them."}
             {post !== null && post === pre && pre === spec.assessment.pre.length && "Perfect both times. Try a harder length or another genre."}
             {post !== null && post === pre && pre < spec.assessment.pre.length && "Same score. The weak spots below are where to focus."}
@@ -167,7 +172,7 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
       </section>
 
       <section aria-labelledby="mastery-heading">
-        <h2 id="mastery-heading" className="text-2xl font-semibold">
+        <h2 id="mastery-heading" className="text-2xl font-bold tracking-tight">
           Mastery by concept
         </h2>
         <ul className="mt-4 grid gap-3 md:grid-cols-2">
@@ -175,15 +180,15 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
             const m = mastery[c.id];
             const pct = Math.round((m?.score ?? spec.mastery.initial) * 100);
             return (
-              <li key={c.id} className="rounded-lg border border-border/60 bg-card p-4" data-testid="mastery-row">
+              <li key={c.id} className="rounded-2xl border border-border bg-card p-4" data-testid="mastery-row">
                 <div className="flex items-baseline justify-between">
                   <span className="text-xl font-medium">{c.name}</span>
                   <span className="text-lg tabular-nums text-muted-foreground">
                     {pct}% · {m?.firstTryCorrect ?? 0} first-try of {m?.attempts ?? 0} tries
                   </span>
                 </div>
-                <div className="mt-2 h-4 w-full overflow-hidden rounded bg-secondary" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label={`${c.name} mastery`}>
-                  <div className="h-full rounded bg-primary" style={{ width: `${pct}%` }} />
+                <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-secondary" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label={`${c.name} mastery`}>
+                  <div className="h-full rounded-full bg-brand" style={{ width: `${pct}%` }} />
                 </div>
                 <p className="mt-2 text-base text-muted-foreground">{c.learningObjective}</p>
               </li>
@@ -194,12 +199,12 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
       </section>
 
       <section aria-labelledby="did-heading">
-        <h2 id="did-heading" className="text-2xl font-semibold">
+        <h2 id="did-heading" className="text-2xl font-bold tracking-tight">
           What you just did
         </h2>
         <ol className="mt-4 grid gap-4 md:grid-cols-2">
           {spec.encounters.map((e, i) => (
-            <li key={e.id} className="rounded-lg border border-border/60 bg-card p-4" data-testid="did-card">
+            <li key={e.id} className="rounded-2xl border border-border bg-card p-4" data-testid="did-card">
               <div className="text-base text-muted-foreground">
                 {i + 1}. {insights[e.id]?.cardName ?? e.teachingMechanicId} · {e.role}
               </div>
@@ -215,31 +220,31 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
         </ol>
       </section>
 
-      <section aria-labelledby="next-heading" className="rounded-xl border border-border/60 bg-card p-6">
-        <h2 id="next-heading" className="text-2xl font-semibold">
+      <section aria-labelledby="next-heading" className="rounded-3xl border border-border bg-card p-6">
+        <h2 id="next-heading" className="text-2xl font-bold tracking-tight">
           What next?
         </h2>
         <div className="mt-4 flex flex-wrap items-center gap-4">
-          <Link href={`/play/${spec.id}`} className="inline-flex h-12 items-center rounded-md bg-secondary px-6 text-lg font-medium hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring">
+          <Link href={`/play/${spec.id}`} className="inline-flex h-12 items-center rounded-full border border-border bg-card px-6 text-base font-semibold transition hover:border-brand hover:bg-accent">
             Replay
           </Link>
           <div className="flex items-center gap-2">
             <label htmlFor="regen-genre" className="text-lg">
               Regenerate as
             </label>
-            <select id="regen-genre" value={genre} onChange={(e) => setGenre(e.target.value as Genre | "auto")} className="h-12 rounded-md border border-input bg-background px-3 text-lg">
+            <select id="regen-genre" value={genre} onChange={(e) => setGenre(e.target.value as Genre | "auto")} className="h-11 rounded-full border border-input bg-card px-4 text-base">
               <option value="auto">auto</option>
-              {GENRES.map((g) => (
+              {OFFERED_GENRES.map((g) => (
                 <option key={g} value={g}>
                   {GENRE_LABELS[g].name}
                 </option>
               ))}
             </select>
-            <Button size="lg" className="h-12 text-lg" disabled={busy !== null} onClick={() => regenerate({ genre }, "genre")} data-testid="regenerate-button">
+            <Button size="lg" className="h-11 rounded-full px-5 text-base font-semibold" disabled={busy !== null} onClick={() => regenerate({ genre }, "genre")} data-testid="regenerate-button">
               {busy === "genre" ? "Forging…" : "Go"}
             </Button>
           </div>
-          <Button size="lg" variant="outline" className="h-12 text-lg" disabled={busy !== null} onClick={() => regenerate({ genre: spec.genre, focusWeak: true }, "weak")} data-testid="focus-weak-button">
+          <Button size="lg" variant="outline" className="h-11 rounded-full px-5 text-base font-semibold" disabled={busy !== null} onClick={() => regenerate({ genre: spec.genre, focusWeak: true }, "weak")} data-testid="focus-weak-button">
             {busy === "weak" ? "Forging…" : `Focus on my weak spots (${weakest.map((c) => c.name).join(", ")})`}
           </Button>
         </div>

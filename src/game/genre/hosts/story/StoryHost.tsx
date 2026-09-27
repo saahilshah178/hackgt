@@ -25,6 +25,7 @@ import {
   type StoryEvent,
 } from "./story.logic";
 import { STORY_CSS } from "./story.styles";
+import { GUIDE_TIP } from "../../teach/lessons";
 
 /*
  * StoryHost: an illustrated book / reporter's notebook with no map and no avatar. The LEFT page is the story so far
@@ -396,6 +397,11 @@ export function StoryHost(props: Props) {
                 <p className="st-prompt-sub">
                   {available.length > 1 ? `${available.length} threads are open. Choose one; the others will wait for you.` : "One thread is open."}
                 </p>
+                {solved.size === 0 && (
+                  <p className="st-prompt-sub" style={{ fontStyle: "normal", fontWeight: 700, color: "var(--st-ink)", marginTop: -8 }} data-testid="field-guide-tip">
+                    {GUIDE_TIP}
+                  </p>
+                )}
                 <ol className="st-choices" aria-label="Choices">
                   {available.map((id, i) => {
                     const e = encounterById.get(id);
@@ -455,7 +461,7 @@ export function StoryHost(props: Props) {
                   )}
                 </div>
                 <p className="st-keys">
-                  <kbd>1</kbd>–<kbd>{Math.min(9, Math.max(1, available.length))}</kbd> choose · <kbd>Tab</kbd> <kbd>Enter</kbd> also work · <kbd>N</kbd> notebook
+                  <kbd>1</kbd>–<kbd>{Math.min(9, Math.max(1, available.length))}</kbd> choose · <kbd>Tab</kbd> <kbd>Enter</kbd> also work · <kbd>N</kbd> notebook · <kbd>G</kbd> field guide
                 </p>
               </>
             )}

@@ -66,6 +66,33 @@ export const Encounter = z.object({
 });
 export type Encounter = z.infer<typeof Encounter>;
 
+/**
+ * What the game TEACHES about one concept, before and while the player uses it. Code builds it from the
+ * knowledge map (summary, verified facts with their page and quote, formula, the first misconception and its
+ * correction); in live mode the Tutor agent adds a plain-words explanation and a worked example. The runtime
+ * shows it as a lesson from the teacher character before the first challenge on the concept, and in the
+ * Field Guide the player can open at any time.
+ */
+export const Lesson = z.object({
+  conceptId: Id,
+  /** the concept in one or two sentences (the curriculum's summary) */
+  bigIdea: z.string().min(1),
+  /** Tutor agent: the idea explained like a patient tutor would, or null (code-only lessons) */
+  explanation: z.string().min(1).nullable(),
+  /** things to remember, from the source's verified facts when there are any */
+  keyPoints: z
+    .array(z.object({ text: z.string().min(1), page: z.number().int().min(1).nullable(), quote: z.string().nullable() }))
+    .max(4),
+  formula: z.object({ label: z.string().min(1), expression: z.string().min(1) }).nullable(),
+  /** Tutor agent: a short worked example or concrete case, or null */
+  example: z.string().min(1).nullable(),
+  /** the classic mistake and its fix (the concept's first listed misconception), or null */
+  watchOut: z.object({ mistake: z.string().min(1), fix: z.string().min(1) }).nullable(),
+  /** the character who teaches it (the game's helper), or null to show it as a plain card */
+  teacherId: Id.nullable(),
+});
+export type Lesson = z.infer<typeof Lesson>;
+
 /** Snapshot of the learner's intake, so the debrief can compute pre→post and per-unit views offline. */
 export const IntakeSummary = z.object({
   goal: IntakeGoal,
@@ -110,6 +137,8 @@ export const GameSpec = z.object({
   }),
   // ---- pre: copied from the intake; post: assessment agent (choices shuffled by code) ----
   assessment: z.object({ pre: z.array(Mcq).length(3), post: z.array(Mcq).length(3) }),
+  // ---- code (+ Tutor agent in live mode): what the game teaches; absent only in specs made before lessons ----
+  lessons: z.array(Lesson).optional(),
   // ---- World Writer + code (optional; absent in every fixture until W8, see docs/design/20 §1.1) ----
   world: WorldOverlay.optional(),
 });

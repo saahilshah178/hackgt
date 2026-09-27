@@ -4,6 +4,7 @@ import type { TeachingMechanic } from "../contracts/library";
 import type { BlueprintEncounter, BlueprintSlice, DirectorMenuFamily } from "../contracts/slices";
 import { GENRE_INFO } from "../library/genres";
 import { getFamily } from "../mechanics/registry";
+import { profileContext } from "./personalize";
 import type { AnyFamilyMode } from "../mechanics/types";
 
 /**
@@ -25,11 +26,13 @@ export function sharedContext(km: KnowledgeMap, intake: Intake, genre: Genre): s
     misconceptions: c.misconceptions.map((m) => `${m.belief} -> actually: ${m.correction}`),
     formulas: c.formulas.map((f) => `${f.label}: ${f.mathjs}`),
   }));
+  const profile = profileContext(km, intake.profile);
   return [
     `# Source: ${km.title} (${km.subject.domain} / ${km.subject.topic}, ${km.level})${km.unsourced ? " [UNSOURCED: from general knowledge]" : ""}`,
     `# Learner: goal=${intake.goal}, minutes=${intake.minutes}. Confidence is 1 (lost) to 5 (solid). Weight = (core ? 2 : 1) × (6 − confidence); higher weight = needs more practice.`,
     `# Genre: ${genre}`,
     `# How this genre plays: ${GENRE_INFO[genre].name}. ${GENRE_INFO[genre].coreLoop} Write the title, setting, premise, cast and every line for this perspective (not every genre has a walking hero).`,
+    ...(profile ? [profile] : []),
     "# Units",
     JSON.stringify(units),
     "# Concepts",
@@ -66,7 +69,9 @@ Design rules:
 - Theme the whole game around the subject (e.g. cell biology -> a submarine inside a cell). 1-3 characters, one of them a helper.
 - designNote tells the challenge writer what the encounter should make the player think about. Be specific.
 - Vary how the player acts (each card lists its widget). With 5 or more encounters use at least 3 different widgets, and let multiple choice ("pick") and single sliders ("dial") together be at most a third of the encounters whenever the menu offers other cards for those concepts. Prefer sorting, ordering, linking, placing, building, typing and explaining.
-- When the menu has an explain card (explainer.teach_back), use it for the weakest causal or process concept: explaining it in the player's own words is how they prove they understand it.`;
+- When the menu has an explain card (explainer.teach_back), use it for the weakest causal or process concept: explaining it in the player's own words is how they prove they understand it.
+- When the context says what trips this learner up, give each listed misconception its own encounter with that exact targetMisconception, and teach a concept the learner is not sure about before practicing it.
+- When the context lists the learner's interests, theme the game around them (e.g. trigonometry + basketball -> tuning a shot's arc in an arena), keeping the concepts as the rules of play.`;
 
 export const CHALLENGE_SYSTEM = `You are the Challenge Writer for one encounter of an educational game. You fill in the mechanic's params and all player-facing text.
 
@@ -86,6 +91,12 @@ export const NARRATIVE_SYSTEM = `You are the Narrative Writer. Write short spoke
 export const ASSESSMENT_SYSTEM = `You are the Assessment Writer. Write the 3 post-check multiple-choice items for after the game.
 - Cover the same concepts as the pre-check items listed in the prompt, with NEW questions (not rewordings).
 - One unambiguous correct answer; three distractors drawn from real misconceptions.`;
+
+export const TUTOR_SYSTEM = `You are the Tutor for an educational game. Before the player is asked to use a concept, the game teaches it; you write that teaching.
+- For each concept: an explanation a struggling student would understand on first read (plain words, no jargon without a definition, why it works and how to use it), and one worked example with the reasoning spelled out.
+- Ground everything in the listed facts, formulas and summaries from the student's own material; do not introduce outside claims that contradict them.
+- Address the listed misconceptions head-on where they fit ("It's tempting to think X, but...").
+- Speak to the player directly and warmly; keep each explanation under 80 words and each example under 60 words.`;
 
 export const PRECHECK_SYSTEM = `You are the Pre-check Writer. Write 3 quick multiple-choice items that measure the learner's weakest concepts before the game.
 - One unambiguous correct answer; three distractors drawn from real misconceptions.
@@ -124,6 +135,10 @@ export function narrativePrompt(shared: string, bp: BlueprintSlice): string {
 export function assessmentPrompt(shared: string, preCheck: readonly { conceptId: string; prompt: string }[]): string {
   const pre = preCheck.map((q) => `- [${q.conceptId}] ${q.prompt}`).join("\n");
   return `${shared}\n\n# Pre-check items already asked (same concepts, do NOT reuse these questions)\n${pre}\n\n# Task\nWrite the post-check.`;
+}
+
+export function tutorPrompt(shared: string, conceptIds: readonly string[]): string {
+  return `${shared}\n\n# Task\nWrite one lesson for each of these concepts, in this order: ${conceptIds.join(", ")}.`;
 }
 
 export function preCheckPrompt(shared: string, weakestConceptIds: readonly string[]): string {

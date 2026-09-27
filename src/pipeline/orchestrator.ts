@@ -1,26 +1,29 @@
 import type { GenreOrAuto } from "../contracts/common";
-import type { Intake, KnowledgeMap } from "../contracts/knowledge";
+import { selectConcepts, type Intake, type KnowledgeMap } from "../contracts/knowledge";
 import type { GameRecord, JobRecord } from "../contracts/storage";
 import { emptyMastery, updateMastery } from "../contracts/telemetry";
 import { newId } from "../server/ids";
 import { getStorage } from "../server/storage";
-import { matcherJob } from "./agents/intake";
+import { loadMatches } from "./agents/intake";
 import { blindSolveAndFix } from "./agents/blind-solver";
 import { attachAudio } from "./audio";
-import { runMatcher } from "./agents/matcher";
 import { emit, close } from "./events";
-import { generateGame, type Models } from "./generate";
+import { generateGame, resolveGenre, type Models } from "./generate";
+import { focusConcepts } from "./personalize";
 import { getModels } from "./models";
 
 /*
  * P6 orchestrator: turns { sourceId, intake } into a running job (S6-S9 back half) without blocking
  * the HTTP request. See instructions.md §9 (POST /api/games, /api/jobs/:id/stream) and MEGAPROMPT §3.
+ * The job runs on intake.conceptIds when the student ticked a subset (selectConcepts); the matcher's
+ * results always cover the whole map (loadMatches), so they need no filtering (the Director's menu is
+ * built per concept in the job's map). intake.profile (the clarify step) personalizes S6 onward.
  */
 
 export interface StartGameJobArgs {
   sourceId: string;
   intake: Intake;
-  /** outline titles the student ticked when the source was too big; the Director may ignore it tonight */
+  /** legacy: outline titles from the old "too big" checklist; unused now that the student ticks concepts (intake.conceptIds) */
   sections?: string[];
   /** overrides intake.genre (used by regenerate) */
   genreOverride?: GenreOrAuto;
@@ -31,8 +34,6 @@ export interface StartGameJobArgs {
   /** regenerate only: emitted as the job's first progress event, before the Director even starts */
   firstNote?: string;
 }
-
-const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 /** MEGAPROMPT §8: mastery per unit, averaged from the concepts it contains, from a game's telemetry. */
 async function weakestUnitsByTelemetry(km: KnowledgeMap, gameId: string): Promise<string[] | null> {
@@ -69,24 +70,6 @@ async function applyFocusWeak(km: KnowledgeMap, intake: Intake, previousGameId?:
   return { ...intake, confidence };
 }
 
-/** Loads matches for a source: stored -> the in-flight background matcher (30s cap) -> run inline. */
-async function loadMatches(sourceId: string, km: KnowledgeMap, jobId: string) {
-  const storage = getStorage();
-  let matches = await storage.getMatch(sourceId);
-  if (matches) return matches;
-
-  const bg = matcherJob(sourceId);
-  if (bg) {
-    await Promise.race([bg, sleep(30_000)]);
-    matches = await storage.getMatch(sourceId);
-    if (matches) return matches;
-  }
-
-  matches = await runMatcher(km, { jobId });
-  await storage.putMatch(sourceId, matches);
-  return matches;
-}
-
 async function runJob(args: {
   jobId: string;
   gameId: string;
@@ -101,14 +84,26 @@ async function runJob(args: {
   try {
     await storage.putJob({ id: jobId, sourceId, status: "running", gameId: null, error: null, createdAt: now(), updatedAt: now() });
 
-    const matches = await loadMatches(sourceId, km, jobId);
+    const matches = await loadMatches(sourceId, jobId);
     // No onProgress here: every runAgent() call auto-emits to this jobId's event bus (llm.ts), and
     // generateGame()/blindSolveAndFix()'s own non-runAgent notes (verifier, fallback, genre choice)
     // emit directly too (see the `note()` helpers in generate.ts and blind-solver.ts) — passing a
     // second emit(jobId, e) here would just duplicate every event on the SSE stream.
 
-    const { spec: generated } = await generateGame({ gameId, jobId, km, intake, matches, models });
-    const verified = await blindSolveAndFix({ spec: generated, km, intake, models, jobId });
+    // Genre first, on everything the student ticked: the same ranking the intake page showed them.
+    const resolved = resolveGenre(km, intake, matches);
+    // More concepts than this game length holds: play the ones the student needs most (and say which were left out).
+    const { km: focused, dropped } = focusConcepts(km, intake);
+    if (dropped.length > 0) {
+      emit(jobId, {
+        agent: "focus",
+        status: "done",
+        note: `${km.concepts.length} concepts is more than a ${intake.minutes}-minute game holds: focusing on the ${focused.concepts.length} you need most (left out: ${dropped.map((c) => c.name).join(", ")})`,
+      });
+    }
+
+    const { spec: generated } = await generateGame({ gameId, jobId, km: focused, intake, matches, models, resolved });
+    const verified = await blindSolveAndFix({ spec: generated, km: focused, intake, models, jobId });
 
     // S7 audio (optional): a no-op with AUDIO_MODE=off; with a key it voices the narrative lines within a
     // 25 s deadline and ships whatever finished (the rest stays text-only). Never fails the job.
@@ -136,8 +131,10 @@ async function runJob(args: {
  */
 export async function startGameJob(a: StartGameJobArgs): Promise<{ jobId: string }> {
   const storage = getStorage();
-  const km = await storage.getKnowledgeMap(a.sourceId);
-  if (!km) throw new Error(`No knowledge map for source "${a.sourceId}"; run intake prep first.`);
+  const full = await storage.getKnowledgeMap(a.sourceId);
+  if (!full) throw new Error(`No knowledge map for source "${a.sourceId}"; run intake prep first.`);
+  // A long upload yields far more concepts than one game holds: the job sees only the ticked ones.
+  const km = selectConcepts(full, a.intake.conceptIds);
 
   const jobId = newId("job");
   const gameId = newId("game");

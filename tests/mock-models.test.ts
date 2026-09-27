@@ -26,6 +26,8 @@ describe("mock mode via getModels()", () => {
       matches: trigMatches,
       models: getModels(),
       now: () => new Date("2026-09-26T02:00:00.000Z"),
+      // dungeon is withdrawn from what students can pick; pinned here to replay the dungeon fixture
+      resolved: { genre: "dungeon", reason: "requested" },
     });
     expect(genre).toBe("dungeon");
     expect(repairs).toBe(0);

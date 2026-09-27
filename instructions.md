@@ -47,11 +47,13 @@ UPLOAD (PDF | text | topic)
   S0 Ingest (code)        unpdf per-page text → sources/pages; topic → unsourced
   S1 Gatekeeper (FAST)    educational? size? outline, followUps
   S2 Curriculum (SMART)   KnowledgeMap; code verifies every quote appears on its page, drops failures
-  ├─ S3 Intake (UI+FAST)  confidence/unit, goal, minutes, genre, 3 pre-check MCQs
+  ├─ S3 Intake (UI+FAST)  3 steps: tick concepts + confidence/unit → clarify (what trips you up, interests,
+  │                        purpose, note → Intake.profile) → goal, minutes, genre (ranked), 3 pre-check MCQs
   ├─ S4 Matcher (code+FAST) per concept: catalog retrieval top-12 → FAST picks 3 (+ wishlist)
   └─ S5 Challenge bank    optional pre-generation
   S6 Director (SMART)     Blueprint (dynamic schema: card/socket/concept enums)
-  S7 Builders (parallel)  challenge ×N (SMART) | narrative (FAST) | assessment (FAST) | audio (optional)
+  S7 Builders (parallel)  challenge ×N (SMART) | narrative (FAST) | assessment (FAST) | tutor (FAST, live only) | audio (optional)
+                          → code builds GameSpec.lessons (lessons.ts): one grounded lesson per concept + the tutor's text
   S8 Assemble (code)      resolve(), placeholders, seeded shuffles, prefab layout
   S9 Verifier             structural → referential → semantic → self-solve → blind-solve → routed repair → fallback
   → GameSpec v2 → S10 Runtime (genre host + widgets + EncounterRunner) → telemetry → S11 Debrief
@@ -147,11 +149,13 @@ All JSON. Errors are `{ error: string, step?: string }` with a 4xx/5xx status; `
 
 | Route | Body → Response |
 |---|---|
-| `POST /api/sources` | multipart `file` (PDF ≤ 40 pages) **or** `{ text, title? }` **or** `{ topic }` → `{ sourceId, kind: "pdf"\|"text"\|"topic", title, pageCount }` |
+| `POST /api/sources` | multipart `file` (PDF of any page count, ≤ 200 MB) **or** `{ text, title? }` **or** `{ topic }` → `{ sourceId, kind: "pdf"\|"text"\|"topic", title, pageCount }` |
 | `GET /api/sources/:id` | → `SourceRecord & { pageCount }` |
-| `GET /api/sources/:id/intake` | runs S1 gatekeeper → S2 curriculum (+ quote verification) → FAST pre-check once, caches in storage, starts S4 matcher in the background → `{ source, gatekeeper: GatekeeperSlice, knowledgeMap: KnowledgeMap, dropped: { conceptId, page, quote }[], preCheck: Mcq[3], mock: boolean }` |
+| `GET /api/sources/:id/intake` | runs S1 gatekeeper → S2 curriculum (+ quote verification) → FAST pre-check once, caches in storage, starts S4 matcher in the background → `{ source, gatekeeper: GatekeeperSlice, knowledgeMap: KnowledgeMap, dropped: { conceptId, page, quote }[], preCheck: Mcq[3], mock: boolean, parts: number }` (`parts` = how many curriculum calls the document took; a long book is read in section-aligned parts) |
+| `POST /api/sources/:id/precheck` | `{ conceptIds: string[] }` → three pre-check questions for the ticked concepts → `{ preCheck: Mcq[3], conceptIds, derived: boolean, cached: boolean }`. An empty or complete selection returns the whole-map prep items; any other selection is written once (Pre-check Writer on the sub-map, or `derivePreCheck` when it fails) and cached per selection |
 | `GET /api/sources/:id/matches` | → `MatchResult[]` (waits for the background matcher; `{ pending: true }` with 202 if still running) |
-| `POST /api/games` | `{ sourceId, intake: Intake, sections?: string[] }` → stores the intake, starts S6–S9 as a job → `{ jobId }` (202). `sections` = outline titles the student ticked when the source was too big (optional; the Director may ignore it tonight) |
+| `POST /api/sources/:id/recommend` | `{ conceptIds?, confidence, profile? }` → `{ recommendations: GenreRecommendation[] }`: auto genres ranked for this learner (50% knowledge-type fit, 35% how well the matcher's library cards for the ticked concepts play in the genre, 15% interests), each with reasons. The first entry is what "Pick for me" (`genre: "auto"`) plays; `resolveGenre` uses the same `recommendGenres` |
+| `POST /api/games` | `{ sourceId, intake: Intake }` → stores the intake, starts S6–S9 as a job → `{ jobId }` (202). `intake.conceptIds` (optional) = the concepts the student ticked; the job runs on that subset (`selectConcepts`) and the pre-check items are looked up for the same selection, never taken from the client. The old `sections` field is still accepted and ignored. `intake.profile` (optional, the clarify step) personalizes S6 onward: flagged concepts weigh one confidence step heavier, `personalCards` adds the library card that breaks each ticked misconception to the Director's menu, `applyProfileTargets` makes sure every ticked misconception is some encounter's `targetMisconception`, and interests/purpose/note go into the shared context (`src/pipeline/personalize.ts`) |
 | `GET /api/jobs/:id` | → `JobRecord` |
 | `GET /api/jobs/:id/stream` | SSE: `event: progress` / `data: ProgressEvent` per line, replayed from history for late subscribers; ends with `event: done` / `data: { done: true, gameId, error }` |
 | `GET /api/games/:id` | → `GameRecord` (spec inside) |

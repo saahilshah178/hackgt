@@ -48,6 +48,10 @@ for (const game of GAMES) {
     await page.evaluate((id) => (window as unknown as { __GAME_DEBUG__: BoardDebug }).__GAME_DEBUG__.board.open(id), pick);
     await expect(page.getByTestId("challenge-panel")).toBeVisible();
     await expect(page.getByTestId("challenge-panel")).toHaveAttribute("data-encounter", pick);
+    // teach before test: a concept met for the first time opens on its lesson, then the challenge
+    await expect(page.getByTestId("lesson-card")).toBeVisible();
+    await page.screenshot({ path: `test-results/lesson-${game.fixture}.png` });
+    while (await page.getByTestId("lesson-continue").isVisible()) await page.getByTestId("lesson-continue").click();
     await expect(page.getByTestId("widget-root")).toBeVisible();
 
     // leaving keeps the game going; the encounter stays available
@@ -75,16 +79,49 @@ test("trig-puzzle: a wrong answer keeps the challenge open with feedback, and Tr
   // e1_radians is a number line open from the start; its untouched marker sits at π, not the 5π/6 target → wrong
   await page.evaluate(() => (window as unknown as { __GAME_DEBUG__: BoardDebug }).__GAME_DEBUG__.board.open("e1_radians"));
   await expect(page.getByTestId("challenge-panel")).toBeVisible();
+  while (await page.getByTestId("lesson-continue").isVisible()) await page.getByTestId("lesson-continue").click();
   await page.getByTestId("widget-root").getByTestId("widget-submit").click();
   await expect(page.getByTestId("challenge-result")).toHaveAttribute("data-correct", "false");
+  // a mistake points back to the lesson: the review link opens the Field guide at that concept, Escape closes it
+  await page.getByTestId("review-link").click();
+  await expect(page.getByTestId("field-guide")).toBeVisible();
+  await page.screenshot({ path: "test-results/field-guide-trig.png" });
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("field-guide")).toBeHidden();
   await page.getByTestId("challenge-retry").click();
   await expect(page.getByTestId("widget-root")).toBeVisible();
   expect(errors).toEqual([]);
+});
+
+test("cell-transport-cozy: the Field guide opens with G, lists every concept, and a lesson teaches before the challenge", async ({ page }) => {
+  const errors = collectErrors(page);
+  await boot(page, "cell-transport-cozy");
+  await expect(page.getByTestId("field-guide-tip")).toBeVisible();
+  await page.locator("body").press("g");
+  const guide = page.getByTestId("field-guide");
+  await expect(guide).toBeVisible();
+  await expect(guide.locator('[data-testid^="field-guide-entry-"]')).toHaveCount(9);
+  await expect(guide.locator('[data-testid^="field-guide-entry-"][data-state="learned"]')).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(guide).toBeHidden();
+
+  const open = await page.evaluate(() => (window as unknown as { __GAME_DEBUG__: BoardDebug }).__GAME_DEBUG__.board.available());
+  await page.evaluate((id) => (window as unknown as { __GAME_DEBUG__: BoardDebug }).__GAME_DEBUG__.board.open(id), open[0]);
+  const card = page.getByTestId("lesson-card");
+  await expect(card).toBeVisible();
+  const concept = await card.getAttribute("data-concept");
+  while (await page.getByTestId("lesson-continue").isVisible()) await page.getByTestId("lesson-continue").click();
+  await expect(page.getByTestId("widget-root")).toBeVisible();
+  await page.getByTestId("field-guide-button").click();
+  await expect(page.getByTestId(`field-guide-entry-${concept}`)).toHaveAttribute("data-state", "learned");
+  expect(errors, `console/page errors:\n${errors.join("\n")}`).toEqual([]);
 });
 
 test("home page shows the non-side-scroller showcase", async ({ page }) => {
   await page.goto("/");
   const ways = page.getByTestId("ways-to-play");
   await expect(ways).toBeVisible();
-  for (const g of GAMES) await expect(ways.locator(`a[href="/play/fixture-${g.fixture}"]`)).toBeVisible();
+  // the four offered genres (the logic board was withdrawn from the home page; its fixture still plays)
+  for (const g of GAMES.filter((x) => x.fixture !== "trig-puzzle")) await expect(ways.locator(`a[href="/play/fixture-${g.fixture}"]`)).toBeVisible();
+  await expect(ways.locator('a[href="/play/fixture-trig-puzzle"]')).toHaveCount(0);
 });

@@ -24,8 +24,11 @@ import { defineConfig, devices } from "@playwright/test";
  * `next dev` in the same project directory) or a throwaway server is running on another port. `webServer` is
  * omitted entirely in that case, so Playwright never tries to start or reuse one.
  */
+/** E2E_PORT lets a second checkout (a git worktree) run e2e next to the main one. */
+const PORT = process.env.E2E_PORT ?? "3100";
+
 const EXPEDITION_SPEC_PATTERN = /expedition-(trig|cell|civil|express|client)\.spec\.ts$/;
-const E2E_URL = process.env.EXPEDITION_E2E_URL ?? "http://localhost:3100";
+const E2E_URL = process.env.EXPEDITION_E2E_URL ?? `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: "e2e",
@@ -55,7 +58,7 @@ export default defineConfig({
   webServer: process.env.EXPEDITION_E2E_URL
     ? undefined
     : {
-        command: "pnpm dev --port 3100",
+        command: `pnpm dev --port ${PORT}`,
         url: E2E_URL,
         reuseExistingServer: !process.env.CI,
         timeout: 180_000,
