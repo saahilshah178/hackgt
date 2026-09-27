@@ -23,6 +23,7 @@ import { HintPanel } from "./systems/HintPanel";
 import { ConsequenceOverlay } from "./systems/ConsequenceOverlay";
 import { MasteryHud } from "./systems/MasteryHud";
 import { EndScreen } from "./systems/EndScreen";
+import { ExitButton } from "./systems/ExitButton";
 
 type Phase = "walking" | "widget" | "consequence" | "finished";
 
@@ -189,6 +190,8 @@ export function LegacyGameClient({ spec }: { spec: GameSpec }) {
   const [consequence, setConsequence] = useState<ConsequenceState | null>(null);
   const [lastHint, setLastHint] = useState<string | null>(null);
   const [liveValue, setLiveValueState] = useState<unknown>(undefined);
+  /** the top-left Exit confirmation is open: the host freezes so the player does not walk while deciding */
+  const [exitOpen, setExitOpen] = useState(false);
 
   const hostRef = useRef<HostHandle>(null);
   const palette = useMemo(() => getPalette(spec.theme.paletteId), [spec.theme.paletteId]);
@@ -283,15 +286,18 @@ export function LegacyGameClient({ spec }: { spec: GameSpec }) {
   return (
     <div className="flex min-h-screen flex-col gap-4 p-4" style={{ background: palette.css.background, color: palette.css.text }}>
       <header className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold" style={{ fontSize: 24 }}>
-          {spec.title}
-        </h1>
+        <div className="flex items-center gap-4">
+          <ExitButton confirm onConfirmOpenChange={setExitOpen} />
+          <h1 className="text-2xl font-bold" style={{ fontSize: 24 }}>
+            {spec.title}
+          </h1>
+        </div>
         <div className="w-64">
           <MasteryHud concepts={masteryConcepts} />
         </div>
       </header>
 
-      <PlayHost ref={hostRef} spec={spec} rooms={rooms} palette={palette} frozen={phase !== "walking"} onReachSocket={onReachSocket} />
+      <PlayHost ref={hostRef} spec={spec} rooms={rooms} palette={palette} frozen={phase !== "walking" || exitOpen} onReachSocket={onReachSocket} />
 
       {phase === "widget" && Widget && (
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 rounded-xl p-4" style={{ background: "color-mix(in oklab, currentColor 6%, transparent)" }}>

@@ -7,7 +7,7 @@
  * Hotkeys (window keydown, ignoring typing targets): H/? legend, N mute, J journal + objective line, M map
  * (explore only, when the story has one), Esc closes the legend.
  */
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Collectible, Story } from "../../../contracts/world";
 import type { AudioBus } from "../audio/bus";
 import styles from "./hud.module.css";
@@ -34,6 +34,8 @@ export interface HudProps {
   onToggleJournal?: () => void;
   /** listen for the HUD hotkeys on window (default true) */
   hotkeys?: boolean;
+  /** rendered first in the top-left row (the game's Exit control); interactive, unlike the rest of the HUD */
+  leading?: ReactNode;
 }
 
 export function Hud({
@@ -49,6 +51,7 @@ export function Hud({
   onOpenMap,
   onToggleJournal,
   hotkeys = true,
+  leading,
 }: HudProps) {
   const [legendOpen, setLegendOpen] = useState(false);
   const [objectivePing, setObjectivePing] = useState(0);
@@ -108,6 +111,11 @@ export function Hud({
     <>
       <div className={styles.hud} data-testid="hud">
         <div className={styles.row}>
+          {leading ? (
+            <span style={{ pointerEvents: "auto", flex: "none", textShadow: "none" }} data-testid="hud-leading">
+              {leading}
+            </span>
+          ) : null}
           <ObjectiveRing story={story} progress={progress} zoneId={zone?.id ?? null} onOpenMap={openMap} />
           <h1 className={styles.zoneTitle} data-testid="zone-title">
             {zone?.name ?? story.objective}

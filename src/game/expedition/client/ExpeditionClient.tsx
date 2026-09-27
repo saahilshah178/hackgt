@@ -33,6 +33,7 @@ import { triggerEffects } from "../../hosts/expedition/scene/triggers";
 import { PlayHost } from "../../hosts/PlayHost";
 import type { HostEvent, HostHandle, InteractTarget, LayoutState, RoomPlacement } from "../../hosts/types";
 import { EndScreen } from "../../systems/EndScreen";
+import { ExitButton } from "../../systems/ExitButton";
 import { AudioBus, sfxEnabled } from "../audio/bus";
 import { useAudioUnlock } from "../audio/useAudioBus";
 import { DialogueBar } from "../dialogue/DialogueBar";
@@ -954,7 +955,9 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const panelStation = useMemo(() => (openSt ? panelStationOf(openSt) : null), [openSt]);
   const panelContext = useMemo(() => panelContextOf(world, progress.solvedIds, openSt), [world, progress.solvedIds, openSt]);
   const meter = useMemo(() => meterValueOf(overlay.story.meter, progress.solvedIds), [overlay.story.meter, progress.solvedIds]);
-  const frozen = hostFrozen(phase, blocking, journalOpen || briefOpen);
+  /** the top-left Exit confirmation is open: treated like the journal or brief, so the world holds still */
+  const [exitOpen, setExitOpen] = useState(false);
+  const frozen = hostFrozen(phase, blocking, journalOpen || briefOpen || exitOpen);
 
   if (phase.kind === "finished") {
     const { mastery, lines } = runner.debrief();
@@ -1011,6 +1014,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
           meterValue={meter}
           mode={hudModeOf(phase)}
           onToggleJournal={() => setJournalOpen((o) => !o)}
+          leading={<ExitButton confirm onConfirmOpenChange={setExitOpen} />}
         />
       }
       panel={
