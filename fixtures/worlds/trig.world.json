@@ -270,8 +270,7 @@
           "maxStepUp": 102
         },
         "platforms": [
-          {"id": "canal_stone", "points": [[2220, 1300], [2280, 1300]], "asset": "orrery_terraces.prop.stepping_stone", "requires": null},
-          {"id": "wisp_ledge", "points": [[3500, 1270], [3600, 1270]], "asset": "orrery_terraces.prop.ledge_cap", "requires": null}
+          {"id": "canal_stone", "points": [[2220, 1300], [2280, 1300]], "asset": "orrery_terraces.prop.stepping_stone", "requires": null}
         ],
         "links": [
           {
@@ -309,22 +308,6 @@
             "to": {"surface": "ground", "x": 2392},
             "requires": null,
             "twoWay": true
-          },
-          {
-            "kind": "hop",
-            "id": "s1_ledge_up",
-            "from": {"surface": "ground", "x": 3440},
-            "to": {"surface": "wisp_ledge", "x": 3520},
-            "requires": null,
-            "apex": 100,
-            "twoWay": false
-          },
-          {
-            "kind": "drop",
-            "id": "s1_ledge_down",
-            "from": {"surface": "wisp_ledge", "x": 3595},
-            "to": {"surface": "ground", "x": 3625},
-            "requires": null
           }
         ],
         "exits": [
@@ -822,7 +805,7 @@
         "config": {
           "rail": "arc",
           "radius": 310,
-          "gauges": ["sin", "cos"],
+          "gauges": ["sin"],
           "hiddenTarget": "fog",
           "detent": "pi/12",
           "readout": "bracket",

@@ -41,7 +41,6 @@ export function UnitCircleCard({ model, chips = [] }: { model: UnitCircleCardMod
   return (
     <CardFrame
       ref={ref}
-      gutter
       kind="unit_circle"
       tab={model.title}
       overlay={size.measured && chips.map((c, i) => (

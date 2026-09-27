@@ -15,7 +15,7 @@
   font-family: var(--font-sans, system-ui, sans-serif);
 }
 
-/* ---- geometry per layout: the line sits under the full-stage minigame */
+/* ---- geometry per layout: spoken lines sit under the minigame. Directions live in the panel. */
 .band {
   left: 0;
   right: 0;
@@ -70,6 +70,32 @@
 }
 .panel:focus-visible {
   box-shadow: inset 0 0 0 3px var(--db-glow);
+}
+/* No spoken line: keep the hint button, not an empty dialogue band. */
+.controlsOnly {
+  left: auto;
+  right: 16px;
+  bottom: 16px;
+  width: auto;
+  min-height: 0;
+}
+.controlsOnly .panel {
+  display: flex;
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+.controlsOnly .hex,
+.controlsOnly .terminals,
+.controlsOnly .leftTerminal,
+.controlsOnly .emblemSlot,
+.controlsOnly .body {
+  display: none;
 }
 .hex {
   position: absolute;

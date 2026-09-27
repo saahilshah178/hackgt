@@ -216,11 +216,11 @@ export function GraphCard({ model, chips = [], onMarker }: { model: GraphCardMod
   return (
     <CardFrame
       ref={ref}
-      gutter
       kind="graph"
       tab={model.tab}
+      data={{ "data-chip-side": "right" }}
       overlay={size.measured && chips.map((c, i) => (
-        <ValueChip key={`${c.slot}-${i}`} text={c.text} color={c.color} top={chipY(c.value, chipAxis, h, chipH)} />
+        <ValueChip key={`${c.slot}-${i}`} text={c.text} color={c.color} side="right" top={chipY(c.value, chipAxis, h, chipH)} />
       ))}
     >
       {size.measured ? (

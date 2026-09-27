@@ -38,8 +38,15 @@ export interface InstrumentPanelProps {
   context: PanelContext;
   aidTier?: AidTier;
   hintsUsed?: HintsUsed;
-  /** the pinned instruction line (the dialogue bar shows it; every control's aria-describedby points here) */
+  /** the station directions, shown at the top of the panel; every control's aria-describedby points here */
   instruction: string;
+  /** the how-to or insight that sits under the instruction */
+  guide?: string | null;
+  /** opens the hint popup; the button sits on the title row, flush with the question's right edge */
+  onHint?: () => void;
+  onBrief?: () => void;
+  hintDisabled?: boolean;
+  hintLabel?: string;
   /** a cached draft to restore on reopen */
   initialDraft?: Draft | null;
   /** failed Verifies so far on this station (WaveControl replays with answers preselected) */
@@ -57,6 +64,9 @@ export interface InstrumentPanelProps {
   opaque?: boolean;
   /** the vault layout's left column (and the (i) sheet) */
   brief?: Brief | null;
+  /** the hint ladder opens as a popup over the panel, including any cosine graph held back from the stack */
+  hintOpen?: boolean;
+  onHintClose?: () => void;
   /** the controller's station clock and sim state, for metas whose panelLive reads them (sampled at 10 Hz) */
   getLive?: () => { t: number; sim: unknown };
   onDraft: (d: PanelDraft) => void;
@@ -230,7 +240,11 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
   // ---------------------------------------------------------------- the stack
   const merged = applyOverrides(mergeLive(stat.cards, live.liveCards), station.cardOverrides);
   const stack0 = displayStack(merged, context, stat.recordPins, scrubX, layout);
-  const { stack, surface } = splitSurface(stack0, SURFACE_KIND[kind]);
+  const split = splitSurface(stack0, SURFACE_KIND[kind]);
+  /* Cosine stays off the station. It is drawn in the hint popup once a hint has filled the graph in. */
+  const cosineCards = split.stack.filter((d) => isCosineCard(d.card));
+  const stack = split.stack.filter((d) => !isCosineCard(d.card));
+  const surface = split.surface;
   const domain = range ?? probeRange;
 
   // ---------------------------------------------------------------- geometry: metrics, the one orange line
@@ -246,12 +260,13 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
   useLayoutEffect(() => {
     const box = instrumentRef.current;
     const measure = () => {
-      const ruler = box?.querySelector<HTMLElement>(".xp-ruler-row") ?? null;
+      const track = box?.querySelector<HTMLElement>(".xp-ruler") ?? null;
       const stackEl = box?.querySelector<HTMLElement>(".xp-stack") ?? null;
-      if (!box || !ruler || !stackEl || domainMin === null || domainMax === null) {
+      if (!box || !track || !stackEl || domainMin === null || domainMax === null) {
         setLine(null);
         return;
       }
+      const trackTop = track.getBoundingClientRect().top - box.getBoundingClientRect().top;
       const boxes: { top: number; bottom: number; shares: boolean }[] = [];
       for (const child of Array.from(stackEl.children) as HTMLElement[]) {
         const slot = child.matches("[data-display-slot]") ? child.querySelector<HTMLElement>(":scope > .xp-slot") : child;
@@ -264,11 +279,11 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
         if (b.shares) run = run ? { top: run.top, bottom: b.bottom } : { top: b.top, bottom: b.bottom };
         if (run && (!b.shares || i === boxes.length - 1)) {
           const last = b.shares && i === boxes.length - 1;
-          segments.push(last ? { top: run.top, bottom: ruler.offsetTop } : run);
+          segments.push(last ? { top: run.top, bottom: trackTop } : run);
           run = null;
         }
       });
-      const next = { segments, width: ruler.clientWidth };
+      const next = { segments, width: track.clientWidth };
       setLine((l) => (l && l.width === next.width && JSON.stringify(l.segments) === JSON.stringify(segments) ? l : next));
     };
     measure();
@@ -494,9 +509,6 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
         <PanelMetricsContext.Provider value={metrics}>
           <HexGrid />
           <TraceLine className="xp-rail" orient="v" start="ring" end="dots" />
-          <p id={instructionId} className="xp-sr-only">
-            {instruction}
-          </p>
           <div className="xp-sr-only" aria-live="polite" data-testid="panel-sr">
             {srPolite}
           </div>
@@ -511,6 +523,15 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
               <div className="xp-head">
                 <BackTab onBack={props.onBack} done={sandbox} />
                 <span className="xp-head-title">{station.objectNoun}</span>
+                {props.onHint || props.onBrief ? (
+                  <HintButton label={props.hintLabel} disabled={Boolean(props.hintDisabled)} onHint={props.onHint} onBrief={props.onBrief} />
+                ) : null}
+              </div>
+              <div className="xp-directions" data-testid="panel-directions">
+                <p id={instructionId} className="xp-directions-lead" data-testid="dialogue-pin-primary">
+                  {instruction}
+                </p>
+                {props.guide ? <p className="xp-directions-detail" data-testid="panel-directions-detail">{props.guide}</p> : null}
               </div>
               {instrument}
               {sandbox ? null : props.result === "success" ? (
@@ -520,10 +541,54 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
               )}
             </div>
           </div>
+          {props.hintOpen ? (
+            <div
+              className="xp-hint-pop"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Hints"
+              data-testid="hint-popup"
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  props.onHintClose?.();
+                }
+              }}
+              onClick={(e) => {
+                if (e.target === e.currentTarget) props.onHintClose?.();
+              }}
+            >
+              <div className="xp-hint-card">
+                <button type="button" className="xp-hint-close" onClick={() => props.onHintClose?.()} aria-label="Close hints" autoFocus>
+                  ✕
+                </button>
+                <h2 className="xp-hint-title">Hints</h2>
+                {(props.brief?.hints.length ?? 0) > 0 ? (
+                  <ol className="xp-hint-list">
+                    {props.brief!.hints.map((h, i) => (
+                      <li key={i}>{h}</li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p className="xp-hint">No hints yet.</p>
+                )}
+                {cosineCards.filter((d) => d.card.kind !== "graph" || !d.card.empty).map((d) => (
+                  <div key={`${d.metaSlot ?? "hint"}-${d.card.kind}`} className="xp-hint-graph">
+                    <CardSlot d={d} live={live} scrubX={scrubX} shares={false} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </PanelMetricsContext.Provider>
       </section>
     </>
   );
+}
+
+function isCosineCard(card: { kind: string; title?: string }): boolean {
+  return card.kind === "graph" && /^cos\b/i.test((card.title ?? "").trim());
 }
 
 function CardSlot({ d, live, scrubX, shares }: { d: ReturnType<typeof displayStack>[number]; live: PanelLive; scrubX: number | null; shares: boolean }) {
@@ -532,5 +597,70 @@ function CardSlot({ d, live, scrubX, shares }: { d: ReturnType<typeof displaySta
     <div style={{ display: "contents" }} data-share={shares ? "true" : "false"} data-display-slot={d.displaySlot} data-meta-slot={d.metaSlot ?? "record"}>
       <CardView card={d.card} chips={chips} cursor={shares ? null : scrubX} />
     </div>
+  );
+}
+
+const LONG_PRESS_MS = 550;
+
+/** Sits in the empty margin beside the directions, level with the problem. */
+function HintButton({
+  label,
+  disabled,
+  onHint,
+  onBrief,
+}: {
+  label?: string;
+  disabled: boolean;
+  onHint?: () => void;
+  onBrief?: () => void;
+}) {
+  const pressTimer = useRef<number | null>(null);
+  const longPressed = useRef(false);
+  const clearPress = () => {
+    if (pressTimer.current !== null) window.clearTimeout(pressTimer.current);
+    pressTimer.current = null;
+  };
+  useEffect(() => clearPress, []);
+  const name = label ?? "Hint";
+  return (
+    <button
+      type="button"
+      className="xp-hint-btn"
+      data-testid="hint-button"
+      aria-label={name}
+      aria-keyshortcuts="I Shift+I"
+      title={onBrief ? `${name} · Shift+click for the brief` : name}
+      disabled={disabled && !onBrief}
+      onPointerDown={(e) => {
+        if (!onBrief || e.button !== 0) return;
+        longPressed.current = false;
+        clearPress();
+        pressTimer.current = window.setTimeout(() => {
+          longPressed.current = true;
+          onBrief();
+        }, LONG_PRESS_MS);
+      }}
+      onPointerUp={clearPress}
+      onPointerLeave={clearPress}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (longPressed.current) {
+          longPressed.current = false;
+          return;
+        }
+        if (e.shiftKey && onBrief) onBrief();
+        else if (!disabled) onHint?.();
+        else onBrief?.();
+      }}
+      onKeyDown={(e) => {
+        if (e.shiftKey && (e.key === "Enter" || e.key === " ") && onBrief) {
+          e.preventDefault();
+          e.stopPropagation();
+          onBrief();
+        }
+      }}
+    >
+      Hint
+    </button>
   );
 }

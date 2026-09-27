@@ -62,8 +62,8 @@
   container-type: inline-size;
   color: var(--ui-text);
 }
-/* Station minigames fill the stage. A slim top band keeps the zone HUD and the ? / mute controls,
-   and the dialogue band stays along the bottom. Side insets keep value chips and the frame off the screen edge. */
+/* Station minigames fill the stage. A slim top band keeps the ? / mute controls,
+   and spoken lines stay along the bottom. Side insets keep value chips and the frame off the screen edge. */
 .xp-panel {
   position: absolute;
   top: var(--xp-hud-clear);
@@ -174,10 +174,11 @@
   gap: var(--xp-gap);
   padding: clamp(10px, 1.6cqh, 22px) clamp(14px, 3.2cqw, 34px) clamp(10px, 1.6cqh, 20px) clamp(28px, 5.2cqw, 52px);
 }
-/* Chips hang off the card's left edge. The gutter keeps them inside the full-stage panel. Vault's brief column is that gutter. */
+/* The value readout sits on the right of a graph. The left side stays at the rail. */
 .xp-panel:not([data-layout="vault"]) .xp-body {
   padding-top: 28px;
-  padding-left: calc(var(--xp-chip-w) + 48px);
+  padding-left: 36px;
+  padding-right: calc(var(--xp-chip-w) + 28px);
 }
 .xp-panel:not([data-layout="vault"]) .xp-chip {
   max-width: var(--xp-chip-w);
@@ -231,8 +232,55 @@
   align-items: center;
   gap: 16px;
   min-height: clamp(40px, 6cqh, 56px);
-  /* the ? and mute controls sit in this row, at the top-right of the stage */
-  padding-right: 148px;
+}
+.xp-directions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.xp-hint-btn {
+  pointer-events: auto;
+  flex: 0 0 auto;
+  margin-left: auto;
+  min-width: clamp(84px, 12cqw, 120px);
+  height: clamp(40px, 6cqh, 52px);
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  border: 1.5px solid var(--ui-line);
+  background: var(--ui-card-deep);
+  color: var(--ui-text);
+  font-size: var(--xp-fs-small);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--ui-line-glow);
+}
+.xp-hint-btn:hover:not(:disabled) {
+  background: #123440;
+}
+.xp-hint-btn:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+.xp-hint-btn:focus-visible {
+  outline: 3px solid var(--ui-line-glow);
+  outline-offset: 2px;
+}
+.xp-directions-lead,
+.xp-directions-detail {
+  margin: 0;
+  line-height: 1.35;
+}
+.xp-directions-lead {
+  font-size: var(--xp-fs-body);
+}
+.xp-directions-detail {
+  color: var(--ui-text-dim);
+  font-size: var(--xp-fs-small);
 }
 .xp-head-title {
   font-size: var(--xp-fs-small);
@@ -242,6 +290,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
 /* the back arrow tab (bible §3.2): ui.card.deep, 1.5 px border, white left arrow */
@@ -405,6 +454,9 @@
   /* value-carrying cards: the slot frame reaches back into the chip gutter (5.png) */
   left: calc(-0.5 * var(--xp-chip-w, 120px) - 8px);
 }
+.xp-slot[data-chip-side="right"]::before {
+  right: calc(-0.5 * var(--xp-chip-w, 120px) - 8px);
+}
 .xp-card {
   position: absolute;
   inset: 0;
@@ -498,6 +550,11 @@
   transition: top 90ms linear;
   pointer-events: none;
 }
+.xp-chip[data-side="right"] {
+  left: auto;
+  right: -8px;
+  transform: translate(100%, -50%);
+}
 .xp-chip[data-color="g"] {
   border-color: var(--fn-g);
 }
@@ -529,6 +586,30 @@
 }
 .xp-ruler-row {
   position: relative;
+  flex: 0 0 auto;
+  height: clamp(58px, 9cqh, 78px);
+}
+/* A long bracket ("π/2 < θ < π") hangs off the left of the screen. Sit it under the track, centered. */
+.xp-panel:not([data-layout="vault"]) .xp-ruler-row {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+.xp-panel:not([data-layout="vault"]) .xp-readout-group {
+  position: relative;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  order: 1;
+  align-self: center;
+  height: clamp(44px, 7cqh, 58px);
+  max-width: 100%;
+}
+.xp-panel:not([data-layout="vault"]) .xp-ruler {
+  position: relative;
+  inset: auto;
   flex: 0 0 auto;
   height: clamp(58px, 9cqh, 78px);
 }
@@ -793,6 +874,65 @@
 .xp-hint {
   color: var(--ui-text-dim);
   font-size: var(--xp-fs-small);
+}
+.xp-hint-pop {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(5, 15, 20, 0.55);
+}
+.xp-hint-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(640px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: 28px 22px 22px;
+  background: var(--xp-panel-opaque, #1f4b57);
+  border: 2px solid var(--ui-line);
+}
+.xp-hint-title {
+  margin: 0;
+  font-size: var(--xp-fs-small);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ui-text-dim);
+}
+.xp-hint-list {
+  margin: 0;
+  padding-left: 1.3em;
+  display: grid;
+  gap: 12px;
+  font-size: var(--xp-fs-body);
+  line-height: 1.4;
+}
+.xp-hint-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  color: #fff;
+  background: #0b1f27;
+  border: 2px solid var(--ui-line);
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.xp-hint-graph {
+  position: relative;
+  flex: 0 0 auto;
+  height: 260px;
+}
+.xp-hint-graph > .xp-slot {
+  height: 100%;
+  min-height: 0;
 }
 .xp-token {
   display: inline-flex;

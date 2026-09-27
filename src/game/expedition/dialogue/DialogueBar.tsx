@@ -8,18 +8,19 @@
  * - Text at clamp(22px, 1.6vw, 32px) (≈ 31 px at 1920 w), two lines at most, typing on at 45 cps. The typing span is
  *   aria-hidden; a visually hidden live region receives the FULL line when it starts (assertive for critical, taunt
  *   and feedback lines).
- * - (i) button (data-testid="hint-button"): click → onHint; Shift+click, Shift+Enter or a long press → onBrief.
+ * - I opens a hint while the panel is open; Shift+I opens the brief. The Hint button itself sits with the top controls.
  * - Space / Enter advance when the bar has focus, or anywhere while a blocking line shows and no input has focus.
  *   Clicking the bar advances too.
- * - While the panel is open, the pinned instruction/success (line 1) and tutorial/insight/feedback (line 2) show,
- *   with any active bar line above them. In explore, non-blocking lines and toasts show as a strip bottom-centre.
+ * - While the panel is open, spoken lines and feedback stay in the bar. Instruction, tutorial, insight and
+ *   success are the station directions and render in the panel instead. In explore, non-blocking lines and
+ *   toasts show as a strip bottom-centre.
  * - Reduced motion: lines appear complete.
  */
-import { useEffect, useMemo, useRef, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useMemo, useRef, type KeyboardEvent } from "react";
 import type { Emblem as EmblemSpec } from "../../../contracts/world";
 import type { SpeakerDirectory, SpeakerInfo } from "../../../world/types";
 import styles from "./dialogue.module.css";
-import { Emblem, InfoGlyph } from "./Emblem";
+import { Emblem } from "./Emblem";
 import { ariaPolitenessFor } from "./engine";
 import type { DialogueEngineApi, DialogueKind } from "./types";
 import { useDialogueClock, useDialogueSnapshot } from "./useDialogue";
@@ -37,7 +38,7 @@ export interface DialogueBarProps {
   onHint?: () => void;
   onBrief?: () => void;
   hintDisabled?: boolean;
-  /** accessible label for the (i) button, e.g. "Hint (1 of 3 used)" */
+  /** accessible name for the Hint button, e.g. "Hint (1 of 3 used)" */
   hintLabel?: string;
   reducedMotion?: boolean;
   /** run the typewriter clock here (default true); false when the client ticks the engine itself */
@@ -53,8 +54,6 @@ export interface DialogueBarProps {
 
 export const DIALOGUE_PIN_PRIMARY_ID = "dialogue-pin-primary";
 export const DIALOGUE_PIN_SECONDARY_ID = "dialogue-pin-secondary";
-
-const LONG_PRESS_MS = 550;
 
 function isTypingTarget(el: Element | null): boolean {
   if (!el) return false;
@@ -101,7 +100,6 @@ export function DialogueBar({
   onHint,
   onBrief,
   hintDisabled = false,
-  hintLabel,
   reducedMotion = false,
   drivesClock = true,
   globalAdvance = true,
@@ -110,8 +108,6 @@ export function DialogueBar({
   const snap = useDialogueSnapshot(engine);
   useDialogueClock(engine, drivesClock);
   const barRef = useRef<HTMLDivElement | null>(null);
-  const pressTimer = useRef<number | null>(null);
-  const longPressed = useRef(false);
 
   useEffect(() => {
     engine.setInstant?.(reducedMotion);
@@ -138,6 +134,10 @@ export function DialogueBar({
   const active = snap.active;
   const pins = snap.pinned;
   const panelOpen = layout === "scrub" || layout === "board" || layout === "vault" || layout === "sandbox";
+  /* Instruction, tutorial, insight and success are the station directions. They render in the panel, not here. */
+  const directionKind = (kind: string) => kind === "instruction" || kind === "tutorial" || kind === "insight" || kind === "success";
+  const primary = pins.primary && !directionKind(pins.primary.kind) ? pins.primary : null;
+  const secondary = pins.secondary && !directionKind(pins.secondary.kind) ? pins.secondary : null;
 
   // I / Shift+I while the panel is open (§3.5).
   useEffect(() => {
@@ -153,7 +153,8 @@ export function DialogueBar({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [hintHotkey, panelOpen, onHint, onBrief, hintDisabled]);
-  const hasPins = panelOpen && (pins.primary !== null || pins.secondary !== null);
+  const hasPins = panelOpen && (primary !== null || secondary !== null);
+  const controlsOnly = panelOpen && !hasPins && active === null;
   const isToast = active !== null && active.request.channel === "toast";
 
   const speaker = active ? speakerOf(speakers, active.line.speakerId) : null;
@@ -163,13 +164,13 @@ export function DialogueBar({
   const desaturate = !narrator && speaker !== null && speaker.emblem === null && speaker.kind !== "player";
   const speakerName = narrator ? null : (speaker?.name ?? (active?.line.speakerId === "player" ? "You" : active?.line.speakerId ?? null));
 
-  const pinSpeaker = pins.primary ? speakerOf(speakers, pins.primary.speakerId) : null;
+  const pinSpeaker = primary ? speakerOf(speakers, primary.speakerId) : null;
   const pinEmblem = pinSpeaker?.emblem ?? guide?.emblem ?? titleEmblem;
 
   // Live regions: the FULL line the moment it starts (derived from the snapshot; no effect, no state).
   const politeness = active ? ariaPolitenessFor(active.line, active.request.priority) : "polite";
   const liveText = active ? `${speakerName ? `${speakerName}: ` : ""}${active.line.text}` : "";
-  const feedbackText = panelOpen && pins.secondary?.kind === "feedback" ? pins.secondary.text : "";
+  const feedbackText = panelOpen && secondary?.kind === "feedback" ? secondary.text : "";
 
   const onBarKey = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.target !== e.currentTarget) return;
@@ -178,58 +179,6 @@ export function DialogueBar({
       engine.advance();
     }
   };
-
-  const onInfoDown = (e: PointerEvent<HTMLButtonElement>) => {
-    if (!onBrief || e.button !== 0) return;
-    longPressed.current = false;
-    if (pressTimer.current !== null) window.clearTimeout(pressTimer.current);
-    pressTimer.current = window.setTimeout(() => {
-      longPressed.current = true;
-      onBrief();
-    }, LONG_PRESS_MS);
-  };
-  const clearPress = () => {
-    if (pressTimer.current !== null) window.clearTimeout(pressTimer.current);
-    pressTimer.current = null;
-  };
-  useEffect(() => clearPress, []);
-
-  const infoButton =
-    onHint || onBrief ? (
-      <button
-        type="button"
-        className={styles.info}
-        data-testid="hint-button"
-        aria-label={hintLabel ?? "Hint"}
-        aria-keyshortcuts="I Shift+I"
-        title={onBrief ? `${hintLabel ?? "Hint"} · Shift+click for the brief` : (hintLabel ?? "Hint")}
-        disabled={hintDisabled && !onBrief}
-        onPointerDown={onInfoDown}
-        onPointerUp={clearPress}
-        onPointerLeave={clearPress}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (longPressed.current) {
-            longPressed.current = false;
-            return;
-          }
-          if (e.shiftKey && onBrief) onBrief();
-          else if (!hintDisabled) onHint?.();
-          else onBrief?.();
-        }}
-        onKeyDown={(e) => {
-          if (e.shiftKey && (e.key === "Enter" || e.key === " ") && onBrief) {
-            e.preventDefault();
-            e.stopPropagation();
-            onBrief();
-          }
-        }}
-      >
-        <InfoGlyph size={64} />
-      </button>
-    ) : (
-      <span />
-    );
 
   const geometry = useMemo(() => {
     switch (layout) {
@@ -280,7 +229,7 @@ export function DialogueBar({
 
   // ---- the bar
   return (
-    <div className={`${styles.root} ${geometry}`} data-testid="dialogue-bar" data-state={active ? (active.typing ? "typing" : "shown") : "pinned"}>
+    <div className={`${styles.root} ${geometry}${controlsOnly ? ` ${styles.controlsOnly}` : ""}`} data-testid="dialogue-bar" data-state={active ? (active.typing ? "typing" : "shown") : hasPins ? "pinned" : "controls"}>
       {liveRegions}
       <div
         ref={barRef}
@@ -319,23 +268,22 @@ export function DialogueBar({
               )}
             </div>
           )}
-          {hasPins && pins.primary && (
+          {hasPins && primary && (
             <p
               id={DIALOGUE_PIN_PRIMARY_ID}
-              className={`${styles.pinPrimary} ${pins.primary.kind === "success" ? styles.pinSuccess : ""}`}
+              className={`${styles.pinPrimary} ${primary.kind === "success" ? styles.pinSuccess : ""}`}
               data-testid="dialogue-pin-primary"
-              data-kind={pins.primary.kind}
+              data-kind={primary.kind}
             >
-              {pins.primary.text}
+              {primary.text}
             </p>
           )}
-          {hasPins && pins.secondary && (
-            <p id={DIALOGUE_PIN_SECONDARY_ID} className={kindClass(pins.secondary.kind)} data-testid="dialogue-pin-secondary" data-kind={pins.secondary.kind}>
-              {pins.secondary.text}
+          {hasPins && secondary && (
+            <p id={DIALOGUE_PIN_SECONDARY_ID} className={kindClass(secondary.kind)} data-testid="dialogue-pin-secondary" data-kind={secondary.kind}>
+              {secondary.text}
             </p>
           )}
         </div>
-        {infoButton}
       </div>
     </div>
   );

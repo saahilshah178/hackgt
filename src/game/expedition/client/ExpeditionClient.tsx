@@ -39,7 +39,8 @@ import { DialogueBar } from "../dialogue/DialogueBar";
 import { DialogueEngine } from "../dialogue/engine";
 import { sayRequest } from "../dialogue/lines";
 import { arenaSay, bossPhaseSay, StationSlotFlow } from "../dialogue/station-dialogue";
-import type { SayRequest } from "../dialogue/types";
+import type { DialogueSnapshot, SayRequest } from "../dialogue/types";
+import { useDialogueSnapshot } from "../dialogue/useDialogue";
 import { Hud } from "../hud/Hud";
 import { meterValue as meterValueOf } from "../hud/objective";
 import { Journal, type JournalItem } from "../journal/Journal";
@@ -84,13 +85,26 @@ const WARP_SPACING_MS = 700;
 /** The payoff badge shows 1.6 s; if the panel never reports it (unmounted, reduced motion), move on anyway. */
 const PAYOFF_FALLBACK_MS = 2600;
 /**
- * The dialogue bar sits under every station minigame. Long pinned lines make the bar taller than the 15 % band
- * the panel reserves, and it would cover Verify. The layout measures the bar and keeps the panel clear of it
- * (the canvas never resizes; only the overlay reflows).
+ * Spoken lines sit under the station. The layout measures the bar and keeps the panel clear of it.
+ * On a phone the panel is a bottom sheet and stays put.
  */
-function panelClearance(barClear: number): CSSProperties | undefined {
-  if (barClear <= 0) return undefined;
-  return { bottom: `max(15%, ${Math.ceil(barClear + 8)}px)` };
+function panelClearance(barClear: number, compact: boolean): CSSProperties | undefined {
+  if (barClear <= 0 || compact) return undefined;
+  return { bottom: `${Math.ceil(barClear)}px` };
+}
+
+/** The standing instruction, or the success line once it takes that place. */
+function panelLead(snap: DialogueSnapshot, fallback: string): string {
+  const primary = snap.pinned.primary;
+  if (primary && (primary.kind === "instruction" || primary.kind === "success")) return primary.text;
+  return fallback;
+}
+
+/** The how-to on a first open, or the insight once the tutorial has been seen. */
+function panelGuide(snap: DialogueSnapshot): string | null {
+  const secondary = snap.pinned.secondary;
+  if (secondary && (secondary.kind === "tutorial" || secondary.kind === "insight")) return secondary.text;
+  return null;
 }
 
 interface PendingCutscene {
@@ -156,6 +170,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const [shownIndex, setShownIndex] = useState<number | null>(0);
   const progress = useMemo(() => progressOf(spec, shownIndex), [spec, shownIndex]);
   const [engine] = useState(() => new DialogueEngine({ now: () => performance.now() }));
+  const dialogueSnap = useDialogueSnapshot(engine);
   const [bus] = useState(() => new AudioBus({ enabled: sfxEnabled(sfx, typeof window === "undefined" ? null : window.location.search) }));
   const [flow] = useState(() => new StationSlotFlow(guideId));
   const [express, setExpress] = useState(() => searchFlag("express"));
@@ -170,6 +185,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const [open, setOpen] = useState<{ encounterId: string; draft: Draft | null; view: unknown; modeKey: ModeKey } | null>(null);
   const [carrying, setCarrying] = useState<string | null>(null);
   const [briefOpen, setBriefOpen] = useState(false);
+  const [hintOpen, setHintOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
   const [expressTick, setExpressTick] = useState(0);
   /** px from the dialogue bar's top edge to the bottom of the stage (the panel keeps clear of it) */
@@ -288,6 +304,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     engine.skipAll();
     engine.clearPins();
     setBriefOpen(false);
+    setHintOpen(false);
     setCarrying(null);
     setAnnounce(null);
     const s = sync();
@@ -329,6 +346,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       dispatch({ type: "BACK" });
       engine.clearPins();
       setBriefOpen(false);
+      setHintOpen(false);
       bus.play("ui_panel_out");
       requestAnimationFrame(() => stageRef.current?.focus());
     } else if (p.kind === "sandbox") {
@@ -428,6 +446,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     const st = stationOf(id);
     engine.clearPins();
     setBriefOpen(false);
+    setHintOpen(false);
     if (st?.payoff.kind === "carry" && st.payoff.rideCutsceneId) {
       ridden.current.add(id);
       setCarrying(id);
@@ -467,15 +486,16 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     if (!cur || !st || cur.encounter.id !== p.encounterId) return;
     const text = runner.hint();
     sync();
-    if (text === null) return;
     const used = toHintsUsed(runner.hintsUsedOnCurrent);
-    hintsRef.current = { ...hintsRef.current, [p.encounterId]: used };
-    setHints(hintsRef.current);
-    const rung = Math.max(1, Math.min(3, used)) as HintRung;
-    const req = flow.hint(st, rung, cur.encounter.hints);
-    if (req) void engine.say(req);
-    hostRef.current?.onHint?.(p.encounterId, rung);
-    hostRef.current?.setAidTier?.(p.encounterId, aidTierOf(used, failedRef.current[p.encounterId] ?? 0), used);
+    if (text === null && used === 0) return;
+    if (text !== null) {
+      hintsRef.current = { ...hintsRef.current, [p.encounterId]: used };
+      setHints(hintsRef.current);
+      const rung = Math.max(1, Math.min(3, used)) as HintRung;
+      hostRef.current?.onHint?.(p.encounterId, rung);
+      hostRef.current?.setAidTier?.(p.encounterId, aidTierOf(used, failedRef.current[p.encounterId] ?? 0), used);
+    }
+    setHintOpen(true);
     bus.play("ui_select");
   };
 
@@ -829,8 +849,9 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     };
   }, [openId, panelShown, bus]);
 
-  // the dialogue bar's real extent (it grows with long pinned lines): the panel keeps clear of it
+  // spoken lines under the minigame: the panel keeps clear of the bar
   const barMode = carrying ? "cutscene" : barLayoutOf(phase, world);
+  const compact = viewport.w < 768 || viewport.h > viewport.w;
   useEffect(() => {
     const el = barRef.current?.firstElementChild;
     const stage = stageRef.current;
@@ -1014,7 +1035,8 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
             context={panelContext}
             aidTier={aidTier}
             hintsUsed={hintsUsed}
-            instruction={openSt.dialogue.instruction.text}
+            instruction={panelLead(dialogueSnap, openSt.dialogue.instruction.text)}
+            guide={panelGuide(dialogueSnap)}
             initialDraft={open.draft}
             attempt={failed[openSt.encounterId] ?? 0}
             result={phase.kind === "payoff" ? "success" : null}
@@ -1023,16 +1045,22 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
             announce={announce}
             reducedMotion={reducedMotion}
             brief={brief}
+            hintOpen={hintOpen}
+            onHintClose={() => setHintOpen(false)}
+            onHint={stable.onHint}
+            onBrief={brief ? stable.onBrief : undefined}
+            hintDisabled={!canHint}
+            hintLabel={hintLabelOf(hintsUsed, hintsAvailable)}
             getLive={openSt.meta.sim ? stable.getLive : undefined}
             onDraft={stable.onDraft}
             onVerify={stable.onVerify}
             onBack={stable.onBack}
             onBadgeDone={stable.onBadgeDone}
             handleRef={panelRef}
-            style={panelClearance(barClear)}
+            style={panelClearance(barClear, compact)}
           />
         ) : sandbox ? (
-          <SandboxPanel key={sandbox.id} sandbox={sandbox} onDraft={stable.onSandboxDraft} onDone={stable.onBack} style={panelClearance(barClear)} />
+          <SandboxPanel key={sandbox.id} sandbox={sandbox} onDraft={stable.onSandboxDraft} onDone={stable.onBack} style={panelClearance(barClear, compact)} />
         ) : null
       }
       dialogue={

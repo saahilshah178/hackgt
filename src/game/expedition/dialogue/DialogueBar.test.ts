@@ -56,15 +56,13 @@ describe("DialogueBar (server render)", () => {
     expect(html).toContain("grayscale");
   });
 
-  it("while the panel is open: pins (instruction + tutorial) with stable ids and the (i) button", () => {
+  it("while the panel is open: directions stay out of the bar", () => {
     const e = new DialogueEngine({ now: () => 0 });
     e.pin({ primary: { kind: "instruction", text: "Tune the latch timer.", speakerId: "cog" }, secondary: { kind: "tutorial", text: "Drag the knob." } });
     const html = render(e, "scrub", { hintLabel: "Hint (0 of 3 used)" });
-    expect(html).toContain('id="dialogue-pin-primary"');
-    expect(html).toContain("Tune the latch timer.");
-    expect(html).toContain('data-kind="tutorial"');
-    expect(html).toContain('data-testid="hint-button"');
-    expect(html).toContain('aria-label="Hint (0 of 3 used)"');
+    expect(html).not.toContain("Tune the latch timer.");
+    expect(html).not.toContain("Drag the knob.");
+    expect(html).not.toContain('data-testid="hint-button"');
     expect(html).toContain('role="group"');
   });
 
