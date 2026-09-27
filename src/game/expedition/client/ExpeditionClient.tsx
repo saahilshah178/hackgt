@@ -54,6 +54,7 @@ import { ExpeditionLayout, layoutStyles } from "./ExpeditionLayout";
 import { planInteract } from "./interactions";
 import { cutsceneOf, encounterOf, hostFrozen, INITIAL_PHASE, panelVisible, reduce, type CutscenePurpose, type Phase } from "./machine";
 import { SandboxPanel } from "./SandboxPanel";
+import { useTutorial } from "./tutorial-context";
 import {
   barLayoutOf,
   bossBatchToSay,
@@ -187,6 +188,8 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const [briefOpen, setBriefOpen] = useState(false);
   const [hintOpen, setHintOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
+  /** the trig side-scroller's how-to-play card (PlayClient renders it); the intro waits for it to close */
+  const { open: tutorialOpen, close: closeTutorial } = useTutorial();
   const [expressTick, setExpressTick] = useState(0);
   /** px from the dialogue bar's top edge to the bottom of the stage (the panel keeps clear of it) */
   const [barClear, setBarClear] = useState(0);
@@ -225,7 +228,11 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const expressBusy = useRef(false);
   const warp = useRef<{ target: string | null; timer: number | null; last: number }>({ target: null, timer: null, last: -Infinity });
   const phaseStarted = useRef<Phase | null>(null);
+  const tutorialRef = useRef(tutorialOpen);
+  /** the host was ready while the tutorial was up: ASSETS_READY is dispatched when it closes */
+  const readyHeld = useRef(false);
   useLayoutEffect(() => {
+    tutorialRef.current = tutorialOpen;
     phaseRef.current = phase;
     progressRef.current = progress;
     expressRef.current = express;
@@ -305,6 +312,8 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     engine.clearPins();
     setBriefOpen(false);
     setHintOpen(false);
+    readyHeld.current = false;
+    closeTutorial();
     setCarrying(null);
     setAnnounce(null);
     const s = sync();
@@ -517,6 +526,10 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
         if (introId) {
           const z = startZoneOf(world, progressRef.current);
           if (z) zoneEntryPlayed.current.add(z); // the intro covers the first zone
+        }
+        if (tutorialRef.current) {
+          readyHeld.current = true;
+          return;
         }
         dispatch({ type: "ASSETS_READY", introId });
         return;
@@ -778,6 +791,17 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     if (phase.kind === "intro" || phase.kind === "finale") void H.current.runCutscene(phase.cutsceneId, "phase");
     if (phase.kind === "explore") H.current.drain();
   }, [phase]);
+  // the tutorial closed: a host that was already ready starts now (intro), and keys go back to the stage
+  const tutorialWasOpen = useRef(tutorialOpen);
+  useEffect(() => {
+    if (tutorialOpen || !tutorialWasOpen.current) return;
+    tutorialWasOpen.current = false;
+    if (readyHeld.current) {
+      readyHeld.current = false;
+      dispatch({ type: "ASSETS_READY", introId });
+    }
+    requestAnimationFrame(() => stageRef.current?.focus());
+  }, [tutorialOpen, introId]);
   // the payoff normally ends when the badge reports done; this fallback covers an unmounted or never-shown badge
   const payoffId = phase.kind === "payoff" ? phase.encounterId : null;
   useEffect(() => {
@@ -895,6 +919,8 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
         if (!st) return;
         pending.current = [];
         engine.skipAll();
+        readyHeld.current = false;
+        closeTutorial();
         zoneEntryPlayed.current.add(st.zoneId);
         hostRef.current?.warpTo(cur.encounter.id);
         if (phaseRef.current.kind !== "explore") dispatch({ type: "DEBUG_SYNC", runnerFinished: false });
@@ -947,7 +973,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       expedition,
     };
     return installGameDebug(handle) ?? undefined;
-  }, [runner, engine, spec, world]);
+  }, [runner, engine, spec, world, closeTutorial]);
 
   // ------------------------------------------------------------------ derived view
   const lmode = carrying ? "explore" : layoutModeOf(phase, world);
@@ -965,7 +991,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const panelStation = useMemo(() => (openSt ? panelStationOf(openSt) : null), [openSt]);
   const panelContext = useMemo(() => panelContextOf(world, progress.solvedIds, openSt), [world, progress.solvedIds, openSt]);
   const meter = useMemo(() => meterValueOf(overlay.story.meter, progress.solvedIds), [overlay.story.meter, progress.solvedIds]);
-  const frozen = hostFrozen(phase, blocking, journalOpen || briefOpen);
+  const frozen = hostFrozen(phase, blocking, journalOpen || briefOpen || tutorialOpen);
 
   if (phase.kind === "finished") {
     const { mastery, lines } = runner.debrief();

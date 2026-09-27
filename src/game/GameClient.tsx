@@ -23,6 +23,7 @@ import { HintPanel } from "./systems/HintPanel";
 import { ConsequenceOverlay } from "./systems/ConsequenceOverlay";
 import { MasteryHud } from "./systems/MasteryHud";
 import { EndScreen } from "./systems/EndScreen";
+import { useTutorial } from "./expedition/client/tutorial-context";
 
 type Phase = "walking" | "widget" | "consequence" | "finished";
 
@@ -162,13 +163,16 @@ function legacyRequested(): boolean {
 
 export function GameClient({ spec, world = null, worldSource = null, sfx = true }: GameClientProps) {
   const [legacy] = useState(legacyRequested);
+  const tutorial = useTutorial();
   if (!world || !worldSource || legacy) return <LegacyGameClient spec={spec} />;
   return (
     <Suspense
       fallback={
-        <div role="status" className="flex min-h-screen items-center justify-center text-lg" style={{ fontSize: 20 }}>
-          Loading the expedition…
-        </div>
+        tutorial.open ? null : (
+          <div role="status" className="flex min-h-screen items-center justify-center text-lg" style={{ fontSize: 20 }}>
+            Loading the expedition…
+          </div>
+        )
       }
     >
       <ExpeditionEntry spec={spec} world={world} source={worldSource} sfx={sfx} />
