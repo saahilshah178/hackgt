@@ -66,13 +66,10 @@ Design rules:
 - Target a listed misconception whenever the card allows it (targetMisconception must be copied exactly from the concept's list, or null).
 - Theme the whole game around the subject (e.g. cell biology -> a submarine inside a cell). 1-3 characters, one of them a helper.
 - designNote tells the challenge writer what the encounter should make the player think about. Be specific.
-<<<<<<< HEAD
 - Vary how the player acts (each card lists its widget). With 5 or more encounters use at least 3 different widgets, and let multiple choice ("pick") and single sliders ("dial") together be at most a third of the encounters whenever the menu offers other cards for those concepts. Prefer sorting, ordering, linking, placing, building, typing and explaining.
-- When the menu has an explain card (explainer.teach_back), use it for the weakest causal or process concept: explaining it in the player's own words is how they prove they understand it.`;
-=======
+- When the menu has an explain card (explainer.teach_back), use it for the weakest causal or process concept: explaining it in the player's own words is how they prove they understand it.
 - The title is 2-4 everyday words that name the place or the job (The Sky Clock, Inside a Cell). No invented place names.
 - The premise is one sentence: who the player is, where they are, and what they need. Every encounter is a step toward that one goal, in an order that makes sense as a story (climb up, walk inward, walk the years).`);
->>>>>>> 81ccd93 (Implement markdown file for generating writing and hints, revise all dialogue in the current examples)
 
 export const CHALLENGE_SYSTEM = withStyleGuides(
   `You are the Challenge Writer for one encounter of an educational game. You fill in the mechanic's params and all player-facing text.

@@ -27,6 +27,7 @@ import { AgentError, runAgent, type Progress } from "./llm";
 import { checkAssessment, checkBlueprint, checkChallenge, checkNarrative } from "./validate/checks";
 import { validateGameSpec } from "./validate/validate-gamespec";
 import { assembleGameSpec, type Slices } from "./assemble";
+import { textStyleProblems } from "../world/text-style";
 import {
   ASSESSMENT_SYSTEM,
   CHALLENGE_SYSTEM,
@@ -170,8 +171,15 @@ export function fallbackMimic(
   const [a, b] = concept.facts;
   const lie = concept.misconceptions[0];
   const words = (s: string) => s.trim().split(/\s+/).length;
+  // The fallback checks its own text against docs/WRITING.md, so nothing from the knowledge map may break the rules:
+  // a concept name can carry a colon ("Tonicity: hypotonic, …"), so the prompt uses its head, and a source sentence
+  // only enters a hint or the debrief when it reads cleanly. Otherwise the generic lines stand in, and the encounter
+  // keeps its verified-facts Mimic Chest instead of being dropped.
+  const name = concept.name.split(":")[0].trim() || concept.name;
+  const clean = (s: string) => textStyleProblems(s).length === 0;
+  const debrief = `The false claim was "{{mimic}}". ${lie.correction}`;
   const slice: ChallengeSlice = {
-    prompt: `Here are three claims about ${concept.name}. One of them is false. Can you find it?`,
+    prompt: `Here are three claims about ${name}. One of them is false. Can you find it?`,
     params: {
       statements: [
         { text: a.statement, isTrue: true, explanation: "This one matches your notes." },
@@ -180,12 +188,12 @@ export function fallbackMimic(
       ],
     },
     hints: [
-      `One claim is a mix-up people often make about ${concept.name}. Check each one against your notes.`,
-      words(lie.correction) <= 16 ? `Here's what your notes say. ${lie.correction}` : "Two of the claims come straight from your notes. Which one doesn't?",
-      words(a.statement) <= 14 ? `"${a.statement}" is true. Compare the other two.` : "Only one claim goes against your notes. The other two agree with them.",
+      `One claim is a mix-up people often make about ${name}. Check each one against your notes.`,
+      words(lie.correction) <= 16 && clean(lie.correction) ? `Here's what your notes say. ${lie.correction}` : "Two of the claims come straight from your notes. Which one doesn't?",
+      words(a.statement) <= 14 && clean(a.statement) ? `"${a.statement}" is true. Compare the other two.` : "Only one claim goes against your notes. The other two agree with them.",
     ],
     wrongFeedback: "That one's true. Look for the claim that goes against your notes.",
-    debriefLine: `The false claim was "{{mimic}}". ${lie.correction}`,
+    debriefLine: debrief.length <= 220 && clean(lie.correction) ? debrief : `The false claim was "{{mimic}}".`,
     sourceRef: a.sourceRef,
   };
   const encounter: BlueprintEncounter = { ...e, teachingMechanicId: card.id, socket, targetMisconception: lie.belief };
