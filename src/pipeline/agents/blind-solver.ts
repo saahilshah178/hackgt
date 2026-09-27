@@ -9,7 +9,7 @@ import type { AnyFamilyMode } from "../../mechanics/types";
 import { isMockLLM } from "../../server/env";
 import { assembleEncounter } from "../assemble";
 import { emit } from "../events";
-import { fallbackMimic, GenerationError, type Models } from "../generate";
+import { fallbackMimic, GenerationError, promoteTeachForDropped, type Models } from "../generate";
 import { layoutFromEncounters } from "../layout";
 import { runAgent, type Progress } from "../llm";
 import { CHALLENGE_SYSTEM, challengePrompt, repairNote, sharedContext } from "../prompts";
@@ -209,9 +209,15 @@ export async function blindSolveAndFix(a: BlindSolveArgs): Promise<GameSpec> {
   const encounters = outcomes
     .slice()
     .sort((x, y) => x.index - y.index)
-    .flatMap((o) => (o.encounter ? [o.encounter] : []));
+    .flatMap((o) => (o.encounter ? [{ ...o.encounter }] : []));
+  // A dropped encounter must take everything that points at it along (generate.ts does the same after its own
+  // drops): its story beats, and its "teach" role, which moves to the concept's next encounter.
+  const droppedTeachConceptIds = outcomes.flatMap((o) => (o.encounter ? [] : spec.encounters[o.index]!.role === "teach" ? spec.encounters[o.index]!.conceptIds : []));
+  promoteTeachForDropped(encounters, droppedTeachConceptIds);
+  const kept = new Set(encounters.map((e) => e.id));
+  const narrative = { ...spec.narrative, beats: spec.narrative.beats.filter((b) => kept.has(b.encounterId)) };
   const layout = layoutFromEncounters(spec.genre, encounters);
-  const result = validateGameSpec({ ...spec, encounters, layout });
+  const result = validateGameSpec({ ...spec, encounters, layout, narrative });
   if (!result.ok) throw new GenerationError(result.issues);
   return result.spec;
 }

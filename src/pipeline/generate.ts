@@ -254,7 +254,7 @@ export function deriveAssessmentFromPreCheck(km: KnowledgeMap, preCheckItems: re
  * Promotes the next remaining encounter for that concept to role "teach" — since the boss is always
  * last, a promoted non-boss encounter always precedes it.
  */
-export function promoteTeachForDropped(encounters: BlueprintEncounter[], droppedTeachConceptIds: readonly string[]): void {
+export function promoteTeachForDropped(encounters: Pick<BlueprintEncounter, "role" | "conceptIds">[], droppedTeachConceptIds: readonly string[]): void {
   for (const conceptId of droppedTeachConceptIds) {
     if (encounters.some((e) => e.role === "teach" && e.conceptIds.includes(conceptId))) continue;
     const next = encounters.find((e) => e.role !== "boss" && e.conceptIds.includes(conceptId));
