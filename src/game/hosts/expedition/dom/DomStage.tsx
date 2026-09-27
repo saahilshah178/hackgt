@@ -7,10 +7,12 @@
  */
 import type { Zone } from "../../../../contracts/world";
 import type { ResolvedWorld } from "../../../../world/types";
+import type { SilBounds, SilTone } from "../contraptions/silhouettes";
 import { Snapshot } from "../contraptions/Snapshot";
 import type { SurfaceModel } from "../scene/surfaces";
 import { heightAt } from "../scene/surfaces";
 import { DEPTH } from "../scene/zone-builder";
+import { domLayerAlpha } from "./layer-style";
 import type { StubUrlCache } from "./stub-urls";
 
 const TILE_PAD = 2600;
@@ -23,11 +25,14 @@ export interface DomStageProps {
   collected: ReadonlySet<string>;
   art: StubUrlCache;
   colors: { top: string; body: string; plat: string };
+  /** biome tones for the stations' code-drawn silhouettes, and each station's frame bounds (w1a fix 5) */
+  tones: Readonly<Record<SilTone, string>>;
+  frames: ReadonlyMap<string, SilBounds | null>;
   registerLayer: (i: number, el: HTMLDivElement | null, meta: { set: string; sf: number; sfy: number; alpha: number }) => void;
   registerFacade: (id: string, el: HTMLImageElement | null) => void;
 }
 
-export function DomStage({ world, zone, model, solved, collected, art, colors, registerLayer, registerFacade }: DomStageProps) {
+export function DomStage({ world, zone, model, solved, collected, art, colors, tones, frames, registerLayer, registerFacade }: DomStageProps) {
   const img = (key: string, x: number, y: number, z: number, extra: React.CSSProperties = {}, testId?: string) => {
     const s = art.spec(key);
     return (
@@ -57,7 +62,7 @@ export function DomStage({ world, zone, model, solved, collected, art, colors, r
           return (
             <div
               key={`layer:${ls.id}:${i}`}
-              ref={(el) => registerLayer(i, el, { set: ls.id, sf, sfy, alpha: l.alpha })}
+              ref={(el) => registerLayer(i, el, { set: ls.id, sf, sfy, alpha: domLayerAlpha(l.blend, l.alpha) })}
               data-testid="dom-layer"
               style={{
                 position: "absolute",
@@ -68,7 +73,7 @@ export function DomStage({ world, zone, model, solved, collected, art, colors, r
                 backgroundImage: `url(${art.url(l.asset)})`,
                 backgroundRepeat: l.repeatX ? "repeat-x" : "no-repeat",
                 backgroundSize: `${s.w}px ${s.h}px`,
-                mixBlendMode: l.blend === "normal" ? undefined : l.blend === "add" ? "plus-lighter" : l.blend,
+                // no mix-blend-mode: on these moving 13 000 px layers it cost ~30 fps (layer-style.ts); alpha stands in
                 zIndex: Math.round(DEPTH[l.depth]),
                 opacity: 0,
                 pointerEvents: "none",
@@ -113,8 +118,8 @@ export function DomStage({ world, zone, model, solved, collected, art, colors, r
       {world.stations
         .filter((s) => s.zoneId === zone.id)
         .map((s) => (
-          <div key={s.encounterId} style={{ position: "absolute", left: s.anchor.x, top: s.anchor.y, zIndex: 60 }}>
-            <Snapshot station={s} solved={solved.has(s.encounterId)} assetUrl={(k) => art.url(k)} scale={1} />
+          <div key={s.encounterId} style={{ position: "absolute", left: s.anchor.x, top: s.anchor.y, zIndex: 60, willChange: "transform" }}>
+            <Snapshot station={s} solved={solved.has(s.encounterId)} assetUrl={(k) => art.url(k)} scale={1} hasArt={(k) => art.hasArt(k)} tones={tones} frame={frames.get(s.encounterId) ?? null} />
           </div>
         ))}
       {world.stations

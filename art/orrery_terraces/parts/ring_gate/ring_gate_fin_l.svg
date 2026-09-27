@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 360" width="120" height="360" data-pivot="1,1">
+<!-- Tidewheel keystone fin, left half (trig A88): a tall tapered gold blade with a navy slot line; the halves split ±24 on success. -->
+<defs><linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="40" y1="0" x2="120" y2="0"><stop offset="0" stop-color="{{gold.hi}}"/><stop offset="0.45" stop-color="{{gold.base}}"/><stop offset="1" stop-color="{{gold.deep}}"/></linearGradient><filter id="sh" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter></defs>
+<path d="M120 50 L70 80 L58 94 L58 248 L80 290 L98 360 L120 360 Z" fill="{{gold.deep}}"/>
+<path d="M117 55 L73 80 L61 94 L61 248 L83 290 L101 356 L117 356 Z" fill="url(#gold)"/>
+<path d="M116 54 L72 82 L62 95 L62 246" fill="none" stroke="{{gold.hi}}" stroke-width="5" stroke-linejoin="round"/>
+<rect x="112" y="54" width="5" height="302" fill="{{gold.deep}}"/>
+<rect x="101" y="92" width="6" height="236" rx="3" fill="{{inlay.navy}}"/>
+<rect x="105" y="92" width="2" height="236" fill="{{inlay.navy.dark}}"/>
+<circle cx="82" cy="140" r="13" fill="{{gold.hi}}"/><circle cx="82" cy="140" r="10" fill="{{inlay.navy}}"/><circle cx="80" cy="138" r="3" fill="{{gold.hi}}"/>
+<path d="M70 196 L96 180 M70 224 L96 208" stroke="{{gold.deep}}" stroke-width="3" stroke-linecap="round"/>
+<circle id="anchor-fin_split" cx="120" cy="56" r="0"/>
+</svg>

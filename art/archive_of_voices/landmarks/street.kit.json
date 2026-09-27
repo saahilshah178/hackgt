@@ -1,0 +1,682 @@
+{
+ "entries": [
+  {
+   "key": "archive_of_voices.prop.lamppost",
+   "legacyId": "cr.fg.lamppost_base",
+   "zone": "all",
+   "gen": "column",
+   "params": {
+    "w": 140,
+    "h": 420,
+    "style": "lamp_post",
+    "flutes": 3,
+    "capital": "none",
+    "base": "plinth",
+    "bands": 2,
+    "ramp": {
+     "lit": "steel.shade",
+     "base": "asphalt.wet",
+     "shade": "ink"
+    },
+    "trim": "brass.base"
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.parking_meter",
+   "legacyId": "cr.fg.parking_meter",
+   "zone": "all",
+   "gen": "column",
+   "params": {
+    "w": 90,
+    "h": 260,
+    "style": "cast_iron",
+    "flutes": 0,
+    "capital": "band",
+    "base": "step",
+    "bands": 1,
+    "ramp": {
+     "lit": "steel",
+     "base": "steel.shade",
+     "shade": "asphalt.wet"
+    },
+    "trim": "chrome"
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.newspaper_bundle",
+   "legacyId": "cr.fg.newspaper_bundle",
+   "zone": "all",
+   "gen": "plate",
+   "params": {
+    "w": 180,
+    "h": 110,
+    "style": "front_page",
+    "bevel": 4,
+    "rivets": 0,
+    "ramp": {
+     "lit": "paper",
+     "base": "paper.aged",
+     "shade": "stone.deep"
+    },
+    "face": "paper.aged"
+   },
+   "pivot": [
+    0.5,
+    1
+   ]
+  },
+  {
+   "key": "archive_of_voices.prop.bench",
+   "legacyId": "cr.fg.bench",
+   "zone": "all",
+   "gen": "compose",
+   "params": {
+    "w": 420,
+    "h": 180,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "plate",
+      "params": {
+       "w": 400,
+       "h": 26,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "wood.lit",
+        "base": "wood.base",
+        "shade": "wood.shade"
+       },
+       "face": "wood.base"
+      },
+      "seed": null,
+      "x": 210,
+      "y": 90,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "plate",
+      "params": {
+       "w": 400,
+       "h": 30,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "wood.lit",
+        "base": "wood.base",
+        "shade": "wood.shade"
+       },
+       "face": "wood.shade"
+      },
+      "seed": null,
+      "x": 210,
+      "y": 40,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 40,
+       "h": 100,
+       "style": "cast_iron",
+       "flutes": 0,
+       "capital": "none",
+       "ramp": {
+        "lit": "steel.shade",
+        "base": "asphalt.wet",
+        "shade": "ink"
+       }
+      },
+      "seed": null,
+      "x": 40,
+      "y": 180,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 40,
+       "h": 100,
+       "style": "cast_iron",
+       "flutes": 0,
+       "capital": "none",
+       "ramp": {
+        "lit": "steel.shade",
+        "base": "asphalt.wet",
+        "shade": "ink"
+       }
+      },
+      "seed": null,
+      "x": 380,
+      "y": 180,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.mailbox",
+   "legacyId": null,
+   "zone": "s2_courthouse",
+   "gen": "column",
+   "params": {
+    "w": 70,
+    "h": 110,
+    "style": "pylon",
+    "flutes": 0,
+    "capital": "band",
+    "base": "step",
+    "bands": 1,
+    "ramp": {
+     "lit": "inlay.navy|light:0.2",
+     "base": "inlay.navy",
+     "shade": "inlay.navy.dark"
+    },
+    "trim": "brass.base"
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.flagpole_plinth",
+   "legacyId": null,
+   "zone": "s2_courthouse",
+   "gen": "column",
+   "params": {
+    "w": 90,
+    "h": 340,
+    "style": "pole",
+    "flutes": 0,
+    "capital": "none",
+    "base": "plinth",
+    "bands": 0,
+    "ramp": {
+     "lit": "steel",
+     "base": "steel.shade",
+     "shade": "asphalt.wet"
+    },
+    "trim": "gold.base"
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.corner_store",
+   "legacyId": null,
+   "zone": "s2_courthouse",
+   "gen": "facade",
+   "params": {
+    "w": 520,
+    "h": 720,
+    "style": "storefront",
+    "floors": 2,
+    "bays": 3,
+    "ramp": {
+     "lit": "brick.lit",
+     "base": "brick.base",
+     "shade": "brick.shade"
+    },
+    "trim": "stone.lit",
+    "window": {
+     "w": 70,
+     "h": 110,
+     "tok": "glass.dark",
+     "arch": false
+    },
+    "door": {
+     "bay": 1,
+     "recessed": true
+    },
+    "awning": {
+     "w": 520,
+     "drop": 90,
+     "stripes": [
+      "inlay.navy",
+      "stone.lit"
+     ]
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.reel_crate",
+   "legacyId": null,
+   "zone": "s1_morgue",
+   "gen": "compose",
+   "params": {
+    "w": 120,
+    "h": 90,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "plate",
+      "params": {
+       "w": 120,
+       "h": 90,
+       "style": "cartridge",
+       "rivets": 4,
+       "ramp": {
+        "lit": "wood.lit",
+        "base": "wood.base",
+        "shade": "wood.shade"
+       },
+       "face": "wood.base"
+      },
+      "seed": null,
+      "x": 60,
+      "y": 45,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ringStack",
+      "params": {
+       "size": 50,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 25,
+         "width": 6,
+         "tok": "steel",
+         "edge": "steel.shade",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 3,
+          "width": 6
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null,
+      "x": 60,
+      "y": 40,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.gallery_deck",
+   "legacyId": null,
+   "zone": "all",
+   "gen": "groundStrip",
+   "params": {
+    "w": 512,
+    "h": 60,
+    "style": "ledge_cap",
+    "ramp": {
+     "lit": "wood.lit",
+     "base": "wood.base",
+     "shade": "wood.shade"
+    },
+    "lip": "brass.base",
+    "grassEdge": null,
+    "wet": false
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.rolling_ladder",
+   "legacyId": "cr.set.rolling_ladder",
+   "zone": "all",
+   "gen": "stairs",
+   "params": {
+    "steps": 12,
+    "rise": 60,
+    "tread": 14,
+    "depth": 10,
+    "style": "ladder",
+    "dir": "straight",
+    "ramp": {
+     "lit": "wood.lit",
+     "base": "wood.base",
+     "shade": "wood.shade"
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.lunch_counter",
+   "legacyId": "cr.set.lunch_counter",
+   "zone": "s4_main_street",
+   "gen": "compose",
+   "params": {
+    "w": 1500,
+    "h": 320,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "plate",
+      "params": {
+       "w": 1500,
+       "h": 40,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       },
+       "face": "stone.lit"
+      },
+      "seed": null,
+      "x": 750,
+      "y": 150,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "plate",
+      "params": {
+       "w": 1480,
+       "h": 170,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "inlay.navy|light:0.2",
+        "base": "inlay.navy",
+        "shade": "inlay.navy.dark"
+       },
+       "face": "inlay.navy"
+      },
+      "seed": null,
+      "x": 750,
+      "y": 250,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.swing_door",
+   "legacyId": "cr.set.swing_door",
+   "zone": "s4_main_street",
+   "gen": "plate",
+   "params": {
+    "w": 200,
+    "h": 320,
+    "style": "slab",
+    "bevel": 10,
+    "rivets": 0,
+    "ramp": {
+     "lit": "chrome.hi",
+     "base": "chrome",
+     "shade": "chrome.shade"
+    },
+    "face": "chrome"
+   },
+   "pivot": [
+    0.5,
+    1
+   ]
+  },
+  {
+   "key": "archive_of_voices.prop.canopy_rail",
+   "legacyId": "cr.set.canopy_rail",
+   "zone": "s4_main_street",
+   "gen": "truss",
+   "params": {
+    "w": 1920,
+    "h": 80,
+    "shape": "gantry",
+    "bays": 10,
+    "member": 8,
+    "tok": "steel.shade",
+    "edge": "steel"
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.overpass_stair",
+   "legacyId": null,
+   "zone": "s4_main_street",
+   "gen": "stairs",
+   "params": {
+    "steps": 8,
+    "rise": 42,
+    "tread": 52,
+    "depth": 20,
+    "style": "iron",
+    "dir": "up_right",
+    "ramp": {
+     "lit": "steel.shade",
+     "base": "asphalt.wet",
+     "shade": "ink"
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.fire_escape",
+   "legacyId": null,
+   "zone": "s4_main_street",
+   "gen": "compose",
+   "params": {
+    "w": 280,
+    "h": 560,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "truss",
+      "params": {
+       "w": 280,
+       "h": 60,
+       "shape": "gantry",
+       "bays": 4,
+       "member": 6,
+       "tok": "ink",
+       "edge": "steel.shade"
+      },
+      "seed": null,
+      "x": 140,
+      "y": 60,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "stairs",
+      "params": {
+       "steps": 8,
+       "rise": 60,
+       "tread": 14,
+       "depth": 8,
+       "style": "ladder",
+       "dir": "straight",
+       "ramp": {
+        "lit": "steel.shade",
+        "base": "asphalt.wet",
+        "shade": "ink"
+       }
+      },
+      "seed": null,
+      "x": 30,
+      "y": 560,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.rooftop_block",
+   "legacyId": null,
+   "zone": "s5_church_mast",
+   "gen": "facade",
+   "params": {
+    "w": 1120,
+    "h": 800,
+    "style": "commercial",
+    "floors": 4,
+    "bays": 6,
+    "ramp": {
+     "lit": "brick.lit",
+     "base": "brick.base",
+     "shade": "brick.shade"
+    },
+    "trim": "stone.base",
+    "window": {
+     "w": 60,
+     "h": 90,
+     "tok": "glass.dark",
+     "arch": false
+    },
+    "door": null
+   },
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.reflecting_pool",
+   "legacyId": "cr.set.reflecting_pool",
+   "zone": "s6_memorial",
+   "gen": "waterBand",
+   "params": {
+    "w": 1900,
+    "h": 140,
+    "style": "pool",
+    "deep": "water.deep|mix:inlay.navy:0.5",
+    "shallow": "water.shallow|mix:inlay.navy:0.4",
+    "highlight": "stone.lit",
+    "waveAmp": 2,
+    "waveCycles": 12
+   },
+   "rasterScale": 0.75,
+   "pivot": [
+    0.5,
+    1
+   ]
+  },
+  {
+   "key": "archive_of_voices.prop.hall_facade",
+   "legacyId": null,
+   "zone": "s6_memorial",
+   "gen": "compose",
+   "params": {
+    "w": 2200,
+    "h": 1100,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "ashlarWall",
+      "params": {
+       "w": 2200,
+       "h": 1100,
+       "tileable": false,
+       "openings": [
+        {
+         "x": 300,
+         "y": 300,
+         "w": 180,
+         "h": 380,
+         "arch": true
+        },
+        {
+         "x": 700,
+         "y": 300,
+         "w": 180,
+         "h": 380,
+         "arch": true
+        },
+        {
+         "x": 1100,
+         "y": 300,
+         "w": 180,
+         "h": 380,
+         "arch": true
+        },
+        {
+         "x": 1500,
+         "y": 300,
+         "w": 180,
+         "h": 380,
+         "arch": true
+        }
+       ]
+      },
+      "seed": null,
+      "x": 1100,
+      "y": 1100,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   },
+   "rasterScale": 0.5
+  },
+  {
+   "key": "archive_of_voices.prop.floor_rail",
+   "legacyId": "cr.set.floor_rail",
+   "zone": "s6_memorial",
+   "gen": "linkStrip",
+   "params": {
+    "len": 900,
+    "axis": "x",
+    "style": "rail",
+    "thick": 20,
+    "ramp": {
+     "lit": "steel",
+     "base": "steel.shade",
+     "shade": "asphalt.wet"
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.vault_lift",
+   "legacyId": null,
+   "zone": "s8_stacks_vault",
+   "gen": "truss",
+   "params": {
+    "w": 200,
+    "h": 260,
+    "shape": "cage",
+    "bays": 3,
+    "member": 6,
+    "tok": "brass.deep",
+    "edge": "brass.base"
+   }
+  }
+ ]
+}

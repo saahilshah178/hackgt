@@ -1,3 +1,11 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "archive_of_voices.part.walking_road_city_bus",
+   "legacyId": "cr.set.city_bus",
+   "zone": "s2_courthouse",
+   "file": "city_bus.svg",
+   "rasterScale": 0.75
+  }
+ ]
 }

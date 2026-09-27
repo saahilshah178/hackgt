@@ -2,47 +2,7515 @@
  "namespace": "archive_of_voices",
  "paletteId": "archive_of_voices",
  "heroCap": 40,
- "heroCount": 0,
- "entries": [],
- "totalBytes": 0,
- "gzipBytes": 0,
+ "heroCount": 25,
+ "entries": [
+  {
+   "kind": "puppet",
+   "key": "archive_of_voices.companion.wick",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "fb08db8b64a82bf4dbf7cced3850b440c8dbb156",
+   "legacyId": "cr.char.wick_body",
+   "file": "archive_of_voices/companion/wick.svg",
+   "restFile": "archive_of_voices/companion/wick.rest.svg",
+   "width": 132,
+   "height": 110,
+   "rasterScale": 1.5,
+   "pivot": [
+    0.5,
+    0.55
+   ],
+   "parts": [
+    {
+     "name": "glow",
+     "frames": 1,
+     "rest": [
+      66,
+      60
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -2,
+     "box": [
+      0,
+      0,
+      96,
+      96
+     ]
+    },
+    {
+     "name": "wing_l",
+     "frames": 1,
+     "rest": [
+      50,
+      58
+     ],
+     "pivot": [
+      0.9231,
+      0.6667
+     ],
+     "z": -1,
+     "box": [
+      0,
+      100,
+      52,
+      36
+     ]
+    },
+    {
+     "name": "wing_r",
+     "frames": 1,
+     "rest": [
+      82,
+      58
+     ],
+     "pivot": [
+      0.0769,
+      0.6667
+     ],
+     "z": -1,
+     "box": [
+      0,
+      140,
+      52,
+      36
+     ]
+    },
+    {
+     "name": "body",
+     "frames": 1,
+     "rest": [
+      66,
+      60
+     ],
+     "pivot": [
+      0.5,
+      0.5577
+     ],
+     "z": 0,
+     "box": [
+      0,
+      180,
+      48,
+      104
+     ]
+    },
+    {
+     "name": "flame",
+     "frames": 3,
+     "rest": [
+      66,
+      72
+     ],
+     "pivot": [
+      0.5,
+      0.7222
+     ],
+     "z": 1,
+     "box": [
+      0,
+      288,
+      28,
+      36
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 2000,
+     "tracks": [
+      {
+       "part": "body",
+       "prop": "y",
+       "wave": {
+        "amp": 4,
+        "hz": 0.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "flame",
+       "prop": "y",
+       "wave": {
+        "amp": 4,
+        "hz": 0.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "glow",
+       "prop": "y",
+       "wave": {
+        "amp": 4,
+        "hz": 0.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "y",
+       "wave": {
+        "amp": 4,
+        "hz": 0.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "y",
+       "wave": {
+        "amp": 4,
+        "hz": 0.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": 10,
+        "hz": 3,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": -10,
+        "hz": 3,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "flame",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 2.67,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.75
+        ],
+        [
+         1000,
+         0.9
+        ],
+        [
+         2000,
+         0.75
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "talk",
+     "loop": true,
+     "ms": 1000,
+     "tracks": [
+      {
+       "part": "body",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "flame",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": 16,
+        "hz": 6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": -16,
+        "hz": 6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "flame",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 2.67,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "glow",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         250,
+         1.3
+        ],
+        [
+         500,
+         1.15
+        ],
+        [
+         750,
+         1.3
+        ],
+        [
+         1000,
+         1
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         250,
+         1.3
+        ],
+        [
+         500,
+         1.15
+        ],
+        [
+         750,
+         1.3
+        ],
+        [
+         1000,
+         1
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.85
+        ],
+        [
+         500,
+         1
+        ],
+        [
+         1000,
+         0.85
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "cue",
+     "loop": true,
+     "ms": 600,
+     "tracks": [
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": 24,
+        "hz": 8,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": -24,
+        "hz": 8,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "flame",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 2.67,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "body",
+       "prop": "rot",
+       "wave": {
+        "amp": 6,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "flame",
+       "prop": "rot",
+       "wave": {
+        "amp": 6,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "glow",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1.1
+        ],
+        [
+         300,
+         1.5
+        ],
+        [
+         600,
+         1.1
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1.1
+        ],
+        [
+         300,
+         1.5
+        ],
+        [
+         600,
+         1.1
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.8
+        ],
+        [
+         300,
+         1
+        ],
+        [
+         600,
+         0.8
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "anchors": [
+    {
+     "name": "lamp",
+     "x": 66,
+     "y": 62
+    }
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.costume.ida_bun_glasses",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "8cd978975dfa5342dd742c639b58675e8e84a2ee",
+   "legacyId": "cr.char.ida_overlay",
+   "file": "archive_of_voices/costume/ida_bun_glasses.svg",
+   "width": 110,
+   "height": 104,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.9423
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.costume.ida_cardigan",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "73ea86fcfc08765ad4cc99e50381ad8efcb7d6ff",
+   "legacyId": "cr.char.ida_overlay",
+   "file": "archive_of_voices/costume/ida_cardigan.svg",
+   "width": 84,
+   "height": 32,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.1875
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.costume.nell_satchel",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "253e9ba34883244080bfeef806e3656a544cafa5",
+   "legacyId": "cr.char.nell_satchel",
+   "file": "archive_of_voices/costume/nell_satchel.svg",
+   "width": 80,
+   "height": 76,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.525,
+    0.6316
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.costume.nell_scarf",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "a607c88f5a2d63198c2a01440239679c6a7ea7a6",
+   "legacyId": "cr.char.nell_scarf",
+   "file": "archive_of_voices/costume/nell_scarf.svg",
+   "width": 96,
+   "height": 80,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.7292,
+    0.15
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.costume.otis_flashlight",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "4f11d1f4888ea22d8c164549ac41e2ed85b11d7c",
+   "legacyId": "cr.char.otis",
+   "file": "archive_of_voices/costume/otis_flashlight.svg",
+   "width": 26,
+   "height": 56,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.7857
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.costume.otis_watch_cap",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "6d68e80b75e355c3123db36e798bea427fb7c1e5",
+   "legacyId": "cr.char.otis",
+   "file": "archive_of_voices/costume/otis_watch_cap.svg",
+   "width": 110,
+   "height": 92,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.9565
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.doc.document_plate",
+   "zone": "all",
+   "source": "kit:plate",
+   "sha1": "0769edd4e92f39daa2249d137b4663059bd9598c",
+   "legacyId": null,
+   "file": "archive_of_voices/doc/document_plate.svg",
+   "width": 200,
+   "height": 150,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 100,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 2779284809,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.doc.photo_withheld",
+   "zone": "s4_main_street",
+   "source": "kit:compose",
+   "sha1": "e74491a2668230014262eebf0bd8c2c88215ee83",
+   "legacyId": "cr.set.photo_withheld",
+   "file": "archive_of_voices/doc/photo_withheld.svg",
+   "width": 260,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 130,
+     "y": 100
+    }
+   ],
+   "scroll": null,
+   "seed": 1630925405,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.doc.plaque_bronze",
+   "zone": "all",
+   "source": "kit:plate",
+   "sha1": "8e7c86bdb020c88557e21381529c8f168507ef24",
+   "legacyId": "cr.set.courthouse_plaque",
+   "file": "archive_of_voices/doc/plaque_bronze.svg",
+   "width": 160,
+   "height": 110,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 80,
+     "y": 55
+    }
+   ],
+   "scroll": null,
+   "seed": 3694941096,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.beam_glow",
+   "zone": "s2_courthouse",
+   "source": "kit:glowSprite",
+   "sha1": "f990bb34e2e6df47ea62cda7ca33df86816ce339",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/beam_glow.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1677379370,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.blinds_shadow",
+   "zone": "all",
+   "source": "kit:grainTile",
+   "sha1": "846a59b73274c3aae019b0bf8ff4a958c7ea844d",
+   "legacyId": "cr.light.blinds_shadow",
+   "file": "archive_of_voices/fx/blinds_shadow.svg",
+   "width": 256,
+   "height": 256,
+   "rasterScale": 0.5,
+   "tileWidth": 256,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1716087278,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.lamp_glow",
+   "zone": "s2_courthouse",
+   "source": "kit:glowSprite",
+   "sha1": "570dd94d8e2a8273d67d44247baed52aa3c4a3fe",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/lamp_glow.svg",
+   "width": 256,
+   "height": 256,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1181845949,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.paper_scrap",
+   "zone": "s2_courthouse",
+   "source": "kit:plate",
+   "sha1": "73158a5b9efa3129dd18e936d5da6aa9ebe22641",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/paper_scrap.svg",
+   "width": 24,
+   "height": 16,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 12,
+     "y": 8
+    }
+   ],
+   "scroll": null,
+   "seed": 3053036367,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.projector_cone",
+   "zone": "all",
+   "source": "kit:glowSprite",
+   "sha1": "7a99ee118a83e436cf3f7454d927704a2867f5bd",
+   "legacyId": "cr.light.projector_cone",
+   "file": "archive_of_voices/fx/projector_cone.svg",
+   "width": 256,
+   "height": 256,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 610815263,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.rain_streak",
+   "zone": "s4_main_street",
+   "source": "kit:glowSprite",
+   "sha1": "7e55b7a8b66d385b48fb3e5d4c779d3a2cdcc3a8",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/rain_streak.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 50515894,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.scanlines",
+   "zone": "s2_courthouse",
+   "source": "kit:grainTile",
+   "sha1": "7422847139e2596bb7a80a474b40af890f4f5098",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/scanlines.svg",
+   "width": 128,
+   "height": 128,
+   "rasterScale": 0.5,
+   "tileWidth": 128,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3642573267,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.splash_ring",
+   "zone": "s4_main_street",
+   "source": "kit:glowSprite",
+   "sha1": "1a9fa96d0ee1e4885b3de7ee051014e4906ca1ca",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/splash_ring.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3257288461,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.steam",
+   "zone": "s1_morgue",
+   "source": "kit:glowSprite",
+   "sha1": "920c5c26b22193f3212d622276ff3236a837d55f",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/steam.svg",
+   "width": 128,
+   "height": 128,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 804080019,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.fx.window_cluster",
+   "zone": "s4_main_street",
+   "source": "kit:glowSprite",
+   "sha1": "679572cd375385980d220f8832a8895151cd503a",
+   "legacyId": null,
+   "file": "archive_of_voices/fx/window_cluster.svg",
+   "width": 120,
+   "height": 120,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3702419744,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.ground.brick_plaza",
+   "zone": "s2_courthouse",
+   "source": "kit:groundStrip",
+   "sha1": "8eb548fca997b48a576867e59c1afc390ccaf950",
+   "legacyId": "cr.ground.brick_plaza",
+   "file": "archive_of_voices/ground/brick_plaza.svg",
+   "width": 512,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3015556822,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.ground.grass_verge",
+   "zone": "s3_schoolhouse",
+   "source": "kit:groundStrip",
+   "sha1": "8e26dae05f1f084f34028b9e87ed8d98c5d11b4f",
+   "legacyId": null,
+   "file": "archive_of_voices/ground/grass_verge.svg",
+   "width": 512,
+   "height": 144,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0.16666666666666666
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 1393695934,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.ground.marble_floor",
+   "zone": "s6_memorial",
+   "source": "kit:groundStrip",
+   "sha1": "79018388c3314746108e8ef7c297a0caa28f8f7b",
+   "legacyId": "cr.ground.marble_floor",
+   "file": "archive_of_voices/ground/marble_floor.svg",
+   "width": 512,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 1711643482,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.ground.morgue_floor",
+   "zone": "s1_morgue",
+   "source": "kit:groundStrip",
+   "sha1": "a923c2e9769cd966b45a180b438d808dd0c39b0f",
+   "legacyId": "cr.ground.morgue_floor",
+   "file": "archive_of_voices/ground/morgue_floor.svg",
+   "width": 512,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2069013570,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.ground.sidewalk",
+   "zone": "s3_schoolhouse",
+   "source": "kit:groundStrip",
+   "sha1": "49da82ece6293c71d3bcfd7efc3a42835e5586b7",
+   "legacyId": "cr.ground.sidewalk",
+   "file": "archive_of_voices/ground/sidewalk.svg",
+   "width": 512,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3455740788,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.ground.street_wet",
+   "zone": "s4_main_street",
+   "source": "kit:groundStrip",
+   "sha1": "a42ba9fe3ff6aeccc4e9d5d544200750675f48d3",
+   "legacyId": "cr.ground.street_wet",
+   "file": "archive_of_voices/ground/street_wet.svg",
+   "width": 512,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 821504270,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.bridge_dawn_far",
+   "zone": "kit",
+   "source": "kit:skyline",
+   "sha1": "3c968d598908ff140fbdd11cad4a2392eac6106a",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/bridge_dawn_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "feature_0",
+     "x": 191,
+     "y": 250
+    },
+    {
+     "name": "feature_1",
+     "x": 308,
+     "y": 339
+    },
+    {
+     "name": "feature_2",
+     "x": 648,
+     "y": 178
+    },
+    {
+     "name": "feature_3",
+     "x": 899,
+     "y": 321
+    }
+   ],
+   "scroll": null,
+   "seed": 1719574505,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.bridge_dawn_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "b972e0fae6cdc3fe672bb680420f7480da980716",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/bridge_dawn_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_sway",
+     "x": 820,
+     "y": 203
+    }
+   ],
+   "scroll": null,
+   "seed": 1273219302,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.bridge_dawn_ground",
+   "zone": "kit",
+   "source": "kit:groundStrip",
+   "sha1": "990e38facc563a4150a119766047c585d8a7e3e0",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/bridge_dawn_ground.svg",
+   "width": 512,
+   "height": 208,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2098111571,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.bridge_dawn_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "c37b01cdf97bb9c8abbbe84f0e3fd044906a18bd",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/bridge_dawn_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3164269036,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.bridge_dawn_mid",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "2cede390dd054eccfe75fc397ccd38f6e8642e5d",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/bridge_dawn_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2800277474,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.bridge_dawn_midfar",
+   "zone": "kit",
+   "source": "kit:scatter",
+   "sha1": "5f5828d355a6c728eeeeb5d0be69c2056be36667",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/bridge_dawn_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2167623231,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.bridge_dawn_underside",
+   "zone": "kit",
+   "source": "kit:brickWall",
+   "sha1": "7856cd6adc90973a6a4efd3f24901fa9ba652c91",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/bridge_dawn_underside.svg",
+   "width": 512,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1022162061,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.square_afternoon_far",
+   "zone": "kit",
+   "source": "kit:skyline",
+   "sha1": "0465098b218395bdef9c06fba340fd82ecca0f6b",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/square_afternoon_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "feature_0",
+     "x": 66,
+     "y": 250
+    },
+    {
+     "name": "feature_1",
+     "x": 315,
+     "y": 339
+    },
+    {
+     "name": "feature_2",
+     "x": 686,
+     "y": 178
+    },
+    {
+     "name": "feature_3",
+     "x": 964,
+     "y": 321
+    }
+   ],
+   "scroll": null,
+   "seed": 1420747567,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.square_afternoon_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "5bc7d04c5fdc2f88d235e35c65c7b12750b129eb",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/square_afternoon_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_sway",
+     "x": 820,
+     "y": 203
+    }
+   ],
+   "scroll": null,
+   "seed": 1125696716,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.square_afternoon_ground",
+   "zone": "kit",
+   "source": "kit:groundStrip",
+   "sha1": "c24be2e5ddfe7a577c07840ac3f0f2055c6f2eaf",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/square_afternoon_ground.svg",
+   "width": 512,
+   "height": 208,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2163860109,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.square_afternoon_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "1e1db1507581683f935057f4ac3372ea725d4624",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/square_afternoon_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 834836950,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.square_afternoon_mid",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "ad2a28a04600c0826c336be420724f2f79be9a84",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/square_afternoon_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4213067064,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.square_afternoon_midfar",
+   "zone": "kit",
+   "source": "kit:scatter",
+   "sha1": "1f88a4d64ecf608b977546ade0e35337c3561d03",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/square_afternoon_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1602398985,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.square_afternoon_underside",
+   "zone": "kit",
+   "source": "kit:brickWall",
+   "sha1": "8bd097cfccb2e0e2b214cca10268227504a08e3e",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/square_afternoon_underside.svg",
+   "width": 512,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1501339503,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.stacks_interior_far",
+   "zone": "kit",
+   "source": "kit:brickWall",
+   "sha1": "6d59e65aa00640dfa767c6492c2e3730b1c77a03",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/stacks_interior_far.svg",
+   "width": 512,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "opening_0",
+     "x": 245,
+     "y": 250
+    }
+   ],
+   "scroll": null,
+   "seed": 2457481703,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.stacks_interior_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "882c1cd8bd40970560b87aa3d70153c85553a4b4",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/stacks_interior_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2983125796,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.stacks_interior_ground",
+   "zone": "kit",
+   "source": "kit:groundStrip",
+   "sha1": "2516ec680ea84c46c7a6dfee13b053c44a8da607",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/stacks_interior_ground.svg",
+   "width": 512,
+   "height": 208,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3462385141,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.stacks_interior_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "7f636998f66760c483e49917e70bbfdf1f2c2659",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/stacks_interior_light.svg",
+   "width": 512,
+   "height": 1600,
+   "rasterScale": 0.25,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 191927902,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.stacks_interior_mid",
+   "zone": "kit",
+   "source": "kit:scatter",
+   "sha1": "618d00b63707d400ba31c9d53aef882bdde87fdf",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/stacks_interior_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1768453264,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.stacks_interior_midfar",
+   "zone": "kit",
+   "source": "kit:scatter",
+   "sha1": "25016647ca0eb8a3041b2a993c003df61d938434",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/stacks_interior_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1276769393,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.kit.stacks_interior_underside",
+   "zone": "kit",
+   "source": "kit:ashlarWall",
+   "sha1": "9159742ef8b346976d123f4f5a77467998a6b26e",
+   "legacyId": null,
+   "file": "archive_of_voices/kit/stacks_interior_underside.svg",
+   "width": 512,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1229223271,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.clouds_rain",
+   "zone": "s4_main_street",
+   "source": "kit:compose",
+   "sha1": "d0f73a46925b56ac2805d46855bbc6315f8b66eb",
+   "legacyId": "cr.sky.clouds_rain",
+   "file": "archive_of_voices/layer/clouds_rain.svg",
+   "width": 2048,
+   "height": 400,
+   "rasterScale": 0.35,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4076793095,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.clouds_soft",
+   "zone": "s2_courthouse",
+   "source": "kit:compose",
+   "sha1": "1b957baf89ca3fa78510fe7f1a8023e860d378de",
+   "legacyId": "cr.sky.clouds_soft",
+   "file": "archive_of_voices/layer/clouds_soft.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.35,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3609394521,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.far_capital",
+   "zone": "s6_memorial",
+   "source": "kit:skyline",
+   "sha1": "602481ab13655f06d311d78babda0207895a2e70",
+   "legacyId": "cr.far.capital",
+   "file": "archive_of_voices/layer/far_capital.svg",
+   "width": 2048,
+   "height": 560,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "feature_0",
+     "x": 413,
+     "y": 233
+    },
+    {
+     "name": "feature_1",
+     "x": 1034,
+     "y": 386
+    },
+    {
+     "name": "feature_2",
+     "x": 1664,
+     "y": 292
+    }
+   ],
+   "scroll": null,
+   "seed": 2695820968,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.far_city_industrial",
+   "zone": "s5_church_mast",
+   "source": "kit:skyline",
+   "sha1": "3450a32421972049a64517f3562d8512a4bdfe8a",
+   "legacyId": "cr.far.city_industrial",
+   "file": "archive_of_voices/layer/far_city_industrial.svg",
+   "width": 2048,
+   "height": 560,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "feature_0",
+     "x": 385,
+     "y": 207
+    },
+    {
+     "name": "feature_1",
+     "x": 1007,
+     "y": 381
+    },
+    {
+     "name": "feature_2",
+     "x": 1806,
+     "y": 285
+    }
+   ],
+   "scroll": null,
+   "seed": 2672386691,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.far_city_south",
+   "zone": "s2_courthouse",
+   "source": "kit:skyline",
+   "sha1": "6c7ced381d580967210f92df6042913de2101e5b",
+   "legacyId": "cr.far.city_south",
+   "file": "archive_of_voices/layer/far_city_south.svg",
+   "width": 2048,
+   "height": 560,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "feature_0",
+     "x": 245,
+     "y": 381
+    },
+    {
+     "name": "feature_1",
+     "x": 577,
+     "y": 285
+    },
+    {
+     "name": "feature_2",
+     "x": 1066,
+     "y": 361
+    },
+    {
+     "name": "feature_3",
+     "x": 1441,
+     "y": 285
+    },
+    {
+     "name": "feature_4",
+     "x": 1912,
+     "y": 207
+    }
+   ],
+   "scroll": null,
+   "seed": 1842896489,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.far_river_bluffs",
+   "zone": "s7_selma",
+   "source": "kit:compose",
+   "sha1": "eb2dc517c3259f0f86a562e88ef320c5be96862b",
+   "legacyId": "cr.far.river_bluffs",
+   "file": "archive_of_voices/layer/far_river_bluffs.svg",
+   "width": 2048,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_feature_0",
+     "x": 378,
+     "y": 222
+    },
+    {
+     "name": "i1_feature_1",
+     "x": 843,
+     "y": 165
+    },
+    {
+     "name": "i1_feature_2",
+     "x": 1744,
+     "y": 218
+    }
+   ],
+   "scroll": null,
+   "seed": 3813724777,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.fore_magnolia",
+   "zone": "s2_courthouse",
+   "source": "kit:compose",
+   "sha1": "a9e6edf60ce345a2fbc6ed8e3ebf484fc1cc4171",
+   "legacyId": "cr.fg.magnolia",
+   "file": "archive_of_voices/layer/fore_magnolia.svg",
+   "width": 2048,
+   "height": 497,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 400,
+     "y": 400
+    },
+    {
+     "name": "i1_sway",
+     "x": 1500,
+     "y": 400
+    }
+   ],
+   "scroll": null,
+   "seed": 2964705755,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.fore_railing",
+   "zone": "s2_courthouse",
+   "source": "kit:compose",
+   "sha1": "8e33feaf4be19dffc560dc7e4f72114a8568c9ea",
+   "legacyId": "cr.fg.railing",
+   "file": "archive_of_voices/layer/fore_railing.svg",
+   "width": 2048,
+   "height": 584,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3851105523,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.fore_stanchions",
+   "zone": "s1_morgue",
+   "source": "kit:compose",
+   "sha1": "e109a6ef83cffd9c536002b6b3f05991b397a194",
+   "legacyId": "cr.fg.stanchions",
+   "file": "archive_of_voices/layer/fore_stanchions.svg",
+   "width": 2048,
+   "height": 584,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3990573877,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.hall_arches",
+   "zone": "s6_memorial",
+   "source": "kit:arch",
+   "sha1": "448be842bfa4cd7a8c3348e58fc1f6ab775312d7",
+   "legacyId": "cr.l2.hall_arches",
+   "file": "archive_of_voices/layer/hall_arches.svg",
+   "width": 2048,
+   "height": 800,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 225,
+     "y": 800
+    },
+    {
+     "name": "bay_1",
+     "x": 624,
+     "y": 800
+    },
+    {
+     "name": "bay_2",
+     "x": 1024,
+     "y": 800
+    },
+    {
+     "name": "bay_3",
+     "x": 1424,
+     "y": 800
+    },
+    {
+     "name": "bay_4",
+     "x": 1823,
+     "y": 800
+    },
+    {
+     "name": "door",
+     "x": 1024,
+     "y": 800
+    },
+    {
+     "name": "keystone",
+     "x": 225,
+     "y": 48
+    }
+   ],
+   "scroll": null,
+   "seed": 2035129614,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.mid_firescape_wall",
+   "zone": "s4_main_street",
+   "source": "kit:facade",
+   "sha1": "354e36a2eb16c7f5a60612d22caaf5b5ee542e1f",
+   "legacyId": "cr.mid.firescape_wall",
+   "file": "archive_of_voices/layer/mid_firescape_wall.svg",
+   "width": 1200,
+   "height": 900,
+   "rasterScale": 0.6,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 600,
+     "y": 900
+    },
+    {
+     "name": "window_0_0",
+     "x": 150,
+     "y": 817
+    },
+    {
+     "name": "window_0_1",
+     "x": 450,
+     "y": 817
+    },
+    {
+     "name": "window_0_2",
+     "x": 750,
+     "y": 817
+    },
+    {
+     "name": "window_0_3",
+     "x": 1050,
+     "y": 817
+    },
+    {
+     "name": "window_1_0",
+     "x": 150,
+     "y": 605
+    },
+    {
+     "name": "window_1_1",
+     "x": 450,
+     "y": 605
+    },
+    {
+     "name": "window_1_2",
+     "x": 750,
+     "y": 605
+    },
+    {
+     "name": "window_1_3",
+     "x": 1050,
+     "y": 605
+    },
+    {
+     "name": "window_2_0",
+     "x": 150,
+     "y": 394
+    },
+    {
+     "name": "window_2_1",
+     "x": 450,
+     "y": 394
+    },
+    {
+     "name": "window_2_2",
+     "x": 750,
+     "y": 394
+    },
+    {
+     "name": "window_2_3",
+     "x": 1050,
+     "y": 394
+    },
+    {
+     "name": "window_3_0",
+     "x": 150,
+     "y": 182
+    },
+    {
+     "name": "window_3_1",
+     "x": 450,
+     "y": 182
+    },
+    {
+     "name": "window_3_2",
+     "x": 750,
+     "y": 182
+    },
+    {
+     "name": "window_3_3",
+     "x": 1050,
+     "y": 182
+    }
+   ],
+   "scroll": null,
+   "seed": 678811762,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.mid_marble_backwall",
+   "zone": "s6_memorial",
+   "source": "kit:compose",
+   "sha1": "9e47779b6d175f29b36d7651a8e3d536e76f9dea",
+   "legacyId": "cr.mid.marble_backwall",
+   "file": "archive_of_voices/layer/mid_marble_backwall.svg",
+   "width": 2048,
+   "height": 1000,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_bay_0",
+     "x": 340,
+     "y": 800
+    },
+    {
+     "name": "i1_door",
+     "x": 340,
+     "y": 800
+    },
+    {
+     "name": "i1_keystone",
+     "x": 340,
+     "y": 269
+    },
+    {
+     "name": "i2_bay_0",
+     "x": 1024,
+     "y": 800
+    },
+    {
+     "name": "i2_door",
+     "x": 1024,
+     "y": 800
+    },
+    {
+     "name": "i2_keystone",
+     "x": 1024,
+     "y": 269
+    },
+    {
+     "name": "i3_bay_0",
+     "x": 1708,
+     "y": 800
+    },
+    {
+     "name": "i3_door",
+     "x": 1708,
+     "y": 800
+    },
+    {
+     "name": "i3_keystone",
+     "x": 1708,
+     "y": 269
+    },
+    {
+     "name": "i4_band_0",
+     "x": 1,
+     "y": 413
+    },
+    {
+     "name": "i4_band_1",
+     "x": 1,
+     "y": 523
+    },
+    {
+     "name": "i4_top",
+     "x": 1,
+     "y": 200
+    },
+    {
+     "name": "i5_band_0",
+     "x": 683,
+     "y": 413
+    },
+    {
+     "name": "i5_band_1",
+     "x": 683,
+     "y": 523
+    },
+    {
+     "name": "i5_top",
+     "x": 683,
+     "y": 200
+    },
+    {
+     "name": "i6_band_0",
+     "x": 1367,
+     "y": 413
+    },
+    {
+     "name": "i6_band_1",
+     "x": 1367,
+     "y": 523
+    },
+    {
+     "name": "i6_top",
+     "x": 1367,
+     "y": 200
+    }
+   ],
+   "scroll": null,
+   "seed": 91224650,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.mid_river",
+   "zone": "s7_selma",
+   "source": "kit:waterBand",
+   "sha1": "ff6a58ae325f67fdeb7d1cd90a1f45b32c534b29",
+   "legacyId": "cr.mid.river",
+   "file": "archive_of_voices/layer/mid_river.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1201620857,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.mid_river.b",
+   "zone": "s7_selma",
+   "source": "kit:waterBand",
+   "sha1": "e0afc4370a99e4f88cfca6784fb893ce77acbce7",
+   "legacyId": "cr.mid.river",
+   "file": "archive_of_voices/layer/mid_river.b.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1201620857,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.mid_storefronts_a",
+   "zone": "s2_courthouse",
+   "source": "kit:compose",
+   "sha1": "8baff077447261ab6d227ce001222f78011888af",
+   "legacyId": "cr.mid.storefronts_a",
+   "file": "archive_of_voices/layer/mid_storefronts_a.svg",
+   "width": 2048,
+   "height": 820,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 495652142,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.mid_storefronts_b",
+   "zone": "s3_schoolhouse",
+   "source": "kit:compose",
+   "sha1": "593d5c9650ec5a65d6f4986e7ca891ab4e09df62",
+   "legacyId": "cr.mid.storefronts_b",
+   "file": "archive_of_voices/layer/mid_storefronts_b.svg",
+   "width": 2048,
+   "height": 820,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 478874523,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.midfar_autumn_trees",
+   "zone": "s3_schoolhouse",
+   "source": "kit:scatter",
+   "sha1": "b6f221b5a17b9fa31b9afa55576f8f96cab6d027",
+   "legacyId": "cr.midfar.autumn_trees",
+   "file": "archive_of_voices/layer/midfar_autumn_trees.svg",
+   "width": 2048,
+   "height": 600,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4293545066,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.midfar_commercial",
+   "zone": "s4_main_street",
+   "source": "kit:scatter",
+   "sha1": "b04a734af706943e29456c850ffd4b275a748c53",
+   "legacyId": "cr.midfar.commercial",
+   "file": "archive_of_voices/layer/midfar_commercial.svg",
+   "width": 2048,
+   "height": 720,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1728780636,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.midfar_oaks",
+   "zone": "s2_courthouse",
+   "source": "kit:scatter",
+   "sha1": "2cb68205d2348101f3983deb9447bf4a1a830f4d",
+   "legacyId": "cr.midfar.oaks",
+   "file": "archive_of_voices/layer/midfar_oaks.svg",
+   "width": 2048,
+   "height": 600,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2000964800,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.midfar_rowhouses",
+   "zone": "s2_courthouse",
+   "source": "kit:scatter",
+   "sha1": "4525b8b0f23704bb154dcdc820714833ebbe0055",
+   "legacyId": "cr.midfar.rowhouses",
+   "file": "archive_of_voices/layer/midfar_rowhouses.svg",
+   "width": 2048,
+   "height": 720,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1984678527,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.midfar_utility_poles",
+   "zone": "s3_schoolhouse",
+   "source": "kit:compose",
+   "sha1": "baf38ac347028510149593cfc75f06f90ed0bee4",
+   "legacyId": "cr.midfar.utility_poles",
+   "file": "archive_of_voices/layer/midfar_utility_poles.svg",
+   "width": 1800,
+   "height": 520,
+   "rasterScale": 0.6,
+   "tileWidth": 1800,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_top",
+     "x": 300,
+     "y": 40
+    },
+    {
+     "name": "i1_top",
+     "x": 900,
+     "y": 40
+    },
+    {
+     "name": "i2_top",
+     "x": 1500,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 3493814250,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.morgue_backwall",
+   "zone": "s1_morgue",
+   "source": "kit:compose",
+   "sha1": "e5a5599013ef9c925208be3a92ddfb3e416819ef",
+   "legacyId": "cr.mid.morgue_backwall",
+   "file": "archive_of_voices/layer/morgue_backwall.svg",
+   "width": 1024,
+   "height": 1000,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_opening_0",
+     "x": 235,
+     "y": 210
+    },
+    {
+     "name": "i0_opening_1",
+     "x": 755,
+     "y": 210
+    },
+    {
+     "name": "i1_bay_0",
+     "x": 256,
+     "y": 1000
+    },
+    {
+     "name": "i1_door",
+     "x": 256,
+     "y": 1000
+    },
+    {
+     "name": "i2_bay_0",
+     "x": 768,
+     "y": 1000
+    },
+    {
+     "name": "i2_door",
+     "x": 768,
+     "y": 1000
+    }
+   ],
+   "scroll": null,
+   "seed": 1629297291,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.morgue_pipes",
+   "zone": "s1_morgue",
+   "source": "kit:compose",
+   "sha1": "a88f67fc4826e5bb4022c581df98200235ec4262",
+   "legacyId": "cr.midfar.morgue_pipes",
+   "file": "archive_of_voices/layer/morgue_pipes.svg",
+   "width": 2048,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4225869233,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.stacks_shelving",
+   "zone": "s1_morgue",
+   "source": "kit:scatter",
+   "sha1": "78daaeba2de5cc68fc9b51ad6b26c5ab238fdedf",
+   "legacyId": "cr.l3.stacks_shelving",
+   "file": "archive_of_voices/layer/stacks_shelving.svg",
+   "width": 2048,
+   "height": 900,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 249319688,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.layer.vault_backwall",
+   "zone": "s8_stacks_vault",
+   "source": "kit:compose",
+   "sha1": "97d02e644c3006175cd2a59f54357ec4583224a3",
+   "legacyId": "cr.l1.vault_backwall",
+   "file": "archive_of_voices/layer/vault_backwall.svg",
+   "width": 2048,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_band_0",
+     "x": 300,
+     "y": 445
+    },
+    {
+     "name": "i1_band_1",
+     "x": 300,
+     "y": 530
+    },
+    {
+     "name": "i1_top",
+     "x": 300,
+     "y": 280
+    },
+    {
+     "name": "i2_band_0",
+     "x": 1100,
+     "y": 445
+    },
+    {
+     "name": "i2_band_1",
+     "x": 1100,
+     "y": 530
+    },
+    {
+     "name": "i2_top",
+     "x": 1100,
+     "y": 280
+    },
+    {
+     "name": "i3_band_0",
+     "x": 1800,
+     "y": 445
+    },
+    {
+     "name": "i3_band_1",
+     "x": 1800,
+     "y": 530
+    },
+    {
+     "name": "i3_top",
+     "x": 1800,
+     "y": 280
+    }
+   ],
+   "scroll": null,
+   "seed": 2910833136,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.big_board_board_wall",
+   "zone": "s8_stacks_vault",
+   "source": "kit:shelving",
+   "sha1": "89f1c51789bb3ae017a376f2067bf7311d6ad7be",
+   "legacyId": null,
+   "file": "archive_of_voices/part/big_board_board_wall.svg",
+   "width": 1100,
+   "height": 520,
+   "rasterScale": 0.6,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 76,
+     "y": 143
+    },
+    {
+     "name": "bay_1",
+     "x": 237,
+     "y": 142
+    },
+    {
+     "name": "bay_10",
+     "x": 548,
+     "y": 396
+    },
+    {
+     "name": "bay_11",
+     "x": 709,
+     "y": 393
+    },
+    {
+     "name": "bay_12",
+     "x": 865,
+     "y": 397
+    },
+    {
+     "name": "bay_13",
+     "x": 1024,
+     "y": 395
+    },
+    {
+     "name": "bay_2",
+     "x": 390,
+     "y": 141
+    },
+    {
+     "name": "bay_3",
+     "x": 550,
+     "y": 145
+    },
+    {
+     "name": "bay_4",
+     "x": 706,
+     "y": 146
+    },
+    {
+     "name": "bay_5",
+     "x": 863,
+     "y": 142
+    },
+    {
+     "name": "bay_6",
+     "x": 1025,
+     "y": 145
+    },
+    {
+     "name": "bay_7",
+     "x": 80,
+     "y": 391
+    },
+    {
+     "name": "bay_8",
+     "x": 237,
+     "y": 391
+    },
+    {
+     "name": "bay_9",
+     "x": 391,
+     "y": 395
+    }
+   ],
+   "scroll": null,
+   "seed": 3945572335,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.big_board_canister",
+   "zone": "s8_stacks_vault",
+   "source": "kit:compose",
+   "sha1": "c7f7990a9fbf240f9442c74da20e72093ad1f39c",
+   "legacyId": null,
+   "file": "archive_of_voices/part/big_board_canister.svg",
+   "width": 110,
+   "height": 170,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 55,
+     "y": 100
+    },
+    {
+     "name": "i1_hub",
+     "x": 55,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 580091439,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.big_board_capsule",
+   "zone": "s8_stacks_vault",
+   "source": "kit:plate",
+   "sha1": "bad1842cfe2b168e0934caaf22de726fc945d96f",
+   "legacyId": null,
+   "file": "archive_of_voices/part/big_board_capsule.svg",
+   "width": 60,
+   "height": 30,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 30,
+     "y": 15
+    }
+   ],
+   "scroll": null,
+   "seed": 4227291833,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.big_board_console",
+   "zone": "s8_stacks_vault",
+   "source": "kit:lectern",
+   "sha1": "ffa04c914710ca8e5d8a2d17cee7edef08283142",
+   "legacyId": null,
+   "file": "archive_of_voices/part/big_board_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 3247310183,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.big_board_launcher",
+   "zone": "s8_stacks_vault",
+   "source": "kit:compose",
+   "sha1": "63a1b591d858793123b7f2335156c29a4f99e275",
+   "legacyId": null,
+   "file": "archive_of_voices/part/big_board_launcher.svg",
+   "width": 160,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 80,
+     "y": 140
+    }
+   ],
+   "scroll": null,
+   "seed": 2525291154,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.broadcast_relay_console",
+   "zone": "s5_church_mast",
+   "source": "kit:lectern",
+   "sha1": "2ba6850d91ba71086e5497703bd976611cc6f3aa",
+   "legacyId": null,
+   "file": "archive_of_voices/part/broadcast_relay_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 407602091,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.broadcast_relay_lift_cage",
+   "zone": "s5_church_mast",
+   "source": "kit:truss",
+   "sha1": "f6897a6f1cd6b154b73084d64d7f4decf11915d9",
+   "legacyId": null,
+   "file": "archive_of_voices/part/broadcast_relay_lift_cage.svg",
+   "width": 180,
+   "height": 240,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "top",
+     "x": 90,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 4203849684,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.broadcast_relay_mast",
+   "zone": "s5_church_mast",
+   "source": "kit:truss",
+   "sha1": "91149919f616766a5e508fa5e58ed4567a479bf2",
+   "legacyId": null,
+   "file": "archive_of_voices/part/broadcast_relay_mast.svg",
+   "width": 460,
+   "height": 1700,
+   "rasterScale": 0.6,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "platform_0",
+     "x": 230,
+     "y": 1386
+    },
+    {
+     "name": "platform_1",
+     "x": 230,
+     "y": 1080
+    },
+    {
+     "name": "platform_2",
+     "x": 230,
+     "y": 774
+    },
+    {
+     "name": "platform_3",
+     "x": 230,
+     "y": 468
+    },
+    {
+     "name": "platform_4",
+     "x": 230,
+     "y": 162
+    },
+    {
+     "name": "top",
+     "x": 230,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3335005395,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.broadcast_relay_relay_dish",
+   "zone": "s5_church_mast",
+   "source": "kit:ringStack",
+   "sha1": "fac12eb492e5b9b2630eff01985ef0df841bd81e",
+   "legacyId": null,
+   "file": "archive_of_voices/part/broadcast_relay_relay_dish.svg",
+   "width": 90,
+   "height": 54,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 45,
+     "y": 27
+    }
+   ],
+   "scroll": null,
+   "seed": 3482981312,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.darkroom_trays_console",
+   "zone": "kit",
+   "source": "kit:lectern",
+   "sha1": "3c76995e49130d2a0672199070951dbf18babada",
+   "legacyId": null,
+   "file": "archive_of_voices/part/darkroom_trays_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 201906863,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.darkroom_trays_enlarger",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "8a29dec7ada60a283035f93587a82e759491e406",
+   "legacyId": null,
+   "file": "archive_of_voices/part/darkroom_trays_enlarger.svg",
+   "width": 160,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_top",
+     "x": 50,
+     "y": 60
+    },
+    {
+     "name": "i1_label",
+     "x": 90,
+     "y": 70
+    }
+   ],
+   "scroll": null,
+   "seed": 4268204050,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.darkroom_trays_line",
+   "zone": "kit",
+   "source": "kit:linkStrip",
+   "sha1": "39c59cf2b9032ced8d56f9ab1b3caba62a7bd375",
+   "legacyId": null,
+   "file": "archive_of_voices/part/darkroom_trays_line.svg",
+   "width": 512,
+   "height": 4,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3490908828,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.darkroom_trays_safelight",
+   "zone": "kit",
+   "source": "kit:glowSprite",
+   "sha1": "62ac1446b7be1f2ad298b191deb6f83b8fae6316",
+   "legacyId": null,
+   "file": "archive_of_voices/part/darkroom_trays_safelight.svg",
+   "width": 80,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 893223821,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.darkroom_trays_tray",
+   "zone": "kit",
+   "source": "kit:plate",
+   "sha1": "a7757057eab28022530fd9830f330a09e4fbd790",
+   "legacyId": null,
+   "file": "archive_of_voices/part/darkroom_trays_tray.svg",
+   "width": 200,
+   "height": 50,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 100,
+     "y": 25
+    }
+   ],
+   "scroll": null,
+   "seed": 3604304346,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_cabinet",
+   "zone": "s6_memorial",
+   "source": "kit:shelving",
+   "sha1": "63ecf0744516bebd3e2ce6f39447bcb2146d4f0a",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_cabinet.svg",
+   "width": 440,
+   "height": 920,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 220,
+     "y": 232
+    },
+    {
+     "name": "drawer_0",
+     "x": 220,
+     "y": 82
+    },
+    {
+     "name": "drawer_1",
+     "x": 220,
+     "y": 308
+    },
+    {
+     "name": "drawer_2",
+     "x": 220,
+     "y": 534
+    },
+    {
+     "name": "drawer_3",
+     "x": 220,
+     "y": 760
+    }
+   ],
+   "scroll": null,
+   "seed": 2347227568,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_console",
+   "zone": "s6_memorial",
+   "source": "kit:lectern",
+   "sha1": "c447a19eae02a011eb95b1054c16be31c6f0e01f",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 2377159521,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_drawer",
+   "zone": "s6_memorial",
+   "source": "kit:plate",
+   "sha1": "8a3e31a6928273ac23caf957a2837e926e7b36c8",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_drawer.svg",
+   "width": 380,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 190,
+     "y": 80
+    }
+   ],
+   "scroll": null,
+   "seed": 2591461485,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_meter",
+   "zone": "s6_memorial",
+   "source": "kit:gauge",
+   "sha1": "57f6a1d94b6333dbf2430938b9dd2adc15b12d20",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_meter.svg",
+   "width": 236,
+   "height": 150,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 118,
+     "y": 118
+    },
+    {
+     "name": "t_0",
+     "x": 12,
+     "y": 118
+    },
+    {
+     "name": "t_1",
+     "x": 43,
+     "y": 43
+    },
+    {
+     "name": "t_2",
+     "x": 118,
+     "y": 12
+    },
+    {
+     "name": "t_3",
+     "x": 193,
+     "y": 43
+    },
+    {
+     "name": "t_4",
+     "x": 224,
+     "y": 118
+    }
+   ],
+   "scroll": null,
+   "seed": 2176816777,
+   "engraved": [
+    "SIGNAL"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_meter.needle",
+   "zone": "s6_memorial",
+   "source": "kit:gauge",
+   "sha1": "61727af7df4f020230f75291787456f4023cea1b",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_meter.needle.svg",
+   "width": 12,
+   "height": 100,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.9396984924623115
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 6,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2176816777,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_pneumatic_drop",
+   "zone": "s6_memorial",
+   "source": "kit:linkStrip",
+   "sha1": "8c7dee2d6c0bc1374703a6b9329a138c0082012a",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_pneumatic_drop.svg",
+   "width": 60,
+   "height": 520,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2145538594,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_shutter",
+   "zone": "s6_memorial",
+   "source": "kit:plate",
+   "sha1": "419a84e2a560eee28e9f6685db318db5effedb54",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_shutter.svg",
+   "width": 300,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 150,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 1607532893,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_slip",
+   "zone": "s6_memorial",
+   "source": "kit:plate",
+   "sha1": "d350aaca9488add273b556c4f4fed8a8ef31aaee",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_slip.svg",
+   "width": 180,
+   "height": 110,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 90,
+     "y": 55
+    }
+   ],
+   "scroll": null,
+   "seed": 3731922958,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.filing_cabinets_stairwell",
+   "zone": "s6_memorial",
+   "source": "kit:stairs",
+   "sha1": "f9eb860ac42eb643d685832adc422896fd8bc73a",
+   "legacyId": null,
+   "file": "archive_of_voices/part/filing_cabinets_stairwell.svg",
+   "width": 300,
+   "height": 522,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 25,
+     "y": 437
+    },
+    {
+     "name": "step_1",
+     "x": 75,
+     "y": 352
+    },
+    {
+     "name": "step_2",
+     "x": 125,
+     "y": 267
+    },
+    {
+     "name": "step_3",
+     "x": 175,
+     "y": 182
+    },
+    {
+     "name": "step_4",
+     "x": 225,
+     "y": 97
+    },
+    {
+     "name": "step_5",
+     "x": 275,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 3754631845,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.lens_carriage",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "707017fff3ca519c89e18e3e4019054e6e4b61aa",
+   "legacyId": "cr.part.lens_carriage",
+   "file": "archive_of_voices/part/lens_carriage.svg",
+   "width": 160,
+   "height": 140,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.06
+   ],
+   "anchors": [
+    {
+     "name": "lens",
+     "x": 94,
+     "y": 122
+    },
+    {
+     "name": "rail",
+     "x": 80,
+     "y": 8
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.provenance_drawers_compact_shelving",
+   "zone": "s8_stacks_vault",
+   "source": "kit:shelving",
+   "sha1": "6ce3e650c4c16f0658592477920a81f2b38370ef",
+   "legacyId": null,
+   "file": "archive_of_voices/part/provenance_drawers_compact_shelving.svg",
+   "width": 420,
+   "height": 900,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 235,
+     "y": 132
+    },
+    {
+     "name": "crank",
+     "x": 25,
+     "y": 405
+    }
+   ],
+   "scroll": null,
+   "seed": 63155637,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.provenance_drawers_console",
+   "zone": "s8_stacks_vault",
+   "source": "kit:lectern",
+   "sha1": "4e50f5487934200a6727e20c4d526fd8be03fd51",
+   "legacyId": null,
+   "file": "archive_of_voices/part/provenance_drawers_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 240808740,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.provenance_drawers_crank",
+   "zone": "s8_stacks_vault",
+   "source": "kit:ringStack",
+   "sha1": "31d1f559510a0afcba40dd9368dc4690a0f279e0",
+   "legacyId": null,
+   "file": "archive_of_voices/part/provenance_drawers_crank.svg",
+   "width": 90,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 45,
+     "y": 45
+    }
+   ],
+   "scroll": null,
+   "seed": 2929970986,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.provenance_drawers_document",
+   "zone": "s8_stacks_vault",
+   "source": "kit:plate",
+   "sha1": "ee16e84307bb297fe287021017d8799e95572915",
+   "legacyId": null,
+   "file": "archive_of_voices/part/provenance_drawers_document.svg",
+   "width": 200,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 100,
+     "y": 130
+    }
+   ],
+   "scroll": null,
+   "seed": 875680362,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.provenance_drawers_documents",
+   "zone": "s8_stacks_vault",
+   "source": "kit:plate",
+   "sha1": "32059503f33f64145f5d844c0c1ce116cf64d2aa",
+   "legacyId": null,
+   "file": "archive_of_voices/part/provenance_drawers_documents.svg",
+   "width": 200,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 100,
+     "y": 130
+    }
+   ],
+   "scroll": null,
+   "seed": 1131265371,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.record_rail",
+   "zone": "all",
+   "source": "kit:linkStrip",
+   "sha1": "d1b84df16d825da24012b5dc9b44120b52c0297f",
+   "legacyId": null,
+   "file": "archive_of_voices/part/record_rail.svg",
+   "width": 512,
+   "height": 24,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 179563902,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.relay_line_console",
+   "zone": "s4_main_street",
+   "source": "kit:lectern",
+   "sha1": "30a50b2b537e9828032d9151cb80a5bf17cde427",
+   "legacyId": null,
+   "file": "archive_of_voices/part/relay_line_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 262420838,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.relay_line_departures_board",
+   "zone": "s4_main_street",
+   "source": "kit:compose",
+   "sha1": "f8e91f157002004ca8a319232de0cb52c80298fd",
+   "legacyId": null,
+   "file": "archive_of_voices/part/relay_line_departures_board.svg",
+   "width": 720,
+   "height": 300,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 360,
+     "y": 150
+    },
+    {
+     "name": "i1_bay_0",
+     "x": 47,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_1",
+     "x": 80,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_10",
+     "x": 377,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_11",
+     "x": 410,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_12",
+     "x": 443,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_13",
+     "x": 476,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_14",
+     "x": 509,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_15",
+     "x": 542,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_16",
+     "x": 575,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_17",
+     "x": 608,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_18",
+     "x": 641,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_19",
+     "x": 674,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_2",
+     "x": 113,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_3",
+     "x": 146,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_4",
+     "x": 179,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_5",
+     "x": 212,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_6",
+     "x": 245,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_7",
+     "x": 278,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_8",
+     "x": 311,
+     "y": 82
+    },
+    {
+     "name": "i1_bay_9",
+     "x": 344,
+     "y": 82
+    }
+   ],
+   "scroll": null,
+   "seed": 1941443419,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.relay_line_divider_rail",
+   "zone": "s4_main_street",
+   "source": "kit:railing",
+   "sha1": "619cc03a430038956a656a93c47076b0b47b5b08",
+   "legacyId": null,
+   "file": "archive_of_voices/part/relay_line_divider_rail.svg",
+   "width": 700,
+   "height": 120,
+   "rasterScale": 0.75,
+   "tileWidth": 700,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 529728343,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.relay_line_junction_box",
+   "zone": "s4_main_street",
+   "source": "kit:plate",
+   "sha1": "7b84e6a4840356e2a22388b6e6749233a7c03492",
+   "legacyId": null,
+   "file": "archive_of_voices/part/relay_line_junction_box.svg",
+   "width": 150,
+   "height": 190,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 75,
+     "y": 95
+    }
+   ],
+   "scroll": null,
+   "seed": 2845474935,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.relay_line_rolling_gate",
+   "zone": "s4_main_street",
+   "source": "kit:railing",
+   "sha1": "96825ed37661b6b7fb05029e98716fa229b8ce18",
+   "legacyId": null,
+   "file": "archive_of_voices/part/relay_line_rolling_gate.svg",
+   "width": 620,
+   "height": 420,
+   "rasterScale": 0.75,
+   "tileWidth": 620,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 465325924,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.relay_line_split_flap",
+   "zone": "s4_main_street",
+   "source": "kit:plate",
+   "sha1": "45b014c4d6ebbf5e271663e20fac8e6c9faff993",
+   "legacyId": null,
+   "file": "archive_of_voices/part/relay_line_split_flap.svg",
+   "width": 36,
+   "height": 52,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 18,
+     "y": 26
+    }
+   ],
+   "scroll": null,
+   "seed": 2344799131,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.switchboard_console",
+   "zone": "s6_memorial",
+   "source": "kit:lectern",
+   "sha1": "2705bfab8d2452e7f21f68228e3e9042599f2596",
+   "legacyId": null,
+   "file": "archive_of_voices/part/switchboard_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 1401446322,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.switchboard_jack",
+   "zone": "s6_memorial",
+   "source": "kit:ringStack",
+   "sha1": "618dbb312846ee3412d77dd4358773ac07842a2a",
+   "legacyId": null,
+   "file": "archive_of_voices/part/switchboard_jack.svg",
+   "width": 24,
+   "height": 24,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 12,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 2374994098,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.switchboard_plug",
+   "zone": "s6_memorial",
+   "source": "kit:linkStrip",
+   "sha1": "bb042a0ecebfcc16ed725123104ccae2c7368e74",
+   "legacyId": null,
+   "file": "archive_of_voices/part/switchboard_plug.svg",
+   "width": 26,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 7766593,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.switchboard_program_sheet",
+   "zone": "s6_memorial",
+   "source": "kit:plate",
+   "sha1": "cccd98b7b3b1bfd537856b4e803b8ff6a0bbb8c6",
+   "legacyId": null,
+   "file": "archive_of_voices/part/switchboard_program_sheet.svg",
+   "width": 300,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 150,
+     "y": 210
+    }
+   ],
+   "scroll": null,
+   "seed": 545051575,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.switchboard_step_lamp",
+   "zone": "s6_memorial",
+   "source": "kit:column",
+   "sha1": "44cfc36165e183d9cf3f1f21109b4a64a94012ab",
+   "legacyId": null,
+   "file": "archive_of_voices/part/switchboard_step_lamp.svg",
+   "width": 30,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "lamp",
+     "x": 15,
+     "y": -16
+    },
+    {
+     "name": "top",
+     "x": 15,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 4009881402,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.switchboard_steps",
+   "zone": "s6_memorial",
+   "source": "kit:stairs",
+   "sha1": "775b37c5a2f5470ec9305f45d70c58175598d846",
+   "legacyId": null,
+   "file": "archive_of_voices/part/switchboard_steps.svg",
+   "width": 1280,
+   "height": 252,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 160,
+     "y": 192
+    },
+    {
+     "name": "step_1",
+     "x": 480,
+     "y": 132
+    },
+    {
+     "name": "step_2",
+     "x": 800,
+     "y": 72
+    },
+    {
+     "name": "step_3",
+     "x": 1120,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 3363782556,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.switchboard_switchboard_cabinet",
+   "zone": "s6_memorial",
+   "source": "kit:compose",
+   "sha1": "3f9302accf1bc9a653dc951b550671d995d0ced6",
+   "legacyId": null,
+   "file": "archive_of_voices/part/switchboard_switchboard_cabinet.svg",
+   "width": 520,
+   "height": 420,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 260,
+     "y": 220
+    },
+    {
+     "name": "i1_bay_0",
+     "x": 64,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_1",
+     "x": 113,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_2",
+     "x": 162,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_3",
+     "x": 211,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_4",
+     "x": 260,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_5",
+     "x": 309,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_6",
+     "x": 358,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_7",
+     "x": 407,
+     "y": 199
+    },
+    {
+     "name": "i1_bay_8",
+     "x": 456,
+     "y": 199
+    }
+   ],
+   "scroll": null,
+   "seed": 298376784,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.timeline_bridge_arch",
+   "zone": "s7_selma",
+   "source": "kit:truss",
+   "sha1": "3755a89221e9034b93a0e9ee17020b00fc3155e8",
+   "legacyId": null,
+   "file": "archive_of_voices/part/timeline_bridge_arch.svg",
+   "width": 2400,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "top",
+     "x": 1200,
+     "y": 8
+    }
+   ],
+   "scroll": null,
+   "seed": 1233497118,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.timeline_bridge_arch_bridge",
+   "zone": "s7_selma",
+   "source": "kit:truss",
+   "sha1": "a35a7b26088481edfb07be648df74fe58d092fbd",
+   "legacyId": null,
+   "file": "archive_of_voices/part/timeline_bridge_arch_bridge.svg",
+   "width": 2400,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "gap_0",
+     "x": 1200,
+     "y": 884
+    },
+    {
+     "name": "top",
+     "x": 1200,
+     "y": 8
+    }
+   ],
+   "scroll": null,
+   "seed": 36784554,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.timeline_bridge_bay_lamp",
+   "zone": "s7_selma",
+   "source": "kit:column",
+   "sha1": "4676f72f7d21483efc676454c8405a7820cba1e2",
+   "legacyId": null,
+   "file": "archive_of_voices/part/timeline_bridge_bay_lamp.svg",
+   "width": 50,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 25,
+     "y": 33
+    },
+    {
+     "name": "band_1",
+     "x": 25,
+     "y": 57
+    },
+    {
+     "name": "lamp",
+     "x": 25,
+     "y": -24
+    },
+    {
+     "name": "top",
+     "x": 25,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 407662301,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.timeline_bridge_console",
+   "zone": "s7_selma",
+   "source": "kit:lectern",
+   "sha1": "e54315c3fb7de9b6c4880ff8796152b5b3fe8e87",
+   "legacyId": null,
+   "file": "archive_of_voices/part/timeline_bridge_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 4033276607,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.timeline_bridge_deck_section",
+   "zone": "s7_selma",
+   "source": "kit:plate",
+   "sha1": "7a870a9bb20ea58fbf4e444bfd2b796a74e94cea",
+   "legacyId": null,
+   "file": "archive_of_voices/part/timeline_bridge_deck_section.svg",
+   "width": 300,
+   "height": 70,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 150,
+     "y": 35
+    }
+   ],
+   "scroll": null,
+   "seed": 3333289079,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.timeline_bridge_lectern",
+   "zone": "s7_selma",
+   "source": "kit:lectern",
+   "sha1": "4042a7d17d54b72619326d7d54c4b523527487c9",
+   "legacyId": null,
+   "file": "archive_of_voices/part/timeline_bridge_lectern.svg",
+   "width": 216,
+   "height": 240,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 108,
+     "y": 106
+    },
+    {
+     "name": "screen",
+     "x": 108,
+     "y": 71
+    }
+   ],
+   "scroll": null,
+   "seed": 2017083389,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.timeline_bridge_streetcar",
+   "zone": "s7_selma",
+   "source": "kit:compose",
+   "sha1": "72bd7a9f466f47f980bbde5fc6234784b0c5f588",
+   "legacyId": null,
+   "file": "archive_of_voices/part/timeline_bridge_streetcar.svg",
+   "width": 900,
+   "height": 380,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 450,
+     "y": 220
+    },
+    {
+     "name": "i1_label",
+     "x": 450,
+     "y": 110
+    }
+   ],
+   "scroll": null,
+   "seed": 2536472001,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.tumbler_vault_bolt",
+   "zone": "s8_stacks_vault",
+   "source": "kit:plate",
+   "sha1": "a0ffc4ee879ed0a5478a582b56abdf1d075d91e3",
+   "legacyId": null,
+   "file": "archive_of_voices/part/tumbler_vault_bolt.svg",
+   "width": 220,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 110,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 689010882,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.tumbler_vault_console",
+   "zone": "s8_stacks_vault",
+   "source": "kit:lectern",
+   "sha1": "fa7e39e7939ba8b4049a8b6182c9e862b9f3aed2",
+   "legacyId": null,
+   "file": "archive_of_voices/part/tumbler_vault_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 1566253662,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.tumbler_vault_handwheel",
+   "zone": "s8_stacks_vault",
+   "source": "kit:ringStack",
+   "sha1": "8c68003d2da4d83b213e3eaa0512d6788f81b2de",
+   "legacyId": null,
+   "file": "archive_of_voices/part/tumbler_vault_handwheel.svg",
+   "width": 300,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 150,
+     "y": 150
+    }
+   ],
+   "scroll": null,
+   "seed": 283103691,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.tumbler_vault_press_organ",
+   "zone": "s8_stacks_vault",
+   "source": "kit:compose",
+   "sha1": "f4b8917e32c4cabebf31580883984bb5c9ab934f",
+   "legacyId": null,
+   "file": "archive_of_voices/part/tumbler_vault_press_organ.svg",
+   "width": 1400,
+   "height": 1000,
+   "rasterScale": 0.4,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_label",
+     "x": 700,
+     "y": 840
+    }
+   ],
+   "scroll": null,
+   "seed": 335309010,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.tumbler_vault_tumbler",
+   "zone": "s8_stacks_vault",
+   "source": "kit:ringStack",
+   "sha1": "c156a62eb6693048ae0f4b95fa2698c2c7f85690",
+   "legacyId": null,
+   "file": "archive_of_voices/part/tumbler_vault_tumbler.svg",
+   "width": 180,
+   "height": 180,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 90,
+     "y": 90
+    }
+   ],
+   "scroll": null,
+   "seed": 2536166788,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.tumbler_vault_vault_door",
+   "zone": "s8_stacks_vault",
+   "source": "kit:ringStack",
+   "sha1": "934eaa9f9c4c2a26c4c74be441ee029da7513b64",
+   "legacyId": null,
+   "file": "archive_of_voices/part/tumbler_vault_vault_door.svg",
+   "width": 1000,
+   "height": 1000,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 500,
+     "y": 500
+    }
+   ],
+   "scroll": null,
+   "seed": 3517987876,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.tumbler_vault_voice_grille",
+   "zone": "s8_stacks_vault",
+   "source": "kit:ringStack",
+   "sha1": "99d45be06f61c62e61b4f53998251851d3fe23b2",
+   "legacyId": null,
+   "file": "archive_of_voices/part/tumbler_vault_voice_grille.svg",
+   "width": 200,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 100,
+     "y": 100
+    }
+   ],
+   "scroll": null,
+   "seed": 1735219793,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.walking_road_bus_stop",
+   "zone": "s2_courthouse",
+   "source": "kit:compose",
+   "sha1": "bb6a3d3c0b344503fcc9fa0fc8b51a7b104a2116",
+   "legacyId": null,
+   "file": "archive_of_voices/part/walking_road_bus_stop.svg",
+   "width": 520,
+   "height": 420,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 260,
+     "y": 60
+    },
+    {
+     "name": "i1_top",
+     "x": 60,
+     "y": 60
+    },
+    {
+     "name": "i2_top",
+     "x": 460,
+     "y": 60
+    },
+    {
+     "name": "i3_label",
+     "x": 260,
+     "y": 330
+    }
+   ],
+   "scroll": null,
+   "seed": 2065968984,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.walking_road_city_bus",
+   "zone": "s2_courthouse",
+   "source": "hero",
+   "sha1": "00c19786d30a94fb9bee0a7bcbd1c80ed7531e8b",
+   "legacyId": "cr.set.city_bus",
+   "file": "archive_of_voices/part/walking_road_city_bus.svg",
+   "width": 980,
+   "height": 400,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 842,
+     "y": 310
+    },
+    {
+     "name": "route_sign",
+     "x": 903,
+     "y": 55
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.walking_road_console",
+   "zone": "s2_courthouse",
+   "source": "kit:lectern",
+   "sha1": "7688dd09160600b6b72b3243fd3640b95aad7d62",
+   "legacyId": null,
+   "file": "archive_of_voices/part/walking_road_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 2269304292,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.walking_road_day_counter",
+   "zone": "s2_courthouse",
+   "source": "kit:compose",
+   "sha1": "8a6af2cc926f9b604265d00071c1726544c1a2b1",
+   "legacyId": null,
+   "file": "archive_of_voices/part/walking_road_day_counter.svg",
+   "width": 180,
+   "height": 240,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_top",
+     "x": 90,
+     "y": 140
+    },
+    {
+     "name": "i1_label",
+     "x": 90,
+     "y": 70
+    }
+   ],
+   "scroll": null,
+   "seed": 3103097872,
+   "engraved": [
+    "DAY"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.walking_road_flood_band",
+   "zone": "s2_courthouse",
+   "source": "kit:waterBand",
+   "sha1": "644a2e322f239170bb9570437c32a32dfec51da2",
+   "legacyId": null,
+   "file": "archive_of_voices/part/walking_road_flood_band.svg",
+   "width": 1200,
+   "height": 160,
+   "rasterScale": 0.6,
+   "tileWidth": 1200,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1042202133,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.walking_road_flood_band.b",
+   "zone": "s2_courthouse",
+   "source": "kit:waterBand",
+   "sha1": "be4b29bf79607ab4401c9ded7bbd1e7d16e3dc17",
+   "legacyId": null,
+   "file": "archive_of_voices/part/walking_road_flood_band.b.svg",
+   "width": 1200,
+   "height": 160,
+   "rasterScale": 0.6,
+   "tileWidth": 1200,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1042202133,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.walking_road_slab",
+   "zone": "s2_courthouse",
+   "source": "kit:plate",
+   "sha1": "35bfbba0c8d5cefbee2d2e49133749ab0443563e",
+   "legacyId": null,
+   "file": "archive_of_voices/part/walking_road_slab.svg",
+   "width": 260,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 130,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 30498171,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.wire_ticker_console",
+   "zone": "s3_schoolhouse",
+   "source": "kit:lectern",
+   "sha1": "038cd6afebe9e77967de4f7bc3b179b901d34319",
+   "legacyId": null,
+   "file": "archive_of_voices/part/wire_ticker_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 935211438,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.wire_ticker_kiosk",
+   "zone": "s3_schoolhouse",
+   "source": "kit:facade",
+   "sha1": "fec31eb99e241aa6f97ddd80d5fca51cfc8a02f1",
+   "legacyId": null,
+   "file": "archive_of_voices/part/wire_ticker_kiosk.svg",
+   "width": 560,
+   "height": 460,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 280,
+     "y": 460
+    },
+    {
+     "name": "window_0_0",
+     "x": 140,
+     "y": 342
+    },
+    {
+     "name": "window_0_1",
+     "x": 420,
+     "y": 342
+    }
+   ],
+   "scroll": null,
+   "seed": 3298390252,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.wire_ticker_school_barrier",
+   "zone": "s3_schoolhouse",
+   "source": "kit:railing",
+   "sha1": "519e29fbb749f0edd1af00d4e45bfea1eaf9f6bf",
+   "legacyId": null,
+   "file": "archive_of_voices/part/wire_ticker_school_barrier.svg",
+   "width": 420,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 420,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 555379045,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.wire_ticker_selector",
+   "zone": "s3_schoolhouse",
+   "source": "kit:compose",
+   "sha1": "9e93b76d35b34681ed3ef2200028d30f60cd6298",
+   "legacyId": null,
+   "file": "archive_of_voices/part/wire_ticker_selector.svg",
+   "width": 180,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_console",
+     "x": 90,
+     "y": 102
+    },
+    {
+     "name": "i0_screen",
+     "x": 93,
+     "y": 78
+    },
+    {
+     "name": "i1_hub",
+     "x": 90,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": 940593000,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.wire_ticker_telegraph_pole",
+   "zone": "s3_schoolhouse",
+   "source": "kit:column",
+   "sha1": "096b30d18f602f79041b8c5d76d2546b803962bf",
+   "legacyId": null,
+   "file": "archive_of_voices/part/wire_ticker_telegraph_pole.svg",
+   "width": 120,
+   "height": 900,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "top",
+     "x": 60,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2964255342,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.wire_ticker_teletype",
+   "zone": "s3_schoolhouse",
+   "source": "kit:compose",
+   "sha1": "bf9ce466771bf998a28ffb845a5e8fc8b71ee8d2",
+   "legacyId": null,
+   "file": "archive_of_voices/part/wire_ticker_teletype.svg",
+   "width": 260,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 130,
+     "y": 200
+    },
+    {
+     "name": "i1_label",
+     "x": 130,
+     "y": 80
+    }
+   ],
+   "scroll": null,
+   "seed": 4096268185,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.wire_ticker_walk_lamp",
+   "zone": "s3_schoolhouse",
+   "source": "kit:column",
+   "sha1": "0df9df1582f74cd9287e6402ddcf1eaf154037aa",
+   "legacyId": null,
+   "file": "archive_of_voices/part/wire_ticker_walk_lamp.svg",
+   "width": 60,
+   "height": 220,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 30,
+     "y": 45
+    },
+    {
+     "name": "band_1",
+     "x": 30,
+     "y": 78
+    },
+    {
+     "name": "lamp",
+     "x": 30,
+     "y": -24
+    },
+    {
+     "name": "top",
+     "x": 30,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 45431703,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_arc_lamp",
+   "zone": "s2_courthouse",
+   "source": "hero",
+   "sha1": "727b7541edefc7b635c5e12bf8fe83eae8233ef4",
+   "legacyId": "cr.part.proof_lamp_stand",
+   "file": "archive_of_voices/part/witness_projector_arc_lamp.svg",
+   "width": 150,
+   "height": 270,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.45,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "beam_origin",
+     "x": 142,
+     "y": 78
+    },
+    {
+     "name": "lamp_pivot",
+     "x": 67,
+     "y": 78
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_console",
+   "zone": "s2_courthouse",
+   "source": "kit:lectern",
+   "sha1": "5c0defaee61c3d2b726a35719be013f2f93bdf4e",
+   "legacyId": null,
+   "file": "archive_of_voices/part/witness_projector_console.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 4060090526,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_menu_board",
+   "zone": "s2_courthouse",
+   "source": "kit:plate",
+   "sha1": "7843f2f099aedc5a0314d710e81703065d522094",
+   "legacyId": null,
+   "file": "archive_of_voices/part/witness_projector_menu_board.svg",
+   "width": 900,
+   "height": 360,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 450,
+     "y": 180
+    }
+   ],
+   "scroll": null,
+   "seed": 360037353,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_pendant_lamp",
+   "zone": "s4_main_street",
+   "source": "hero",
+   "sha1": "b6b34d8d85b6372fa2c9cd27266df19dcbaaab06",
+   "legacyId": "cr.set.pendant_lamp",
+   "file": "archive_of_voices/part/witness_projector_pendant_lamp.svg",
+   "width": 160,
+   "height": 300,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.04
+   ],
+   "anchors": [
+    {
+     "name": "beam_origin",
+     "x": 80,
+     "y": 270
+    },
+    {
+     "name": "lamp_pivot",
+     "x": 80,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_projection_panel",
+   "zone": "s2_courthouse",
+   "source": "kit:plate",
+   "sha1": "4fce2dc33f740c78db5c3c80160d72081081c3ac",
+   "legacyId": null,
+   "file": "archive_of_voices/part/witness_projector_projection_panel.svg",
+   "width": 240,
+   "height": 320,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 120,
+     "y": 160
+    }
+   ],
+   "scroll": null,
+   "seed": 2565879641,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_retract_stamp",
+   "zone": "s2_courthouse",
+   "source": "kit:plate",
+   "sha1": "c6f7c70fcfa48c9abf57d1d45f34c70fc34933d3",
+   "legacyId": null,
+   "file": "archive_of_voices/part/witness_projector_retract_stamp.svg",
+   "width": 200,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 100,
+     "y": 47
+    }
+   ],
+   "scroll": null,
+   "seed": 1748677246,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_steps",
+   "zone": "s2_courthouse",
+   "source": "kit:stairs",
+   "sha1": "56be8e9b5c5aebb3a578fa846e384687e7ca7a0f",
+   "legacyId": null,
+   "file": "archive_of_voices/part/witness_projector_steps.svg",
+   "width": 1099,
+   "height": 250,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 79,
+     "y": 216
+    },
+    {
+     "name": "step_1",
+     "x": 236,
+     "y": 182
+    },
+    {
+     "name": "step_2",
+     "x": 393,
+     "y": 148
+    },
+    {
+     "name": "step_3",
+     "x": 550,
+     "y": 114
+    },
+    {
+     "name": "step_4",
+     "x": 707,
+     "y": 80
+    },
+    {
+     "name": "step_5",
+     "x": 864,
+     "y": 46
+    },
+    {
+     "name": "step_6",
+     "x": 1021,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 1371761280,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.part.witness_projector_witness_lens",
+   "zone": "s2_courthouse",
+   "source": "kit:compose",
+   "sha1": "9b361ff7e30e0ace9cf7d375cae53374e1d34a30",
+   "legacyId": null,
+   "file": "archive_of_voices/part/witness_projector_witness_lens.svg",
+   "width": 110,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_top",
+     "x": 55,
+     "y": 80
+    },
+    {
+     "name": "i1_hub",
+     "x": 55,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": 937604525,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.bandstand",
+   "zone": "s5_church_mast",
+   "source": "kit:compose",
+   "sha1": "bbb2c15054d18780da8dd474eb9d63d95a56934e",
+   "legacyId": "cr.set.bandstand",
+   "file": "archive_of_voices/prop/bandstand.svg",
+   "width": 720,
+   "height": 520,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 60,
+     "y": 198
+    },
+    {
+     "name": "i0_band_1",
+     "x": 60,
+     "y": 249
+    },
+    {
+     "name": "i0_top",
+     "x": 60,
+     "y": 100
+    },
+    {
+     "name": "i1_band_0",
+     "x": 210,
+     "y": 198
+    },
+    {
+     "name": "i1_band_1",
+     "x": 210,
+     "y": 249
+    },
+    {
+     "name": "i1_top",
+     "x": 210,
+     "y": 100
+    },
+    {
+     "name": "i2_band_0",
+     "x": 360,
+     "y": 198
+    },
+    {
+     "name": "i2_band_1",
+     "x": 360,
+     "y": 249
+    },
+    {
+     "name": "i2_top",
+     "x": 360,
+     "y": 100
+    },
+    {
+     "name": "i3_band_0",
+     "x": 510,
+     "y": 198
+    },
+    {
+     "name": "i3_band_1",
+     "x": 510,
+     "y": 249
+    },
+    {
+     "name": "i3_top",
+     "x": 510,
+     "y": 100
+    },
+    {
+     "name": "i4_band_0",
+     "x": 660,
+     "y": 198
+    },
+    {
+     "name": "i4_band_1",
+     "x": 660,
+     "y": 249
+    },
+    {
+     "name": "i4_top",
+     "x": 660,
+     "y": 100
+    },
+    {
+     "name": "i5_label",
+     "x": 360,
+     "y": 490
+    },
+    {
+     "name": "i6_sway",
+     "x": 360,
+     "y": 100
+    }
+   ],
+   "scroll": null,
+   "seed": 2548108765,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.bank_ladder",
+   "zone": "s7_selma",
+   "source": "kit:stairs",
+   "sha1": "99e8b87d52550681e7ce36a99e7decb2c97ad605",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/bank_ladder.svg",
+   "width": 180,
+   "height": 124,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 90,
+     "y": 114
+    },
+    {
+     "name": "step_1",
+     "x": 90,
+     "y": 94
+    },
+    {
+     "name": "step_2",
+     "x": 90,
+     "y": 74
+    },
+    {
+     "name": "step_3",
+     "x": 90,
+     "y": 54
+    },
+    {
+     "name": "step_4",
+     "x": 90,
+     "y": 34
+    },
+    {
+     "name": "step_5",
+     "x": 90,
+     "y": 14
+    }
+   ],
+   "scroll": null,
+   "seed": 167007863,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.basement_stair",
+   "zone": "s1_morgue",
+   "source": "kit:stairs",
+   "sha1": "cadfe280a45a587eef51a3de0bbfc8154311408c",
+   "legacyId": "cr.set.basement_stair",
+   "file": "archive_of_voices/prop/basement_stair.svg",
+   "width": 480,
+   "height": 508,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 456,
+     "y": 458
+    },
+    {
+     "name": "step_1",
+     "x": 408,
+     "y": 408
+    },
+    {
+     "name": "step_2",
+     "x": 360,
+     "y": 358
+    },
+    {
+     "name": "step_3",
+     "x": 312,
+     "y": 308
+    },
+    {
+     "name": "step_4",
+     "x": 264,
+     "y": 258
+    },
+    {
+     "name": "step_5",
+     "x": 216,
+     "y": 208
+    },
+    {
+     "name": "step_6",
+     "x": 168,
+     "y": 158
+    },
+    {
+     "name": "step_7",
+     "x": 120,
+     "y": 108
+    },
+    {
+     "name": "step_8",
+     "x": 72,
+     "y": 58
+    },
+    {
+     "name": "step_9",
+     "x": 24,
+     "y": 8
+    }
+   ],
+   "scroll": null,
+   "seed": 4073054039,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.bench",
+   "zone": "all",
+   "source": "kit:compose",
+   "sha1": "894a1182e12c4a5daeee8d54599f54e059d1c836",
+   "legacyId": "cr.fg.bench",
+   "file": "archive_of_voices/prop/bench.svg",
+   "width": 420,
+   "height": 180,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 210,
+     "y": 90
+    },
+    {
+     "name": "i1_label",
+     "x": 210,
+     "y": 40
+    },
+    {
+     "name": "i2_band_0",
+     "x": 40,
+     "y": 102
+    },
+    {
+     "name": "i2_band_1",
+     "x": 40,
+     "y": 118
+    },
+    {
+     "name": "i2_top",
+     "x": 40,
+     "y": 80
+    },
+    {
+     "name": "i3_band_0",
+     "x": 380,
+     "y": 102
+    },
+    {
+     "name": "i3_band_1",
+     "x": 380,
+     "y": 118
+    },
+    {
+     "name": "i3_top",
+     "x": 380,
+     "y": 80
+    }
+   ],
+   "scroll": null,
+   "seed": 1474048650,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.canopy_rail",
+   "zone": "s4_main_street",
+   "source": "kit:truss",
+   "sha1": "e8d30c5f48f1e232e4da6f565cce2f394a6bea21",
+   "legacyId": "cr.set.canopy_rail",
+   "file": "archive_of_voices/prop/canopy_rail.svg",
+   "width": 1920,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "top",
+     "x": 960,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 1687856009,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.church",
+   "zone": "s5_church_mast",
+   "source": "hero",
+   "sha1": "ee915e47afdf5429c75ab977471d998f81f1584d",
+   "legacyId": "cr.set.church",
+   "file": "archive_of_voices/prop/church.svg",
+   "width": 1300,
+   "height": 1400,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 650,
+     "y": 1340
+    },
+    {
+     "name": "rose_window",
+     "x": 650,
+     "y": 780
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.console_reader",
+   "zone": "all",
+   "source": "kit:lectern",
+   "sha1": "d175264c5692490a2b7b5cf3075e6092c0f2cb00",
+   "legacyId": "cr.part.console_reader",
+   "file": "archive_of_voices/prop/console_reader.svg",
+   "width": 189,
+   "height": 210,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 95,
+     "y": 99
+    },
+    {
+     "name": "screen",
+     "x": 95,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 544263049,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.corner_store",
+   "zone": "s2_courthouse",
+   "source": "kit:facade",
+   "sha1": "6927f4634ce15003c9c963800555c84f71dbcc16",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/corner_store.svg",
+   "width": 520,
+   "height": 720,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 260,
+     "y": 720
+    },
+    {
+     "name": "window_0_0",
+     "x": 87,
+     "y": 554
+    },
+    {
+     "name": "window_0_2",
+     "x": 433,
+     "y": 554
+    },
+    {
+     "name": "window_1_0",
+     "x": 87,
+     "y": 266
+    },
+    {
+     "name": "window_1_1",
+     "x": 260,
+     "y": 266
+    },
+    {
+     "name": "window_1_2",
+     "x": 433,
+     "y": 266
+    }
+   ],
+   "scroll": null,
+   "seed": 3434623363,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.counter_stool",
+   "zone": "s4_main_street",
+   "source": "hero",
+   "sha1": "02824c6d7dbc11d835e2dafc89f8fcd1e73c8666",
+   "legacyId": "cr.set.counter_stool",
+   "file": "archive_of_voices/prop/counter_stool.svg",
+   "width": 90,
+   "height": 170,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.courier_ledger_tower",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "91d8a48c6963fb2e3b0a1ed29b4e2308b649d112",
+   "legacyId": "cr.far.city_south",
+   "file": "archive_of_voices/prop/courier_ledger_tower.svg",
+   "width": 520,
+   "height": 900,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "antenna",
+     "x": 260,
+     "y": 36
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": [
+    "C-L"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.courthouse",
+   "zone": "s2_courthouse",
+   "source": "hero",
+   "sha1": "5ae19f98258462128e4b616223f714f726a1b24b",
+   "legacyId": "cr.set.courthouse",
+   "file": "archive_of_voices/prop/courthouse.svg",
+   "width": 1500,
+   "height": 1000,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "clock",
+     "x": 750,
+     "y": 280
+    },
+    {
+     "name": "cornice",
+     "x": 1270,
+     "y": 520
+    },
+    {
+     "name": "door",
+     "x": 750,
+     "y": 740
+    },
+    {
+     "name": "panel_0",
+     "x": 610,
+     "y": 556
+    },
+    {
+     "name": "panel_1",
+     "x": 750,
+     "y": 556
+    },
+    {
+     "name": "panel_2",
+     "x": 890,
+     "y": 556
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.courthouse_clock",
+   "zone": "s2_courthouse",
+   "source": "kit:ringStack",
+   "sha1": "8b040a352da73baf813c7625dcfb981c228e8b34",
+   "legacyId": "cr.set.courthouse_clock",
+   "file": "archive_of_voices/prop/courthouse_clock.svg",
+   "width": 148,
+   "height": 148,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 74,
+     "y": 74
+    },
+    {
+     "name": "label_0",
+     "x": 25,
+     "y": 74
+    },
+    {
+     "name": "label_1",
+     "x": 74,
+     "y": 25
+    },
+    {
+     "name": "label_2",
+     "x": 123,
+     "y": 74
+    },
+    {
+     "name": "label_3",
+     "x": 74,
+     "y": 123
+    }
+   ],
+   "scroll": null,
+   "seed": 2132933604,
+   "engraved": [
+    "XII",
+    "III",
+    "VI",
+    "IX"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.darkroom_door",
+   "zone": "all",
+   "source": "kit:compose",
+   "sha1": "72a1a6be940b1e2d828a1d1fbdd06a292bfd7c9f",
+   "legacyId": "cr.set.darkroom_door",
+   "file": "archive_of_voices/prop/darkroom_door.svg",
+   "width": 320,
+   "height": 620,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 160,
+     "y": 340
+    },
+    {
+     "name": "i1_label",
+     "x": 160,
+     "y": 155
+    }
+   ],
+   "scroll": null,
+   "seed": 698139508,
+   "engraved": [
+    "DARKROOM"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.dimestore_facade",
+   "zone": "s4_main_street",
+   "source": "hero",
+   "sha1": "089e90f191ae7b6bfc4b2aa80fe12614a8185461",
+   "legacyId": "cr.set.dimestore",
+   "file": "archive_of_voices/prop/dimestore_facade.svg",
+   "width": 1400,
+   "height": 950,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 700,
+     "y": 950
+    },
+    {
+     "name": "sign",
+     "x": 700,
+     "y": 535
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": [
+    "FIVE & DIME"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.fire_escape",
+   "zone": "s4_main_street",
+   "source": "kit:compose",
+   "sha1": "016b039c1590997cde8ad415e7f2590515f56c38",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/fire_escape.svg",
+   "width": 280,
+   "height": 560,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_top",
+     "x": 140,
+     "y": 0
+    },
+    {
+     "name": "i1_step_0",
+     "x": 86,
+     "y": 530
+    },
+    {
+     "name": "i1_step_1",
+     "x": 86,
+     "y": 470
+    },
+    {
+     "name": "i1_step_2",
+     "x": 86,
+     "y": 410
+    },
+    {
+     "name": "i1_step_3",
+     "x": 86,
+     "y": 350
+    },
+    {
+     "name": "i1_step_4",
+     "x": 86,
+     "y": 290
+    },
+    {
+     "name": "i1_step_5",
+     "x": 86,
+     "y": 230
+    },
+    {
+     "name": "i1_step_6",
+     "x": 86,
+     "y": 170
+    },
+    {
+     "name": "i1_step_7",
+     "x": 86,
+     "y": 110
+    }
+   ],
+   "scroll": null,
+   "seed": 1520108118,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.flagpole_plinth",
+   "zone": "s2_courthouse",
+   "source": "kit:column",
+   "sha1": "f649679b2c0e170d0d8ffaae91c42b296e5f5603",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/flagpole_plinth.svg",
+   "width": 90,
+   "height": 340,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "top",
+     "x": 45,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2228291626,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.floor_rail",
+   "zone": "s6_memorial",
+   "source": "kit:linkStrip",
+   "sha1": "499f303405cee6a7f7309bcf9cb4b7f424ee54e9",
+   "legacyId": "cr.set.floor_rail",
+   "file": "archive_of_voices/prop/floor_rail.svg",
+   "width": 900,
+   "height": 20,
+   "rasterScale": 1,
+   "tileWidth": 900,
+   "pivot": [
+    0,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1245434543,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.front_pages_wall",
+   "zone": "all",
+   "source": "kit:shelving",
+   "sha1": "0807ad5dbee2f76a672614dc76bffc235aa69feb",
+   "legacyId": "cr.set.front_pages_wall",
+   "file": "archive_of_voices/prop/front_pages_wall.svg",
+   "width": 1400,
+   "height": 700,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 325,
+     "y": 139
+    },
+    {
+     "name": "bay_1",
+     "x": 628,
+     "y": 139
+    },
+    {
+     "name": "bay_10",
+     "x": 936,
+     "y": 586
+    },
+    {
+     "name": "bay_11",
+     "x": 1243,
+     "y": 591
+    },
+    {
+     "name": "bay_2",
+     "x": 940,
+     "y": 134
+    },
+    {
+     "name": "bay_3",
+     "x": 1246,
+     "y": 136
+    },
+    {
+     "name": "bay_4",
+     "x": 322,
+     "y": 363
+    },
+    {
+     "name": "bay_5",
+     "x": 628,
+     "y": 364
+    },
+    {
+     "name": "bay_6",
+     "x": 938,
+     "y": 364
+    },
+    {
+     "name": "bay_7",
+     "x": 1247,
+     "y": 366
+    },
+    {
+     "name": "bay_8",
+     "x": 323,
+     "y": 583
+    },
+    {
+     "name": "bay_9",
+     "x": 632,
+     "y": 586
+    }
+   ],
+   "scroll": null,
+   "seed": 1826009033,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.gallery_deck",
+   "zone": "all",
+   "source": "kit:groundStrip",
+   "sha1": "3a12edc60ac870e0e988885c64a98ea691cd77c1",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/gallery_deck.svg",
+   "width": 512,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2896633266,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.hall_facade",
+   "zone": "s6_memorial",
+   "source": "kit:compose",
+   "sha1": "30ef2ae2342fbf7ae59509e9b0b4deca49d5648f",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/hall_facade.svg",
+   "width": 2200,
+   "height": 1100,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_opening_0",
+     "x": 390,
+     "y": 680
+    },
+    {
+     "name": "i0_opening_1",
+     "x": 790,
+     "y": 680
+    },
+    {
+     "name": "i0_opening_2",
+     "x": 1190,
+     "y": 680
+    },
+    {
+     "name": "i0_opening_3",
+     "x": 1590,
+     "y": 680
+    }
+   ],
+   "scroll": null,
+   "seed": 185014730,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.lamppost",
+   "zone": "all",
+   "source": "kit:column",
+   "sha1": "2a5a092ecff0077ad3c48131f35c342afd25671e",
+   "legacyId": "cr.fg.lamppost_base",
+   "file": "archive_of_voices/prop/lamppost.svg",
+   "width": 140,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 70,
+     "y": 88
+    },
+    {
+     "name": "band_1",
+     "x": 70,
+     "y": 154
+    },
+    {
+     "name": "lamp",
+     "x": 70,
+     "y": -24
+    },
+    {
+     "name": "top",
+     "x": 70,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2072837848,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.lunch_counter",
+   "zone": "s4_main_street",
+   "source": "kit:compose",
+   "sha1": "52cc9cb48de4626adc52d2dbfffffb3458acb5d7",
+   "legacyId": "cr.set.lunch_counter",
+   "file": "archive_of_voices/prop/lunch_counter.svg",
+   "width": 1500,
+   "height": 320,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 750,
+     "y": 150
+    },
+    {
+     "name": "i1_label",
+     "x": 750,
+     "y": 250
+    }
+   ],
+   "scroll": null,
+   "seed": 1566389467,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.mailbox",
+   "zone": "s2_courthouse",
+   "source": "kit:column",
+   "sha1": "6e432838d70f7e099692cc2eed30bb369af8101d",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/mailbox.svg",
+   "width": 70,
+   "height": 110,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 35,
+     "y": 38
+    },
+    {
+     "name": "top",
+     "x": 35,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 1384169004,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.main_breaker",
+   "zone": "s1_morgue",
+   "source": "hero",
+   "sha1": "a3d3647ae7d95667919e36af558cd7491ac73d52",
+   "legacyId": "cr.set.main_breaker",
+   "file": "archive_of_voices/prop/main_breaker.svg",
+   "width": 140,
+   "height": 240,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "interact",
+     "x": 70,
+     "y": 100
+    },
+    {
+     "name": "lever",
+     "x": 70,
+     "y": 132
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": [
+    "MAIN"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.memorial_colonnade",
+   "zone": "s6_memorial",
+   "source": "hero",
+   "sha1": "345273546d750ab6a23c997f1a4cee7daa6f0444",
+   "legacyId": "cr.set.memorial",
+   "file": "archive_of_voices/prop/memorial_colonnade.svg",
+   "width": 1900,
+   "height": 620,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "attic",
+     "x": 950,
+     "y": 40
+    },
+    {
+     "name": "interior",
+     "x": 950,
+     "y": 400
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.newspaper_bundle",
+   "zone": "all",
+   "source": "kit:plate",
+   "sha1": "f6e60171a342ac2f14510fa5a49eab970657fcac",
+   "legacyId": "cr.fg.newspaper_bundle",
+   "file": "archive_of_voices/prop/newspaper_bundle.svg",
+   "width": 180,
+   "height": 110,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 90,
+     "y": 55
+    }
+   ],
+   "scroll": null,
+   "seed": 891670600,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.overpass_stair",
+   "zone": "s4_main_street",
+   "source": "kit:stairs",
+   "sha1": "afc416d570a65e5ebc34a42004ba8d796a821c17",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/overpass_stair.svg",
+   "width": 416,
+   "height": 344,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 26,
+     "y": 302
+    },
+    {
+     "name": "step_1",
+     "x": 78,
+     "y": 260
+    },
+    {
+     "name": "step_2",
+     "x": 130,
+     "y": 218
+    },
+    {
+     "name": "step_3",
+     "x": 182,
+     "y": 176
+    },
+    {
+     "name": "step_4",
+     "x": 234,
+     "y": 134
+    },
+    {
+     "name": "step_5",
+     "x": 286,
+     "y": 92
+    },
+    {
+     "name": "step_6",
+     "x": 338,
+     "y": 50
+    },
+    {
+     "name": "step_7",
+     "x": 390,
+     "y": 8
+    }
+   ],
+   "scroll": null,
+   "seed": 3516176657,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.parking_meter",
+   "zone": "all",
+   "source": "kit:column",
+   "sha1": "cf85bf637bad1e501bf0c5dde5be8838411bc456",
+   "legacyId": "cr.fg.parking_meter",
+   "file": "archive_of_voices/prop/parking_meter.svg",
+   "width": 90,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 45,
+     "y": 87
+    },
+    {
+     "name": "top",
+     "x": 45,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 395797758,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.proof_press",
+   "zone": "s1_morgue",
+   "source": "hero",
+   "sha1": "890ab07dcb160007d1d8b2df9f37b69273816e4a",
+   "legacyId": "cr.set.proof_press",
+   "file": "archive_of_voices/prop/proof_press.svg",
+   "width": 520,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "roller",
+     "x": 260,
+     "y": 150
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.reading_desk",
+   "zone": "s1_morgue",
+   "source": "hero",
+   "sha1": "c98b1330560b084355f87d4455e46b67447b6cb8",
+   "legacyId": "cr.set.reading_desk",
+   "file": "archive_of_voices/prop/reading_desk.svg",
+   "width": 480,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "lamp",
+     "x": 211,
+     "y": 98
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "puppet",
+   "key": "archive_of_voices.prop.record_engine",
+   "zone": "s1_morgue",
+   "source": "kit:puppet",
+   "sha1": "55f1f0df903b4c5dbebb1c13fa1596605f54601a",
+   "legacyId": "cr.set.engine_plinth",
+   "file": "archive_of_voices/prop/record_engine.svg",
+   "restFile": "archive_of_voices/prop/record_engine.rest.svg",
+   "width": 1000,
+   "height": 1370,
+   "rasterScale": 0.6,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "parts": [
+    {
+     "name": "glow",
+     "frames": 1,
+     "rest": [
+      500,
+      690
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -2,
+     "box": [
+      0,
+      0,
+      524,
+      524
+     ]
+    },
+    {
+     "name": "ring_outer",
+     "frames": 1,
+     "rest": [
+      500,
+      690
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -1,
+     "box": [
+      0,
+      528,
+      864,
+      864
+     ]
+    },
+    {
+     "name": "ring_mid",
+     "frames": 1,
+     "rest": [
+      500,
+      690
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 0,
+     "box": [
+      0,
+      1396,
+      664,
+      664
+     ]
+    },
+    {
+     "name": "ring_inner",
+     "frames": 1,
+     "rest": [
+      500,
+      690
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 1,
+     "box": [
+      0,
+      2064,
+      484,
+      484
+     ]
+    },
+    {
+     "name": "drum",
+     "frames": 1,
+     "rest": [
+      500,
+      690
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 2,
+     "box": [
+      0,
+      2552,
+      304,
+      304
+     ]
+    },
+    {
+     "name": "iris",
+     "frames": 1,
+     "rest": [
+      500,
+      690
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 3,
+     "box": [
+      0,
+      2860,
+      224,
+      224
+     ]
+    },
+    {
+     "name": "crown",
+     "frames": 1,
+     "rest": [
+      500,
+      300
+     ],
+     "pivot": [
+      0.5,
+      0.9934
+     ],
+     "z": -1,
+     "box": [
+      0,
+      3088,
+      444,
+      304
+     ]
+    },
+    {
+     "name": "plinth",
+     "frames": 1,
+     "rest": [
+      500,
+      1370
+     ],
+     "pivot": [
+      0.4995,
+      0.9825
+     ],
+     "z": 4,
+     "box": [
+      0,
+      3396,
+      1004,
+      228
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 4000,
+     "tracks": [
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "partial",
+     "loop": false,
+     "ms": 2400,
+     "tracks": [
+      {
+       "part": "ring_outer",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         600,
+         260
+        ],
+        [
+         1200,
+         420
+        ],
+        [
+         1800,
+         510
+        ],
+        [
+         2400,
+         540
+        ]
+       ]
+      },
+      {
+       "part": "ring_mid",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         600,
+         -170
+        ],
+        [
+         1200,
+         -280
+        ],
+        [
+         1800,
+         -340
+        ],
+        [
+         2400,
+         -360
+        ]
+       ]
+      },
+      {
+       "part": "ring_inner",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         2400,
+         90
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         2400,
+         0.18
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         2400,
+         0.85
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         2400,
+         0.85
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "restored",
+     "loop": false,
+     "ms": 2600,
+     "tracks": [
+      {
+       "part": "ring_outer",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         540
+        ],
+        [
+         1300,
+         760
+        ],
+        [
+         2600,
+         900
+        ]
+       ]
+      },
+      {
+       "part": "ring_mid",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         -360
+        ],
+        [
+         1300,
+         -480
+        ],
+        [
+         2600,
+         -540
+        ]
+       ]
+      },
+      {
+       "part": "ring_inner",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         90
+        ],
+        [
+         2600,
+         180
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.85
+        ],
+        [
+         1400,
+         0.2
+        ],
+        [
+         2600,
+         0.15
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.85
+        ],
+        [
+         1400,
+         0.2
+        ],
+        [
+         2600,
+         0.15
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         1400,
+         120
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         1400,
+         1
+        ],
+        [
+         2000,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.18
+        ],
+        [
+         1400,
+         0.75
+        ],
+        [
+         2600,
+         0.6
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.8
+        ],
+        [
+         1400,
+         1.25
+        ],
+        [
+         2600,
+         1.1
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.8
+        ],
+        [
+         1400,
+         1.25
+        ],
+        [
+         2600,
+         1.1
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "anchors": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.reel_crate",
+   "zone": "s1_morgue",
+   "source": "kit:compose",
+   "sha1": "bbeb2795ccd3410bfd1e52093383f50191c61b48",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/reel_crate.svg",
+   "width": 120,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 60,
+     "y": 45
+    },
+    {
+     "name": "i1_hub",
+     "x": 60,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 4070103812,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.reflecting_pool",
+   "zone": "s6_memorial",
+   "source": "kit:waterBand",
+   "sha1": "6df5a921f26166b7c1766fc25efae0e97a56bd19",
+   "legacyId": "cr.set.reflecting_pool",
+   "file": "archive_of_voices/prop/reflecting_pool.svg",
+   "width": 1900,
+   "height": 140,
+   "rasterScale": 0.75,
+   "tileWidth": 1900,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 851180326,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.reflecting_pool.b",
+   "zone": "s6_memorial",
+   "source": "kit:waterBand",
+   "sha1": "7d1ecc3abfe07eb7bdb058aa0d196698ccc24adc",
+   "legacyId": "cr.set.reflecting_pool",
+   "file": "archive_of_voices/prop/reflecting_pool.b.svg",
+   "width": 1900,
+   "height": 140,
+   "rasterScale": 0.75,
+   "tileWidth": 1900,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 851180326,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.riverside_ledge",
+   "zone": "s7_selma",
+   "source": "kit:groundStrip",
+   "sha1": "3bfd4300d776e3ee8f32fb15af672ccf47c1d37b",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/riverside_ledge.svg",
+   "width": 240,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": 240,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 4087782991,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.rolling_ladder",
+   "zone": "all",
+   "source": "kit:stairs",
+   "sha1": "3102abb9f507d967dad2df86e9694cf546670960",
+   "legacyId": "cr.set.rolling_ladder",
+   "file": "archive_of_voices/prop/rolling_ladder.svg",
+   "width": 168,
+   "height": 724,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 84,
+     "y": 694
+    },
+    {
+     "name": "step_1",
+     "x": 84,
+     "y": 634
+    },
+    {
+     "name": "step_10",
+     "x": 84,
+     "y": 94
+    },
+    {
+     "name": "step_11",
+     "x": 84,
+     "y": 34
+    },
+    {
+     "name": "step_2",
+     "x": 84,
+     "y": 574
+    },
+    {
+     "name": "step_3",
+     "x": 84,
+     "y": 514
+    },
+    {
+     "name": "step_4",
+     "x": 84,
+     "y": 454
+    },
+    {
+     "name": "step_5",
+     "x": 84,
+     "y": 394
+    },
+    {
+     "name": "step_6",
+     "x": 84,
+     "y": 334
+    },
+    {
+     "name": "step_7",
+     "x": 84,
+     "y": 274
+    },
+    {
+     "name": "step_8",
+     "x": 84,
+     "y": 214
+    },
+    {
+     "name": "step_9",
+     "x": 84,
+     "y": 154
+    }
+   ],
+   "scroll": null,
+   "seed": 2468338578,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.rooftop_block",
+   "zone": "s5_church_mast",
+   "source": "kit:facade",
+   "sha1": "290d61fd3226c055cd9ef4cde70df961342c7c0f",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/rooftop_block.svg",
+   "width": 1120,
+   "height": 800,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 560,
+     "y": 800
+    },
+    {
+     "name": "window_0_0",
+     "x": 93,
+     "y": 708
+    },
+    {
+     "name": "window_0_1",
+     "x": 280,
+     "y": 708
+    },
+    {
+     "name": "window_0_2",
+     "x": 467,
+     "y": 708
+    },
+    {
+     "name": "window_0_3",
+     "x": 653,
+     "y": 708
+    },
+    {
+     "name": "window_0_4",
+     "x": 840,
+     "y": 708
+    },
+    {
+     "name": "window_0_5",
+     "x": 1027,
+     "y": 708
+    },
+    {
+     "name": "window_1_0",
+     "x": 93,
+     "y": 533
+    },
+    {
+     "name": "window_1_1",
+     "x": 280,
+     "y": 533
+    },
+    {
+     "name": "window_1_2",
+     "x": 467,
+     "y": 533
+    },
+    {
+     "name": "window_1_3",
+     "x": 653,
+     "y": 533
+    },
+    {
+     "name": "window_1_4",
+     "x": 840,
+     "y": 533
+    },
+    {
+     "name": "window_1_5",
+     "x": 1027,
+     "y": 533
+    },
+    {
+     "name": "window_2_0",
+     "x": 93,
+     "y": 345
+    },
+    {
+     "name": "window_2_1",
+     "x": 280,
+     "y": 345
+    },
+    {
+     "name": "window_2_2",
+     "x": 467,
+     "y": 345
+    },
+    {
+     "name": "window_2_3",
+     "x": 653,
+     "y": 345
+    },
+    {
+     "name": "window_2_4",
+     "x": 840,
+     "y": 345
+    },
+    {
+     "name": "window_2_5",
+     "x": 1027,
+     "y": 345
+    },
+    {
+     "name": "window_3_0",
+     "x": 93,
+     "y": 157
+    },
+    {
+     "name": "window_3_1",
+     "x": 280,
+     "y": 157
+    },
+    {
+     "name": "window_3_2",
+     "x": 467,
+     "y": 157
+    },
+    {
+     "name": "window_3_3",
+     "x": 653,
+     "y": 157
+    },
+    {
+     "name": "window_3_4",
+     "x": 840,
+     "y": 157
+    },
+    {
+     "name": "window_3_5",
+     "x": 1027,
+     "y": 157
+    }
+   ],
+   "scroll": null,
+   "seed": 1363233075,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.rose_window_glow",
+   "zone": "s5_church_mast",
+   "source": "kit:glowSprite",
+   "sha1": "c9dbe474554620710e6a72cc41d90f68f9f53dc2",
+   "legacyId": "cr.set.rose_window_glow",
+   "file": "archive_of_voices/prop/rose_window_glow.svg",
+   "width": 300,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3559614180,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.school_doors",
+   "zone": "s3_schoolhouse",
+   "source": "kit:compose",
+   "sha1": "9ac6daf19f5ccd40ab1a42a1ccb45e274eeb67d8",
+   "legacyId": "cr.set.school_doors",
+   "file": "archive_of_voices/prop/school_doors.svg",
+   "width": 260,
+   "height": 340,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_bay_0",
+     "x": 130,
+     "y": 340
+    },
+    {
+     "name": "i0_door",
+     "x": 130,
+     "y": 340
+    },
+    {
+     "name": "i0_keystone",
+     "x": 130,
+     "y": 29
+    },
+    {
+     "name": "i1_label",
+     "x": 85,
+     "y": 215
+    },
+    {
+     "name": "i2_label",
+     "x": 175,
+     "y": 215
+    }
+   ],
+   "scroll": null,
+   "seed": 1854594478,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.schoolhouse",
+   "zone": "s3_schoolhouse",
+   "source": "hero",
+   "sha1": "bc10996b2eec1f7c5611613d777feaa392db9c5a",
+   "legacyId": "cr.set.schoolhouse",
+   "file": "archive_of_voices/prop/schoolhouse.svg",
+   "width": 1600,
+   "height": 700,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 700,
+     "y": 700
+    },
+    {
+     "name": "tower_top",
+     "x": 700,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.swing_door",
+   "zone": "s4_main_street",
+   "source": "kit:plate",
+   "sha1": "510eca1aa7e5412dd7fd6a7fceb1f629fe363428",
+   "legacyId": "cr.set.swing_door",
+   "file": "archive_of_voices/prop/swing_door.svg",
+   "width": 200,
+   "height": 320,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 100,
+     "y": 160
+    }
+   ],
+   "scroll": null,
+   "seed": 197985607,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.telegraph_pole",
+   "zone": "s3_schoolhouse",
+   "source": "kit:column",
+   "sha1": "0711d27edd7e53f5a14b056459e530c12a56b3a0",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/telegraph_pole.svg",
+   "width": 120,
+   "height": 470,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "top",
+     "x": 60,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2357032611,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.terminal_facade",
+   "zone": "s4_main_street",
+   "source": "hero",
+   "sha1": "5081d1bc16c420e723591d437305ba6972a2d3d1",
+   "legacyId": "cr.set.terminal",
+   "file": "archive_of_voices/prop/terminal_facade.svg",
+   "width": 1900,
+   "height": 950,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 900,
+     "y": 950
+    },
+    {
+     "name": "fin",
+     "x": 1740,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": [
+    "T",
+    "E",
+    "R",
+    "M",
+    "I",
+    "N",
+    "A",
+    "L"
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.vault_lift",
+   "zone": "s8_stacks_vault",
+   "source": "kit:truss",
+   "sha1": "9deba6bc1dc63341fd5f076bf3000e58cb050b1e",
+   "legacyId": null,
+   "file": "archive_of_voices/prop/vault_lift.svg",
+   "width": 200,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "top",
+     "x": 100,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 449768628,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "archive_of_voices.prop.vault_socket",
+   "zone": "s8_stacks_vault",
+   "source": "kit:ringStack",
+   "sha1": "adc78172893f2947f57047296cc328ac17280aa5",
+   "legacyId": "cr.set.vault_socket",
+   "file": "archive_of_voices/prop/vault_socket.svg",
+   "width": 1300,
+   "height": 1300,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 650,
+     "y": 650
+    }
+   ],
+   "scroll": null,
+   "seed": 3733749284,
+   "engraved": []
+  }
+ ],
+ "totalBytes": 953468,
+ "gzipBytes": 262872,
  "vram": [
   {
    "zone": "all",
-   "mb": 9.8
+   "mb": 33.3
   },
   {
    "zone": "s1_morgue",
-   "mb": 9.8
+   "mb": 69.3
   },
   {
    "zone": "s2_courthouse",
-   "mb": 9.8
+   "mb": 87.9
   },
   {
    "zone": "s3_schoolhouse",
-   "mb": 9.8
+   "mb": 62.1
   },
   {
    "zone": "s4_main_street",
-   "mb": 9.8
+   "mb": 78.3
   },
   {
    "zone": "s5_church_mast",
-   "mb": 9.8
+   "mb": 59.7
   },
   {
    "zone": "s6_memorial",
-   "mb": 9.8
+   "mb": 70.3
   },
   {
    "zone": "s7_selma",
-   "mb": 9.8
+   "mb": 50.7
   },
   {
    "zone": "s8_stacks_vault",
-   "mb": 9.8
+   "mb": 54.9
   }
  ],
- "swapPeakMb": 9.8
+ "swapPeakMb": 123.9
 }

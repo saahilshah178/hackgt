@@ -16,6 +16,8 @@ export const truthFinder = defineFamily({
     platformer: { sockets: ["gate"], skin: "Three doors; the one with the false claim collapses" },
     puzzle: { sockets: ["tile_board"], skin: "Remove the odd tile to release the chain" },
     strategy: { sockets: ["event_card"], skin: "Advisors' claims; the false one tanks a stat" },
+    explorer: { sockets: ["sentry"], skin: "One sentry lies; find the false claim" },
+    story: { sockets: ["trial"], skin: "One witness contradicts the record; object" },
   },
   modes: {
     mimic,

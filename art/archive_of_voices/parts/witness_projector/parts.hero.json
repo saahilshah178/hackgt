@@ -1,3 +1,16 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "archive_of_voices.part.witness_projector_arc_lamp",
+   "legacyId": "cr.part.proof_lamp_stand",
+   "zone": "s2_courthouse",
+   "file": "arc_lamp.svg"
+  },
+  {
+   "key": "archive_of_voices.part.witness_projector_pendant_lamp",
+   "legacyId": "cr.set.pendant_lamp",
+   "zone": "s4_main_street",
+   "file": "pendant_lamp.svg"
+  }
+ ]
 }

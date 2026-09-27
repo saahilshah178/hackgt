@@ -181,6 +181,20 @@ function callExpedition<K extends keyof ExpeditionDebugApi>(
 
 export const hostDebug = (page: Page) => callExpedition(page, "host");
 export const phase = (page: Page) => callExpedition(page, "phase");
+
+/**
+ * `host().contraption(id)` — NOT `(await hostDebug(page)).contraption(id)`. `page.evaluate`'s return value crosses
+ * the CDP boundary as plain (structured-clone/JSON-like) data, so a snapshot returned by `hostDebug` never carries
+ * live methods: `contraption` is a function only INSIDE the page. This calls `host()` and `.contraption(id)` in one
+ * `page.evaluate`, returning only its plain `Record<string, number | string | boolean> | null` result.
+ */
+export function contraptionDebug(page: Page, encounterId?: string): Promise<Record<string, number | string | boolean> | null> {
+  return page.evaluate((encounterId) => {
+    const api = (window as unknown as DebugWindow).__GAME_DEBUG__?.expedition;
+    if (!api) throw new Error("__GAME_DEBUG__.expedition is not installed.");
+    return api.host()?.contraption(encounterId) ?? null;
+  }, encounterId);
+}
 export const dialogueSnapshot = (page: Page) => callExpedition(page, "dialogue");
 export const worldStateSnapshot = (page: Page) => callExpedition(page, "worldState");
 export const interact = (page: Page) => callExpedition(page, "interact");
@@ -194,6 +208,87 @@ export const openSandbox = (page: Page, id: string) => callExpedition(page, "ope
 export const setExpress = (page: Page, on: boolean) => callExpedition(page, "express", on);
 export const skipCutscene = (page: Page) => callExpedition(page, "skipCutscene");
 export const freeze = (page: Page, on: boolean) => callExpedition(page, "freeze", on);
+
+/**
+ * `walkTo(x)` only walks the CURRENT walkable component up to its nearest barrier or link boundary; it does not
+ * chain through links itself (measured empirically: it never auto-fires a `hop`/`climb`/`drop`, even one already
+ * `inRange`). Zones with a gap in the ground (§8.2 step 3's own canal crossing) need an explicit `useLink` at each
+ * such boundary. This drives `walkTo` repeatedly, firing any link the host reports `inRange` whenever a call makes
+ * no further progress, until `target` is reached or nothing moves for `stallLimit` link-less attempts in a row
+ * (a real blocker — e.g. an unsolved station's payoff gate, §0 decision 9). Used for any trek longer than one
+ * walkable stretch; callers that want to assert a SPECIFIC link's effect still call `useLink` directly themselves.
+ */
+export async function walkUntilOrBlocked(page: Page, target: number, opts: { maxTries?: number; stallLimit?: number } = {}): Promise<void> {
+  const maxTries = opts.maxTries ?? 60;
+  const stallLimit = opts.stallLimit ?? 6;
+  // a local alias, not a call to `useLink` itself: eslint's react-hooks plugin treats any `use*`-named call inside
+  // a loop as a (mis-detected) React Hook violation, since this file is under `src`'s config scope too.
+  const fireLink = useLink;
+  let stalls = 0;
+  for (let i = 0; i < maxTries; i++) {
+    const before = await hostDebug(page);
+    if (!before) return;
+    await walkTo(page, target);
+    // a busy dev server (concurrent lanes' Turbopack rebuilds) can starve the host's rAF loop for a tick or two;
+    // give it a beat before treating a small step as a real stall rather than momentary lag.
+    await page.waitForTimeout(120);
+    const after = await hostDebug(page);
+    if (!after) return;
+    if (Math.abs(after.playerX - target) < 5) return;
+    if (Math.abs(after.playerX - before.playerX) < 1) {
+      const link = after.links.find((l) => l.inRange);
+      if (link) {
+        await fireLink(page, link.id);
+        stalls = 0;
+        continue;
+      }
+      stalls++;
+      if (stalls >= stallLimit) return; // genuinely blocked
+    } else {
+      stalls = 0;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// The base `GameDebugHandle` (src/game/debug.ts): the runner's own progress, shared with the legacy hosts.
+// Used to jump the runner forward (e.g. to reach a later station without walking/solving every prior one).
+// ---------------------------------------------------------------------------------------------------------------
+
+/*
+ * `state()` and `autoSolve()` also exist on the AMBIENT `Window.__GAME_DEBUG__` other specs' own global
+ * augmentation declares (with a narrower `state()` shape than this file's local `ExpeditionDebugHandle`); typing
+ * the lookup as that local interface would merge the two declarations' call signatures. So, exactly like
+ * `callExpedition` above does for `.expedition.*`, the call itself goes through an untyped intermediate and the
+ * wrapper's own return type is asserted at the boundary instead of inferred from a shared global interface.
+ */
+function callDebug<R>(page: Page, method: "state" | "autoSolve"): Promise<R> {
+  return page.evaluate(
+    (method) => {
+      const dbg = (window as unknown as { __GAME_DEBUG__?: Record<string, (...a: unknown[]) => unknown> }).__GAME_DEBUG__;
+      if (!dbg) throw new Error("__GAME_DEBUG__ is not installed.");
+      return dbg[method]() as R;
+    },
+    method,
+  );
+}
+
+export function runnerState(page: Page): Promise<{ finished: boolean; index: number; encounterId: string | null }> {
+  return callDebug(page, "state");
+}
+
+export function autoSolve(page: Page): Promise<void> {
+  return callDebug(page, "autoSolve");
+}
+
+/** Calls `autoSolve()` until the runner reaches `encounterId` (or is finished), up to `maxSteps` times. */
+export async function autoSolveTo(page: Page, encounterId: string, maxSteps = 20): Promise<void> {
+  for (let i = 0; i < maxSteps; i++) {
+    const s = await runnerState(page);
+    if (s.finished || s.encounterId === encounterId) return;
+    await autoSolve(page);
+  }
+}
 
 // ---------------------------------------------------------------------------------------------------------------
 // Panel / control-kind testids (§3, §4.1) the keyboard and station specs assert against.

@@ -7,6 +7,7 @@
  * DOM host on ANY boot failure with console.warn (never console.error). `?expeditionFail=1` forces that fallback (e2e).
  */
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
+import { useTutorial } from "../../expedition/client/tutorial-context";
 import type { HostHandle, HostProps, LayoutState } from "../types";
 import type { ExpeditionSceneApi, HostSceneData, StationLive } from "./ExpeditionScene";
 import { installHostDebug, makeHostDebugApi } from "./debug-api";
@@ -66,6 +67,7 @@ function prefersReducedMotion(): boolean {
 }
 
 export const ExpeditionHost = forwardRef<HostHandle, HostProps>(function ExpeditionHost(props, ref) {
+  const tutorial = useTutorial();
   const containerRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<ExpeditionSceneApi | null>(null);
   const domRef = useRef<HostHandle | null>(null);
@@ -270,7 +272,7 @@ export const ExpeditionHost = forwardRef<HostHandle, HostProps>(function Expedit
     <div data-testid="expedition-host" data-renderer="webgl" style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}>
       <div ref={containerRef} data-testid="phaser-host" style={{ position: "absolute", inset: 0 }} />
       <WorldLabelLayer store={labels} />
-      {mode === "booting" && (
+      {mode === "booting" && !tutorial.open && (
         <div role="status" aria-live="polite" style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", color: "#FFFFFF", fontSize: 22, textAlign: "center" }}>
           Loading the expedition…
           <div style={{ marginTop: 12, width: 320, height: 8, background: "rgba(255,255,255,0.25)", borderRadius: 4 }}>

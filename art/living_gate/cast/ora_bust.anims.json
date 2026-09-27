@@ -1,0 +1,47 @@
+[
+  {
+    "id": "idle",
+    "loop": true,
+    "ms": 4800,
+    "tracks": [
+      { "part": "torso", "prop": "scaleY", "wave": { "amp": 0.008, "hz": 0.4167, "phase": 0 }, "keys": [[0, 1.008]] },
+      { "part": "head", "prop": "y", "wave": { "amp": 0.8, "hz": 0.4167, "phase": 0.5 }, "keys": [] },
+      { "part": "eyes", "prop": "frame", "wave": null, "keys": [[0, 0], [3600, 1], [3760, 0]] },
+      { "part": "brows", "prop": "frame", "wave": null, "keys": [[0, 0]] },
+      { "part": "mouth", "prop": "frame", "wave": null, "keys": [[0, 0]] }
+    ]
+  },
+  {
+    "id": "talk",
+    "loop": true,
+    "ms": 2000,
+    "tracks": [
+      { "part": "mouth", "prop": "frame", "wave": { "amp": 1, "hz": 4, "phase": 0 }, "keys": [] },
+      { "part": "head", "prop": "rot", "wave": { "amp": 1.5, "hz": 1, "phase": 0 }, "keys": [] },
+      { "part": "eyes", "prop": "frame", "wave": null, "keys": [[0, 0], [1500, 1], [1620, 0]] },
+      { "part": "brows", "prop": "y", "wave": { "amp": 1.2, "hz": 2, "phase": 0 }, "keys": [] }
+    ]
+  },
+  {
+    "id": "cue",
+    "loop": false,
+    "ms": 800,
+    "tracks": [
+      { "part": "brows", "prop": "frame", "wave": null, "keys": [[0, 1]] },
+      { "part": "mouth", "prop": "frame", "wave": null, "keys": [[0, 0]] },
+      { "part": "eyes", "prop": "frame", "wave": null, "keys": [[0, 0]] },
+      { "part": "head", "prop": "rot", "wave": null, "keys": [[0, 0], [200, -3], [800, -3]] }
+    ]
+  },
+  {
+    "id": "react",
+    "loop": false,
+    "ms": 800,
+    "tracks": [
+      { "part": "mouth", "prop": "frame", "wave": null, "keys": [[0, 0]] },
+      { "part": "brows", "prop": "frame", "wave": null, "keys": [[0, 0]] },
+      { "part": "brows", "prop": "y", "wave": null, "keys": [[0, 0], [150, -3], [800, -2]] },
+      { "part": "head", "prop": "y", "wave": null, "keys": [[0, 0], [120, -3], [400, 0]] }
+    ]
+  }
+]

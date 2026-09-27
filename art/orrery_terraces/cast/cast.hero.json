@@ -1,3 +1,10 @@
 {
-  "entries": []
+  "entries": [
+    { "key": "orrery_terraces.companion.cog", "kind": "puppet", "file": "cog.svg", "anims": "cog.anims.json", "zone": "all", "legacyId": "A155" },
+    { "key": "orrery_terraces.npc.brasswick", "kind": "puppet", "file": "brasswick.svg", "anims": "brasswick.anims.json", "zone": "z1_sunward", "legacyId": "A162" },
+    { "key": "orrery_terraces.costume.wren_hair_bun", "file": "wren_hair_bun.svg", "zone": "all", "legacyId": "A138" },
+    { "key": "orrery_terraces.costume.wren_scarf", "file": "wren_scarf.svg", "zone": "all", "legacyId": "A141" },
+    { "key": "orrery_terraces.costume.wren_satchel", "file": "wren_satchel.svg", "zone": "all", "legacyId": "A152" },
+    { "key": "orrery_terraces.costume.wren_staff", "file": "wren_staff.svg", "zone": "all", "legacyId": "A153" }
+  ]
 }

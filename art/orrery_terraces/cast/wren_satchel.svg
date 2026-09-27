@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 50" width="54" height="50" data-pivot="0.5,0.04">
+<!-- Wren's leather satchel (trig A152): flap, stitching and a gold buckle; pivot = the strap end. -->
+<defs><linearGradient id="bag" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="54" y2="50"><stop offset="0" stop-color="{{leather.hi}}"/><stop offset="0.5" stop-color="{{leather}}"/><stop offset="1" stop-color="{{leather.deep}}"/></linearGradient><filter id="sh" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.5"/></filter></defs>
+<rect x="23" y="0" width="8" height="12" fill="{{leather.deep}}"/>
+<path d="M4 16 Q4 10 10 10 L44 10 Q50 10 50 16 L50 40 Q50 48 42 48 L12 48 Q4 48 4 40 Z" fill="url(#bag)"/>
+<path d="M7 40 L7 44 Q8 46 12 46 L42 46 Q46 46 47 44 L47 40" fill="none" stroke="{{shadow}}" stroke-width="3" opacity="0.3"/>
+<path d="M3 15 Q3 9 10 9 L44 9 Q51 9 51 15 L51 26 Q27 36 3 26 Z" fill="{{leather.hi}}"/>
+<path d="M7 17 L7 25 Q27 33 47 25 L47 17" fill="none" stroke="{{leather.deep}}" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+<rect x="22" y="24" width="10" height="9" rx="1.5" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="1.2"/><rect x="25" y="27" width="4" height="3" fill="{{leather.deep}}"/>
+<path d="M5 13 Q12 10 20 10" fill="none" stroke="{{stone.lit}}" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+</svg>

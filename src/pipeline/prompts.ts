@@ -2,6 +2,7 @@ import type { Genre } from "../contracts/common";
 import { conceptWeight, type Intake, type KnowledgeMap } from "../contracts/knowledge";
 import type { TeachingMechanic } from "../contracts/library";
 import type { BlueprintEncounter, BlueprintSlice, DirectorMenuFamily } from "../contracts/slices";
+import { GENRE_INFO } from "../library/genres";
 import { getFamily } from "../mechanics/registry";
 import type { AnyFamilyMode } from "../mechanics/types";
 
@@ -28,6 +29,7 @@ export function sharedContext(km: KnowledgeMap, intake: Intake, genre: Genre): s
     `# Source: ${km.title} (${km.subject.domain} / ${km.subject.topic}, ${km.level})${km.unsourced ? " [UNSOURCED: from general knowledge]" : ""}`,
     `# Learner: goal=${intake.goal}, minutes=${intake.minutes}. Confidence is 1 (lost) to 5 (solid). Weight = (core ? 2 : 1) × (6 − confidence); higher weight = needs more practice.`,
     `# Genre: ${genre}`,
+    `# How this genre plays: ${GENRE_INFO[genre].name}. ${GENRE_INFO[genre].coreLoop} Write the title, setting, premise, cast and every line for this perspective (not every genre has a walking hero).`,
     "# Units",
     JSON.stringify(units),
     "# Concepts",
@@ -45,7 +47,7 @@ export function directorMenu(families: readonly DirectorMenuFamily[], genre: Gen
       const cards = f.cards
         .map(
           (c) =>
-            `  - ${c.id} [${c.family}.${c.mode}] "${c.concept}": ${c.playerAction}. Breaks: "${c.misconception}".${c.genreNotes?.[genre] ? ` In this genre: ${c.genreNotes[genre]}.` : ""}`,
+            `  - ${c.id} [${c.family}.${c.mode}, ${fam?.modes[c.mode]?.widget ?? "?"} widget] "${c.concept}": ${c.playerAction}. Breaks: "${c.misconception}".${c.genreNotes?.[genre] ? ` In this genre: ${c.genreNotes[genre]}.` : ""}`,
         )
         .join("\n");
       return `- family ${f.familyId} (${fam?.name ?? f.familyId}); sockets: ${f.sockets.join("/")}; look: ${skin}\n${cards}`;
@@ -62,7 +64,9 @@ Design rules:
 - The last encounter is the boss: it combines the 2-3 weakest concepts and uses the boss socket.
 - Target a listed misconception whenever the card allows it (targetMisconception must be copied exactly from the concept's list, or null).
 - Theme the whole game around the subject (e.g. cell biology -> a submarine inside a cell). 1-3 characters, one of them a helper.
-- designNote tells the challenge writer what the encounter should make the player think about. Be specific.`;
+- designNote tells the challenge writer what the encounter should make the player think about. Be specific.
+- Vary how the player acts (each card lists its widget). With 5 or more encounters use at least 3 different widgets, and let multiple choice ("pick") and single sliders ("dial") together be at most a third of the encounters whenever the menu offers other cards for those concepts. Prefer sorting, ordering, linking, placing, building, typing and explaining.
+- When the menu has an explain card (explainer.teach_back), use it for the weakest causal or process concept: explaining it in the player's own words is how they prove they understand it.`;
 
 export const CHALLENGE_SYSTEM = `You are the Challenge Writer for one encounter of an educational game. You fill in the mechanic's params and all player-facing text.
 

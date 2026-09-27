@@ -9,6 +9,7 @@ import {
   briefOf,
   expressWorldOf,
   hintLabelOf,
+  hudInsetRight,
   hudModeOf,
   isCompact,
   layoutFor,
@@ -52,6 +53,30 @@ describe("layout and safe rect (§3.1)", () => {
     expect(safeRectFor("board", VP)).toEqual({ x: 0, y: 0, w: 720, h: 720 });
     expect(safeRectFor("vault", VP)).toEqual({ x: 0, y: 0, w: 1600, h: 900 });
     expect(safeRectFor("sandbox", VP)).toEqual(safeRectFor("scrub", VP));
+  });
+  it("the HUD controls move to the world side while a side panel is open (w1a fix 6)", () => {
+    // 1600 × 900: scrub panel 672 px + the full chip allowance; board 880 px + the allowance
+    expect(hudInsetRight("scrub", VP, true)).toBe(672 + 170);
+    expect(hudInsetRight("board", VP, true)).toBe(880 + 170);
+    expect(hudInsetRight("sandbox", VP, true)).toBe(hudInsetRight("scrub", VP, true));
+    // the default corner: explore, the vault modal, a closed panel, the compact bottom sheet
+    expect(hudInsetRight("explore", VP, true)).toBe(0);
+    expect(hudInsetRight("vault", VP, true)).toBe(0);
+    expect(hudInsetRight("scrub", VP, false)).toBe(0);
+    expect(hudInsetRight("board", { w: 700, h: 900 }, true)).toBe(0);
+    // narrow stages shrink the allowance (never below 16 px) so the controls stay clear of the zone title
+    const narrow = { w: 1280, h: 720 };
+    const inset = hudInsetRight("board", narrow, true);
+    expect(inset).toBe(1280 - 576 + (576 - 136 - 380));
+    expect(narrow.w - inset - 136).toBeGreaterThanOrEqual(380); // the controls' left edge clears the zone title
+    for (const w of [1024, 1280, 1366, 1440, 1600, 1920, 2560]) {
+      for (const mode of ["scrub", "board"] as const) {
+        const vp = { w, h: Math.round(w * 0.5625) };
+        const r = hudInsetRight(mode, vp, true);
+        expect(r).toBeGreaterThanOrEqual(w - safeRectFor(mode, vp).w + 16);
+        expect(r).toBeLessThanOrEqual(w - safeRectFor(mode, vp).w + 170);
+      }
+    }
   });
   it("compact screens keep the top 40 % above the bottom sheet", () => {
     expect(isCompact({ w: 700, h: 900 })).toBe(true);

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" data-pivot="0.5,0.5">
+  <g id="glow"><path d="M32 3L61 32L32 61L3 32Z" fill="{{ui.line.glow}}"/></g>
+  <g id="lit"><path d="M32 7L57 32L32 57L7 32Z" fill="{{ui.card|alpha:0.55}}" stroke="{{ui.line}}" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M26 24v16M32 20v24M38 24v16" stroke="{{ui.line}}" stroke-width="2.5" stroke-linecap="round" fill="none"/></g>
+</svg>

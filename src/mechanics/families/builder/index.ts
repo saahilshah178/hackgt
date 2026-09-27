@@ -18,6 +18,8 @@ export const builder = defineFamily({
     platformer: { sockets: ["switch"], skin: "Wire the elevator; word-block bridge" },
     puzzle: { sockets: ["tile_board"], skin: "Valence grid, Lightbot" },
     strategy: { sockets: ["production_line"], skin: "Lay out the factory" },
+    explorer: { sockets: ["terminal"], skin: "Rebuild the broken mechanism at the terminal" },
+    story: { sockets: ["letter"], skin: "Compose the message piece by piece" },
   },
   modes: {
     molecule,

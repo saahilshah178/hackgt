@@ -1,3 +1,8 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"orrery_terraces.part.astronomer_box_music_box","zone":"kit","gen":"compose","params":{"w":320,"h":220,"tileWidth":null,"finish":{"ao":false,"rim":false,"haze":0},"items":[{"gen":"plate","params":{"w":300,"h":160,"style":"slab","bevel":10,"rivets":0,"screen":false,"ramp":{"lit":"orrery.brass.hi","base":"orrery.brass","shade":"orrery.brass.deep"},"face":"orrery.brass","engraved":null},"seed":null,"x":160,"y":140,"scale":1,"flip":false,"alpha":1},{"gen":"ringStack","params":{"size":120,"ellipse":1,"rings":[{"r":54,"width":8,"tok":"gold.base","edge":null,"gaps":[],"notches":[],"studs":null,"teeth":{"n":16,"depth":6},"grooves":null,"spokes":null,"wave":null,"sockets":null,"ticks":null,"labels":[]}],"hub":{"r":14,"ramp":{"lit":"gold.hi","base":"gold.base","shade":"gold.deep"}},"cutout":null,"knurl":false},"seed":null,"x":160,"y":80,"scale":1,"flip":false,"alpha":1}]},"rasterScale":1},
+    {"key":"orrery_terraces.part.astronomer_box_crank","zone":"kit","gen":"ringStack","params":{"size":90,"ellipse":1,"rings":[{"r":40,"width":8,"tok":"bronze.ring","edge":null,"gaps":[],"notches":[],"studs":null,"teeth":null,"grooves":null,"spokes":{"n":3,"width":6},"wave":null,"sockets":null,"ticks":null,"labels":[]}],"hub":{"r":10,"ramp":{"lit":"gold.hi","base":"gold.base","shade":"gold.deep"}},"cutout":null,"knurl":false},"rasterScale":1},
+    {"key":"orrery_terraces.part.astronomer_box_comb","zone":"kit","gen":"shelving","params":{"w":200,"h":80,"style":"type_case","shelves":1,"bays":8,"fill":["empty"],"endPanel":null,"crank":false,"ramp":{"lit":"gold.hi","base":"gold.base","shade":"gold.deep"},"finish":{"ao":true,"rim":true,"haze":0}},"rasterScale":1},
+    {"key":"orrery_terraces.part.astronomer_box_console","zone":"kit","gen":"lectern","params":{"h":120,"style":"lectern","ramp":{"lit":"stone.lit","base":"stone.base","shade":"stone.shade"},"trim":"gold.base","screen":"ui.card","emblem":true},"rasterScale":1}
+  ]
 }

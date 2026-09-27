@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
 import { GENRES, type Genre } from "@/contracts/common";
+import { GENRE_LABELS } from "@/library/genre-labels";
 import type { GameSpec } from "@/contracts/gamespec";
 import { emptyMastery, updateMastery, type TelemetryEvent } from "@/contracts/telemetry";
 import { api } from "@/components/flow/client-fetch";
@@ -230,7 +231,7 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
               <option value="auto">auto</option>
               {GENRES.map((g) => (
                 <option key={g} value={g}>
-                  {g}
+                  {GENRE_LABELS[g].name}
                 </option>
               ))}
             </select>

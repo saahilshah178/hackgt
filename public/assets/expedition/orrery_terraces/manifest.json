@@ -2,27 +2,6842 @@
  "namespace": "orrery_terraces",
  "paletteId": "orrery_terraces",
  "heroCap": 40,
- "heroCount": 0,
- "entries": [],
- "totalBytes": 0,
- "gzipBytes": 0,
+ "heroCount": 16,
+ "entries": [
+  {
+   "kind": "puppet",
+   "key": "orrery_terraces.companion.cog",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "c4876dd48132344f1f239e3915ffa47af62bc6ce",
+   "legacyId": "A155",
+   "file": "orrery_terraces/companion/cog.svg",
+   "restFile": "orrery_terraces/companion/cog.rest.svg",
+   "width": 82,
+   "height": 75,
+   "rasterScale": 1.5,
+   "pivot": [
+    0.5,
+    0.6
+   ],
+   "parts": [
+    {
+     "name": "key",
+     "frames": 1,
+     "rest": [
+      23.1,
+      43.5
+     ],
+     "pivot": [
+      0.7406,
+      0.4792
+     ],
+     "z": -2,
+     "box": [
+      0,
+      0,
+      32,
+      24
+     ]
+    },
+    {
+     "name": "wing_l",
+     "frames": 1,
+     "rest": [
+      27.2,
+      35.4
+     ],
+     "pivot": [
+      0.5571,
+      0.1694
+     ],
+     "z": -1,
+     "box": [
+      0,
+      28,
+      28,
+      36
+     ]
+    },
+    {
+     "name": "feet",
+     "frames": 1,
+     "rest": [
+      40.8,
+      62.6
+     ],
+     "pivot": [
+      0.4607,
+      0.3813
+     ],
+     "z": -1,
+     "box": [
+      0,
+      68,
+      28,
+      16
+     ]
+    },
+    {
+     "name": "body",
+     "frames": 1,
+     "rest": [
+      40.8,
+      47.6
+     ],
+     "pivot": [
+      0.4773,
+      0.5091
+     ],
+     "z": 0,
+     "box": [
+      0,
+      88,
+      44,
+      44
+     ]
+    },
+    {
+     "name": "belly_gears",
+     "frames": 4,
+     "rest": [
+      40.8,
+      50.3
+     ],
+     "pivot": [
+      0.4792,
+      0.4792
+     ],
+     "z": 1,
+     "box": [
+      0,
+      136,
+      24,
+      24
+     ]
+    },
+    {
+     "name": "head",
+     "frames": 1,
+     "rest": [
+      40.8,
+      35.4
+     ],
+     "pivot": [
+      0.4958,
+      0.8182
+     ],
+     "z": 2,
+     "box": [
+      0,
+      164,
+      48,
+      44
+     ]
+    },
+    {
+     "name": "wing_r",
+     "frames": 1,
+     "rest": [
+      54.4,
+      35.4
+     ],
+     "pivot": [
+      0.3143,
+      0.1694
+     ],
+     "z": 3,
+     "box": [
+      0,
+      212,
+      28,
+      36
+     ]
+    },
+    {
+     "name": "eye_glow",
+     "frames": 1,
+     "rest": [
+      40.8,
+      23.8
+     ],
+     "pivot": [
+      0.4575,
+      0.4357
+     ],
+     "z": 4,
+     "box": [
+      0,
+      252,
+      40,
+      28
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 1250,
+     "tracks": [
+      {
+       "part": "key",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "feet",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "body",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "belly_gears",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": 12,
+        "hz": 1.6,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": -12,
+        "hz": 1.6,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "belly_gears",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 1.6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.35
+        ],
+        [
+         625,
+         0.5
+        ],
+        [
+         1250,
+         0.35
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "talk",
+     "loop": true,
+     "ms": 500,
+     "tracks": [
+      {
+       "part": "key",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "feet",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "body",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "belly_gears",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "y",
+       "wave": {
+        "amp": 2,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": {
+        "amp": 4,
+        "hz": 4,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "belly_gears",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.4
+        ],
+        [
+         250,
+         0.9
+        ],
+        [
+         500,
+         0.4
+        ]
+       ]
+      },
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": 6,
+        "hz": 2,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": -6,
+        "hz": 2,
+        "phase": 0
+       },
+       "keys": []
+      }
+     ]
+    },
+    {
+     "id": "cue",
+     "loop": true,
+     "ms": 600,
+     "tracks": [
+      {
+       "part": "key",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "feet",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "body",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "belly_gears",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "y",
+       "wave": {
+        "amp": 3,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_l",
+       "prop": "rot",
+       "wave": {
+        "amp": 28,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "wing_r",
+       "prop": "rot",
+       "wave": {
+        "amp": -28,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "key",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         600,
+         1080
+        ]
+       ]
+      },
+      {
+       "part": "belly_gears",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eye_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.9
+        ],
+        [
+         300,
+         1
+        ],
+        [
+         600,
+         0.9
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "anchors": [
+    {
+     "name": "eyes",
+     "x": 40.8,
+     "y": 23.8
+    },
+    {
+     "name": "perch",
+     "x": 40.8,
+     "y": 66.6
+    }
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.costume.wren_hair_bun",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "99e0f1fbad7ea1c9d26fca17314f9c0b6b6baad3",
+   "legacyId": "A138",
+   "file": "orrery_terraces/costume/wren_hair_bun.svg",
+   "width": 52,
+   "height": 48,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.9
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.costume.wren_satchel",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "4cb7ebd1223432f6dbeda6529d41a92358cd9f4c",
+   "legacyId": "A152",
+   "file": "orrery_terraces/costume/wren_satchel.svg",
+   "width": 54,
+   "height": 50,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.04
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.costume.wren_scarf",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "97ef8d4ec7d9ec12eab98cbfad0bf56dedd536fd",
+   "legacyId": "A141",
+   "file": "orrery_terraces/costume/wren_scarf.svg",
+   "width": 104,
+   "height": 84,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.865,
+    0.143
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.costume.wren_staff",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "5229b74975b3c36eb4fdec047e0661c8e8aea991",
+   "legacyId": "A153",
+   "file": "orrery_terraces/costume/wren_staff.svg",
+   "width": 136,
+   "height": 180,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.206,
+    0.206
+   ],
+   "anchors": [
+    {
+     "name": "astrolabe",
+     "x": 114.8,
+     "y": 156.4
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.console_glow",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "9ec95435af769e37905fb2957cc167773ec280c2",
+   "legacyId": "A37",
+   "file": "orrery_terraces/fx/console_glow.svg",
+   "width": 100,
+   "height": 100,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 630227415,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.dust_puff",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "12d9904f5477b6272b9a21130dcf14bdbdd3b596",
+   "legacyId": "A73",
+   "file": "orrery_terraces/fx/dust_puff.svg",
+   "width": 128,
+   "height": 128,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3187430966,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.falls_main",
+   "zone": "z2_crystal",
+   "source": "kit:waterBand",
+   "sha1": "51c18f41fb72fa1fbde4dfe7c6d8f2f46f8e956a",
+   "legacyId": "A24",
+   "file": "orrery_terraces/fx/falls_main.svg",
+   "width": 360,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": 360,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3692930538,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.falls_main.b",
+   "zone": "z2_crystal",
+   "source": "kit:waterBand",
+   "sha1": "6b8451c0c1b3bdc95c17bd804b45be607b721744",
+   "legacyId": "A24",
+   "file": "orrery_terraces/fx/falls_main.b.svg",
+   "width": 360,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": 360,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3692930538,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.flame",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "65038e6dde3f81918652d56578ef946c2f58e02b",
+   "legacyId": "A170",
+   "file": "orrery_terraces/fx/flame.svg",
+   "width": 144,
+   "height": 48,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3042819355,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.leaf_salmon",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "506116b9321d109c1694ffe4976b65f4dbd4dab9",
+   "legacyId": "A74",
+   "file": "orrery_terraces/fx/leaf_salmon.svg",
+   "width": 32,
+   "height": 20,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 16,
+     "y": 7
+    }
+   ],
+   "scroll": null,
+   "seed": 2194968063,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.light_shaft",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "a3b1d28c11972f7b33095c3ba7bb6cb4364f2905",
+   "legacyId": "A93",
+   "file": "orrery_terraces/fx/light_shaft.svg",
+   "width": 300,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3262694859,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.mist",
+   "zone": "z1_sunward",
+   "source": "kit:cloudBand",
+   "sha1": "d8e924135498dda7c9555c3ca470a10015aa22b0",
+   "legacyId": "A75",
+   "file": "orrery_terraces/fx/mist.svg",
+   "width": 512,
+   "height": 256,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 96267845,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.mist_column",
+   "zone": "z2_crystal",
+   "source": "kit:cloudBand",
+   "sha1": "de4cddfa339ab4057c84d548a6d48db5f4a0125b",
+   "legacyId": "A110",
+   "file": "orrery_terraces/fx/mist_column.svg",
+   "width": 400,
+   "height": 600,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1023425348,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.node_core_dormant",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "6628beb79d5e4c839ae2562e96f8232c6f2f1105",
+   "legacyId": "A40",
+   "file": "orrery_terraces/fx/node_core_dormant.svg",
+   "width": 60,
+   "height": 60,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1663967160,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.node_core_lit",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "09e46800e6761f5b828cee0baa59536f2e6f5e7a",
+   "legacyId": "A41",
+   "file": "orrery_terraces/fx/node_core_lit.svg",
+   "width": 60,
+   "height": 60,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1388367612,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.orrery_ring_a",
+   "zone": "z1_sunward",
+   "source": "kit:ringStack",
+   "sha1": "03ce895114e46d401638f4e84e9e785d75932a24",
+   "legacyId": "A12",
+   "file": "orrery_terraces/fx/orrery_ring_a.svg",
+   "width": 460,
+   "height": 156,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 230,
+     "y": 78
+    }
+   ],
+   "scroll": null,
+   "seed": 2214530616,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.orrery_ring_b",
+   "zone": "z1_sunward",
+   "source": "kit:ringStack",
+   "sha1": "938072cfc67bcff0272414673c7d82fe9f6f4c10",
+   "legacyId": "A12",
+   "file": "orrery_terraces/fx/orrery_ring_b.svg",
+   "width": 460,
+   "height": 262,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 230,
+     "y": 131
+    }
+   ],
+   "scroll": null,
+   "seed": 2264863473,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.orrery_ring_c",
+   "zone": "z1_sunward",
+   "source": "kit:ringStack",
+   "sha1": "a46a28bbb90e4958e5878d6d5df7ab74e24a8edc",
+   "legacyId": "A12",
+   "file": "orrery_terraces/fx/orrery_ring_c.svg",
+   "width": 460,
+   "height": 354,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 230,
+     "y": 177
+    }
+   ],
+   "scroll": null,
+   "seed": 2248085854,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.sparkle",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "37d0d9d633012c11673694cc428943c7610ef4c4",
+   "legacyId": "A72",
+   "file": "orrery_terraces/fx/sparkle.svg",
+   "width": 24,
+   "height": 24,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3527160746,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.stone_crumble",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "80cc9665f8efb4086cd51f03c69d14b9511015e7",
+   "legacyId": "A116",
+   "file": "orrery_terraces/fx/stone_crumble.svg",
+   "width": 220,
+   "height": 70,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 110,
+     "y": 35
+    }
+   ],
+   "scroll": null,
+   "seed": 1058168094,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.vesper_star",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "94bfc1786819fcf4791416801a71deaf2182d41d",
+   "legacyId": "A07",
+   "file": "orrery_terraces/fx/vesper_star.svg",
+   "width": 180,
+   "height": 180,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2538590010,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.water_drop",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "e1cf16b56f09f51bd8c64c6b632163b2edb7728c",
+   "legacyId": "A166",
+   "file": "orrery_terraces/fx/water_drop.svg",
+   "width": 16,
+   "height": 16,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1875543381,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.water_splash",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "32be32b99599d782dd569c1cb11ab7827515479b",
+   "legacyId": "A94",
+   "file": "orrery_terraces/fx/water_splash.svg",
+   "width": 480,
+   "height": 120,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 871104263,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.fx.wisp",
+   "zone": "z1_sunward",
+   "source": "kit:glowSprite",
+   "sha1": "d3705959d26f116476588dba3e36ba830f329d2f",
+   "legacyId": "A57",
+   "file": "orrery_terraces/fx/wisp.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3099416375,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.ground.cliff_underside",
+   "zone": "z2_crystal",
+   "source": "kit:ashlarWall",
+   "sha1": "be9ec9454a130be1cbedc724a75163c02bcf1f6a",
+   "legacyId": null,
+   "file": "orrery_terraces/ground/cliff_underside.svg",
+   "width": 512,
+   "height": 400,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3459377569,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.ground.dome_floor",
+   "zone": "z3_dome",
+   "source": "kit:groundStrip",
+   "sha1": "87b76a9b1b65bbf41757202e0d58b4a5d06db029",
+   "legacyId": null,
+   "file": "orrery_terraces/ground/dome_floor.svg",
+   "width": 512,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3121350029,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.ground.paving",
+   "zone": "z1_sunward",
+   "source": "kit:groundStrip",
+   "sha1": "e18be2e2fafc0f7171c6e5f1f4f9f2e5f14a57f1",
+   "legacyId": "A26",
+   "file": "orrery_terraces/ground/paving.svg",
+   "width": 512,
+   "height": 232,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0.10344827586206896
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 3734684978,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.ground.sand",
+   "zone": "z1_sunward",
+   "source": "kit:groundStrip",
+   "sha1": "9a85dce64ca64de13857724fe0604d873b192549",
+   "legacyId": "A28",
+   "file": "orrery_terraces/ground/sand.svg",
+   "width": 512,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2795256829,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.ground.terrace_underside",
+   "zone": "z1_sunward",
+   "source": "kit:ashlarWall",
+   "sha1": "8cfd496778876670c995603e076e08a3980e3491",
+   "legacyId": null,
+   "file": "orrery_terraces/ground/terrace_underside.svg",
+   "width": 512,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4181791141,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.crystal_peach_far",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "cbd7c0ca722d0c1d8d8a44122ad6c12fe586cd66",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/crystal_peach_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 533559584,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.crystal_peach_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "3cdaad219212b6877aa1d61c471df9d97bf01dd8",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/crystal_peach_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_sway",
+     "x": 720,
+     "y": 242
+    },
+    {
+     "name": "i2_tip",
+     "x": 930,
+     "y": 148
+    }
+   ],
+   "scroll": null,
+   "seed": 1655555969,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.crystal_peach_ground",
+   "zone": "kit",
+   "source": "kit:groundStrip",
+   "sha1": "becc340f094f4b9e09d7c4c49d4d434dc245fcaf",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/crystal_peach_ground.svg",
+   "width": 512,
+   "height": 208,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3034558052,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.crystal_peach_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "ab403b1f91f8aabb5f94146f760b77cc9f96bc52",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/crystal_peach_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1519813093,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.crystal_peach_mid",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "884c6a467f3b90055ce27d582b5c8825d2927f12",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/crystal_peach_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_medallion_0",
+     "x": 672,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_1",
+     "x": 992,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_2",
+     "x": 1312,
+     "y": 356
+    },
+    {
+     "name": "i1_band_0",
+     "x": 180,
+     "y": 172
+    },
+    {
+     "name": "i1_band_1",
+     "x": 180,
+     "y": 229
+    },
+    {
+     "name": "i1_top",
+     "x": 180,
+     "y": 60
+    },
+    {
+     "name": "i2_band_0",
+     "x": 400,
+     "y": 172
+    },
+    {
+     "name": "i2_band_1",
+     "x": 400,
+     "y": 229
+    },
+    {
+     "name": "i2_top",
+     "x": 400,
+     "y": 60
+    },
+    {
+     "name": "i3_band_0",
+     "x": 860,
+     "y": 244
+    },
+    {
+     "name": "i3_band_1",
+     "x": 860,
+     "y": 286
+    },
+    {
+     "name": "i3_top",
+     "x": 860,
+     "y": 186
+    },
+    {
+     "name": "i4_label",
+     "x": 290,
+     "y": 72
+    },
+    {
+     "name": "i5_bay_0",
+     "x": 660,
+     "y": 480
+    },
+    {
+     "name": "i5_door",
+     "x": 660,
+     "y": 480
+    },
+    {
+     "name": "i5_keystone",
+     "x": 660,
+     "y": 172
+    },
+    {
+     "name": "i6_sway",
+     "x": 560,
+     "y": 344
+    }
+   ],
+   "scroll": null,
+   "seed": 966151823,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.crystal_peach_midfar",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "5b38d4267f6d2fd6ccbfeae32527738635f83581",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/crystal_peach_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3006971012,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.crystal_peach_underside",
+   "zone": "kit",
+   "source": "kit:ashlarWall",
+   "sha1": "817c829c3f39696e9f7079b83670652ab26a41a9",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/crystal_peach_underside.svg",
+   "width": 512,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1077459348,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.dome_dusk_far",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "885753b8a31234d52b4cc1dfdc56b5435971eedd",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/dome_dusk_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4161860361,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.dome_dusk_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "bac66b7479c5d95ac4fd2949d8b2378fb6179ae4",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/dome_dusk_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_sway",
+     "x": 720,
+     "y": 242
+    },
+    {
+     "name": "i2_tip",
+     "x": 930,
+     "y": 148
+    }
+   ],
+   "scroll": null,
+   "seed": 1430011782,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.dome_dusk_ground",
+   "zone": "kit",
+   "source": "kit:groundStrip",
+   "sha1": "5598e01507a28d59613b701434b07254608cd110",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/dome_dusk_ground.svg",
+   "width": 512,
+   "height": 208,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3800645363,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.dome_dusk_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "b8df2a8e17d34bf5f55cdff0e3e3e8b5d5c470b5",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/dome_dusk_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3962173452,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.dome_dusk_mid",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "19e7731532bc8dc91c09e1d79195b12c305a23b8",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/dome_dusk_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_medallion_0",
+     "x": 672,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_1",
+     "x": 992,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_2",
+     "x": 1312,
+     "y": 356
+    },
+    {
+     "name": "i1_band_0",
+     "x": 180,
+     "y": 172
+    },
+    {
+     "name": "i1_band_1",
+     "x": 180,
+     "y": 229
+    },
+    {
+     "name": "i1_top",
+     "x": 180,
+     "y": 60
+    },
+    {
+     "name": "i2_band_0",
+     "x": 400,
+     "y": 172
+    },
+    {
+     "name": "i2_band_1",
+     "x": 400,
+     "y": 229
+    },
+    {
+     "name": "i2_top",
+     "x": 400,
+     "y": 60
+    },
+    {
+     "name": "i3_band_0",
+     "x": 860,
+     "y": 244
+    },
+    {
+     "name": "i3_band_1",
+     "x": 860,
+     "y": 286
+    },
+    {
+     "name": "i3_top",
+     "x": 860,
+     "y": 186
+    },
+    {
+     "name": "i4_label",
+     "x": 290,
+     "y": 72
+    },
+    {
+     "name": "i5_bay_0",
+     "x": 660,
+     "y": 480
+    },
+    {
+     "name": "i5_door",
+     "x": 660,
+     "y": 480
+    },
+    {
+     "name": "i5_keystone",
+     "x": 660,
+     "y": 172
+    },
+    {
+     "name": "i6_sway",
+     "x": 560,
+     "y": 344
+    }
+   ],
+   "scroll": null,
+   "seed": 947492866,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.dome_dusk_midfar",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "3a48659c0ac4c184415042fc47065d942d91f26e",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/dome_dusk_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 639201503,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.dome_dusk_underside",
+   "zone": "kit",
+   "source": "kit:ashlarWall",
+   "sha1": "934dc99dade3ed8646772898ac0639917a4c9f7a",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/dome_dusk_underside.svg",
+   "width": 512,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2167035309,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.terrace_day_far",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "3e0e5ec923fd184b3cd92cd743a69a0356a48029",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/terrace_day_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2100963543,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.terrace_day_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "fd0e3aaf8d1f2e944e2c327542f858dbe3c77713",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/terrace_day_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_sway",
+     "x": 720,
+     "y": 242
+    },
+    {
+     "name": "i2_tip",
+     "x": 930,
+     "y": 148
+    }
+   ],
+   "scroll": null,
+   "seed": 1845560244,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.terrace_day_ground",
+   "zone": "kit",
+   "source": "kit:groundStrip",
+   "sha1": "2599a9b74a525340216e63d88409989ae7252edf",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/terrace_day_ground.svg",
+   "width": 512,
+   "height": 232,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0.10344827586206896
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 1035694181,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.terrace_day_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "7fdce04b8ad9eb750e58a6f24d6f1e602b9cad0e",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/terrace_day_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 546022926,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.terrace_day_mid",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "2b474640b366e7cb49e06d1cc23ebb71428e3175",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/terrace_day_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_medallion_0",
+     "x": 672,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_1",
+     "x": 992,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_2",
+     "x": 1312,
+     "y": 356
+    },
+    {
+     "name": "i1_band_0",
+     "x": 180,
+     "y": 172
+    },
+    {
+     "name": "i1_band_1",
+     "x": 180,
+     "y": 229
+    },
+    {
+     "name": "i1_top",
+     "x": 180,
+     "y": 60
+    },
+    {
+     "name": "i2_band_0",
+     "x": 400,
+     "y": 172
+    },
+    {
+     "name": "i2_band_1",
+     "x": 400,
+     "y": 229
+    },
+    {
+     "name": "i2_top",
+     "x": 400,
+     "y": 60
+    },
+    {
+     "name": "i3_band_0",
+     "x": 860,
+     "y": 244
+    },
+    {
+     "name": "i3_band_1",
+     "x": 860,
+     "y": 286
+    },
+    {
+     "name": "i3_top",
+     "x": 860,
+     "y": 186
+    },
+    {
+     "name": "i4_label",
+     "x": 290,
+     "y": 72
+    },
+    {
+     "name": "i5_bay_0",
+     "x": 660,
+     "y": 480
+    },
+    {
+     "name": "i5_door",
+     "x": 660,
+     "y": 480
+    },
+    {
+     "name": "i5_keystone",
+     "x": 660,
+     "y": 172
+    },
+    {
+     "name": "i6_sway",
+     "x": 560,
+     "y": 344
+    }
+   ],
+   "scroll": null,
+   "seed": 916731168,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.terrace_day_midfar",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "086559cc19e19a0c4d9aace3a229974026597bc6",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/terrace_day_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3163661249,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.kit.terrace_day_underside",
+   "zone": "kit",
+   "source": "kit:ashlarWall",
+   "sha1": "152de5f58f912286998b27884ca1647253898fc2",
+   "legacyId": null,
+   "file": "orrery_terraces/kit/terrace_day_underside.svg",
+   "width": 512,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2881239191,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.orrery_tower",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "a52c65f5e3b6a0c519d09fbdb4e1c1d9f0563203",
+   "legacyId": "A11",
+   "file": "orrery_terraces/layer/orrery_tower.svg",
+   "width": 1800,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "base",
+     "x": 1500,
+     "y": 900
+    },
+    {
+     "name": "crown",
+     "x": 1500,
+     "y": 116
+    },
+    {
+     "name": "dome",
+     "x": 1500,
+     "y": 236
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_aqueduct",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "0f12808b2f59315c9e112b7eeedc5e6011479d62",
+   "legacyId": "A13",
+   "file": "orrery_terraces/layer/z1_aqueduct.svg",
+   "width": 2048,
+   "height": 420,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_bay_0",
+     "x": 231,
+     "y": 330
+    },
+    {
+     "name": "i1_bay_1",
+     "x": 443,
+     "y": 330
+    },
+    {
+     "name": "i1_bay_2",
+     "x": 654,
+     "y": 330
+    },
+    {
+     "name": "i1_bay_3",
+     "x": 866,
+     "y": 330
+    },
+    {
+     "name": "i1_bay_4",
+     "x": 1078,
+     "y": 330
+    },
+    {
+     "name": "i1_bay_5",
+     "x": 1289,
+     "y": 330
+    },
+    {
+     "name": "i1_door",
+     "x": 760,
+     "y": 330
+    },
+    {
+     "name": "i2_bay_0",
+     "x": 1595,
+     "y": 360
+    },
+    {
+     "name": "i2_bay_1",
+     "x": 1760,
+     "y": 360
+    },
+    {
+     "name": "i2_bay_2",
+     "x": 1925,
+     "y": 360
+    },
+    {
+     "name": "i2_door",
+     "x": 1760,
+     "y": 360
+    }
+   ],
+   "scroll": null,
+   "seed": 2797671537,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_canopy_ruins",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "c61fbbc909e6aef989beba55a61623b9fe8f1cef",
+   "legacyId": "A15",
+   "file": "orrery_terraces/layer/z1_canopy_ruins.svg",
+   "width": 2048,
+   "height": 440,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i2_bay_0",
+     "x": 285,
+     "y": 410
+    },
+    {
+     "name": "i2_bay_1",
+     "x": 476,
+     "y": 410
+    },
+    {
+     "name": "i2_door",
+     "x": 380,
+     "y": 410
+    },
+    {
+     "name": "i2_keystone",
+     "x": 285,
+     "y": 221
+    },
+    {
+     "name": "i3_sway",
+     "x": 120,
+     "y": 164
+    },
+    {
+     "name": "i4_sway",
+     "x": 700,
+     "y": 182
+    },
+    {
+     "name": "i5_sway",
+     "x": 1080,
+     "y": 168
+    },
+    {
+     "name": "i6_band_0",
+     "x": 1300,
+     "y": 304
+    },
+    {
+     "name": "i6_top",
+     "x": 1300,
+     "y": 251
+    },
+    {
+     "name": "i7_sway",
+     "x": 1840,
+     "y": 195
+    },
+    {
+     "name": "i8_sway",
+     "x": 960,
+     "y": 380
+    }
+   ],
+   "scroll": null,
+   "seed": 4044878901,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_clouds",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "0a8a965f62852bdff39e4c72ad0d00c4ded10c2d",
+   "legacyId": "A04",
+   "file": "orrery_terraces/layer/z1_clouds.svg",
+   "width": 2048,
+   "height": 440,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2264685079,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_crystal_field",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "b56ede0936f24797192e26eb18e5cb2fcfbd8d66",
+   "legacyId": "A14",
+   "file": "orrery_terraces/layer/z1_crystal_field.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1617064134,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_dapple",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "3da1577ada840ce08574ab787a567ab7a979f26a",
+   "legacyId": "A69",
+   "file": "orrery_terraces/layer/z1_dapple.svg",
+   "width": 512,
+   "height": 1600,
+   "rasterScale": 0.35,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 451873537,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_fore",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "af153b504b1f27880438bcded0e673fea046129a",
+   "legacyId": "A62",
+   "file": "orrery_terraces/layer/z1_fore.svg",
+   "width": 2048,
+   "height": 444,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i2_sway",
+     "x": 960,
+     "y": 390
+    },
+    {
+     "name": "i3_sway",
+     "x": 1110,
+     "y": 353
+    },
+    {
+     "name": "i4_tip",
+     "x": 1880,
+     "y": 302
+    },
+    {
+     "name": "i5_sway",
+     "x": 40,
+     "y": 390
+    },
+    {
+     "name": "i6_sway",
+     "x": 1990,
+     "y": 353
+    }
+   ],
+   "scroll": null,
+   "seed": 273291343,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_godrays",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "90adc8bc3c44979ba4ed888971c23cb8d65af8c4",
+   "legacyId": "A70",
+   "file": "orrery_terraces/layer/z1_godrays.svg",
+   "width": 2048,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 959043372,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_mesa",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "3a06c334d534889666685d71821099c94a9d3c3a",
+   "legacyId": "A08",
+   "file": "orrery_terraces/layer/z1_mesa.svg",
+   "width": 2048,
+   "height": 620,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1755673991,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z1_terrace_wall",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "1f8fa3644d07f21fc8ae06dee888fedf2a3bcd52",
+   "legacyId": "A21",
+   "file": "orrery_terraces/layer/z1_terrace_wall.svg",
+   "width": 2048,
+   "height": 600,
+   "rasterScale": 0.7,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_medallion_0",
+     "x": 160,
+     "y": 454
+    },
+    {
+     "name": "i0_medallion_1",
+     "x": 480,
+     "y": 454
+    },
+    {
+     "name": "i0_medallion_2",
+     "x": 800,
+     "y": 454
+    },
+    {
+     "name": "i0_medallion_3",
+     "x": 1120,
+     "y": 454
+    },
+    {
+     "name": "i0_medallion_4",
+     "x": 1440,
+     "y": 454
+    },
+    {
+     "name": "i0_medallion_5",
+     "x": 1760,
+     "y": 454
+    },
+    {
+     "name": "i10_band_0",
+     "x": 1640,
+     "y": 370
+    },
+    {
+     "name": "i10_band_1",
+     "x": 1640,
+     "y": 411
+    },
+    {
+     "name": "i10_top",
+     "x": 1640,
+     "y": 314
+    },
+    {
+     "name": "i11_sway",
+     "x": 920,
+     "y": 290
+    },
+    {
+     "name": "i12_sway",
+     "x": 1850,
+     "y": 460
+    },
+    {
+     "name": "i13_tip",
+     "x": 1970,
+     "y": 280
+    },
+    {
+     "name": "i14_sway",
+     "x": 780,
+     "y": 472
+    },
+    {
+     "name": "i15_tip",
+     "x": 1350,
+     "y": 320
+    },
+    {
+     "name": "i1_band_0",
+     "x": 160,
+     "y": 233
+    },
+    {
+     "name": "i1_band_1",
+     "x": 160,
+     "y": 302
+    },
+    {
+     "name": "i1_top",
+     "x": 160,
+     "y": 100
+    },
+    {
+     "name": "i2_band_0",
+     "x": 400,
+     "y": 233
+    },
+    {
+     "name": "i2_band_1",
+     "x": 400,
+     "y": 302
+    },
+    {
+     "name": "i2_top",
+     "x": 400,
+     "y": 100
+    },
+    {
+     "name": "i3_band_0",
+     "x": 640,
+     "y": 233
+    },
+    {
+     "name": "i3_band_1",
+     "x": 640,
+     "y": 302
+    },
+    {
+     "name": "i3_top",
+     "x": 640,
+     "y": 100
+    },
+    {
+     "name": "i4_label",
+     "x": 400,
+     "y": 96
+    },
+    {
+     "name": "i6_sway",
+     "x": 280,
+     "y": 116
+    },
+    {
+     "name": "i7_sway",
+     "x": 540,
+     "y": 116
+    },
+    {
+     "name": "i8_bay_0",
+     "x": 1180,
+     "y": 600
+    },
+    {
+     "name": "i8_door",
+     "x": 1180,
+     "y": 600
+    },
+    {
+     "name": "i8_keystone",
+     "x": 1180,
+     "y": 218
+    },
+    {
+     "name": "i9_band_0",
+     "x": 1500,
+     "y": 277
+    },
+    {
+     "name": "i9_band_1",
+     "x": 1500,
+     "y": 337
+    },
+    {
+     "name": "i9_top",
+     "x": 1500,
+     "y": 160
+    }
+   ],
+   "scroll": null,
+   "seed": 2638545726,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_cliffwall",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "60e8efe4a1ca1a6e2d89fb16ea8306a8e3ae6f23",
+   "legacyId": "A19",
+   "file": "orrery_terraces/layer/z2_cliffwall.svg",
+   "width": 2048,
+   "height": 900,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_tip",
+     "x": 260,
+     "y": 100
+    },
+    {
+     "name": "i2_tip",
+     "x": 760,
+     "y": 320
+    },
+    {
+     "name": "i3_tip",
+     "x": 1180,
+     "y": 40
+    },
+    {
+     "name": "i4_tip",
+     "x": 1620,
+     "y": 260
+    },
+    {
+     "name": "i5_tip",
+     "x": 1960,
+     "y": 500
+    },
+    {
+     "name": "i6_sway",
+     "x": 480,
+     "y": 372
+    },
+    {
+     "name": "i7_sway",
+     "x": 1400,
+     "y": 282
+    }
+   ],
+   "scroll": null,
+   "seed": 3677406228,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_clouds",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "10f035372650118017d08f008b61e9543d15dd06",
+   "legacyId": "A04",
+   "file": "orrery_terraces/layer/z2_clouds.svg",
+   "width": 2048,
+   "height": 440,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2328405620,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_colonnade",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "4b43f581e9dfb5b619a90b45248fa6ec5d83cea6",
+   "legacyId": "A23",
+   "file": "orrery_terraces/layer/z2_colonnade.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.7,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 120,
+     "y": 289
+    },
+    {
+     "name": "i0_band_1",
+     "x": 120,
+     "y": 366
+    },
+    {
+     "name": "i0_top",
+     "x": 120,
+     "y": 140
+    },
+    {
+     "name": "i10_bay_0",
+     "x": 1880,
+     "y": 700
+    },
+    {
+     "name": "i10_door",
+     "x": 1880,
+     "y": 700
+    },
+    {
+     "name": "i10_keystone",
+     "x": 1880,
+     "y": 354
+    },
+    {
+     "name": "i11_tip",
+     "x": 600,
+     "y": 440
+    },
+    {
+     "name": "i1_band_0",
+     "x": 440,
+     "y": 289
+    },
+    {
+     "name": "i1_band_1",
+     "x": 440,
+     "y": 366
+    },
+    {
+     "name": "i1_top",
+     "x": 440,
+     "y": 140
+    },
+    {
+     "name": "i2_band_0",
+     "x": 760,
+     "y": 289
+    },
+    {
+     "name": "i2_band_1",
+     "x": 760,
+     "y": 366
+    },
+    {
+     "name": "i2_top",
+     "x": 760,
+     "y": 140
+    },
+    {
+     "name": "i3_band_0",
+     "x": 1080,
+     "y": 289
+    },
+    {
+     "name": "i3_band_1",
+     "x": 1080,
+     "y": 366
+    },
+    {
+     "name": "i3_top",
+     "x": 1080,
+     "y": 140
+    },
+    {
+     "name": "i4_band_0",
+     "x": 1400,
+     "y": 289
+    },
+    {
+     "name": "i4_band_1",
+     "x": 1400,
+     "y": 366
+    },
+    {
+     "name": "i4_top",
+     "x": 1400,
+     "y": 140
+    },
+    {
+     "name": "i5_band_0",
+     "x": 1720,
+     "y": 289
+    },
+    {
+     "name": "i5_band_1",
+     "x": 1720,
+     "y": 366
+    },
+    {
+     "name": "i5_top",
+     "x": 1720,
+     "y": 140
+    },
+    {
+     "name": "i6_label",
+     "x": 1024,
+     "y": 150
+    },
+    {
+     "name": "i7_sway",
+     "x": 280,
+     "y": 180
+    },
+    {
+     "name": "i8_sway",
+     "x": 900,
+     "y": 180
+    },
+    {
+     "name": "i9_sway",
+     "x": 1560,
+     "y": 180
+    }
+   ],
+   "scroll": null,
+   "seed": 3873100263,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_crystal_field",
+   "zone": "z2_crystal",
+   "source": "kit:scatter",
+   "sha1": "5b82d1a885b5d8c9b87a4fcb31d5b8520bb13362",
+   "legacyId": "A14",
+   "file": "orrery_terraces/layer/z2_crystal_field.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 168341323,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_dapple",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "9289306cf5147e022607b690380f9c4cb55dee12",
+   "legacyId": "A69",
+   "file": "orrery_terraces/layer/z2_dapple.svg",
+   "width": 512,
+   "height": 2400,
+   "rasterScale": 0.3,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 538644094,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_fore",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "cc5f26cdec063515709fdd7b12d392e83c8c1e09",
+   "legacyId": "A63",
+   "file": "orrery_terraces/layer/z2_fore.svg",
+   "width": 2048,
+   "height": 694,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_tip",
+     "x": 300,
+     "y": 542
+    },
+    {
+     "name": "i1_sway",
+     "x": 800,
+     "y": 636
+    },
+    {
+     "name": "i2_sway",
+     "x": 1400,
+     "y": 597
+    },
+    {
+     "name": "i3_sway",
+     "x": 1850,
+     "y": 636
+    }
+   ],
+   "scroll": null,
+   "seed": 427775860,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_godrays",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "91fc661a1ecfb5ea27a74f85ef9d320cdcc36eb3",
+   "legacyId": "A70",
+   "file": "orrery_terraces/layer/z2_godrays.svg",
+   "width": 2048,
+   "height": 2200,
+   "rasterScale": 0.25,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1463360425,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z2_mesa",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "f58d5d30b32f0dadfb76e63f757ec6989dfa338f",
+   "legacyId": "A09",
+   "file": "orrery_terraces/layer/z2_mesa.svg",
+   "width": 2048,
+   "height": 620,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4237979544,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z3_dome_fore",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "1bf00c53b91b6d6bb9873ec022245a998d85935e",
+   "legacyId": "A67",
+   "file": "orrery_terraces/layer/z3_dome_fore.svg",
+   "width": 2048,
+   "height": 384,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 240,
+     "y": 266
+    },
+    {
+     "name": "i0_band_1",
+     "x": 240,
+     "y": 289
+    },
+    {
+     "name": "i0_top",
+     "x": 240,
+     "y": 222
+    },
+    {
+     "name": "i1_band_0",
+     "x": 1500,
+     "y": 266
+    },
+    {
+     "name": "i1_band_1",
+     "x": 1500,
+     "y": 289
+    },
+    {
+     "name": "i1_top",
+     "x": 1500,
+     "y": 222
+    },
+    {
+     "name": "i2_tip",
+     "x": 900,
+     "y": 222
+    }
+   ],
+   "scroll": null,
+   "seed": 1568303843,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z3_fore",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "9d00db5dfbeffa5c676a40e715d2a91dda12f667",
+   "legacyId": "A66",
+   "file": "orrery_terraces/layer/z3_fore.svg",
+   "width": 2048,
+   "height": 384,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i2_tip",
+     "x": 1050,
+     "y": 222
+    }
+   ],
+   "scroll": null,
+   "seed": 2218664553,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z3_gantry_truss",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "ec5f9f2b3dc392530f1311acffaf11188c434523",
+   "legacyId": "A25",
+   "file": "orrery_terraces/layer/z3_gantry_truss.svg",
+   "width": 2048,
+   "height": 600,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_hub",
+     "x": 420,
+     "y": 300
+    },
+    {
+     "name": "i1_hub",
+     "x": 1480,
+     "y": 360
+    },
+    {
+     "name": "i2_top",
+     "x": 1024,
+     "y": 240
+    },
+    {
+     "name": "i3_label",
+     "x": 1024,
+     "y": 252
+    }
+   ],
+   "scroll": null,
+   "seed": 2428350316,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z3_mesa",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "f634d43d2003c152be6629bb8f66cd575e829de4",
+   "legacyId": "A10",
+   "file": "orrery_terraces/layer/z3_mesa.svg",
+   "width": 2048,
+   "height": 620,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1224432321,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.layer.z3_stars",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "862b437e1b93f994f1087b982c56bad38f687eae",
+   "legacyId": "A06",
+   "file": "orrery_terraces/layer/z3_stars.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3677535988,
+   "engraved": []
+  },
+  {
+   "kind": "puppet",
+   "key": "orrery_terraces.npc.brasswick",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "8a7d2286a35c278fee86ae015d4912172f5f3eff",
+   "legacyId": "A162",
+   "file": "orrery_terraces/npc/brasswick.svg",
+   "restFile": "orrery_terraces/npc/brasswick.rest.svg",
+   "width": 232,
+   "height": 170,
+   "rasterScale": 1.5,
+   "pivot": [
+    0.353,
+    1
+   ],
+   "parts": [
+    {
+     "name": "treads",
+     "frames": 1,
+     "rest": [
+      82,
+      170
+     ],
+     "pivot": [
+      0.4808,
+      0.9444
+     ],
+     "z": 0,
+     "box": [
+      0,
+      0,
+      104,
+      36
+     ]
+    },
+    {
+     "name": "body",
+     "frames": 1,
+     "rest": [
+      82,
+      142
+     ],
+     "pivot": [
+      0.4762,
+      0.9167
+     ],
+     "z": 1,
+     "box": [
+      0,
+      40,
+      84,
+      96
+     ]
+    },
+    {
+     "name": "head",
+     "frames": 1,
+     "rest": [
+      82,
+      64
+     ],
+     "pivot": [
+      0.4762,
+      0.9167
+     ],
+     "z": 2,
+     "box": [
+      0,
+      140,
+      84,
+      72
+     ]
+    },
+    {
+     "name": "arm",
+     "frames": 1,
+     "rest": [
+      108,
+      82
+     ],
+     "pivot": [
+      0.0882,
+      0.2083
+     ],
+     "z": 3,
+     "box": [
+      0,
+      216,
+      136,
+      96
+     ]
+    },
+    {
+     "name": "lens_glow",
+     "frames": 1,
+     "rest": [
+      92,
+      45
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 4,
+     "box": [
+      0,
+      316,
+      40,
+      40
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 2000,
+     "tracks": [
+      {
+       "part": "body",
+       "prop": "rot",
+       "wave": {
+        "amp": 1.2,
+        "hz": 0.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": {
+        "amp": 3,
+        "hz": 0.5,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": {
+        "amp": 1,
+        "hz": 1,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "lens_glow",
+       "prop": "y",
+       "wave": {
+        "amp": 1,
+        "hz": 1,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "arm",
+       "prop": "rot",
+       "wave": {
+        "amp": 4,
+        "hz": 0.5,
+        "phase": 0.5
+       },
+       "keys": []
+      },
+      {
+       "part": "lens_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.45
+        ],
+        [
+         1000,
+         0.75
+        ],
+        [
+         2000,
+         0.45
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "talk",
+     "loop": true,
+     "ms": 500,
+     "tracks": [
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": {
+        "amp": 5,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": {
+        "amp": 1.5,
+        "hz": 4,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "lens_glow",
+       "prop": "y",
+       "wave": {
+        "amp": 1.5,
+        "hz": 4,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "arm",
+       "prop": "rot",
+       "wave": {
+        "amp": 7,
+        "hz": 2,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "lens_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.5
+        ],
+        [
+         250,
+         0.95
+        ],
+        [
+         500,
+         0.5
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "arm_short",
+     "loop": true,
+     "ms": 800,
+     "tracks": [
+      {
+       "part": "arm",
+       "prop": "rot",
+       "wave": {
+        "amp": 18,
+        "hz": 2.5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": {
+        "amp": 3,
+        "hz": 2.5,
+        "phase": 0.2
+       },
+       "keys": []
+      },
+      {
+       "part": "body",
+       "prop": "y",
+       "wave": {
+        "amp": 1,
+        "hz": 5,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "lens_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.5
+        ],
+        [
+         400,
+         0.8
+        ],
+        [
+         800,
+         0.5
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "arm_sync",
+     "loop": true,
+     "ms": 1600,
+     "tracks": [
+      {
+       "part": "arm",
+       "prop": "rot",
+       "wave": {
+        "amp": 18,
+        "hz": 0.625,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": {
+        "amp": 3,
+        "hz": 0.625,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "body",
+       "prop": "rot",
+       "wave": {
+        "amp": 1,
+        "hz": 0.625,
+        "phase": 0.5
+       },
+       "keys": []
+      },
+      {
+       "part": "lens_glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.6
+        ],
+        [
+         800,
+         0.95
+        ],
+        [
+         1600,
+         0.6
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "anchors": [
+    {
+     "name": "can",
+     "x": 216,
+     "y": 114
+    },
+    {
+     "name": "lens",
+     "x": 92,
+     "y": 45
+    }
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.astronomer_box_comb",
+   "zone": "kit",
+   "source": "kit:shelving",
+   "sha1": "9bf91a88745ac6565d92af7fc1fa7bcce22cf7fd",
+   "legacyId": null,
+   "file": "orrery_terraces/part/astronomer_box_comb.svg",
+   "width": 200,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 13,
+     "y": 78
+    },
+    {
+     "name": "bay_1",
+     "x": 38,
+     "y": 78
+    },
+    {
+     "name": "bay_2",
+     "x": 63,
+     "y": 78
+    },
+    {
+     "name": "bay_3",
+     "x": 88,
+     "y": 78
+    },
+    {
+     "name": "bay_4",
+     "x": 113,
+     "y": 78
+    },
+    {
+     "name": "bay_5",
+     "x": 138,
+     "y": 78
+    },
+    {
+     "name": "bay_6",
+     "x": 163,
+     "y": 78
+    },
+    {
+     "name": "bay_7",
+     "x": 188,
+     "y": 78
+    }
+   ],
+   "scroll": null,
+   "seed": 1848408349,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.astronomer_box_console",
+   "zone": "kit",
+   "source": "kit:lectern",
+   "sha1": "6a8d8f988b5e75a48982fb98490ad89ca96bae9a",
+   "legacyId": null,
+   "file": "orrery_terraces/part/astronomer_box_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 953247593,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.astronomer_box_crank",
+   "zone": "kit",
+   "source": "kit:ringStack",
+   "sha1": "ed4bea720bfcdfb878aaa2693bfa8a39d803f9cc",
+   "legacyId": null,
+   "file": "orrery_terraces/part/astronomer_box_crank.svg",
+   "width": 90,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 45,
+     "y": 45
+    }
+   ],
+   "scroll": null,
+   "seed": 3591693843,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.astronomer_box_music_box",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "13057748a3de922a14c8cafe242271412bf9c5ba",
+   "legacyId": null,
+   "file": "orrery_terraces/part/astronomer_box_music_box.svg",
+   "width": 320,
+   "height": 220,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 160,
+     "y": 140
+    },
+    {
+     "name": "i1_hub",
+     "x": 160,
+     "y": 80
+    }
+   ],
+   "scroll": null,
+   "seed": 3174799725,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_chasm_edge",
+   "zone": "z2_crystal",
+   "source": "kit:ridgeBand",
+   "sha1": "e2dfd585311553db8cc35b1bb46a5e835b27cd02",
+   "legacyId": "A106",
+   "file": "orrery_terraces/part/floating_steps_chasm_edge.svg",
+   "width": 400,
+   "height": 700,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "lip",
+     "x": 290,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 1566941434,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_console",
+   "zone": "z2_crystal",
+   "source": "kit:lectern",
+   "sha1": "437e26a17edd462104ef8dd2358d953b49e73acc",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 705183917,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_cradle",
+   "zone": "z2_crystal",
+   "source": "kit:shelving",
+   "sha1": "2bde48697b4764cae60b0063b633b35d0e137768",
+   "legacyId": "A114",
+   "file": "orrery_terraces/part/floating_steps_cradle.svg",
+   "width": 300,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 30,
+     "y": 255
+    },
+    {
+     "name": "bay_1",
+     "x": 90,
+     "y": 255
+    },
+    {
+     "name": "bay_2",
+     "x": 150,
+     "y": 255
+    },
+    {
+     "name": "bay_3",
+     "x": 210,
+     "y": 255
+    },
+    {
+     "name": "bay_4",
+     "x": 270,
+     "y": 255
+    }
+   ],
+   "scroll": null,
+   "seed": 3403293691,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_glyph",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "390147c5f5b04ba8e255dc384bb25a08474da6db",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_glyph.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    }
+   ],
+   "scroll": null,
+   "seed": 619700458,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_glyph_arcsin",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "8af13fea124a50f405b0c4fbcc9adf0175308ed1",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_glyph_arcsin.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    }
+   ],
+   "scroll": null,
+   "seed": 2347745705,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_glyph_isolate",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "718dd25460a2e6efc074645634b17ae6cafcdd24",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_glyph_isolate.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    }
+   ],
+   "scroll": null,
+   "seed": 1024472280,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_glyph_quadrants",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "6ad3562999f15c255c7ca1921905479d70d37eb7",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_glyph_quadrants.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    }
+   ],
+   "scroll": null,
+   "seed": 1613864388,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_glyph_reference",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "22a1ae3d75b4bd33639a546026e7b3514b9c0ec5",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_glyph_reference.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    }
+   ],
+   "scroll": null,
+   "seed": 2261981596,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_glyph_solutions",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "a39e43f5ae80a1b91f2448345c94e86cc96d5207",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_glyph_solutions.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    }
+   ],
+   "scroll": null,
+   "seed": 1186201585,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_pylon",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "a16243271f0f31c01e8d0e636f266ec46e003a3a",
+   "legacyId": "A115",
+   "file": "orrery_terraces/part/floating_steps_pylon.svg",
+   "width": 120,
+   "height": 460,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 60,
+     "y": 167
+    },
+    {
+     "name": "i0_band_1",
+     "x": 60,
+     "y": 221
+    },
+    {
+     "name": "i0_top",
+     "x": 60,
+     "y": 60
+    },
+    {
+     "name": "i1_tip",
+     "x": 60,
+     "y": -20
+    }
+   ],
+   "scroll": null,
+   "seed": 1153482020,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_relief",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "474a6ea5b60992a3ad4062790f24712736d40031",
+   "legacyId": null,
+   "file": "orrery_terraces/part/floating_steps_relief.svg",
+   "width": 480,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 240,
+     "y": 100
+    }
+   ],
+   "scroll": null,
+   "seed": 4168068061,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_socket",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "51400c346ec12d7b05fcef11f25aa7636d6b8092",
+   "legacyId": "A113",
+   "file": "orrery_terraces/part/floating_steps_socket.svg",
+   "width": 140,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 70,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 960762501,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.floating_steps_stone",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "b053cb3e8db09aab4b711c06823d92e2c14ee30c",
+   "legacyId": "A108",
+   "file": "orrery_terraces/part/floating_steps_stone.svg",
+   "width": 220,
+   "height": 70,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 110,
+     "y": 35
+    }
+   ],
+   "scroll": null,
+   "seed": 3864732289,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_automaton_a",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "e4d68ec56d4c867f21e10ff774ef776231cb7897",
+   "legacyId": "A95",
+   "file": "orrery_terraces/part/resonance_pillars_automaton_a.svg",
+   "width": 200,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 100,
+     "y": 178
+    },
+    {
+     "name": "i0_band_1",
+     "x": 100,
+     "y": 223
+    },
+    {
+     "name": "i0_top",
+     "x": 100,
+     "y": 90
+    },
+    {
+     "name": "i1_hub",
+     "x": 100,
+     "y": 80
+    },
+    {
+     "name": "i2_hub",
+     "x": 100,
+     "y": 200
+    }
+   ],
+   "scroll": null,
+   "seed": 387828924,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_automaton_b",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "a8235f75382b8dbd7bb61eddc3babf2e1d785e33",
+   "legacyId": "A96",
+   "file": "orrery_terraces/part/resonance_pillars_automaton_b.svg",
+   "width": 200,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 100,
+     "y": 174
+    },
+    {
+     "name": "i0_band_1",
+     "x": 100,
+     "y": 207
+    },
+    {
+     "name": "i0_band_2",
+     "x": 100,
+     "y": 240
+    },
+    {
+     "name": "i0_top",
+     "x": 100,
+     "y": 100
+    },
+    {
+     "name": "i1_hub",
+     "x": 100,
+     "y": 70
+    }
+   ],
+   "scroll": null,
+   "seed": 438161781,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_automaton_c",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "cc1fe81de2b0d6c36b60a6717e8fceac074e5172",
+   "legacyId": "A97",
+   "file": "orrery_terraces/part/resonance_pillars_automaton_c.svg",
+   "width": 200,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 100,
+     "y": 221
+    },
+    {
+     "name": "i0_top",
+     "x": 100,
+     "y": 120
+    },
+    {
+     "name": "i1_tip",
+     "x": 100,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 421384162,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_bell",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "0c68544c05432e3c37d4a1f3530d7f993c6d248d",
+   "legacyId": null,
+   "file": "orrery_terraces/part/resonance_pillars_bell.svg",
+   "width": 80,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 40,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 114519079,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_console",
+   "zone": "z2_crystal",
+   "source": "kit:lectern",
+   "sha1": "da4a1f0a7867e2b08a4ac7622566209b4fac4ff0",
+   "legacyId": null,
+   "file": "orrery_terraces/part/resonance_pillars_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 2943619059,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_echo_lift",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "62bb017b59967d78647edea022d96ed0ad395719",
+   "legacyId": "A104",
+   "file": "orrery_terraces/part/resonance_pillars_echo_lift.svg",
+   "width": 360,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 180,
+     "y": 55
+    }
+   ],
+   "scroll": null,
+   "seed": 459675001,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_faceplate",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "d7e8b56f2ae0d81d4ff76c4ef07cf34a7ebbb005",
+   "legacyId": "A98",
+   "file": "orrery_terraces/part/resonance_pillars_faceplate.svg",
+   "width": 80,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 40,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": 703263229,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_lens_head",
+   "zone": "z2_crystal",
+   "source": "kit:ringStack",
+   "sha1": "2b789d9b55092319f3be3fecceace408137adb94",
+   "legacyId": "A103",
+   "file": "orrery_terraces/part/resonance_pillars_lens_head.svg",
+   "width": 100,
+   "height": 100,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 50,
+     "y": 50
+    }
+   ],
+   "scroll": null,
+   "seed": 3924178417,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_lens_pedestal",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "0ee08a0f7ad6e0f990e126eb4863fc00be1efb2a",
+   "legacyId": "A38",
+   "file": "orrery_terraces/part/resonance_pillars_lens_pedestal.svg",
+   "width": 140,
+   "height": 150,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_hub",
+     "x": 70,
+     "y": 135
+    }
+   ],
+   "scroll": null,
+   "seed": 1147001269,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_lift_chain",
+   "zone": "z2_crystal",
+   "source": "kit:linkStrip",
+   "sha1": "c223896d85b5abba42796795d6e5eaea16289ef9",
+   "legacyId": "A105",
+   "file": "orrery_terraces/part/resonance_pillars_lift_chain.svg",
+   "width": 20,
+   "height": 512,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2556090973,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_mimic_crab",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "1f7340a8a2bf9f25bcefeb3e6fc2f7c4ab8ab8d5",
+   "legacyId": "A101",
+   "file": "orrery_terraces/part/resonance_pillars_mimic_crab.svg",
+   "width": 180,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_hub",
+     "x": 90,
+     "y": 70
+    },
+    {
+     "name": "i0_stud_0",
+     "x": 90,
+     "y": 35
+    },
+    {
+     "name": "i0_stud_1",
+     "x": 131,
+     "y": 45
+    },
+    {
+     "name": "i0_stud_2",
+     "x": 148,
+     "y": 70
+    },
+    {
+     "name": "i0_stud_3",
+     "x": 131,
+     "y": 95
+    },
+    {
+     "name": "i0_stud_4",
+     "x": 90,
+     "y": 105
+    },
+    {
+     "name": "i0_stud_5",
+     "x": 49,
+     "y": 95
+    },
+    {
+     "name": "i0_stud_6",
+     "x": 32,
+     "y": 70
+    },
+    {
+     "name": "i0_stud_7",
+     "x": 49,
+     "y": 45
+    }
+   ],
+   "scroll": null,
+   "seed": 2026320246,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_plaque",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "2eb223bb894c3b7b55154e5b77e6e0f6c652f6ca",
+   "legacyId": "A100",
+   "file": "orrery_terraces/part/resonance_pillars_plaque.svg",
+   "width": 220,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 110,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 286702186,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.resonance_pillars_slate",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "60cdbd0f82a050e1e643d0aaf1c89fb146484655",
+   "legacyId": "A99",
+   "file": "orrery_terraces/part/resonance_pillars_slate.svg",
+   "width": 150,
+   "height": 100,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 75,
+     "y": 50
+    }
+   ],
+   "scroll": null,
+   "seed": 2465459751,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_canal",
+   "zone": "z1_sunward",
+   "source": "kit:waterBand",
+   "sha1": "1d4ffdd9da50bd9657abb64aa2277acf03a0a869",
+   "legacyId": "A29",
+   "file": "orrery_terraces/part/ring_gate_canal.svg",
+   "width": 512,
+   "height": 180,
+   "rasterScale": 0.75,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2155131031,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_canal.b",
+   "zone": "z1_sunward",
+   "source": "kit:waterBand",
+   "sha1": "12bd3a97571d2287b55133fc2115fee8c041e3e1",
+   "legacyId": "A29",
+   "file": "orrery_terraces/part/ring_gate_canal.b.svg",
+   "width": 512,
+   "height": 180,
+   "rasterScale": 0.75,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2155131031,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_console",
+   "zone": "z1_sunward",
+   "source": "kit:lectern",
+   "sha1": "c1ec6c23b0b760e98d72ddf6fcccf89271d24644",
+   "legacyId": null,
+   "file": "orrery_terraces/part/ring_gate_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 1842221329,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_fin_l",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "255576fa8930f69693856128c520c30d633e887d",
+   "legacyId": "A88",
+   "file": "orrery_terraces/part/ring_gate_fin_l.svg",
+   "width": 120,
+   "height": 360,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    1,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "fin_split",
+     "x": 120,
+     "y": 56
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_fin_r",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "ad958d89cb7ec9ce6e19ab858f4b42993a5460e1",
+   "legacyId": "A89",
+   "file": "orrery_terraces/part/ring_gate_fin_r.svg",
+   "width": 120,
+   "height": 360,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "fin_split",
+     "x": 0,
+     "y": 56
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_gate_wall",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "c68dbf571e99b15e50d5286c189b8419c0178c5a",
+   "legacyId": "A85",
+   "file": "orrery_terraces/part/ring_gate_gate_wall.svg",
+   "width": 900,
+   "height": 760,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "doorway",
+     "x": 450,
+     "y": 760
+    },
+    {
+     "name": "ring_center",
+     "x": 450,
+     "y": 556
+    },
+    {
+     "name": "tally",
+     "x": 450,
+     "y": 184
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_inner_disc",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "d761702decb6afeb4a181e0cad372d7af297cb3d",
+   "legacyId": "A87",
+   "file": "orrery_terraces/part/ring_gate_inner_disc.svg",
+   "width": 340,
+   "height": 340,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 170,
+     "y": 170
+    },
+    {
+     "name": "inner_hub",
+     "x": 170,
+     "y": 84
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_outer_ring",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "b3e0c447d27ee2dc31c11ed860907d7726efe0ba",
+   "legacyId": "A86",
+   "file": "orrery_terraces/part/ring_gate_outer_ring.svg",
+   "width": 408,
+   "height": 408,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "notch",
+     "x": 204,
+     "y": 404
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_pawl",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "c30930acc76fd188783493278f97ad8f19f48212",
+   "legacyId": "A91",
+   "file": "orrery_terraces/part/ring_gate_pawl.svg",
+   "width": 80,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.25,
+    0.08
+   ],
+   "anchors": [
+    {
+     "name": "i1_label",
+     "x": 40,
+     "y": 111
+    }
+   ],
+   "scroll": null,
+   "seed": 3920067112,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_skiff",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "a4212acdb6f7effa6fbe58a4c94f6a61619f8919",
+   "legacyId": "A92",
+   "file": "orrery_terraces/part/ring_gate_skiff.svg",
+   "width": 260,
+   "height": 110,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 130,
+     "y": 85
+    },
+    {
+     "name": "i1_band_0",
+     "x": 190,
+     "y": -10
+    },
+    {
+     "name": "i1_band_1",
+     "x": 190,
+     "y": 3
+    },
+    {
+     "name": "i1_lamp",
+     "x": 190,
+     "y": -43
+    },
+    {
+     "name": "i1_top",
+     "x": 190,
+     "y": -30
+    }
+   ],
+   "scroll": null,
+   "seed": 3484559453,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.ring_gate_tally_wheel",
+   "zone": "z1_sunward",
+   "source": "kit:ringStack",
+   "sha1": "d28899b8b62b271f0c7d4f0f64de0ac59b49d56d",
+   "legacyId": "A90",
+   "file": "orrery_terraces/part/ring_gate_tally_wheel.svg",
+   "width": 140,
+   "height": 140,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 70,
+     "y": 70
+    }
+   ],
+   "scroll": null,
+   "seed": 4158847118,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.treasury_pillars_chest_body",
+   "zone": "z2_crystal",
+   "source": "kit:compose",
+   "sha1": "83fdc4c09bdd3347cf6143fb20abc9f6a0ead3c8",
+   "legacyId": "A117",
+   "file": "orrery_terraces/part/treasury_pillars_chest_body.svg",
+   "width": 220,
+   "height": 150,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 110,
+     "y": 85
+    },
+    {
+     "name": "i1_hub",
+     "x": 110,
+     "y": 85
+    }
+   ],
+   "scroll": null,
+   "seed": 1833121825,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.treasury_pillars_chest_lid",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "0f474a4031778c6dff9d8ea2b7df3c15e75f3cf9",
+   "legacyId": "A118",
+   "file": "orrery_terraces/part/treasury_pillars_chest_lid.svg",
+   "width": 220,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 110,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 1041310154,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.treasury_pillars_console",
+   "zone": "z2_crystal",
+   "source": "kit:lectern",
+   "sha1": "5be5e5f2d9972f8607b93113e511d2b7d263024a",
+   "legacyId": null,
+   "file": "orrery_terraces/part/treasury_pillars_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 3617372764,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.treasury_pillars_rim_step",
+   "zone": "z2_crystal",
+   "source": "kit:stairs",
+   "sha1": "8b13cc7b62c7cdcc268f9e010eeae630e03cb125",
+   "legacyId": null,
+   "file": "orrery_terraces/part/treasury_pillars_rim_step.svg",
+   "width": 50,
+   "height": 72,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 25,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 2935114500,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_carriage",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "c022815bc6af355461005e61a1976957f0d7eb21",
+   "legacyId": "A78",
+   "file": "orrery_terraces/part/vesper_dial_carriage.svg",
+   "width": 90,
+   "height": 70,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.71
+   ],
+   "anchors": [
+    {
+     "name": "beam_origin",
+     "x": 45,
+     "y": 13
+    },
+    {
+     "name": "rail",
+     "x": 45,
+     "y": 49.7
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_console",
+   "zone": "z1_sunward",
+   "source": "kit:lectern",
+   "sha1": "613a2354cde75981754291d12e95066128752389",
+   "legacyId": "A36",
+   "file": "orrery_terraces/part/vesper_dial_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 340876357,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_disc",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "05731b44f09ff39dd9a5887e57557e7a1b794f4a",
+   "legacyId": "A76",
+   "file": "orrery_terraces/part/vesper_dial_disc.svg",
+   "width": 560,
+   "height": 560,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 280,
+     "y": 280
+    },
+    {
+     "name": "spoke_0",
+     "x": 512.1,
+     "y": 414
+    },
+    {
+     "name": "spoke_1",
+     "x": 538.9,
+     "y": 349.4
+    },
+    {
+     "name": "spoke_2",
+     "x": 548,
+     "y": 280
+    },
+    {
+     "name": "spoke_3",
+     "x": 538.9,
+     "y": 210.6
+    },
+    {
+     "name": "spoke_4",
+     "x": 512.1,
+     "y": 146
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_fog_band",
+   "zone": "z1_sunward",
+   "source": "kit:cloudBand",
+   "sha1": "49af4aace7668840c763ade5a63f52d43aa32c05",
+   "legacyId": "A84",
+   "file": "orrery_terraces/part/vesper_dial_fog_band.svg",
+   "width": 2400,
+   "height": 520,
+   "rasterScale": 0.35,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2995305418,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_plumb_gauge",
+   "zone": "z1_sunward",
+   "source": "kit:gauge",
+   "sha1": "a6ddfa512a8c01ea1c7d8a47011a1f805f094bac",
+   "legacyId": "A80",
+   "file": "orrery_terraces/part/vesper_dial_plumb_gauge.svg",
+   "width": 44,
+   "height": 620,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "t_0",
+     "x": 22,
+     "y": 614
+    },
+    {
+     "name": "t_1",
+     "x": 22,
+     "y": 462
+    },
+    {
+     "name": "t_2",
+     "x": 22,
+     "y": 310
+    },
+    {
+     "name": "t_3",
+     "x": 22,
+     "y": 158
+    },
+    {
+     "name": "t_4",
+     "x": 22,
+     "y": 6
+    }
+   ],
+   "scroll": null,
+   "seed": 3682123460,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_rail_ring",
+   "zone": "z1_sunward",
+   "source": "kit:ringStack",
+   "sha1": "ea881b08c3be7e7945f01d0228ba4d7a41a590e0",
+   "legacyId": "A77",
+   "file": "orrery_terraces/part/vesper_dial_rail_ring.svg",
+   "width": 640,
+   "height": 640,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 320,
+     "y": 320
+    },
+    {
+     "name": "socket_0",
+     "x": 320,
+     "y": 17
+    },
+    {
+     "name": "socket_1",
+     "x": 623,
+     "y": 320
+    },
+    {
+     "name": "socket_2",
+     "x": 320,
+     "y": 623
+    },
+    {
+     "name": "socket_3",
+     "x": 17,
+     "y": 320
+    },
+    {
+     "name": "stud_0",
+     "x": 320,
+     "y": 17
+    },
+    {
+     "name": "stud_1",
+     "x": 398,
+     "y": 27
+    },
+    {
+     "name": "stud_10",
+     "x": 472,
+     "y": 582
+    },
+    {
+     "name": "stud_11",
+     "x": 398,
+     "y": 613
+    },
+    {
+     "name": "stud_12",
+     "x": 320,
+     "y": 623
+    },
+    {
+     "name": "stud_13",
+     "x": 242,
+     "y": 613
+    },
+    {
+     "name": "stud_14",
+     "x": 169,
+     "y": 582
+    },
+    {
+     "name": "stud_15",
+     "x": 106,
+     "y": 534
+    },
+    {
+     "name": "stud_16",
+     "x": 58,
+     "y": 472
+    },
+    {
+     "name": "stud_17",
+     "x": 27,
+     "y": 398
+    },
+    {
+     "name": "stud_18",
+     "x": 17,
+     "y": 320
+    },
+    {
+     "name": "stud_19",
+     "x": 27,
+     "y": 242
+    },
+    {
+     "name": "stud_2",
+     "x": 472,
+     "y": 58
+    },
+    {
+     "name": "stud_20",
+     "x": 58,
+     "y": 168
+    },
+    {
+     "name": "stud_21",
+     "x": 106,
+     "y": 106
+    },
+    {
+     "name": "stud_22",
+     "x": 168,
+     "y": 58
+    },
+    {
+     "name": "stud_23",
+     "x": 242,
+     "y": 27
+    },
+    {
+     "name": "stud_3",
+     "x": 534,
+     "y": 106
+    },
+    {
+     "name": "stud_4",
+     "x": 582,
+     "y": 169
+    },
+    {
+     "name": "stud_5",
+     "x": 613,
+     "y": 242
+    },
+    {
+     "name": "stud_6",
+     "x": 623,
+     "y": 320
+    },
+    {
+     "name": "stud_7",
+     "x": 613,
+     "y": 398
+    },
+    {
+     "name": "stud_8",
+     "x": 582,
+     "y": 472
+    },
+    {
+     "name": "stud_9",
+     "x": 534,
+     "y": 534
+    }
+   ],
+   "scroll": null,
+   "seed": 3720449119,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_slide_gauge",
+   "zone": "z1_sunward",
+   "source": "kit:gauge",
+   "sha1": "836e1f5d236568fbb47b99d9d9847ee033ca761c",
+   "legacyId": "A82",
+   "file": "orrery_terraces/part/vesper_dial_slide_gauge.svg",
+   "width": 620,
+   "height": 44,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "t_0",
+     "x": 6,
+     "y": 22
+    },
+    {
+     "name": "t_1",
+     "x": 158,
+     "y": 22
+    },
+    {
+     "name": "t_2",
+     "x": 310,
+     "y": 22
+    },
+    {
+     "name": "t_3",
+     "x": 462,
+     "y": 22
+    },
+    {
+     "name": "t_4",
+     "x": 614,
+     "y": 22
+    }
+   ],
+   "scroll": null,
+   "seed": 1231798921,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_spoke_ledge",
+   "zone": "z1_sunward",
+   "source": "kit:stairs",
+   "sha1": "856d01fea1d9ca378734d7f1087ab2058df45e37",
+   "legacyId": "A79",
+   "file": "orrery_terraces/part/vesper_dial_spoke_ledge.svg",
+   "width": 150,
+   "height": 42,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 75,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 1918344514,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.vesper_dial_vesper_lens",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "db869dbd86118a514e6b162d874dcc96ce31a7e2",
+   "legacyId": "A83",
+   "file": "orrery_terraces/part/vesper_dial_vesper_lens.svg",
+   "width": 120,
+   "height": 120,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "lens",
+     "x": 60,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_bob",
+   "zone": "z3_dome",
+   "source": "kit:ringStack",
+   "sha1": "13263693da6802fddf75cc07e82fe6e8241152e9",
+   "legacyId": "A130",
+   "file": "orrery_terraces/part/wardens_shield_bob.svg",
+   "width": 80,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 40,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 3202364547,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_console",
+   "zone": "z3_dome",
+   "source": "kit:lectern",
+   "sha1": "9e87998bb05141c2e6726fff3a1f219418862301",
+   "legacyId": null,
+   "file": "orrery_terraces/part/wardens_shield_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 3684466465,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_counter_pylon",
+   "zone": "z3_dome",
+   "source": "kit:column",
+   "sha1": "65536271a9fe0cadd1abc19c9ef592b01abc0231",
+   "legacyId": "A127",
+   "file": "orrery_terraces/part/wardens_shield_counter_pylon.svg",
+   "width": 140,
+   "height": 520,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 70,
+     "y": 139
+    },
+    {
+     "name": "band_1",
+     "x": 70,
+     "y": 210
+    },
+    {
+     "name": "top",
+     "x": 70,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 944910167,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_pendulum_arm",
+   "zone": "z3_dome",
+   "source": "kit:linkStrip",
+   "sha1": "d2b2c3325944ec422f75dfd9b4dcf989ad8b2d17",
+   "legacyId": "A129",
+   "file": "orrery_terraces/part/wardens_shield_pendulum_arm.svg",
+   "width": 30,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1543760583,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_shield",
+   "zone": "z3_dome",
+   "source": "kit:ringStack",
+   "sha1": "90775043767ad55f20436d6567c462d414c3efc0",
+   "legacyId": "A125",
+   "file": "orrery_terraces/part/wardens_shield_shield.svg",
+   "width": 420,
+   "height": 420,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 210,
+     "y": 210
+    }
+   ],
+   "scroll": null,
+   "seed": 91572897,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_span_tile",
+   "zone": "z3_dome",
+   "source": "kit:plate",
+   "sha1": "d69bba88135e105f27b8116a40bce90353c51ec1",
+   "legacyId": "A131",
+   "file": "orrery_terraces/part/wardens_shield_span_tile.svg",
+   "width": 100,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 50,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 3624108249,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_star_door_l",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "a33f0e10b823369f254076acdf9515e083538bbd",
+   "legacyId": "A128",
+   "file": "orrery_terraces/part/wardens_shield_star_door_l.svg",
+   "width": 260,
+   "height": 700,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 130,
+     "y": 350
+    },
+    {
+     "name": "i1_label",
+     "x": 130,
+     "y": 350
+    }
+   ],
+   "scroll": null,
+   "seed": 373852042,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_star_door_r",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "5d593b298cc8870be9e05b41aa573d95fe4e8ed4",
+   "legacyId": "A128",
+   "file": "orrery_terraces/part/wardens_shield_star_door_r.svg",
+   "width": 260,
+   "height": 700,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 130,
+     "y": 350
+    },
+    {
+     "name": "i1_label",
+     "x": 130,
+     "y": 350
+    }
+   ],
+   "scroll": null,
+   "seed": 407407280,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_visor",
+   "zone": "z3_dome",
+   "source": "kit:glowSprite",
+   "sha1": "93ad742f04d06cbb71ced8da96a66c075f2dfa27",
+   "legacyId": "A122",
+   "file": "orrery_terraces/part/wardens_shield_visor.svg",
+   "width": 220,
+   "height": 220,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 524505955,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_warden_arm",
+   "zone": "z3_dome",
+   "source": "kit:column",
+   "sha1": "978418456a52236b2a9a2fa488b8732d1537c711",
+   "legacyId": "A123",
+   "file": "orrery_terraces/part/wardens_shield_warden_arm.svg",
+   "width": 120,
+   "height": 460,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 60,
+     "y": 107
+    },
+    {
+     "name": "band_1",
+     "x": 60,
+     "y": 154
+    },
+    {
+     "name": "band_2",
+     "x": 60,
+     "y": 201
+    },
+    {
+     "name": "top",
+     "x": 60,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2413662076,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.part.wardens_shield_warden_body",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "2ee80b38b5a4b98feaa5ae21c08cacc8ad32f28a",
+   "legacyId": "A120",
+   "file": "orrery_terraces/part/wardens_shield_warden_body.svg",
+   "width": 520,
+   "height": 860,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_hub",
+     "x": 260,
+     "y": 190
+    }
+   ],
+   "scroll": null,
+   "seed": 1642201742,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.beam_pylon",
+   "zone": "z1_sunward",
+   "source": "kit:column",
+   "sha1": "df188df054d3c9f4f06e31ef31f8a662bf0d033f",
+   "legacyId": "A35",
+   "file": "orrery_terraces/prop/beam_pylon.svg",
+   "width": 140,
+   "height": 520,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 70,
+     "y": 142
+    },
+    {
+     "name": "band_1",
+     "x": 70,
+     "y": 216
+    },
+    {
+     "name": "socket",
+     "x": 70,
+     "y": 95
+    },
+    {
+     "name": "top",
+     "x": 70,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2577198857,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.bush_blue_a",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "e22e3edcf12fc7521e06979d94deb2ded16230cf",
+   "legacyId": "A47",
+   "file": "orrery_terraces/prop/bush_blue_a.svg",
+   "width": 240,
+   "height": 150,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 120,
+     "y": 90
+    }
+   ],
+   "scroll": null,
+   "seed": 459115052,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.bush_blue_b",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "c074ed7c4e5a59eee054ab3bc3c3ce343af7d6bc",
+   "legacyId": "A48",
+   "file": "orrery_terraces/prop/bush_blue_b.svg",
+   "width": 200,
+   "height": 130,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 100,
+     "y": 78
+    }
+   ],
+   "scroll": null,
+   "seed": 509447909,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.bush_salmon",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "83987a5d2cc19223295640fe5194f4add5edf9e7",
+   "legacyId": "A49",
+   "file": "orrery_terraces/prop/bush_salmon.svg",
+   "width": 220,
+   "height": 140,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 110,
+     "y": 84
+    }
+   ],
+   "scroll": null,
+   "seed": 3574066738,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.canal",
+   "zone": "z1_sunward",
+   "source": "kit:waterBand",
+   "sha1": "a262f1bc635d78b71cd56951429fe4849c0ff7d4",
+   "legacyId": "A29",
+   "file": "orrery_terraces/prop/canal.svg",
+   "width": 512,
+   "height": 180,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 542894272,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.canal.b",
+   "zone": "z1_sunward",
+   "source": "kit:waterBand",
+   "sha1": "7f905f223bb19e591219a698c0bb8e0a66176c9c",
+   "legacyId": "A29",
+   "file": "orrery_terraces/prop/canal.b.svg",
+   "width": 512,
+   "height": 180,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 542894272,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.cliff_edge",
+   "zone": "z2_crystal",
+   "source": "kit:ridgeBand",
+   "sha1": "008053131a232b2f483ec27bc481050739abbaa7",
+   "legacyId": "A32",
+   "file": "orrery_terraces/prop/cliff_edge.svg",
+   "width": 256,
+   "height": 400,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "lip",
+     "x": 176,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 1184588051,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.colonnade_lintel",
+   "zone": "z2_crystal",
+   "source": "kit:plate",
+   "sha1": "b662a948b9b2831f6a3eb8c4d199d19b5e8beba0",
+   "legacyId": null,
+   "file": "orrery_terraces/prop/colonnade_lintel.svg",
+   "width": 360,
+   "height": 50,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 180,
+     "y": 25
+    }
+   ],
+   "scroll": null,
+   "seed": 3226992075,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.crystal_cluster",
+   "zone": "z1_sunward",
+   "source": "kit:crystalCluster",
+   "sha1": "3e8c021ddeef5086bd9a0a48c9ab65cca39dd7f3",
+   "legacyId": "A45",
+   "file": "orrery_terraces/prop/crystal_cluster.svg",
+   "width": 260,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 130,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 1262644900,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.crystal_fan",
+   "zone": "z1_sunward",
+   "source": "kit:crystalCluster",
+   "sha1": "cb8804a0dc028290cc44f012dc5e728f2a93c41e",
+   "legacyId": "A46",
+   "file": "orrery_terraces/prop/crystal_fan.svg",
+   "width": 220,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 110,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2089286427,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.crystal_roots",
+   "zone": "z2_crystal",
+   "source": "kit:crystalCluster",
+   "sha1": "2bcd74c3dd889a99ddce78f3dc2d6473dd41a042",
+   "legacyId": "A112",
+   "file": "orrery_terraces/prop/crystal_roots.svg",
+   "width": 300,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 150,
+     "y": 260
+    }
+   ],
+   "scroll": null,
+   "seed": 3377870463,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.crystal_stair",
+   "zone": "z2_crystal",
+   "source": "kit:stairs",
+   "sha1": "7c5bc302d8107f4bf3ab6737e902bf52512a8cad",
+   "legacyId": "A31",
+   "file": "orrery_terraces/prop/crystal_stair.svg",
+   "width": 560,
+   "height": 618,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 40,
+     "y": 532
+    },
+    {
+     "name": "step_1",
+     "x": 120,
+     "y": 446
+    },
+    {
+     "name": "step_2",
+     "x": 200,
+     "y": 360
+    },
+    {
+     "name": "step_3",
+     "x": 280,
+     "y": 274
+    },
+    {
+     "name": "step_4",
+     "x": 360,
+     "y": 188
+    },
+    {
+     "name": "step_5",
+     "x": 440,
+     "y": 102
+    },
+    {
+     "name": "step_6",
+     "x": 520,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 1449254087,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.crystal_tall",
+   "zone": "z1_sunward",
+   "source": "kit:crystalCluster",
+   "sha1": "5c19a451c9b8d6da596a1800b11d47a3ed8f1c4e",
+   "legacyId": "A44",
+   "file": "orrery_terraces/prop/crystal_tall.svg",
+   "width": 120,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 60,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2972412601,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.crystal_tree",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "780046ca59c61322641a7e4b1f8e9b3fc0c72b0f",
+   "legacyId": "A51",
+   "file": "orrery_terraces/prop/crystal_tree.svg",
+   "width": 420,
+   "height": 620,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 210,
+     "y": 223
+    },
+    {
+     "name": "i1_tip",
+     "x": 120,
+     "y": 130
+    },
+    {
+     "name": "i2_tip",
+     "x": 300,
+     "y": 90
+    },
+    {
+     "name": "i3_tip",
+     "x": 215,
+     "y": -10
+    }
+   ],
+   "scroll": null,
+   "seed": 1073274430,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.dome_star_map",
+   "zone": "z3_dome",
+   "source": "kit:ringStack",
+   "sha1": "32becc91613fe89328bc8dddfa5f23ae5ce8e2ea",
+   "legacyId": null,
+   "file": "orrery_terraces/prop/dome_star_map.svg",
+   "width": 900,
+   "height": 450,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 450,
+     "y": 225
+    },
+    {
+     "name": "socket_0",
+     "x": 450,
+     "y": 9
+    },
+    {
+     "name": "socket_1",
+     "x": 788,
+     "y": 90
+    },
+    {
+     "name": "socket_2",
+     "x": 871,
+     "y": 273
+    },
+    {
+     "name": "socket_3",
+     "x": 637,
+     "y": 420
+    },
+    {
+     "name": "socket_4",
+     "x": 263,
+     "y": 420
+    },
+    {
+     "name": "socket_5",
+     "x": 29,
+     "y": 273
+    },
+    {
+     "name": "socket_6",
+     "x": 112,
+     "y": 90
+    }
+   ],
+   "scroll": null,
+   "seed": 2301333882,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.flower_tuft",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "0e469b5f98ee87274a7f0e7a38523fce25dbada0",
+   "legacyId": "A54",
+   "file": "orrery_terraces/prop/flower_tuft.svg",
+   "width": 80,
+   "height": 50,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 40,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 36878666,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.gantry_gear",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "43125dfac9e3544159660fe4ecc33e162a62bd54",
+   "legacyId": "A133",
+   "file": "orrery_terraces/prop/gantry_gear.svg",
+   "width": 300,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_hub",
+     "x": 150,
+     "y": 160
+    },
+    {
+     "name": "i1_label",
+     "x": 150,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 2922005728,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.gantry_ladder",
+   "zone": "z3_dome",
+   "source": "kit:linkStrip",
+   "sha1": "2ad42dd4b16b513948ca9d17969d9fc9d79e6946",
+   "legacyId": "A135",
+   "file": "orrery_terraces/prop/gantry_ladder.svg",
+   "width": 60,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1976429591,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.gantry_walkway",
+   "zone": "z3_dome",
+   "source": "kit:compose",
+   "sha1": "d3100693d7141c92bf4cafb81b675c0fd44aa93c",
+   "legacyId": "A132",
+   "file": "orrery_terraces/prop/gantry_walkway.svg",
+   "width": 512,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0.5,
+    0.625
+   ],
+   "anchors": [
+    {
+     "name": "i0_walk",
+     "x": 0,
+     "y": 100
+    }
+   ],
+   "scroll": null,
+   "seed": 543822961,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.gondola",
+   "zone": "z1_sunward",
+   "source": "hero",
+   "sha1": "c0451c8e387a013b705dcf4e828b68693518f005",
+   "legacyId": "A59",
+   "file": "orrery_terraces/prop/gondola.svg",
+   "width": 360,
+   "height": 280,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "cable",
+     "x": 180,
+     "y": 24
+    },
+    {
+     "name": "deck",
+     "x": 180,
+     "y": 258
+    },
+    {
+     "name": "door",
+     "x": 262,
+     "y": 258
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.lantern_post",
+   "zone": "z1_sunward",
+   "source": "kit:column",
+   "sha1": "887bb5b583ddf6a8e7243ca9a63e74ee2bbb0ebb",
+   "legacyId": "A55",
+   "file": "orrery_terraces/prop/lantern_post.svg",
+   "width": 60,
+   "height": 220,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 30,
+     "y": 61
+    },
+    {
+     "name": "lamp",
+     "x": 30,
+     "y": -24
+    },
+    {
+     "name": "top",
+     "x": 30,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 4151343514,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.ledge_cap",
+   "zone": "z1_sunward",
+   "source": "kit:groundStrip",
+   "sha1": "0dbb297e825918af0c72cb920d14a25ef92c735c",
+   "legacyId": "A30",
+   "file": "orrery_terraces/prop/ledge_cap.svg",
+   "width": 256,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": 256,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 345526865,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.node_ring",
+   "zone": "z1_sunward",
+   "source": "kit:ringStack",
+   "sha1": "db68b398e94791100a5568014c8cf65e8ea1c7e3",
+   "legacyId": "A39",
+   "file": "orrery_terraces/prop/node_ring.svg",
+   "width": 96,
+   "height": 96,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 48,
+     "y": 48
+    },
+    {
+     "name": "stud_0",
+     "x": 48,
+     "y": 9
+    },
+    {
+     "name": "stud_1",
+     "x": 87,
+     "y": 48
+    },
+    {
+     "name": "stud_2",
+     "x": 48,
+     "y": 87
+    },
+    {
+     "name": "stud_3",
+     "x": 9,
+     "y": 48
+    }
+   ],
+   "scroll": null,
+   "seed": 1565412268,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.period_plaque",
+   "zone": "z3_dome",
+   "source": "kit:plate",
+   "sha1": "6ef43abfc71b057357b324a35ff69a6501759b93",
+   "legacyId": "A134",
+   "file": "orrery_terraces/prop/period_plaque.svg",
+   "width": 90,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 45,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 2323823425,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.pillar",
+   "zone": "z2_crystal",
+   "source": "kit:column",
+   "sha1": "527a767e300b7f49a5bc0dc64a442065a42b4c8f",
+   "legacyId": "A34",
+   "file": "orrery_terraces/prop/pillar.svg",
+   "width": 170,
+   "height": 470,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 85,
+     "y": 125
+    },
+    {
+     "name": "band_1",
+     "x": 85,
+     "y": 190
+    },
+    {
+     "name": "top",
+     "x": 85,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3672213489,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.plaque_post",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "cefed69712556ffbaf9859e11cd92d338e847ab1",
+   "legacyId": "A60",
+   "file": "orrery_terraces/prop/plaque_post.svg",
+   "width": 120,
+   "height": 180,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 60,
+     "y": 81
+    },
+    {
+     "name": "i0_top",
+     "x": 60,
+     "y": 30
+    },
+    {
+     "name": "i1_label",
+     "x": 60,
+     "y": 64
+    }
+   ],
+   "scroll": null,
+   "seed": 356076008,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.shaft_ladder",
+   "zone": "z2_crystal",
+   "source": "kit:linkStrip",
+   "sha1": "df24b84e98e7f40279027a2cfcddd8dc5cf5c929",
+   "legacyId": null,
+   "file": "orrery_terraces/prop/shaft_ladder.svg",
+   "width": 50,
+   "height": 400,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3531229204,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.shrub_rust",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "9531a54abede024973fde4c88ba1ce525f0d39cd",
+   "legacyId": "A50",
+   "file": "orrery_terraces/prop/shrub_rust.svg",
+   "width": 160,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 80,
+     "y": 42
+    }
+   ],
+   "scroll": null,
+   "seed": 1753279378,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.sighting_telescope",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "0224b445f2174420c32b34b4d95fa461c2145a43",
+   "legacyId": "A58",
+   "file": "orrery_terraces/prop/sighting_telescope.svg",
+   "width": 120,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 60,
+     "y": 107
+    },
+    {
+     "name": "i0_top",
+     "x": 60,
+     "y": 70
+    },
+    {
+     "name": "i2_hub",
+     "x": 110,
+     "y": 70
+    }
+   ],
+   "scroll": null,
+   "seed": 2227972533,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.statue_plinth",
+   "zone": "z2_crystal",
+   "source": "kit:stairs",
+   "sha1": "172254af30a2a7b5dc22e1c047351044bb67e87b",
+   "legacyId": null,
+   "file": "orrery_terraces/prop/statue_plinth.svg",
+   "width": 90,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 45,
+     "y": 84
+    },
+    {
+     "name": "step_1",
+     "x": 45,
+     "y": 48
+    },
+    {
+     "name": "step_2",
+     "x": 45,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 3658984549,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.stepping_stone",
+   "zone": "z1_sunward",
+   "source": "kit:plate",
+   "sha1": "88daf849e610711939ccea315e829e582eb00a16",
+   "legacyId": null,
+   "file": "orrery_terraces/prop/stepping_stone.svg",
+   "width": 80,
+   "height": 30,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 40,
+     "y": 15
+    }
+   ],
+   "scroll": null,
+   "seed": 4248830097,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.tablet_stack",
+   "zone": "z1_sunward",
+   "source": "kit:compose",
+   "sha1": "8765bfec98c48a248443e73063290c5e811eef99",
+   "legacyId": "A61",
+   "file": "orrery_terraces/prop/tablet_stack.svg",
+   "width": 180,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 90,
+     "y": 102
+    },
+    {
+     "name": "i1_label",
+     "x": 96,
+     "y": 66
+    },
+    {
+     "name": "i2_label",
+     "x": 102,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 30911994,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.tree_rust_small",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "7b21b950e50c09344a33873c15fb4d0a4708b348",
+   "legacyId": "A53",
+   "file": "orrery_terraces/prop/tree_rust_small.svg",
+   "width": 260,
+   "height": 340,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 130,
+     "y": 122
+    }
+   ],
+   "scroll": null,
+   "seed": 3749334912,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.tree_salmon",
+   "zone": "z1_sunward",
+   "source": "kit:canopy",
+   "sha1": "5c18bb7e2cac75b8429bf9763aa51891aeddaf61",
+   "legacyId": "A52",
+   "file": "orrery_terraces/prop/tree_salmon.svg",
+   "width": 460,
+   "height": 600,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "sway",
+     "x": 230,
+     "y": 216
+    }
+   ],
+   "scroll": null,
+   "seed": 1822939728,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.warden_keystone",
+   "zone": "z3_dome",
+   "source": "kit:ringStack",
+   "sha1": "6c8652115690fbc11e5a0430121b2dec3755bbf0",
+   "legacyId": "A119",
+   "file": "orrery_terraces/prop/warden_keystone.svg",
+   "width": 90,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 45,
+     "y": 45
+    }
+   ],
+   "scroll": null,
+   "seed": 1734097021,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "orrery_terraces.prop.warden_plinth",
+   "zone": "z3_dome",
+   "source": "kit:stairs",
+   "sha1": "c5351ee6f8f55da574325d51fd16ed41bacb4681",
+   "legacyId": "A126",
+   "file": "orrery_terraces/prop/warden_plinth.svg",
+   "width": 180,
+   "height": 230,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 90,
+     "y": 160
+    },
+    {
+     "name": "step_1",
+     "x": 90,
+     "y": 90
+    },
+    {
+     "name": "step_2",
+     "x": 90,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 1804200522,
+   "engraved": []
+  }
+ ],
+ "totalBytes": 839553,
+ "gzipBytes": 248713,
  "vram": [
   {
    "zone": "all",
-   "mb": 5.3
+   "mb": 14.9
   },
   {
    "zone": "z1_sunward",
-   "mb": 5.3
+   "mb": 84.9
   },
   {
    "zone": "z2_crystal",
-   "mb": 5.3
+   "mb": 66.7
   },
   {
    "zone": "z3_dome",
-   "mb": 5.3
+   "mb": 42.4
   }
  ],
- "swapPeakMb": 5.3
+ "swapPeakMb": 136.7
 }

@@ -30,7 +30,7 @@ test.describe("home showcase", () => {
   test("renders five showcase cards that each resolve to a playable game", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
-    const cardLinks = page.getByRole("region", { name: /showcase games/i }).getByRole("link", { name: "Play" });
+    const cardLinks = page.getByRole("region", { name: /side-view adventures/i }).getByRole("link", { name: "Play" });
     await expect(cardLinks).toHaveCount(5);
 
     const hrefs = await cardLinks.evaluateAll((els) => els.map((el) => el.getAttribute("href")));

@@ -1,3 +1,9 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"archive_of_voices.part.provenance_drawers_document","zone":"s8_stacks_vault","gen":"plate","params":{"w":200,"h":260,"style":"paper_card","bevel":12,"rivets":0,"screen":false,"ramp":{"lit":"paper","base":"paper","shade":"paper.aged"},"face":"paper","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.provenance_drawers_documents","zone":"s8_stacks_vault","gen":"plate","params":{"w":200,"h":260,"style":"front_page","bevel":12,"rivets":0,"screen":false,"ramp":{"lit":"paper","base":"paper","shade":"paper.aged"},"face":"paper","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.provenance_drawers_compact_shelving","zone":"s8_stacks_vault","gen":"shelving","params":{"w":420,"h":900,"style":"compact_stack","shelves":7,"bays":1,"fill":["box","film_can","book"],"endPanel":"stucco","crank":true,"ramp":{"lit":"stucco.lit","base":"stucco","shade":"stucco.shade"},"finish":{"ao":true,"rim":true,"haze":0}},"rasterScale":0.75},
+    {"key":"archive_of_voices.part.provenance_drawers_crank","zone":"s8_stacks_vault","gen":"ringStack","params":{"size":90,"ellipse":1,"rings":[{"r":40,"width":8,"tok":"brass.base","edge":null,"gaps":[],"notches":[],"studs":null,"teeth":null,"grooves":null,"spokes":{"n":3,"width":6},"wave":null,"sockets":null,"ticks":null,"labels":[]}],"hub":{"r":10,"ramp":{"lit":"brass.hi","base":"brass.base","shade":"brass.deep"}},"cutout":null,"knurl":false},"rasterScale":1},
+    {"key":"archive_of_voices.part.provenance_drawers_console","zone":"s8_stacks_vault","gen":"lectern","params":{"h":210,"style":"microfilm","ramp":{"lit":"wood.lit","base":"wood.base","shade":"wood.shade"},"trim":"brass.base","screen":"ui.card","emblem":true},"rasterScale":1}
+  ]
 }

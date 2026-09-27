@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 230" width="150" height="230" data-pivot="0.5,1">
+  <!-- living_gate.part.specimen_pods_pod: a specimen pod (cell §5.P): a cream pedestal with a navy band, a gold rim and a blank round letter plate (the letter is a DOM label on anchor plate), and a glass capsule with a bronze collar and a faint haze swirl inside where the claim's specimen or the Mimic Mote sits. -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{gold.hi}}"/>
+      <stop offset="0.55" stop-color="{{gold.base}}"/>
+      <stop offset="1" stop-color="{{gold.deep}}"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0.36" cy="0.34" r="0.7">
+      <stop offset="0" stop-color="{{haze}}"/>
+      <stop offset="0.45" stop-color="{{crystal.hi}}"/>
+      <stop offset="1" stop-color="{{crystal.base}}"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+    
+  </defs>
+  <g id="shade">
+    <ellipse cx="80" cy="226" rx="66" ry="5" fill="{{shadow|alpha:0.3}}" filter="url(#soft)"/>
+  </g>
+  <g id="lit">
+    <path d="M 14 230 L 20 160 L 130 160 L 136 230 Z" fill="url(#stone)"/>
+    <path d="M 118 160 L 130 160 L 136 230 L 122 230 Z" fill="{{stone.shade}}"/>
+    <rect x="12" y="152" width="126" height="12" rx="3" fill="url(#gold)"/>
+    <rect x="17" y="212" width="116" height="9" fill="{{inlay.navy}}"/>
+    <circle cx="75" cy="190" r="17" fill="{{stone.lit}}" stroke="{{gold.base}}" stroke-width="4"/>
+    <circle cx="75" cy="190" r="12" fill="none" stroke="{{stone.shade}}" stroke-width="1.5"/>
+    <path d="M 30 156 L 38 144 L 112 144 L 120 156 Z" fill="{{bronze.ring}}"/>
+    <rect x="34" y="138" width="82" height="8" rx="3" fill="{{gold.deep}}"/>
+  </g>
+  <g id="glow">
+    <path d="M 20 140 L 20 44 C 20 12 46 2 75 2 C 104 2 130 12 130 44 L 130 140 Z" fill="{{glass.tint|alpha:0.3}}"/>
+    <path d="M 36 110 C 50 96 70 118 88 102 C 100 92 112 100 116 90" fill="none" stroke="{{haze|alpha:0.35}}" stroke-width="6" stroke-linecap="round" filter="url(#soft)"/>
+    <path d="M 20 140 L 20 44 C 20 12 46 2 75 2 C 104 2 130 12 130 44 L 130 140" fill="none" stroke="{{crystal.hi}}" stroke-width="3"/>
+    <path d="M 30 128 L 30 46 C 30 26 42 14 58 10" fill="none" stroke="{{haze|alpha:0.85}}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 120 50 L 120 128" stroke="{{crystal.base|alpha:0.45}}" stroke-width="3"/>
+    <rect x="58" y="0" width="34" height="8" rx="3" fill="{{gold.base}}"/>
+  </g>
+  <circle id="anchor-plate" cx="75" cy="190" r="0"/>
+  <circle id="anchor-capsule" cx="75" cy="76" r="0"/>
+  <circle id="anchor-mote" cx="75" cy="112" r="0"/>
+  <circle id="anchor-top" cx="75" cy="0" r="0"/>
+</svg>

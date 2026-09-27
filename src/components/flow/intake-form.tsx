@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { GENRES, type Genre } from "@/contracts/common";
+import { GENRES } from "@/contracts/common";
+import { GENRE_LABELS } from "@/library/genre-labels";
 import type { Intake, KnowledgeMap, Mcq } from "@/contracts/knowledge";
 import type { GatekeeperSlice } from "@/contracts/slices";
 import { api } from "@/components/flow/client-fetch";
@@ -24,8 +25,6 @@ const GOALS: { id: Intake["goal"]; label: string; hint: string }[] = [
   { id: "test", label: "Test me", hint: "exam soon" },
 ];
 const MINUTES: Intake["minutes"][] = [5, 10, 15];
-const GENRE_LABEL: Record<Genre, string> = { dungeon: "Dungeon", mystery: "Mystery", platformer: "Platformer", puzzle: "Puzzle", strategy: "Strategy" };
-const HOSTS_BUILT: Genre[] = ["dungeon"];
 
 function conceptPages(km: KnowledgeMap, conceptId: string): number[] {
   const c = km.concepts.find((x) => x.id === conceptId);
@@ -262,8 +261,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
             {GENRES.map((g) => (
               <label key={g} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${genre === g ? "border-primary bg-primary/10" : "border-border"}`}>
                 <input type="radio" name="genre" value={g} checked={genre === g} onChange={() => setGenre(g)} className="h-5 w-5" />
-                {GENRE_LABEL[g]}
-                {!HOSTS_BUILT.includes(g) && <span className="text-sm text-muted-foreground">(host coming; falls back)</span>}
+                <span className="flex flex-col">
+                  <span>
+                    {GENRE_LABELS[g].name} <span className="text-base text-muted-foreground">· {GENRE_LABELS[g].perspective}</span>
+                  </span>
+                  <span className="text-base text-muted-foreground">{GENRE_LABELS[g].blurb}</span>
+                </span>
               </label>
             ))}
           </div>

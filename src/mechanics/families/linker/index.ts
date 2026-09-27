@@ -19,6 +19,8 @@ export const linker = defineFamily({
     platformer: { sockets: ["pickup"], skin: "Grapple anchors" },
     puzzle: { sockets: ["pipe_board"], skin: "Flow-style pairing" },
     strategy: { sockets: ["research_node"], skin: "Supply links" },
+    explorer: { sockets: ["bridge"], skin: "Connect matching pylons to extend the bridge" },
+    story: { sockets: ["dialogue"], skin: "Connect who said what to whom" },
   },
   modes: {
     pairs,

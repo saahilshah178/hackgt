@@ -22,6 +22,7 @@ import type {
   ConfigCtx,
   ConfigIssue,
   ContraptionMeta,
+  ContraptionSkin,
   Described,
   Diagnosis,
   Draft,
@@ -35,6 +36,7 @@ import type {
   PanelStatic,
   PoseInput,
   SchematicPrim,
+  SnapshotPart,
   StaticInput,
   SuccessBeat,
   SuccessPlan,
@@ -55,7 +57,7 @@ import {
   warn,
   yearProbeFor,
 } from "./config-parts";
-import { defineSkin } from "./skin-kit";
+import { defineSkin, partKey } from "./skin-kit";
 import { GLYPH_LIBRARY, probeFromWriter, wDate, wProbe, type WriterProbe } from "./writer-kit";
 import { StepBridgeConfig, StepEffect, type StageId } from "./step-bridge.config";
 import { FOLD_START, foldStage, type FoldState } from "../sims";
@@ -79,8 +81,30 @@ export { StageId, StepBridgeConfig, StepEffect, STEP_BRIDGE_SUCCESS_ONLY } from 
 
 const ht = (anchor: string, action: HintTarget["action"], holdMs: number): HintTarget => ({ anchor, action, holdMs });
 
+/**
+ * DOM-fallback snapshot of the Solving Span (amendment 31, §4.3), laid out like the KA3 prefab on trig e4 (chasm lips
+ * at ±452; container-local, the bridge line on y = 0): dormant = the empty sockets, four stones in the cradle, the dark
+ * pylons, the lip relief and the chasm edges; solved = the four stones seated in their sockets.
+ */
+export function floatingStepsSnapshots(): ContraptionSkin["snapshot"] {
+  const k = (slot: string) => partKey("orrery_terraces", "floating_steps", slot);
+  const sockets = [-360, -140, 80, 300].map((x, j): SnapshotPart => ({ asset: k("socket"), dx: x, dy: j === 0 || j === 3 ? 46 : 38 }));
+  const fixed: SnapshotPart[] = [
+    { asset: k("chasm_edge"), dx: -497, dy: 260 },
+    { asset: k("chasm_edge"), dx: 497, dy: 260 },
+    { asset: k("relief"), dx: -700, dy: 100 },
+    { asset: k("cradle"), dx: -580, dy: -170 },
+    { asset: k("pylon"), dx: 512, dy: -150 },
+    { asset: k("pylon"), dx: 652, dy: -150 },
+    ...sockets,
+  ];
+  const inCradle = [0, 1, 2, 3].map((i): SnapshotPart => ({ asset: k("stone"), dx: -580, dy: -40 - 66 * i }));
+  const seated = [-360, -140, 80, 300].map((x, j): SnapshotPart => ({ asset: k("stone"), dx: x, dy: j === 0 || j === 3 ? 34 : 26 }));
+  return { dormant: [...fixed, ...inCradle], solved: [...fixed, ...seated] };
+}
+
 export const STEP_BRIDGE_SKINS = [
-  defineSkin({
+  { ...defineSkin({
     id: "floating_steps",
     name: "Floating Steps",
     ns: "orrery_terraces",
@@ -92,7 +116,7 @@ export const STEP_BRIDGE_SKINS = [
     cues: { live: "stud_tick", succeed: "stone_lock_thunk", fail: "stone_grind" },
     // trig §5.4: rung 1 land on socket 1; rung 2 circle the lip relief; rung 3 hover at the far pylon
     hintTargets: [[ht("socket_0", "land", 1500)], [ht("lip_relief", "circle", 2000)], [ht("pylon_b", "hover", 2000)]],
-  }),
+  }), snapshot: floatingStepsSnapshots() },
   defineSkin({
     id: "walking_road",
     name: "Walking Road",
@@ -603,16 +627,19 @@ function stepDescribe(pose: StepBridgePose, input: PoseInput<StepBridgeConfig, n
       if (d) chips.push({ anchor, text: formatPrintedDate(d), color: "f" }); // the date PRINTED in the plank (civil §5.9)
     } else if (config.bays === "flat_road") {
       chips.push({ anchor, text: viewTextOf(view, key).slice(0, 28), color: "f" });
-    } else {
+    } else if (config.bays !== "floating") {
       const label = item?.meta.label;
       if (label) chips.push({ anchor, text: label, color: "f" });
     }
   });
   if (config.bays === "floating") {
+    // KA3: the glyph stones sit 220 apart (84 px at board-layout zoom), so only the stone you point at is labelled,
+    // in its socket or its cradle bay; the panel's stone column carries every text.
     planks.forEach((p, i) => {
-      if (pose.plankBay[i] !== null) return;
+      if (pose.focus !== p.key) return;
       const label = itemOf(config, p.key)?.meta.label;
-      if (label) chips.push({ anchor: `cradle_${i}`, text: label, color: "f" });
+      const j = pose.plankBay[i];
+      if (label) chips.push({ anchor: j === null ? `cradle_${i}` : bayAnchor(config.bays, j), text: label, color: "f" });
     });
   }
   if (pose.stage) {
@@ -982,7 +1009,7 @@ function stepSuccessPlan(input: PoseInput<StepBridgeConfig, null>, anim: PayoffA
 // ================================================================ geometry for the host
 
 const FRAME: Readonly<Record<StepBridgeConfig["bays"], Bounds>> = {
-  floating: { x: -1020, y: -460, w: 1880, h: 740 },
+  floating: { x: -960, y: -460, w: 1680, h: 780 }, // relief band (−940) … far pylons (+652); KA3
   flat_road: { x: -760, y: -520, w: 1520, h: 700 },
   arch: { x: -760, y: -700, w: 1520, h: 900 },
   stage_rail: { x: -720, y: -520, w: 1300, h: 900 },

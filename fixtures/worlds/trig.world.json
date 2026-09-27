@@ -15,10 +15,10 @@
           "atlas": "shared.char.wren",
           "scale": 1,
           "costume": [
-            {"asset": "orrery_terraces.costume.wren_scarf", "anchor": "back", "dx": 0, "dy": -6, "follow": "spring", "layer": "behind"},
-            {"asset": "orrery_terraces.costume.wren_satchel", "anchor": "back", "dx": -8, "dy": 20, "follow": "rigid", "layer": "behind"},
-            {"asset": "orrery_terraces.costume.wren_staff", "anchor": "hand_r", "dx": 0, "dy": -6, "follow": "rigid", "layer": "front"},
-            {"asset": "orrery_terraces.costume.wren_hair_bun", "anchor": "head", "dx": 0, "dy": -30, "follow": "rigid", "layer": "front"}
+            {"asset": "orrery_terraces.costume.wren_scarf", "anchor": "back", "dx": -2, "dy": -8, "follow": "spring", "layer": "behind"},
+            {"asset": "orrery_terraces.costume.wren_satchel", "anchor": "torso", "dx": -40, "dy": -6, "follow": "rigid", "layer": "behind"},
+            {"asset": "orrery_terraces.costume.wren_staff", "anchor": "hand_r", "dx": 0, "dy": 0, "follow": "rigid", "layer": "front"},
+            {"asset": "orrery_terraces.costume.wren_hair_bun", "anchor": "head", "dx": -8, "dy": -72, "follow": "rigid", "layer": "front"}
           ]
         }
       },
@@ -26,7 +26,7 @@
         "characterId": "cog",
         "emblem": {"glyph": "owl", "ring": "#D9A441", "accent": "#FFFFFF", "gaps": 2},
         "portrait": null,
-        "companion": {"asset": "orrery_terraces.companion.cog", "offset": [-40, -150], "lagSec": 0.35, "bobPx": 5, "awakeFlag": "cog_awake"}
+        "companion": {"asset": "orrery_terraces.companion.cog", "offset": [-86, -170], "lagSec": 0.35, "bobPx": 5, "awakeFlag": "cog_awake"}
       },
       "speakers": [{"characterId": "warden", "emblem": {"glyph": "slit", "ring": "#6E4A2E", "accent": "#6ED2F2", "gaps": 1}, "portrait": null}],
       "extras": [
@@ -81,11 +81,11 @@
       "finaleCutsceneId": "finale",
       "meter": null,
       "progressEffects": [
-        {"kind": "beam_line", "encounterId": "e1_radians", "zoneId": "z1_sunward", "from": [5560, 900], "to": [7800, 60], "depth": "L1_far"},
-        {"kind": "beam_line", "encounterId": "e2_period", "zoneId": "z1_sunward", "from": [7900, 520], "to": [7800, 60], "depth": "L1_far"},
-        {"kind": "beam_line", "encounterId": "e3_amplitude", "zoneId": "z2_crystal", "from": [2960, 1000], "to": [9000, 0], "depth": "L1_far"},
-        {"kind": "beam_line", "encounterId": "e4_solve", "zoneId": "z2_crystal", "from": [5420, 1000], "to": [9000, 0], "depth": "L1_far"},
-        {"kind": "beam_line", "encounterId": "e5_period_review", "zoneId": "z2_crystal", "from": [9300, 420], "to": [9000, 0], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e1_radians", "zoneId": "z1_sunward", "from": [2500, 420], "to": [1500, 256], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e2_period", "zoneId": "z1_sunward", "from": [2750, 360], "to": [1500, 256], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e3_amplitude", "zoneId": "z2_crystal", "from": [2400, 1000], "to": [1500, 836], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e4_solve", "zoneId": "z2_crystal", "from": [2600, 960], "to": [1500, 836], "depth": "L1_far"},
+        {"kind": "beam_line", "encounterId": "e5_period_review", "zoneId": "z2_crystal", "from": [2800, 900], "to": [1500, 836], "depth": "L1_far"},
         {"kind": "beam_line", "encounterId": "e6_boss", "zoneId": "z3_dome", "from": [4700, 300], "to": [5200, 0], "depth": "L1_far"}
       ],
       "map": null,
@@ -131,7 +131,7 @@
                 "depth": "L1_far",
                 "scrollFactor": 0.15,
                 "scrollFactorY": null,
-                "y": 260,
+                "y": 140,
                 "repeatX": false,
                 "alpha": 1,
                 "blend": "normal",
@@ -301,7 +301,6 @@
             "apex": 90,
             "twoWay": true
           },
-          {"kind": "drop", "id": "s0_canal_in", "from": {"surface": "ground", "x": 2110}, "to": {"surface": "ground", "x": 2200}, "requires": null},
           {"kind": "drop", "id": "s0_canal_in", "from": {"surface": "ground", "x": 2110}, "to": {"surface": "ground", "x": 2200}, "requires": null},
           {
             "kind": "climb",
@@ -2201,7 +2200,7 @@
             "id": "before",
             "requires": null,
             "zoneId": "z1_sunward",
-            "x": 3700,
+            "x": 3660,
             "surface": "ground",
             "lines": [
               {
@@ -2249,22 +2248,7 @@
       }
     ],
     "quests": [],
-    "triggers": [
-      {
-        "id": "s0_controls",
-        "zoneId": "z1_sunward",
-        "x": 1600,
-        "surface": "ground",
-        "radius": 300,
-        "kind": "ambient",
-        "lines": [{"speakerId": "cog", "text": "Hop ledges with Space. When a console glows, press E and its instruments open.", "mood": "neutral"}],
-        "once": true,
-        "requires": {"solved": null, "flag": "cog_awake", "notFlag": null, "collected": []},
-        "setFlag": null,
-        "cue": null,
-        "cutsceneId": null
-      }
-    ],
+    "triggers": [],
     "sandboxes": [],
     "collectibles": [],
     "plaques": [],
@@ -2313,7 +2297,7 @@
               }
             ]
           },
-          {"do": "control_until", "x": 1400, "surface": "ground", "prompt": "A / D · walk to the beam pylon", "timeoutMs": 20000},
+          {"do": "control_until", "x": 1400, "surface": "ground", "prompt": "Walk to the beam pylon", "timeoutMs": 20000},
           {"do": "await_interact", "target": {"kind": "prop", "id": "beam_pylon_s0"}, "prompt": "Wind Cog", "timeoutMs": null},
           {"do": "sfx", "cue": "cog_wind"},
           {"do": "set_state", "target": {"kind": "flag", "id": "cog_awake"}, "state": "on"},

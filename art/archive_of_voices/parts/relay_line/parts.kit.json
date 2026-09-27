@@ -1,3 +1,10 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"archive_of_voices.part.relay_line_junction_box","zone":"s4_main_street","gen":"plate","params":{"w":150,"h":190,"style":"junction_box","bevel":9,"rivets":4,"screen":true,"ramp":{"lit":"brass.hi","base":"brass.base","shade":"brass.deep"},"face":"brass.base","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.relay_line_departures_board","zone":"s4_main_street","gen":"compose","params":{"w":720,"h":300,"tileWidth":null,"finish":{"ao":false,"rim":false,"haze":0},"items":[{"gen":"plate","params":{"w":720,"h":300,"style":"slab","bevel":18,"rivets":0,"screen":false,"ramp":{"lit":"inlay.navy|light:0.25","base":"inlay.navy","shade":"inlay.navy.dark"},"face":"ui.card.deep","engraved":null},"seed":null,"x":360,"y":150,"scale":1,"flip":false,"alpha":1},{"gen":"shelving","params":{"w":660,"h":240,"style":"type_case","shelves":6,"bays":20,"fill":["empty"],"endPanel":null,"crank":false,"ramp":{"lit":"ui.card","base":"ui.card.deep","shade":"ui.card.deep"},"finish":{"ao":true,"rim":true,"haze":0}},"seed":null,"x":360,"y":280,"scale":1,"flip":false,"alpha":1}]},"rasterScale":0.75},
+    {"key":"archive_of_voices.part.relay_line_split_flap","zone":"s4_main_street","gen":"plate","params":{"w":36,"h":52,"style":"flip_cell","bevel":2,"rivets":0,"screen":false,"ramp":{"lit":"inlay.navy|light:0.25","base":"inlay.navy","shade":"inlay.navy.dark"},"face":"ui.card","engraved":null},"rasterScale":1},
+    {"key":"archive_of_voices.part.relay_line_divider_rail","zone":"s4_main_street","gen":"railing","params":{"w":700,"h":120,"style":"brass_rail","spacing":30,"posts":{"every":6,"emblem":false},"wet":false,"ramp":{"lit":"brass.hi","base":"brass.base","shade":"brass.deep"},"cap":"inlay.navy"},"rasterScale":0.75},
+    {"key":"archive_of_voices.part.relay_line_rolling_gate","zone":"s4_main_street","gen":"railing","params":{"w":620,"h":420,"style":"balustrade","spacing":18,"posts":null,"wet":false,"ramp":{"lit":"steel|light:0.3","base":"steel","shade":"steel.shade"},"cap":"inlay.navy"},"rasterScale":0.75},
+    {"key":"archive_of_voices.part.relay_line_console","zone":"s4_main_street","gen":"lectern","params":{"h":210,"style":"microfilm","ramp":{"lit":"wood.lit","base":"wood.base","shade":"wood.shade"},"trim":"brass.base","screen":"ui.card","emblem":true},"rasterScale":1}
+  ]
 }

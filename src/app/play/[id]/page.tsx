@@ -1,6 +1,7 @@
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import type { GameSpec } from "@/contracts/gamespec";
+import { wantsTrigTutorial } from "@/game/expedition/client/tutorial";
 import { validateGameSpec, type ValidationResult } from "@/pipeline/validate/validate-gamespec";
 import { expeditionSfxOn } from "@/server/env";
 import { getGameSpecById } from "@/server/storage";
@@ -49,7 +50,8 @@ async function loadAndValidate(id: string): Promise<ValidationResult> {
  */
 export default async function PlayPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { id } = await params;
-  const host = (await searchParams).host;
+  const query = await searchParams;
+  const host = query.host;
   const legacy = (Array.isArray(host) ? host[0] : host) === "legacy";
   const result = await loadAndValidate(id);
 
@@ -75,5 +77,7 @@ export default async function PlayPage({ params, searchParams }: { params: Promi
 
   const loaded = legacy ? null : await loadWorldFor(result.spec);
   if (!loaded) return <PlayClient spec={result.spec} />;
-  return <PlayClient spec={result.spec} world={loaded.world} worldSource={loaded.source} sfx={expeditionSfxOn()} />;
+  return (
+    <PlayClient spec={result.spec} world={loaded.world} worldSource={loaded.source} sfx={expeditionSfxOn()} tutorial={wantsTrigTutorial(result.spec.id, query)} />
+  );
 }

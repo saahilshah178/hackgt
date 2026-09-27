@@ -26,7 +26,7 @@ approaches a missing tile from both sides to find a limit; they never answer tri
 | `src/server/` | `env.ts` (zod env), `storage/` (local, supabase), `ingest/` (unpdf, quote verification) | pipeline-dev |
 | `src/app/api/` | route handlers: sources, sources/[id]/intake, games, jobs/[id]/stream (SSE), games/[id]/regenerate, blobs/[...path] | pipeline-dev |
 | `src/app/` (pages) + `src/components/` | `/`, `/intake/[id]`, `/forge/[id]`, `/play/[id]`, `/debrief/[id]`, `/library`; styles | ui-dev |
-| `src/game/` | `engine/` (Phaser helpers), `hosts/<genre>/`, `widgets/` (React overlays), `systems/`, `runner/` (EncounterRunner), `debug.ts` | engine-dev |
+| `src/game/` | `engine/` (Phaser helpers), `hosts/<genre>/` (side-view), `genre/` (board genres: GenreClient, ChallengePanel, `hosts/{puzzle,cozy,casefile,explorer,story}`), `widgets/` (React overlays), `systems/`, `runner/` (EncounterRunner, free-order `progression.ts`), `debug.ts` | engine-dev |
 | `public/assets/` | Kenney 1-Bit Pack tiles (CC0) | engine-dev |
 | `fixtures/` | knowledge maps, agent mock responses, GameSpecs per sample | mechanics-dev (encounters), pipeline-dev (agent mocks) |
 | `samples/` | `trig-notes.pdf`, `cell-transport.pdf`, `civil-rights-history.pdf` + their `.md` sources | pipeline-dev |
@@ -162,10 +162,15 @@ All JSON. Errors are `{ error: string, step?: string }` with a 4xx/5xx status; `
 | `GET /api/games` | → `GameSummary[]` |
 | `GET /api/blobs/*path` | the stored blob (LocalDriver) |
 
-Genres: `IMPLEMENTED_GENRES` (`src/library/genres.ts`) lists the genres with a host in `src/game/hosts` (dungeon, mystery,
-platformer); a requested or regenerate genre plays only if it is there. `AUTO_GENRES` is the subset the auto-selector may
-pick for `genre: "auto"` (dungeon, mystery); promote platformer once its host is polished. Puzzle/strategy specs play in
-the DOM fallback host with a banner.
+Genres: seven, all implemented (`IMPLEMENTED_GENRES`, `src/library/genres.ts`), all pure 2D. Two walk left to right on the
+legacy side-view hosts in `src/game/hosts` (dungeon, platformer). Five are **board genres** (`BOARD_GENRES`) that play in
+`src/game/genre` on a free-order runner with their own progression verb and, mostly, no avatar: `puzzle` (logic board: rotate
+conduit tiles to route power to sealed challenge tiles), `strategy` (cozy management sim: villagers' requests day by day,
+coins grow the town), `mystery` (point-and-click: search scenes, combine two clues into a lead, crack it, accuse), `explorer`
+(top-down maze: walk a bird's-eye map in any order past patrolling sentries) and `story` (narrative: choose the thread, explain
+ideas to characters). `AUTO_GENRES` (everything but platformer) drives `genre: "auto"` from `GENRE_WEIGHTS`, which gives each
+knowledge type a non-side-scroller home. `?host=legacy` still reaches the old MysteryHost / DOM fallback. Design notes:
+`docs/design/50-board-genres.md`.
 
 Page ids: `/intake/[sourceId]`, `/forge/[jobId]`, `/play/[gameId]` (also `/play/fixture-<name>` in dev), `/debrief/[gameId]`.
 Fixture games: `/play/fixture-<name>` loads `fixtures/<name>.json` (or `<name>-dungeon.json`) without storage. The runner's end

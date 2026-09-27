@@ -18,6 +18,19 @@ export interface GameDebugHandle {
   mastery(): MasteryState;
   /** Present only while an Expedition world plays (docs/design/20 §2.10); legacy specs never see it. */
   expedition?: ExpeditionDebugApi;
+  /** Present only on the board genres (GenreClient, free-order runner). */
+  board?: BoardDebugApi;
+}
+
+/** `__GAME_DEBUG__.board`: the free-order runner behind the board hosts (src/game/genre). */
+export interface BoardDebugApi {
+  /** unlocked, unsolved encounter ids */
+  available(): string[];
+  solved(): string[];
+  /** the encounter whose challenge is open, or null */
+  active(): string | null;
+  /** open an available encounter's challenge, as the host would */
+  open(encounterId: string): void;
 }
 
 /**

@@ -2,7 +2,7 @@
  "namespace": "shared",
  "paletteId": "shared",
  "heroCap": 40,
- "heroCount": 0,
+ "heroCount": 3,
  "entries": [
   {
    "kind": "atlas",
@@ -5995,15 +5995,735 @@
     }
    ],
    "anchors": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.glow_128",
+   "zone": "all",
+   "source": "kit:glowSprite",
+   "sha1": "a3b623689cacde6c23bee13c2539655f75de155f",
+   "legacyId": null,
+   "file": "shared/fx/glow_128.svg",
+   "width": 128,
+   "height": 128,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3794642249,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.glow_256",
+   "zone": "all",
+   "source": "kit:glowSprite",
+   "sha1": "912b6c046a15643cf979a2d945f9d7344c3b661d",
+   "legacyId": "A71",
+   "file": "shared/fx/glow_256.svg",
+   "width": 256,
+   "height": 256,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1220716309,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.glow_64",
+   "zone": "all",
+   "source": "kit:glowSprite",
+   "sha1": "03a3b16279e597c3d5f6b5962b6be7f8b362d123",
+   "legacyId": null,
+   "file": "shared/fx/glow_64.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1796374474,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.grain",
+   "zone": "all",
+   "source": "kit:grainTile",
+   "sha1": "7f81caa390939058fc8d51a9769ae4e7668a15e9",
+   "legacyId": null,
+   "file": "shared/fx/grain.svg",
+   "width": 128,
+   "height": 128,
+   "rasterScale": 0.5,
+   "tileWidth": 128,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2962477413,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.negative",
+   "zone": "all",
+   "source": "kit:plate",
+   "sha1": "7c3e664d279ddf2585007765a525d0fc42def6ba",
+   "legacyId": null,
+   "file": "shared/fx/negative.svg",
+   "width": 90,
+   "height": 40,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 45,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 1834603149,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.page",
+   "zone": "all",
+   "source": "kit:plate",
+   "sha1": "61e8c5ea883a346eb30c820ca6e5e1b46a5d5e8b",
+   "legacyId": null,
+   "file": "shared/fx/page.svg",
+   "width": 64,
+   "height": 80,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 32,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 600243121,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.puff",
+   "zone": "all",
+   "source": "kit:glowSprite",
+   "sha1": "b08892f8e2c6f15f9e3c841d8f807cb2deb8c8a7",
+   "legacyId": null,
+   "file": "shared/fx/puff.svg",
+   "width": 96,
+   "height": 96,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 766332345,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.scanlines",
+   "zone": "all",
+   "source": "kit:grainTile",
+   "sha1": "bdbb1fff9d091c5229a01d7972df1598ac70fb8f",
+   "legacyId": null,
+   "file": "shared/fx/scanlines.svg",
+   "width": 128,
+   "height": 128,
+   "rasterScale": 0.5,
+   "tileWidth": 128,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4009246602,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.shard",
+   "zone": "all",
+   "source": "kit:crystalCluster",
+   "sha1": "dc2700f60f7dd7a6823095478355203bf227c4bb",
+   "legacyId": null,
+   "file": "shared/fx/shard.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 24,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 1640121070,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.spark",
+   "zone": "all",
+   "source": "kit:glowSprite",
+   "sha1": "e5374d3be66e974679c47fc76769e20898031ae8",
+   "legacyId": null,
+   "file": "shared/fx/spark.svg",
+   "width": 32,
+   "height": 32,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3193561975,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.fx.vignette",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "c3887bb8737247dbab33305b007142558ec3be03",
+   "legacyId": null,
+   "file": "shared/fx/vignette.svg",
+   "width": 480,
+   "height": 270,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.part.beam_cap",
+   "zone": "all",
+   "source": "kit:glowSprite",
+   "sha1": "49e7185dcb6201c2b42fa1a39eb36557d9513012",
+   "legacyId": null,
+   "file": "shared/part/beam_cap.svg",
+   "width": 96,
+   "height": 96,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1301646111,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.part.lectern_slate_console",
+   "zone": "all",
+   "source": "kit:lectern",
+   "sha1": "0baccffe5f8619ee3b5af0274ac2546e15dceb36",
+   "legacyId": null,
+   "file": "shared/part/lectern_slate_console.svg",
+   "width": 108,
+   "height": 120,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 54,
+     "y": 36
+    },
+    {
+     "name": "screen",
+     "x": 56,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 2616406982,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.part.lectern_slate_gate",
+   "zone": "all",
+   "source": "kit:railing",
+   "sha1": "3ec747e98b98a4686ca46b9f9bcbdbfb16c67555",
+   "legacyId": null,
+   "file": "shared/part/lectern_slate_gate.svg",
+   "width": 360,
+   "height": 300,
+   "rasterScale": 1.5,
+   "tileWidth": 360,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3019691654,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.part.lectern_slate_lectern",
+   "zone": "all",
+   "source": "kit:lectern",
+   "sha1": "552ba2b4dafffb100fb4f859972de84dd3e24ef4",
+   "legacyId": null,
+   "file": "shared/part/lectern_slate_lectern.svg",
+   "width": 135,
+   "height": 150,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 68,
+     "y": 45
+    },
+    {
+     "name": "screen",
+     "x": 70,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 978195420,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.part.lectern_slate_slate",
+   "zone": "all",
+   "source": "kit:plate",
+   "sha1": "f38dadb2df1ca289e2c4492b523a765d84e0cb98",
+   "legacyId": null,
+   "file": "shared/part/lectern_slate_slate.svg",
+   "width": 260,
+   "height": 170,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 130,
+     "y": 85
+    }
+   ],
+   "scroll": null,
+   "seed": 3458504298,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.emblem_dots",
+   "zone": "all",
+   "source": "kit:ringStack",
+   "sha1": "e4c833bcbae75128176fb6dc44b66f1d6f227ff3",
+   "legacyId": null,
+   "file": "shared/ui/emblem_dots.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    },
+    {
+     "name": "stud_0",
+     "x": 32,
+     "y": 11
+    },
+    {
+     "name": "stud_1",
+     "x": 40,
+     "y": 12
+    },
+    {
+     "name": "stud_10",
+     "x": 17,
+     "y": 47
+    },
+    {
+     "name": "stud_11",
+     "x": 12,
+     "y": 40
+    },
+    {
+     "name": "stud_12",
+     "x": 11,
+     "y": 32
+    },
+    {
+     "name": "stud_13",
+     "x": 12,
+     "y": 24
+    },
+    {
+     "name": "stud_14",
+     "x": 17,
+     "y": 17
+    },
+    {
+     "name": "stud_15",
+     "x": 24,
+     "y": 12
+    },
+    {
+     "name": "stud_2",
+     "x": 47,
+     "y": 17
+    },
+    {
+     "name": "stud_3",
+     "x": 52,
+     "y": 24
+    },
+    {
+     "name": "stud_4",
+     "x": 54,
+     "y": 32
+    },
+    {
+     "name": "stud_5",
+     "x": 52,
+     "y": 40
+    },
+    {
+     "name": "stud_6",
+     "x": 47,
+     "y": 47
+    },
+    {
+     "name": "stud_7",
+     "x": 40,
+     "y": 52
+    },
+    {
+     "name": "stud_8",
+     "x": 32,
+     "y": 54
+    },
+    {
+     "name": "stud_9",
+     "x": 24,
+     "y": 52
+    }
+   ],
+   "scroll": null,
+   "seed": 785053333,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.emblem_rings",
+   "zone": "all",
+   "source": "kit:ringStack",
+   "sha1": "f9cdbdab97a9a4b05b6a314db982ef2e56720216",
+   "legacyId": null,
+   "file": "shared/ui/emblem_rings.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 32,
+     "y": 32
+    }
+   ],
+   "scroll": null,
+   "seed": 1491042420,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.hex_tile",
+   "zone": "all",
+   "source": "kit:hexGridPanel",
+   "sha1": "7d510d130e1d0ada617106ea7687ed07261ed8ea",
+   "legacyId": null,
+   "file": "shared/ui/hex_tile.svg",
+   "width": 216,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": 216,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2186556184,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.interact",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "413942c3f411ecc8d7f37f85c311af79e63170a5",
+   "legacyId": null,
+   "file": "shared/ui/interact.svg",
+   "width": 64,
+   "height": 64,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.orb_dot",
+   "zone": "all",
+   "source": "kit:ringStack",
+   "sha1": "b22d5cba74b137a00b058cde96fafb82587dd290",
+   "legacyId": null,
+   "file": "shared/ui/orb_dot.svg",
+   "width": 60,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 30,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 2591178367,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.orb_full",
+   "zone": "all",
+   "source": "kit:ringStack",
+   "sha1": "76ba1a8bdd42471ab50c7e194e08c0f0fdf09695",
+   "legacyId": null,
+   "file": "shared/ui/orb_full.svg",
+   "width": 60,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 30,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 1669538221,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.orb_half",
+   "zone": "all",
+   "source": "kit:ringStack",
+   "sha1": "82bc3718b3c12ab0364d375706ebdce913ea38f9",
+   "legacyId": null,
+   "file": "shared/ui/orb_half.svg",
+   "width": 60,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 30,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 2551176241,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.orb_hollow",
+   "zone": "all",
+   "source": "kit:ringStack",
+   "sha1": "02e678c33bc38604cdd72d358cdc5145ecd3070e",
+   "legacyId": null,
+   "file": "shared/ui/orb_hollow.svg",
+   "width": 60,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 30,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 2640772595,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.orb_ring",
+   "zone": "all",
+   "source": "kit:ringStack",
+   "sha1": "306f524860fd5535493d7d3fc847b5f0f1bb0fae",
+   "legacyId": null,
+   "file": "shared/ui/orb_ring.svg",
+   "width": 60,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 30,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 1653975010,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "shared.ui.pin",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "1315a72b534af422529d63a6c757661c6598abd7",
+   "legacyId": null,
+   "file": "shared/ui/pin.svg",
+   "width": 88,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 44,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
   }
  ],
- "totalBytes": 21976,
- "gzipBytes": 4456,
+ "totalBytes": 54975,
+ "gzipBytes": 16223,
  "vram": [
   {
    "zone": "all",
-   "mb": 20.4
+   "mb": 25.4
   }
  ],
- "swapPeakMb": 20.4
+ "swapPeakMb": 25.4
 }

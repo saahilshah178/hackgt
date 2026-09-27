@@ -1,0 +1,435 @@
+[
+ {
+  "id": "idle",
+  "loop": true,
+  "ms": 1250,
+  "tracks": [
+   {
+    "part": "key",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_l",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "feet",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "body",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "belly_gears",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_r",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "eye_glow",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_l",
+    "prop": "rot",
+    "wave": {
+     "amp": 12,
+     "hz": 1.6,
+     "phase": 0.25
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_r",
+    "prop": "rot",
+    "wave": {
+     "amp": -12,
+     "hz": 1.6,
+     "phase": 0.25
+    },
+    "keys": []
+   },
+   {
+    "part": "belly_gears",
+    "prop": "frame",
+    "wave": {
+     "amp": 1,
+     "hz": 1.6,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "eye_glow",
+    "prop": "alpha",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0.35
+     ],
+     [
+      625,
+      0.5
+     ],
+     [
+      1250,
+      0.35
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "id": "talk",
+  "loop": true,
+  "ms": 500,
+  "tracks": [
+   {
+    "part": "key",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_l",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "feet",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "body",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "belly_gears",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_r",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "eye_glow",
+    "prop": "y",
+    "wave": {
+     "amp": 2,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "rot",
+    "wave": {
+     "amp": 4,
+     "hz": 4,
+     "phase": 0.25
+    },
+    "keys": []
+   },
+   {
+    "part": "belly_gears",
+    "prop": "frame",
+    "wave": {
+     "amp": 1,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "eye_glow",
+    "prop": "alpha",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0.4
+     ],
+     [
+      250,
+      0.9
+     ],
+     [
+      500,
+      0.4
+     ]
+    ]
+   },
+   {
+    "part": "wing_l",
+    "prop": "rot",
+    "wave": {
+     "amp": 6,
+     "hz": 2,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_r",
+    "prop": "rot",
+    "wave": {
+     "amp": -6,
+     "hz": 2,
+     "phase": 0
+    },
+    "keys": []
+   }
+  ]
+ },
+ {
+  "id": "cue",
+  "loop": true,
+  "ms": 600,
+  "tracks": [
+   {
+    "part": "key",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_l",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "feet",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "body",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "belly_gears",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_r",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "eye_glow",
+    "prop": "y",
+    "wave": {
+     "amp": 3,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_l",
+    "prop": "rot",
+    "wave": {
+     "amp": 28,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "wing_r",
+    "prop": "rot",
+    "wave": {
+     "amp": -28,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "key",
+    "prop": "rot",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0
+     ],
+     [
+      600,
+      1080
+     ]
+    ]
+   },
+   {
+    "part": "belly_gears",
+    "prop": "frame",
+    "wave": {
+     "amp": 1,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "eye_glow",
+    "prop": "alpha",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0.9
+     ],
+     [
+      300,
+      1
+     ],
+     [
+      600,
+      0.9
+     ]
+    ]
+   }
+  ]
+ }
+]

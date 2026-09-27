@@ -1,3 +1,15 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "living_gate.part.endocytosis_lift_halcyon",
+   "file": "halcyon.svg",
+   "legacyId": "#135"
+  },
+  {
+   "key": "living_gate.part.endocytosis_lift_dynamin_collar",
+   "file": "dynamin_collar.svg",
+   "zone": "zone_c",
+   "legacyId": "#137"
+  }
+ ]
 }

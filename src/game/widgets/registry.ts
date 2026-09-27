@@ -8,6 +8,7 @@ import { Sort, supports as sortSupports } from "./Sort";
 import { Link, supports as linkSupports } from "./Link";
 import { Build, supports as buildSupports } from "./Build";
 import { Type, supports as typeSupports } from "./Type";
+import { Explain, supports as explainSupports } from "./Explain";
 import { Fallback } from "./Fallback";
 import type { WidgetProps } from "./Dial";
 
@@ -26,6 +27,7 @@ export const WIDGET_REGISTRY: Partial<Record<Widget, ComponentType<AnyWidgetProp
   link: Link as ComponentType<AnyWidgetProps>,
   build: Build as ComponentType<AnyWidgetProps>,
   type: Type as ComponentType<AnyWidgetProps>,
+  explain: Explain as ComponentType<AnyWidgetProps>,
 };
 
 /** Each registered widget's `supports(view)` predicate, checked before it's ever mounted (reviewer
@@ -40,6 +42,7 @@ const WIDGET_SUPPORTS: Partial<Record<Widget, (view: unknown) => boolean>> = {
   link: linkSupports,
   build: buildSupports,
   type: typeSupports,
+  explain: explainSupports,
 };
 
 export function getWidget(id: Widget): ComponentType<AnyWidgetProps> | undefined {

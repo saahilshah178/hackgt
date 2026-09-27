@@ -1,3 +1,9 @@
 {
-  "entries": []
+  "entries": [
+    { "key": "orrery_terraces.part.ring_gate_gate_wall", "file": "ring_gate_gate_wall.svg", "zone": "z1_sunward", "legacyId": "A85" },
+    { "key": "orrery_terraces.part.ring_gate_outer_ring", "file": "ring_gate_outer_ring.svg", "zone": "z1_sunward", "legacyId": "A86" },
+    { "key": "orrery_terraces.part.ring_gate_inner_disc", "file": "ring_gate_inner_disc.svg", "zone": "z1_sunward", "legacyId": "A87" },
+    { "key": "orrery_terraces.part.ring_gate_fin_l", "file": "ring_gate_fin_l.svg", "zone": "z1_sunward", "legacyId": "A88" },
+    { "key": "orrery_terraces.part.ring_gate_fin_r", "file": "ring_gate_fin_r.svg", "zone": "z1_sunward", "legacyId": "A89" }
+  ]
 }

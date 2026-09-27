@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 620" width="520" height="620" data-pivot="0.5,0.677">
+  <!-- living_gate.part.membrane_router_crossing_gate: the e2 Crossing Gate body (cell §5.2): a cream arch 2.2 H above the walk line (y 420 here, the pivot) whose ring body continues down through the bilayer band as a banded tube. The doorway recess is dark; the skin draws the doors, the selectivity rings (gate_ring anchor) and the keystone fins over it. -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{gold.hi}}"/>
+      <stop offset="0.55" stop-color="{{gold.base}}"/>
+      <stop offset="1" stop-color="{{gold.deep}}"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0.36" cy="0.34" r="0.7">
+      <stop offset="0" stop-color="{{haze}}"/>
+      <stop offset="0.45" stop-color="{{crystal.hi}}"/>
+      <stop offset="1" stop-color="{{crystal.base}}"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+    <linearGradient id="recess" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{oil.seam.dark}}"/>
+      <stop offset="0.7" stop-color="{{oil.seam.dark|mix:hall.wall:0.35}}"/>
+      <stop offset="1" stop-color="{{cyto.deep|mix:oil.seam.dark:0.5}}"/>
+    </linearGradient>
+  </defs>
+  <g id="shade">
+    <path d="M 94 420 L 94 171 A 166 166 0 0 1 426 171 L 426 420 Z" fill="{{shadow|alpha:0.3}}" transform="translate(14 8)" filter="url(#soft)"/>
+  </g>
+  <g id="lit">
+    <path d="M 206 420 L 206 612 C 206 618 314 618 314 612 L 314 420 Z" fill="url(#stone)"/>
+    <rect x="206" y="460" width="108" height="16" fill="{{inlay.navy}}"/>
+    <rect x="206" y="530" width="108" height="16" fill="{{inlay.navy}}"/>
+    <rect x="206" y="590" width="108" height="10" fill="{{gold.base}}"/>
+    <path d="M 214 424 L 214 604" stroke="{{stone.lit}}" stroke-width="5"/>
+    <path d="M 135 420 L 135 171 A 125 125 0 0 1 385 171 L 385 420 Z" fill="url(#recess)"/>
+    <path d="M 92 420 L 92 171 A 168 168 0 0 1 428 171 L 428 420 L 385 420 L 385 171 A 125 125 0 0 0 135 171 L 135 420 Z" fill="url(#stone)"/>
+    <path d="M 385 420 L 385 171 A 125 125 0 0 0 135 171" fill="none" stroke="{{stone.deep}}" stroke-width="5"/>
+    <path d="M 92 420 L 92 171 A 168 168 0 0 1 428 171 L 428 420" fill="none" stroke="{{gold.base}}" stroke-width="6"/>
+    <path d="M 104 170 A 156 156 0 0 1 190 30" fill="none" stroke="{{haze|alpha:0.6}}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 416 420 L 416 180 A 156 156 0 0 0 380 80" fill="none" stroke="{{stone.shade}}" stroke-width="10"/>
+    <rect x="86" y="390" width="60" height="30" fill="url(#stone)"/>
+    <rect x="374" y="390" width="60" height="30" fill="url(#stone)"/>
+    <rect x="86" y="384" width="60" height="8" fill="{{inlay.navy}}"/>
+    <rect x="374" y="384" width="60" height="8" fill="{{inlay.navy}}"/>
+    <rect x="86" y="160" width="52" height="14" fill="{{inlay.navy}}"/>
+    <rect x="382" y="160" width="52" height="14" fill="{{inlay.navy}}"/>
+    <circle cx="113" cy="290" r="16" fill="none" stroke="{{gold.base}}" stroke-width="4"/>
+    <circle cx="113" cy="290" r="7" fill="{{inlay.navy}}"/>
+    <circle cx="407" cy="290" r="16" fill="none" stroke="{{gold.base}}" stroke-width="4"/>
+    <circle cx="407" cy="290" r="7" fill="{{inlay.navy}}"/>
+    <path d="M 238 0 L 282 0 L 290 30 L 230 30 Z" fill="url(#gold)"/>
+    <rect x="228" y="28" width="64" height="10" fill="{{inlay.navy}}"/>
+  </g>
+  <circle id="anchor-gate_ring" cx="260" cy="230" r="0"/>
+  <circle id="anchor-doorway" cx="260" cy="420" r="0"/>
+  <circle id="anchor-keystone" cx="260" cy="20" r="0"/>
+  <circle id="anchor-fin_split" cx="260" cy="4" r="0"/>
+</svg>

@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, lazy, Suspense, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { useTutorial } from "../expedition/client/tutorial-context";
 import { DomHost } from "./dom/DomHost";
 import { MysteryHost } from "./mystery/MysteryHost";
 import type { HostHandle, HostProps } from "./types";
@@ -20,9 +21,10 @@ function webglAvailable(): boolean {
 const ExpeditionHost = lazy(() => import("./expedition/ExpeditionHost").then((m) => ({ default: m.ExpeditionHost })));
 
 export const PlayHost = forwardRef<HostHandle, HostProps>(function PlayHost(props, ref) {
+  const tutorial = useTutorial();
   if (props.world) {
     return (
-      <Suspense fallback={<p role="status" style={{ fontSize: 20, padding: 16 }}>Loading the expedition…</p>}>
+      <Suspense fallback={tutorial.open ? null : <p role="status" style={{ fontSize: 20, padding: 16 }}>Loading the expedition…</p>}>
         <ExpeditionHost ref={ref} {...props} />
       </Suspense>
     );

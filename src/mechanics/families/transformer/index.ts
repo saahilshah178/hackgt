@@ -19,6 +19,8 @@ export const transformer = defineFamily({
     platformer: { sockets: ["pickup", "gate"], skin: "Power-up machine, cipher platforms" },
     puzzle: { sockets: ["conveyor", "pipe_board"], skin: "Route through machines" },
     strategy: { sockets: ["production_line"], skin: "Processing chain" },
+    explorer: { sockets: ["terminal"], skin: "Decode the terminal's cipher" },
+    story: { sockets: ["letter"], skin: "Decode the message" },
   },
   modes: {
     function_machine: functionMachine,

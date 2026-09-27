@@ -1,0 +1,256 @@
+[
+ {
+  "id": "idle",
+  "loop": true,
+  "ms": 2000,
+  "tracks": [
+   {
+    "part": "body",
+    "prop": "rot",
+    "wave": {
+     "amp": 1.2,
+     "hz": 0.5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "rot",
+    "wave": {
+     "amp": 3,
+     "hz": 0.5,
+     "phase": 0.25
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "y",
+    "wave": {
+     "amp": 1,
+     "hz": 1,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "lens_glow",
+    "prop": "y",
+    "wave": {
+     "amp": 1,
+     "hz": 1,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "arm",
+    "prop": "rot",
+    "wave": {
+     "amp": 4,
+     "hz": 0.5,
+     "phase": 0.5
+    },
+    "keys": []
+   },
+   {
+    "part": "lens_glow",
+    "prop": "alpha",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0.45
+     ],
+     [
+      1000,
+      0.75
+     ],
+     [
+      2000,
+      0.45
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "id": "talk",
+  "loop": true,
+  "ms": 500,
+  "tracks": [
+   {
+    "part": "head",
+    "prop": "rot",
+    "wave": {
+     "amp": 5,
+     "hz": 4,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "y",
+    "wave": {
+     "amp": 1.5,
+     "hz": 4,
+     "phase": 0.25
+    },
+    "keys": []
+   },
+   {
+    "part": "lens_glow",
+    "prop": "y",
+    "wave": {
+     "amp": 1.5,
+     "hz": 4,
+     "phase": 0.25
+    },
+    "keys": []
+   },
+   {
+    "part": "arm",
+    "prop": "rot",
+    "wave": {
+     "amp": 7,
+     "hz": 2,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "lens_glow",
+    "prop": "alpha",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0.5
+     ],
+     [
+      250,
+      0.95
+     ],
+     [
+      500,
+      0.5
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "id": "arm_short",
+  "loop": true,
+  "ms": 800,
+  "tracks": [
+   {
+    "part": "arm",
+    "prop": "rot",
+    "wave": {
+     "amp": 18,
+     "hz": 2.5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "rot",
+    "wave": {
+     "amp": 3,
+     "hz": 2.5,
+     "phase": 0.2
+    },
+    "keys": []
+   },
+   {
+    "part": "body",
+    "prop": "y",
+    "wave": {
+     "amp": 1,
+     "hz": 5,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "lens_glow",
+    "prop": "alpha",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0.5
+     ],
+     [
+      400,
+      0.8
+     ],
+     [
+      800,
+      0.5
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "id": "arm_sync",
+  "loop": true,
+  "ms": 1600,
+  "tracks": [
+   {
+    "part": "arm",
+    "prop": "rot",
+    "wave": {
+     "amp": 18,
+     "hz": 0.625,
+     "phase": 0
+    },
+    "keys": []
+   },
+   {
+    "part": "head",
+    "prop": "rot",
+    "wave": {
+     "amp": 3,
+     "hz": 0.625,
+     "phase": 0.25
+    },
+    "keys": []
+   },
+   {
+    "part": "body",
+    "prop": "rot",
+    "wave": {
+     "amp": 1,
+     "hz": 0.625,
+     "phase": 0.5
+    },
+    "keys": []
+   },
+   {
+    "part": "lens_glow",
+    "prop": "alpha",
+    "wave": null,
+    "keys": [
+     [
+      0,
+      0.6
+     ],
+     [
+      800,
+      0.95
+     ],
+     [
+      1600,
+      0.6
+     ]
+    ]
+   }
+  ]
+ }
+]

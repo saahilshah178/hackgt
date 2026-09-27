@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 40" width="84" height="40" data-pivot="0.84,0.25">
+  <!-- living_gate.costume.diver_scarf (cell §3.1): the tide scarf's knot and a long trailing tail. The pivot is the
+       knot (on the rig's back anchor); the tail streams behind the Diver and the host's spring makes it lag. -->
+  <defs>
+    <linearGradient id="tail" x1="1" y1="0" x2="0" y2="0.4">
+      <stop offset="0" stop-color="{{costume.diver.scarf}}"/>
+      <stop offset="1" stop-color="{{costume.diver.scarf|dim:0.2}}"/>
+    </linearGradient>
+  </defs>
+  <g id="shade">
+    <path d="M 66 16 C 52 22 34 20 18 28 C 12 31 6 36 2 39 C 14 38 26 36 38 33 C 52 29 62 28 70 22 Z" fill="{{shadow|alpha:0.3}}"/>
+  </g>
+  <g id="lit">
+    <path d="M 68 8 C 54 14 34 11 18 18 C 12 21 6 26 1 32 C 13 31 25 29 36 26 C 51 22 62 22 72 16 Z" fill="url(#tail)"/>
+    <path d="M 64 12 C 50 17 32 15 18 22 C 13 24.5 9 27.5 5 30" fill="none" stroke="{{costume.diver.scarf.stripe}}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 8 28 L 3 37 M 14 27 L 11 36 M 20 26 L 18 34" stroke="{{costume.diver.scarf|dim:0.25}}" stroke-width="1.6" stroke-linecap="round"/>
+    <ellipse cx="70" cy="11" rx="11" ry="9" fill="{{costume.diver.scarf}}"/>
+    <ellipse cx="67.5" cy="8.5" rx="6" ry="4.5" fill="{{costume.diver.scarf.stripe}}"/>
+    <path d="M 78 15 C 75 20 70 21 64 19" fill="none" stroke="{{costume.diver.scarf|dim:0.3}}" stroke-width="1.6"/>
+  </g>
+</svg>

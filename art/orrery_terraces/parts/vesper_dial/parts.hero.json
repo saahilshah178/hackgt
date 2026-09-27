@@ -1,3 +1,7 @@
 {
-  "entries": []
+  "entries": [
+    { "key": "orrery_terraces.part.vesper_dial_disc", "file": "vesper_dial_disc.svg", "zone": "z1_sunward", "legacyId": "A76" },
+    { "key": "orrery_terraces.part.vesper_dial_carriage", "file": "vesper_dial_carriage.svg", "zone": "z1_sunward", "legacyId": "A78" },
+    { "key": "orrery_terraces.part.vesper_dial_vesper_lens", "file": "vesper_dial_vesper_lens.svg", "zone": "z1_sunward", "legacyId": "A83" }
+  ]
 }

@@ -1,3 +1,8 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"shared.part.lectern_slate_lectern","zone":"all","gen":"lectern","params":{"h":150,"style":"lectern","ramp":{"lit":"stone.lit","base":"stone.base","shade":"stone.shade"},"trim":"gold.base","screen":"ui.card","emblem":true}},
+    {"key":"shared.part.lectern_slate_console","zone":"all","gen":"lectern","params":{"h":120,"style":"lectern","ramp":{"lit":"stone.lit","base":"stone.base","shade":"stone.shade"},"trim":"gold.base","screen":"ui.card","emblem":true}},
+    {"key":"shared.part.lectern_slate_slate","zone":"all","gen":"plate","params":{"w":260,"h":170,"style":"slate","bevel":8,"rivets":4,"screen":true,"ramp":{"lit":"gold.hi","base":"gold.base","shade":"gold.deep"},"face":"ui.card","engraved":null}},
+    {"key":"shared.part.lectern_slate_gate","zone":"all","gen":"railing","params":{"w":360,"h":300,"style":"wrought_iron","spacing":24,"posts":{"every":5,"emblem":true},"wet":false,"ramp":{"lit":"gold.hi","base":"bronze.ring","shade":"bronze.ring|dim:0.3"},"cap":"gold.base"}}
+  ]
 }
