@@ -20,6 +20,8 @@ export const accumulator = defineFamily({
     platformer: { sockets: ["gap"], skin: "Fill the pit; velocity ghost" },
     puzzle: { sockets: ["conveyor"], skin: "Fill tanks" },
     strategy: { sockets: ["production_line"], skin: "Output over time" },
+    explorer: { sockets: ["cache"], skin: "Fill the cistern to raise the water bridge" },
+    story: { sockets: ["journal"], skin: "Tally the expedition ledger over time" },
   },
   modes: {
     riemann,

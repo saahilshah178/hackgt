@@ -5,6 +5,7 @@ import { WAVE2A } from "../fixtures/wave2a.encounters";
 import { WAVE2B } from "../fixtures/wave2b.encounters";
 import { WAVE2C } from "../fixtures/wave2c.encounters";
 import { WAVE2D } from "../fixtures/wave2d.encounters";
+import { TEACH_BACK_CHALLENGES } from "../fixtures/teach-back.challenges";
 import type { ChallengeSlice } from "../src/contracts/slices";
 import { getCard } from "../src/library";
 import { answerVarsFor, type AnyFamilyMode } from "../src/mechanics/types";
@@ -24,7 +25,7 @@ import { mergeLockedParams } from "../src/pipeline/validate/checks";
  */
 
 type Fixture = { cardId: string; slice: ChallengeSlice };
-const ALL_FIXTURES: Fixture[] = [...WAVE1A, ...WAVE1B, ...WAVE2A, ...WAVE2B, ...WAVE2C, ...WAVE2D];
+const ALL_FIXTURES: Fixture[] = [...WAVE1A, ...WAVE1B, ...WAVE2A, ...WAVE2B, ...WAVE2C, ...WAVE2D, ...TEACH_BACK_CHALLENGES];
 
 /** One fixture per family.mode key, preferring whichever wave file listed it first (WAVE2D last). */
 const byModeKey = new Map<string, Fixture>();

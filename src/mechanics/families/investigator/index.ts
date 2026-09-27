@@ -20,6 +20,8 @@ export const investigator = defineFamily({
     platformer: { sockets: ["gate"], skin: "Clues seal the doors of eliminated hypotheses" },
     puzzle: { sockets: ["tile_board"], skin: "Logic grid" },
     strategy: { sockets: ["event_card"], skin: "Policy debate with evidence" },
+    explorer: { sockets: ["locked_gate"], skin: "Each gate is a hypothesis; clues seal the wrong ones" },
+    story: { sockets: ["trial"], skin: "Weigh the testimony and decide" },
   },
   modes: {
     elimination,

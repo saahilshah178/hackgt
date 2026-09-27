@@ -16,6 +16,8 @@ export const tuner = defineFamily({
     platformer: { sockets: ["moving_platform", "gate"], skin: "Saw wheels, launch pads, a balloon that only lifts when tuned" },
     puzzle: { sockets: ["lock", "beam_board"], skin: "Dial locks and gear trains" },
     strategy: { sockets: ["policy_dial", "production_line"], skin: "Machine settings on the production line" },
+    explorer: { sockets: ["locked_gate"], skin: "Tune the gate's lock dial" },
+    story: { sockets: ["choice"], skin: "Set the instrument before the expedition leaves" },
   },
   modes: {
     oscillator,

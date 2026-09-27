@@ -1,0 +1,1056 @@
+{
+  "schemaVersion": 2,
+  "id": "history_explorer_001",
+  "createdAt": "2026-09-26T20:00:00.000Z",
+  "seed": 3899976379,
+  "source": {
+    "sourceId": "src_civil_rights",
+    "title": "US History Ch. 21: The Civil Rights Movement, 1954–1968",
+    "unsourced": false
+  },
+  "genre": "explorer",
+  "targetMinutes": 10,
+  "intake": {
+    "goal": "test",
+    "minutes": 10,
+    "requestedGenre": "explorer",
+    "confidence": [
+      {
+        "unitId": "u_origins",
+        "level": 4
+      },
+      {
+        "unitId": "u_direct_action",
+        "level": 3
+      },
+      {
+        "unitId": "u_legislation",
+        "level": 2
+      },
+      {
+        "unitId": "u_sources",
+        "level": 2
+      }
+    ],
+    "preCheckAnswers": [
+      0,
+      2,
+      0
+    ]
+  },
+  "units": [
+    {
+      "id": "u_origins",
+      "name": "Origins (1954–1957)"
+    },
+    {
+      "id": "u_direct_action",
+      "name": "Direct action (1960–1963)"
+    },
+    {
+      "id": "u_legislation",
+      "name": "Legislation (1963–1965)"
+    },
+    {
+      "id": "u_sources",
+      "name": "Working with sources"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "c_brown",
+      "unitId": "u_origins",
+      "name": "Brown v. Board of Education (1954)",
+      "knowledgeType": "fact",
+      "learningObjective": "The student can state what Brown decided and why it mattered as a starting point."
+    },
+    {
+      "id": "c_montgomery",
+      "unitId": "u_origins",
+      "name": "Montgomery bus boycott (1955–1956)",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can trace the boycott from Parks's arrest to the court ruling and explain what it demonstrated."
+    },
+    {
+      "id": "c_little_rock",
+      "unitId": "u_origins",
+      "name": "Little Rock Nine (1957)",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can explain why Little Rock showed that court rulings needed federal enforcement."
+    },
+    {
+      "id": "c_sit_ins",
+      "unitId": "u_direct_action",
+      "name": "Greensboro sit-ins (1960)",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can explain how the sit-ins worked as nonviolent direct action and what organization grew from them."
+    },
+    {
+      "id": "c_freedom_rides",
+      "unitId": "u_direct_action",
+      "name": "Freedom Rides (1961)",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can explain what the Freedom Rides tested and how violence produced federal action."
+    },
+    {
+      "id": "c_birmingham",
+      "unitId": "u_direct_action",
+      "name": "Birmingham campaign (1963)",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can connect the Birmingham images to the proposal of the Civil Rights Act."
+    },
+    {
+      "id": "c_march_washington",
+      "unitId": "u_legislation",
+      "name": "March on Washington (1963)",
+      "knowledgeType": "fact",
+      "learningObjective": "The student can state the march's goals and its role in building support for the bill."
+    },
+    {
+      "id": "c_civil_rights_act",
+      "unitId": "u_legislation",
+      "name": "Civil Rights Act of 1964",
+      "knowledgeType": "fact",
+      "learningObjective": "The student can state what the 1964 act banned and distinguish it from the 1965 act."
+    },
+    {
+      "id": "c_selma_vra",
+      "unitId": "u_legislation",
+      "name": "Selma and the Voting Rights Act (1965)",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can connect Selma to the Voting Rights Act and state what the act did."
+    },
+    {
+      "id": "c_sources",
+      "unitId": "u_sources",
+      "name": "Primary vs. secondary sources",
+      "knowledgeType": "category",
+      "learningObjective": "The student can classify a document as primary or secondary from who made it, when, and why."
+    },
+    {
+      "id": "c_causation",
+      "unitId": "u_sources",
+      "name": "Cause and effect in the movement",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can chain at least four events of the movement from cause to consequence."
+    }
+  ],
+  "mastery": {
+    "initial": 0.5,
+    "firstTryBonus": 0.15,
+    "laterBonus": 0.08,
+    "missPenalty": 0.05
+  },
+  "title": "The Road to Selma",
+  "theme": {
+    "setting": "A bird's-eye map of the South, 1954 to 1965: highways, bus depots, churches and courthouses",
+    "tone": "purposeful, respectful, quietly hopeful",
+    "paletteId": "ember",
+    "musicMood": "curious"
+  },
+  "premise": "Roads on this map only open once you understand what happened at the place they lead from. Travel from Topeka to Selma in whatever order you choose, and piece together how a decade of organising changed the law.",
+  "characters": [
+    {
+      "id": "archivist",
+      "name": "Ida",
+      "role": "an organiser who rides along and reads the map with you",
+      "voiceArchetype": "wise_mentor"
+    },
+    {
+      "id": "editor",
+      "name": "The Editor",
+      "role": "waiting at the end of the road in Montgomery",
+      "voiceArchetype": "narrator"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "e1_brown",
+      "conceptIds": [
+        "c_brown"
+      ],
+      "teachingMechanicId": "context_reconstruction",
+      "socket": "sentry",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Brown ended school segregation immediately.",
+      "familyId": "recall",
+      "mode": "cloze",
+      "prompt": "A torn clipping from May 1954 is missing its key word. Restore the Court's reasoning.",
+      "params": {
+        "sentence": "In Brown v. Board of Education (1954) the Supreme Court ruled unanimously that separate educational facilities are inherently ___.",
+        "answers": [
+          "unequal"
+        ],
+        "wordBank": [
+          "equal",
+          "illegal",
+          "expensive"
+        ],
+        "hint": "The ruling rejected the idea behind 'separate but equal'."
+      },
+      "hints": [
+        "Think about the doctrine Brown overturned: 'separate but …'.",
+        "The Court said separation itself was the problem, whatever the buildings looked like.",
+        "The word is the opposite of the one in 'separate but equal'."
+      ],
+      "wrongFeedback": "Brown wasn't about money or law on paper: the Court said that separating children was itself the harm.",
+      "debriefLine": "Brown v. Board: separate schools are inherently unequal, which overturned 'separate but equal', though enforcement took years.",
+      "sourceRef": {
+        "page": 1,
+        "quote": "In Brown v. Board of Education (1954) the Supreme Court ruled unanimously that separate educational facilities are inherently unequal."
+      },
+      "solution": {
+        "answer": "unequal"
+      }
+    },
+    {
+      "id": "e2_montgomery",
+      "conceptIds": [
+        "c_montgomery"
+      ],
+      "teachingMechanicId": "chrono_bridge",
+      "socket": "locked_gate",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Rosa Parks was just a tired seamstress who acted alone.",
+      "familyId": "sequencer",
+      "mode": "linear",
+      "prompt": "The vault door shows the Montgomery boycott in pieces. Set the planks in order. One plank never happened.",
+      "params": {
+        "steps": [
+          "Rosa Parks refuses to give up her seat and is arrested, December 1, 1955",
+          "Local leaders organize a one-day boycott that becomes a year-long campaign",
+          "Montgomery's Black residents stay off the buses for 381 days",
+          "The Supreme Court affirms that bus segregation is unconstitutional; the boycott ends"
+        ],
+        "decoys": [
+          "Parks decides on the spot to start a protest movement by herself"
+        ]
+      },
+      "hints": [
+        "Start with the arrest and end with the court.",
+        "Between them is a year of organized walking and carpooling.",
+        "An arrest of one activist became a campaign because leaders were ready to organize."
+      ],
+      "wrongFeedback": "Order matters: the boycott had to be organized before it could last 381 days, and the court ruling came at the end.",
+      "debriefLine": "The Montgomery bus boycott in 4 steps: an arrest, an organized boycott, 381 days, a court ruling.",
+      "sourceRef": {
+        "page": 1,
+        "quote": "The boycott lasted 381 days and ended after the Supreme Court affirmed that bus segregation was unconstitutional."
+      },
+      "solution": {
+        "order": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ]
+      }
+    },
+    {
+      "id": "e3_little_rock",
+      "conceptIds": [
+        "c_little_rock"
+      ],
+      "teachingMechanicId": "oracle_of_consequence",
+      "socket": "sentry",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Southern states complied with Brown once it was decided.",
+      "familyId": "truth_finder",
+      "mode": "predict_reveal",
+      "prompt": "September 1957. Governor Faubus has posted the Arkansas National Guard to keep nine students out of Central High. What does President Eisenhower do?",
+      "params": {
+        "scenario": "Governor Faubus defies a federal court order by blocking nine Black students from entering Central High School with the state National Guard.",
+        "options": [
+          {
+            "text": "Sends the 101st Airborne to escort the students into the school",
+            "isCorrect": true,
+            "explanation": "Eisenhower federalized the Guard and sent Army troops to enforce the court order."
+          },
+          {
+            "text": "Lets Arkansas decide; schools are a state matter",
+            "isCorrect": false,
+            "explanation": "A federal court order was being defied; the president enforced it."
+          },
+          {
+            "text": "Cancels the desegregation order to calm the crisis",
+            "isCorrect": false,
+            "explanation": "The order stood; the students entered under armed escort."
+          }
+        ],
+        "reveal": "On September 25, 1957, soldiers of the 101st Airborne Division escorted the nine students into Central High School.",
+        "revealSource": "sourced"
+      },
+      "hints": [
+        "A state governor is defying a federal court.",
+        "What tool does a president have when a court order is defied?",
+        "Think about who outranks a state's National Guard."
+      ],
+      "wrongFeedback": "Brown was not self-enforcing; when a state defied a federal court, it took the president and the Army to make the ruling real.",
+      "debriefLine": "Little Rock: you predicted Eisenhower's response (Sends the 101st Airborne to escort the students into the school), which showed that Brown needed federal enforcement.",
+      "sourceRef": {
+        "page": 1,
+        "quote": "President Eisenhower responded by sending soldiers of the 101st Airborne Division to escort the students into the school."
+      },
+      "solution": {
+        "correctIndex": 0
+      }
+    },
+    {
+      "id": "e4_sit_ins",
+      "conceptIds": [
+        "c_sit_ins"
+      ],
+      "teachingMechanicId": "mimic_chest",
+      "socket": "sentry",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Nonviolent protest means passive protest.",
+      "familyId": "truth_finder",
+      "mode": "mimic",
+      "prompt": "Three boxes describe the Greensboro sit-ins. One is a mimic.",
+      "params": {
+        "statements": [
+          {
+            "text": "Four students sat at a whites-only lunch counter on February 1, 1960",
+            "isTrue": true,
+            "explanation": "The Woolworth counter in Greensboro."
+          },
+          {
+            "text": "Nonviolent meant the students avoided confrontation",
+            "isTrue": false,
+            "explanation": "They deliberately broke the rules and stayed put; nonviolence was disciplined, not passive."
+          },
+          {
+            "text": "The sit-ins spread to over fifty cities and led to SNCC",
+            "isTrue": true,
+            "explanation": "The Student Nonviolent Coordinating Committee formed in April 1960."
+          }
+        ]
+      },
+      "hints": [
+        "Sitting where you are forbidden to sit is itself a confrontation.",
+        "Nonviolence describes how they answered violence, not whether they provoked a response.",
+        "The mimic claims: Nonviolent meant the students avoided confrontation"
+      ],
+      "wrongFeedback": "That box is honest. Look for the claim that turns nonviolence into passivity.",
+      "debriefLine": "Sit-ins: the mimic said \"Nonviolent meant the students avoided confrontation\"; nonviolent direct action broke unjust rules on purpose and answered violence with discipline.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "On February 1, 1960, four Black college students sat down at a whites-only Woolworth lunch counter in Greensboro, North Carolina."
+      },
+      "solution": {
+        "mimicIndex": 1
+      }
+    },
+    {
+      "id": "e5_freedom_rides",
+      "conceptIds": [
+        "c_freedom_rides"
+      ],
+      "teachingMechanicId": "domino_engine",
+      "socket": "bridge",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "The federal government led the civil rights movement.",
+      "familyId": "linker",
+      "mode": "chain",
+      "prompt": "The dominoes of 1961 are scattered. Connect each event to what it caused.",
+      "params": {
+        "nodes": [
+          "The Supreme Court rules segregated interstate bus terminals illegal",
+          "Integrated Freedom Riders board buses to test the ruling in the Deep South",
+          "A mob firebombs a bus in Anniston, Alabama and beats the riders",
+          "Photographs of the burning bus reach national newspapers",
+          "The Kennedy administration pressures the ICC to enforce desegregated terminals"
+        ],
+        "decoys": [
+          "Congress passes the Civil Rights Act"
+        ]
+      },
+      "hints": [
+        "Start with the ruling the riders wanted to test.",
+        "Violence became news; news became pressure.",
+        "The federal enforcement came last, and not by choice."
+      ],
+      "wrongFeedback": "Follow the pressure: activists tested a ruling, violence exposed the defiance, and only then did federal officials act.",
+      "debriefLine": "The Freedom Rides as a causal chain: a ruling, a test, violence, headlines, then federal enforcement.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "In Anniston, Alabama, a mob firebombed one of the buses and beat the riders as they escaped."
+      },
+      "solution": {
+        "edges": [
+          {
+            "from": "n0",
+            "to": "n1"
+          },
+          {
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "to": "n4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e6_birmingham",
+      "conceptIds": [
+        "c_birmingham"
+      ],
+      "teachingMechanicId": "domino_engine",
+      "socket": "bridge",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Every event has one cause.",
+      "familyId": "linker",
+      "mode": "chain",
+      "prompt": "Birmingham, spring 1963. Link each domino to the one it toppled.",
+      "params": {
+        "nodes": [
+          "The SCLC and local activists launch marches against segregation in Birmingham",
+          "Bull Connor turns police dogs and fire hoses on marchers, many of them children",
+          "Television and newspapers carry the images nationwide",
+          "Public opinion shifts and pressure on the White House mounts",
+          "President Kennedy proposes a sweeping civil rights bill in June 1963"
+        ],
+        "decoys": [
+          "The Voting Rights Act bans literacy tests"
+        ]
+      },
+      "hints": [
+        "Begin with the marches themselves.",
+        "The images only mattered because they were seen.",
+        "The bill was the last domino, not the first."
+      ],
+      "wrongFeedback": "Kennedy's bill didn't come from nowhere: marches provoked violence, cameras carried it, opinion moved, then the bill followed.",
+      "debriefLine": "Birmingham as cause and effect: marches, violence, images, opinion, and only then Kennedy's civil rights bill.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "The images shocked the nation, and in June 1963 President Kennedy proposed a sweeping civil rights bill."
+      },
+      "solution": {
+        "edges": [
+          {
+            "from": "n0",
+            "to": "n1"
+          },
+          {
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "to": "n4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e7_march",
+      "conceptIds": [
+        "c_march_washington"
+      ],
+      "teachingMechanicId": "who_said_it",
+      "socket": "bridge",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "The march was only about King's speech.",
+      "familyId": "linker",
+      "mode": "pairs",
+      "prompt": "Who did what at the March on Washington? Link each person to their part.",
+      "params": {
+        "pairs": [
+          {
+            "left": "A. Philip Randolph",
+            "right": "Veteran labor leader who first called for the march",
+            "why": "He had planned a march on Washington as early as 1941."
+          },
+          {
+            "left": "Bayard Rustin",
+            "right": "Chief organizer who ran the logistics",
+            "why": "He coordinated the day's transport, marshals and program."
+          },
+          {
+            "left": "Martin Luther King Jr.",
+            "right": "Gave the closing speech remembered as I Have a Dream",
+            "why": "The final speech at the Lincoln Memorial."
+          },
+          {
+            "left": "The 250,000 marchers",
+            "right": "Demanded jobs and freedom, including a federal jobs program",
+            "why": "The march was for Jobs and Freedom."
+          }
+        ],
+        "decoyRights": [
+          "Signed the Civil Rights Act into law"
+        ]
+      },
+      "hints": [
+        "The march had organizers as well as a famous speaker.",
+        "Its full name was the March on Washington for Jobs and Freedom.",
+        "The person who signed the act was a president, not a marcher."
+      ],
+      "wrongFeedback": "The march was organized by labor and civil rights veterans around economic demands too; King's speech was its close, not its whole.",
+      "debriefLine": "The March on Washington: you linked 4 people to their roles; it was an organized demand for jobs and freedom, not a single speech.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "On August 28, 1963, about 250,000 people gathered at the Lincoln Memorial for the March on Washington for Jobs and Freedom."
+      },
+      "solution": {
+        "links": {
+          "l0": "r0",
+          "l1": "r1",
+          "l2": "r2",
+          "l3": "r3"
+        }
+      }
+    },
+    {
+      "id": "e8_cra",
+      "conceptIds": [
+        "c_civil_rights_act"
+      ],
+      "teachingMechanicId": "era_sorter",
+      "socket": "cache",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "The Civil Rights Act of 1964 guaranteed the right to vote.",
+      "familyId": "sorter",
+      "mode": "bins",
+      "prompt": "Two laws, one pile of provisions. File each one under the act that created it.",
+      "params": {
+        "bins": [
+          {
+            "id": "cra_1964",
+            "label": "Civil Rights Act of 1964",
+            "feature": "attacked segregation and discrimination in public life and jobs"
+          },
+          {
+            "id": "vra_1965",
+            "label": "Voting Rights Act of 1965",
+            "feature": "protected the right to register and vote"
+          }
+        ],
+        "items": [
+          {
+            "text": "Outlawed segregation in restaurants, hotels and theaters",
+            "binId": "cra_1964",
+            "why": "Public accommodations were Title II of the 1964 act."
+          },
+          {
+            "text": "Banned employment discrimination by race, sex, religion or national origin",
+            "binId": "cra_1964",
+            "why": "Title VII of the 1964 act."
+          },
+          {
+            "text": "Banned literacy tests for voter registration",
+            "binId": "vra_1965",
+            "why": "A core provision of the 1965 act."
+          },
+          {
+            "text": "Sent federal registrars to counties that had blocked Black voters",
+            "binId": "vra_1965",
+            "why": "Federal examiners were the 1965 act's enforcement tool."
+          },
+          {
+            "text": "Signed by Lyndon Johnson on July 2, 1964",
+            "binId": "cra_1964",
+            "why": "The signing date of the Civil Rights Act."
+          },
+          {
+            "text": "Passed after the Selma marches of March 1965",
+            "binId": "vra_1965",
+            "why": "Selma pushed the voting bill through Congress."
+          }
+        ]
+      },
+      "hints": [
+        "Ask what each provision is about: public life and jobs, or the ballot.",
+        "Anything about registering or voting belongs to 1965.",
+        "The 1964 act's dates and titles are about accommodations and employment."
+      ],
+      "wrongFeedback": "The 1964 act targeted segregation and job discrimination; voting protections waited for the 1965 act.",
+      "debriefLine": "The Civil Rights Act of 1964 vs the Voting Rights Act of 1965: you filed 6 provisions by what each law protected.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "The act outlawed segregation in public accommodations such as restaurants and hotels and banned employment discrimination."
+      },
+      "solution": {
+        "assignments": {
+          "i0": "cra_1964",
+          "i1": "cra_1964",
+          "i2": "vra_1965",
+          "i3": "vra_1965",
+          "i4": "cra_1964",
+          "i5": "vra_1965"
+        }
+      }
+    },
+    {
+      "id": "e9_selma",
+      "conceptIds": [
+        "c_selma_vra"
+      ],
+      "teachingMechanicId": "chrono_bridge",
+      "socket": "locked_gate",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Events happened in the order the textbook mentions them.",
+      "familyId": "sequencer",
+      "mode": "linear",
+      "prompt": "The chapter tells these out of order. Lay the planks by date. One plank belongs to a different story.",
+      "params": {
+        "steps": [
+          "President Johnson signs the Civil Rights Act, July 2, 1964",
+          "Marchers are attacked on the Edmund Pettus Bridge in Selma, March 7, 1965",
+          "The Selma-to-Montgomery march reaches the Alabama capitol, March 25, 1965",
+          "President Johnson signs the Voting Rights Act, August 6, 1965"
+        ],
+        "decoys": [
+          "The Montgomery bus boycott ends, December 1956"
+        ]
+      },
+      "hints": [
+        "Dates decide the order, not the page they appear on.",
+        "The 1964 act came before Selma.",
+        "The voting law was signed in the summer after the march."
+      ],
+      "wrongFeedback": "Use the dates: the Civil Rights Act (July 1964) came before Bloody Sunday (March 1965), and the Voting Rights Act (August 1965) came after both.",
+      "debriefLine": "Selma and the Voting Rights Act in 4 dated steps: the 1964 act, Bloody Sunday, the march, the 1965 act.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "On March 7, 1965, state troopers attacked peaceful marchers on the Edmund Pettus Bridge in Selma, a day remembered as Bloody Sunday."
+      },
+      "solution": {
+        "order": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ]
+      }
+    },
+    {
+      "id": "e10_sources",
+      "conceptIds": [
+        "c_sources"
+      ],
+      "teachingMechanicId": "evidence_lab",
+      "socket": "cache",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Old means primary.",
+      "familyId": "sorter",
+      "mode": "bins",
+      "prompt": "Documents spill from the file cabinet. File each one as a primary or secondary source about the movement.",
+      "params": {
+        "bins": [
+          {
+            "id": "primary",
+            "label": "Primary source",
+            "feature": "created by a participant or witness at the time"
+          },
+          {
+            "id": "secondary",
+            "label": "Secondary source",
+            "feature": "created later by someone interpreting primary sources"
+          }
+        ],
+        "items": [
+          {
+            "text": "A 1963 photograph of marchers at the Lincoln Memorial",
+            "binId": "primary",
+            "why": "Made at the event by a witness."
+          },
+          {
+            "text": "A 1971 textbook chapter on the civil rights movement",
+            "binId": "secondary",
+            "why": "Old, but written after the fact by a non-participant."
+          },
+          {
+            "text": "The text of the Voting Rights Act of 1965",
+            "binId": "primary",
+            "why": "The document itself, from the time."
+          },
+          {
+            "text": "A 2019 documentary about Selma",
+            "binId": "secondary",
+            "why": "Interprets primary sources decades later."
+          },
+          {
+            "text": "John Lewis's 1965 hospital interview about Bloody Sunday",
+            "binId": "primary",
+            "why": "A participant's account from the time."
+          },
+          {
+            "text": "A historian's 1988 biography of King",
+            "binId": "secondary",
+            "why": "Later interpretation."
+          }
+        ]
+      },
+      "hints": [
+        "Ask who made it and when, not how old it is.",
+        "A textbook from 1971 is still someone else's later account.",
+        "Words or images from the people who were there are primary, even if recent."
+      ],
+      "wrongFeedback": "Age doesn't decide it: a 1971 textbook about 1963 is secondary, while a 1963 photograph is primary.",
+      "debriefLine": "Primary vs secondary sources: you filed 6 documents by who created them and when, not by how old they are.",
+      "sourceRef": {
+        "page": 4,
+        "quote": "A primary source is created by a participant or witness at the time of the events, such as a letter, a photograph, or a speech."
+      },
+      "solution": {
+        "assignments": {
+          "i0": "primary",
+          "i1": "secondary",
+          "i2": "primary",
+          "i3": "secondary",
+          "i4": "primary",
+          "i5": "secondary"
+        }
+      }
+    },
+    {
+      "id": "e11_causation",
+      "conceptIds": [
+        "c_causation"
+      ],
+      "teachingMechanicId": "domino_engine",
+      "socket": "bridge",
+      "role": "teach",
+      "difficulty": 3,
+      "targetMisconception": "History is a list of unrelated events.",
+      "familyId": "linker",
+      "mode": "chain",
+      "prompt": "The big board. Connect the dominoes from Birmingham to the Voting Rights Act.",
+      "params": {
+        "nodes": [
+          "Televised violence in Birmingham shocks the nation, May 1963",
+          "President Kennedy proposes a civil rights bill, June 1963",
+          "President Johnson signs the Civil Rights Act, July 1964",
+          "Bloody Sunday in Selma is broadcast nationwide, March 1965",
+          "Johnson signs the Voting Rights Act, August 1965"
+        ],
+        "decoys": [
+          "The Supreme Court decides Brown v. Board, 1954",
+          "The Montgomery bus boycott begins, 1955"
+        ]
+      },
+      "hints": [
+        "Start in Birmingham and end with the vote.",
+        "Each law followed a televised crisis.",
+        "1963 → 1964 → 1965: two crises, two laws."
+      ],
+      "wrongFeedback": "Each link is a cause and its consequence: a televised crisis produced pressure, and pressure produced a law. Brown and Montgomery matter, but they belong to an earlier chain.",
+      "debriefLine": "Cause and effect in the movement: Birmingham led to Kennedy's bill and the 1964 act; Selma led to the 1965 act.",
+      "sourceRef": {
+        "page": 4,
+        "quote": "Again and again, televised violence against nonviolent protesters turned a local campaign into national legislation."
+      },
+      "solution": {
+        "edges": [
+          {
+            "from": "n0",
+            "to": "n1"
+          },
+          {
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "to": "n4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e12_boss",
+      "conceptIds": [
+        "c_causation",
+        "c_sources",
+        "c_selma_vra"
+      ],
+      "teachingMechanicId": "evidence_board",
+      "socket": "heart",
+      "role": "boss",
+      "difficulty": 3,
+      "targetMisconception": "History is a list of unrelated events.",
+      "familyId": "investigator",
+      "mode": "elimination",
+      "prompt": "The Editor's question: why did the Voting Rights Act pass in 1965 and not before? Pin the clues, eliminate the explanations that don't fit, and name the one that stands.",
+      "params": {
+        "question": "Why did Congress pass the Voting Rights Act in August 1965?",
+        "hypotheses": [
+          {
+            "id": "h_selma",
+            "text": "Televised violence at Selma in March 1965 created national pressure that Johnson turned into a bill within days"
+          },
+          {
+            "id": "h_cra_enough",
+            "text": "The Civil Rights Act of 1964 had already fixed voting, so 1965 was only a technical update"
+          },
+          {
+            "id": "h_inevitable",
+            "text": "It was inevitable after Brown in 1954 and needed no further events"
+          },
+          {
+            "id": "h_court",
+            "text": "The Supreme Court ordered Congress to pass it"
+          }
+        ],
+        "clues": [
+          {
+            "text": "The 1964 act covered public accommodations and employment; Black registration in Selma's county was still under 2% in early 1965.",
+            "eliminates": [
+              "h_cra_enough"
+            ]
+          },
+          {
+            "text": "Johnson introduced the voting bill on March 15, 1965, eight days after Bloody Sunday, telling Congress 'we shall overcome'.",
+            "eliminates": [
+              "h_inevitable"
+            ]
+          },
+          {
+            "text": "No court ruling in 1965 directed Congress to legislate; the bill originated in the White House.",
+            "eliminates": [
+              "h_court"
+            ]
+          },
+          {
+            "text": "Between 1957 and 1964 three federal laws touched voting and registration barely moved; the eleven years after Brown produced no voting act.",
+            "eliminates": [
+              "h_inevitable",
+              "h_cra_enough"
+            ]
+          }
+        ]
+      },
+      "hints": [
+        "Check each explanation against the dated clues.",
+        "What does the 2% registration figure rule out?",
+        "Only one explanation survives every clue."
+      ],
+      "wrongFeedback": "Look at the clue that contradicts your pick: dated primary sources decide which explanation survives.",
+      "debriefLine": "The boss: you eliminated three explanations with dated sources; the Voting Rights Act followed Selma's televised violence, which is how the movement's laws were won.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "The Voting Rights Act of 1965 banned literacy tests and sent federal registrars to counties that had blocked Black voters."
+      },
+      "solution": {
+        "survivorId": "h_selma",
+        "eliminatedBy": {
+          "h_cra_enough": 0,
+          "h_inevitable": 1,
+          "h_court": 2
+        }
+      }
+    }
+  ],
+  "layout": {
+    "chunks": [
+      {
+        "chunkId": "e_entrance",
+        "encounterId": null
+      },
+      {
+        "chunkId": "e_checkpoint",
+        "encounterId": "e1_brown"
+      },
+      {
+        "chunkId": "e_gatehouse",
+        "encounterId": "e2_montgomery"
+      },
+      {
+        "chunkId": "e_corridor",
+        "encounterId": null
+      },
+      {
+        "chunkId": "e_checkpoint",
+        "encounterId": "e3_little_rock"
+      },
+      {
+        "chunkId": "e_checkpoint",
+        "encounterId": "e4_sit_ins"
+      },
+      {
+        "chunkId": "e_corridor",
+        "encounterId": null
+      },
+      {
+        "chunkId": "e_chasm",
+        "encounterId": "e5_freedom_rides"
+      },
+      {
+        "chunkId": "e_chasm",
+        "encounterId": "e6_birmingham"
+      },
+      {
+        "chunkId": "e_corridor",
+        "encounterId": null
+      },
+      {
+        "chunkId": "e_chasm",
+        "encounterId": "e7_march"
+      },
+      {
+        "chunkId": "e_storeroom",
+        "encounterId": "e8_cra"
+      },
+      {
+        "chunkId": "e_corridor",
+        "encounterId": null
+      },
+      {
+        "chunkId": "e_gatehouse",
+        "encounterId": "e9_selma"
+      },
+      {
+        "chunkId": "e_storeroom",
+        "encounterId": "e10_sources"
+      },
+      {
+        "chunkId": "e_corridor",
+        "encounterId": null
+      },
+      {
+        "chunkId": "e_chasm",
+        "encounterId": "e11_causation"
+      },
+      {
+        "chunkId": "e_heart",
+        "encounterId": "e12_boss"
+      }
+    ]
+  },
+  "narrative": {
+    "intro": [
+      {
+        "speakerId": "archivist",
+        "text": "Every road on this map was opened by people who organised. Let's see how."
+      }
+    ],
+    "outro": [
+      {
+        "speakerId": "archivist",
+        "text": "Selma to Montgomery. You walked the whole road and you know why it mattered."
+      }
+    ],
+    "beats": [
+      {
+        "speakerId": "archivist",
+        "text": "Montgomery. Ask who was ready when she said no.",
+        "encounterId": "e2_montgomery",
+        "when": "before"
+      },
+      {
+        "speakerId": "editor",
+        "text": "Last stop. Which explanation of the movement holds up?",
+        "encounterId": "e12_boss",
+        "when": "before"
+      },
+      {
+        "speakerId": "editor",
+        "text": "That's the road, and that's the story.",
+        "encounterId": "e12_boss",
+        "when": "after"
+      }
+    ]
+  },
+  "audio": {
+    "musicTrackId": null,
+    "voice": []
+  },
+  "assessment": {
+    "pre": [
+      {
+        "conceptId": "c_civil_rights_act",
+        "prompt": "What did the Civil Rights Act of 1964 do?",
+        "choices": [
+          "Banned literacy tests for voting",
+          "Outlawed segregation in public accommodations",
+          "Desegregated interstate buses",
+          "Ended the Montgomery boycott"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "conceptId": "c_sources",
+        "prompt": "Which is a primary source about the 1963 March on Washington?",
+        "choices": [
+          "A 2005 textbook chapter",
+          "A documentary made in 1990",
+          "A photograph taken at the march",
+          "A historian's biography of King"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "conceptId": "c_selma_vra",
+        "prompt": "Which came first?",
+        "choices": [
+          "Selma's Bloody Sunday",
+          "The Civil Rights Act of 1964",
+          "The Voting Rights Act of 1965",
+          "They were the same year"
+        ],
+        "correctIndex": 1
+      }
+    ],
+    "post": [
+      {
+        "conceptId": "c_civil_rights_act",
+        "prompt": "Which of these was NOT part of the Civil Rights Act of 1964?",
+        "choices": [
+          "Outlawing segregation in hotels and restaurants",
+          "Being signed by Lyndon Johnson",
+          "Banning employment discrimination",
+          "Banning literacy tests for voting"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "conceptId": "c_sources",
+        "prompt": "A 1975 textbook chapter about the 1963 March on Washington is…",
+        "choices": [
+          "A primary source, because it is about a real event",
+          "A primary source, because it is old",
+          "Neither; textbooks aren't sources",
+          "A secondary source, because it interprets events after the fact"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "conceptId": "c_selma_vra",
+        "prompt": "What happened first?",
+        "choices": [
+          "The Voting Rights Act was signed",
+          "The Civil Rights Act of 1964 was signed",
+          "Bloody Sunday in Selma",
+          "The Selma-to-Montgomery march reached the capitol"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,1100 @@
+{
+  "schemaVersion": 2,
+  "id": "cell_cozy_001",
+  "createdAt": "2026-09-26T20:00:00.000Z",
+  "seed": 1577767445,
+  "source": {
+    "sourceId": "src_cell_transport",
+    "title": "Biology Unit 3: Cell Membranes and Transport",
+    "unsourced": false
+  },
+  "genre": "strategy",
+  "targetMinutes": 10,
+  "intake": {
+    "goal": "learn",
+    "minutes": 10,
+    "requestedGenre": "strategy",
+    "confidence": [
+      {
+        "unitId": "u_membrane",
+        "level": 4
+      },
+      {
+        "unitId": "u_passive",
+        "level": 2
+      },
+      {
+        "unitId": "u_active",
+        "level": 2
+      },
+      {
+        "unitId": "u_bulk",
+        "level": 3
+      }
+    ],
+    "preCheckAnswers": [
+      2,
+      1,
+      1
+    ]
+  },
+  "units": [
+    {
+      "id": "u_membrane",
+      "name": "The membrane and selectivity"
+    },
+    {
+      "id": "u_passive",
+      "name": "Passive transport"
+    },
+    {
+      "id": "u_active",
+      "name": "Active transport"
+    },
+    {
+      "id": "u_bulk",
+      "name": "Bulk transport"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "c_bilayer",
+      "unitId": "u_membrane",
+      "name": "Phospholipid bilayer",
+      "knowledgeType": "system",
+      "learningObjective": "The student can describe the bilayer's structure and explain why it is a barrier to polar and charged substances."
+    },
+    {
+      "id": "c_selectivity",
+      "unitId": "u_membrane",
+      "name": "Selective permeability",
+      "knowledgeType": "category",
+      "learningObjective": "The student can predict whether a molecule crosses freely, needs a channel or carrier, or needs a pump."
+    },
+    {
+      "id": "c_diffusion",
+      "unitId": "u_passive",
+      "name": "Diffusion",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can explain diffusion as the net result of random motion down a concentration gradient."
+    },
+    {
+      "id": "c_osmosis",
+      "unitId": "u_passive",
+      "name": "Osmosis",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can predict the direction of water movement from the solute concentrations on each side."
+    },
+    {
+      "id": "c_tonicity",
+      "unitId": "u_passive",
+      "name": "Tonicity: hypotonic, isotonic, hypertonic",
+      "knowledgeType": "category",
+      "learningObjective": "The student can classify a solution as hypotonic, isotonic, or hypertonic relative to a cell and predict the cell's fate."
+    },
+    {
+      "id": "c_facilitated",
+      "unitId": "u_passive",
+      "name": "Facilitated diffusion",
+      "knowledgeType": "category",
+      "learningObjective": "The student can distinguish facilitated diffusion from simple diffusion and from active transport."
+    },
+    {
+      "id": "c_active_transport",
+      "unitId": "u_active",
+      "name": "Active transport",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can explain why moving a substance against its gradient requires ATP and give an example."
+    },
+    {
+      "id": "c_sodium_potassium",
+      "unitId": "u_active",
+      "name": "The sodium-potassium pump",
+      "knowledgeType": "fact",
+      "learningObjective": "The student can state what the sodium-potassium pump moves, in which directions, and why it matters."
+    },
+    {
+      "id": "c_bulk_transport",
+      "unitId": "u_bulk",
+      "name": "Endocytosis and exocytosis",
+      "knowledgeType": "sequence",
+      "learningObjective": "The student can order the steps of endocytosis and exocytosis and explain why both are active processes."
+    }
+  ],
+  "mastery": {
+    "initial": 0.5,
+    "firstTryBonus": 0.15,
+    "laterBonus": 0.08,
+    "missPenalty": 0.05
+  },
+  "title": "Membrane Market",
+  "theme": {
+    "setting": "A sleepy harbour town built inside a cell, with the membrane as its sea wall and gates",
+    "tone": "cozy, warm, gently funny",
+    "paletteId": "moss",
+    "musicMood": "calm"
+  },
+  "premise": "You have inherited the harbour office of a small cell-town. Every morning molecules queue at the sea wall with requests: let me in, let me out, pump me uphill. Answer them well, earn coins, and grow the town before the Harvest Festival.",
+  "characters": [
+    {
+      "id": "pilot",
+      "name": "Mayor Ora",
+      "role": "the cheerful mayor who hands you each day's requests",
+      "voiceArchetype": "cheerful_sidekick"
+    },
+    {
+      "id": "gatekeeper",
+      "name": "Old Pump",
+      "role": "the sodium-potassium pump who runs the festival gate",
+      "voiceArchetype": "gruff_guard"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "e1_bilayer",
+      "conceptIds": [
+        "c_bilayer"
+      ],
+      "teachingMechanicId": "mimic_chest",
+      "socket": "event_card",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "The membrane is a solid wall with holes in it.",
+      "familyId": "truth_finder",
+      "mode": "mimic",
+      "prompt": "Three chests describe the vault's outer wall. One is a mimic. Which claim about the membrane is false?",
+      "params": {
+        "statements": [
+          {
+            "text": "The membrane is a double layer of phospholipids",
+            "isTrue": true,
+            "explanation": "Hydrophilic heads face the water on both sides; hydrophobic tails point inward."
+          },
+          {
+            "text": "The membrane is a rigid wall with fixed holes in it",
+            "isTrue": false,
+            "explanation": "It is fluid: lipids and proteins drift, and substances cross by dissolving through or via proteins."
+          },
+          {
+            "text": "The membrane's interior is nonpolar and blocks most ions",
+            "isTrue": true,
+            "explanation": "Charged particles cannot dissolve in the hydrophobic interior."
+          }
+        ]
+      },
+      "hints": [
+        "Think about what the membrane is made of, not what it looks like in a diagram.",
+        "Lipids with hydrophobic tails form a layer that flows, not a wall.",
+        "The mimic claims: The membrane is a rigid wall with fixed holes in it"
+      ],
+      "wrongFeedback": "That chest is honest. Look for the claim that treats the membrane as a solid, fixed structure.",
+      "debriefLine": "The mimic said \"The membrane is a rigid wall with fixed holes in it\": the phospholipid bilayer is a fluid double layer, which is why it needs proteins for polar traffic.",
+      "sourceRef": {
+        "page": 1,
+        "quote": "The plasma membrane is a phospholipid bilayer: the hydrophilic heads face the water on both sides and the hydrophobic tails point inward."
+      },
+      "solution": {
+        "mimicIndex": 1
+      }
+    },
+    {
+      "id": "e2_selectivity",
+      "conceptIds": [
+        "c_selectivity"
+      ],
+      "teachingMechanicId": "membrane_router",
+      "socket": "market",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Anything small passes freely.",
+      "familyId": "sorter",
+      "mode": "bins",
+      "prompt": "Molecules approach the membrane. Route each one: through the bilayer on its own, through a transport protein, or blocked entirely.",
+      "params": {
+        "bins": [
+          {
+            "id": "diffuses",
+            "label": "Crosses the bilayer alone",
+            "feature": "small and nonpolar, so it dissolves through the lipid interior"
+          },
+          {
+            "id": "protein",
+            "label": "Needs a transport protein",
+            "feature": "polar or charged, or too large to slip between the lipids"
+          }
+        ],
+        "items": [
+          {
+            "text": "Oxygen (O2)",
+            "binId": "diffuses",
+            "why": "Small and nonpolar."
+          },
+          {
+            "text": "Carbon dioxide (CO2)",
+            "binId": "diffuses",
+            "why": "Small and nonpolar."
+          },
+          {
+            "text": "Sodium ion (Na+)",
+            "binId": "protein",
+            "why": "Tiny but charged: the nonpolar interior repels it."
+          },
+          {
+            "text": "Glucose",
+            "binId": "protein",
+            "why": "Large and polar; it uses a carrier protein."
+          },
+          {
+            "text": "A steroid hormone",
+            "binId": "diffuses",
+            "why": "Lipid-soluble, so it dissolves straight through."
+          },
+          {
+            "text": "Chloride ion (Cl-)",
+            "binId": "protein",
+            "why": "Charged, so it needs a channel."
+          }
+        ]
+      },
+      "hints": [
+        "Size is a clue but not the rule.",
+        "Ask: is it polar or charged? Charge is what the lipid interior repels.",
+        "Na+ is smaller than O2 and still cannot cross alone."
+      ],
+      "wrongFeedback": "Look at polarity and charge before size: a small ion is blocked, a bigger nonpolar molecule slips through.",
+      "debriefLine": "Selective permeability: you sorted 6 molecules by polarity and charge, not size; that is the rule the bilayer follows.",
+      "sourceRef": {
+        "page": 1,
+        "quote": "Ions and large polar molecules such as glucose cross only through transport proteins."
+      },
+      "solution": {
+        "assignments": {
+          "i0": "diffuses",
+          "i1": "diffuses",
+          "i2": "protein",
+          "i3": "protein",
+          "i4": "diffuses",
+          "i5": "protein"
+        }
+      }
+    },
+    {
+      "id": "e3_diffusion",
+      "conceptIds": [
+        "c_diffusion"
+      ],
+      "teachingMechanicId": "chrono_bridge",
+      "socket": "research_node",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Particles move toward empty space on purpose.",
+      "familyId": "sequencer",
+      "mode": "linear",
+      "prompt": "A drop of dye lands in still water. Put what happens next in order. One step is a myth.",
+      "params": {
+        "steps": [
+          "Every dye particle jiggles randomly, bumping into water molecules",
+          "More particles start in the crowded spot, so more of them happen to wander out than in",
+          "The result is a net flow from high concentration to low",
+          "The dye spreads until its concentration is even everywhere",
+          "Particles keep moving, but in and out now balance: no net flow"
+        ],
+        "decoys": [
+          "The particles head for the empty water because they need more space"
+        ]
+      },
+      "hints": [
+        "Start with what each single particle is doing, before any spreading happens.",
+        "No particle has a goal: the spreading is what random motion adds up to.",
+        "Motion doesn't stop at the end; only the net flow does."
+      ],
+      "wrongFeedback": "Diffusion has no purpose behind it: follow random motion to a net flow, and remember the motion never stops, only the imbalance does.",
+      "debriefLine": "Diffusion: 5 steps from random jiggling to an even spread, with no particle trying to go anywhere.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "Because it is driven by the random motion of the particles themselves, diffusion requires no energy from the cell."
+      },
+      "solution": {
+        "order": [
+          "s0",
+          "s1",
+          "s2",
+          "s3",
+          "s4"
+        ]
+      }
+    },
+    {
+      "id": "e4_osmosis",
+      "conceptIds": [
+        "c_osmosis"
+      ],
+      "teachingMechanicId": "explain_the_process",
+      "socket": "research_node",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Salt crosses the membrane instead of water.",
+      "familyId": "explainer",
+      "mode": "teach_back",
+      "prompt": "A new lab apprentice watched a cell swell in pond water and wants to know why. Explain it to them.",
+      "params": {
+        "listener": "a new lab apprentice who missed the lecture",
+        "question": "Why does a cell swell up when you put it in fresh water?",
+        "ideas": [
+          {
+            "label": "where the dissolved stuff is",
+            "keywords": [
+              "hypotonic",
+              "more solute inside",
+              "more solutes inside",
+              "higher solute concentration inside",
+              "less solute outside",
+              "fewer solutes outside",
+              "saltier inside",
+              "more concentrated inside",
+              "lower concentration outside",
+              "more salt inside"
+            ],
+            "followUp": "Is the inside of the cell the same as the pond water, or different somehow?",
+            "exemplar": "Fresh water is hypotonic, so there is more solute inside the cell than outside."
+          },
+          {
+            "label": "what crosses and which way",
+            "keywords": [
+              "osmosis",
+              "water moves in",
+              "water enters",
+              "water flows in",
+              "water rushes in",
+              "water goes in",
+              "water diffuses in",
+              "water comes in",
+              "takes in water"
+            ],
+            "followUp": "So what actually crosses the membrane, and in which direction?",
+            "exemplar": "Water moves in by osmosis toward the higher solute concentration."
+          },
+          {
+            "label": "why the cell can't even it out",
+            "keywords": [
+              "semipermeable",
+              "semi permeable",
+              "selectively permeable",
+              "partially permeable",
+              "solutes cannot leave",
+              "solutes can't leave",
+              "pressure builds",
+              "turgor"
+            ],
+            "followUp": "Why doesn't the stuff inside just leak out and even things up?",
+            "exemplar": "The membrane is semipermeable, so the solutes cannot leave and the cell keeps swelling."
+          }
+        ],
+        "required": 2,
+        "misconceptions": [
+          {
+            "keywords": [
+              "salt moves in",
+              "salt enters",
+              "salt goes in",
+              "salt flows in",
+              "solute moves in",
+              "solutes move in"
+            ],
+            "correction": "Hmm, can the dissolved particles really get through that membrane?"
+          },
+          {
+            "keywords": [
+              "water moves out",
+              "water leaves",
+              "water flows out",
+              "loses water"
+            ],
+            "correction": "If the cell lost that, would it swell or shrink?"
+          }
+        ],
+        "wordBank": [
+          "osmosis",
+          "hypotonic",
+          "solute",
+          "membrane",
+          "semipermeable",
+          "concentration"
+        ]
+      },
+      "hints": [
+        "Compare what is dissolved inside the cell with what is dissolved in pond water.",
+        "Only one thing crosses the membrane easily here. Which way does it go, and toward what?",
+        "Say that fresh water is hypotonic, water moves in by osmosis, and the solutes cannot leave."
+      ],
+      "wrongFeedback": "The apprentice still looks puzzled. Think about what crosses the membrane and which side has more dissolved stuff.",
+      "debriefLine": "In a hypotonic solution water moves into the cell by osmosis, toward the higher solute concentration, so it swells. Model answer: Fresh water is hypotonic, so there is more solute inside the cell than outside. Water moves in by osmosis toward the higher solute concentration. The membrane is semipermeable, so the solutes cannot leave and the cell keeps swelling.",
+      "sourceRef": null,
+      "solution": {
+        "exemplar": "Fresh water is hypotonic, so there is more solute inside the cell than outside. Water moves in by osmosis toward the higher solute concentration. The membrane is semipermeable, so the solutes cannot leave and the cell keeps swelling.",
+        "ideaCount": 3
+      }
+    },
+    {
+      "id": "e5_tonicity",
+      "conceptIds": [
+        "c_tonicity"
+      ],
+      "teachingMechanicId": "type_matched_weapon",
+      "socket": "market",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Hypertonic means the solution has more water.",
+      "familyId": "sorter",
+      "mode": "type_match",
+      "prompt": "Cells drift past in different solutions. Hit each one with the right label before it passes.",
+      "params": {
+        "categories": [
+          {
+            "id": "hypotonic",
+            "label": "Hypotonic"
+          },
+          {
+            "id": "isotonic",
+            "label": "Isotonic"
+          },
+          {
+            "id": "hypertonic",
+            "label": "Hypertonic"
+          }
+        ],
+        "waves": [
+          {
+            "text": "A red blood cell in pure water, swelling",
+            "categoryId": "hypotonic",
+            "why": "Less solute outside than inside: water flows in."
+          },
+          {
+            "text": "A cell in seawater, shrivelling",
+            "categoryId": "hypertonic",
+            "why": "More solute outside: water flows out."
+          },
+          {
+            "text": "A cell in a solution matching its own solute level, unchanged",
+            "categoryId": "isotonic",
+            "why": "Equal solute: no net water movement."
+          },
+          {
+            "text": "A plant cell in salty soil water, losing turgor",
+            "categoryId": "hypertonic",
+            "why": "More solute outside pulls water out."
+          },
+          {
+            "text": "A cell in a dilute drink, about to burst",
+            "categoryId": "hypotonic",
+            "why": "Water rushes in from the low-solute solution."
+          }
+        ],
+        "secondsPerWave": 8
+      },
+      "hints": [
+        "The label describes the solution relative to the cell, not the cell.",
+        "Hyper means more solute outside; water leaves. Hypo means less; water enters.",
+        "Swelling means water came in: the solution had less solute."
+      ],
+      "wrongFeedback": "Hypertonic means more solute (less water) outside, so the cell loses water and shrinks.",
+      "debriefLine": "Tonicity: you labeled each solution by its solute level relative to the cell, and predicted swell, stay, or shrink.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "In a hypertonic solution the cell loses water and shrinks."
+      },
+      "solution": {
+        "answers": [
+          "hypotonic",
+          "hypertonic",
+          "isotonic",
+          "hypertonic",
+          "hypotonic"
+        ]
+      }
+    },
+    {
+      "id": "e6_facilitated",
+      "conceptIds": [
+        "c_facilitated"
+      ],
+      "teachingMechanicId": "membrane_router",
+      "socket": "market",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "If a protein is involved, the cell must be spending energy.",
+      "familyId": "sorter",
+      "mode": "bins",
+      "prompt": "More cargo at the gates. Route each case: passive (no ATP, even with a protein) or active (ATP against the gradient).",
+      "params": {
+        "bins": [
+          {
+            "id": "passive",
+            "label": "Passive: no ATP",
+            "feature": "moves down its gradient, with or without a protein's help"
+          },
+          {
+            "id": "active",
+            "label": "Active: costs ATP",
+            "feature": "moves against its gradient, so a pump must spend energy"
+          }
+        ],
+        "items": [
+          {
+            "text": "Glucose entering through a carrier protein, from high to low",
+            "binId": "passive",
+            "why": "Facilitated diffusion: a protein path, no energy."
+          },
+          {
+            "text": "Water through an aquaporin channel",
+            "binId": "passive",
+            "why": "A channel just speeds diffusion."
+          },
+          {
+            "text": "Na+ pumped out of a cell that already has little Na+",
+            "binId": "active",
+            "why": "Against the gradient: needs ATP."
+          },
+          {
+            "text": "K+ leaking out through an open channel, from high to low",
+            "binId": "passive",
+            "why": "Down the gradient through a channel."
+          },
+          {
+            "text": "Protons pushed into a compartment that is already acidic",
+            "binId": "active",
+            "why": "Uphill, so it costs energy."
+          }
+        ]
+      },
+      "hints": [
+        "Ignore whether a protein is present. Ask which way the substance moves relative to its gradient.",
+        "Down the gradient is always passive, protein or not.",
+        "Only the cases moving toward the more crowded side cost ATP."
+      ],
+      "wrongFeedback": "A protein alone doesn't mean energy is spent. Passive transport can use channels and carriers; only moving against the gradient needs ATP.",
+      "debriefLine": "Facilitated diffusion: you sorted 5 cases by direction relative to the gradient, which is what decides passive vs active.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "Facilitated diffusion uses channel or carrier proteins, but it is still passive: the molecules move down their gradient and the cell spends no energy."
+      },
+      "solution": {
+        "assignments": {
+          "i0": "passive",
+          "i1": "passive",
+          "i2": "active",
+          "i3": "passive",
+          "i4": "active"
+        }
+      }
+    },
+    {
+      "id": "e7_active",
+      "conceptIds": [
+        "c_active_transport"
+      ],
+      "teachingMechanicId": "domino_engine",
+      "socket": "research_node",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Transport always goes down the gradient.",
+      "familyId": "linker",
+      "mode": "chain",
+      "prompt": "The glucose carrier has to pull sugar uphill. Connect each link in the chain that powers it.",
+      "params": {
+        "nodes": [
+          "The sodium-potassium pump spends ATP to push sodium out of the cell",
+          "Sodium becomes far more concentrated outside than inside",
+          "Sodium flowing back in, down its gradient, drives a co-transporter",
+          "The co-transporter drags glucose in with it, against glucose's gradient",
+          "Glucose builds up inside the cell, above the level outside"
+        ],
+        "decoys": [
+          "Glucose diffuses in on its own because the cell needs it"
+        ]
+      },
+      "hints": [
+        "Start with the only step that spends ATP directly.",
+        "Something has to be pushed uphill first so it can flow back downhill.",
+        "Sodium's return trip is what pays for glucose's climb."
+      ],
+      "wrongFeedback": "Uphill transport is always paid for somewhere: follow the energy from ATP, to the sodium gradient, to the carrier.",
+      "debriefLine": "Active transport runs on energy: ATP builds a sodium gradient, and that gradient drags glucose uphill.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "Active transport moves substances against their concentration gradient, from low concentration to high, and requires energy from ATP."
+      },
+      "solution": {
+        "edges": [
+          {
+            "from": "n0",
+            "to": "n1"
+          },
+          {
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "to": "n4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e8_pump",
+      "conceptIds": [
+        "c_sodium_potassium"
+      ],
+      "teachingMechanicId": "grapple_anchors",
+      "socket": "research_node",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "The pump moves equal numbers of ions each way.",
+      "familyId": "linker",
+      "mode": "pairs",
+      "prompt": "The sodium-potassium pump needs rewiring. Link each part of one cycle to its value.",
+      "params": {
+        "pairs": [
+          {
+            "left": "Sodium ions moved per cycle",
+            "right": "3, out of the cell",
+            "why": "Three Na+ leave."
+          },
+          {
+            "left": "Potassium ions moved per cycle",
+            "right": "2, into the cell",
+            "why": "Two K+ enter."
+          },
+          {
+            "left": "Energy spent per cycle",
+            "right": "1 ATP",
+            "why": "One ATP powers each cycle."
+          },
+          {
+            "left": "Cells that depend on it most",
+            "right": "Nerve and muscle cells",
+            "why": "They rely on the ion gradients."
+          }
+        ],
+        "decoyRights": [
+          "2, out of the cell"
+        ]
+      },
+      "hints": [
+        "The counts are not equal; that asymmetry matters.",
+        "More positive charge leaves than enters each cycle.",
+        "3 out, 2 in, 1 ATP."
+      ],
+      "wrongFeedback": "The pump is lopsided on purpose: it moves more sodium out than potassium in, which leaves the inside slightly negative.",
+      "debriefLine": "The sodium-potassium pump: you linked 4 facts: 3 Na+ out, 2 K+ in, 1 ATP, and the cells that depend on it.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "Each cycle of the sodium-potassium pump moves three sodium ions out of the cell and two potassium ions in, at the cost of one ATP."
+      },
+      "solution": {
+        "links": {
+          "l0": "r0",
+          "l1": "r1",
+          "l2": "r2",
+          "l3": "r3"
+        }
+      }
+    },
+    {
+      "id": "e9_osmosis_review",
+      "conceptIds": [
+        "c_osmosis"
+      ],
+      "teachingMechanicId": "type_matched_weapon",
+      "socket": "market",
+      "role": "review",
+      "difficulty": 2,
+      "targetMisconception": "Salt crosses the membrane instead of water.",
+      "familyId": "sorter",
+      "mode": "type_match",
+      "prompt": "Review wave: for each cell, which way does the water move? Answer before it drifts by.",
+      "params": {
+        "categories": [
+          {
+            "id": "in",
+            "label": "Water moves in"
+          },
+          {
+            "id": "out",
+            "label": "Water moves out"
+          },
+          {
+            "id": "none",
+            "label": "No net movement"
+          }
+        ],
+        "waves": [
+          {
+            "text": "Cell with 2% salt inside, in a 10% salt bath",
+            "categoryId": "out",
+            "why": "More solute outside pulls water out."
+          },
+          {
+            "text": "Cell with 2% salt inside, in distilled water",
+            "categoryId": "in",
+            "why": "Water flows toward the solute-rich cell."
+          },
+          {
+            "text": "Cell with 0.9% salt inside, in 0.9% saline",
+            "categoryId": "none",
+            "why": "Isotonic: no net flow."
+          },
+          {
+            "text": "Potato cells in a sugar syrup",
+            "categoryId": "out",
+            "why": "Syrup has far more solute than the cells."
+          }
+        ],
+        "secondsPerWave": 8
+      },
+      "hints": [
+        "Compare the solute levels inside and outside.",
+        "Water goes toward the side with more solute.",
+        "Equal solute means no net movement at all."
+      ],
+      "wrongFeedback": "Water moves toward the higher solute concentration; the salt itself stays where it is.",
+      "debriefLine": "Osmosis review: you predicted the direction of water for four cells from the solute levels alone.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "Osmosis is the diffusion of water across a selectively permeable membrane."
+      },
+      "solution": {
+        "answers": [
+          "out",
+          "in",
+          "none",
+          "out"
+        ]
+      }
+    },
+    {
+      "id": "e10_bulk",
+      "conceptIds": [
+        "c_bulk_transport"
+      ],
+      "teachingMechanicId": "chrono_bridge",
+      "socket": "research_node",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Vesicle transport is passive because the cargo isn't pumped.",
+      "familyId": "sequencer",
+      "mode": "linear",
+      "prompt": "The great door only opens if the planks show how a large particle gets INTO the cell. One plank doesn't belong.",
+      "params": {
+        "steps": [
+          "The particle touches the outside of the membrane",
+          "The membrane folds inward around the particle",
+          "The pocket pinches off, forming a vesicle inside the cell",
+          "The vesicle carries the particle to its destination"
+        ],
+        "decoys": [
+          "The particle dissolves through the bilayer on its own"
+        ]
+      },
+      "hints": [
+        "Something too big for any protein channel has to be wrapped.",
+        "The membrane does the wrapping, then closes the pocket.",
+        "Start at the moment of contact and end with the vesicle moving."
+      ],
+      "wrongFeedback": "Order matters: the membrane cannot pinch off a vesicle before it has folded around the cargo.",
+      "debriefLine": "Endocytosis: you put the 4 steps in order, and every one of them costs ATP, which is why bulk transport is active.",
+      "sourceRef": {
+        "page": 4,
+        "quote": "In endocytosis the membrane folds inward around the cargo and pinches off to form a vesicle inside the cell."
+      },
+      "solution": {
+        "order": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ]
+      }
+    },
+    {
+      "id": "e11_boss",
+      "conceptIds": [
+        "c_active_transport",
+        "c_facilitated"
+      ],
+      "teachingMechanicId": "membrane_router",
+      "socket": "crisis",
+      "role": "boss",
+      "difficulty": 3,
+      "targetMisconception": "Transport always goes down the gradient.",
+      "familyId": "sorter",
+      "mode": "bins",
+      "prompt": "The Gatekeeper dumps a mixed cargo at your feet. Sort every item by how it crosses the membrane, or the nucleus stays sealed.",
+      "params": {
+        "bins": [
+          {
+            "id": "simple",
+            "label": "Simple diffusion",
+            "feature": "small and nonpolar; crosses the bilayer alone, down its gradient"
+          },
+          {
+            "id": "facilitated",
+            "label": "Facilitated diffusion",
+            "feature": "polar or charged; uses a channel or carrier, still down its gradient, no ATP"
+          },
+          {
+            "id": "active",
+            "label": "Active transport",
+            "feature": "moves against its gradient through a pump that spends ATP"
+          }
+        ],
+        "items": [
+          {
+            "text": "O2 entering a cell that has used up its oxygen",
+            "binId": "simple",
+            "why": "Nonpolar, downhill, no protein."
+          },
+          {
+            "text": "Glucose entering a muscle cell via a carrier, from high to low",
+            "binId": "facilitated",
+            "why": "Protein-assisted but downhill."
+          },
+          {
+            "text": "Na+ pumped out against its gradient",
+            "binId": "active",
+            "why": "Uphill: ATP."
+          },
+          {
+            "text": "Water entering through an aquaporin",
+            "binId": "facilitated",
+            "why": "Channel-assisted diffusion."
+          },
+          {
+            "text": "CO2 leaving a cell that produces it",
+            "binId": "simple",
+            "why": "Nonpolar and downhill."
+          },
+          {
+            "text": "K+ pumped into a cell that already has lots of K+",
+            "binId": "active",
+            "why": "Against the gradient."
+          },
+          {
+            "text": "Cl- entering through an open channel, from high to low",
+            "binId": "facilitated",
+            "why": "Charged, needs a channel, still downhill."
+          }
+        ]
+      },
+      "hints": [
+        "First ask: which way relative to the gradient? Then ask: can it cross the lipid alone?",
+        "Uphill is always active. Downhill with a protein is facilitated.",
+        "Only small nonpolar molecules cross alone."
+      ],
+      "wrongFeedback": "Two questions decide it: direction relative to the gradient (uphill needs ATP) and whether the molecule can dissolve through lipid (nonpolar) or needs a protein.",
+      "debriefLine": "Boss: you sorted 7 cargo items into simple diffusion, facilitated diffusion, and active transport by direction and polarity, the whole unit in one room.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "If a cell runs out of ATP, its pumps stop and the gradients they maintain slowly dissipate."
+      },
+      "solution": {
+        "assignments": {
+          "i0": "simple",
+          "i1": "facilitated",
+          "i2": "active",
+          "i3": "facilitated",
+          "i4": "simple",
+          "i5": "active",
+          "i6": "facilitated"
+        }
+      }
+    }
+  ],
+  "layout": {
+    "chunks": [
+      {
+        "chunkId": "s_founding",
+        "encounterId": null
+      },
+      {
+        "chunkId": "s_courier",
+        "encounterId": "e1_bilayer"
+      },
+      {
+        "chunkId": "s_market",
+        "encounterId": "e2_selectivity"
+      },
+      {
+        "chunkId": "s_season",
+        "encounterId": null
+      },
+      {
+        "chunkId": "s_academy",
+        "encounterId": "e3_diffusion"
+      },
+      {
+        "chunkId": "s_academy",
+        "encounterId": "e4_osmosis"
+      },
+      {
+        "chunkId": "s_season",
+        "encounterId": null
+      },
+      {
+        "chunkId": "s_market",
+        "encounterId": "e5_tonicity"
+      },
+      {
+        "chunkId": "s_market",
+        "encounterId": "e6_facilitated"
+      },
+      {
+        "chunkId": "s_season",
+        "encounterId": null
+      },
+      {
+        "chunkId": "s_academy",
+        "encounterId": "e7_active"
+      },
+      {
+        "chunkId": "s_academy",
+        "encounterId": "e8_pump"
+      },
+      {
+        "chunkId": "s_season",
+        "encounterId": null
+      },
+      {
+        "chunkId": "s_market",
+        "encounterId": "e9_osmosis_review"
+      },
+      {
+        "chunkId": "s_academy",
+        "encounterId": "e10_bulk"
+      },
+      {
+        "chunkId": "s_season",
+        "encounterId": null
+      },
+      {
+        "chunkId": "s_crisis",
+        "encounterId": "e11_boss"
+      }
+    ]
+  },
+  "narrative": {
+    "intro": [
+      {
+        "speakerId": "pilot",
+        "text": "Morning, harbourmaster! The queue at the sea wall is already long. Nothing crosses without a reason."
+      }
+    ],
+    "outro": [
+      {
+        "speakerId": "pilot",
+        "text": "Look at the town lit up for the festival. Everyone crossed the right way, at the right cost."
+      }
+    ],
+    "beats": [
+      {
+        "speakerId": "pilot",
+        "text": "Watch the small ones. Small doesn't mean welcome.",
+        "encounterId": "e2_selectivity",
+        "when": "before"
+      },
+      {
+        "speakerId": "gatekeeper",
+        "text": "Festival gate's mine. Show me you know what costs energy.",
+        "encounterId": "e11_boss",
+        "when": "before"
+      },
+      {
+        "speakerId": "gatekeeper",
+        "text": "Sorted true. Light the lanterns.",
+        "encounterId": "e11_boss",
+        "when": "after"
+      }
+    ]
+  },
+  "audio": {
+    "musicTrackId": null,
+    "voice": []
+  },
+  "assessment": {
+    "pre": [
+      {
+        "conceptId": "c_osmosis",
+        "prompt": "A cell sits in very salty water. Which way does water move?",
+        "choices": [
+          "Into the cell",
+          "Out of the cell",
+          "Salt moves in, water stays",
+          "Nothing moves"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "conceptId": "c_active_transport",
+        "prompt": "Which process needs ATP?",
+        "choices": [
+          "Diffusion of O2",
+          "Osmosis",
+          "Pumping Na+ out against its gradient",
+          "Facilitated diffusion of glucose"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "conceptId": "c_selectivity",
+        "prompt": "Which crosses the bilayer without any protein?",
+        "choices": [
+          "Na+",
+          "Glucose",
+          "Carbon dioxide",
+          "A protein"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "post": [
+      {
+        "conceptId": "c_osmosis",
+        "prompt": "A freshwater fish cell sits in fresh water, which has far less solute than the cell. What happens?",
+        "choices": [
+          "Water leaves the cell",
+          "Salt enters the cell",
+          "Nothing moves",
+          "Water enters the cell"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "conceptId": "c_active_transport",
+        "prompt": "A cell moves calcium ions from a low concentration inside to a higher one outside. This is…",
+        "choices": [
+          "Osmosis",
+          "Simple diffusion",
+          "Facilitated diffusion",
+          "Active transport, using ATP"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "conceptId": "c_selectivity",
+        "prompt": "Why can't Na+ cross the bilayer on its own even though it is tiny?",
+        "choices": [
+          "It is too large",
+          "It is charged, and the lipid interior is nonpolar",
+          "The membrane has no holes",
+          "Sodium is toxic to the cell"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

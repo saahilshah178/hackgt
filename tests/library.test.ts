@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CARDS, cardsFor, getCard, isCardImplemented, validateCatalog } from "../src/library";
-import { AUTO_GENRES, BOSS_SOCKET, CHUNKS, GENRE_WEIGHTS, IMPLEMENTED_GENRES, SOCKETS, autoSelectGenre } from "../src/library/genres";
+import { AUTO_GENRES, BOARD_GENRES, BOSS_SOCKET, CHUNKS, GENRE_INFO, GENRE_WEIGHTS, IMPLEMENTED_GENRES, SOCKETS, autoSelectGenre } from "../src/library/genres";
+import { GENRE_LABELS } from "../src/library/genre-labels";
 import { FAMILIES, socketsFor } from "../src/mechanics/registry";
 import { GENRES, KNOWLEDGE_TYPES } from "../src/contracts/common";
 
@@ -60,13 +61,23 @@ describe("genres", () => {
   });
 
   it("auto-selects the genre from knowledge-type weights, restricted to implemented genres", () => {
-    expect(autoSelectGenre({ argument: 10 }).genre).toBe("mystery"); // dungeon + mystery hosts exist
-    expect(autoSelectGenre({ quantitative: 10 }).genre).toBe("dungeon"); // platformer would win, but auto-selection only picks AUTO_GENRES
+    // every knowledge type has a home, and most of them are not side-scrollers
+    expect(autoSelectGenre({ argument: 10 }).genre).toBe("story");
+    expect(autoSelectGenre({ causal: 10 }).genre).toBe("mystery");
+    expect(autoSelectGenre({ sequence: 10 }).genre).toBe("puzzle");
+    expect(autoSelectGenre({ procedure: 10 }).genre).toBe("puzzle");
+    expect(autoSelectGenre({ system: 10 }).genre).toBe("strategy");
+    expect(autoSelectGenre({ category: 10 }).genre).toBe("strategy");
+    expect(autoSelectGenre({ spatial: 10 }).genre).toBe("explorer");
+    expect(autoSelectGenre({ fact: 10 }).genre).toBe("dungeon");
+    expect(autoSelectGenre({ quantitative: 10 }).genre).toBe("puzzle"); // platformer ties, but auto-selection only picks AUTO_GENRES
     expect(IMPLEMENTED_GENRES).toContain("platformer"); // explicit requests (and Regenerate as platformer) do play it
     expect(AUTO_GENRES).not.toContain("platformer");
-    expect(autoSelectGenre({ argument: 10 }, GENRES).genre).toBe("mystery");
     expect(autoSelectGenre({ quantitative: 10 }, GENRES).genre).toBe("platformer");
     expect(autoSelectGenre({ fact: 4, category: 4 }, GENRES).genre).toBe("dungeon");
+    for (const g of GENRES) expect(IMPLEMENTED_GENRES, g).toContain(g);
+    for (const g of BOARD_GENRES) expect(GENRE_LABELS[g].name).toBe(GENRE_INFO[g].name);
+    for (const g of GENRES) expect(GENRE_LABELS[g].name, g).toBe(GENRE_INFO[g].name);
     for (const kt of KNOWLEDGE_TYPES) for (const g of GENRES) expect(GENRE_WEIGHTS[kt][g]).toBeGreaterThanOrEqual(0);
   });
 });

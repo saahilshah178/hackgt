@@ -503,4 +503,17 @@ export const COVERAGE_PARAMS: Record<string, unknown> = {
     wordBank: ["solute", "solvent", "pressure"],
     hint: "Think about what's dissolved.",
   },
+
+  // ---------------------------------------------------------------- explainer
+  "explainer.teach_back": {
+    listener: "a new lab apprentice",
+    question: "Why does a cell swell in fresh water?",
+    ideas: [
+      { label: "where the dissolved stuff is", keywords: ["hypotonic", "more solute inside"], followUp: "Is the inside different from the pond?", exemplar: "Fresh water is hypotonic." },
+      { label: "what crosses and which way", keywords: ["osmosis", "water moves in"], followUp: "What crosses, and which way?", exemplar: "Water moves in by osmosis." },
+    ],
+    required: 2,
+    misconceptions: [{ keywords: ["salt moves in"], correction: "Can the dissolved particles get through?" }],
+    wordBank: ["osmosis", "hypotonic", "membrane"],
+  },
 };

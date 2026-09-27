@@ -6,6 +6,7 @@ import { UploadPanel } from "@/components/upload-panel";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Genre } from "@/contracts/common";
 import { GENRE_INFO } from "@/library/genres";
+import { GENRE_LABELS } from "@/library/genre-labels";
 import { APP_TAGLINE } from "@/config";
 
 /** Demo insurance (MEGAPROMPT P11): showcase games that play from fixtures with zero keys. */
@@ -33,6 +34,48 @@ const SHOWCASE_META: { fixture: string; href: string; blurb: string }[] = [
     fixture: "civil-rights-mystery",
     href: "/play/fixture-civil-rights-mystery",
     blurb: "Chain causes to consequences, sort primary from secondary sources, eliminate hypotheses on the corkboard.",
+  },
+];
+
+/**
+ * One topic, many kinds of game: the board genres progress without walking right. Each card names the perspective and
+ * the progression verb, so the variety is visible before anyone clicks Play.
+ */
+const WAYS_TO_PLAY: { fixture: string; href: string; genre: Genre; progress: string; interactions: string }[] = [
+  {
+    fixture: "trig-puzzle",
+    href: "/play/fixture-trig-puzzle",
+    genre: "puzzle",
+    progress: "Rotate conduit tiles to route a sine wave across the board; a seal only breaks once power reaches it.",
+    interactions: "Tile rotation, ordering steps, placing values on a number line, matching waves to amplitudes, explaining why",
+  },
+  {
+    fixture: "cell-transport-cozy",
+    href: "/play/fixture-cell-transport-cozy",
+    genre: "strategy",
+    progress: "Villagers bring requests each day; answer them to earn coins, build up the town and light the festival.",
+    interactions: "Sorting molecules into routes, matching pumps to jobs, explaining osmosis to a villager",
+  },
+  {
+    fixture: "cell-transport-casefile",
+    href: "/play/fixture-cell-transport-casefile",
+    genre: "mystery",
+    progress: "Search the lab for clues, combine two clues into a lead, crack it for a deduction, then accuse.",
+    interactions: "Clue combination, cause-and-effect chains, sorting evidence, explaining osmosis to your partner",
+  },
+  {
+    fixture: "civil-rights-explorer",
+    href: "/play/fixture-civil-rights-explorer",
+    genre: "explorer",
+    progress: "Walk a bird's-eye map in any order; each place you understand opens the road to the next, past patrols.",
+    interactions: "Pathfinding, timelines, linking causes to consequences",
+  },
+  {
+    fixture: "civil-rights-story",
+    href: "/play/fixture-civil-rights-story",
+    genre: "story",
+    progress: "A branching reporter's notebook: pick which thread to follow, and explain what you saw to move the story.",
+    interactions: "Story choices, written explanations, eliminating hypotheses",
   },
 ];
 
@@ -82,6 +125,7 @@ export default async function Home() {
     };
   });
   const wave2Meta = await readFixtureMeta(WAVE2.fixture);
+  const wayMetas = await Promise.all(WAYS_TO_PLAY.map((w) => readFixtureMeta(w.fixture)));
   const platformerMeta = await readFixtureMeta(PLATFORMER.fixture);
 
   return (
@@ -116,11 +160,48 @@ export default async function Home() {
         </p>
       </section>
 
+      <section className="mt-16" aria-labelledby="ways-heading">
+        <h2 id="ways-heading" className="text-3xl font-semibold">
+          Not just side-scrollers
+        </h2>
+        <p className="mt-2 max-w-3xl text-lg text-muted-foreground">
+          The same study material becomes very different games. Each genre has its own perspective and its own way of making
+          progress, and most of them have no avatar at all. Pre-generated and playable now, no keys needed.
+        </p>
+        <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3" data-testid="ways-to-play">
+          {WAYS_TO_PLAY.map((w, i) => (
+            <Card key={w.href} className="flex flex-col">
+              <CardHeader>
+                <CardDescription className="text-base font-semibold uppercase tracking-wide">
+                  {GENRE_LABELS[w.genre].name} · {GENRE_LABELS[w.genre].perspective}
+                </CardDescription>
+                <CardTitle className="text-2xl">{wayMetas[i]?.title ?? w.fixture}</CardTitle>
+                <p className="text-base text-muted-foreground">{subjectFor(w.fixture)}</p>
+              </CardHeader>
+              <CardContent className="flex flex-1 flex-col gap-3">
+                <p className="text-lg">
+                  <strong>How you progress:</strong> {w.progress}
+                </p>
+                <p className="text-base text-muted-foreground">
+                  <strong>You&apos;ll be:</strong> {w.interactions}
+                </p>
+                <Link
+                  href={w.href}
+                  className="mt-auto inline-flex h-12 items-center justify-center rounded-md bg-primary px-6 text-lg font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+                >
+                  Play
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
       <section className="mt-16" aria-labelledby="showcase-heading">
         <h2 id="showcase-heading" className="text-3xl font-semibold">
-          Showcase games
+          Side-view adventures
         </h2>
-        <p className="mt-2 text-lg text-muted-foreground">Pre-generated and playable right now, no keys needed.</p>
+        <p className="mt-2 text-lg text-muted-foreground">The walking genres, for material where a journey fits.</p>
         <div className="mt-6 grid gap-6 md:grid-cols-3">
           {showcase.map((g) => (
             <Card key={g.href} className="flex flex-col">

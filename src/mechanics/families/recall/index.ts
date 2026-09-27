@@ -17,6 +17,8 @@ export const recall = defineFamily({
     platformer: { sockets: ["pickup"], skin: "Type the term to double-jump" },
     puzzle: { sockets: ["tile_board"], skin: "Timed word tiles" },
     strategy: { sockets: ["research_node"], skin: "Quick recall boosts research" },
+    explorer: { sockets: ["sentry"], skin: "Answer the sentry challenge to pass" },
+    story: { sockets: ["dialogue"], skin: "Remember what the elder taught you" },
   },
   modes: {
     rapid,

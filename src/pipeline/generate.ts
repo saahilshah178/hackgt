@@ -120,7 +120,8 @@ export function resolveGenre(km: KnowledgeMap, intake: Intake): { genre: Genre; 
 
 /**
  * The Director's menu: per concept, the matcher's implemented picks that play in this genre, grouped by
- * family with the sockets each family can use. Every concept keeps at least one option (mimic_chest).
+ * family with the sockets each family can use. Every concept keeps at least one option (mimic_chest), and the
+ * universal teach_back card (explain it in your own words) is always offered.
  */
 export function buildDirectorMenu(km: KnowledgeMap, matches: readonly MatchResult[], genre: Genre): DirectorMenuFamily[] {
   const chosen = new Map<string, TeachingMechanic>();
@@ -138,6 +139,9 @@ export function buildDirectorMenu(km: KnowledgeMap, matches: readonly MatchResul
     if (!any && fallback) chosen.set(fallback.id, fallback);
   }
   if (fallback && cardPlaysIn(fallback, genre)) chosen.set(fallback.id, fallback);
+  // the universal explain-it-back card is always on the menu: an alternative to multiple choice for any concept
+  const explain = getCard("teach_back");
+  if (explain && isCardImplemented(explain) && cardPlaysIn(explain, genre)) chosen.set(explain.id, explain);
   const byFamily = new Map<TeachingMechanic["family"], TeachingMechanic[]>();
   for (const card of chosen.values()) byFamily.set(card.family, [...(byFamily.get(card.family) ?? []), card]);
   return [...byFamily].map(([familyId, cards]) => ({

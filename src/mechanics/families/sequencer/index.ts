@@ -16,6 +16,8 @@ export const sequencer = defineFamily({
     platformer: { sockets: ["gap"], skin: "Bridge planks in order; the wrong order leaves a gap" },
     puzzle: { sockets: ["conveyor"], skin: "Order the parcels on the conveyor" },
     strategy: { sockets: ["research_node"], skin: "Tech tree order" },
+    explorer: { sockets: ["locked_gate"], skin: "Press the floor plates in process order" },
+    story: { sockets: ["journal"], skin: "Put the diary pages back in order" },
   },
   modes: {
     linear,

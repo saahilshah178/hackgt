@@ -20,6 +20,8 @@ export const balance = defineFamily({
     platformer: { sockets: ["switch"], skin: "Seesaw bridge" },
     puzzle: { sockets: ["lock"], skin: "Cancel terms, DragonBox-style" },
     strategy: { sockets: ["ledger"], skin: "Balance budgets and flows" },
+    explorer: { sockets: ["shrine"], skin: "Balance the shrine scales to open the passage" },
+    story: { sockets: ["debate"], skin: "Weigh both sides until the argument balances" },
   },
   modes: {
     equation,

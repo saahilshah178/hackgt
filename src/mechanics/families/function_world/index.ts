@@ -21,6 +21,8 @@ export const functionWorld = defineFamily({
     platformer: { sockets: ["gap"], skin: "The terrain is y = f(x); the missing tile" },
     puzzle: { sockets: ["tile_board"], skin: "Track tiles that follow f" },
     strategy: { sockets: ["market"], skin: "Price curve over time" },
+    explorer: { sockets: ["bridge"], skin: "The bridge deck follows f(x); find the missing span" },
+    story: { sockets: ["journal"], skin: "Read the trend in the expedition log" },
   },
   modes: {
     limit,

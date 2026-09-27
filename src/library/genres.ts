@@ -13,6 +13,8 @@ export const SOCKETS = {
   platformer: ["gap", "gate", "moving_platform", "switch", "pickup", "boss"],
   puzzle: ["tile_board", "pipe_board", "beam_board", "conveyor", "lock", "goal_pad", "boss"],
   strategy: ["production_line", "market", "policy_dial", "research_node", "event_card", "ledger", "crisis"],
+  explorer: ["locked_gate", "terminal", "shrine", "bridge", "sentry", "cache", "heart"],
+  story: ["dialogue", "choice", "letter", "debate", "journal", "trial", "climax"],
 } as const satisfies Record<Genre, readonly string[]>;
 
 /** The socket the final (boss) encounter must use in each genre. */
@@ -22,6 +24,8 @@ export const BOSS_SOCKET: Record<Genre, string> = {
   platformer: "boss",
   puzzle: "boss",
   strategy: "crisis",
+  explorer: "heart",
+  story: "climax",
 };
 
 export interface GenreInfo {
@@ -39,8 +43,9 @@ export const GENRE_INFO: Record<Genre, GenreInfo> = {
     buildTier: 1,
   },
   mystery: {
-    name: "Investigation adventure",
-    coreLoop: "Talk, collect evidence, deduce, accuse.",
+    name: "Point-and-click investigation",
+    coreLoop:
+      "Search each scene for clues, combine two clues into a lead, crack the lead to earn a deduction, then name the answer at the accusation.",
     bestAt: "history, literature, civics, law, biology, arguments",
     buildTier: 2,
   },
@@ -51,40 +56,65 @@ export const GENRE_INFO: Record<Genre, GenreInfo> = {
     buildTier: 3,
   },
   puzzle: {
-    name: "Grid puzzle / escape room",
-    coreLoop: "Turn-based moves on tiles.",
-    bestAt: "procedures, logic, transformations, CS",
+    name: "Logic board",
+    coreLoop:
+      "No avatar: rotate circuit tiles to route power from the source to the core. Sealed tiles are challenges, and a seal only opens once power reaches it.",
+    bestAt: "procedures, logic, transformations, quantities, CS",
     buildTier: 4,
   },
   strategy: {
-    name: "Management sim",
-    coreLoop: "Build and run a system over turns.",
-    bestAt: "economics, ecology, stoichiometry, systems",
+    name: "Cozy management sim",
+    coreLoop:
+      "Day by day, villagers bring requests. Fulfil them to earn coins and spend the coins growing the town. No fail state; wrong answers only cost time.",
+    bestAt: "systems, economics, ecology, categories, stoichiometry",
     buildTier: 5,
+  },
+  explorer: {
+    name: "Top-down explorer",
+    coreLoop:
+      "A bird's-eye maze you explore in any order: stations open gates and bridges to new wings, sentries patrol the corridors, and the heart of the maze opens last.",
+    bestAt: "spatial layouts, systems, facts, processes with places",
+    buildTier: 6,
+  },
+  story: {
+    name: "Narrative adventure",
+    coreLoop:
+      "A branching text story with no map: your choices pick the path, and explaining ideas to the characters is what moves the plot forward.",
+    bestAt: "arguments, causes and consequences, history, literature, ethics",
+    buildTier: 7,
   },
 };
 
 /** Genre hosts that exist in src/game/hosts. Flip a genre on when its host lands. A requested genre plays only if it is here. */
-export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon", "mystery", "platformer"];
+export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon", "mystery", "platformer", "puzzle", "strategy", "explorer", "story"];
 
 /**
- * Genres the auto-selector may choose when the intake says "auto". Platformer is explicit-request only for now:
- * its host landed last (checkpoint 36) with trigger-only obstacles, and the quantitative/spatial weights would
- * otherwise route the trig showcase to it instead of the polished Dungeon. Promote it here once the host is polished.
+ * Genres played by a board host (src/game/genre): non-linear progression through the free-order runner, no
+ * left-to-right room strip. The rest play on the legacy side-view hosts (or the Expedition when a world resolves).
  */
-export const AUTO_GENRES: readonly Genre[] = ["dungeon", "mystery"];
+export const BOARD_GENRES: readonly Genre[] = ["mystery", "puzzle", "strategy", "explorer", "story"];
 
-/** LIBRARY §1.1: knowledge type → genre weight. */
+/**
+ * Genres the auto-selector may choose when the intake says "auto". Platformer is explicit-request only: its host has
+ * trigger-only obstacles, and the quantitative/spatial weights would otherwise send most math uploads to it.
+ */
+export const AUTO_GENRES: readonly Genre[] = ["dungeon", "mystery", "puzzle", "strategy", "explorer", "story"];
+
+/**
+ * LIBRARY §1.1: knowledge type → genre weight, extended so each knowledge type has a home that is not a side-scroller:
+ * sequences and procedures → the logic board, systems and categories → the cozy sim, spatial → the top-down explorer,
+ * causal → the investigation, arguments → the narrative adventure.
+ */
 export const GENRE_WEIGHTS: Record<KnowledgeType, Record<Genre, number>> = {
-  fact: { dungeon: 3, mystery: 2, platformer: 1, puzzle: 1, strategy: 0 },
-  category: { dungeon: 3, mystery: 2, platformer: 2, puzzle: 2, strategy: 1 },
-  sequence: { dungeon: 2, mystery: 2, platformer: 2, puzzle: 3, strategy: 1 },
-  causal: { dungeon: 1, mystery: 3, platformer: 1, puzzle: 1, strategy: 2 },
-  system: { dungeon: 1, mystery: 1, platformer: 1, puzzle: 1, strategy: 3 },
-  quantitative: { dungeon: 2, mystery: 0, platformer: 3, puzzle: 2, strategy: 2 },
-  spatial: { dungeon: 2, mystery: 1, platformer: 3, puzzle: 3, strategy: 1 },
-  procedure: { dungeon: 2, mystery: 1, platformer: 1, puzzle: 3, strategy: 1 },
-  argument: { dungeon: 0, mystery: 3, platformer: 0, puzzle: 1, strategy: 1 },
+  fact: { dungeon: 3, mystery: 2, platformer: 1, puzzle: 1, strategy: 1, explorer: 2, story: 2 },
+  category: { dungeon: 2, mystery: 2, platformer: 1, puzzle: 2, strategy: 3, explorer: 2, story: 1 },
+  sequence: { dungeon: 1, mystery: 2, platformer: 2, puzzle: 3, strategy: 1, explorer: 2, story: 2 },
+  causal: { dungeon: 1, mystery: 3, platformer: 0, puzzle: 1, strategy: 2, explorer: 1, story: 2 },
+  system: { dungeon: 1, mystery: 1, platformer: 1, puzzle: 2, strategy: 3, explorer: 2, story: 1 },
+  quantitative: { dungeon: 1, mystery: 0, platformer: 3, puzzle: 3, strategy: 2, explorer: 1, story: 0 },
+  spatial: { dungeon: 2, mystery: 1, platformer: 3, puzzle: 2, strategy: 1, explorer: 3, story: 0 },
+  procedure: { dungeon: 2, mystery: 1, platformer: 1, puzzle: 3, strategy: 2, explorer: 2, story: 1 },
+  argument: { dungeon: 0, mystery: 3, platformer: 0, puzzle: 0, strategy: 1, explorer: 0, story: 4 },
 };
 
 /**
@@ -172,6 +202,28 @@ export const CHUNKS: Record<Genre, ChunkDef[]> = {
     { id: "s_courier", kind: "room", socket: "event_card" },
     { id: "s_treasury", kind: "room", socket: "ledger" },
     { id: "s_crisis", kind: "boss", socket: "crisis" },
+  ],
+  explorer: [
+    { id: "e_entrance", kind: "start", socket: null },
+    { id: "e_corridor", kind: "connector", socket: null },
+    { id: "e_gatehouse", kind: "room", socket: "locked_gate" },
+    { id: "e_console_room", kind: "room", socket: "terminal" },
+    { id: "e_shrine", kind: "room", socket: "shrine" },
+    { id: "e_chasm", kind: "room", socket: "bridge" },
+    { id: "e_checkpoint", kind: "room", socket: "sentry" },
+    { id: "e_storeroom", kind: "room", socket: "cache" },
+    { id: "e_heart", kind: "boss", socket: "heart" },
+  ],
+  story: [
+    { id: "n_prologue", kind: "start", socket: null },
+    { id: "n_interlude", kind: "connector", socket: null },
+    { id: "n_conversation", kind: "room", socket: "dialogue" },
+    { id: "n_crossroads", kind: "room", socket: "choice" },
+    { id: "n_letter", kind: "room", socket: "letter" },
+    { id: "n_town_hall", kind: "room", socket: "debate" },
+    { id: "n_journal", kind: "room", socket: "journal" },
+    { id: "n_hearing", kind: "room", socket: "trial" },
+    { id: "n_climax", kind: "boss", socket: "climax" },
   ],
 };
 

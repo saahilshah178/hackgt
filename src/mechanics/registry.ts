@@ -2,6 +2,7 @@ import type { FamilyId, Genre } from "../contracts/common";
 import { accumulator } from "./families/accumulator";
 import { balance } from "./families/balance";
 import { builder } from "./families/builder";
+import { explainer } from "./families/explainer";
 import { functionWorld } from "./families/function_world";
 import { investigator } from "./families/investigator";
 import { linker } from "./families/linker";
@@ -16,7 +17,7 @@ import { tuner } from "./families/tuner";
 import type { AnyFamilyMode, MechanicFamily } from "./types";
 
 /**
- * All 14 families (LIBRARY §4), in wave order. Adding a mode = one file in the family folder + one entry in
+ * All 15 families (LIBRARY §4 plus explainer), in wave order. Adding a mode = one file in the family folder + one entry in
  * its `modes`. Modes that aren't built yet are `stubMode`s (implemented: false): cards can reference them
  * and the wishlist shows them, but the Director never sees them.
  */
@@ -37,6 +38,8 @@ export const FAMILIES: readonly MechanicFamily[] = [
   transformer,
   accumulator,
   recall,
+  // explain the concept back (progress by teaching)
+  explainer,
 ];
 
 const byId = new Map<string, MechanicFamily>(FAMILIES.map((f) => [f.id, f]));

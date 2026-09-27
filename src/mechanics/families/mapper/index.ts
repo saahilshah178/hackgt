@@ -15,6 +15,8 @@ export const mapper = defineFamily({
     platformer: { sockets: ["gap"], skin: "The floor is a number line; land on the value" },
     puzzle: { sockets: ["tile_board"], skin: "Place the tile at its position on the axis" },
     strategy: { sockets: ["market"], skin: "Place goods on the price line" },
+    explorer: { sockets: ["terminal"], skin: "Plot the position on the map terminal" },
+    story: { sockets: ["journal"], skin: "Pin the moment on the journal map" },
   },
   modes: {
     number_line: numberLine,
