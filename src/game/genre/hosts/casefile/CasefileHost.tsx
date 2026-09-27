@@ -10,6 +10,7 @@ import {
   cluesLeftIn,
   combine,
   correctLine,
+  dossierFor,
   effectiveFound,
   effectiveLeads,
   falseLeadsLine,
@@ -25,6 +26,7 @@ import {
   wrongLine,
   SCENE_H,
   SCENE_W,
+  type Casefile,
   type Clue,
   type Hotspot,
 } from "./casefile.logic";
@@ -65,6 +67,13 @@ export function CasefileHost(props: Props) {
   const partnerId = cf.partnerId;
   const [loc, setLoc] = useState(0);
   const [view, setView] = useState<"scene" | "board">("scene");
+  /** the case briefing: the start screen that says, in four steps, exactly what to do */
+  const [briefing, setBriefing] = useState(true);
+  const rootRef = useRef<HTMLDivElement>(null);
+  /** the case dossier: the agent briefing on what each room teaches, and what has been proved */
+  const [dossier, setDossier] = useState<false | { focus: string | null }>(false);
+  /** scenes Dr. Ora has already given her one-line primer for */
+  const briefed = useRef<Set<number>>(new Set());
   const [found, setFound] = useState<ReadonlySet<string>>(() => new Set());
   const [formed, setFormed] = useState<ReadonlySet<string>>(() => new Set());
   const [searched, setSearched] = useState<ReadonlySet<string>>(() => new Set());
@@ -121,6 +130,36 @@ export function CasefileHost(props: Props) {
       setSpeech((s) => ({ lines: [...(s.mood === "good" ? s.lines.slice(0, 1) : []), { speakerId: partnerId, text }], mood: s.mood === "good" ? "good" : "new", key: s.key + 1 }));
     }
   }
+
+  // the briefing steps aside as soon as a lead opens (debug / board open); the How to play button brings it back
+  if (activeId && briefing) setBriefing(false);
+  const focusScene = () => {
+    window.setTimeout(() => rootRef.current?.querySelector<HTMLElement>('[data-testid="casefile-scene"] .cf-hot')?.focus({ preventScroll: true }), 0);
+  };
+  /** Dr. Ora's one-line primer the first time the player enters a scene: the room's topic in a sentence. */
+  const briefScene = (i: number) => {
+    const where = cf.locations[i];
+    if (!where || where.kind !== "scene" || briefed.current.has(i)) return;
+    briefed.current.add(i);
+    const first = spec.encounters.find((e) => e.id === where.encounterIds[0]);
+    const concept = first ? spec.concepts.find((c) => c.id === first.conceptIds[0]) : undefined;
+    if (!concept?.primer) return;
+    setSpeech({ lines: [{ speakerId: partnerId, text: `Before you dig in: ${concept.primer}` }], mood: "new", key: nextKey() });
+  };
+  const startInvestigating = () => {
+    setBriefing(false);
+    briefScene(loc);
+    focusScene();
+  };
+  const openDossier = (focus: string | null = null) => {
+    setBriefing(false);
+    setDossier({ focus });
+  };
+  const closeDossier = () => {
+    setDossier(false);
+    briefScene(loc);
+    focusScene();
+  };
 
   // ---- derived state
   const availableSet = new Set(available);
@@ -184,6 +223,7 @@ export function CasefileHost(props: Props) {
     setView("scene");
     setBubble(null);
     setStatus("");
+    briefScene(i);
   };
 
   const search = (h: Hotspot) => {
@@ -380,7 +420,7 @@ export function CasefileHost(props: Props) {
       <div className="cf-stage" data-testid="casefile-scene" data-location={location.index} onKeyDown={onSceneKey}>
         <SceneRoom location={location} ink={ink} uid={`${uid}-${location.index}`} />
         <p className="cf-caption" aria-hidden>
-          {location.place} <span>· {location.title}</span>
+          {location.title} <span>· {location.topic}</span>
         </p>
         <div className="cf-hots" role="group" aria-label={`${location.name}. Tab to a prop and press Enter to search it; left and right arrows change the room.`}>
           {location.hotspots.map((h) => {
@@ -522,6 +562,11 @@ export function CasefileHost(props: Props) {
           <div>
             <p className="cf-kicker">{isBossActive ? `The accusation · ${suspectName}` : "Crack the lead"}</p>
             <p className="cf-challenge-name">{activeEncounter ? nameOf(activeEncounter.id) : ""}</p>
+            {activeEncounter && !isBossActive && (
+              <button type="button" className="cf-helplink cf-helplink-strong" style={{ marginTop: 6 }} data-testid="casefile-readup" aria-haspopup="dialog" onClick={() => openDossier(activeEncounter.conceptIds[0] ?? null)}>
+                Read up in the dossier
+              </button>
+            )}
             {lastResult && lastResult.encounterId === activeId && !lastResult.correct && speech.mood === "hmm" && (
               <p className="cf-head-line" data-testid="casefile-hmm">
                 <strong>{speakerName(spec, partnerId)}:</strong> &ldquo;{speech.lines[0]?.text}&rdquo;
@@ -553,7 +598,17 @@ export function CasefileHost(props: Props) {
         <SpeechBand speech={speech} spec={spec} partnerId={partnerId} suspectId={cf.suspectId} accent={palette.css.accent} />
         <InspectPanel spec={spec} cf={cf} inspect={inspect} solved={solved} leads={leads} available={availableSet} nameOf={nameOf} progression={progression} />
         <div className="cf-panel">
-          <p className="cf-kicker">How to investigate</p>
+          <div className="cf-kicker-row">
+            <p className="cf-kicker">How to investigate</p>
+            <span className="cf-helplinks">
+              <button type="button" className="cf-helplink cf-helplink-strong" data-testid="casefile-dossier-open" aria-haspopup="dialog" onClick={() => openDossier()}>
+                Dossier
+              </button>
+              <button type="button" className="cf-helplink" data-testid="casefile-help" aria-haspopup="dialog" onClick={() => setBriefing(true)}>
+                Briefing
+              </button>
+            </span>
+          </div>
           <ol className="cf-steps" style={{ marginTop: 8, gridTemplateColumns: `repeat(${cf.bossId ? 4 : 3}, 1fr)` }}>
             {(cf.bossId ? ["Search", "Combine", "Crack", "Accuse"] : ["Search", "Combine", "Crack"]).map((label, i) => (
               <li key={label} className="cf-step" data-current={stepNow === i ? "true" : "false"} data-done={stepNow > i ? "true" : "false"}>
@@ -592,7 +647,7 @@ export function CasefileHost(props: Props) {
   }
 
   return (
-    <div data-testid="casefile-host" className="cf-host" style={cssVars} data-view={view} data-finished={finished ? "true" : "false"}>
+    <div ref={rootRef} data-testid="casefile-host" className="cf-host" style={cssVars} data-view={view} data-finished={finished ? "true" : "false"}>
       <style>{CASEFILE_CSS}</style>
       <div className="cf-main">
         {tabs}
@@ -610,6 +665,88 @@ export function CasefileHost(props: Props) {
       <aside ref={sideRef} className="cf-side" aria-label={activeId ? "Casebook: the open lead" : "Casebook"}>
         {side}
       </aside>
+      {briefing && !activeId && !finished && <Briefing spec={spec} cf={cf} partnerId={partnerId} accent={palette.css.accent} onStart={startInvestigating} onDossier={() => openDossier()} />}
+      {dossier && <Dossier spec={spec} cf={cf} solved={solved} partnerId={partnerId} focus={dossier.focus} onClose={closeDossier} />}
+    </div>
+  );
+}
+
+/**
+ * The case briefing: a start screen over the whole game with the one thing a new player needs, the loop in four short
+ * steps (three when the case has no accusation), and a single Start button. Escape or Start closes it; the header's
+ * How to play button reopens it any time.
+ */
+function Briefing({ spec, cf, partnerId, accent, onStart, onDossier }: { spec: Props["spec"]; cf: Casefile; partnerId: string; accent: string; onStart: () => void; onDossier: () => void }) {
+  const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const hasBoss = cf.bossId !== null;
+  const rooms = cf.locations.filter((l) => l.kind !== "accusation").length;
+  const intro = spec.narrative.intro[0]?.text ?? "Something crossed a line here. Let's find out what.";
+  const steps = [
+    { label: "Search", text: "Click anything that sparkles. Each one hides a clue." },
+    { label: "Match", text: "Pick two clues that fit together: a case file and its evidence. That makes a lead." },
+    {
+      label: "Crack",
+      text: hasBoss ? "Answer the lead's question. A right answer pins a deduction on the case board." : "Answer the lead's question. Crack every lead to close the case.",
+    },
+    ...(hasBoss ? [{ label: "Accuse", text: "When every lead is cracked, name the culprit." }] : []),
+  ];
+  return (
+    <div
+      className="cf-brief-scrim"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`${id}-brief-title`}
+      data-testid="casefile-briefing"
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          onStart();
+        }
+      }}
+    >
+      <div className="cf-brief">
+        <p className="cf-brief-kicker">Case briefing</p>
+        <h2 id={`${id}-brief-title`} className="cf-brief-title">
+          {spec.title}
+        </h2>
+        <div className="cf-brief-partner">
+          <div className="cf-speech-face">
+            <Face who="partner" accent={accent} />
+          </div>
+          <div>
+            <p className="cf-speech-name">{speakerName(spec, partnerId)}</p>
+            <p className="cf-brief-line">&ldquo;{intro}&rdquo;</p>
+          </div>
+        </div>
+        <p className="cf-brief-sub">Your job, in {steps.length} steps</p>
+        <ol className="cf-brief-steps">
+          {steps.map((s, i) => (
+            <li key={s.label} className="cf-brief-step">
+              <span className="cf-brief-num" aria-hidden>
+                {i + 1}
+              </span>
+              <span className="cf-brief-icon">
+                <StepIcon step={i} />
+              </span>
+              <span className="cf-brief-label">{s.label}</span>
+              <span className="cf-brief-text">{s.text}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="cf-brief-foot">
+          <span className="cf-small">
+            {rooms} rooms · {spec.encounters.length} deductions · mouse or keyboard
+          </span>
+          <span className="cf-brief-actions">
+            <button type="button" className="cf-btn cf-btn-ghost cf-brief-dossier" data-testid="casefile-brief-dossier" onClick={onDossier}>
+              Read the dossier
+            </button>
+            <button type="button" className="cf-btn cf-brief-start" data-testid="casefile-start" onClick={onStart} autoFocus>
+              Start investigating
+            </button>
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
@@ -625,6 +762,96 @@ function useExpire(value: unknown, ms: number, clear: () => void) {
     const t = window.setTimeout(() => clearRef.current(), ms);
     return () => window.clearTimeout(t);
   }, [value, ms]);
+}
+
+/**
+ * The case dossier: the agent briefing. One section per room with what its leads teach, each concept in a sentence
+ * or two plus the goal; once a lead is cracked its entry gains the confirmed facts and what the deduction proved.
+ */
+function Dossier({ spec, cf, solved, partnerId, focus, onClose }: { spec: Props["spec"]; cf: Casefile; solved: ReadonlySet<string>; partnerId: string; focus: string | null; onClose: () => void }) {
+  const id = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const sections = dossierFor(spec, cf, solved);
+  const entryId = (conceptId: string) => `${id}-c-${conceptId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  useEffect(() => {
+    if (!focus) return;
+    document.getElementById(entryId(focus))?.scrollIntoView({ block: "start" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- scroll once, on open
+  }, []);
+  const done = sections.reduce((n, s) => n + s.entries.filter((e) => e.solved).length, 0);
+  const total = sections.reduce((n, s) => n + s.entries.length, 0);
+  return (
+    <div
+      className="cf-brief-scrim"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`${id}-dossier-title`}
+      data-testid="casefile-dossier"
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          onClose();
+        }
+      }}
+    >
+      <div className="cf-dossier">
+        <div className="cf-dossier-head">
+          <div>
+            <p className="cf-brief-kicker">Case dossier</p>
+            <h2 id={`${id}-dossier-title`} className="cf-brief-title" style={{ fontSize: 30 }}>
+              What you are investigating
+            </h2>
+            <p className="cf-dossier-by">{speakerName(spec, partnerId)}&rsquo;s notes · {done} of {total} confirmed</p>
+          </div>
+          <button type="button" className="cf-btn cf-brief-start" data-testid="casefile-dossier-close" onClick={onClose} autoFocus>
+            Back to the case
+          </button>
+        </div>
+        {sections.map((s) => (
+          <section key={s.locationIndex} className="cf-dossier-section" aria-label={`${s.title}: ${s.topic}`}>
+            <p className="cf-dossier-room">
+              Scene {s.locationIndex + 1} · {s.title} <span>{s.topic}</span>
+            </p>
+            {s.entries.map((en) => (
+              <article key={en.conceptId} id={entryId(en.conceptId)} className="cf-dossier-entry" data-solved={en.solved ? "true" : "false"} data-focus={focus === en.conceptId ? "true" : "false"} data-testid="dossier-entry">
+                <p className="cf-dossier-name">
+                  {en.name}
+                  {en.solved && <span className="cf-dossier-stamp">Confirmed</span>}
+                </p>
+                <p className="cf-dossier-primer">{en.primer}</p>
+                {en.facts.length > 0 && (
+                  <>
+                    <p className="cf-dossier-sub">How it works</p>
+                    <ul className="cf-dossier-facts">
+                      {en.facts.map((f) => (
+                        <li key={f}>{f}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {en.pitfalls.length > 0 && (
+                  <>
+                    <p className="cf-dossier-sub">Watch out</p>
+                    {en.pitfalls.map((p) => (
+                      <p key={p} className="cf-dossier-pitfall">
+                        {p}
+                      </p>
+                    ))}
+                  </>
+                )}
+                <p className="cf-dossier-goal">You will be asked to {en.goal}.</p>
+                {en.proved.map((line) => (
+                  <p key={line} className="cf-dossier-proved">
+                    {line}
+                  </p>
+                ))}
+              </article>
+            ))}
+          </section>
+        ))}
+        {total === 0 && <p className="cf-dossier-primer">Nothing on file yet.</p>}
+      </div>
+    </div>
+  );
 }
 
 function clueTitle(c: Clue): string {
@@ -788,7 +1015,7 @@ function InspectPanel(props: {
       ) : known ? (
         <p className="cf-inspect-meta">{props.available.has(id) ? "Ready to crack." : `Opens after: ${listText(need)}.`}</p>
       ) : (
-        <p className="cf-inspect-meta">Its clues are hidden in {cf.locations[cf.locationOf.get(id) ?? 0]?.title ?? "a scene"}. Find both and combine them.</p>
+        <p className="cf-inspect-meta">Its clues are hidden in the {(cf.locations[cf.locationOf.get(id) ?? 0]?.title ?? "scene").toLowerCase()}. Find both and combine them.</p>
       )}
     </div>
   );

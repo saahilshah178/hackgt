@@ -43,6 +43,10 @@ export type PropKind =
 
 export type SlotId = "wallL" | "wallC" | "tallR" | "floorL" | "floorM" | "desk" | "deskL" | "deskR";
 
+/** The room shells, one per scene in turn: a wood-panelled study, a tiled lab bench, a brick records archive. */
+export type SceneStyle = "study" | "bench" | "archive";
+export const SCENE_STYLES: readonly SceneStyle[] = ["study", "bench", "archive"];
+
 export interface Box {
   x: number;
   y: number;
@@ -154,7 +158,12 @@ const FLAVOUR: Record<PropKind, string[]> = {
   books: ["A thick book, mostly about other things.", "Heavy reading. Not tonight."],
 };
 
-const SPOTS = ["bench", "desk", "files", "corner", "cabinet", "table"];
+/** What each room shell is called on its tab and caption, by the setting's theme; the track's concept rides along as `topic`. */
+const ROOM_NAMES: Record<SceneStyle, Record<Theme, string>> = {
+  study: { lab: "Office", paper: "Office", any: "Office" },
+  bench: { lab: "Lab bench", paper: "Layout table", any: "Work table" },
+  archive: { lab: "Archive", paper: "Archive", any: "Archive" },
+};
 
 const SOCKET_LINE: Record<string, string> = {
   conversation: "Talk it through",
@@ -194,8 +203,10 @@ export interface CaseLocation {
   track: number;
   /** "The Hospital Lab" */
   place: string;
-  /** "Osmosis bench" / "The accusation" */
+  /** the room the scene is drawn as ("Office", "Lab bench", "Archive"), or "The accusation" */
   title: string;
+  /** the track's first concept, shown beside the room name (empty for the accusation) */
+  topic: string;
   /** "The Hospital Lab — Osmosis bench" */
   name: string;
   encounterIds: string[];
@@ -203,6 +214,8 @@ export interface CaseLocation {
   hotspots: Hotspot[];
   /** 0..1 shade variation so the scenes don't all look alike */
   shade: number;
+  /** the shell the scene is drawn in (SCENE_STYLES by track, so consecutive rooms never match) */
+  style: SceneStyle;
 }
 
 export type ClueKind = "tag" | "evidence";
@@ -416,36 +429,39 @@ export function buildCasefile(spec: SpecLike, progression: Progression): Casefil
   const clues: Clue[] = [];
   const cluesOf = new Map<string, readonly [string, string]>();
   const locationOf = new Map<string, number>();
-  const usedSpots = new Set<string>();
   const tagCount = new Map<string, number>();
+  /** props an earlier scene already showed: later rooms pick something else while the slot has alternatives */
+  const usedKinds = new Set<PropKind>();
 
   tracks.forEach((trackIds, t) => {
     const rand = seededRandom((spec.seed ^ hashString(`casefile-scene-${t}`)) >>> 0);
     const first = spec.encounters.find((e) => e.id === trackIds[0]);
-    const firstConcept = first ? shortConcept(conceptName(first.conceptIds[0])) : "Loose ends";
-    let spot = SPOTS[Math.floor(rand() * SPOTS.length)];
-    for (let k = 0; usedSpots.has(spot) && k < SPOTS.length; k++) spot = SPOTS[(SPOTS.indexOf(spot) + 1) % SPOTS.length];
-    usedSpots.add(spot);
-    const title = `${firstConcept[0].toUpperCase()}${firstConcept.slice(1)} ${spot}`;
+    const style = SCENE_STYLES[t % SCENE_STYLES.length];
+    const topic = first ? shortConcept(conceptName(first.conceptIds[0])) : "Loose ends";
+    const title = ROOM_NAMES[style][theme];
 
-    // props: one per slot, biased to the setting's theme
+    // props: one per slot, biased to the setting's theme and away from anything an earlier scene already showed
     const props: PropPlacement[] = SLOT_ORDER.map((slot) => {
       const options = SLOT_PROPS[slot];
       const weighted = options.flatMap((o) => Array.from({ length: propWeight(o.theme, theme) }, () => o));
-      const choice = weighted[Math.floor(rand() * weighted.length)];
+      const fresh = weighted.filter((o) => !usedKinds.has(o.kind));
+      const pool = fresh.length > 0 ? fresh : weighted;
+      const choice = pool[Math.floor(rand() * pool.length)];
       return { slot, kind: choice.kind, box: SLOTS[slot], hotspotId: null };
     });
-    // every room gets its rain-streaked window
-    if (!props.some((p) => p.kind === "window")) props[0].kind = "window";
+    // the study and the bench keep a window (drawn to their style); the archive is a basement room and may do without
+    if (style !== "archive" && !props.some((p) => p.kind === "window")) props[0].kind = "window";
     // no two identical props in one room (a phone on both desk slots, a corkboard twice)
     const seen = new Set<PropKind>();
     for (const p of props) {
       if (seen.has(p.kind)) {
-        const alt = SLOT_PROPS[p.slot].find((o) => !seen.has(o.kind) && propWeight(o.theme, theme) > 0);
+        const alts = SLOT_PROPS[p.slot].filter((o) => !seen.has(o.kind) && propWeight(o.theme, theme) > 0);
+        const alt = alts.find((o) => !usedKinds.has(o.kind)) ?? alts[0];
         if (alt) p.kind = alt.kind;
       }
       seen.add(p.kind);
     }
+    for (const p of props) if (p.kind !== "desk" && p.kind !== "window") usedKinds.add(p.kind);
 
     const encounterIds = trackIds.filter((id) => id !== bossId);
     const n = hotspotCount(encounterIds.length * 2);
@@ -505,13 +521,13 @@ export function buildCasefile(spec: SpecLike, progression: Progression): Casefil
       locationOf.set(id, t);
     });
 
-    locations.push({ index: t, id: `scene_${t}`, kind: "scene", track: t, place, title, name: `${place} — ${title}`, encounterIds, props, hotspots, shade: tracks.length > 1 ? t / (tracks.length - 1) : 0 });
+    locations.push({ index: t, id: `scene_${t}`, kind: "scene", track: t, place, title, topic, name: `${place} — ${title}: ${topic}`, encounterIds, props, hotspots, shade: tracks.length > 1 ? t / (tracks.length - 1) : 0, style });
   });
 
   let accusationIndex = -1;
   if (bossId) {
     accusationIndex = locations.length;
-    locations.push({ index: accusationIndex, id: "accusation", kind: "accusation", track: -1, place, title: "The accusation", name: `${place} — The accusation`, encounterIds: [bossId], props: [], hotspots: [], shade: 0 });
+    locations.push({ index: accusationIndex, id: "accusation", kind: "accusation", track: -1, place, title: "The accusation", topic: "", name: `${place} — The accusation`, encounterIds: [bossId], props: [], hotspots: [], shade: 0, style: "study" });
     locationOf.set(bossId, accusationIndex);
   }
 
@@ -737,6 +753,78 @@ function parseHex(hex: string): [number, number, number] {
 }
 
 /** Mixes `a` towards `b` by t (0 = a, 1 = b). */
+// ---------------------------------------------------------------------------------------------------------------
+// the case dossier (the agent briefing): what each scene teaches, and what the player has proved so far
+
+export interface DossierEntry {
+  conceptId: string;
+  name: string;
+  /** the concept in a sentence or two (the spec's primer), else the goal rephrased as a task */
+  primer: string;
+  /** the learning objective without its "The student can" stem */
+  goal: string;
+  /** how it works: the spec's key facts, shown up front so a reader can reason the lead out */
+  facts: string[];
+  /** watch out: the misconception corrections, stated as the truth */
+  pitfalls: string[];
+  /** the debrief lines of the cracked leads on this concept */
+  proved: string[];
+  /** every lead on this concept in this scene is cracked */
+  solved: boolean;
+}
+export interface DossierSection {
+  locationIndex: number;
+  title: string;
+  topic: string;
+  entries: DossierEntry[];
+}
+
+/** "The student can predict the direction…" → "predict the direction…" */
+export function goalOf(learningObjective: string): string {
+  return learningObjective
+    .replace(/^\s*(?:the\s+)?(?:students?|learners?|players?)\s+(?:can|will be able to|should be able to|is able to|are able to)\s+/i, "")
+    .replace(/\s*\.\s*$/, "")
+    .trim();
+}
+
+/** One section per scene, one entry per concept its leads teach, in the scene's encounter order. Everything that
+    teaches (primer, facts, pitfalls) shows from the start; only what a cracked lead proved waits for the crack. */
+export function dossierFor(spec: Pick<SpecLike, "concepts" | "encounters">, cf: Casefile, solved: ReadonlySet<string>): DossierSection[] {
+  const conceptById = new Map(spec.concepts.map((c) => [c.id, c]));
+  const sections: DossierSection[] = [];
+  for (const loc of cf.locations) {
+    if (loc.kind !== "scene") continue;
+    const here = new Set(loc.encounterIds);
+    const seen = new Set<string>();
+    const entries: DossierEntry[] = [];
+    for (const eid of loc.encounterIds) {
+      const e = spec.encounters.find((x) => x.id === eid);
+      if (!e) continue;
+      for (const cid of e.conceptIds) {
+        if (seen.has(cid)) continue;
+        seen.add(cid);
+        const c = conceptById.get(cid);
+        if (!c) continue;
+        const mine = spec.encounters.filter((x) => here.has(x.id) && x.conceptIds.includes(cid));
+        const done = mine.filter((x) => solved.has(x.id));
+        const goal = goalOf(c.learningObjective);
+        entries.push({
+          conceptId: cid,
+          name: c.name,
+          primer: c.primer ?? `You will need to ${goal}.`,
+          goal,
+          facts: [...(c.keyFacts ?? [])],
+          pitfalls: [...(c.pitfalls ?? [])],
+          proved: done.map((x) => x.debriefLine),
+          solved: done.length > 0 && done.length === mine.length,
+        });
+      }
+    }
+    sections.push({ locationIndex: loc.index, title: loc.title, topic: loc.topic, entries });
+  }
+  return sections;
+}
+
 export function mixHex(a: string, b: string, t: number): string {
   const [ar, ag, ab] = parseHex(a);
   const [br, bg, bb] = parseHex(b);

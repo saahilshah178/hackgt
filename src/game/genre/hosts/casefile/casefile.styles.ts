@@ -12,12 +12,12 @@ export const CASEFILE_CSS = `
 /* ---- location tabs */
 .cf-tabbar { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
 .cf-tabs { display: flex; gap: 8px; flex: 1; min-width: 0; }
-.cf-tab { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; flex: 1 1 0; min-width: 0; max-width: 250px; padding: 6px 14px 6px 12px; border-radius: 10px 10px 4px 4px; border: 2px solid rgba(255,255,255,0.14); background: rgba(10,10,22,0.7); color: #d9d6e8; text-align: left; line-height: 1.15; }
+.cf-tab { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; flex: 1 1 0; min-width: 0; max-width: 250px; padding: 6px 10px; border-radius: 10px 10px 4px 4px; border: 2px solid rgba(255,255,255,0.14); background: rgba(10,10,22,0.7); color: #d9d6e8; text-align: left; line-height: 1.15; }
 .cf-tab:hover { background: rgba(255,255,255,0.08); }
 .cf-tab[aria-selected="true"] { border-color: var(--cf-accent); background: color-mix(in oklab, var(--cf-accent) 22%, #0b0a16); color: #fff; }
 .cf-tab-kicker { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: #b9b4cf; font-weight: 700; }
 .cf-tab[aria-selected="true"] .cf-tab-kicker { color: var(--cf-accent); }
-.cf-tab-title { font-size: 17px; font-weight: 700; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cf-tab-title { font-size: 15px; font-weight: 700; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cf-tab-badge { position: absolute; top: -9px; right: -8px; min-width: 26px; height: 26px; padding: 0 7px; display: grid; place-items: center; border-radius: 13px; background: var(--cf-lamp); color: #231a06; font-size: 15px; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 .cf-tab-acc { flex: 0 0 auto; }
 .cf-tab-acc[data-open="true"] { border-color: var(--cf-red); animation: cf-glow 1.8s ease-in-out infinite; }
@@ -153,6 +153,56 @@ export const CASEFILE_CSS = `
 .cf-btn:hover { filter: brightness(1.08); }
 .cf-btn-ghost { background: transparent; color: #f5f3ee; border: 2px solid #6d6788; }
 
+/* ---- case briefing (the start screen) */
+.cf-brief-scrim { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 24px; background: rgba(4,4,10,0.84); backdrop-filter: blur(3px); }
+.cf-brief { width: min(760px, 100%); max-height: calc(100vh - 48px); overflow: auto; padding: 26px 30px 24px; border-radius: 6px; background: var(--cf-paper); color: var(--cf-ink); box-shadow: 0 30px 80px rgba(0,0,0,0.7); animation: cf-paper-in 700ms cubic-bezier(.2,1.1,.4,1) both; }
+.cf-brief-kicker { font-family: var(--cf-type); font-size: 15px; letter-spacing: 0.24em; text-transform: uppercase; color: #8a2a22; font-weight: 800; }
+.cf-brief-title { font-family: var(--cf-type); font-size: 38px; font-weight: 900; line-height: 1.1; margin-top: 4px; }
+.cf-brief-partner { display: flex; gap: 14px; align-items: center; margin-top: 16px; padding: 12px 14px; border-radius: 10px; background: rgba(0,0,0,0.06); }
+.cf-brief-partner .cf-speech-name { color: #8a2a22; }
+.cf-brief-line { font-size: 20px; line-height: 1.35; font-style: italic; }
+.cf-brief-sub { margin-top: 18px; font-size: 16px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #5a5040; }
+.cf-brief-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; padding: 0; list-style: none; }
+@media (max-width: 640px) { .cf-brief-steps { grid-template-columns: 1fr; } }
+.cf-brief-step { display: grid; grid-template-columns: 34px 40px 1fr; grid-template-rows: auto auto; column-gap: 12px; row-gap: 2px; align-items: center; padding: 12px 14px; border-radius: 8px; background: #fff; border: 2px solid #d9cdb0; }
+.cf-brief-num { grid-row: 1 / span 2; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--cf-red); color: #fff; font-weight: 900; font-size: 18px; }
+.cf-brief-icon { grid-row: 1 / span 2; width: 40px; height: 40px; color: #1d1a14; }
+.cf-brief-icon svg { width: 100%; height: 100%; }
+.cf-brief-label { font-family: var(--cf-type); font-size: 20px; font-weight: 800; }
+.cf-brief-text { font-size: 17px; line-height: 1.35; color: #3a3428; }
+.cf-brief-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; }
+.cf-brief-foot .cf-small { color: #5a5040; }
+.cf-brief-start { font-size: 22px; padding: 12px 26px; border: 3px solid #231a06; box-shadow: 0 6px 0 #8a5d34; }
+.cf-brief-start:hover { transform: translateY(-1px); }
+.cf-kicker-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cf-helplink { font-size: 15px; font-weight: 800; padding: 3px 10px; border-radius: 8px; border: 2px solid #6d6788; background: transparent; color: #e9e6f5; white-space: nowrap; }
+.cf-helplink:hover { background: rgba(255,255,255,0.08); }
+.cf-helplink:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+/* ---- case dossier (the agent briefing) */
+.cf-dossier { width: min(860px, 100%); max-height: calc(100vh - 48px); overflow: auto; padding: 24px 28px 22px; border-radius: 6px; background: var(--cf-paper); color: var(--cf-ink); box-shadow: 0 30px 80px rgba(0,0,0,0.7); animation: cf-paper-in 600ms cubic-bezier(.2,1.1,.4,1) both; }
+.cf-dossier-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.cf-dossier-by { margin-top: 6px; font-size: 16px; color: #5a5040; }
+.cf-dossier-section { margin-top: 18px; }
+.cf-dossier-room { font-family: var(--cf-type); font-size: 15px; letter-spacing: 0.18em; text-transform: uppercase; color: #8a2a22; font-weight: 800; border-bottom: 2px solid #d9cdb0; padding-bottom: 4px; }
+.cf-dossier-room span { color: #5a5040; letter-spacing: 0.02em; text-transform: none; font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 700; margin-left: 6px; }
+.cf-dossier-entry { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; margin-top: 10px; border-radius: 8px; background: #fff; border: 2px solid #d9cdb0; }
+.cf-dossier-entry[data-solved="true"] { border-color: var(--cf-red); }
+.cf-dossier-name { font-family: var(--cf-type); font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.cf-dossier-stamp { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; padding: 1px 8px; border: 3px solid var(--cf-red); color: var(--cf-red); border-radius: 5px; transform: rotate(-6deg); font-family: ui-sans-serif, system-ui, sans-serif; }
+.cf-dossier-primer { font-size: 18px; line-height: 1.4; }
+.cf-dossier-goal { font-size: 15px; color: #5a5040; }
+.cf-dossier-sub { margin-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #8a2a22; }
+.cf-dossier-facts { margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.45; }
+.cf-dossier-facts li + li { margin-top: 3px; }
+.cf-dossier-pitfall { font-size: 16px; line-height: 1.4; padding: 6px 10px; border-left: 4px solid #c98b4a; background: #fbf5e8; }
+.cf-dossier-entry[data-focus="true"] { outline: 4px solid var(--cf-lamp); outline-offset: 2px; scroll-margin-top: 16px; }
+.cf-dossier-proved { font-size: 16px; line-height: 1.4; padding: 8px 10px; border-left: 4px solid var(--cf-red); background: #fbf1f0; }
+.cf-helplinks { display: flex; gap: 6px; }
+.cf-helplink-strong { border-color: var(--cf-lamp); color: var(--cf-lamp); }
+.cf-brief-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cf-brief-dossier { font-size: 18px; padding: 12px 18px; color: var(--cf-ink); border-color: #8a5d34; }
+
 /* ---- case board */
 .cf-board { position: relative; width: min(100%, calc((100vh - 170px) * 1.6129)); aspect-ratio: 1000 / 620; margin: 0 auto; border-radius: 14px; overflow: hidden; background: #6f4a2a; box-shadow: inset 0 0 0 10px #3a2418, inset 0 0 0 12px #1f130c, 0 10px 30px rgba(0,0,0,0.55); }
 .cf-board-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -228,7 +278,7 @@ export const CASEFILE_CSS = `
   .cf-anim, .cf-tab-acc[data-open="true"], .cf-accuse, .cf-glint-pulse { animation: none !important; }
   .cf-lightning { opacity: 0; }
   .cf-fly { display: none; }
-  .cf-card-in, .cf-lead-in, .cf-card-shake, .cf-challenge-head[data-fx="wrong"], .cf-speech[data-mood="hmm"] .cf-speech-body, .cf-pin-new, .cf-paper { animation: none !important; }
+  .cf-card-in, .cf-lead-in, .cf-card-shake, .cf-challenge-head[data-fx="wrong"], .cf-speech[data-mood="hmm"] .cf-speech-body, .cf-pin-new, .cf-paper, .cf-brief, .cf-dossier { animation: none !important; }
   .cf-lead-in .cf-string, .cf-str-new { animation: none !important; stroke-dasharray: none; }
   .cf-stamp-mark { animation: none; }
   .cf-card, .cf-hot::before { transition: none; }

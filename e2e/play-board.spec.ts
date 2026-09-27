@@ -79,6 +79,52 @@ test("trig-puzzle: a wrong answer keeps the challenge open with feedback, and Tr
   await expect(page.getByTestId("challenge-result")).toHaveAttribute("data-correct", "false");
   await page.getByTestId("challenge-retry").click();
   await expect(page.getByTestId("widget-root")).toBeVisible();
+  // every exercise can be taken back to a blank answer
+  await page.getByTestId("challenge-reset").click();
+  await expect(page.getByTestId("widget-root")).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test("cell-transport-casefile: the case briefing opens first; Start hides it and How to play brings it back", async ({ page }) => {
+  const errors = collectErrors(page);
+  await boot(page, "cell-transport-casefile");
+  const brief = page.getByTestId("casefile-briefing");
+  await expect(brief).toBeVisible();
+  await expect(brief.getByRole("listitem")).toHaveCount(4);
+  await expect(page.getByTestId("casefile-start")).toBeFocused();
+  await page.getByTestId("casefile-start").click();
+  await expect(page.getByTestId("casefile-briefing")).toHaveCount(0);
+  await expect(page.locator('[data-testid="casefile-scene"] .cf-hot').first()).toBeFocused();
+  await page.getByTestId("casefile-help").click();
+  await expect(page.getByTestId("casefile-briefing")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("casefile-briefing")).toHaveCount(0);
+  // the dossier: one entry per concept, primers up front, no facts before a lead is cracked
+  await page.getByTestId("casefile-dossier-open").click();
+  const dossier = page.getByTestId("casefile-dossier");
+  await expect(dossier).toBeVisible();
+  await expect(dossier.getByTestId("dossier-entry").first()).toContainText(/bilayer/i);
+  // the teaching is there before anything is solved: how it works, and the trap to watch for
+  await expect(dossier.locator(".cf-dossier-facts").first()).toBeVisible();
+  await expect(dossier.locator(".cf-dossier-pitfall").first()).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByTestId("casefile-dossier")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test("cell-transport-casefile: the exit button asks for confirmation, then returns to the home page", async ({ page }) => {
+  const errors = collectErrors(page);
+  await boot(page, "cell-transport-casefile");
+  await page.getByTestId("casefile-start").click();
+  await page.getByTestId("exit-game").click();
+  await expect(page.getByTestId("exit-confirm")).toBeVisible();
+  await page.getByTestId("exit-cancel").click();
+  await expect(page.getByTestId("exit-confirm")).toBeHidden();
+  await expect(page.getByTestId("casefile-host")).toBeVisible();
+  await page.getByTestId("exit-game").click();
+  await page.getByTestId("exit-confirm-link").click();
+  await expect(page).toHaveURL("/");
+  await expect(page.getByTestId("ways-to-play")).toBeVisible();
   expect(errors).toEqual([]);
 });
 

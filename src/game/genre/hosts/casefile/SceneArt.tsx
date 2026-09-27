@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import type { Palette } from "../../../engine/palettes";
-import { mixHex, SCENE_H, SCENE_W, SLOTS, type Box, type CaseLocation, type PropKind } from "./casefile.logic";
+import { mixHex, SCENE_H, SCENE_W, SLOTS, type Box, type CaseLocation, type PropKind, type SceneStyle } from "./casefile.logic";
 
 /*
  * The casefile's illustrated rooms: pure SVG, composed from a small kit of noir props that sit in fixed slots
@@ -32,6 +32,8 @@ export interface Ink {
 
 export const LAMP = "#ffcf7a";
 export const RED_STRING = "#d4333f";
+/** The one light in each room: the study's warm banker's lamp, the bench's cold gooseneck, the archive's amber pendant. */
+const LAMP_FOR: Record<SceneStyle, string> = { study: LAMP, bench: "#d9ecff", archive: "#ffb547" };
 
 export function inkFor(palette: Palette, shade: number): Ink {
   // three night moods: blue, sea-green, plum (shade 0 → 0.5 → 1)
@@ -75,9 +77,11 @@ function rainLines(w: number, h: number, seed: number): { x: number; y: number; 
 // ---------------------------------------------------------------------------------------------------------------
 // the room
 
-export function SceneRoom({ location, ink, uid, lampOn = true }: { location: CaseLocation; ink: Ink; uid: string; lampOn?: boolean }) {
+export function SceneRoom({ location, ink: ink0, uid, lampOn = true }: { location: CaseLocation; ink: Ink; uid: string; lampOn?: boolean }) {
   const id = (s: string) => `${uid}-${s}`;
   const floorY = 332;
+  const style = location.style;
+  const ink: Ink = { ...ink0, lamp: LAMP_FOR[style] };
   return (
     <svg viewBox={`0 0 ${SCENE_W} ${SCENE_H}`} className="cf-scene-svg" aria-hidden preserveAspectRatio="xMidYMid slice">
       <defs>
@@ -120,7 +124,102 @@ export function SceneRoom({ location, ink, uid, lampOn = true }: { location: Cas
         </pattern>
       </defs>
 
-      {/* back wall, wainscot and floor */}
+      <Shell style={style} ink={ink} id={id} floorY={floorY} />
+
+      {/* moonlight through the window falls across the floor (the archive's barred slit is too small to matter) */}
+      {style !== "archive" && location.props.some((p) => p.kind === "window") && (
+        <polygon
+          points={windowShaft(location.props.find((p) => p.kind === "window")!.box, floorY)}
+          fill={ink.glassBottom}
+          opacity="0.18"
+        />
+      )}
+
+      {location.props.map((p) => (
+        <g key={p.slot} data-prop={p.kind}>
+          <Prop kind={p.kind} box={p.box} ink={ink} id={id} seed={location.index + 1} style={style} />
+        </g>
+      ))}
+
+      <Lamp style={style} ink={ink} id={id} on={lampOn} />
+      <rect width={SCENE_W} height={SCENE_H} fill={`url(#${id("vignette")})`} pointerEvents="none" />
+    </svg>
+  );
+}
+
+/** The room shell per style (wall, fittings, floor), drawn under the props. */
+function Shell({ style, ink, id, floorY }: { style: SceneStyle; ink: Ink; id: (s: string) => string; floorY: number }) {
+  if (style === "bench") {
+    // a tiled lab: glazed tiles, a teal dado band, a fluorescent tube, checkered floor
+    const tile = mixHex(ink.wallBottom, "#dfe9ec", 0.5);
+    const grout = mixHex(tile, "#000000", 0.18);
+    const check = mixHex(ink.floorTop, "#ffffff", 0.16);
+    return (
+      <g>
+        <defs>
+          <pattern id={id("tiles")} width="50" height="50" patternUnits="userSpaceOnUse">
+            <rect width="50" height="50" fill={tile} />
+            <rect width="50" height="50" fill="none" stroke={grout} strokeWidth="3" />
+          </pattern>
+          <pattern id={id("checks")} width="112" height="112" patternUnits="userSpaceOnUse">
+            <rect width="112" height="112" fill={ink.floorTop} />
+            <rect width="56" height="56" fill={check} />
+            <rect x="56" y="56" width="56" height="56" fill={check} />
+          </pattern>
+        </defs>
+        <rect width={SCENE_W} height={floorY} fill={`url(#${id("tiles")})`} />
+        <rect width={SCENE_W} height={floorY} fill={`url(#${id("wall")})`} opacity="0.55" />
+        <rect y={floorY - 98} width={SCENE_W} height={26} fill={mixHex(ink.accent, "#1f6f7a", 0.5)} />
+        <rect y={floorY - 72} width={SCENE_W} height={4} fill="#000" opacity="0.3" />
+        <rect x={300} y={12} width={400} height={9} rx={4} fill="#e9f6ff" opacity="0.9" />
+        <ellipse cx={500} cy={40} rx={260} ry={50} fill="#dff1ff" opacity="0.16" style={{ mixBlendMode: "screen" }} />
+        <rect y={floorY - 6} width={SCENE_W} height={8} fill={ink.metalDark} />
+        <rect y={floorY} width={SCENE_W} height={SCENE_H - floorY} fill={`url(#${id("checks")})`} />
+        <rect y={floorY} width={SCENE_W} height={SCENE_H - floorY} fill={`url(#${id("floor")})`} opacity="0.45" />
+      </g>
+    );
+  }
+  if (style === "archive") {
+    // a brick basement: a steam pipe along the ceiling, stone slabs, a worn rug under the table
+    const brick = mixHex(ink.wallBottom, "#6b3a2a", 0.5);
+    const mortar = mixHex(brick, "#000000", 0.3);
+    const slab = mixHex(ink.floorTop, "#4a4452", 0.35);
+    return (
+      <g>
+        <defs>
+          <pattern id={id("bricks")} width="64" height="32" patternUnits="userSpaceOnUse">
+            <rect width="64" height="32" fill={mortar} />
+            <rect x="1" y="1" width="30" height="14" rx="1" fill={brick} />
+            <rect x="33" y="1" width="30" height="14" rx="1" fill={brick} />
+            <rect x="-15" y="17" width="30" height="14" rx="1" fill={brick} />
+            <rect x="17" y="17" width="30" height="14" rx="1" fill={brick} />
+            <rect x="49" y="17" width="30" height="14" rx="1" fill={brick} />
+          </pattern>
+          <pattern id={id("slabs")} width="120" height="64" patternUnits="userSpaceOnUse">
+            <rect width="120" height="64" fill={slab} />
+            <rect width="120" height="64" fill="none" stroke="#000" strokeOpacity="0.35" strokeWidth="3" />
+            <rect x="60" y="32" width="60" height="32" fill="none" stroke="#000" strokeOpacity="0.2" strokeWidth="2" />
+          </pattern>
+        </defs>
+        <rect width={SCENE_W} height={floorY} fill={`url(#${id("bricks")})`} />
+        <rect width={SCENE_W} height={floorY} fill={`url(#${id("wall")})`} opacity="0.5" />
+        <rect y={22} width={SCENE_W} height={12} rx={6} fill={ink.metalDark} />
+        <rect y={26} width={SCENE_W} height={3} fill="#fff" opacity="0.12" />
+        {[120, 500, 880].map((x) => (
+          <rect key={x} x={x - 8} y={16} width={16} height={24} rx={3} fill={ink.metal} />
+        ))}
+        <rect y={floorY - 6} width={SCENE_W} height={8} fill="#1a1418" />
+        <rect y={floorY} width={SCENE_W} height={SCENE_H - floorY} fill={`url(#${id("slabs")})`} />
+        <rect y={floorY} width={SCENE_W} height={SCENE_H - floorY} fill={`url(#${id("floor")})`} opacity="0.4" />
+        <rect x={250} y={392} width={540} height={84} rx={6} fill="#5a1f24" opacity="0.9" />
+        <rect x={262} y={402} width={516} height={64} rx={4} fill="none" stroke="#c98b4a" strokeOpacity="0.7" strokeWidth="4" />
+        <rect x={286} y={422} width={468} height={24} fill="none" stroke="#c98b4a" strokeOpacity="0.35" strokeWidth="2" />
+      </g>
+    );
+  }
+  // the study: wallpaper stripes over a wainscot, wooden floorboards in perspective
+  return (
+    <g>
       <rect width={SCENE_W} height={floorY} fill={`url(#${id("wall")})`} />
       <rect width={SCENE_W} height={floorY} fill={`url(#${id("stripes")})`} opacity="0.7" />
       <rect y={floorY - 70} width={SCENE_W} height={70} fill="#000" opacity="0.18" />
@@ -134,26 +233,14 @@ export function SceneRoom({ location, ink, uid, lampOn = true }: { location: Cas
       {[372, 420, 478].map((y) => (
         <line key={y} x1={0} y1={y} x2={SCENE_W} y2={y} stroke="#000" strokeOpacity="0.16" strokeWidth="2" />
       ))}
-
-      {/* moonlight through the window falls across the floor */}
-      {location.props.some((p) => p.kind === "window") && (
-        <polygon
-          points={windowShaft(location.props.find((p) => p.kind === "window")!.box, floorY)}
-          fill={ink.glassBottom}
-          opacity="0.18"
-        />
-      )}
-
-      {location.props.map((p) => (
-        <g key={p.slot} data-prop={p.kind}>
-          <Prop kind={p.kind} box={p.box} ink={ink} id={id} seed={location.index + 1} />
-        </g>
-      ))}
-
-      <DeskLamp ink={ink} id={id} on={lampOn} />
-      <rect width={SCENE_W} height={SCENE_H} fill={`url(#${id("vignette")})`} pointerEvents="none" />
-    </svg>
+    </g>
   );
+}
+
+function Lamp({ style, ink, id, on }: { style: SceneStyle; ink: Ink; id: (s: string) => string; on: boolean }) {
+  if (style === "bench") return <BenchLamp ink={ink} id={id} on={on} />;
+  if (style === "archive") return <PendantLamp ink={ink} id={id} on={on} />;
+  return <DeskLamp ink={ink} id={id} on={on} />;
 }
 
 function windowShaft(b: Box, floorY: number): string {
@@ -186,13 +273,57 @@ function DeskLamp({ ink, id, on }: { ink: Ink; id: (s: string) => string; on: bo
   );
 }
 
+function BenchLamp({ ink, id, on }: { ink: Ink; id: (s: string) => string; on: boolean }) {
+  // a grey gooseneck clamped to the bench's right end, its head turned down-left over the glassware
+  const bx = 672;
+  const by = 300;
+  return (
+    <g>
+      {on && (
+        <g className="cf-anim cf-lamp-flicker">
+          <ellipse cx={600} cy={230} rx={150} ry={100} fill={`url(#${id("pool")})`} opacity="0.5" style={{ mixBlendMode: "screen" }} />
+          <polygon points="592,196 640,190 790,302 430,302" fill={`url(#${id("cone")})`} style={{ mixBlendMode: "screen" }} />
+          <ellipse cx={610} cy={302} rx={180} ry={26} fill={`url(#${id("pool")})`} style={{ mixBlendMode: "screen" }} />
+        </g>
+      )}
+      <ellipse cx={bx} cy={by} rx={28} ry={6} fill="#1a1a1a" />
+      <rect x={bx - 26} y={by - 10} width={52} height={10} rx={3} fill="#3d4650" />
+      <path d={`M${bx} ${by - 10} C ${bx + 30} ${by - 70}, ${bx + 10} ${by - 120}, ${bx - 40} ${by - 112}`} stroke="#6f7a86" strokeWidth={7} fill="none" strokeLinecap="round" />
+      <polygon points={`${bx - 76},${by - 96} ${bx - 34},${by - 126} ${bx - 18},${by - 100} ${bx - 60},${by - 74}`} fill="#8b97a4" stroke="#3d4650" strokeWidth={2} />
+      {on && <ellipse cx={bx - 62} cy={by - 88} rx={14} ry={5} fill={ink.lamp} opacity="0.95" transform={`rotate(-35 ${bx - 62} ${by - 88})`} />}
+    </g>
+  );
+}
+
+function PendantLamp({ ink, id, on }: { ink: Ink; id: (s: string) => string; on: boolean }) {
+  // a bulb on a cord over the right half of the table (clear of the wall pieces), its shade throwing amber straight down
+  const cx = 660;
+  const y = 150;
+  return (
+    <g>
+      {on && (
+        <g className="cf-anim cf-lamp-flicker">
+          <polygon points={`${cx - 46},${y + 12} ${cx + 46},${y + 12} ${cx + 150},302 ${cx - 330},302`} fill={`url(#${id("cone")})`} style={{ mixBlendMode: "screen" }} />
+          <ellipse cx={cx - 90} cy={302} rx={240} ry={30} fill={`url(#${id("pool")})`} style={{ mixBlendMode: "screen" }} />
+          <ellipse cx={cx - 100} cy={390} rx={280} ry={64} fill={`url(#${id("pool")})`} opacity="0.35" style={{ mixBlendMode: "screen" }} />
+        </g>
+      )}
+      <line x1={cx} y1={34} x2={cx} y2={y - 26} stroke="#1a1418" strokeWidth={3} />
+      <polygon points={`${cx - 14},${y - 26} ${cx + 14},${y - 26} ${cx + 52},${y + 12} ${cx - 52},${y + 12}`} fill="#3b2a1c" stroke="#1a1418" strokeWidth={2} />
+      <rect x={cx - 52} y={y + 10} width={104} height={5} fill="#c98b4a" opacity="0.8" />
+      <circle cx={cx} cy={y + 20} r={9} fill={on ? ink.lamp : "#6b6552"} />
+      {on && <circle cx={cx} cy={y + 20} r={22} fill={ink.lamp} opacity="0.25" style={{ mixBlendMode: "screen" }} />}
+    </g>
+  );
+}
+
 // ---------------------------------------------------------------------------------------------------------------
 // the prop kit
 
-function Prop({ kind, box, ink, id, seed }: { kind: PropKind; box: Box; ink: Ink; id: (s: string) => string; seed: number }): ReactNode {
+function Prop({ kind, box, ink, id, seed, style }: { kind: PropKind; box: Box; ink: Ink; id: (s: string) => string; seed: number; style: SceneStyle }): ReactNode {
   switch (kind) {
     case "window":
-      return <WindowProp b={box} ink={ink} id={id} seed={seed} />;
+      return <WindowProp b={box} ink={ink} id={id} seed={seed} style={style} />;
     case "corkboard":
       return <Corkboard b={box} ink={ink} />;
     case "shelves":
@@ -216,7 +347,7 @@ function Prop({ kind, box, ink, id, seed }: { kind: PropKind; box: Box; ink: Ink
     case "bin":
       return <Bin b={box} ink={ink} />;
     case "desk":
-      return <Desk b={box} ink={ink} id={id} />;
+      return <Desk b={box} ink={ink} id={id} style={style} />;
     case "microscope":
       return <Microscope b={box} ink={ink} />;
     case "typewriter":
@@ -238,7 +369,9 @@ function FloorShadow({ cx, y, w }: { cx: number; y: number; w: number }) {
   return <ellipse cx={cx} cy={y} rx={w / 2} ry={Math.max(5, w / 12)} fill="#000" opacity="0.38" />;
 }
 
-function WindowProp({ b, ink, id, seed }: { b: Box; ink: Ink; id: (s: string) => string; seed: number }) {
+function WindowProp({ b, ink, id, seed, style }: { b: Box; ink: Ink; id: (s: string) => string; seed: number; style: SceneStyle }) {
+  if (style === "archive") return <BarredWindow b={b} ink={ink} id={id} seed={seed} />;
+  const blinds = style === "bench";
   const gx = b.x + 14;
   const gy = b.y + 14;
   const gw = b.w - 28;
@@ -275,11 +408,66 @@ function WindowProp({ b, ink, id, seed }: { b: Box; ink: Ink; id: (s: string) =>
         </g>
         <rect className="cf-anim cf-lightning" x={gx} y={gy} width={gw} height={gh} fill="#dfe6ff" opacity="0" />
       </g>
+      {blinds && (
+        <g>
+          {Array.from({ length: 8 }, (_, i) => (
+            <rect key={i} x={gx} y={gy + 4 + i * ((gh - 8) / 8)} width={gw} height={Math.max(4, (gh - 8) / 8 - 8)} fill={mixHex(ink.paper, "#8a8f9a", 0.55)} opacity="0.92" />
+          ))}
+          <line x1={gx + gw - 10} y1={gy} x2={gx + gw - 10} y2={gy + gh + 22} stroke="#d9d2bd" strokeWidth={2} />
+          <circle cx={gx + gw - 10} cy={gy + gh + 26} r={4} fill="#d9d2bd" />
+        </g>
+      )}
       {/* mullions and sill */}
       <rect x={gx + gw / 2 - 3} y={gy} width={6} height={gh} fill={ink.woodDark} />
       <rect x={gx} y={gy + gh * 0.45 - 3} width={gw} height={6} fill={ink.woodDark} />
       <rect x={b.x - 10} y={b.y + b.h - 24} width={b.w + 20} height={12} rx={2} fill={ink.woodLight} />
       <rect x={b.x - 10} y={b.y + b.h - 12} width={b.w + 20} height={4} fill="#000" opacity="0.4" />
+    </g>
+  );
+}
+
+function BarredWindow({ b, ink, id, seed }: { b: Box; ink: Ink; id: (s: string) => string; seed: number }) {
+  // a small barred basement window high on the wall: a sliver of sky, the rain, three bars, notices pinned below
+  const fx = b.x + 34;
+  const fy = b.y + 8;
+  const fw = b.w - 68;
+  const fh = Math.round(b.h * 0.42);
+  const gx = fx + 10;
+  const gy = fy + 10;
+  const gw = fw - 20;
+  const gh = fh - 20;
+  const rain = rainLines(gw, gh, seed * 23 + Math.round(b.x));
+  const clip = id(`barred-${b.x}`);
+  return (
+    <g>
+      <defs>
+        <clipPath id={clip}>
+          <rect x={gx} y={gy} width={gw} height={gh} />
+        </clipPath>
+      </defs>
+      <rect x={fx} y={fy} width={fw} height={fh} rx={3} fill="#2a2430" />
+      <rect x={gx} y={gy} width={gw} height={gh} fill={`url(#${id("glass")})`} />
+      <g clipPath={`url(#${clip})`}>
+        <circle cx={gx + gw * 0.7} cy={gy + gh * 0.35} r={gh * 0.22} fill="#e8e4ff" opacity="0.8" />
+        <g className="cf-anim cf-rain" stroke="#b9c6ff" strokeOpacity="0.5" strokeWidth={1.4} strokeLinecap="round">
+          {rain.map((r, i) => (
+            <line key={i} x1={gx + r.x} y1={gy + r.y} x2={gx + r.x - 3} y2={gy + r.y + r.len} />
+          ))}
+          {rain.map((r, i) => (
+            <line key={`b${i}`} x1={gx + r.x} y1={gy + r.y - gh} x2={gx + r.x - 3} y2={gy + r.y - gh + r.len} />
+          ))}
+        </g>
+      </g>
+      {[0.25, 0.5, 0.75].map((t) => (
+        <rect key={t} x={gx + gw * t - 3} y={gy - 4} width={6} height={gh + 8} rx={2} fill={ink.metalDark} />
+      ))}
+      <rect x={fx - 8} y={fy + fh - 4} width={fw + 16} height={10} rx={2} fill="#4a4452" />
+      {[0, 1, 2].map((i) => (
+        <g key={i}>
+          <rect x={b.x + 24 + i * 66} y={fy + fh + 26 + (i % 2) * 6} width={52} height={40} fill={i === 1 ? "#f3e2b8" : ink.paper} transform={`rotate(${i * 3 - 3} ${b.x + 50 + i * 66} ${fy + fh + 46})`} />
+          <circle cx={b.x + 50 + i * 66} cy={fy + fh + 30 + (i % 2) * 6} r={3} fill={RED_STRING} />
+        </g>
+      ))}
     </g>
   );
 }
@@ -559,7 +747,9 @@ function Bin({ b, ink }: { b: Box; ink: Ink }) {
   );
 }
 
-function Desk({ b, ink, id }: { b: Box; ink: Ink; id: (s: string) => string }) {
+function Desk({ b, ink, id, style }: { b: Box; ink: Ink; id: (s: string) => string; style: SceneStyle }) {
+  if (style === "bench") return <Bench b={b} ink={ink} id={id} />;
+  if (style === "archive") return <ArchiveTable b={b} ink={ink} id={id} />;
   const top = b.y;
   return (
     <g>
@@ -582,6 +772,68 @@ function Desk({ b, ink, id }: { b: Box; ink: Ink; id: (s: string) => string }) {
       <rect x={b.x + 170} y={top - 4} width={70} height={8} fill={ink.paper} transform={`rotate(-4 ${b.x + 205} ${top})`} />
       <rect x={b.x + 176} y={top - 8} width={64} height={7} fill="#d9d2bd" transform={`rotate(3 ${b.x + 208} ${top - 4})`} />
       <rect x={b.x + 260} y={top - 3} width={30} height={4} fill={RED_STRING} opacity="0.8" />
+    </g>
+  );
+}
+
+function Bench({ b, ink, id }: { b: Box; ink: Ink; id: (s: string) => string }) {
+  // a steel lab bench: two cupboard doors with bar handles, a kick plate, a pale worktop with a back lip, a clipboard
+  const top = b.y;
+  const doorW = (b.w - 60) / 2;
+  return (
+    <g>
+      <ellipse cx={b.x + b.w / 2} cy={b.y + b.h} rx={b.w / 2 + 30} ry={16} fill="#000" opacity="0.45" />
+      <rect x={b.x + 10} y={top + 16} width={b.w - 20} height={b.h - 26} fill={`url(#${id("metal")})`} />
+      {[0, 1].map((i) => (
+        <g key={i}>
+          <rect x={b.x + 26 + i * (doorW + 8)} y={top + 30} width={doorW} height={100} rx={3} fill={ink.metalDark} stroke="#000" strokeOpacity="0.35" />
+          <rect x={b.x + 26 + i * (doorW + 8) + (i === 0 ? doorW - 22 : 14)} y={top + 56} width={8} height={40} rx={4} fill="#e6edf2" />
+        </g>
+      ))}
+      <rect x={b.x + 10} y={b.y + b.h - 14} width={b.w - 20} height={6} fill="#0f1216" />
+      <rect x={b.x - 6} y={top - 8} width={b.w + 12} height={8} fill="#9aa5b1" />
+      <rect x={b.x - 6} y={top} width={b.w + 12} height={18} rx={2} fill="#b8c2cc" />
+      <rect x={b.x - 6} y={top + 14} width={b.w + 12} height={4} fill="#000" opacity="0.35" />
+      <rect x={b.x + b.w / 2 - 22} y={top + 40} width={44} height={58} rx={3} fill="#6b4a2f" />
+      <rect x={b.x + b.w / 2 - 17} y={top + 48} width={34} height={44} fill={ink.paper} />
+      <rect x={b.x + b.w / 2 - 10} y={top + 36} width={20} height={8} rx={2} fill="#c7cdd4" />
+      {[0, 1, 2].map((i) => (
+        <rect key={i} x={b.x + b.w / 2 - 12} y={top + 56 + i * 9} width={24 - i * 5} height={3} fill="#8a8f9a" />
+      ))}
+    </g>
+  );
+}
+
+function ArchiveTable({ b, ink, id }: { b: Box; ink: Ink; id: (s: string) => string }) {
+  // a long oak table on turned legs with a card-index chest at its left end and a green blotter
+  const top = b.y;
+  const leg = (x: number) => (
+    <g key={x}>
+      <rect x={x} y={top + 18} width={18} height={b.h - 18} fill={ink.woodDark} />
+      <rect x={x - 4} y={top + 40} width={26} height={12} rx={5} fill={ink.wood} />
+      <rect x={x - 4} y={top + 96} width={26} height={12} rx={5} fill={ink.wood} />
+    </g>
+  );
+  return (
+    <g>
+      <ellipse cx={b.x + b.w / 2} cy={b.y + b.h} rx={b.w / 2 + 30} ry={16} fill="#000" opacity="0.45" />
+      {leg(b.x + 22)}
+      {leg(b.x + b.w - 40)}
+      <rect x={b.x + 12} y={top + 18} width={b.w - 24} height={22} fill={`url(#${id("wood")})`} />
+      <rect x={b.x + 44} y={top + 40} width={112} height={100} fill={ink.wood} stroke="#000" strokeOpacity="0.35" />
+      {[0, 1, 2].map((r) =>
+        [0, 1].map((c) => (
+          <g key={`${r}${c}`}>
+            <rect x={b.x + 50 + c * 52} y={top + 46 + r * 31} width={48} height={26} rx={2} fill={ink.woodLight} stroke="#000" strokeOpacity="0.3" />
+            <rect x={b.x + 64 + c * 52} y={top + 55 + r * 31} width={20} height={7} rx={1} fill="#c7a15a" />
+          </g>
+        )),
+      )}
+      <rect x={b.x - 14} y={top} width={b.w + 28} height={18} rx={3} fill="#6b4a2f" />
+      <rect x={b.x - 14} y={top + 14} width={b.w + 28} height={5} fill="#000" opacity="0.35" />
+      <rect x={b.x + 150} y={top - 5} width={170} height={7} rx={1} fill="#2f5a3a" />
+      <rect x={b.x + 170} y={top - 4} width={70} height={8} fill={ink.paper} transform={`rotate(-4 ${b.x + 205} ${top})`} />
+      <rect x={b.x + 250} y={top - 3} width={30} height={4} fill={RED_STRING} opacity="0.8" />
     </g>
   );
 }
