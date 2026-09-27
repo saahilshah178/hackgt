@@ -19,6 +19,18 @@ export type ValidationResult =
   | { ok: true; spec: GameSpec; warnings: Issue[] }
   | { ok: false; issues: Issue[]; warnings: Issue[] };
 
+/**
+ * JSON with object keys sorted (arrays keep their order), so two values that differ only in key order compare equal.
+ * A spec read back from Postgres jsonb has its keys reordered; its solution is still the same solution.
+ */
+function canonicalJson(value: unknown): string {
+  return JSON.stringify(value, (_key, v: unknown) =>
+    v && typeof v === "object" && !Array.isArray(v)
+      ? Object.fromEntries(Object.entries(v as Record<string, unknown>).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))
+      : v,
+  );
+}
+
 const DIRECTOR_FIELDS = new Set(["id", "conceptIds", "teachingMechanicId", "socket", "role", "difficulty", "targetMisconception"]);
 
 export function ownerFor(path: readonly (string | number)[]): Owner {
@@ -160,7 +172,7 @@ export function validateGameSpec(input: unknown): ValidationResult {
     if (card.lockedParams) {
       for (const [k, v] of Object.entries(card.lockedParams)) {
         const actual = (p.data as Record<string, unknown>)[k];
-        if (JSON.stringify(actual) !== JSON.stringify(v)) {
+        if (canonicalJson(actual) !== canonicalJson(v)) {
           add(["encounters", i, "familyId"], `params.${k} must equal the card's locked value ${JSON.stringify(v)}`, e.id);
         }
       }
@@ -170,7 +182,7 @@ export function validateGameSpec(input: unknown): ValidationResult {
     if (problems.length > 0) return;
 
     const solution = m.resolve(p.data);
-    if (JSON.stringify(solution) !== JSON.stringify(e.solution)) {
+    if (canonicalJson(solution) !== canonicalJson(e.solution)) {
       add(["encounters", i, "solution"], "stored solution differs from mode.resolve(params)", e.id);
     }
     const g = m.grade(p.data, m.solutionInput(p.data, solution));
