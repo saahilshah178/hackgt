@@ -163,7 +163,7 @@ export function UploadPanel() {
           className="flex flex-col gap-4"
         >
           <label htmlFor="topic-text" className="text-base font-semibold">
-            Topic (built from general knowledge; the game is labeled &ldquo;unsourced&rdquo;)
+            Topic
           </label>
           <input
             id="topic-text"

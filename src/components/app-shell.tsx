@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { GraduationCap } from "lucide-react";
 import { APP_NAME, APP_TAGLINE } from "@/config";
-import { MockBanner } from "@/components/mock-banner";
 import { SiteHeader } from "@/components/site-header";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +17,6 @@ export function AppShell({ children, wide = false }: { children: React.ReactNode
       </a>
       <header>
         <SiteHeader appName={APP_NAME} wide={wide} />
-        <MockBanner />
       </header>
       <main id="main" className={cn("mx-auto w-full flex-1 px-4 py-8 sm:px-6 sm:py-10", width)}>
         {children}
