@@ -6,8 +6,8 @@
   "world": {
     "worldVersion": 2,
     "biome": "archive_of_voices",
-    "title": "The Archive of Voices",
-    "subtitle": "The 1965 Files",
+    "title": "The Civil Rights Files",
+    "subtitle": "1954 to 1965",
     "cast": {
       "protagonist": {
         "name": "Nell",
@@ -63,9 +63,9 @@
       ]
     },
     "story": {
-      "logline": "A storm scrambled the Courier-Ledger's Record Engine. Walk its projected city, 1954 to 1965, and repair every false or broken record before dawn.",
-      "objective": "Restore the Courier-Ledger's record, 1954 to 1965",
-      "objectiveLabel": "RECORD RESTORED",
+      "logline": "Walk the newspaper's civil rights files from 1954 to 1965 and put the true story back.",
+      "objective": "Put the 1954 to 1965 story back",
+      "objectiveLabel": "RECORD FIXED",
       "restoredNoun": "projection",
       "introCutsceneId": "intro",
       "finaleCutsceneId": "finale",
@@ -262,7 +262,7 @@
     "zones": [
       {
         "id": "s1_morgue",
-        "name": "The Morgue",
+        "name": "Newspaper Basement",
         "width": 3840,
         "height": 1400,
         "layerSets": [
@@ -408,7 +408,7 @@
           "depth": "L4_back",
           "label": "Record Engine",
           "sockets": 12,
-          "restoredLine": {"speakerId": "archivist", "text": "Every lens is lit. The Engine remembers all of it now.", "mood": "neutral"},
+          "restoredLine": {"speakerId": "archivist", "text": "Every light on the Engine is on. The whole record is back.", "mood": "neutral"},
           "anims": {"partial": "partial", "restored": "restored"}
         },
         "entry": {"x": 60, "surface": "ground"},
@@ -1527,7 +1527,7 @@
       },
       {
         "id": "s8_stacks_vault",
-        "name": "The Stacks and the Vault",
+        "name": "The File Room",
         "width": 6720,
         "height": 2000,
         "layerSets": [
@@ -1730,7 +1730,7 @@
           "depth": "L3_mid",
           "label": "Record Engine",
           "sockets": 12,
-          "restoredLine": {"speakerId": "archivist", "text": "Every lens is lit. The Engine remembers all of it now.", "mood": "neutral"},
+          "restoredLine": {"speakerId": "archivist", "text": "Every light on the Engine is on. The whole record is back.", "mood": "neutral"},
           "anims": {"partial": "partial", "restored": "restored"}
         },
         "entry": {"x": 300, "surface": "ground"},
@@ -1756,7 +1756,7 @@
               "statementIndex": 1,
               "trace": null,
               "ghost": null,
-              "footprint": {"kind": "band", "from": "1954", "to": "1955", "label": "claimed: desegregated"}
+              "footprint": {"kind": "band", "from": "1954", "to": "1955", "label": "claimed change"}
             },
             {"statementIndex": 2, "trace": null, "ghost": null, "footprint": {"kind": "arrow", "from": "1896", "to": "1954", "label": "overturned"}}
           ],
@@ -1798,39 +1798,39 @@
         "frameZoom": null,
         "probes": [{"predicate": "aimedIndex", "index": 2, "key": "plessy_true"}],
         "hintTargets": null,
-        "panel": {"layout": "scrub", "inputSymbol": null, "verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED", "cards": []},
+        "panel": {"layout": "scrub", "inputSymbol": null, "verifyLabel": "PULL THE SLIDE", "successBadge": "SLIDE PULLED", "cards": []},
         "dialogue": {
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "Three slides on the courthouse wall, all about Brown v. Board. The flood spliced one false label in with the true.",
+              "text": "These three slides are all about Brown v. Board, the 1954 school case. The storm slipped one false slide in.",
               "mood": "neutral"
             }
           ],
-          "instruction": {"speakerId": "archivist", "text": "Aim the Proof Lamp at the false slide, then retract it.", "mood": "neutral"},
+          "instruction": {"speakerId": "archivist", "text": "Point the lamp at the false slide, then pull it out.", "mood": "neutral"},
           "tutorial": {
             "speakerId": "archivist",
-            "text": "The lamp throws whichever slide you aim at. The FILE card pins each claim where it says it happened.",
+            "text": "The lamp shows whichever slide you point it at. The FILE card shows when each slide says things happened.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "A ruling says what the law is. Whether anyone obeys it is a separate story, with its own dates.",
+            "text": "Each slide makes a claim about a time. Check those times on the FILE card.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "A court ruling is a statement, not an enforcement. Keep that in mind as you read.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The ruling came in 1954. Ask what schools really looked like a few years after that.", "mood": "neutral"},
             {
               "speakerId": "archivist",
-              "text": "Think about what happened at Little Rock three years later. I've pinned it to the RECORD card.",
+              "text": "Check each slide against Little Rock in 1957, pinned on the RECORD card. Nine students needed soldiers to get in.",
               "mood": "neutral"
             },
-            {"speakerId": "archivist", "text": "The false label reads: Schools across the South desegregated within the year.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "The slide about Plessy and 'separate but equal' is true. Compare the other two.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "The lamp holds steady. That slide is honest. Look for the label that assumes the ruling was obeyed at once.",
+              "text": "That slide is true. Look for the one about what schools did after the ruling.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1838,7 +1838,7 @@
                 "key": "plessy_true",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "That one holds. Brown did overturn separate but equal. The false label is about what came after the ruling.",
+                  "text": "Brown really did end 'separate but equal,' so that slide is true. The false one is about what came after.",
                   "mood": "neutral"
                 }
               }
@@ -1846,12 +1846,12 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "A ruling is words on paper. It took years, and federal troops, to carry Brown out of the courtroom.",
+            "text": "That's it. Brown changed the law in 1954, but schools took years to follow it.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "archivist",
-            "text": "The steps are printing. Climb them, Nell. That terrace is the only way past the flood.",
+            "text": "The steps are back! Climb them to get past the water, Nell.",
             "mood": "neutral"
           },
           "after": [{"speakerId": "archivist", "text": "The plaque by the door just lit. It quotes the ruling word for word.", "mood": "neutral"}]
@@ -1924,39 +1924,39 @@
         "frameZoom": null,
         "probes": [{"predicate": "decoyPresent", "itemKey": "d0", "key": "acted_alone"}],
         "hintTargets": null,
-        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "LIGHT THE ROUTE", "successBadge": "ROUTE RESTORED", "cards": []},
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "LIGHT THE ROUTE", "successBadge": "ROUTE FIXED", "cards": []},
         "dialogue": {
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "The street past the bus stop is under water. Lay the Montgomery planks across it in order. One never happened.",
+              "text": "The street by the bus stop is flooded. These planks tell the story of the Montgomery bus boycott.",
               "mood": "neutral"
             }
           ],
-          "instruction": {"speakerId": "archivist", "text": "Lay the planks across the flooded street in the order they happened.", "mood": "neutral"},
+          "instruction": {"speakerId": "archivist", "text": "Lay the planks across the road in the order they happened.", "mood": "neutral"},
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Each plank rises as a slab where you set it. The DAY counter at the stop runs with the year cursor.",
+            "text": "Each plank turns into a slab where you drop it. Drag the year slider, and the DAY counter counts along.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "Nothing on this road happened by accident. Every one of those days was planned by someone.",
+            "text": "A boycott means people stop using something to protest. Here, people walked instead of riding the bus.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "Start with the arrest and end with the court.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Between them is a year of organized walking and carpooling.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Start with the arrest on December 1, 1955. Everything else grew out of that day.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Nobody walks for 381 days without a plan. Ask what had to happen before the long walk.", "mood": "neutral"},
             {
               "speakerId": "archivist",
-              "text": "An arrest of one activist became a campaign because leaders were ready to organize.",
+              "text": "The plank about Parks acting all alone never happened. She was part of a group ready to act.",
               "mood": "neutral"
             }
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "The road won't hold at that slab. Organizing came before 381 days of walking, and the court came at the end.",
+              "text": "The road won't hold there. The boycott had to be planned before 381 days of walking.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1964,7 +1964,7 @@
                 "key": "acted_alone",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "That slab dissolved. Nobody starts a year-long boycott alone; that plank belongs to no real day.",
+                  "text": "That slab sank. Nobody runs a year-long boycott alone, so that plank never happened.",
                   "mood": "neutral"
                 }
               }
@@ -1972,11 +1972,11 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "One arrest became a 381-day boycott because people organized. It ended when the Supreme Court ruled.",
+            "text": "One arrest became a 381-day boycott because people planned it. It ended when the Supreme Court ruled.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "Walk it. Three hundred and eighty-one days of it, one slab at a time.", "mood": "neutral"},
-          "after": [{"speakerId": "archivist", "text": "The bus lights are on. Those seats were the point of all that walking.", "mood": "neutral"}]
+          "payoffLine": {"speakerId": "archivist", "text": "Walk it, Nell. That's 381 days, one slab at a time.", "mood": "neutral"},
+          "after": [{"speakerId": "archivist", "text": "The bus lights are on. Those seats were what all that walking was for.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "terrain",
@@ -2040,38 +2040,38 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "September 1957. The Guard is holding nine students at the school door. The ticker's waiting on Washington's move.",
+              "text": "It's September 1957. The state's National Guard is blocking nine Black students at the school door.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "archivist",
-            "text": "Turn the Prediction Selector to your forecast, then send it down the wire.",
+            "text": "Turn the knob to your guess, then send it down the wire.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "archivist",
-            "text": "The ticker types your forecast as you turn the dial. Nothing goes out until you send it.",
+            "text": "The ticker types your guess as you turn the knob. Nothing goes out until you send it.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "A federal court ordered those doors open. A governor ordered them shut. Both orders can't stand.",
+            "text": "A federal court ordered the school to let the students in. The governor is ignoring that order.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "A state governor is defying a federal court. Hold on to that.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The governor is ignoring an order from a federal court. That's the fight here.", "mood": "neutral"},
             {
               "speakerId": "archivist",
-              "text": "A court order is being defied. Think about the tools a president holds when that happens.",
+              "text": "Ask who has more power than a governor when a federal court is ignored. Check each choice against that.",
               "mood": "neutral"
             },
-            {"speakerId": "archivist", "text": "Think about who outranks a state's National Guard.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "Canceling the order would mean the governor won. That's not what happened, so compare the other two.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "The wire prints what really happened. Read it, then set the selector to the true outcome and file it.",
+              "text": "The wire prints what really happened. Read it, then turn the knob to that outcome and send it.",
               "mood": "neutral"
             },
             "byKey": [
@@ -2079,7 +2079,7 @@
                 "key": "states_rights",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "The tape says otherwise. Once a state defies a federal court, the decision leaves Little Rock.",
+                  "text": "The tape says no. When a state ignores a federal court, the choice is out of Arkansas's hands.",
                   "mood": "neutral"
                 }
               }
@@ -2087,10 +2087,10 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "Brown didn't enforce itself. When a governor defied a federal court, it took the President and the Army.",
+            "text": "Brown didn't enforce itself. When a governor ignored a federal court, it took the President and the Army.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "Nine lamps. One for each student who walked in.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "Nine lamps, one for each student who walked in.", "mood": "neutral"},
           "after": [{"speakerId": "archivist", "text": "Those doors stay open now. Go on through, Nell.", "mood": "neutral"}]
         },
         "payoff": {
@@ -2160,39 +2160,39 @@
         "frameZoom": null,
         "probes": [{"predicate": "aimedIndex", "index": 2, "key": "spread_true"}],
         "hintTargets": null,
-        "panel": {"layout": "scrub", "inputSymbol": null, "verifyLabel": "RETRACT SLIDE", "successBadge": "SLIDE RETRACTED", "cards": []},
+        "panel": {"layout": "scrub", "inputSymbol": null, "verifyLabel": "PULL THE SLIDE", "successBadge": "SLIDE PULLED", "cards": []},
         "dialogue": {
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "Someone swapped the menu for three slides about the Greensboro sit-ins. One of them is a mimic.",
+              "text": "Someone swapped the menu for three slides about the Greensboro sit-ins. One of them is lying.",
               "mood": "neutral"
             }
           ],
-          "instruction": {"speakerId": "archivist", "text": "Swing the counter lamp onto the mimic slide, then retract it.", "mood": "neutral"},
+          "instruction": {"speakerId": "archivist", "text": "Swing the counter lamp onto the lying slide, then pull it out.", "mood": "neutral"},
           "tutorial": {
             "speakerId": "archivist",
-            "text": "The lamp swings to whichever slide you pick. It only retracts one when you say so.",
+            "text": "The lamp swings to whichever slide you pick. It only pulls one out when you say so.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "Twelve stools, and every one of them was a rule. Breaking a rule on purpose takes planning.",
+            "text": "At a sit-in, people sat where they weren't allowed and wouldn't leave. That took a lot of planning.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "Sitting where you are forbidden to sit is itself a confrontation.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Sitting at a counter where you're banned is already a challenge to the rules.", "mood": "neutral"},
             {
               "speakerId": "archivist",
-              "text": "Nonviolence describes how they answered violence, not whether they provoked a response.",
+              "text": "Nonviolent means you don't hit back. Which slide fits students who broke a rule on purpose?",
               "mood": "neutral"
             },
-            {"speakerId": "archivist", "text": "The mimic claims: Nonviolent meant the students avoided confrontation.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "The slide about February 1, 1960 is true. Compare the other two.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "That slide is honest. Look for the claim that turns nonviolence into passivity.",
+              "text": "That slide is true. Look for the one that makes nonviolent sound like doing nothing.",
               "mood": "neutral"
             },
             "byKey": [
@@ -2200,7 +2200,7 @@
                 "key": "spread_true",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "That slide holds. The sit-ins spread, and SNCC came out of them. Look for the claim about how they behaved.",
+                  "text": "That one's true, since the sit-ins really did spread. Look for the claim about how the students acted.",
                   "mood": "neutral"
                 }
               }
@@ -2208,10 +2208,10 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "Nonviolent never meant passive. They broke an unjust rule on purpose, stayed put, and met violence with discipline.",
+            "text": "Right! The students broke an unfair rule on purpose. They stayed calm, even when people hurt them.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "The kitchen door's open. The alley runs through to the terminal.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "The kitchen door's open. The alley leads to the bus station.", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -2285,7 +2285,7 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "The terminal's relay line is dead. Six junction boxes, five events of 1961. Wire each cause to what it caused.",
+              "text": "The bus station's power line is dead. Six boxes hold events from 1961, and one doesn't belong.",
               "mood": "neutral"
             }
           ],
@@ -2296,19 +2296,19 @@
           },
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Draw a wire from a box to what it set off. The gauge only counts wires; it can't tell you if they're right.",
+            "text": "Draw a wire from a box to what it caused. The gauge only counts wires, so it can't tell you if they're right.",
             "mood": "neutral"
           },
-          "insight": {"speakerId": "archivist", "text": "A ruling on paper changes nothing until somebody tests it in person.", "mood": "neutral"},
+          "insight": {"speakerId": "archivist", "text": "The Freedom Riders rode buses together to see if a new ruling would be obeyed.", "mood": "neutral"},
           "hints": [
-            {"speakerId": "archivist", "text": "Start with the ruling the riders wanted to test.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Violence became news; news became pressure.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "The federal enforcement came last, and not by choice.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "The riders got on the buses to test something. Find the event they were testing.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Look for what turned the Anniston attack into news across the country. That link comes right after the attack.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Congress passed no civil rights law in 1961, so leave that box out. Kennedy's push comes last.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "The current stops at that box. Follow the pressure: who tested what, what exposed it, and who acted last.",
+              "text": "The power stops at that box. Follow the pressure, and ask who acted last.",
               "mood": "neutral"
             },
             "byKey": [
@@ -2316,7 +2316,7 @@
                 "key": "law_first",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "Congress passed no act in 1961. That box belongs to a later story; the riders didn't wait for a law.",
+                  "text": "Congress passed no such law in 1961. The riders didn't wait for one.",
                   "mood": "neutral"
                 }
               }
@@ -2324,10 +2324,10 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "Riders tested a ruling, violence made headlines, and only then did Washington act. The movement pushed first.",
+            "text": "Riders tested a ruling, and the attack made headlines. Only then did Washington act.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "The gate's up. Take the stair to the overpass.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "The gate's up. Take the stairs up to the overpass.", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -2401,7 +2401,7 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "Five relay stations up the mast and one stray. Link each event in Birmingham to the one it toppled.",
+              "text": "Five stations go up the mast, plus one that doesn't belong. Link each Birmingham event to the one it caused.",
               "mood": "neutral"
             }
           ],
@@ -2412,23 +2412,23 @@
           },
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Each dish turns toward whatever you wire into it. The lift at the foot stays dark until the circuit closes.",
+            "text": "Each dish turns toward whatever you wire into it. The lift at the bottom stays dark until the circuit closes.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "A bill in Washington answers pressure, and pressure has to come from somewhere.",
+            "text": "A bill is a plan for a new law. Kennedy's came after a lot of people started pushing.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "Begin with the marches themselves.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "The images only mattered because they were seen.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "The bill was the last domino, not the first.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "Everything starts with the marches in Birmingham. Ask what happened to the marchers next.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The pictures only mattered once people saw them. Find what came after TV and the newspapers.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The Voting Rights Act station is from 1965, so it doesn't fit this spring. Kennedy's bill is the last link.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "The signal dies partway up. A bill doesn't come from nowhere; trace what had to be seen before anyone acted.",
+              "text": "The signal dies partway up. Ask what people had to see before anyone in Washington acted.",
               "mood": "neutral"
             },
             "byKey": [
@@ -2436,7 +2436,7 @@
                 "key": "wrong_year_law",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "That station is from 1965. This mast only carries Birmingham's spring, and what it set moving that June.",
+                  "text": "That station is from 1965. This mast only covers Birmingham in the spring of 1963, and that June.",
                   "mood": "neutral"
                 }
               }
@@ -2444,12 +2444,12 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "Kennedy's bill had a chain of causes behind it: marches, violence, cameras, opinion. No single push did it.",
+            "text": "Kennedy's bill had a chain of causes. Marches met violence, and cameras made the whole country see it.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "The lift's live. Ride it up to the rooftops.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "The lift's working. Ride it up to the rooftops.", "mood": "neutral"},
           "after": [
-            {"speakerId": "archivist", "text": "From up here you can see why it mattered. The whole city could see it too.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "You can see the whole city from up here. Those TV pictures reached every city in the country.", "mood": "neutral"}
           ]
         },
         "payoff": {
@@ -2514,26 +2514,26 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "The March's program is scrambled on the switchboard. Four names, five roles. Patch each name to its part.",
+              "text": "The march's program is scrambled on the switchboard. There are four names and five parts, so one part is extra.",
               "mood": "neutral"
             }
           ],
-          "instruction": {"speakerId": "archivist", "text": "Patch each name jack to its role jack, then connect the program.", "mood": "neutral"},
+          "instruction": {"speakerId": "archivist", "text": "Plug each name jack into its role jack, then connect the program.", "mood": "neutral"},
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Patch a cord and both lamps light white. White only means seated. The program fills in as you go.",
+            "text": "Plug in a cord and both lamps turn white. White just means plugged in, and it doesn't check the match.",
             "mood": "neutral"
           },
-          "insight": {"speakerId": "archivist", "text": "A march that size is a logistics problem long before it is a speech.", "mood": "neutral"},
+          "insight": {"speakerId": "archivist", "text": "A crowd of 250,000 people takes months of planning before anyone gives a speech.", "mood": "neutral"},
           "hints": [
-            {"speakerId": "archivist", "text": "The march had organizers as well as a famous speaker.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Its full name was the March on Washington for Jobs and Freedom.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "The person who signed the act was a president, not a marcher.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "The march's full name was the March on Washington for Jobs and Freedom. One part matches those words.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Randolph and Rustin were both organizers. One had the idea years earlier, and one ran the day itself.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Nobody at the march signed the Civil Rights Act into law. A president did that the next year.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "That cord won't seat. Labor and civil rights veterans built this march; read the clue on the program's margin.",
+              "text": "That cord won't stay in. Labor and civil rights leaders planned this march, so check the program's edge.",
               "mood": "neutral"
             },
             "byKey": [
@@ -2541,7 +2541,7 @@
                 "key": "king_organizer",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "King gave the closing speech. The call for this march went out years earlier, from a labor leader.",
+                  "text": "King gave the last speech. The call for this march came years earlier, from a labor leader.",
                   "mood": "neutral"
                 }
               }
@@ -2549,14 +2549,14 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "A march has architects, and this one demanded jobs as well as freedom. The famous speech was its close, not its whole.",
+            "text": "A big team planned this march, and it asked for jobs as well as freedom. King's famous speech closed the day.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "The steps are solid. Climb to the colonnade, Nell.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "The steps are solid. Climb up to the columns, Nell.", "mood": "neutral"},
           "after": [
             {
               "speakerId": "archivist",
-              "text": "The program printed clean. Organizers, marshals, demands, and one speech at the end.",
+              "text": "The program printed clean. Look, the famous speech is only the last line.",
               "mood": "neutral"
             }
           ]
@@ -2683,30 +2683,30 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "Two cabinets, two laws, six provisions coming down the tube. File each slip under the act that created it.",
+              "text": "Two cabinets for two laws, and six slips coming down the tube. Each slip is one part of a law.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "archivist",
-            "text": "File each provision slip in its act's cabinet, then seal the cabinets.",
+            "text": "File each slip in the cabinet for its law, then seal the cabinets.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Each slip flies to the drawer you pick. The meters only count slips; they don't check your filing.",
+            "text": "Each slip flies to the drawer you pick. The meters only count slips, and they don't check your filing.",
             "mood": "neutral"
           },
-          "insight": {"speakerId": "archivist", "text": "Two laws, one year apart. Each one answered a different injustice.", "mood": "neutral"},
+          "insight": {"speakerId": "archivist", "text": "These two laws came one year apart. Each one fixed a different unfair thing.", "mood": "neutral"},
           "hints": [
-            {"speakerId": "archivist", "text": "Ask what each provision is about: public life and jobs, or the ballot.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Anything about registering or voting belongs to 1965.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "The 1964 act's dates and titles are about accommodations and employment.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "Each slip is about daily life and jobs, or about voting. That decides the cabinet.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Try the slip about restaurants and hotels. It's about public places, so ask which law covered those.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Two slips only give dates, July 1964 and March 1965. Match each to the year in a law's name.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "A slip bounced back. The 1964 act targeted segregation and job discrimination; the vote waited for 1965.",
+              "text": "A slip bounced back. The 1964 law fought segregation and unfair hiring, and voting waited for 1965.",
               "mood": "neutral"
             },
             "byKey": [
@@ -2714,7 +2714,7 @@
                 "key": "vote_in_1964",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "Something about the ballot is sitting with the 1964 act. Read that cabinet's feature plate again.",
+                  "text": "Something about voting is sitting with the 1964 act. Read the label on that cabinet again.",
                   "mood": "neutral"
                 }
               }
@@ -2722,10 +2722,10 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "The 1964 act opened lunch counters, hotels and workplaces. The ballot needed its own law a year later.",
+            "text": "The 1964 act opened lunch counters, hotels and workplaces. Voting needed its own law a year later.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "The cabinets rolled apart. There's a stair down to the river road.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "The cabinets rolled apart. There's a stairway down to the river road.", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -2796,51 +2796,51 @@
         "frameZoom": null,
         "probes": [{"predicate": "decoyPresent", "itemKey": "d0", "key": "other_story"}],
         "hintTargets": null,
-        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "LOCK THE SPAN", "successBadge": "SPAN LOCKED", "cards": []},
+        "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "LOCK THE BRIDGE", "successBadge": "BRIDGE LOCKED", "cards": []},
         "dialogue": {
           "approach": [
-            {"speakerId": "archivist", "text": "The chapter's order lies. The dates don't.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "This chapter tells things out of order. Go by the dates.", "mood": "neutral"},
             {
               "speakerId": "archivist",
-              "text": "The bridge deck is in pieces. Set the planks by their dates. One plank belongs to a different story.",
+              "text": "The bridge deck is in pieces. Set the planks by their dates, and leave out the one from another story.",
               "mood": "neutral"
             }
           ],
-          "instruction": {"speakerId": "archivist", "text": "Set the bridge planks in date order, then lock the span.", "mood": "neutral"},
+          "instruction": {"speakerId": "archivist", "text": "Set the bridge planks in date order, then lock the bridge.", "mood": "neutral"},
           "tutorial": {
             "speakerId": "archivist",
-            "text": "The planks come in the order the chapter prints them. Each deck section shows the date printed on its plank.",
+            "text": "The planks come in the order the chapter prints them. Each part of the deck shows its plank's date.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "A textbook tells events in the order that makes a good chapter. Time keeps its own order.",
+            "text": "A textbook tells events in the order that makes a good chapter. The dates show the real order.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "Dates decide the order, not the page they appear on.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "The 1964 act came before Selma.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "The voting law was signed in the summer after the march.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "Go by the dates on the planks. The page order in the chapter doesn't count.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Start with the plank from 1964. The rest of this story happened in 1965.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The December 1956 plank is from the bus boycott, so leave it out. Then sort the two March planks by day.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "The span tips at that bay. Run the year cursor across the bridge and watch which lamps light as the lens passes.",
+              "text": "The bridge tips there. Drag the year slider across the bridge and watch which lamps light up.",
               "mood": "neutral"
             },
             "byKey": [
               {
                 "key": "other_story",
-                "line": {"speakerId": "archivist", "text": "That plank is dated 1956. It's Montgomery's story, not this bridge's.", "mood": "neutral"}
+                "line": {"speakerId": "archivist", "text": "That plank is dated 1956. It's from the Montgomery bus story.", "mood": "neutral"}
               }
             ]
           },
           "success": {
             "speakerId": "archivist",
-            "text": "The page order is the author's. The dates are the record's: the 1964 act, Bloody Sunday, the march, the 1965 act.",
+            "text": "Yes! The dates set the order. The 1964 act came first, and the 1965 act came after Selma.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "The span holds. Cross at a walk, Nell. The rain's stopping.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "The bridge holds, and the rain's stopping. Walk across slowly, Nell.", "mood": "neutral"},
           "after": [
             {"speakerId": "archivist", "text": "The plate on the far bank is lit. Read it before the streetcar takes us home.", "mood": "neutral"}
           ]
@@ -2967,7 +2967,7 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "Six documents spilled from the cabinet. File each as primary or secondary. Theo thinks old means primary.",
+              "text": "Six documents spilled out of the cabinet. Theo thinks anything old counts as a primary source.",
               "mood": "neutral"
             }
           ],
@@ -2978,23 +2978,23 @@
           },
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Each document gets a date stamp as it lands: the year it was made, printed on its own face.",
+            "text": "Each document gets a date stamp when it lands. It shows the year it was made.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "Every source is somebody's view. What matters is when they looked, and from where.",
+            "text": "A primary source was made at the time by someone who was there. A secondary one was made later.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "Ask who made it and when, not how old it is.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "A textbook from 1971 is still someone else's later account.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Words or images from the people who were there are primary, even if recent.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "Look at who made each document and when. How old it is doesn't decide it.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Test the 2019 film about Selma. Its makers weren't there, so they learned it from older sources.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The 1963 photo and the 1971 textbook are both old. Only one was made by someone at the march.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "That drawer spat it back. Age doesn't decide it. Check who made this, and whether they were there when it happened.",
+              "text": "That drawer spat it back. Check who made this, and whether they were there when it happened.",
               "mood": "neutral"
             },
             "byKey": [
@@ -3002,7 +3002,7 @@
                 "key": "old_means_primary",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "The textbook went in Primary because it looks old. Old isn't the test; being there is.",
+                  "text": "The textbook went in Primary because it looks old. Its writer wasn't there, and that's the test.",
                   "mood": "neutral"
                 }
               }
@@ -3010,10 +3010,10 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "A source is primary because of who made it and when, not because it's old. A 1971 textbook is still secondhand.",
+            "text": "A source is primary because of who made it and when. A 1971 textbook is still secondhand.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "archivist", "text": "The stacks are rolling apart. The ladder to the gallery is free.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "archivist", "text": "The stacks are rolling apart. The ladder to the balcony is free.", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -3088,7 +3088,7 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "The Big Board. Seven canisters, and two belong to an earlier chain. Connect Birmingham to the Voting Rights Act.",
+              "text": "This is the Big Board. Link Birmingham to the Voting Rights Act, and leave out two canisters from an earlier story.",
               "mood": "neutral"
             }
           ],
@@ -3099,23 +3099,23 @@
           },
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Tubes grow along the board as you draw them. Run the year cursor: the RECORD card holds every date you restored.",
+            "text": "Tubes grow along the board as you draw them. The RECORD card has every date you've fixed so far.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "The record you rebuilt is evidence now. Every pin on it is a date you can check a link against.",
+            "text": "Every pin on the RECORD card is a date. Use them to check each link.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "Start in Birmingham and end with the vote.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Each law followed a televised crisis.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "1963 → 1964 → 1965: two crises, two laws.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "Start with the TV pictures from Birmingham in May 1963. End with the vote in August 1965.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Each new law came after the country saw violence on TV. Find the crisis before each law.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "Brown in 1954 and Montgomery in 1955 are too early for this chain. Leave them out.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "The capsule jammed. Each tube is a cause and its consequence. Check the RECORD card for what came first.",
+              "text": "The capsule got stuck. Each tube needs a cause and what it led to, so check the RECORD card's dates.",
               "mood": "neutral"
             },
             "byKey": [
@@ -3123,7 +3123,7 @@
                 "key": "earlier_chain",
                 "line": {
                   "speakerId": "archivist",
-                  "text": "Brown and Montgomery matter, but they closed an earlier circuit. This board runs from Birmingham to the vote.",
+                  "text": "Brown and Montgomery matter, but they're part of an earlier story. This board runs from Birmingham to the vote.",
                   "mood": "neutral"
                 }
               }
@@ -3131,12 +3131,12 @@
           },
           "success": {
             "speakerId": "archivist",
-            "text": "Crisis, pressure, law. Birmingham brought the 1964 act and Selma brought the 1965 act. The same circuit closed twice.",
+            "text": "Birmingham led to the 1964 act, and Selma led to the 1965 act. Both laws came after the country saw violence on TV.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "archivist",
-            "text": "The Big Board's lit and the vault's first bolt just moved. He's waiting for you, Nell.",
+            "text": "The Big Board's lit, and the vault's first bolt just moved. The Editor is waiting for you, Nell.",
             "mood": "neutral"
           },
           "after": []
@@ -3195,41 +3195,41 @@
           "approach": [
             {
               "speakerId": "archivist",
-              "text": "Four tumblers, four explanations. Pin each clue to what it rules out. One will be left standing.",
+              "text": "Each tumbler holds one explanation. Pin each clue to the one it rules out until one is left.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "archivist",
-            "text": "Pin clues to the tumblers they rule out, then name the explanation that stands.",
+            "text": "Pin clues to the tumblers they rule out, then pick the explanation that's left.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "archivist",
-            "text": "Your strike marks are yours alone; the vault never reads them. It only turns for the explanation you name.",
+            "text": "Your strike marks are just for you, and the vault never reads them. It only opens for the answer you pick.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "archivist",
-            "text": "A good explanation fits every dated clue at once. One clue against it is enough to strike it.",
+            "text": "A good explanation fits every dated clue. One clue against it is enough to strike it.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "archivist", "text": "Check each explanation against the dated clues.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Hold the 2% registration figure up against each tumbler. It strikes one cleanly.", "mood": "neutral"},
-            {"speakerId": "archivist", "text": "Only one explanation survives every clue.", "mood": "neutral"}
+            {"speakerId": "archivist", "text": "Start with the clue about the 2% of Black adults signed up to vote in early 1965.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "If under 2% could vote after the 1964 act, that act hadn't fixed voting. Strike that tumbler.", "mood": "neutral"},
+            {"speakerId": "archivist", "text": "The court clue rules out one more. Then test the explanation about Brown against the March 15, 1965 clue.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "archivist",
-              "text": "One of your own clues rules that one out. Find the clue card that slid beside the row.",
+              "text": "One of your own clues rules that one out. Find the clue card next to that row.",
               "mood": "neutral"
             },
             "byKey": []
           },
           "success": {
             "speakerId": "archivist",
-            "text": "Pressure made law. Selma's televised violence moved a voting bill in days, where eleven years had not.",
+            "text": "Yes! TV pictures of Selma pushed a voting bill forward in days. Eleven years of waiting hadn't done that.",
             "mood": "neutral"
           },
           "payoffLine": {"speakerId": "editor", "text": "That's the story. Print it.", "mood": "neutral"},
@@ -3256,7 +3256,7 @@
             "approach": [],
             "fail": [
               {"speakerId": "editor", "text": "That tumbler won't turn. One of your own clues rules it out.", "mood": "neutral"},
-              {"speakerId": "editor", "text": "Dead lead. A dated source already killed that story.", "mood": "neutral"}
+              {"speakerId": "editor", "text": "Dead end. A dated clue already ruled that out.", "mood": "neutral"}
             ],
             "byKey": []
           },
@@ -4151,7 +4151,7 @@
             "zoneId": "s1_morgue",
             "x": 1180,
             "surface": "ground",
-            "lines": [{"speakerId": "archivist", "text": "Courthouse first, Nell. Wick knows the way, and so do the dates.", "mood": "neutral"}],
+            "lines": [{"speakerId": "archivist", "text": "Go to the courthouse first, Nell. Wick knows the way.", "mood": "neutral"}],
             "pose": "sit",
             "follow": "none",
             "repeatable": true,
@@ -4196,7 +4196,7 @@
             "zoneId": "s1_morgue",
             "x": 560,
             "surface": "ground",
-            "lines": [{"speakerId": "otis", "text": "I'll keep this floor as dry as I can. You keep that lantern close.", "mood": "neutral"}],
+            "lines": [{"speakerId": "otis", "text": "I'll try to keep this floor dry. Stay close to that lantern.", "mood": "neutral"}],
             "pose": "idle",
             "follow": "none",
             "repeatable": true,
@@ -4218,7 +4218,7 @@
         "lines": [
           {
             "speakerId": "archivist",
-            "text": "From up here the square reads like a front page. The flood runs all the way to the bus stop.",
+            "text": "From up here, the square looks like a front page. The water goes all the way to the bus stop.",
             "mood": "neutral"
           }
         ],
@@ -4297,17 +4297,17 @@
         "steps": [
           {"do": "fade", "to": "black", "ms": 0},
           {"do": "enter_zone", "zoneId": "s1_morgue", "x": 60, "surface": "ground"},
-          {"do": "title", "text": "The Archive of Voices", "sub": "The Courier-Ledger morgue, tonight", "ms": 2500},
+          {"do": "title", "text": "The Civil Rights Files", "sub": "1954 to 1965", "ms": 2500},
           {"do": "fade", "to": "clear", "ms": 1200},
           {"do": "camera", "x": 2100, "y": 700, "zoom": 0.7, "ms": 2400, "ease": "in_out_sine"},
           {"do": "camera", "x": 400, "y": 900, "zoom": 1, "ms": 1200, "ease": "out_cubic"},
-          {"do": "control_until", "x": 640, "surface": "ground", "prompt": "Walk down the stair", "timeoutMs": 20000},
+          {"do": "control_until", "x": 640, "surface": "ground", "prompt": "Walk down the stairs", "timeoutMs": 20000},
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "otis",
-                "text": "Mind the water. The storm came in through the basement windows and soaked every reel down here.",
+                "text": "Watch out for the water. The storm got in through the windows and soaked the film reels.",
                 "mood": "neutral"
               }
             ]
@@ -4318,27 +4318,27 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Every vault in here opens for evidence, not for guesses. Read the dates. Follow the causes.",
+                "text": "The files run from 1954 to 1965. Walk the years in order.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "archivist",
-                "text": "That machine is the Record Engine. It projects the paper's files, 1954 to 1965, as a city you can walk through.",
+                "text": "That big machine turns the paper's old news into a city you can walk.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "archivist",
-                "text": "The flood scrambled it. Now it shows steps that go nowhere, streets with holes, and false labels over the true ones.",
+                "text": "Some steps go nowhere, and false labels cover the true ones.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "archivist",
-                "text": "At dawn, reels that won't play get hauled out. Then the false labels are all anyone will remember.",
+                "text": "Put each true story back, and the next year will open.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "archivist",
-                "text": "The Editor sealed his last story in the vault under the Engine. It opens only when the whole record agrees with itself.",
+                "text": "The last vault asks why the voting law passed. It opens when the rest of the story is true.",
                 "mood": "neutral"
               }
             ]
@@ -4347,10 +4347,10 @@
           {
             "do": "say",
             "lines": [
-              {"speakerId": "archivist", "text": "My knees quit walking the projection years ago. Take Wick. He carries my voice.", "mood": "neutral"},
+              {"speakerId": "archivist", "text": "My knees can't do the walking anymore. Take Wick, and he'll carry my voice.", "mood": "neutral"},
               {
                 "speakerId": "archivist",
-                "text": "Start at the courthouse. This story starts with a ruling, and with what people did after it.",
+                "text": "Start at the courthouse. The story begins with a court ruling, and what people did after it.",
                 "mood": "neutral"
               }
             ]
@@ -4360,14 +4360,14 @@
             "lines": [
               {
                 "speakerId": "otis",
-                "text": "Main breaker's by the Engine. Water got the lower fuses, but the Engine runs on its own line.",
+                "text": "The main switch is by the Engine. The water hit the other fuses, but the Engine has its own line.",
                 "mood": "neutral"
               },
-              {"speakerId": "archivist", "text": "Throw the main breaker by the Engine, Nell. Let's see what it still remembers.", "mood": "neutral"}
+              {"speakerId": "archivist", "text": "Flip the main switch by the Engine, Nell. We'll see what still works.", "mood": "neutral"}
             ]
           },
           {"do": "walk", "actor": "player", "toX": 1340},
-          {"do": "await_interact", "target": {"kind": "prop", "id": "main_breaker"}, "prompt": "Throw the main breaker", "timeoutMs": null},
+          {"do": "await_interact", "target": {"kind": "prop", "id": "main_breaker"}, "prompt": "Flip the main switch", "timeoutMs": null},
           {"do": "set_state", "target": {"kind": "flag", "id": "engine_awake"}, "state": "on"},
           {"do": "sfx", "cue": "breaker_throw"},
           {"do": "hub", "zoneId": "s1_morgue", "state": "partial"},
@@ -4379,7 +4379,7 @@
               {"speakerId": "otis", "text": "There she goes. Haven't seen those rings turn since the week I was hired.", "mood": "neutral"},
               {
                 "speakerId": "archivist",
-                "text": "If a repair doesn't hold, the Engine shows you where. Read what it shows you, Nell.",
+                "text": "If a fix doesn't hold, the Engine shows you where. Watch for it, Nell.",
                 "mood": "neutral"
               }
             ]
@@ -4396,10 +4396,10 @@
           {
             "do": "say",
             "lines": [
-              {"speakerId": "editor", "text": "You found the story I sealed: pressure made law, and the evidence proves it.", "mood": "neutral"},
+              {"speakerId": "editor", "text": "You found the story I locked away. People pushed for years, and that's how the laws passed.", "mood": "neutral"},
               {
                 "speakerId": "editor",
-                "text": "I sealed it because people kept telling it as one speech and one signature. It was years of organizing.",
+                "text": "People kept telling it as one speech and one signature. Really, it took years of organizing.",
                 "mood": "neutral"
               }
             ]
@@ -4418,12 +4418,12 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Look out the window, Nell. Every projection's lit. The city holds its whole shape now, 1954 to 1965.",
+                "text": "Look out the window, Nell. The whole city is back, from 1954 to 1965.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "archivist",
-                "text": "Rulings, a boycott, sit-ins, rides, marches, two laws, each tied to what caused it. That's a record you can defend.",
+                "text": "Every event is linked to what caused it now. You can back up this record with proof.",
                 "mood": "neutral"
               }
             ]
@@ -4433,7 +4433,7 @@
             "lines": [
               {"speakerId": "otis", "text": "Sun's up. Nobody's hauling anything out of here today.", "mood": "neutral"},
               {"speakerId": "hattie", "text": "Front page is set. First edition in ten minutes.", "mood": "neutral"},
-              {"speakerId": "archivist", "text": "Go home and sleep. Tomorrow somebody will ask you what happened. Tell them why.", "mood": "neutral"}
+              {"speakerId": "archivist", "text": "Go home and get some sleep. If anyone asks what happened, tell them why it happened too.", "mood": "neutral"}
             ]
           },
           {"do": "fade", "to": "black", "ms": 1500}
@@ -4449,7 +4449,7 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Courthouse Square, 1954. The steps are only half printed. The record isn't sure what the Court decided.",
+                "text": "This is Courthouse Square in 1954. The record is mixed up about what the Court decided.",
                 "mood": "neutral"
               }
             ]
@@ -4466,7 +4466,7 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Little Rock, September 1957. Three years after Brown, and those school doors are still barred.",
+                "text": "This is Little Rock in September 1957. Three years after Brown, those school doors are still shut.",
                 "mood": "neutral"
               }
             ]
@@ -4483,7 +4483,7 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Greensboro, 1960. A lunch counter, and next door a bus terminal. The movement is getting younger and bolder.",
+                "text": "This is Greensboro in 1960, with a bus station next door. Young people are leading the protests now.",
                 "mood": "neutral"
               }
             ]
@@ -4500,7 +4500,7 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Birmingham, spring 1963. Watch that mast. What happened here mattered because cameras carried it.",
+                "text": "Now we're in Birmingham, spring 1963. What happened here mattered because TV cameras showed it.",
                 "mood": "neutral"
               }
             ]
@@ -4517,7 +4517,7 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Washington, August 1963. A quarter of a million people, and far more organizing than most people remember.",
+                "text": "Washington, August 1963. Getting 250,000 people here took a huge amount of planning.",
                 "mood": "neutral"
               }
             ]
@@ -4534,7 +4534,7 @@
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Selma, March 1965. The bridge is in pieces. We'll set them by date, and we'll cross at a walk.",
+                "text": "This is Selma in March 1965. The bridge is in pieces, so we'll set them by date.",
                 "mood": "neutral"
               }
             ]
@@ -4545,13 +4545,13 @@
         "id": "enter_s8",
         "skippable": true,
         "steps": [
-          {"do": "title", "text": "The Morgue Stacks", "sub": "Tonight", "ms": 2200},
+          {"do": "title", "text": "The File Room", "sub": "The last vault", "ms": 2200},
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "archivist",
-                "text": "Back in the stacks. The rest of the record is paper: sources, and the causes that tie them together.",
+                "text": "We're back in the stacks. The rest of the record is papers, and what caused what.",
                 "mood": "neutral"
               }
             ]
@@ -4565,7 +4565,7 @@
           {"do": "music", "cue": "noir"},
           {"do": "camera", "x": 5700, "y": 1500, "zoom": 0.8, "ms": 1400, "ease": "in_out_sine"},
           {"do": "station", "encounterId": "e12_boss", "anim": "wake"},
-          {"do": "say", "lines": [{"speakerId": "editor", "text": "Tell me why 1965. Not what happened. Why.", "mood": "neutral"}]},
+          {"do": "say", "lines": [{"speakerId": "editor", "text": "Here's my question. Why did the voting law pass in 1965?", "mood": "neutral"}]},
           {"do": "camera", "x": null, "y": null, "zoom": 1, "ms": 900, "ease": "out_cubic"}
         ]
       },

@@ -4,6 +4,7 @@ import type { TeachingMechanic } from "../../contracts/library";
 import type { AssessmentItemSlice, AssessmentSlice, BlueprintSlice, ChallengeSlice, NarrativeSlice, PreCheckSlice } from "../../contracts/slices";
 import { answerVarsFor, type AnyFamilyMode } from "../../mechanics/types";
 import { placeholders } from "../../mechanics/util";
+import { hintLadderProblems, textStyleProblems } from "../../world/text-style";
 
 /*
  * Each check returns human-readable problems. The generation loop sends them straight back to the
@@ -104,7 +105,7 @@ export function checkChallenge(m: AnyFamilyMode, slice: ChallengeSlice, locked?:
     ["wrongFeedback", slice.wrongFeedback],
     ["debriefLine", slice.debriefLine],
   ];
-  const leakProne = new Set(["prompt", "hints[0]", "wrongFeedback"]);
+  const leakProne = new Set(["prompt", "wrongFeedback", ...slice.hints.map((_, i) => `hints[${i}]`)]);
   for (const [field, text] of texts) {
     if (!text.trim()) problems.push(`${field} is empty`);
     if (text.length > 220) problems.push(`${field} is ${text.length} characters; keep it under 220`);
@@ -112,10 +113,12 @@ export function checkChallenge(m: AnyFamilyMode, slice: ChallengeSlice, locked?:
       if (!known.includes(name)) {
         problems.push(`${field} uses unknown placeholder {{${name}}}. Allowed: ${known.map((k) => `{{${k}}}`).join(", ")}`);
       } else if (leakProne.has(field) && answerVars.includes(name)) {
-        problems.push(`${field} gives away the answer via {{${name}}}; only later hints and the debrief may use it`);
+        problems.push(`${field} gives away the answer via {{${name}}}; only the debrief may use it (docs/HINTS.md)`);
       }
     }
+    textStyleProblems(text).forEach((p) => problems.push(`${field} ${p} (docs/WRITING.md)`));
   }
+  problems.push(...hintLadderProblems(slice.hints, slice.prompt));
   if (slice.sourceRef && slice.sourceRef.quote.length > 300) problems.push("sourceRef.quote must be under 300 characters");
   if (!m.grade(parsed.data, m.solutionInput(parsed.data, solution)).correct) {
     problems.push("internal: the computed solution does not pass grade(); regenerate the params");
@@ -128,6 +131,7 @@ export function checkNarrative(slice: NarrativeSlice): string[] {
   const lines = [...slice.intro, ...slice.outro, ...slice.beats];
   lines.forEach((l) => {
     if (words(l.text) > 24) problems.push(`line "${l.text.slice(0, 40)}..." has ${words(l.text)} words; keep lines to 20`);
+    textStyleProblems(l.text).forEach((p) => problems.push(`line "${l.text.slice(0, 40)}..." ${p} (docs/WRITING.md)`));
   });
   const keys = slice.beats.map((b) => `${b.encounterId}:${b.when}`);
   if (new Set(keys).size !== keys.length) problems.push("at most one beat per encounter per position (before/after)");

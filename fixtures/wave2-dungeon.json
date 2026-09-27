@@ -116,14 +116,14 @@
     "laterBonus": 0.08,
     "missPenalty": 0.05
   },
-  "title": "The Wave-Two Proving Ground",
+  "title": "The Nine-Room Test Dungeon",
   "theme": {
-    "setting": "A test dungeon where every wave-2 mechanic has a room",
+    "setting": "A test dungeon with a different kind of puzzle in every room",
     "tone": "brisk",
     "paletteId": "neon",
     "musicMood": "playful"
   },
-  "premise": "Nine rooms, nine different mechanics. Clear them all.",
+  "premise": "Nine rooms, each with a different kind of puzzle. Solve them all.",
   "characters": [
     {
       "id": "cog",
@@ -145,7 +145,7 @@
       "targetMisconception": null,
       "familyId": "function_world",
       "mode": "slope",
-      "prompt": "Cross the ridge with your tangent scanner and mark where the terrain is steepest.",
+      "prompt": "Slide the scanner along the hill and mark the spot where it's steepest.",
       "params": {
         "pieces": [
           {
@@ -162,12 +162,12 @@
         "a": null
       },
       "hints": [
-        "The tangent tilts more where the terrain changes height fastest, not where it's highest.",
-        "Scan slowly from x = 0 outward and watch how tilted the tangent line gets.",
-        "The tangent is tilted furthest from flat somewhere between x = 0 and x = 1."
+        "The hill is highest at x = 0, but it's flat up there. Look further down the slope.",
+        "Watch the tilted line as you slide right from x = 0. It leans more, then less again.",
+        "The line leans the most somewhere between x = 0.5 and x = 1."
       ],
-      "wrongFeedback": "Steepest means the biggest tilt on the tangent, not the highest point on the ridge.",
-      "debriefLine": "A curve's slope changes from point to point: the steepest spot here was x ≈ 0.707.",
+      "wrongFeedback": "That spot isn't the steepest. Find where the tilted line leans the most.",
+      "debriefLine": "A curve's steepness changes as you go. The steepest spot here was at x ≈ 0.707.",
       "sourceRef": {
         "page": 5,
         "quote": "The derivative measures how steeply a curve rises or falls at each point, and that steepness itself varies along the curve."
@@ -196,18 +196,18 @@
       "targetMisconception": null,
       "familyId": "balance",
       "mode": "equation",
-      "prompt": "Apply the same operation to both pans until x stands alone and the chamber unlocks.",
+      "prompt": "Do the same thing to both pans until x is alone. Then the door opens.",
       "params": {
         "left": "3*x + 5",
         "right": "20"
       },
       "hints": [
-        "Whatever you do to one pan, do to the other, or the scale tips.",
-        "Clear the constant off the x side first, then clear its coefficient.",
-        "Subtract 5 from both sides, then divide both sides by 3."
+        "The x side has 3x and a + 5. Get rid of the + 5 first.",
+        "Take 5 away from both pans. That leaves 3x on one side and 15 on the other.",
+        "Now split both pans into 3 equal parts. One part of 15 is x."
       ],
-      "wrongFeedback": "Moving a term across the equals sign is really applying the same operation to both sides, and that flips its sign.",
-      "debriefLine": "Balance chamber solved: x = 5.",
+      "wrongFeedback": "Whatever you do to one pan, do to the other. Moving the + 5 across means taking 5 from both sides.",
+      "debriefLine": "The pans balanced with x = 5. You kept both sides equal at every step.",
       "sourceRef": {
         "page": 2,
         "quote": "Solving 3x + 5 = 20 means applying the same operation to both sides until x stands alone: subtract 5, then divide by 3."
@@ -247,7 +247,7 @@
       "targetMisconception": null,
       "familyId": "balance",
       "mode": "chem_equation",
-      "prompt": "Set the coefficients so every atom token balances and the reactor starts.",
+      "prompt": "Set the big numbers in front of each molecule so every atom balances. Then the reactor starts.",
       "params": {
         "reactants": [
           "C3H8",
@@ -259,12 +259,12 @@
         ]
       },
       "hints": [
-        "Balance carbon and hydrogen first; oxygen is easiest to fix last since it appears in both products.",
-        "Three carbons and eight hydrogens on the left mean 3 CO2 and 4 H2O on the right.",
-        "That makes 10 oxygen atoms needed on the right, so O2 needs a coefficient of 5."
+        "C3H8 has 3 carbons and 8 hydrogens. Balance those two first, and leave oxygen for last.",
+        "Each CO2 holds one carbon, and each H2O holds two hydrogens. Match the 3 carbons and 8 hydrogens.",
+        "That's 3 CO2 and 4 H2O. Count the oxygens on the right, then split them into pairs for O2."
       ],
-      "wrongFeedback": "Changing a subscript would make a different substance; only the coefficients out front may change.",
-      "debriefLine": "Balanced: 1, 5, 3, 4 (reactants then products) conserves every atom.",
+      "wrongFeedback": "Only change the big numbers in front. Changing the small numbers makes a different substance.",
+      "debriefLine": "Balanced with 1, 5, 3, 4, reactants first. Every atom you started with is still there.",
       "sourceRef": {
         "page": 8,
         "quote": "Balancing C3H8 + O2 -> CO2 + H2O requires the coefficients 1, 5, 3, and 4 so every carbon, hydrogen, and oxygen atom is conserved."
@@ -296,7 +296,7 @@
       "targetMisconception": null,
       "familyId": "balance",
       "mode": "ledger",
-      "prompt": "Balance the monthly ledger: every dollar that comes in must be accounted for going out.",
+      "prompt": "Balance the monthly budget. Every dollar that comes in has to go somewhere.",
       "params": {
         "nodes": [
           {
@@ -336,12 +336,12 @@
         ]
       },
       "hints": [
-        "Every dollar that enters \"Monthly income\" has to leave it somehow: rent, bills, or savings.",
-        "$2000 comes in and $1400 goes straight to rent and bills, so the rest goes to savings.",
-        "Whatever reaches \"Savings\" with nowhere else to go must leave as the withdrawal."
+        "Look at \"Monthly income\". $2000 comes in, and all of it has to leave.",
+        "$1400 goes to rent and bills. The rest moves to savings, so take 1400 from 2000.",
+        "Savings has nowhere else to send money. So the withdrawal matches what went into savings."
       ],
-      "wrongFeedback": "A budget only balances when every regular expense, not just the big ones, is tracked against income.",
-      "debriefLine": "Budget balanced: Transfer to savings = 600, Savings withdrawal = 600.",
+      "wrongFeedback": "Some money isn't tracked yet. Every dollar in has to match a dollar out.",
+      "debriefLine": "Now it balances. Transfer to savings = 600, Savings withdrawal = 600.",
       "sourceRef": {
         "page": 3,
         "quote": "A budget balances only when every dollar of income is tracked against an expense or a savings transfer."
@@ -374,7 +374,7 @@
       "targetMisconception": null,
       "familyId": "transformer",
       "mode": "encode",
-      "prompt": "The forge door is carved with mRNA. Translate the codons into the password, one amino acid per codon.",
+      "prompt": "The door's password is written in mRNA. Turn each codon, a group of three letters, into its amino acid.",
       "params": {
         "tableName": "codon table (mRNA codon → amino acid)",
         "table": [
@@ -415,12 +415,12 @@
         "showTable": true
       },
       "hints": [
-        "Read three bases at a time; each triplet is one codon.",
-        "Look each codon up in the table; the order of the chain follows the order of the codons.",
-        "The chain reads: Met Gly Lys Stop"
+        "There are four codons here, starting with AUG. Each one gives you one amino acid.",
+        "Find AUG in the table's left column. The amino acid next to it goes first.",
+        "Look up GGC, then AAA, then UAA the same way. Keep them in that order."
       ],
-      "wrongFeedback": "Each codon maps to exactly one amino acid, and the chain keeps the codons' order.",
-      "debriefLine": "Translation: 4 codons became the chain Met Gly Lys Stop because each codon codes for one amino acid, not each base.",
+      "wrongFeedback": "Check each codon in the table again. The chain has to keep the codons' order.",
+      "debriefLine": "Those 4 codons made Met Gly Lys Stop. Each group of three letters codes for one amino acid.",
       "sourceRef": null,
       "solution": {
         "output": [
@@ -443,7 +443,7 @@
       "targetMisconception": null,
       "familyId": "transformer",
       "mode": "function_machine",
-      "prompt": "A machine at the bench eats numbers. Watch what it does, then predict its output for 10.",
+      "prompt": "This machine changes every number the same way. Watch it, then guess what it gives for 10.",
       "params": {
         "rule": "2*x + 3",
         "examples": [
@@ -458,12 +458,12 @@
         "outputLabel": "output"
       },
       "hints": [
-        "Compare each input with its output: what single step turns one into the other?",
-        "The step is the same for every pair; test your guess on all three.",
-        "Apply the same step to 10: the machine gives 23."
+        "Compare 1 → 5 with 2 → 7. One more going in gives two more coming out.",
+        "So the machine doubles the number first. Double 1 is 2. What gets you from 2 to 5?",
+        "Double it, then add 3. Check that on 5 → 13, then try it on 10."
       ],
-      "wrongFeedback": "A function applies the same rule to every input; check your rule against all the pairs the machine showed.",
-      "debriefLine": "A function is a rule, not a formula you're told: from 1 → 5, 2 → 7, 5 → 13 you recovered the machine and predicted 23 for 10.",
+      "wrongFeedback": "The machine uses one rule for every number. Test your rule on all three examples.",
+      "debriefLine": "The machine doubles each number and adds 3. So 10 gives 23.",
       "sourceRef": null,
       "solution": {
         "outputs": [
@@ -488,7 +488,7 @@
       "targetMisconception": null,
       "familyId": "transformer",
       "mode": "trace",
-      "prompt": "The golem's scroll runs these lines. What does it print at the end?",
+      "prompt": "The golem runs these lines from top to bottom. What does it print?",
       "params": {
         "program": [
           "x = 3",
@@ -508,12 +508,12 @@
         ]
       },
       "hints": [
-        "Run each line in order and write down every container's value as it changes.",
-        "a[0] is the FIRST item; lists count from zero.",
-        "The scroll prints 4 13."
+        "The if line decides what x becomes. It depends on whether y is bigger than 6.",
+        "Work out y first. With x = 3, y is 3 × 2 + 1.",
+        "a[0] is the first item, because lists count from 0. Then print x as it is after the if line."
       ],
-      "wrongFeedback": "Trace one line at a time: x = x + 1 is an instruction to update the container, not an equation to solve.",
-      "debriefLine": "Variables are containers that change line by line; tracing 6 lines gave 4 13.",
+      "wrongFeedback": "Go one line at a time. x = x + 10 means add 10 to x and keep the new value.",
+      "debriefLine": "A variable holds a value that can change line by line. Tracing all 6 lines gave 4 13.",
       "sourceRef": null,
       "solution": {
         "answer": "4 13",
@@ -546,7 +546,7 @@
       "targetMisconception": null,
       "familyId": "recall",
       "mode": "rapid",
-      "prompt": "Runes flash on the enemy's shield. Type each rune's meaning before it fades; missed runes return.",
+      "prompt": "Type what each rune on the shield means before it fades. Missed runes come back.",
       "params": {
         "items": [
           {
@@ -557,7 +557,7 @@
               "the y-coordinate",
               "y"
             ],
-            "hint": "vertical, not horizontal"
+            "hint": "the up-and-down one"
           },
           {
             "prompt": "period of sin(bx)",
@@ -576,7 +576,7 @@
               "A",
               "abs(A)"
             ],
-            "hint": "the coefficient in front"
+            "hint": "the number in front"
           },
           {
             "prompt": "π radians in degrees",
@@ -592,12 +592,12 @@
         "direction": "term → value"
       },
       "hints": [
-        "Say the definition out loud before you type.",
-        "Missed runes come back: use the hint the shield shows.",
-        "First rune: y-coordinate"
+        "Each rune shows a small clue under it. For π radians, the clue is \"half a turn\".",
+        "For the period of sin(bx), start from 2π. The b inside changes how fast it repeats.",
+        "For A sin x, the number in front sets the height. For sin θ, pick between x and y."
       ],
-      "wrongFeedback": "Recognizing a formula isn't the same as recalling it; the runes come back until you can produce each one.",
-      "debriefLine": "Rapid recall on 4 trig facts (term → value): retrieval practice, not rereading, is what makes them stick.",
+      "wrongFeedback": "That's not it. Check the clue under the rune. It'll come back so you can try again.",
+      "debriefLine": "You recalled 4 trig facts (term → value). Pulling facts from memory helps them stick.",
       "sourceRef": null,
       "solution": {
         "canonical": [
@@ -621,7 +621,7 @@
       "targetMisconception": null,
       "familyId": "recall",
       "mode": "cloze",
-      "prompt": "The Warden's last riddle is a sentence from your notes with one word missing. Fill it.",
+      "prompt": "The Warden's last riddle is a sentence from your notes with one word missing. Fill in the gap.",
       "params": {
         "sentence": "The value of A stretches the graph vertically but leaves the ___ unchanged.",
         "answers": [
@@ -632,15 +632,15 @@
           "frequency",
           "midline"
         ],
-        "hint": "It's the horizontal length of one full cycle."
+        "hint": "It's how long one full wave takes, measured side to side."
       },
       "hints": [
-        "Read the whole sentence: what could A leave unchanged?",
-        "A is the vertical stretch; the missing word is a horizontal property.",
-        "The word is period."
+        "Look at the word \"vertically\". A only changes the graph up and down.",
+        "So the missing word is something measured side to side, left to right.",
+        "Amplitude and midline are both about height, so skip them. You want the length of one full wave."
       ],
-      "wrongFeedback": "Use the surrounding words: 'stretches vertically but leaves … unchanged' points at a horizontal property.",
-      "debriefLine": "Cloze: the notes say A leaves the period unchanged, which is exactly why amplitude and period are separate dials.",
+      "wrongFeedback": "The sentence says A leaves this word alone. A changes height, so look for a side-to-side word.",
+      "debriefLine": "Your notes say A leaves the period alone. That's why amplitude and period are set by different numbers.",
       "sourceRef": {
         "page": 2,
         "quote": "The value of A stretches the graph vertically but leaves the period unchanged."
@@ -714,13 +714,13 @@
     "intro": [
       {
         "speakerId": "cog",
-        "text": "Nine rooms, nine machines. Show me you can drive them all."
+        "text": "Welcome to the test dungeon. Each of these nine rooms has a different puzzle."
       }
     ],
     "outro": [
       {
         "speakerId": "cog",
-        "text": "Every machine answered to you. Proving ground cleared."
+        "text": "You solved all nine rooms. The test dungeon is clear!"
       }
     ],
     "beats": []

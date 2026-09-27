@@ -44,7 +44,7 @@ describe("the trig fixture", () => {
     expect(runner.telemetry()[0]).toMatchObject({ teachingMechanicId: "radian_rune_line", attempt: 1, correct: true });
     const { mastery, lines } = runner.debrief();
     expect(mastery.find((m) => m.conceptId === "c_period")).toMatchObject({ encounters: 3, firstTry: 3, score: 0.95 });
-    expect(lines[1].text).toBe("The door followed y = sin(2t); its period is π, because 2π/|b| with b = 2.");
+    expect(lines[1].text).toBe("The period of y = sin(2t) is π. That's 2π divided by 2, the number next to t.");
     expect(lines[1].learningInsight).toMatch(/2π\/\|b\|/);
   });
 
@@ -56,7 +56,7 @@ describe("the trig fixture", () => {
     const miss = runner.submit({ value: 2 * Math.PI }); // the classic error: ignoring b
     expect(miss.correct).toBe(false);
     expect(miss.feedback).toMatch(/too long/);
-    expect(runner.hint()).toMatch(/come back to where they started/);
+    expect(runner.hint()).toMatch(/Look at the 2 inside sin\(2t\)/);
     expect(runner.submit({ value: Math.PI }).advanced).toBe(true);
     expect(runner.mastery().c_period.score).toBeCloseTo(0.5 - 0.05 + 0.08, 5);
   });

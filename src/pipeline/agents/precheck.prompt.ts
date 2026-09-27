@@ -1,4 +1,5 @@
 import type { KnowledgeMap } from "../../contracts/knowledge";
+import { withStyleGuides } from "../style-guides";
 
 /*
  * System prompt + user prompt builder for the intake-time Pre-check Writer (FAST). Unlike the
@@ -8,13 +9,13 @@ import type { KnowledgeMap } from "../../contracts/knowledge";
  * recognizes this agent by the exact opening words below.
  */
 
-export const PRECHECK_SYSTEM = `You are the Pre-check Writer. Write 3 quick multiple-choice items that measure the learner's weakest concepts before they play.
+export const PRECHECK_SYSTEM = withStyleGuides(`You are the Pre-check Writer. Write 3 quick multiple-choice items that measure the learner's weakest concepts before they play.
 
 Rules:
 - One item per listed concept, in the order given.
 - One unambiguous correct answer; three distractors drawn from that concept's listed misconceptions where possible.
-- Short prompts a student can answer in about 20 seconds each.
-- The 3 prompts must be distinct from each other, and every item's 4 options (the correct answer plus its 3 distractors) must all differ.`;
+- Short prompts a student can answer in about 20 seconds each, in plain, everyday words.
+- The 3 prompts must be distinct from each other, and every item's 4 options (the correct answer plus its 3 distractors) must all differ.`);
 
 export function precheckPrompt(km: KnowledgeMap, weakestConceptIds: readonly string[]): string {
   const concepts = km.concepts

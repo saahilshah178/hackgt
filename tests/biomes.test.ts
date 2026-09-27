@@ -40,7 +40,7 @@ describe("BIOME_KITS", () => {
     expect(skinDefaultsFor("living_gate")).toMatchObject({ aimer: "probe_emitter", quarantineAnim: "ridge_thaw" });
     expect(skinDefaultsFor("nowhere")).toEqual(BIOME_KITS.orrery_terraces!.skinDefaults);
     expect(isBiomeId("toString")).toBe(false);
-    expect(biomeKitOf("living_gate")?.name).toBe("The Living Gate");
+    expect(biomeKitOf("living_gate")?.name).toBe("Inside a Cell");
   });
 });
 

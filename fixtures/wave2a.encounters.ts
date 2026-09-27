@@ -9,7 +9,7 @@ export const WAVE2A: { cardId: string; slice: ChallengeSlice }[] = [
   {
     cardId: "slope_scanner",
     slice: {
-      prompt: "Cross the ridge with your tangent scanner and mark where the terrain is steepest.",
+      prompt: "Slide the scanner along the hill and mark the spot where it's steepest.",
       params: {
         pieces: [{ expr: "exp(-x^2)", from: "-inf", to: "inf", openLeft: false, openRight: false }],
         xMin: "0",
@@ -18,55 +18,55 @@ export const WAVE2A: { cardId: string; slice: ChallengeSlice }[] = [
         a: null,
       },
       hints: [
-        "The tangent tilts more where the terrain changes height fastest, not where it's highest.",
-        "Scan slowly from x = 0 outward and watch how tilted the tangent line gets.",
-        "The tangent is tilted furthest from flat somewhere between x = 0 and x = 1.",
+        "The hill is highest at x = 0, but it's flat up there. Look further down the slope.",
+        "Watch the tilted line as you slide right from x = 0. It leans more, then less again.",
+        "The line leans the most somewhere between x = 0.5 and x = 1.",
       ],
-      wrongFeedback: "Steepest means the biggest tilt on the tangent, not the highest point on the ridge.",
-      debriefLine: "A curve's slope changes from point to point: the steepest spot here was {{answer}}.",
+      wrongFeedback: "That spot isn't the steepest. Find where the tilted line leans the most.",
+      debriefLine: "A curve's steepness changes as you go. The steepest spot here was at {{answer}}.",
       sourceRef: { page: 5, quote: "The derivative measures how steeply a curve rises or falls at each point, and that steepness itself varies along the curve." },
     },
   },
   {
     cardId: "balance_chamber",
     slice: {
-      prompt: "Apply the same operation to both pans until x stands alone and the chamber unlocks.",
+      prompt: "Do the same thing to both pans until x is alone. Then the door opens.",
       params: {
         left: "3*x + 5",
         right: "20",
       },
       hints: [
-        "Whatever you do to one pan, do to the other, or the scale tips.",
-        "Clear the constant off the x side first, then clear its coefficient.",
-        "Subtract 5 from both sides, then divide both sides by 3.",
+        "The x side has 3x and a + 5. Get rid of the + 5 first.",
+        "Take 5 away from both pans. That leaves 3x on one side and 15 on the other.",
+        "Now split both pans into 3 equal parts. One part of 15 is x.",
       ],
-      wrongFeedback: "Moving a term across the equals sign is really applying the same operation to both sides, and that flips its sign.",
-      debriefLine: "Balance chamber solved: x = {{x}}.",
+      wrongFeedback: "Whatever you do to one pan, do to the other. Moving the + 5 across means taking 5 from both sides.",
+      debriefLine: "The pans balanced with x = {{x}}. You kept both sides equal at every step.",
       sourceRef: { page: 2, quote: "Solving 3x + 5 = 20 means applying the same operation to both sides until x stands alone: subtract 5, then divide by 3." },
     },
   },
   {
     cardId: "atom_conservation",
     slice: {
-      prompt: "Set the coefficients so every atom token balances and the reactor starts.",
+      prompt: "Set the big numbers in front of each molecule so every atom balances. Then the reactor starts.",
       params: {
         reactants: ["C3H8", "O2"],
         products: ["CO2", "H2O"],
       },
       hints: [
-        "Balance carbon and hydrogen first; oxygen is easiest to fix last since it appears in both products.",
-        "Three carbons and eight hydrogens on the left mean 3 CO2 and 4 H2O on the right.",
-        "That makes 10 oxygen atoms needed on the right, so O2 needs a coefficient of 5.",
+        "C3H8 has 3 carbons and 8 hydrogens. Balance those two first, and leave oxygen for last.",
+        "Each CO2 holds one carbon, and each H2O holds two hydrogens. Match the 3 carbons and 8 hydrogens.",
+        "That's 3 CO2 and 4 H2O. Count the oxygens on the right, then split them into pairs for O2.",
       ],
-      wrongFeedback: "Changing a subscript would make a different substance; only the coefficients out front may change.",
-      debriefLine: "Balanced: {{coefficients}} (reactants then products) conserves every atom.",
+      wrongFeedback: "Only change the big numbers in front. Changing the small numbers makes a different substance.",
+      debriefLine: "Balanced with {{coefficients}}, reactants first. Every atom you started with is still there.",
       sourceRef: { page: 8, quote: "Balancing C3H8 + O2 -> CO2 + H2O requires the coefficients 1, 5, 3, and 4 so every carbon, hydrogen, and oxygen atom is conserved." },
     },
   },
   {
     cardId: "budget_balance",
     slice: {
-      prompt: "Balance the monthly ledger: every dollar that comes in must be accounted for going out.",
+      prompt: "Balance the monthly budget. Every dollar that comes in has to go somewhere.",
       params: {
         nodes: [
           { id: "income", label: "Monthly income" },
@@ -80,12 +80,12 @@ export const WAVE2A: { cardId: string; slice: ChallengeSlice }[] = [
         ],
       },
       hints: [
-        "Every dollar that enters \"Monthly income\" has to leave it somehow: rent, bills, or savings.",
-        "$2000 comes in and $1400 goes straight to rent and bills, so the rest goes to savings.",
-        "Whatever reaches \"Savings\" with nowhere else to go must leave as the withdrawal.",
+        "Look at \"Monthly income\". $2000 comes in, and all of it has to leave.",
+        "$1400 goes to rent and bills. The rest moves to savings, so take 1400 from 2000.",
+        "Savings has nowhere else to send money. So the withdrawal matches what went into savings.",
       ],
-      wrongFeedback: "A budget only balances when every regular expense, not just the big ones, is tracked against income.",
-      debriefLine: "Budget balanced: {{missing}}.",
+      wrongFeedback: "Some money isn't tracked yet. Every dollar in has to match a dollar out.",
+      debriefLine: "Now it balances. {{missing}}.",
       sourceRef: { page: 3, quote: "A budget balances only when every dollar of income is tracked against an expense or a savings transfer." },
     },
   },

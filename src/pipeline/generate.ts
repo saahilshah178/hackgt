@@ -169,21 +169,22 @@ export function fallbackMimic(
   if (!concept || socket === undefined || concept.facts.length < 2 || concept.misconceptions.length === 0) return null;
   const [a, b] = concept.facts;
   const lie = concept.misconceptions[0];
+  const words = (s: string) => s.trim().split(/\s+/).length;
   const slice: ChallengeSlice = {
-    prompt: `Three claims about ${concept.name}. One of them is false. Find it.`,
+    prompt: `Here are three claims about ${concept.name}. One of them is false. Can you find it?`,
     params: {
       statements: [
-        { text: a.statement, isTrue: true, explanation: "This one checks out against your source." },
+        { text: a.statement, isTrue: true, explanation: "This one matches your notes." },
         { text: lie.belief, isTrue: false, explanation: lie.correction },
-        { text: b.statement, isTrue: true, explanation: "This one checks out against your source." },
+        { text: b.statement, isTrue: true, explanation: "This one matches your notes." },
       ],
     },
     hints: [
-      `Think about what ${concept.name} really means.`,
-      "Two claims agree with your notes. Which one doesn't?",
-      "The false claim is: {{mimic}}",
+      `One claim is a mix-up people often make about ${concept.name}. Check each one against your notes.`,
+      words(lie.correction) <= 16 ? `Here's what your notes say. ${lie.correction}` : "Two of the claims come straight from your notes. Which one doesn't?",
+      words(a.statement) <= 14 ? `"${a.statement}" is true. Compare the other two.` : "Only one claim goes against your notes. The other two agree with them.",
     ],
-    wrongFeedback: "That claim holds up. Look for the one that contradicts your notes.",
+    wrongFeedback: "That one's true. Look for the claim that goes against your notes.",
     debriefLine: `The false claim was "{{mimic}}". ${lie.correction}`,
     sourceRef: a.sourceRef,
   };
@@ -196,7 +197,7 @@ const errMsg = (err: unknown) => (err instanceof Error ? err.message : String(er
 /** M1: a narrative writer that fails outright (AgentError or network) never fails the job: a minimal narrative keeps the game playable. */
 function minimalNarrative(blueprint: BlueprintSlice): NarrativeSlice {
   const speakerId = blueprint.characters[0].id;
-  return { intro: [{ speakerId, text: blueprint.premise }], outro: [{ speakerId, text: "Well played." }], beats: [] };
+  return { intro: [{ speakerId, text: blueprint.premise }], outro: [{ speakerId, text: "You finished every challenge. Nice work!" }], beats: [] };
 }
 
 /**
@@ -216,7 +217,7 @@ export function deriveAssessmentFromPreCheck(km: KnowledgeMap, preCheckItems: re
     const pool = [misconception?.belief, ...allBeliefs, ...factFillers].filter((s): s is string => !!s && s !== correct);
     const distractors = [...new Set(pool)].slice(0, 3);
     while (distractors.length < 3) distractors.push(`Not related to ${name}.`);
-    return { conceptId: item.conceptId, prompt: `After playing, which statement about ${name} is correct?`, correct, distractors };
+    return { conceptId: item.conceptId, prompt: `Which of these is true about ${name}?`, correct, distractors };
   });
   return { post };
 }

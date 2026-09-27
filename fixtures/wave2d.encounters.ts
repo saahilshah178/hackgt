@@ -14,7 +14,7 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
   {
     cardId: "protein_factory", // transformer.encode
     slice: {
-      prompt: "Route each mRNA codon through the ribosome's codon table to build the amino acid chain.",
+      prompt: "Turn each mRNA codon, a group of three letters, into its amino acid. Use the codon table.",
       params: {
         tableName: "codon table (mRNA codon → amino acid)",
         table: [
@@ -32,19 +32,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         showTable: true,
       },
       hints: [
-        "Read the codons left to right, one at a time.",
-        "Each codon maps to exactly one row in the table; find that row.",
-        "Work through all four codons before checking your chain.",
+        "The first codon is AUG. Find it in the table's left column.",
+        "Each codon matches one row. The amino acid in that row goes into the chain.",
+        "Do UUU, then GGC, then UAA the same way. Keep them in that order.",
       ],
-      wrongFeedback: "Recheck the codon at the position that's off against the table.",
-      debriefLine: "The ribosome finishes the chain and releases the finished protein.",
+      wrongFeedback: "Look up the codon that's off in the table again.",
+      debriefLine: "The ribosome finished the chain. Each codon added one amino acid until UAA said stop.",
       sourceRef: { page: 5, quote: "A group of three nucleotides, a codon, specifies one amino acid." },
     },
   },
   {
     cardId: "bucket_router", // transformer.function_machine
     slice: {
-      prompt: "A machine takes a number in and applies a hidden rule. Watch it run, then predict its next output.",
+      prompt: "This machine does the same thing to every number. Watch it, then predict what it gives for 10.",
       params: {
         rule: "2*x + 3",
         examples: ["1", "2", "5"],
@@ -55,19 +55,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         outputLabel: "output",
       },
       hints: [
-        "Compare each input to its output; look for a consistent pattern.",
-        "Check whether the pattern is multiply-then-add or add-then-multiply.",
-        "Apply the same rule to the new input.",
+        "Look at 1 → 5 and 2 → 7. One more going in gives two more coming out.",
+        "So the machine doubles first. Double 1 is 2, so what gets you from 2 to 5?",
+        "Check double-then-add-3 on 5 → 13. Then use it on 10.",
       ],
-      wrongFeedback: "Run the rule you found on one of the known examples to check it still holds.",
-      debriefLine: "The machine's rule holds for every input you tried.",
+      wrongFeedback: "Try your rule on one of the examples first. It has to work on all of them.",
+      debriefLine: "The rule was double it, then add 3. It works on every number you tried.",
       sourceRef: null,
     },
   },
   {
     cardId: "state_containers", // transformer.trace
     slice: {
-      prompt: "Trace this tiny program line by line and predict what it prints.",
+      prompt: "Trace this short program one line at a time. What does it print?",
       params: {
         program: ["x = 3", "y = x * 2", "x = x + 1", "print y"],
         ask: "output",
@@ -75,19 +75,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         options: ["6", "8", "3"],
       },
       hints: [
-        "Step through the program one line at a time, updating each variable as you go.",
-        "Notice that y is computed BEFORE x changes again on the next line.",
-        "print only shows what y held at that exact moment.",
+        "y gets its value on line 2, before x changes. Note what x is at that moment.",
+        "Line 3 changes x to 4. Ask whether that changes y too.",
+        "Changing x later doesn't go back and change y. So what did y hold after line 2?",
       ],
-      wrongFeedback: "Re-run the trace and note the value of y right when the print line executes.",
-      debriefLine: "y was fixed before x changed again, so the print shows the earlier value.",
+      wrongFeedback: "Check y when the print line runs. Line 3 changed x, but it never touched y.",
+      debriefLine: "y was set before x changed, so it kept its old value.",
       sourceRef: null,
     },
   },
   {
     cardId: "unit_pipeline", // transformer.composition
     slice: {
-      prompt: "Two machines can run in either order. Find the order that turns the input into the target.",
+      prompt: "Two machines can run in either order. Find the order that turns 5 into 16.",
       params: {
         kind: "numeric",
         machines: [
@@ -98,19 +98,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         target: "16",
       },
       hints: [
-        "Try running the machines on the input in each of the two possible orders.",
-        "Order matters here: f(g(x)) is not always g(f(x)).",
-        "Compute the result of each order and compare it to the target.",
+        "There are only two orders to try. Doubler first, or Add three first.",
+        "Work out one order at a time. Start with 5 and run it through both machines.",
+        "Doubler first gives 5 × 2 + 3 = 13. That misses 16.",
       ],
-      wrongFeedback: "Try the other order and see whether it reaches the target instead.",
-      debriefLine: "Composition order matters: this pipeline only reaches the target in one order.",
+      wrongFeedback: "That order doesn't reach 16. Try the other one.",
+      debriefLine: "Order matters here. Only one order turns 5 into 16.",
       sourceRef: null,
     },
   },
   {
     cardId: "rune_recall", // recall.rapid
     slice: {
-      prompt: "Translate each rune before the torch burns out.",
+      prompt: "Translate each Spanish word before the torch burns out.",
       params: {
         items: [
           { prompt: "el perro", answers: ["dog", "the dog"], hint: "an animal that barks" },
@@ -121,85 +121,85 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         direction: "Spanish → English",
       },
       hints: [
-        "Answer quickly; small typos are forgiven.",
-        "If you're stuck, picture the word's everyday use.",
-        "The hint for each item describes what it does or is.",
+        "\"El\" and \"la\" both just mean \"the\". Focus on the word after them.",
+        "Use the clue under each word. \"You read it\" points to something with pages.",
+        "Type one plain English word for each. Small typos are OK.",
       ],
-      wrongFeedback: "Look at the item's hint and try a common English word for it.",
-      debriefLine: "Every rune translated correctly before time ran out.",
+      wrongFeedback: "Read that word's clue and try a common English word for it.",
+      debriefLine: "You translated every Spanish word before time ran out.",
       sourceRef: null,
     },
   },
   {
     cardId: "context_clues", // recall.cloze
     slice: {
-      prompt: "Fill in the blank using the surrounding sentence as your clue.",
+      prompt: "Fill in the blank. Use the rest of the sentence as your clue.",
       params: {
         sentence: "Water moves toward the side with the higher ___ concentration.",
         answers: ["solute", "salt"],
         wordBank: ["water", "protein"],
-        hint: "The dissolved stuff, not the liquid.",
+        hint: "It's the stuff dissolved in the water.",
       },
       hints: [
-        "The sentence describes what water moves toward, not what water itself is.",
-        "Think about what's dissolved in the water on each side.",
-        "The word bank includes both plausible and implausible fillers.",
+        "The blank comes right before \"concentration\". It's something there's more of on one side.",
+        "Water moves toward the side with more stuff dissolved in it. Which word names that stuff?",
+        "It can't be water, because water is what's moving. Protein is too specific.",
       ],
-      wrongFeedback: "That filler doesn't match what the sentence is describing; reread the phrase around the blank.",
-      debriefLine: "The word bank's tempting option was the solvent, not the dissolved substance.",
+      wrongFeedback: "That word doesn't fit. The blank is what the water moves toward.",
+      debriefLine: "Water moves toward the side with more solute. That's called osmosis.",
       sourceRef: { page: 4, quote: "Water moves toward the side with the higher solute concentration." },
     },
   },
   {
     cardId: "bug_hunter", // truth_finder.error_hunt
     slice: {
-      prompt: "One line of this worked solution has a mistake. Find it.",
+      prompt: "One line of this worked answer has a mistake. Find it.",
       params: {
         title: "Solving 2x + 3 = 11",
         lines: [
           { text: "2x + 3 = 11", isWrong: false, explanation: "The equation as given." },
-          { text: "2x = 11 + 3", isWrong: true, explanation: "Moving +3 across must flip its sign: 2x = 11 − 3." },
-          { text: "2x = 14", isWrong: false, explanation: "Follows from the previous line as written." },
-          { text: "x = 7", isWrong: false, explanation: "Dividing both sides by 2." },
+          { text: "2x = 11 + 3", isWrong: true, explanation: "Moving + 3 across should make it − 3. It should read 2x = 11 − 3." },
+          { text: "2x = 14", isWrong: false, explanation: "Follows from the line before, as written." },
+          { text: "x = 7", isWrong: false, explanation: "Both sides divided by 2." },
         ],
         fixedLine: "2x = 11 − 3",
       },
       hints: [
-        "Check each line against the one right before it.",
-        "Watch what happens to a term's sign when it crosses the equals sign.",
-        "Only one line breaks that rule.",
+        "The first line is just the question. So the mistake is in one of the other three.",
+        "Moving a number across the = sign flips its sign. Check each line where that happens.",
+        "The last line just divides 14 by 2, and that's done right. Compare the other two.",
       ],
-      wrongFeedback: "That line follows correctly from the one before it; look elsewhere.",
-      debriefLine: "Moving a term across the equals sign flips its sign; that step was skipped.",
+      wrongFeedback: "That line follows from the one before it. Look somewhere else.",
+      debriefLine: "Moving a number across the = sign flips its sign. That step got it wrong.",
       sourceRef: null,
     },
   },
   {
     cardId: "contract_elements", // truth_finder.counterexample
     slice: {
-      prompt: "Here's a rule a student might over-believe. Find the case that breaks it.",
+      prompt: "Here's a rule people often believe. Find the case that breaks it.",
       params: {
         rule: "Every promise is a legally binding contract.",
         cases: [
-          { text: "A shop agrees to sell a bike for $200 and the buyer pays", breaksRule: false, explanation: "Offer, acceptance and consideration are all present." },
-          { text: "A friend promises to give you her old laptop for free", breaksRule: true, explanation: "No consideration flows back, so it is a gift promise, not a contract." },
-          { text: "A freelancer agrees to build a site for $1,000", breaksRule: false, explanation: "Mutual promises with consideration on both sides." },
+          { text: "A shop agrees to sell a bike for $200 and the buyer pays", breaksRule: false, explanation: "Each side gives something, so it's a real contract." },
+          { text: "A friend promises to give you her old laptop for free", breaksRule: true, explanation: "She gets nothing back, so it's a gift promise. It isn't a contract." },
+          { text: "A freelancer agrees to build a site for $1,000", breaksRule: false, explanation: "Both sides promise to give something." },
         ],
       },
       hints: [
-        "A contract needs more than just a promise; check what each side gives up.",
-        "Look for the case missing something flowing back the other way.",
-        "The other two cases each have consideration on both sides.",
+        "A contract needs each side to give something. That's called consideration.",
+        "For each case, ask what the second person gives back.",
+        "In the bike sale, each side gives something. Compare the other two cases.",
       ],
-      wrongFeedback: "That case has consideration flowing both ways, so it satisfies the rule.",
-      debriefLine: "A promise without consideration in return is a gift, not a contract.",
+      wrongFeedback: "In that case both sides give something. So it fits the rule.",
+      debriefLine: "A promise where nothing comes back is a gift. It isn't a contract.",
       sourceRef: null,
     },
   },
   {
     cardId: "gallery_timeline", // sequencer.timeline
     slice: {
-      prompt: "Place these events in chronological order; one card is from another period entirely.",
+      prompt: "Put these events in order by date. One card is from a different time.",
       params: {
         events: [
           { text: "Voting Rights Act signed", date: "1965.6", dateLabel: "August 1965" },
@@ -210,19 +210,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         decoys: [{ text: "The 19th Amendment is ratified", dateLabel: "1920" }],
       },
       hints: [
-        "One of the cards shown doesn't belong in this timeline at all.",
-        "Set that card aside and order only the remaining four.",
-        "Court decisions and legislation each carry their own year.",
+        "Look at the years on the cards. Most of them are from the 1950s and 1960s.",
+        "Set aside the card that's decades away from the rest. Then order the other four.",
+        "The Civil Rights Act and the Voting Rights Act are easy to swap. Check their years.",
       ],
-      wrongFeedback: "Check whether the card you placed even belongs in this period.",
-      debriefLine: "Each of these built directly on the one before it, within a decade.",
+      wrongFeedback: "Check if that card even belongs in this time period.",
+      debriefLine: "These four events happened in just over ten years. Each one built on the last.",
       sourceRef: null,
     },
   },
   {
     cardId: "graph_terrain", // tuner.curve
     slice: {
-      prompt: "Dial in the line's slope and intercept so it passes through both checkpoints on the terrain.",
+      prompt: "Set the line's slope (how steep it is) and intercept (where it starts) so it hits both checkpoints.",
       params: {
         template: "linear",
         target: [
@@ -237,19 +237,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         xMax: "6",
       },
       hints: [
-        "Adjust the slope first so the line rises at the right rate.",
-        "Then shift the intercept up or down until it passes through both checkpoints.",
-        "Both parameters need to be set together; one alone won't line it up.",
+        "Look at how much the checkpoints rise from one to the other. That sets the slope.",
+        "Slope is rise over run. Divide the height change by the sideways change between checkpoints.",
+        "Once the steepness matches, slide the intercept until the line touches both checkpoints.",
       ],
-      wrongFeedback: "One of the two checkpoints is still missed; adjust the other parameter too.",
-      debriefLine: "Both the slope and the intercept had to move to hit both checkpoints.",
+      wrongFeedback: "One checkpoint is still missed. Adjust the other setting too.",
+      debriefLine: "You set {{targets}}. It took both the slope and the intercept to hit both checkpoints.",
       sourceRef: null,
     },
   },
   {
     cardId: "opportunity_fork", // tuner.optimize
     slice: {
-      prompt: "Find the staffing level that maximizes output per hour.",
+      prompt: "Find the number of workers that gives the most output per hour.",
       params: {
         objective: "x * (12 - x)",
         goal: "max",
@@ -259,19 +259,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         outputName: "output per hour",
       },
       hints: [
-        "Try a few staffing levels across the whole range and compare output.",
-        "The best level is somewhere in the middle, not at either end.",
-        "Nudge your guess up or down and see whether output improves.",
+        "Output is workers × (12 − workers). At 0 or 12 workers, the output is 0.",
+        "Try 3 workers and then 9 workers. They give the same output.",
+        "Equal outputs at 3 and 9 mean the peak sits between them, right in the middle.",
       ],
-      wrongFeedback: "Output can still improve; try moving your guess in the direction that raised it last time.",
-      debriefLine: "Too few or too many workers both cost you output; the peak sits in between.",
+      wrongFeedback: "Output can still go up. Move your guess the way that raised it last time.",
+      debriefLine: "Too few or too many workers both lose output. The peak was at {{best}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "lever_door", // balance.torque
     slice: {
-      prompt: "Slide the movable mass until the lever balances at the pivot.",
+      prompt: "Slide the movable weight until the lever balances on the pivot.",
       params: {
         fixed: [{ mass: "4", position: "2" }],
         movable: { mass: "2" },
@@ -282,19 +282,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         unit: "m",
       },
       hints: [
-        "A mass on one side of the pivot twists the lever; a mass farther away twists it more.",
-        "The two torques need to cancel exactly for the lever to balance.",
-        "Move the mass to the side that fights the fixed mass's twist.",
+        "The fixed mass of 4 sits at 2 m. The pivot is at 5 m, so it's 3 m to the left.",
+        "Each side's twist is mass times distance from the pivot. The fixed side makes 4 × 3 = 12.",
+        "Your mass is 2, so it needs 12 ÷ 2 m of distance. Put it on the right side of the pivot.",
       ],
-      wrongFeedback: "The lever still tips; the torques on each side aren't equal yet.",
-      debriefLine: "Torque is mass times distance from the pivot, and the two sides now cancel exactly.",
+      wrongFeedback: "The lever still tips. The twist on each side isn't equal yet.",
+      debriefLine: "Twist is mass times distance from the pivot. At {{answer}} {{unit}}, both sides match.",
       sourceRef: null,
     },
   },
   {
     cardId: "reaction_factory", // balance.ratio
     slice: {
-      prompt: "Given what's on the shelf, find the limiting reagent and how much product you can make.",
+      prompt: "Use what's on the shelf. Find which reactant runs out first, and how much product you can make.",
       params: {
         recipe: [
           { name: "propane", amount: "1", unit: "mol" },
@@ -308,139 +308,139 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         ask: "both",
       },
       hints: [
-        "Divide what's available of each reactant by its amount in one batch of the recipe.",
-        "Whichever reactant supports the FEWEST batches runs out first.",
-        "Scale the product's per-batch amount by however many batches that reactant allows.",
+        "Each batch needs 5 mol of oxygen but only 1 mol of propane.",
+        "Divide each amount on the shelf by what one batch needs. Propane gives 2 ÷ 1 batches.",
+        "Oxygen gives 6 ÷ 5 batches. The smaller count is how many batches you can make.",
       ],
-      wrongFeedback: "Having more available doesn't mean a reactant lasts longer; compare batches, not raw amounts.",
-      debriefLine: "The reactant that supports the fewest batches runs out first and caps the product.",
+      wrongFeedback: "Having more of it doesn't mean it lasts longer. Compare how many batches each one makes.",
+      debriefLine: "The {{limiting}} ran out first. That caps the {{productName}} at {{product}} {{unit}}.",
       sourceRef: { page: 2, quote: "The limiting reagent is the reactant that runs out first, capping how much product forms." },
     },
   },
   {
     cardId: "causal_weighting", // investigator.weigh
     slice: {
-      prompt: "Rank these causes of the Voting Rights Act's passage from most to least decisive.",
+      prompt: "Rank these causes of the Voting Rights Act from most to least important.",
       params: {
         question: "Why did the Voting Rights Act pass in 1965?",
         causes: [
-          { text: "Televised violence at Selma", weight: "5", why: "Johnson introduced the bill eight days after Bloody Sunday." },
-          { text: "Years of local voter-registration organizing", weight: "4", why: "SNCC and local leaders built the campaign Selma made visible." },
-          { text: "King's 'I Have a Dream' speech", weight: "2", why: "Famous, but two years earlier and aimed at the 1964 bill." },
+          { text: "Televised violence at Selma", weight: "5", why: "Johnson sent in the bill eight days after Bloody Sunday." },
+          { text: "Years of local voter-registration organizing", weight: "4", why: "SNCC and local leaders built the campaign that Selma made visible." },
+          { text: "King's 'I Have a Dream' speech", weight: "2", why: "Famous, but it came two years earlier and was about the 1964 bill." },
         ],
       },
       hints: [
-        "Consider how close in time each cause sits to the actual legislative response.",
-        "A famous event isn't automatically the most decisive one.",
-        "Check what happened in the days right before the bill was introduced.",
+        "Look at when each cause happened. The act passed in 1965.",
+        "Ask how directly each cause led to the bill. Closer in time usually means more direct.",
+        "The \"I Have a Dream\" speech was in 1963, about the 1964 bill. So it ranks low.",
       ],
-      wrongFeedback: "That cause is well known, but check how directly and quickly it connects to the bill's introduction.",
-      debriefLine: "The most decisive cause was the one closest in time to the bill's introduction.",
+      wrongFeedback: "That cause is well known. Check how quickly and directly it led to the bill.",
+      debriefLine: "The top cause was {{top}}. It came just days before the bill.",
       sourceRef: null,
     },
   },
   {
     cardId: "source_seer", // investigator.source_eval
     slice: {
-      prompt: "Rank these sources on the Selma march by how reliable each one is.",
+      prompt: "Rank these sources about the Selma march by how much you can trust them.",
       params: {
         question: "What happened on the Edmund Pettus Bridge?",
         sources: [
-          { text: "A trooper's official report written the next day", reliability: 2, cues: "Written by a participant with an incentive to justify the force used." },
-          { text: "Film footage broadcast by ABC that evening", reliability: 5, cues: "A direct recording, corroborated by many eyewitnesses." },
-          { text: "A 2001 history book on the movement", reliability: 4, cues: "Secondary but synthesizes many corroborated primary sources." },
-          { text: "A rumor reported in a distant newspaper a week later", reliability: 1, cues: "Second-hand, late, uncorroborated." },
+          { text: "A trooper's official report written the next day", reliability: 2, cues: "Written by someone who used force and wanted to defend it." },
+          { text: "Film footage broadcast by ABC that evening", reliability: 5, cues: "A direct recording that many eyewitnesses back up." },
+          { text: "A 2001 history book on the movement", reliability: 4, cues: "Written later, but it pulls together many checked sources." },
+          { text: "A rumor reported in a distant newspaper a week later", reliability: 1, cues: "A secondhand story from a week later that nobody backs up." },
         ],
       },
       hints: [
-        "A direct recording usually beats a written account with something to gain or lose.",
-        "A synthesis of many corroborated sources can outrank a single biased eyewitness.",
-        "Late, secondhand rumors sit at the bottom.",
+        "Ask who made each source, and what they wanted people to believe.",
+        "A trooper who used force might want it to look OK. That makes his report less trustworthy.",
+        "The rumor from a week later goes at the bottom. Now compare the film and the book.",
       ],
-      wrongFeedback: "Consider who made that source and what incentive or distance from the event they had.",
-      debriefLine: "Directness, corroboration, and the source's incentives all shift reliability.",
+      wrongFeedback: "Look at who made that source, and how close they were to what happened.",
+      debriefLine: "You can trust a source more when it saw things directly and others back it up.",
       sourceRef: null,
     },
   },
   {
     cardId: "perspective_switch", // investigator.perspective
     slice: {
-      prompt: "Match each quoted account to the person whose motive it actually serves.",
+      prompt: "Match each quote to the person whose goal it helps.",
       params: {
         actors: [
           { id: "governor", name: "Governor Faubus", motive: "Keep segregationist voters on his side before an election" },
           { id: "student", name: "Elizabeth Eckford", motive: "Attend the school the court said she could" },
         ],
         accounts: [
-          { text: "I ordered the Guard to preserve order and prevent violence.", actorId: "governor", why: "Framing exclusion as public safety served the election motive." },
-          { text: "I just wanted to go to class like everyone else.", actorId: "student", why: "The court order and her own education were the point." },
-          { text: "The federal government has no business in Arkansas's schools.", actorId: "governor", why: "States' rights rhetoric appealed to his voters." },
+          { text: "I ordered the Guard to preserve order and prevent violence.", actorId: "governor", why: "Calling it public safety helped him keep voters happy." },
+          { text: "I just wanted to go to class like everyone else.", actorId: "student", why: "Going to school was her whole goal." },
+          { text: "The federal government has no business in Arkansas's schools.", actorId: "governor", why: "Talk of states' rights appealed to his voters." },
         ],
       },
       hints: [
-        "Ask what each speaker had to gain from saying this.",
-        "One actor speaks about attending school; the other about controlling the situation.",
-        "States' rights language served a specific political motive.",
+        "Look at each person's goal. Faubus needed voters, and Eckford wanted to get into school.",
+        "Ask who gains if people believe each quote. Start with the one about going to class.",
+        "The quote about the federal government sounds like a politician talking to voters.",
       ],
-      wrongFeedback: "That quote doesn't serve the motive of the person you assigned it to; reread their goal.",
-      debriefLine: "Each quote's framing lines up with exactly one actor's underlying motive.",
+      wrongFeedback: "That quote doesn't help that person's goal. Check what they wanted again.",
+      debriefLine: "Each quote lines up with one person's goal.",
       sourceRef: null,
     },
   },
   {
     cardId: "counterevidence_attack", // investigator.argument
     slice: {
-      prompt: "Sort this evidence: which pieces support the claim, which counter it, and which are weak or irrelevant.",
+      prompt: "Sort each piece of evidence. Does it support the claim, argue against it, or is it weak or off topic?",
       params: {
         claim: "Television coverage was decisive for the Civil Rights Act of 1964.",
         evidence: [
-          { text: "Kennedy proposed the bill weeks after the Birmingham images aired", role: "supports", why: "Timing links the coverage to the political response." },
-          { text: "Polls showed civil rights jumping to the top national issue after Birmingham", role: "supports", why: "Measured opinion shift right after the coverage." },
-          { text: "Television sets were in most American homes by 1963", role: "weak", why: "Shows reach, not effect on the bill." },
-          { text: "Congress had debated civil rights bills since 1957 without passing one", role: "counter", why: "Suggests factors other than coverage were needed; the claim must be qualified." },
-          { text: "Birmingham's steel industry declined in the 1970s", role: "irrelevant", why: "Different decade, different topic." },
+          { text: "Kennedy proposed the bill weeks after the Birmingham images aired", role: "supports", why: "The timing links the coverage to the bill." },
+          { text: "Polls showed civil rights jumping to the top national issue after Birmingham", role: "supports", why: "Opinion shifted right after the coverage." },
+          { text: "Television sets were in most American homes by 1963", role: "weak", why: "It shows people could watch. It doesn't show an effect on the bill." },
+          { text: "Congress had debated civil rights bills since 1957 without passing one", role: "counter", why: "Other things were needed too, so the claim needs softening." },
+          { text: "Birmingham's steel industry declined in the 1970s", role: "irrelevant", why: "It's a different decade and a different topic." },
         ],
       },
       hints: [
-        "Ask whether each piece shows a cause-and-effect link to the bill, or just a coincidence in time.",
-        "Reach and availability aren't the same as proven effect.",
-        "A fact from a different decade or industry usually doesn't bear on this claim at all.",
+        "Look for timing. Kennedy's bill came weeks after the Birmingham pictures aired.",
+        "Owning a TV shows people could watch. It doesn't show the bill passed because of it.",
+        "The steel industry fact is from the 1970s. It has nothing to do with this claim.",
       ],
-      wrongFeedback: "Reconsider whether that piece actually links to the bill's passage, or just describes something else.",
-      debriefLine: "The strongest evidence ties the coverage directly, and quickly, to the political response.",
+      wrongFeedback: "Check if that piece really connects to the bill. It might be about something else.",
+      debriefLine: "The strongest evidence ties the TV coverage directly and quickly to the new law.",
       sourceRef: null,
     },
   },
   {
     cardId: "federalism_venn", // sorter.venn
     slice: {
-      prompt: "Place each power into federal, state, both, or neither.",
+      prompt: "Put each power under federal (the national government), state, both, or neither.",
       params: {
         sets: [
           { id: "federal", label: "Federal", feature: "powers given to the national government" },
-          { id: "state", label: "State", feature: "powers reserved to the states" },
+          { id: "state", label: "State", feature: "powers kept by the states" },
         ],
         items: [
           { text: "Coin money", setIds: ["federal"], why: "Article I, Section 8." },
-          { text: "Run public schools", setIds: ["state"], why: "Reserved to the states." },
+          { text: "Run public schools", setIds: ["state"], why: "Kept by the states." },
           { text: "Collect taxes", setIds: ["federal", "state"], why: "Both levels tax." },
-          { text: "Grant titles of nobility", setIds: [], why: "Forbidden to both." },
+          { text: "Grant titles of nobility", setIds: [], why: "Banned for both." },
         ],
       },
       hints: [
-        "Some powers belong to only one level of government; some belong to both.",
-        "A few powers are forbidden to both levels entirely.",
-        "Check the Constitution's list of powers before placing an item in only one region.",
+        "One power here is banned for both levels. The Constitution forbids it.",
+        "Some powers are shared. Ask whether both the states and the national government do it.",
+        "Collecting taxes is the tricky one. Check whether states tax people too.",
       ],
-      wrongFeedback: "That power actually belongs to both levels; check the overlapping region.",
-      debriefLine: "Some powers are concurrent, exercised by both federal and state governments at once.",
+      wrongFeedback: "That power is in the wrong place. Check if it belongs to one level, both, or neither.",
+      debriefLine: "Some powers are shared. Both the federal and state governments use them.",
       sourceRef: null,
     },
   },
   {
     cardId: "taxonomy_tower", // sorter.hierarchy
     slice: {
-      prompt: "Place each classification at its correct level of the taxonomy.",
+      prompt: "Put each group at the right level of the classification tower.",
       params: {
         levels: ["Kingdom", "Phylum", "Class", "Order"],
         items: [
@@ -451,19 +451,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         ],
       },
       hints: [
-        "Broader categories sit higher in the tower; narrower ones sit lower.",
-        "A group defined by a very specific shared trait belongs lower than one defined broadly.",
-        "Each level narrows down from the one above it.",
+        "Kingdom is the biggest group, at the top. Order is the smallest one here.",
+        "Ask which group holds the others. Every mammal is a chordate, but many chordates aren't mammals.",
+        "Carnivora and Mammalia are easy to swap. Carnivora is one group inside the mammals.",
       ],
-      wrongFeedback: "That classification is narrower or broader than the level you placed it at; check its defining trait.",
-      debriefLine: "Each level narrows the group by one more shared, defining trait.",
+      wrongFeedback: "That group is too big or too small for that level. Check what it includes.",
+      debriefLine: "Each level down is a smaller group that shares one more feature.",
       sourceRef: null,
     },
   },
   {
     cardId: "supply_chain_flow", // linker.network
     slice: {
-      prompt: "Wire up the food web: draw an edge from each animal to what it eats.",
+      prompt: "Build the food web. Draw an arrow from each animal to what it eats.",
       params: {
         relation: "eats",
         directed: true,
@@ -478,19 +478,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         ],
       },
       hints: [
-        "Each animal needs exactly one outgoing edge to what it eats.",
-        "Grass doesn't eat anything else in this web.",
-        "Direction matters: the arrow points from eater to eaten.",
+        "Grass doesn't eat anything here. So no arrow starts at the grass.",
+        "Each arrow starts at the eater and points at its food.",
+        "The rabbit and the fox each need one arrow. Ask what a rabbit munches on.",
       ],
-      wrongFeedback: "Check the direction of that edge and what the animal at its tail actually eats.",
-      debriefLine: "Energy flows up the chain, from producer to consumer to predator.",
+      wrongFeedback: "Check which way that arrow points. It should go from the eater to its food.",
+      debriefLine: "Energy moves up the chain, from the grass to the rabbit to the fox.",
       sourceRef: null,
     },
   },
   {
     cardId: "weighted_path_planner", // linker.path
     slice: {
-      prompt: "Find the cheapest route from the Camp to the Keep, in hours, not just the fewest stops.",
+      prompt: "Find the route from Camp to Keep that takes the fewest hours.",
       params: {
         nodes: [
           { id: "a", label: "Camp" },
@@ -511,34 +511,34 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         costName: "hours",
       },
       hints: [
-        "The direct route isn't always the cheapest one.",
-        "Add up the hours along a few different routes before picking one.",
-        "A route with more stops can still cost less overall.",
+        "The direct road from Camp to Keep takes 10 hours. That's a lot for one road.",
+        "A route with more stops can still be quicker. Look at the hours on each road.",
+        "The way through Bridge and Cave has three roads of 2 hours each. Compare that to 10.",
       ],
-      wrongFeedback: "That route costs more hours than another path that goes through more stops.",
-      debriefLine: "The route through more stops actually costs fewer hours overall.",
+      wrongFeedback: "That route takes more hours than another one with more stops.",
+      debriefLine: "The route with more stops took fewer hours, just {{bestCost}} {{costName}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "half_split_hunt", // mapper.search
     slice: {
-      prompt: "Find the hidden page number by guessing and narrowing the range each time.",
+      prompt: "Find the hidden page number. After each guess, you'll learn if it's higher or lower.",
       params: { min: "1", max: "64", hidden: "37", maxProbes: 7, thingName: "the page" },
       hints: [
-        "Guess the middle of the current range, not the edges.",
-        "Each guess should cut the remaining range roughly in half.",
-        "You have a limited number of guesses; use them efficiently.",
+        "The page is somewhere from 1 to 64. Start with a guess near the middle.",
+        "A first guess of about 32 cuts the pages in half. Keep halving what's left.",
+        "You get 7 guesses. Halving 64 six times gets you down to one page.",
       ],
-      wrongFeedback: "That guess doesn't use your remaining probes efficiently; try the middle of what's left.",
-      debriefLine: "Halving the range each time finds it in the fewest possible guesses.",
+      wrongFeedback: "That guess leaves too many pages. Try the middle of what's left.",
+      debriefLine: "Splitting the range in half each time finds it in the fewest guesses.",
       sourceRef: null,
     },
   },
   {
     cardId: "approach_target", // function_world.limit
     slice: {
-      prompt: "Approach x = 2 from both sides on this curve and read off the height it's heading toward.",
+      prompt: "Move toward x = 2 from both sides on this curve. Read the height it's heading for.",
       params: {
         xMin: "-1",
         xMax: "5",
@@ -548,38 +548,38 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         a: "2",
       },
       hints: [
-        "Trace the curve as x gets closer and closer to 2 from both directions.",
-        "The two sides should be heading toward the same height here.",
-        "The limit is the height both sides approach, whether or not a point sits exactly there.",
+        "This curve is y = x² − 1. Trace it as x gets close to 2.",
+        "Try x = 1.9 and x = 2.1. Work out x² − 1 for each one.",
+        "Those heights are about 2.6 and 3.4. The height both sides head for is between them.",
       ],
-      wrongFeedback: "Check the height the curve approaches from BOTH directions, not just one.",
-      debriefLine: "Approaching from either side, the curve heads toward the same height.",
+      wrongFeedback: "Check the height from both sides, the left and the right.",
+      debriefLine: "From either side, the curve heads to the same height, {{limit}}. That's the limit.",
       sourceRef: null,
     },
   },
   {
     cardId: "sea_level_roots", // function_world.roots
     slice: {
-      prompt: "Mark every point where this curve crosses sea level.",
+      prompt: "Mark every spot where this curve crosses sea level, the line y = 0.",
       params: {
         pieces: [{ expr: "x^2 - 4", from: "-inf", to: "inf", openLeft: true, openRight: true }],
         xMin: "-5",
         xMax: "5",
       },
       hints: [
-        "A crossing happens wherever the curve's height switches from positive to negative or back.",
-        "This curve crosses more than once; scan the whole visible range.",
-        "A point where the curve merely touches sea level without crossing doesn't count the same way.",
+        "The curve is y = x² − 4. It dips below sea level in the middle.",
+        "It crosses where x² − 4 = 0. So look for x values where x² is 4.",
+        "There's a crossing on each side of 0. A negative number squared is positive too.",
       ],
-      wrongFeedback: "You found where it crosses ONCE, but check the rest of the range for another crossing.",
-      debriefLine: "This curve crosses sea level at two separate points.",
+      wrongFeedback: "You found one crossing. Check the rest of the curve for another.",
+      debriefLine: "This curve crosses sea level at {{roots}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "long_horizon", // function_world.asymptote
     slice: {
-      prompt: "Follow this curve out toward the far right and read the height it settles toward.",
+      prompt: "Follow this curve far to the right. Read the height it settles toward.",
       params: {
         pieces: [{ expr: "(2*x + 1)/(x - 3)", from: "-inf", to: "inf", openLeft: true, openRight: true }],
         direction: "pos_inf",
@@ -587,19 +587,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         xMax: "40",
       },
       hints: [
-        "Compare how the top and bottom of the fraction grow as x gets very large.",
-        "The curve flattens out toward one specific height, not zero and not infinity.",
-        "Plug in a very large x and see what height it's close to.",
+        "The curve is (2x + 1) ÷ (x − 3). Look at the 2x on top and the x on the bottom.",
+        "Try a big number like x = 1000. Work out the top and the bottom.",
+        "For huge x, the + 1 and − 3 hardly matter. Simplify 2x ÷ x.",
       ],
-      wrongFeedback: "That's not the height it settles toward; try an even larger x and compare.",
-      debriefLine: "For large x, the ratio of the leading terms sets the height the curve settles toward.",
+      wrongFeedback: "That's not where it settles. Try an even bigger x and compare.",
+      debriefLine: "For big x, only the 2x and the x matter. So the curve settles at {{limit}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "unbroken_track", // function_world.continuity
     slice: {
-      prompt: "Find every break in this track: a hole, a jump, or a point where it shoots off to infinity.",
+      prompt: "Find every break in this track, like a hole or a jump.",
       params: {
         pieces: [
           { expr: "x", from: "-inf", to: "1", openLeft: true, openRight: true },
@@ -612,19 +612,19 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         a: "0",
       },
       hints: [
-        "Scan the whole visible range for anywhere the track doesn't connect smoothly.",
-        "A hole is a single missing point; a jump is where the two sides don't meet.",
-        "There is more than one break here.",
+        "The track switches formula at x = 1. Look closely there.",
+        "A hole is one missing point. A jump is where the two sides don't meet.",
+        "That's not the only break. Check the track to the left of 0 too.",
       ],
-      wrongFeedback: "One break is still unaccounted for; keep scanning the rest of the range.",
-      debriefLine: "This track has a removable hole at one point and a jump at another.",
+      wrongFeedback: "One break is still missing. Keep scanning the rest of the track.",
+      debriefLine: "This track has a hole at one point and a jump at another.",
       sourceRef: null,
     },
   },
   {
     cardId: "speed_snapshot", // function_world.secant
     slice: {
-      prompt: "Shrink the window around x = 3 and watch the average rate close in on the instantaneous rate.",
+      prompt: "Shrink the window around x = 3. Watch the average rate close in on the rate right at 3.",
       params: {
         pieces: [{ expr: "x^2", from: "-inf", to: "inf", openLeft: true, openRight: true }],
         a: "3",
@@ -634,64 +634,64 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         quantity: "position (m)",
       },
       hints: [
-        "Each window gives an AVERAGE rate over that stretch, not the exact rate at x = 3.",
-        "As the window shrinks, the average rate should be converging toward one number.",
-        "The instantaneous rate is what that sequence of averages is heading toward.",
+        "Each window gives the average rate over a stretch. That's different from the rate exactly at 3.",
+        "Write down the average rate for each window as it shrinks, from 2 down to 1/10.",
+        "The averages get closer to one number as the window gets tiny. Guess where they're headed.",
       ],
-      wrongFeedback: "That's the average rate over one particular window, not what the sequence converges to.",
-      debriefLine: "As the window shrinks toward zero, the average rate converges to the instantaneous rate.",
+      wrongFeedback: "That's the average for one window. Look at where the numbers are heading.",
+      debriefLine: "As the window shrinks, the average rate closes in on {{derivative}}. That's the rate right at x = {{a}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "energy_ledger", // accumulator.signed
     slice: {
-      prompt: "Total the signed area under this curve from x = 0 to x = 3, counting area below the axis as negative.",
+      prompt: "Add up the signed area under this curve from x = 0 to x = 3. Area below the axis counts as negative.",
       params: { expr: "x^2 - 4", a: "0", b: "3", ask: "net" },
       hints: [
-        "Part of this curve dips below the axis over this interval.",
-        "Area below the axis subtracts from the total instead of adding.",
-        "Add the area above the axis and subtract the area below it.",
+        "y = x² − 4 is below the axis until x = 2. After that, it's above.",
+        "Area below the axis takes away from the total. Area above adds to it.",
+        "The net area from 0 to 3 is 3³ ÷ 3 − 4 × 3. Work that out.",
       ],
-      wrongFeedback: "That total counts every region as positive; the part below the axis should subtract instead.",
-      debriefLine: "Below-axis area counts negative, so the net total is smaller than the total area alone.",
+      wrongFeedback: "You counted every part as positive. The part below the axis should subtract.",
+      debriefLine: "Area below the axis counts as negative. So the net total was {{net}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "resource_collector", // accumulator.rate_total
     slice: {
-      prompt: "Ore comes in at a changing rate. Starting from 10 kg on hand, find the total after 4 hours.",
+      prompt: "Ore comes in at a changing rate, and you start with 10 kg. Find the total after 4 hours.",
       params: { rateExpr: "4 - x/2", t0: "0", t1: "4", initial: "10", quantityName: "ore", unit: "kg" },
       hints: [
-        "The rate isn't constant, so you can't just multiply one rate by the time.",
-        "The change over the interval is the area under the rate curve.",
-        "Add that change to the starting amount.",
+        "The rate is 4 − x/2 kg per hour. It starts at 4 and drops to 2.",
+        "The ore you gain is the area under the rate line from 0 to 4 hours.",
+        "That area is a trapezoid with an average height of 3. Add its area to the 10 you started with.",
       ],
-      wrongFeedback: "That treats the rate as constant; it actually changes over the interval, so use the area under it.",
-      debriefLine: "The total is the starting amount plus the area under the changing rate.",
+      wrongFeedback: "You treated the rate as steady. It drops over time, so use the area under it.",
+      debriefLine: "The total is what you started with plus the area under the rate. That's {{total}} {{unit}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "level_the_reservoir", // accumulator.average_value
     slice: {
-      prompt: "If this curve's height were leveled flat over [0, 3], find that flat height.",
+      prompt: "Find the flat height that has the same area as this curve from 0 to 3.",
       params: { expr: "x^2", a: "0", b: "3" },
       hints: [
-        "The average value isn't just the average of the two endpoint heights.",
-        "It's the flat height whose rectangle has the same area as the curve over this interval.",
-        "Find the area under the curve first, then divide by the interval's width.",
+        "It isn't the average of the end heights, 0 and 9. The curve isn't a straight line.",
+        "Find the area under x² from 0 to 3 first. It's 3³ ÷ 3.",
+        "Now spread that area evenly over the width of 3. Divide it by 3.",
       ],
-      wrongFeedback: "That's the average of the two endpoints, but the curve isn't a straight line between them.",
-      debriefLine: "The average value is the area under the curve divided by the interval's width.",
+      wrongFeedback: "That's the average of the two end heights. The curve bends, so use the area instead.",
+      debriefLine: "The average height is the area divided by the width. Here that's {{average}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "energy_barrier", // simulator.reach_state
     slice: {
-      prompt: "Dial in the growth factor r so the population hits the target value at tick 5.",
+      prompt: "Set the growth factor r, the number the population is multiplied by each tick. Hit the target at tick 5.",
       params: {
         system: {
           variables: [
@@ -706,78 +706,78 @@ export const WAVE2D: { cardId: string; slice: ChallengeSlice }[] = [
         atTick: 5,
       },
       hints: [
-        "A higher growth factor makes the population grow faster tick by tick.",
-        "Run the simulation forward to tick 5 and compare against the target.",
-        "Nudge the dial up if you land below the target, down if you land above it.",
+        "The population starts at 100 and gets multiplied by r every tick.",
+        "By tick 5, it's 100 × r × r × r × r × r. Compare that to the target.",
+        "r = 1.1 barely grows it. Try bigger values and run to tick 5 each time.",
       ],
-      wrongFeedback: "At tick 5 the population lands below the target; try a higher growth factor.",
-      debriefLine: "A growth factor a little above 1 compounds a lot by tick 5.",
+      wrongFeedback: "At tick 5 the population is off target. Try a different growth factor.",
+      debriefLine: "A growth factor of {{control}} gets there by tick 5. Small factors add up fast.",
       sourceRef: null,
     },
   },
   {
     cardId: "number_line_leap", // mapper.number_line (no other fixture covers this mode)
     slice: {
-      prompt: "Land on the target value using only the coarse landmarks marked on the line.",
+      prompt: "Land on the target value. Only a few marks on the line have labels.",
       params: { scale: "log", min: "10^-3", max: "10^6", target: "10^3.5", landmarkStep: "3", labels: "power" },
       hints: [
-        "Each labeled landmark is a power of ten, not an evenly spaced count.",
-        "The target sits between two of the labeled powers; find which two.",
-        "It lands roughly a third of the way between those two powers on a log scale.",
+        "Each labeled mark is 1,000 times the one before. The line is spaced by powers of ten.",
+        "On this line, you move by the power. The target 10^3.5 has a power of 3.5.",
+        "A power of 3.5 is half a step past 3. That's one-sixth of the gap after the 10^3 mark.",
       ],
-      wrongFeedback: "That's on the wrong side of one of the labeled powers; check which two landmarks bracket the target.",
-      debriefLine: "On a log scale, equal spacing means equal FACTORS, not equal differences.",
+      wrongFeedback: "That's on the wrong side of a labeled mark. Check which two marks the target sits between.",
+      debriefLine: "On a log scale, each equal step multiplies by the same amount. {{target}} sits between {{between}}.",
       sourceRef: null,
     },
   },
   {
     cardId: "chrono_bridge", // sequencer.linear (no other fixture covers this mode)
     slice: {
-      prompt: "Place these steps in the order the process actually happens; one plank doesn't belong.",
+      prompt: "Put these baking steps in the order they happen. One plank doesn't belong.",
       params: { steps: ["Gather materials", "Mix the batter", "Bake at 350°F", "Cool on a rack"], decoys: ["Frost the cake"] },
       hints: [
-        "One plank shown isn't part of this particular process.",
-        "Some steps have to physically happen before others can even start.",
-        "Set the odd plank aside and order only the ones that belong.",
+        "Look for the step you need before you can mix anything.",
+        "The batter has to bake before it can cool.",
+        "Frosting is a real cake step, but this recipe stops after cooling. Leave that plank out.",
       ],
-      wrongFeedback: "That plank isn't part of this process, or it's in the wrong spot; check what has to come right before it.",
-      debriefLine: "Each step here depends on the material state the previous step left behind.",
+      wrongFeedback: "Check what has to happen right before that step. Or maybe it doesn't belong at all.",
+      debriefLine: "Each step needs what the step before it made.",
       sourceRef: null,
     },
   },
   {
     cardId: "phase_gate", // tuner.oscillator (no other fixture covers this mode)
     slice: {
-      prompt: "Dial the wave's period so the vault's rings lock into place.",
+      prompt: "Set the wave's period so the vault's rings lock. The period is how long one full wave takes.",
       params: { wave: "sin", amplitude: 2, b: "pi/2", c: "pi/4", d: 1, ask: "period" },
       hints: [
-        "The period is how long it takes the wave to complete one full cycle.",
-        "A bigger multiplier on t inside the wave squeezes the cycle shorter, not longer.",
-        "Read the coefficient in front of t and use it to find the cycle length.",
+        "Only the π/2 next to t sets the timing. The 2 in front changes the height.",
+        "One period is 2π divided by the number next to t. Here that's 2π ÷ (π/2).",
+        "Dividing by π/2 is the same as multiplying by 2/π. The π's cancel out.",
       ],
-      wrongFeedback: "That period doesn't match how tightly this wave is squeezed; check the coefficient on t again.",
-      debriefLine: "A larger coefficient on t compresses the wave into a shorter period.",
+      wrongFeedback: "That period doesn't fit this wave. Check the number next to t again.",
+      debriefLine: "The period is {{period}}. A bigger number next to t makes the wave repeat faster.",
       sourceRef: null,
     },
   },
   {
     cardId: "mimic_chest", // truth_finder.mimic (no other fixture covers this mode)
     slice: {
-      prompt: "Three chests, one lie. Point your lantern at the one making a false claim.",
+      prompt: "Three chests, one lie. Point your lantern at the chest making a false claim.",
       params: {
         statements: [
-          { text: "Water boils at 100 °C at sea level", isTrue: true, explanation: "Standard pressure." },
-          { text: "Water always boils at 100 °C", isTrue: false, explanation: "Boiling point drops with pressure." },
-          { text: "Water boils at a lower temperature on a mountain", isTrue: true, explanation: "Lower pressure." },
+          { text: "Water boils at 100 °C at sea level", isTrue: true, explanation: "That's at normal air pressure." },
+          { text: "Water always boils at 100 °C", isTrue: false, explanation: "Boiling point drops when air pressure drops." },
+          { text: "Water boils at a lower temperature on a mountain", isTrue: true, explanation: "The air pressure is lower up there." },
         ],
       },
       hints: [
-        "Two of these claims agree with each other; one contradicts them.",
-        "Think about what changes at high altitude.",
-        "Altitude changes atmospheric pressure, which shifts the boiling point.",
+        "The claims disagree about whether water's boiling point can change.",
+        "Air pressure is lower up a mountain. Lower pressure lets water boil at a lower temperature.",
+        "The claim about sea level is true. Compare the other two.",
       ],
-      wrongFeedback: "That chest's claim actually holds up; look for the one that contradicts the others.",
-      debriefLine: "Boiling point isn't fixed: it shifts with pressure, so 'always' was the tell.",
+      wrongFeedback: "That chest's claim is true. Look for the one that goes against the others.",
+      debriefLine: "Boiling point changes with air pressure. So \"always\" made that claim false.",
       sourceRef: null,
     },
   },

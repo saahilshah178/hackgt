@@ -70,7 +70,10 @@ one repair retry on zod/check failure, 429/503 retry honoring Retry-After, globa
 - **References are dynamic enums** built from the current job (concepts, cards, sockets, characters, encounters).
 - **The model writes primitives; code derives everything else.** Numbers from mathjs; answer keys from `resolve()`;
   shuffles from the spec seed; MCQs as `correct` + `distractors`, shuffled by code; computed values only via
-  `{{placeholders}}`; answer placeholders banned from `prompt`, `hints[0]`, `wrongFeedback`.
+  `{{placeholders}}`; answer placeholders banned from `prompt`, every hint, `wrongFeedback`.
+- **Player-facing text follows `docs/WRITING.md`; every hint follows `docs/HINTS.md`.** Both docs are appended to
+  the writer agents' system prompts (`src/pipeline/style-guides.ts`), apply to hand-written fixtures and world
+  side-cars too, and `src/world/text-style.ts` checks the mechanical parts. Run `pnpm text:lint` after editing text.
 - **Validation and repair.** Layered; each issue carries `path` + `owner`; one routed repair round; a writer that
   fails twice becomes a Mimic Chest from verified facts or is dropped (never the boss); Director/code issues fail fast.
 - **Blind solve** for `blindSolvable` modes; disagreement → regenerate once → fallback. Every verifier catch becomes a

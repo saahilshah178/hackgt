@@ -22,9 +22,9 @@ const MYSTERY_SOCKET: Record<string, string> = {
 export const historyMysteryBlueprint: BlueprintSlice = {
   ...historySlices.blueprint,
   genre: "mystery",
-  title: "The 1965 Files",
+  title: "The Civil Rights Files",
   theme: {
-    setting: "A rain-soaked newspaper morgue where a retired editor's last case file waits to be reopened",
+    setting: "A newspaper archive whose files walk you from 1954 to 1965",
     tone: "noir, investigative, respectful of the people in the story",
     paletteId: "dusk",
     musicMood: "noir",

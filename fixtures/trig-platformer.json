@@ -116,14 +116,14 @@
     "laterBonus": 0.08,
     "missPenalty": 0.05
   },
-  "title": "The Clockwork Run",
+  "title": "The Sky Clock",
   "theme": {
-    "setting": "A crumbling clockwork gantry racing along the observatory's outer rim",
+    "setting": "A walkway that climbs the outside of the sky clock",
     "tone": "mysterious but playful",
     "paletteId": "ember",
     "musicMood": "curious"
   },
-  "premise": "The astronomer's star chart is bolted to a gantry that only lowers for someone who can read its rhythms. Run the length of it, clearing every gear and gate, and tune the last one to reach it.",
+  "premise": "The star chart is at the top of the sky clock. Fix each machine as you walk up to reach it.",
   "characters": [
     {
       "id": "cog",
@@ -151,7 +151,7 @@
       "targetMisconception": "π radians is a full circle.",
       "familyId": "mapper",
       "mode": "number_line",
-      "prompt": "The altar's rune line runs from 0 to 2π. Step onto 5π/6.",
+      "prompt": "This line is one full turn of a circle, laid out flat from 0 to 2π. Step onto 5π/6.",
       "params": {
         "scale": "linear",
         "min": "0",
@@ -161,12 +161,12 @@
         "labels": "pi"
       },
       "hints": [
-        "A full turn is 2π, so π sits exactly halfway along the line.",
-        "5π/6 is a little less than π. Count in sixths of π.",
-        "It sits between π/2 and π, closer to the right one."
+        "Find π first. The line ends at 2π, so π is only halfway along.",
+        "5π/6 is five sixths of π. Split the part from 0 to π into six equal steps.",
+        "It's past the π/2 mark and short of π, closer to π."
       ],
-      "wrongFeedback": "Radians measure distance around the circle: π is half a turn, so fractions of π land proportionally along the line.",
-      "debriefLine": "The rune line was the unit circle unrolled: 5π/6 is 5/12 of a full turn.",
+      "wrongFeedback": "Not there. π sits halfway along the line, so count sixths of π from 0.",
+      "debriefLine": "Radians measure how far you go around a circle. 5π/6 is 5/12 of one full turn.",
       "sourceRef": {
         "page": 1,
         "quote": "An angle of π radians corresponds to half a revolution."
@@ -191,7 +191,7 @@
       "targetMisconception": "sin(2x) has period 4π, twice as long as sin(x).",
       "familyId": "tuner",
       "mode": "oscillator",
-      "prompt": "The vault door's rings spin on y = sin(2t). Set the dial to one full period so the rings lock.",
+      "prompt": "The door's rings spin on y = sin(2t). Set the dial to one period, the time for one full turn.",
       "params": {
         "wave": "sin",
         "amplitude": 1,
@@ -201,12 +201,12 @@
         "ask": "period"
       },
       "hints": [
-        "A period is how long the rings take to come back to where they started.",
-        "For y = sin(b·t), one period lasts 2π/|b|.",
-        "Here b = 2: divide 2π by 2."
+        "Look at the 2 inside sin(2t). It makes these rings spin faster than plain sin(t).",
+        "One period is 2π divided by the number next to t. Here that's 2π ÷ 2.",
+        "Plain sin(t) takes 2π. Twice as fast means half of 2π."
       ],
-      "wrongFeedback": "Doubling b doesn't double the period, it halves it: the rings spin faster, so each cycle is shorter.",
-      "debriefLine": "The door followed y = sin(2t); its period is π, because 2π/|b| with b = 2.",
+      "wrongFeedback": "The 2 makes the rings spin faster. So one turn takes less time than 2π.",
+      "debriefLine": "The period of y = sin(2t) is π. That's 2π divided by 2, the number next to t.",
       "sourceRef": {
         "page": 3,
         "quote": "The period of y = sin(bx) is 2π/|b|."
@@ -236,33 +236,33 @@
       "targetMisconception": "Amplitude is the distance from peak to trough.",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "Three chests, three claims about amplitude. One is a mimic. Point your lantern at the lie.",
+      "prompt": "Three chests make claims about amplitude, how high a wave goes above its middle. Point your lantern at the one that's lying.",
       "params": {
         "statements": [
           {
             "text": "The amplitude of y = 3sin(x) is 3",
             "isTrue": true,
-            "explanation": "Amplitude is |A|, the number in front."
+            "explanation": "Amplitude is the size of the number in front. Here that's 3."
           },
           {
-            "text": "The amplitude of y = 3sin(x) is 6, peak to trough",
+            "text": "The amplitude of y = 3sin(x) is 6, from top to bottom",
             "isTrue": false,
-            "explanation": "Peak-to-trough is 6, but that's twice the amplitude; the amplitude is |A| = 3."
+            "explanation": "Top to bottom is 6, but that's twice the amplitude. The amplitude is 3."
           },
           {
-            "text": "Multiplying sin(x) by 3 leaves its period unchanged",
+            "text": "Multiplying sin(x) by 3 doesn't change its period",
             "isTrue": true,
-            "explanation": "A stretches the wave vertically; only b changes the period."
+            "explanation": "The 3 makes the wave taller. Only the number next to x changes the period."
           }
         ]
       },
       "hints": [
-        "Amplitude is measured from the midline, not across the whole swing.",
-        "Peak-to-trough is twice the amplitude.",
-        "The mimic claims: The amplitude of y = 3sin(x) is 6, peak to trough"
+        "Two claims give a different amplitude for 3sin(x). They can't both be right.",
+        "Amplitude goes from the middle line up to the top. For 3sin(x), the top is at 3.",
+        "The claim about the period is true. Compare the other two."
       ],
-      "wrongFeedback": "That chest is honest. Look for the claim that measures the whole swing.",
-      "debriefLine": "The mimic's claim, \"The amplitude of y = 3sin(x) is 6, peak to trough\", confused the full swing with the amplitude, which is |A|.",
+      "wrongFeedback": "That one's true. Look for the claim that measures the whole swing.",
+      "debriefLine": "The mimic said \"The amplitude of y = 3sin(x) is 6, from top to bottom\". But amplitude only goes from the middle to the top, so it's 3.",
       "sourceRef": {
         "page": 2,
         "quote": "The amplitude of y = A sin x is |A|."
@@ -283,25 +283,25 @@
       "targetMisconception": "sin(x) = 1/2 has only one solution on [0, 2π).",
       "familyId": "sequencer",
       "mode": "linear",
-      "prompt": "The glyph door opens only if its planks show how to solve 2sin(x) = 1 on [0, 2π). One plank doesn't belong.",
+      "prompt": "Put the planks in order to solve 2sin(x) = 1 for x between 0 and 2π. One plank doesn't belong.",
       "params": {
         "steps": [
-          "Isolate the sine: sin(x) = 1/2",
-          "Find the reference angle: sin(π/6) = 1/2",
-          "Sine is positive in quadrants I and II",
-          "Write both solutions: x = π/6 and x = 5π/6"
+          "Get sin(x) by itself, so sin(x) = 1/2",
+          "Find the reference angle, sin(π/6) = 1/2",
+          "Sine is positive in the top half, quadrants I and II",
+          "Write both answers, x = π/6 and x = 5π/6"
         ],
         "decoys": [
           "Take the inverse sine of 2 first"
         ]
       },
       "hints": [
-        "Get the sine by itself before anything else.",
-        "Which angle in quadrant I has a sine of 1/2?",
-        "Sine is positive in two quadrants, which is why there are two answers."
+        "The 2 in 2sin(x) is in the way. Get rid of it before you look for any angle.",
+        "Once sin(x) = 1/2, find the smallest angle with that sine. Then check where else sine is positive.",
+        "The inverse sine of 2 plank doesn't fit. No angle has a sine of 2."
       ],
-      "wrongFeedback": "Order matters: you can't find the angle until the sine is alone.",
-      "debriefLine": "You solved 2sin(x) = 1 in 4 moves: isolate, reference angle, quadrants, both solutions.",
+      "wrongFeedback": "That order doesn't work. You can't find the angle until sin(x) is by itself.",
+      "debriefLine": "You solved 2sin(x) = 1 in 4 steps. Sine is positive twice around the circle, so there were two answers.",
       "sourceRef": {
         "page": 4,
         "quote": "To solve a trigonometric equation, first isolate the trigonometric function."
@@ -327,33 +327,33 @@
       "targetMisconception": "sin(2x) has period 4π, twice as long as sin(x).",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "The treasury's chests remember the vault door. One of them is lying about periods.",
+      "prompt": "Three chests make claims about periods, and one is lying. Point your lantern at it.",
       "params": {
         "statements": [
           {
             "text": "y = sin(2x) repeats every π, twice as often as sin(x)",
             "isTrue": true,
-            "explanation": "2π/|b| = 2π/2 = π."
+            "explanation": "2π ÷ 2 = π."
           },
           {
-            "text": "y = sin(2x) has period 4π, twice that of sin(x)",
+            "text": "y = sin(2x) has period 4π, twice as long as sin(x)",
             "isTrue": false,
-            "explanation": "A bigger b squeezes the wave: the period shrinks to π."
+            "explanation": "The 2 makes the wave faster, so the period shrinks to π."
           },
           {
-            "text": "y = cos(x/2) has period 4π, stretched out",
+            "text": "y = cos(x/2) has period 4π, twice as long as cos(x)",
             "isTrue": true,
-            "explanation": "2π/(1/2) = 4π."
+            "explanation": "2π ÷ (1/2) = 4π."
           }
         ]
       },
       "hints": [
-        "Period = 2π/|b|. Check each claim with it.",
-        "A bigger b means a faster wave and a shorter period.",
-        "The mimic claims: y = sin(2x) has period 4π, twice that of sin(x)"
+        "Two chests give sin(2x) different periods. The 2 makes that wave go faster.",
+        "Period is 2π divided by the number next to x. For sin(2x), that's 2π ÷ 2.",
+        "The chest about cos(x/2) is telling the truth. Compare the other two."
       ],
-      "wrongFeedback": "That chest is telling the truth. Test each claim with 2π/|b|.",
-      "debriefLine": "Review: the mimic claimed \"y = sin(2x) has period 4π, twice that of sin(x)\", but a bigger b shrinks the period.",
+      "wrongFeedback": "That chest is telling the truth. Check each claim by dividing 2π by the number next to x.",
+      "debriefLine": "The mimic said \"y = sin(2x) has period 4π, twice as long as sin(x)\". But a bigger number next to x makes the period shorter.",
       "sourceRef": {
         "page": 3,
         "quote": "Larger values of b compress the graph horizontally."
@@ -375,7 +375,7 @@
       "targetMisconception": null,
       "familyId": "tuner",
       "mode": "oscillator",
-      "prompt": "The Warden's shield spins on y = 3sin((π/2)t). Match its period to break through, and don't let the big swing fool you.",
+      "prompt": "The Warden's shield swings on y = 3sin((π/2)t). Match its period, the time for one full swing, to get past.",
       "params": {
         "wave": "sin",
         "amplitude": 3,
@@ -385,12 +385,12 @@
         "ask": "period"
       },
       "hints": [
-        "The 3 in front sets how far the shield swings, not how fast.",
-        "Period = 2π/|b|, and here b = π/2.",
-        "Divide 2π by π/2: the π's cancel."
+        "The 3 in front only makes the shield swing wider. It doesn't change the timing.",
+        "Period is 2π divided by the number next to t. Here that's 2π ÷ (π/2).",
+        "Dividing by π/2 is the same as multiplying by 2/π. The π's cancel, leaving 2 × 2."
       ],
-      "wrongFeedback": "The amplitude doesn't change the timing. Only b does.",
-      "debriefLine": "The Warden's shield followed y = 3sin((π/2)t): amplitude 3 (how far), period 4 (how fast).",
+      "wrongFeedback": "The 3 makes it swing wider. The timing comes from the π/2 next to t.",
+      "debriefLine": "The shield's amplitude was 3 and its period was 4. Only the π/2 next to t set the period.",
       "sourceRef": {
         "page": 2,
         "quote": "The value of A stretches the graph vertically but leaves the period unchanged."
@@ -453,31 +453,31 @@
     "intro": [
       {
         "speakerId": "cog",
-        "text": "Hoo! The astronomer's crypt runs on rhythm. Read the rhythm, and every door will open."
+        "text": "The star chart is at the top. Fix each machine, and we can climb."
       }
     ],
     "outro": [
       {
         "speakerId": "cog",
-        "text": "Her star chart! You read every rhythm in the crypt."
+        "text": "You got the star chart. Every machine on the way up is moving again."
       }
     ],
     "beats": [
       {
         "speakerId": "cog",
-        "text": "Those rings spin on a sine wave. Watch how fast, not how far.",
+        "text": "Those rings spin on a sine wave. Watch how fast they turn.",
         "encounterId": "e2_period",
         "when": "before"
       },
       {
         "speakerId": "warden",
-        "text": "None pass whose timing is false.",
+        "text": "Nobody gets past me with the wrong timing.",
         "encounterId": "e6_boss",
         "when": "before"
       },
       {
         "speakerId": "warden",
-        "text": "Your timing is true. Pass, reader of rhythms.",
+        "text": "Your timing matches mine. You may pass.",
         "encounterId": "e6_boss",
         "when": "after"
       }

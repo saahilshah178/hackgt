@@ -29,13 +29,13 @@ const PLATFORMER_SOCKET: Record<string, string> = {
 export const trigPlatformerBlueprint: BlueprintSlice = {
   ...trigSlices.blueprint,
   genre: "platformer",
-  title: "The Clockwork Run",
+  title: "The Sky Clock",
   theme: {
     ...trigSlices.blueprint.theme,
-    setting: "A crumbling clockwork gantry racing along the observatory's outer rim",
+    setting: "A walkway that climbs the outside of the sky clock",
   },
   premise:
-    "The astronomer's star chart is bolted to a gantry that only lowers for someone who can read its rhythms. Run the length of it, clearing every gear and gate, and tune the last one to reach it.",
+    "The star chart is at the top of the sky clock. Fix each machine as you walk up to reach it.",
   encounters: trigSlices.blueprint.encounters.map((e) => {
     if (e.role === "boss") return { ...e, socket: "boss" };
     const card = getCard(e.teachingMechanicId)!;

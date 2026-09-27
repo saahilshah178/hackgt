@@ -41,6 +41,7 @@ import { polylineSpan } from "./geom";
 import { configCtxFor, getContraption, getSandbox, skinOf } from "./library";
 import { probeRefIssues } from "./probes";
 import { declaredFlagsOf } from "./resolve-world";
+import { hintLadderProblems, textStyleProblems } from "./text-style";
 import type { AnyContraptionMeta, BiomeKit, ModeKey, ValidateWorldResult, WorldRuleId } from "./types";
 
 export interface ValidateWorldOptions {
@@ -586,10 +587,7 @@ export function validateWorld(spec: GameSpec, world: WorldOverlay, opts: Validat
     S(d.instruction.text, "dialogue", "instruction", "text");
     if (d.tutorial) S(d.tutorial.text, "dialogue", "tutorial", "text");
     if (d.insight) S(d.insight.text, "dialogue", "insight", "text");
-    if (d.hints) {
-      S(d.hints[0].text, "dialogue", "hints", 0, "text");
-      S(d.hints[1].text, "dialogue", "hints", 1, "text");
-    }
+    d.hints?.forEach((h, k) => S(h.text, "dialogue", "hints", k, "text"));
     S(d.fail.default.text, "dialogue", "fail", "default", "text");
     d.fail.byKey.forEach((b, k) => S(b.line.text, "dialogue", "fail", "byKey", k, "line", "text"));
     st.pins.forEach((p, k) => p.text && S(p.text, "pins", k, "text"));
@@ -647,10 +645,17 @@ export function validateWorld(spec: GameSpec, world: WorldOverlay, opts: Validat
       if (text.length > 140) E("R9", [...path, "text"], `line is ${text.length} characters (max 140)`);
       const words = text.trim().split(/\s+/).filter(Boolean).length;
       if (words > 24) emit("R9", opts.sidecar ? "warning" : "error", [...path, "text"], `line is ${words} words (max 24)`);
+      for (const p of textStyleProblems(text)) emit("R9", opts.sidecar ? "warning" : "error", [...path, "text"], `line ${p} (docs/WRITING.md)`);
     }
   });
   for (const { st, i, meta } of stationCtx) {
     const id = st.encounterId;
+    if (st.dialogue.hints) {
+      const prompt = encs.find((e) => e.encounter.id === id)?.encounter.prompt ?? "";
+      for (const p of hintLadderProblems(st.dialogue.hints.map((h) => h.text), prompt)) {
+        emit("R9", opts.sidecar ? "warning" : "error", P("stations", i, "dialogue", "hints"), p, id);
+      }
+    }
     const nouns = [st.objectNoun, ...st.partNouns, ...(meta ? (skinOf(meta, st.skin)?.nouns ?? []) : [])];
     if (!nouns.some((n) => containsPhrase(st.dialogue.instruction.text, n))) {
       E("R9", P("stations", i, "dialogue", "instruction", "text"), `the instruction must name "${st.objectNoun}", a part noun or a skin noun`, id);
