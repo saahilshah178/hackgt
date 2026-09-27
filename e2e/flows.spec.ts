@@ -3,7 +3,7 @@ import path from "node:path";
 
 /*
  * Extra flows beyond the golden path (instructions.md ROLE, P7 item 6):
- *  (a) home renders the four showcase cards and each link resolves to a 200 page with the game title
+ *  (a) home renders every premade game and each link resolves to a 200 page with the game title
  *  (b) /library filters work: domain link narrows the count, status=implemented shows only "playable" badges,
  *      search finds phase_gate
  *  (c) /play/fixture-trig -> end screen -> debrief post-check -> pre/post scores render
@@ -26,16 +26,35 @@ function trackConsoleErrors(page: Page): string[] {
   return errors;
 }
 
+const PREMADE_PLAY = [
+  "/play/fixture-cell-transport-cozy",
+  "/play/fixture-cell-transport-casefile",
+  "/play/fixture-cell-transport",
+  "/play/fixture-civil-rights-explorer",
+  "/play/fixture-civil-rights-story",
+  "/play/fixture-civil-rights-mystery",
+  "/play/fixture-civil-rights-dungeon",
+  "/play/fixture-trig-puzzle",
+  "/play/fixture-trig",
+  "/play/fixture-trig-platformer",
+  "/play/fixture-wave2",
+];
+
 test.describe("home showcase", () => {
-  test("renders the four offered genres, each resolving to a playable game, and no withdrawn ones", async ({ page }) => {
+  test("renders every premade game, each resolving to a playable page", async ({ page }) => {
+    test.setTimeout(300_000);
     const errors = trackConsoleErrors(page);
     await page.goto("/");
-    const cardLinks = page.getByTestId("ways-to-play").getByRole("link", { name: "Play" });
-    await expect(cardLinks).toHaveCount(4);
-    await expect(page.getByText(/side-view adventures|platformer|dungeon crawler|logic board/i)).toHaveCount(0);
+    const ways = page.getByTestId("ways-to-play");
+    const cardLinks = ways.getByRole("link", { name: "Play" });
+    await expect(cardLinks).toHaveCount(PREMADE_PLAY.length);
+    for (const href of PREMADE_PLAY) {
+      await expect(ways.locator(`a[href="${href}"]`)).toBeVisible();
+      await expect(ways.locator(`a[href="${href.replace("/play/", "/learn/")}"]`)).toBeVisible();
+    }
 
     const hrefs = await cardLinks.evaluateAll((els) => els.map((el) => el.getAttribute("href")));
-    expect(hrefs.length).toBe(4);
+    expect(hrefs.length).toBe(PREMADE_PLAY.length);
     for (const href of hrefs) {
       if (!href) continue;
       const res = await page.request.get(href);

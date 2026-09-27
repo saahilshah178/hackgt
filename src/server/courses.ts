@@ -3,7 +3,7 @@ import type { Genre } from "@/contracts/common";
 import { GENRE_LABELS } from "@/library/genre-labels";
 import { loadFixtureSpec } from "./fixtures";
 
-/** A showcase example: a shipped fixture game shown as an AI-generated example on the home and learn pages. */
+/** A showcase example: a shipped fixture game shown on the home and learn pages. */
 export interface CourseMeta {
   /** Route id: `/learn/<routeId>` and `/play/<routeId>`. */
   routeId: string;
@@ -26,6 +26,7 @@ export interface Course extends CourseMeta {
   minutes: number;
 }
 
+/** Every shipped fixture game, in the order the home page groups them. */
 export const COURSES: CourseMeta[] = [
   {
     routeId: "fixture-cell-transport-cozy",
@@ -42,6 +43,13 @@ export const COURSES: CourseMeta[] = [
     interactions: "Clue combination, cause-and-effect chains, sorting evidence, explaining osmosis to your partner",
   },
   {
+    routeId: "fixture-cell-transport",
+    subject: "cells",
+    subjectLabel: "Cell transport",
+    blurb: "The cell's gates open only for a crew that knows what crosses a membrane, how, and at what cost.",
+    interactions: "Sorting what can cross, matching each pump to its job, explaining osmosis at the gates",
+  },
+  {
     routeId: "fixture-civil-rights-explorer",
     subject: "history",
     subjectLabel: "Civil rights history",
@@ -54,6 +62,48 @@ export const COURSES: CourseMeta[] = [
     subjectLabel: "Civil rights history",
     blurb: "A branching reporter's notebook: pick which thread to follow, and explain what you saw to move the story.",
     interactions: "Story choices, written explanations, eliminating hypotheses",
+  },
+  {
+    routeId: "fixture-civil-rights-mystery",
+    subject: "history",
+    subjectLabel: "Civil rights history",
+    blurb: "Search the archive scene by scene, combine clues into leads, and open the vault once the chain of events holds.",
+    interactions: "Searching rooms, combining clues, ordering the timeline, judging which source is primary",
+  },
+  {
+    routeId: "fixture-civil-rights-dungeon",
+    subject: "history",
+    subjectLabel: "Civil rights history",
+    blurb: "Move through the archive room by room, rebuild how the movement won its laws, and open the final vault.",
+    interactions: "Ordering events, linking a campaign to the law it changed, sorting primary and secondary sources",
+  },
+  {
+    routeId: "fixture-trig-puzzle",
+    subject: "lab",
+    subjectLabel: "Trigonometry",
+    blurb: "Route the wave across the circuit board; each sealed tile opens once you read its rhythm.",
+    interactions: "Rotating tiles to connect the circuit, tuning period and amplitude, solving for the angle that breaks a seal",
+  },
+  {
+    routeId: "fixture-trig",
+    subject: "trig",
+    subjectLabel: "Trigonometry",
+    blurb: "Walk the crypt room by room. Each machine moves only when you read its rhythm, and the last one lowers the star chart.",
+    interactions: "Setting radians on a dial, matching period and amplitude, solving the equation that opens the vault",
+  },
+  {
+    routeId: "fixture-trig-platformer",
+    subject: "platformer",
+    subjectLabel: "Trigonometry",
+    blurb: "Run the gantry, clear every gear and gate, and tune the last one so the star chart can drop.",
+    interactions: "Running and jumping between gates, tuning period and amplitude, solving for the angle that opens the way",
+  },
+  {
+    routeId: "fixture-wave2",
+    subject: "trig",
+    subjectLabel: "Trigonometry",
+    blurb: "Nine rooms, nine different kinds of problem. Clear every one.",
+    interactions: "Slopes, equations, balances, ledgers, codes, machines, traces, and recall",
   },
 ];
 

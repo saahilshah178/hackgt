@@ -79,15 +79,25 @@ export default async function Home() {
       <section id="examples" className="mt-20 scroll-mt-24" aria-labelledby="ways-heading">
         <p className="text-sm font-semibold tracking-wide text-primary uppercase">Examples</p>
         <h2 id="ways-heading" className="mt-1 text-3xl font-bold tracking-tight">
-          Four ways to play
+          Premade games
         </h2>
-        <ul className="mt-8 grid gap-6 sm:grid-cols-2" data-testid="ways-to-play">
-          {courses.map((c) => (
-            <li key={c.routeId}>
-              <CourseCard course={c} />
-            </li>
+        <p className="mt-2 max-w-2xl text-lg text-muted-foreground">Every shipped example, ready to play.</p>
+        <div className="mt-8 flex flex-col gap-10" data-testid="ways-to-play">
+          {groupCourses(courses).map((group) => (
+            <section key={group.label} aria-labelledby={`examples-${group.slug}`}>
+              <h3 id={`examples-${group.slug}`} className="text-lg font-bold">
+                {group.label}
+              </h3>
+              <ul className="mt-4 grid gap-6 sm:grid-cols-2">
+                {group.courses.map((c) => (
+                  <li key={c.routeId}>
+                    <CourseCard course={c} />
+                  </li>
+                ))}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       </section>
 
       <section id="how" className="mt-20 scroll-mt-24" aria-labelledby="how-heading">
@@ -119,16 +129,22 @@ export default async function Home() {
   );
 }
 
+function groupCourses(courses: Course[]): { label: string; slug: string; courses: Course[] }[] {
+  const groups: { label: string; slug: string; courses: Course[] }[] = [];
+  for (const course of courses) {
+    const existing = groups.find((g) => g.label === course.subjectLabel);
+    if (existing) existing.courses.push(course);
+    else groups.push({ label: course.subjectLabel, slug: course.subjectLabel.toLowerCase().replace(/[^a-z0-9]+/g, "-"), courses: [course] });
+  }
+  return groups;
+}
+
 function CourseCard({ course: c }: { course: Course }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:border-brand hover:shadow-xl hover:shadow-sky-900/5">
       <div className="relative aspect-[16/9] overflow-hidden">
         <SubjectArt subject={c.subject} className="size-full transition-transform duration-500 group-hover:scale-105" />
         <span className="absolute top-3 left-3 rounded-full bg-card/90 px-3 py-1 text-xs font-semibold shadow-sm backdrop-blur">{c.subjectLabel}</span>
-        <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-card/90 px-2.5 py-1 text-xs font-semibold text-accent-foreground shadow-sm backdrop-blur">
-          <Sparkles className="size-3.5" aria-hidden />
-          AI-generated
-        </span>
       </div>
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div>
@@ -138,7 +154,7 @@ function CourseCard({ course: c }: { course: Course }) {
               {c.perspective && <span className="font-medium text-muted-foreground"> · {c.perspective}</span>}
             </p>
           )}
-          <h3 className="mt-1 text-xl leading-snug font-bold">{c.title}</h3>
+          <h4 className="mt-1 text-xl leading-snug font-bold">{c.title}</h4>
           <p className="mt-2 text-sm leading-relaxed">
             <strong>How you progress:</strong> {c.blurb}
           </p>

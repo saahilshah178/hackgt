@@ -117,11 +117,12 @@ test("cell-transport-cozy: the Field guide opens with G, lists every concept, an
   expect(errors, `console/page errors:\n${errors.join("\n")}`).toEqual([]);
 });
 
-test("home page shows the non-side-scroller showcase", async ({ page }) => {
+test("home page links every premade game, including the logic board", async ({ page }) => {
   await page.goto("/");
   const ways = page.getByTestId("ways-to-play");
   await expect(ways).toBeVisible();
-  // the four offered genres (the logic board was withdrawn from the home page; its fixture still plays)
-  for (const g of GAMES.filter((x) => x.fixture !== "trig-puzzle")) await expect(ways.locator(`a[href="/play/fixture-${g.fixture}"]`)).toBeVisible();
-  await expect(ways.locator('a[href="/play/fixture-trig-puzzle"]')).toHaveCount(0);
+  for (const g of GAMES) await expect(ways.locator(`a[href="/play/fixture-${g.fixture}"]`)).toBeVisible();
+  for (const href of ["/play/fixture-trig", "/play/fixture-trig-platformer", "/play/fixture-cell-transport", "/play/fixture-civil-rights-mystery", "/play/fixture-civil-rights-dungeon", "/play/fixture-wave2"]) {
+    await expect(ways.locator(`a[href="${href}"]`)).toBeVisible();
+  }
 });
