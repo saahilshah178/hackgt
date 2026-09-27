@@ -118,6 +118,16 @@ describe("blind-solver", () => {
   // M2: a throw from runAgent (network/schema) must be treated as agreeing, never fail the job; and a
   // non-boss encounter that still disagrees with no fallback available must be dropped outright.
   it("treats a throwing blind solver as agreeing, and drops a non-boss encounter with no fallback available", async () => {
+    // Story beats on the encounter that gets dropped must go with it, or the re-validation fails with
+    // "narrative.beats.N.encounterId: unknown encounter" (seen live on production).
+    const speakerId = spec.narrative.intro[0]!.speakerId;
+    const withBeats = structuredClone(spec);
+    withBeats.narrative.beats = [
+      { speakerId, text: "Before the amplitude vault.", encounterId: "e3_amplitude", when: "before" },
+      { speakerId, text: "After the amplitude vault.", encounterId: "e3_amplitude", when: "after" },
+      { speakerId, text: "Before the period review.", encounterId: "e5_period_review", when: "before" },
+    ];
+
     const { runAgent } = await import("../src/pipeline/llm");
     const mockRunAgent = runAgent as unknown as Mock;
 
@@ -146,7 +156,7 @@ describe("blind-solver", () => {
     const { blindSolveAndFix } = await importBlindSolver();
     const events: { agent: string; status: string; note?: string }[] = [];
     const fixed = await blindSolveAndFix({
-      spec,
+      spec: withBeats,
       km,
       intake: trigIntake,
       models: { fast: {} as never, smart: {} as never },
@@ -162,5 +172,6 @@ describe("blind-solver", () => {
     expect(fixed.encounters.some((e) => e.id === "e3_amplitude")).toBe(false);
     expect(events).toContainEqual(expect.objectContaining({ agent: "verifier", status: "fallback", note: "Verifier: dropped e3_amplitude" }));
     expect(fixed.layout.chunks.every((c) => c.encounterId !== "e3_amplitude")).toBe(true);
+    expect(fixed.narrative.beats.map((b) => b.encounterId)).toEqual(["e5_period_review"]);
   });
 });
