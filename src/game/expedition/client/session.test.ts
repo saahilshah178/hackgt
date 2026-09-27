@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { devWorld } from "../../hosts/expedition/__fixtures__/dev-world";
 import { emptyWorldState, reduceWorldState } from "../../../world/state/world-state";
-import { planInteract, type InteractCtx } from "./interactions";
+import { planInteract, textBoxes, type InteractCtx } from "./interactions";
 import type { Phase } from "./machine";
 import {
   barLayoutOf,
@@ -184,8 +184,28 @@ describe("interactions (§2.4.3–§2.4.7)", () => {
     const p = planInteract({ kind: "plaque", plaqueId: "dev_plaque" }, ctx());
     expect(p.kind).toBe("plaque");
     if (p.kind === "plaque") {
+      expect(p.say.lines).toHaveLength(1);
       expect(p.say.lines[0].kind).toBe("document");
       expect(p.say.lines[0].text).toMatch(/^Dev Plaque: Every link kind/);
+      expect(p.say.blocking).toBe(false);
+    }
+  });
+  it("a note longer than the dialogue box continues in the next box", () => {
+    const note = "A full circle is 2π radians, and π is halfway. 5π/6 is five of the six equal steps from sunrise to that halfway mark, so it sits just short of π.";
+    const full = `Ilse's note: radians: ${note}`;
+    const boxes = textBoxes(full);
+    expect(boxes).toHaveLength(2);
+    expect(boxes[1].endsWith("π.")).toBe(true);
+    expect(boxes.join(" ")).toBe(full);
+    const plaque = world.overlay.plaques[0];
+    const p = planInteract(
+      { kind: "plaque", plaqueId: plaque.id },
+      ctx({ world: { ...world, overlay: { ...world.overlay, plaques: [{ ...plaque, title: "Ilse's note: radians", text: note }] } } }),
+    );
+    expect(p.kind).toBe("plaque");
+    if (p.kind === "plaque") {
+      expect(p.say.lines.map((l) => l.text)).toEqual(boxes);
+      expect(p.say.blocking).toBe(true);
     }
   });
   it("collectibles are collected once", () => {

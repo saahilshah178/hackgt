@@ -119,7 +119,7 @@
       "targetMisconception": "π radians is a full circle.",
       "familyId": "mapper",
       "mode": "number_line",
-      "prompt": "The altar's rune line runs from 0 to 2π. Step onto 5π/6.",
+      "prompt": "Radians measure the walk around this circle: a full lap is 2π and π is halfway. Step onto 5π/6.",
       "params": {
         "scale": "linear",
         "min": "0",
@@ -159,7 +159,7 @@
       "targetMisconception": "sin(2x) has period 4π, twice as long as sin(x).",
       "familyId": "tuner",
       "mode": "oscillator",
-      "prompt": "The vault door's rings spin on y = sin(2t). Set the dial to one full period so the rings lock.",
+      "prompt": "The rings spin on y = sin(2t). A period is 2π divided by |b|. Set the dial to one full period so they lock.",
       "params": {
         "wave": "sin",
         "amplitude": 1,
@@ -204,7 +204,7 @@
       "targetMisconception": "Amplitude is the distance from peak to trough.",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "Three chests, three claims about amplitude. One is a mimic. Point your lantern at the lie.",
+      "prompt": "Amplitude is the height from the middle, not peak to trough. One claim is a lie. Point your lantern at it.",
       "params": {
         "statements": [
           {
@@ -251,7 +251,7 @@
       "targetMisconception": "sin(x) = 1/2 has only one solution on [0, 2π).",
       "familyId": "sequencer",
       "mode": "linear",
-      "prompt": "The glyph door opens only if its planks show how to solve 2sin(x) = 1 on [0, 2π). One plank doesn't belong.",
+      "prompt": "Solve 2sin(x) = 1 on [0, 2π): isolate, find the reference angle, then both answers. One plank doesn't belong.",
       "params": {
         "steps": [
           "Isolate the sine: sin(x) = 1/2",
@@ -295,7 +295,7 @@
       "targetMisconception": "sin(2x) has period 4π, twice as long as sin(x).",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "The treasury's chests remember the vault door. One of them is lying about periods.",
+      "prompt": "One chest is lying about periods. No reminders this time. Find the lie.",
       "params": {
         "statements": [
           {
@@ -343,7 +343,7 @@
       "targetMisconception": null,
       "familyId": "tuner",
       "mode": "oscillator",
-      "prompt": "The Warden's shield spins on y = 3sin((π/2)t). Match its period to break through, and don't let the big swing fool you.",
+      "prompt": "Match the period of y = 3sin((π/2)t).",
       "params": {
         "wave": "sin",
         "amplitude": 3,

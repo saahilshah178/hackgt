@@ -31,7 +31,7 @@ export const trigBlueprint: BlueprintSlice = {
 /** What each challenge writer returns, keyed by encounter id. Note the {{placeholders}}: no computed values. Locked params (ask, scale, labels) are absent: code merges them. */
 export const trigChallenges: Record<string, ChallengeSlice> = {
   e1_radians: {
-    prompt: "The altar's rune line runs from 0 to 2π. Step onto {{target}}.",
+    prompt: "Radians measure the walk around this circle: a full lap is 2π and π is halfway. Step onto {{target}}.",
     params: { min: "0", max: "2*pi", target: "5*pi/6", landmarkStep: "pi/2" },
     hints: [
       "A full turn is 2π, so π sits exactly halfway along the line.",
@@ -43,7 +43,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 1, quote: "An angle of π radians corresponds to half a revolution." },
   },
   e2_period: {
-    prompt: "The vault door's rings spin on {{equation}}. Set the dial to one full period so the rings lock.",
+    prompt: "The rings spin on {{equation}}. A period is 2π divided by |b|. Set the dial to one full period so they lock.",
     params: { wave: "sin", amplitude: 1, b: "2", c: "0", d: 0 },
     hints: [
       "A period is how long the rings take to come back to where they started.",
@@ -55,7 +55,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 3, quote: "The period of y = sin(bx) is 2π/|b|." },
   },
   e3_amplitude: {
-    prompt: "Three chests, three claims about amplitude. One is a mimic. Point your lantern at the lie.",
+    prompt: "Amplitude is the height from the middle, not peak to trough. One claim is a lie. Point your lantern at it.",
     params: {
       statements: [
         { text: "The amplitude of y = 3sin(x) is 3", isTrue: true, explanation: "Amplitude is |A|, the number in front." },
@@ -73,7 +73,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 2, quote: "The amplitude of y = A sin x is |A|." },
   },
   e4_solve: {
-    prompt: "The glyph door opens only if its planks show how to solve 2sin(x) = 1 on [0, 2π). One plank doesn't belong.",
+    prompt: "Solve 2sin(x) = 1 on [0, 2π): isolate, find the reference angle, then both answers. One plank doesn't belong.",
     params: {
       steps: [
         "Isolate the sine: sin(x) = 1/2",
@@ -93,7 +93,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 4, quote: "To solve a trigonometric equation, first isolate the trigonometric function." },
   },
   e5_period_review: {
-    prompt: "The treasury's chests remember the vault door. One of them is lying about periods.",
+    prompt: "One chest is lying about periods. No reminders this time. Find the lie.",
     params: {
       statements: [
         { text: "y = sin(2x) repeats every π, twice as often as sin(x)", isTrue: true, explanation: "2π/|b| = 2π/2 = π." },
@@ -111,7 +111,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 3, quote: "Larger values of b compress the graph horizontally." },
   },
   e6_boss: {
-    prompt: "The Warden's shield spins on {{equation}}. Match its period to break through, and don't let the big swing fool you.",
+    prompt: "Match the period of {{equation}}.",
     params: { wave: "sin", amplitude: 3, b: "pi/2", c: "0", d: 0 },
     hints: [
       "The 3 in front sets how far the shield swings, not how fast.",

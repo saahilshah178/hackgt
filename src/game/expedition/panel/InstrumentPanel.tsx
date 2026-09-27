@@ -241,9 +241,10 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
   const merged = applyOverrides(mergeLive(stat.cards, live.liveCards), station.cardOverrides);
   const stack0 = displayStack(merged, context, stat.recordPins, scrubX, layout);
   const split = splitSurface(stack0, SURFACE_KIND[kind]);
-  /* Cosine stays off the station. It is drawn in the hint popup once a hint has filled the graph in. */
+  /* Cosine stays off the station. It is drawn in the hint popup once a hint has filled the graph in.
+     An empty graph is the same idea still blank: it appears when a hint fills it, not as a dark card. */
   const cosineCards = split.stack.filter((d) => isCosineCard(d.card));
-  const stack = split.stack.filter((d) => !isCosineCard(d.card));
+  const stack = split.stack.filter((d) => !isCosineCard(d.card) && !(d.card.kind === "graph" && d.card.empty));
   const surface = split.surface;
   const domain = range ?? probeRange;
 

@@ -46,6 +46,55 @@ function sourcePageLine(ref: { page: number } | null): string {
   return ref ? ` (source, p. ${ref.page})` : "";
 }
 
+/** A dialogue box shows two lines. Longer notes are split into consecutive boxes, on sentence breaks when they fit. */
+export const DIALOGUE_BOX_CHARS = 96;
+
+export function textBoxes(text: string, max = DIALOGUE_BOX_CHARS): string[] {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (!clean) return [];
+  if (clean.length <= max) return [clean];
+  const sentences = clean.split(/(?<=[.!?])\s+/);
+  const boxes: string[] = [];
+  let cur = "";
+  const flush = (sentence: string) => {
+    const words = sentence.split(" ");
+    let line = "";
+    for (const word of words) {
+      const next = line ? `${line} ${word}` : word;
+      if (line && next.length > max) {
+        boxes.push(line);
+        line = word;
+      } else line = next;
+    }
+    if (line) boxes.push(line);
+  };
+  for (const sentence of sentences) {
+    if (sentence.length > max) {
+      if (cur) boxes.push(cur);
+      cur = "";
+      flush(sentence);
+      continue;
+    }
+    const next = cur ? `${cur} ${sentence}` : sentence;
+    if (cur && next.length > max) {
+      boxes.push(cur);
+      cur = sentence;
+    } else cur = next;
+  }
+  if (cur) boxes.push(cur);
+  // The character budget is a little tighter than the two-line box. A leftover that is only a short
+  // word, like the final "π.", still fits on the previous box.
+  if (boxes.length >= 2) {
+    const last = boxes[boxes.length - 1];
+    const prev = boxes[boxes.length - 2];
+    if (!last.includes(" ") && prev.length + 1 + last.length <= max + 16) {
+      boxes[boxes.length - 2] = `${prev} ${last}`;
+      boxes.pop();
+    }
+  }
+  return boxes;
+}
+
 export function planInteract(t: InteractTarget, ctx: InteractCtx): InteractPlan {
   const ov = ctx.world.overlay;
   const solved = new Set(ctx.solvedIds);
@@ -74,7 +123,14 @@ export function planInteract(t: InteractTarget, ctx: InteractCtx): InteractPlan 
       const pq = ov.plaques.find((p) => p.id === t.plaqueId);
       if (!pq) return NONE;
       const text = pq.kind === "photo_withheld" ? `${pq.title}. ${pq.text}` : `${pq.title}: ${pq.text}${sourcePageLine(pq.sourceRef)}`;
-      const say = sayRequest(`plaque:${pq.id}`, [{ speakerId: NARRATOR_SPEAKER, text, mood: "neutral" }], "document", ctx.guideId, { channel: "bar", priority: "story" });
+      const boxes = textBoxes(text);
+      const say = sayRequest(
+        `plaque:${pq.id}`,
+        boxes.map((line) => ({ speakerId: NARRATOR_SPEAKER, text: line, mood: "neutral" as const })),
+        "document",
+        ctx.guideId,
+        { channel: "bar", priority: "story", blocking: boxes.length > 1 },
+      );
       return say ? { kind: "plaque", say } : NONE;
     }
     case "collectible": {

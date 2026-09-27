@@ -629,6 +629,7 @@ function panelLiveEmitter(stat: PanelStatic, input: PoseInput<EmitterRailConfig>
   const touched = input.draft !== null || input.solved;
   for (const card of stat.cards) {
     if (card.kind === "unit_circle") {
+      chips.push({ slot: card.slot, value: raw, text: readout, color: "accent" });
       if (touched) liveCards.push({ ...card, point: { angle: raw }, arc: { from: Math.min(0, raw), to: raw, color: input.solved ? "gold" : "accent" } });
     } else if (card.kind === "graph" && (card.tab === "g" || card.tab === "h") && !card.empty) {
       const fn = card.tab === "g" ? Math.sin : Math.cos;

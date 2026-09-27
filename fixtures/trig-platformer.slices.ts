@@ -43,10 +43,23 @@ export const trigPlatformerBlueprint: BlueprintSlice = {
   }),
 };
 
+/** The dungeon teaches in its prompts. This reskin keeps the original quiz wording. */
+const PLATFORMER_PROMPT: Record<string, string> = {
+  e1_radians: "The altar's rune line runs from 0 to 2π. Step onto {{target}}.",
+  e2_period: "The vault door's rings spin on {{equation}}. Set the dial to one full period so the rings lock.",
+  e3_amplitude: "Three chests, three claims about amplitude. One is a mimic. Point your lantern at the lie.",
+  e4_solve: "The glyph door opens only if its planks show how to solve 2sin(x) = 1 on [0, 2π). One plank doesn't belong.",
+  e5_period_review: "The treasury's chests remember the vault door. One of them is lying about periods.",
+  e6_boss: "The Warden's shield spins on {{equation}}. Match its period to break through, and don't let the big swing fool you.",
+};
+
 export const trigPlatformerSlices: Slices = {
   ...trigSlices,
   id: "trig_platformer_001",
   createdAt: "2026-09-26T04:15:00.000Z",
   intake: { ...trigSlices.intake, genre: "platformer" },
+  challenges: Object.fromEntries(
+    Object.entries(trigSlices.challenges).map(([id, challenge]) => [id, { ...challenge, prompt: PLATFORMER_PROMPT[id] ?? challenge.prompt }]),
+  ),
   blueprint: trigPlatformerBlueprint,
 };

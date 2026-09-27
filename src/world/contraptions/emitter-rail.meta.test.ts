@@ -325,6 +325,7 @@ describe("emitter_rail · panel", () => {
     expect(live.scrubX).toBeCloseTo((5 * PI) / 6, 12);
     expect(live.readout).toBe("π/2 < θ < π");
     expect(live.chips.map((c) => [c.slot, c.text, c.color])).toEqual([
+      [0, "π/2 < θ < π", "accent"],
       [1, "0.50", "g"],
       [2, `${"−"}0.87`, "h"],
     ]);

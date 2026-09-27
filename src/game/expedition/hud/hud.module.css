@@ -159,10 +159,6 @@ button.ring {
   border-color: var(--hud-dim);
   color: var(--hud-dim);
 }
-.keycap {
-  font-size: 18px;
-  opacity: 0.8;
-}
 
 /* ---- overlays: key legend, title card */
 .overlay {

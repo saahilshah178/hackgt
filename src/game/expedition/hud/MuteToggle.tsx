@@ -30,9 +30,6 @@ export function MuteToggle({ bus }: { bus: AudioBus | null }) {
           <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
         )}
       </svg>
-      <span className={styles.keycap} aria-hidden="true">
-        N
-      </span>
     </button>
   );
 }
