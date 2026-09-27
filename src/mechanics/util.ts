@@ -11,7 +11,7 @@ import { all, create } from "mathjs";
 const math = create(all);
 const limitedEvaluate = math.evaluate;
 const disabled = () => {
-  throw new Error("disabled in Quest Forge expressions");
+  throw new Error("disabled in EduXPert expressions");
 };
 math.import(
   {

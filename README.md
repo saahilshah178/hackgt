@@ -1,7 +1,7 @@
-# Quest Forge
+# EduXPert
 
 **Turn any chapter into a game where the concept is the rules.** Upload a PDF, paste notes, or type a topic. After a
-60-second intake, Quest Forge generates a playable educational game built around what you are shaky on: you tune a
+60-second intake, EduXPert generates a playable educational game built around what you are shaky on: you tune a
 gate's period to open the door, balance the equation to stop the leak, or walk the number line to find the limit.
 You never answer trivia between jumps.
 

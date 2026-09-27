@@ -5,6 +5,7 @@ import type { Intake } from "../../../../../contracts/knowledge";
 import { startGameJob } from "../../../../../pipeline/orchestrator";
 import { materializeFixtureGame } from "../../../../../server/fixtures";
 import { getStorage } from "../../../../../server/storage";
+import { keepAlive } from "../../../../../server/keep-alive";
 
 /*
  * POST /api/games/[id]/regenerate: reuses the KnowledgeMap, intake and matches already on file for
@@ -53,7 +54,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   const intake = (await storage.getIntake(record.sourceId)) ?? intakeFromSpec(record.spec);
 
   try {
-    const { jobId } = await startGameJob({
+    const { jobId, finished } = await startGameJob({
       sourceId: record.sourceId,
       intake,
       genreOverride: parsed.data.genre,
@@ -61,6 +62,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       previousGameId: id,
       firstNote: `Regenerating as ${parsed.data.genre}`,
     });
+    keepAlive(finished);
     return NextResponse.json({ jobId }, { status: 202 });
   } catch (err) {
     return jsonError(500, err instanceof Error ? err.message : String(err));

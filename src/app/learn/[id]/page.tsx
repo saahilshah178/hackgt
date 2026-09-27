@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BarChart3, BookOpen, ChevronRight, CircleHelp, Clock, Gamepad2, Layers, Library, ListChecks, Play, Sparkles, Target } from "lucide-react";
+import { ArrowRight, BarChart3, BookOpen, ChevronRight, CircleHelp, Clock, Gamepad2, Layers, ListChecks, Play, Sparkles, Target } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { CourseProgress, ExerciseChecklist, type ExerciseItem } from "@/components/course-progress";
 import { SubjectArt, type Subject } from "@/components/illustrations";
@@ -245,15 +245,6 @@ export default async function LearnPage({ params }: { params: Promise<{ id: stri
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="/library" className="flex items-center gap-3 rounded-2xl p-2.5 text-sm font-semibold text-primary hover:bg-card">
-                  <span className="flex h-14 w-20 shrink-0 items-center justify-center rounded-xl bg-brand-soft">
-                    <Library className="size-5" aria-hidden />
-                  </span>
-                  Browse the full library
-                  <ArrowRight className="ml-auto size-4" aria-hidden />
-                </Link>
-              </li>
             </ul>
           </section>
         </aside>

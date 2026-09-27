@@ -129,7 +129,7 @@ async function runJob(args: {
  * (the caller — POST /api/games or /api/games/:id/regenerate — gets { jobId } back immediately and
  * the browser watches progress over /api/jobs/:id/stream).
  */
-export async function startGameJob(a: StartGameJobArgs): Promise<{ jobId: string }> {
+export async function startGameJob(a: StartGameJobArgs): Promise<{ jobId: string; finished: Promise<void> }> {
   const storage = getStorage();
   const full = await storage.getKnowledgeMap(a.sourceId);
   if (!full) throw new Error(`No knowledge map for source "${a.sourceId}"; run intake prep first.`);
@@ -150,9 +150,11 @@ export async function startGameJob(a: StartGameJobArgs): Promise<{ jobId: string
   // runJob() has its own try/catch that reports failures through the job record and the event bus, but
   // a throw from ITS OWN catch block (e.g. storage.putJob() failing while already handling an error)
   // would otherwise be an unhandled rejection on this fire-and-forget promise; log it as a last resort.
-  void runJob({ jobId, gameId, sourceId: a.sourceId, km, intake, models: getModels() }).catch((err: unknown) => {
+  const finished = runJob({ jobId, gameId, sourceId: a.sourceId, km, intake, models: getModels() }).catch((err: unknown) => {
     console.error(`[orchestrator] job ${jobId} failed outside its own error handling:`, err);
   });
 
-  return { jobId };
+  // `finished` never rejects; routes hand it to keepAlive() (next/server after()) so a serverless host keeps the
+  // function alive until the game is built instead of freezing it once the 202 is sent.
+  return { jobId, finished };
 }

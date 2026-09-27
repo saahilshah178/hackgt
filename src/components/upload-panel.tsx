@@ -28,6 +28,10 @@ export function UploadPanel() {
       try {
         const res = await fetch("/api/sources", init);
         const body = (await res.json().catch(() => ({}))) as { sourceId?: string; error?: string };
+        // The hosting platform rejects request bodies over 4.5 MB before the route runs, so there is no JSON error.
+        if (res.status === 413 && !body.error) {
+          throw new Error("That PDF is too large to upload (the limit is 4.5 MB). Try one chapter, or paste the text instead.");
+        }
         if (!res.ok || !body.sourceId) throw new Error(body.error ?? `Upload failed (${res.status})`);
         router.push(`/intake/${body.sourceId}`);
       } catch (e) {
