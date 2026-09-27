@@ -120,8 +120,28 @@ function mixedModeWarnings(env: Env): string[] {
 }
 
 /** Non-throwing inspection used by `pnpm doctor` and the smoke scripts. */
+/**
+ * The Vercel Marketplace Supabase integration names its keys differently from FIRST_RUN.md step 6; accept its names
+ * when ours are unset so a provisioned project works without renaming anything.
+ */
+const ALIASES: [keyof Env, string[]][] = [
+  ["NEXT_PUBLIC_SUPABASE_URL", ["SUPABASE_URL"]],
+  ["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", ["NEXT_PUBLIC_SUPABASE_ANON_KEY", "SUPABASE_PUBLISHABLE_KEY", "SUPABASE_ANON_KEY"]],
+  ["SUPABASE_SECRET_KEY", ["SUPABASE_SERVICE_ROLE_KEY"]],
+];
+
+function withAliases(source: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+  const out = { ...source };
+  for (const [name, alts] of ALIASES) {
+    if (out[name]?.trim()) continue;
+    const alt = alts.find((a) => out[a]?.trim());
+    if (alt) out[name] = out[alt];
+  }
+  return out;
+}
+
 export function inspectEnv(source: NodeJS.ProcessEnv = process.env): EnvReport {
-  const parsed = EnvSchema.safeParse(source);
+  const parsed = EnvSchema.safeParse(withAliases(source));
   const issues = parsed.success ? [] : parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`);
   const env: Env = parsed.success ? parsed.data : EnvSchema.parse({});
   const missing: EnvReport["missing"] = [];
