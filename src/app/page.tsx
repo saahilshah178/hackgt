@@ -3,8 +3,8 @@ import { ArrowRight, BarChart3, Clock, FileUp, GraduationCap, Layers, ListChecks
 import { AppShell } from "@/components/app-shell";
 import { UploadPanel } from "@/components/upload-panel";
 import { CourseProgress } from "@/components/course-progress";
+import { DynamicHeroHeading } from "@/components/dynamic-hero-heading";
 import { HeroIllustration, SubjectArt } from "@/components/illustrations";
-import { APP_TAGLINE } from "@/config";
 import { loadCourses, type Course } from "@/server/courses";
 
 const HOW_IT_WORKS = [
@@ -26,7 +26,7 @@ export default async function Home() {
             <Sparkles className="size-4" aria-hidden />
             Learn by playing
           </span>
-          <h1 className="mt-5 text-4xl leading-[1.1] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">{APP_TAGLINE}</h1>
+          <DynamicHeroHeading />
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
             Upload a chapter, paste notes, or name a topic. After a few questions, you&apos;ll get a game that both teaches
             and tests you on the material you uploaded. Have fun!
