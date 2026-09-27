@@ -4,7 +4,7 @@ import { runAgent } from "../llm";
 import { GATEKEEPER_SYSTEM, gatekeeperPrompt, type GatekeeperSource } from "./gatekeeper.prompt";
 
 /*
- * S1 Gatekeeper (FAST): does this material deserve a game, and how big is it? See MEGAPROMPT §3.
+ * S1 Gatekeeper (FAST): does this material deserve a game, and how big is it? Long documents reach it digested (gatekeeper.prompt.ts), so there is no page cap upstream. See MEGAPROMPT §3.
  */
 
 export interface GatekeeperContext {
@@ -57,7 +57,7 @@ export function runGatekeeper(a: RunGatekeeperArgs): Promise<GatekeeperSlice> {
     model: a.model,
     schema: gatekeeperSchema(),
     system: GATEKEEPER_SYSTEM,
-    prompt: gatekeeperPrompt({ title: a.title, pages: a.pages }),
+    prompt: gatekeeperPrompt({ title: a.title, pages: a.pages, digest: a.digest }),
     check: (g) => checkGatekeeper(g, { pageCount: a.pageCount, pageBoundAdvisory: a.pageBoundAdvisory }).filter((p) => !p.startsWith("soft:")),
     maxRepairs: 1,
   });

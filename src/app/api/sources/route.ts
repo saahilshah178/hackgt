@@ -1,24 +1,25 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import type { SourceRecord } from "../../../contracts/storage";
-import { countPages, extractPages, splitTextIntoPages } from "../../../server/ingest";
+import { extractPages, splitTextIntoPages } from "../../../server/ingest";
 import { newId } from "../../../server/ids";
 import { getStorage } from "../../../server/storage";
 
 /*
  * POST /api/sources: the app's one upload endpoint (S0 Ingest). Accepts:
- *   - multipart/form-data with a "file" field (PDF, <= 40 pages)
+ *   - multipart/form-data with a "file" field (a PDF of any length: a chapter or a whole textbook)
  *   - application/json { text, title? }
  *   - application/json { topic }
  * Extracts per-page text (unpdf for PDFs, a ~1800-char splitter for pasted text; a topic has no
  * pages at all), stores the SourceRecord + pages (+ the PDF blob) through getStorage(), and returns
- * { sourceId, kind, title, pageCount }.
+ * { sourceId, kind, title, pageCount }. There is no page cap: the front half reads long documents in
+ * parts (src/pipeline/agents/chunking.ts) and the student ticks the concepts to play.
  */
 
-export const MAX_PDF_PAGES = 40;
-// M9: reject oversized input before the heavier work (PDF decode, page splitting) runs on it.
-export const MAX_FILE_BYTES = 20 * 1024 * 1024; // 20 MB
-export const MAX_TEXT_CHARS = 200_000;
+// M9: reject oversized input before the heavier work (PDF decode, page splitting) runs on it. These
+// are memory guards, not product limits: a scanned 1,000-page textbook fits under them.
+export const MAX_FILE_BYTES = 200 * 1024 * 1024; // 200 MB
+export const MAX_TEXT_CHARS = 2_000_000;
 export const MAX_TOPIC_CHARS = 200;
 
 const TextBody = z.object({ text: z.string().min(1), title: z.string().min(1).nullable().optional() });
@@ -27,6 +28,8 @@ const TopicBody = z.object({ topic: z.string().min(1) });
 function jsonError(status: number, error: string) {
   return NextResponse.json({ error }, { status });
 }
+
+const mb = (bytes: number) => (bytes / (1024 * 1024)).toFixed(1);
 
 export async function POST(request: Request): Promise<Response> {
   const contentType = request.headers.get("content-type") ?? "";
@@ -45,26 +48,24 @@ export async function POST(request: Request): Promise<Response> {
     }
     // M9: check the size the browser already reported before reading the whole file into memory.
     if (file.size > MAX_FILE_BYTES) {
-      return jsonError(413, `That file is ${(file.size / (1024 * 1024)).toFixed(1)} MB; the limit is ${MAX_FILE_BYTES / (1024 * 1024)} MB.`);
+      return jsonError(413, `That file is ${mb(file.size)} MB; the limit is ${MAX_FILE_BYTES / (1024 * 1024)} MB.`);
     }
 
     const bytes = new Uint8Array(await file.arrayBuffer());
     if (bytes.byteLength > MAX_FILE_BYTES) {
-      return jsonError(413, `That file is ${(bytes.byteLength / (1024 * 1024)).toFixed(1)} MB; the limit is ${MAX_FILE_BYTES / (1024 * 1024)} MB.`);
-    }
-    // unpdf/pdf.js transfers (detaches) the buffer it's given, so each call needs its own copy.
-    let pageCount: number;
-    try {
-      pageCount = await countPages(bytes.slice());
-    } catch {
-      return jsonError(400, "Could not read that file as a PDF.");
-    }
-    if (pageCount > MAX_PDF_PAGES) {
-      return jsonError(413, `That PDF has ${pageCount} pages; the limit is ${MAX_PDF_PAGES}. Try a shorter excerpt.`);
+      return jsonError(413, `That file is ${mb(bytes.byteLength)} MB; the limit is ${MAX_FILE_BYTES / (1024 * 1024)} MB.`);
     }
 
     const id = newId("src");
-    const pages = await extractPages(bytes.slice(), id);
+    // unpdf/pdf.js transfers (detaches) the buffer it's given, so extraction gets its own copy and
+    // `bytes` stays intact for the blob store below.
+    let pages;
+    try {
+      pages = await extractPages(bytes.slice(), id);
+    } catch {
+      return jsonError(400, "Could not read that file as a PDF.");
+    }
+    const pageCount = pages.length;
     const title = file.name.replace(/\.pdf$/i, "") || "Untitled upload";
     const blobPath = `sources/${id}.pdf`;
 

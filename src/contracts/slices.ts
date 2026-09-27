@@ -52,7 +52,7 @@ export function gatekeeperSchema(): z.ZodType<GatekeeperSlice> {
   return z.object({
     educational: z.boolean().describe("true when the material teaches something a student could be tested on"),
     estimatedConcepts: z.number().int().min(0).max(500).describe("How many distinct teachable concepts the material contains"),
-    tooBig: z.boolean().describe("true when there is far more than one game's worth (roughly > 30 concepts or > 40 pages)"),
+    tooBig: z.boolean().describe("true when there is far more than one game's worth (roughly > 30 concepts); a hint only, the student picks concepts"),
     tooSmall: z.boolean().describe("true when there is less than one concept's worth of material"),
     outline: z
       .array(
@@ -63,8 +63,8 @@ export function gatekeeperSchema(): z.ZodType<GatekeeperSlice> {
         }),
       )
       .min(0)
-      .max(40)
-      .describe("Chapter/section outline with page ranges; empty for short or unpaged material"),
+      .max(100)
+      .describe("Chapter/section outline with page ranges (chapters and major sections for a whole book); empty for short or unpaged material"),
     followUps: z.array(z.string()).min(0).max(3).describe("Questions to ask the student when the material is ambiguous; usually empty"),
   }) as unknown as z.ZodType<GatekeeperSlice>;
 }

@@ -103,8 +103,8 @@ export function UploadPanel() {
             dragging ? "border-primary bg-primary/10" : "border-border"
           }`}
         >
-          <p className="font-semibold">Drop a chapter PDF here</p>
-          <p className="mt-2 text-lg text-muted-foreground">up to 40 pages · or click to choose a file</p>
+          <p className="font-semibold">Drop a PDF here</p>
+          <p className="mt-2 text-lg text-muted-foreground">a chapter or a whole textbook · or click to choose a file</p>
           <input
             ref={fileInput}
             type="file"

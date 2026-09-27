@@ -1,11 +1,15 @@
 import type { LanguageModel } from "ai";
-import type { Concept, KnowledgeMap, Unit } from "../../contracts/knowledge";
+import type { Concept, KnowledgeMap, OutlineEntry, Unit } from "../../contracts/knowledge";
 import { curriculumSchema, type CurriculumSlice } from "../../contracts/slices";
-import { runAgent } from "../llm";
-import { CURRICULUM_SYSTEM, curriculumPrompt, type CurriculumSource } from "./curriculum.prompt";
+import type { PageRecord } from "../../contracts/storage";
+import { AgentError, runAgent } from "../llm";
+import { chunkPages, mergeCurriculumSlices, type ChunkOptions } from "./chunking";
+import { CURRICULUM_SYSTEM, curriculumPrompt, type CurriculumChunkInfo, type CurriculumSource } from "./curriculum.prompt";
 
 /*
  * S2 Curriculum (SMART): turns source material into a KnowledgeMap. See MEGAPROMPT §3.
+ * runCurriculum() is one call over one set of pages; runCurriculumChunked() reads a long document in
+ * section-aligned parts (src/pipeline/agents/chunking.ts) and merges the replies into one slice.
  */
 
 const SNAKE = /^[a-z][a-z0-9_]{0,47}$/;
@@ -16,14 +20,17 @@ export interface CurriculumContext {
   unsourced: boolean;
   /** Mock mode only: see GatekeeperContext.pageBoundAdvisory in gatekeeper.ts for why. */
   pageBoundAdvisory?: boolean;
+  /** When reading one part of a longer document: facts may only cite pages in this inclusive range. */
+  pageRange?: [number, number];
 }
 
 /**
  * unit/concept ids snake_case + unique; every unitId refers to a real unit; every unit has >= 1
- * concept; prerequisites refer to real concept ids; page numbers within the source's page count;
- * >= 1 misconception on core concepts; plus a SOFT (prefixed "soft:") 4-8 units / 8-25 concepts rule
- * for sources > 3 pages. Callers that use this to drive a repair loop should filter out "soft:"
- * problems first (see runCurriculum below) so genuinely short material doesn't loop forever.
+ * concept; prerequisites refer to real concept ids; page numbers within the source's page count (and
+ * within the part's page range when chunked); >= 1 misconception on core concepts; plus a SOFT
+ * (prefixed "soft:") 4-8 units / 8-25 concepts rule for sources > 3 pages. Callers that use this to
+ * drive a repair loop should filter out "soft:" problems first (see runCurriculum below) so genuinely
+ * short material doesn't loop forever.
  */
 export function checkCurriculum(c: CurriculumSlice, ctx: CurriculumContext): string[] {
   const problems: string[] = [];
@@ -55,8 +62,11 @@ export function checkCurriculum(c: CurriculumSlice, ctx: CurriculumContext): str
     if (!ctx.unsourced) {
       const prefix = ctx.pageBoundAdvisory ? "soft: " : "";
       concept.facts.forEach((f, i) => {
-        if (f.sourceRef && ctx.pageCount > 0 && f.sourceRef.page > ctx.pageCount) {
+        if (!f.sourceRef) return;
+        if (ctx.pageCount > 0 && f.sourceRef.page > ctx.pageCount) {
           problems.push(`${prefix}concept "${concept.id}" fact ${i}: page ${f.sourceRef.page} is beyond the source's ${ctx.pageCount} page(s)`);
+        } else if (ctx.pageRange && (f.sourceRef.page < ctx.pageRange[0] || f.sourceRef.page > ctx.pageRange[1])) {
+          problems.push(`${prefix}concept "${concept.id}" fact ${i}: page ${f.sourceRef.page} is outside this part's pages ${ctx.pageRange[0]}-${ctx.pageRange[1]}`);
         }
       });
     }
@@ -119,21 +129,99 @@ export interface RunCurriculumArgs extends CurriculumSource {
 }
 
 export function runCurriculum(a: RunCurriculumArgs): Promise<CurriculumSlice> {
+  const chunk = a.chunk;
   return runAgent({
     jobId: a.jobId,
-    agent: "curriculum",
+    agent: chunk ? `curriculum ${chunk.index}/${chunk.total}` : "curriculum",
     tier: "smart",
     model: a.model,
     schema: curriculumSchema(),
     system: CURRICULUM_SYSTEM,
-    prompt: curriculumPrompt({ title: a.title, pages: a.pages, unsourced: a.unsourced }),
+    prompt: curriculumPrompt({ title: a.title, pages: a.pages, unsourced: a.unsourced, chunk }),
     // the soft size rule is a nudge, not a hard requirement: don't let a short-but-legitimate
     // source loop through repairs forever trying to hit 4-8 units. In mock mode, an unmatched
     // upload's page-bound facts are advisory too (see CurriculumContext.pageBoundAdvisory).
     check: (c) =>
-      checkCurriculum(c, { pageCount: a.pageCount, unsourced: a.unsourced, pageBoundAdvisory: a.pageBoundAdvisory }).filter(
-        (p) => !p.startsWith("soft:"),
-      ),
+      checkCurriculum(c, {
+        pageCount: a.pageCount,
+        unsourced: a.unsourced,
+        pageBoundAdvisory: a.pageBoundAdvisory,
+        pageRange: chunk ? [chunk.pageStart, chunk.pageEnd] : undefined,
+      }).filter((p) => !p.startsWith("soft:")),
     maxRepairs: 2,
   });
+}
+
+export interface RunCurriculumChunkedArgs {
+  jobId: string;
+  title: string;
+  pages: readonly PageRecord[];
+  pageCount: number;
+  unsourced: boolean;
+  /** the gatekeeper's outline: parts are cut at its section starts when present */
+  outline?: readonly OutlineEntry[];
+  pageBoundAdvisory?: boolean;
+  model?: LanguageModel;
+  /** chunk sizing, or false to force a single call regardless of length (mock mode does this) */
+  chunking?: ChunkOptions | false;
+}
+
+export interface ChunkedCurriculumResult {
+  slice: CurriculumSlice;
+  /** how many curriculum calls the document took (1 = read in one go) */
+  parts: number;
+}
+
+/**
+ * S2 for documents of any length. Short material is one runCurriculum() call, prompt unchanged.
+ * Longer material is cut into section-aligned parts (chunkPages), each read by its own call (in
+ * parallel, bounded by runAgent's global concurrency cap) and merged (mergeCurriculumSlices).
+ */
+export async function runCurriculumChunked(a: RunCurriculumChunkedArgs): Promise<ChunkedCurriculumResult> {
+  const single = (pages: readonly PageRecord[]) =>
+    runCurriculum({
+      jobId: a.jobId,
+      title: a.title,
+      pages,
+      unsourced: a.unsourced,
+      pageCount: a.pageCount,
+      pageBoundAdvisory: a.pageBoundAdvisory,
+      model: a.model,
+    });
+
+  if (a.unsourced || a.chunking === false) return { slice: await single(a.pages), parts: 1 };
+  const chunks = chunkPages(a.pages, a.outline ?? [], a.chunking);
+  if (chunks.length <= 1) return { slice: await single(a.pages), parts: 1 };
+
+  const parts = await Promise.all(
+    chunks.map(async (chunk) => {
+      const info: CurriculumChunkInfo = {
+        index: chunk.index + 1,
+        total: chunks.length,
+        title: chunk.title,
+        pageStart: chunk.pageStart,
+        pageEnd: chunk.pageEnd,
+      };
+      const slice = await runCurriculum({
+        jobId: a.jobId,
+        title: a.title,
+        pages: chunk.pages,
+        unsourced: false,
+        pageCount: a.pageCount,
+        pageBoundAdvisory: a.pageBoundAdvisory,
+        model: a.model,
+        chunk: info,
+      });
+      return { chunk, slice };
+    }),
+  );
+
+  const slice = mergeCurriculumSlices(parts, a.title);
+  // The merge keeps ids unique and references valid by construction; this is a belt-and-braces check
+  // (the soft size rule is meaningless for a whole book, so only hard problems count).
+  const problems = checkCurriculum(slice, { pageCount: a.pageCount, unsourced: false, pageBoundAdvisory: a.pageBoundAdvisory }).filter(
+    (p) => !p.startsWith("soft:"),
+  );
+  if (problems.length > 0) throw new AgentError("curriculum (merge)", problems);
+  return { slice, parts: chunks.length };
 }
