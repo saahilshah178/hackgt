@@ -2,6 +2,8 @@
 
 **Don't just study. Discover, explore, experiment.**
 
+Try it live at **[eduxpert.tech](https://eduxpert.tech)**.
+
 EduXPert turns your own course material into a game that teaches you the ideas and then has you use them. Upload a
 chapter, paste notes, or name a topic. After a few questions you get a game that both teaches and tests you on the
 material you brought, built around the concepts you picked. You sort, order, link, tune and explain the ideas yourself
