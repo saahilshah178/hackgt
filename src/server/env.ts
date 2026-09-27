@@ -34,8 +34,11 @@ export const EnvSchema = z.object({
   ELEVENLABS_VOICE_MAP: optional(),
   /** "1" enables the two-speaker Text to Dialogue intro when AUDIO_MODE=live (stretch flag). */
   AUDIO_DIALOGUE: z.preprocess(empty, z.enum(["0", "1"]).default("0")),
-  /** Absolute or cwd-relative folder for the LocalDriver. Defaults to .data/ */
-  DATA_DIR: z.preprocess(empty, z.string().default(".data")),
+  /**
+   * Absolute or cwd-relative folder for the LocalDriver. Defaults to .data/, or /tmp on Vercel, where the
+   * deployment folder (/var/task) is read-only and /tmp is the only writable path.
+   */
+  DATA_DIR: z.preprocess(empty, z.string().default(process.env.VERCEL ? "/tmp/eduxpert-data" : ".data")),
   /** "1" silences the mixed-modes warning (e.g. LLM_MODE=mock with STORAGE_DRIVER=supabase). */
   ALLOW_MIXED_MODES: z.preprocess(empty, z.enum(["0", "1"]).default("0")),
   /** Expedition's procedural WebAudio cue bank (docs/design/20 §2.12): "off" silences it (Playwright sets it). Not a secret. */

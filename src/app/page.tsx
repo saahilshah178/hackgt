@@ -3,10 +3,8 @@ import { ArrowRight, BarChart3, Clock, FileUp, GraduationCap, Layers, ListChecks
 import { AppShell } from "@/components/app-shell";
 import { UploadPanel } from "@/components/upload-panel";
 import { CourseProgress } from "@/components/course-progress";
-import { HeroIllustration, LibrarySpot, SubjectArt } from "@/components/illustrations";
+import { HeroIllustration, SubjectArt } from "@/components/illustrations";
 import { APP_TAGLINE } from "@/config";
-import { CARDS } from "@/library";
-import { OFFERED_GENRES } from "@/library/genre-labels";
 import { loadCourses, type Course } from "@/server/courses";
 
 const HOW_IT_WORKS = [
@@ -49,19 +47,6 @@ export default async function Home() {
               See example games
             </Link>
           </div>
-          <dl className="mt-10 grid max-w-md grid-cols-3 gap-4">
-            {[
-              [String(courses.length), "example games"],
-              ["~1 min", "to build a game"],
-              [String(OFFERED_GENRES.length), "game genres"],
-            ].map(([value, label]) => (
-              <div key={label}>
-                <dt className="sr-only">{label}</dt>
-                <dd className="text-2xl font-extrabold text-foreground">{value}</dd>
-                <dd className="text-sm text-muted-foreground">{label}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
         <HeroIllustration className="mx-auto w-full max-w-md md:max-w-none" />
       </section>
@@ -97,10 +82,6 @@ export default async function Home() {
         <h2 id="ways-heading" className="mt-1 text-3xl font-bold tracking-tight">
           Four ways to play
         </h2>
-        <p className="mt-2 max-w-3xl text-lg text-muted-foreground">
-          The same study material becomes very different games. Each genre has its own perspective and its own way of making
-          progress, and most of them have no avatar at all. Pre-generated and playable now, no keys needed.
-        </p>
         <ul className="mt-8 grid gap-6 sm:grid-cols-2" data-testid="ways-to-play">
           {courses.map((c) => (
             <li key={c.routeId}>
@@ -135,27 +116,6 @@ export default async function Home() {
         </p>
       </section>
 
-      <section className="mt-20" aria-labelledby="library-cta-heading">
-        <div className="flex flex-col items-center gap-6 rounded-3xl bg-secondary/70 p-8 text-center sm:flex-row sm:p-10 sm:text-left">
-          <LibrarySpot className="w-32 shrink-0 sm:w-40" />
-          <div className="flex-1">
-            <h2 id="library-cta-heading" className="text-2xl font-bold tracking-tight">
-              Explore the teaching-mechanic library
-            </h2>
-            <p className="mt-2 text-base text-muted-foreground">
-              {CARDS.length} concept-specific exercise designs across math, science, and the humanities. Filter by subject
-              and see what&apos;s playable today.
-            </p>
-          </div>
-          <Link
-            href="/library"
-            className="inline-flex h-12 shrink-0 items-center gap-2 rounded-full bg-primary px-6 font-semibold text-primary-foreground transition hover:bg-primary/90"
-          >
-            Open the library
-            <ArrowRight className="size-4" aria-hidden />
-          </Link>
-        </div>
-      </section>
     </AppShell>
   );
 }

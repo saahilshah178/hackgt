@@ -3,33 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { BookOpenCheck, ChevronDown, GraduationCap, Library, Menu, Search, Sparkles, UserRound, X } from "lucide-react";
+import { BookOpenCheck, ChevronDown, GraduationCap, Menu, Sparkles, UserRound, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/", label: "Home", match: (p: string) => p === "/" },
   { href: "/#start", label: "New lesson", match: (p: string) => p.startsWith("/intake") || p.startsWith("/forge") },
   { href: "/#examples", label: "Examples", match: (p: string) => p.startsWith("/learn") || p.startsWith("/debrief") },
-  { href: "/library", label: "Library", match: (p: string) => p.startsWith("/library") },
 ];
-
-function SearchForm({ id, className }: { id: string; className?: string }) {
-  return (
-    <form action="/library" method="get" role="search" className={cn("relative", className)}>
-      <label htmlFor={id} className="sr-only">
-        Search the library
-      </label>
-      <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-      <input
-        id={id}
-        name="q"
-        type="search"
-        placeholder="Search concepts, topics…"
-        className="h-10 w-full rounded-full border border-input bg-secondary/60 pr-4 pl-10 text-sm transition-colors placeholder:text-muted-foreground hover:bg-secondary focus:border-ring focus:bg-card focus:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
-      />
-    </form>
-  );
-}
 
 function AccountMenu() {
   const [open, setOpen] = useState(false);
@@ -78,7 +59,6 @@ function AccountMenu() {
           {[
             { href: "/#examples", label: "Example games", icon: BookOpenCheck },
             { href: "/#start", label: "Start a new lesson", icon: Sparkles },
-            { href: "/library", label: "Browse the library", icon: Library },
           ].map((item) => (
             <Link
               key={item.href}
@@ -137,7 +117,6 @@ export function SiteHeader({ appName, wide = false }: { appName: string; wide?: 
         </ul>
 
         <div className="ml-auto flex items-center gap-2">
-          <SearchForm id="site-search" className="hidden w-56 lg:block xl:w-72" />
           <AccountMenu />
           <button
             type="button"
@@ -152,14 +131,9 @@ export function SiteHeader({ appName, wide = false }: { appName: string; wide?: 
         </div>
       </nav>
 
-      <div className="hidden border-t border-border px-6 py-3 md:block lg:hidden">
-        <SearchForm id="site-search-tablet" className="mx-auto max-w-7xl" />
-      </div>
-
       {mobileOpen && (
         <div id="mobile-nav" className="border-t border-border bg-card px-4 pt-3 pb-5 md:hidden">
-          <SearchForm id="site-search-mobile" />
-          <ul className="mt-3 flex flex-col gap-1">
+          <ul className="flex flex-col gap-1">
             {NAV.map((item) => {
               const active = item.match(pathname);
               return (

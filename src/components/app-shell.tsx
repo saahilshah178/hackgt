@@ -38,9 +38,6 @@ export function AppShell({ children, wide = false }: { children: React.ReactNode
             <Link href="/#examples" className="text-muted-foreground hover:text-primary">
               Example games
             </Link>
-            <Link href="/library" className="text-muted-foreground hover:text-primary">
-              Library
-            </Link>
             <Link href="/#start" className="text-muted-foreground hover:text-primary">
               New lesson
             </Link>

@@ -4,6 +4,7 @@ import { Intake } from "../../../contracts/knowledge";
 import { GatekeeperRejectedError, loadStoredPreCheck, prepareIntake } from "../../../pipeline/agents/intake";
 import { startGameJob } from "../../../pipeline/orchestrator";
 import { getStorage } from "../../../server/storage";
+import { keepAlive } from "../../../server/keep-alive";
 
 /*
  * POST /api/games: kicks off S6-S9 as a background job (instructions.md §9). Body: { sourceId,
@@ -62,7 +63,8 @@ export async function POST(request: Request): Promise<Response> {
     : parsed.data.intake;
 
   try {
-    const { jobId } = await startGameJob({ sourceId: parsed.data.sourceId, intake, sections: parsed.data.sections });
+    const { jobId, finished } = await startGameJob({ sourceId: parsed.data.sourceId, intake, sections: parsed.data.sections });
+    keepAlive(finished);
     return NextResponse.json({ jobId }, { status: 202 });
   } catch (err) {
     return jsonError(500, err instanceof Error ? err.message : String(err));

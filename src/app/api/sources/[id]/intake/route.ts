@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { GatekeeperRejectedError, prepareIntake } from "../../../../../pipeline/agents/intake";
+import { GatekeeperRejectedError, matcherJob, prepareIntake } from "../../../../../pipeline/agents/intake";
+import { keepAlive } from "../../../../../server/keep-alive";
 
 /*
  * GET /api/sources/[id]/intake: runs S1 gatekeeper -> S2 curriculum (+ quote verification) -> S3
@@ -12,6 +13,9 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
   const { id } = await context.params;
   try {
     const result = await prepareIntake(id);
+    // Keep a serverless function alive until the background matcher finishes (see startGameJob).
+    const matcher = matcherJob(id);
+    if (matcher) keepAlive(matcher);
     return NextResponse.json(result);
   } catch (err) {
     if (err instanceof GatekeeperRejectedError) {
