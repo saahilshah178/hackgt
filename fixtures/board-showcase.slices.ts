@@ -317,7 +317,9 @@ export const civilExplorerSlices: Slices = regenre(historySlices, {
 export const BOARD_SHOWCASE: { slices: Slices; file: string }[] = [
   { slices: trigPuzzleSlices, file: "trig-puzzle.json" },
   { slices: cellCozySlices, file: "cell-transport-cozy.json" },
-  { slices: cellCasefileSlices, file: "cell-transport-casefile.json" },
+  // The Case of the Burst Cell (fixtures/cell-transport-casefile.json) is the completed game from
+  // improvement2. It is not rebuilt from cellCasefileSlices, which share the cell-transport slices with
+  // the cozy town and the dungeon. Rebuilding it would overwrite that case file.
   { slices: civilStorySlices, file: "civil-rights-story.json" },
   { slices: civilExplorerSlices, file: "civil-rights-explorer.json" },
 ];

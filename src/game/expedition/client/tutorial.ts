@@ -1,6 +1,7 @@
 /**
- * The trig side-scroller (/play/fixture-trig) opens on its how-to-play card instead of a loading screen. `?debug` and
- * `?express` (automation) skip it. Plain module: the play page (a Server Component) decides, so SSR already renders it.
+ * The Clockwork Crypt dungeon (spec trig_demo_001, /play/fixture-trig) opens on its how-to-play card instead of a
+ * loading screen. `?debug` and `?express` (automation) skip it. The side-scroller does not. Plain module: the play
+ * page (a Server Component) decides, so SSR already renders it.
  */
 export const TRIG_TUTORIAL_SPEC_ID = "trig_demo_001";
 

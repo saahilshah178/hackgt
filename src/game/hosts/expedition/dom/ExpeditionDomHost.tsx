@@ -16,6 +16,7 @@ import { fetchCatalog, flagsFrom } from "../../../art/manifest-loader";
 import { paletteFor } from "../art/palette-shim";
 import { CutsceneRunner } from "../cutscene/runner";
 import { installHostDebug, makeHostDebugApi } from "../debug-api";
+import { TRIG_DUNGEON_SPEC_ID } from "../../../expedition/client/trig-learn";
 import { actionFor, isTypingTarget } from "../input/keymap";
 import { LabelStore } from "../labels/label-store";
 import { WorldLabelLayer } from "../labels/WorldLabelLayer";
@@ -201,7 +202,11 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
     const down = (ev: KeyboardEvent) => {
       if (isTypingTarget(ev.target as Element | null) || ev.metaKey || ev.ctrlKey || ev.altKey) return;
       const frozen = propsRef.current.frozen;
-      const a = actionFor(ev.code, { context: runner.running ? "cutscene" : frozen ? "panel" : "explore", shift: ev.shiftKey });
+      const a = actionFor(ev.code, {
+        context: runner.running ? "cutscene" : frozen ? "panel" : "explore",
+        shift: ev.shiftKey,
+        scheme: propsRef.current.spec.id === TRIG_DUNGEON_SPEC_ID ? "crypt" : "classic",
+      });
       clock.current.lastInput = clock.current.ms;
       held.current.add(ev.code);
       if (!frozen && !runner.running && (ev.code === "Space" || ev.code.startsWith("Arrow"))) ev.preventDefault();
@@ -286,7 +291,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
         ? { left: h.has("KeyA") || h.has("ArrowLeft"), right: h.has("KeyD") || h.has("ArrowRight"), run: h.has("ShiftLeft") || h.has("ShiftRight"), hop: edgesNow.has("hop"), up: edgesNow.has("up"), down: edgesNow.has("down"), interact: false }
         : NO_INPUT;
       const seg = z.segments.find((s) => s.id === segmentRef.current) ?? z.segments[0];
-      const ctx = { model: m, edges: edgesRef.current, blockers: blockersRef.current, links: z.links, reqOk, tSec: clock.current.tSec, runEnabled: seg.runEnabled, speedScale: p.express ? 2 : 1, frozen: !allowMove && !walkRef.current };
+      const ctx = { model: m, edges: edgesRef.current, blockers: blockersRef.current, links: z.links, reqOk, tSec: clock.current.tSec, runEnabled: seg.runEnabled, speedScale: p.express ? 2 : 1, frozen: !allowMove && !walkRef.current, cryptControls: p.spec.id === TRIG_DUNGEON_SPEC_ID };
       const wk = walkRef.current;
       if (wk && !c.path) {
         const step = wk.steps[wk.i];
@@ -376,7 +381,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
       const zf = { width: z.width, height: z.height, camera: z.camera };
       let target: CameraView;
       if (shot.current) target = shot.current;
-      else if (layout.mode !== "explore" && layout.focus?.kind === "station") {
+      else if (layout.mode !== "explore" && layout.focus?.kind === "station" && !layout.coverStage) {
         const st = w.stationByEncounter.get(layout.focus.encounterId);
         const fb = st ? st.meta.frameBounds(st.parsedConfig, null) : { x: -420, y: -560, w: 840, h: 640 };
         const rect = st ? unionRect({ x: st.anchor.x + fb.x, y: st.anchor.y + fb.y, w: fb.w, h: fb.h }, playerFrameRect(c.x, c.y)) : { x: c.x - 400, y: c.y - 500, w: 800, h: 600 };
@@ -419,7 +424,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
       else if (nearRef.current && !cutscene && !p.frozen) labels.set({ id: "interact", kind: "interact", x: nearRef.current.x, y: nearRef.current.y, text: nearRef.current.label });
       else if (!cutscene && !p.frozen && !c.path) {
         const ch = linksInRange(z.links, { x: c.x, surface: c.surface }, { model: m, reqOk })[0];
-        if (ch) labels.set({ id: "interact", kind: "interact", x: ch.start.x, y: groundAt(ch.start.x, ch.start.surface) - 200, text: linkPrompt(ch) });
+        if (ch) labels.set({ id: "interact", kind: "interact", x: ch.start.x, y: groundAt(ch.start.x, ch.start.surface) - 200, text: linkPrompt(ch, propsRef.current.spec.id === TRIG_DUNGEON_SPEC_ID ? "W" : "Space") });
       }
       labels.endFrame();
     };

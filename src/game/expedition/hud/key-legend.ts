@@ -25,6 +25,24 @@ export const KEY_LEGEND: readonly LegendRow[] = [
   { keys: ["Esc"], explore: "Close map / journal", panel: "Back (no grading)", cutscene: "Skip" },
 ];
 
+/** Clockwork Crypt: W hops and climbs, Space skips dialogue. Other expeditions keep KEY_LEGEND. */
+export const CRYPT_KEY_LEGEND: readonly LegendRow[] = [
+  { keys: ["A", "D", "←", "→"], explore: "Walk", panel: "Step the focused control", cutscene: null },
+  { keys: ["Shift"], explore: "Run (hold)", panel: "×10 step", cutscene: null },
+  { keys: ["Space"], explore: "Skip dialogue", panel: "Advance the dialogue", cutscene: "Skip dialogue" },
+  { keys: ["W"], explore: "Hop · climb · board · enter", panel: "Previous item", cutscene: null },
+  { keys: ["↑"], explore: "Climb · board · enter", panel: "Previous item", cutscene: null },
+  { keys: ["S", "↓"], explore: "Drop · ladder down", panel: "Next item", cutscene: null },
+  { keys: ["E", "Enter"], explore: "Interact", panel: "Activate · Verify", cutscene: "Interact when asked" },
+  { keys: ["1–9"], explore: null, panel: "Quick-select", cutscene: null },
+  { keys: ["I"], explore: null, panel: "Hint (Shift+I: brief)", cutscene: null },
+  { keys: ["M"], explore: "Map", panel: null, cutscene: null },
+  { keys: ["J"], explore: "Journal", panel: null, cutscene: null },
+  { keys: ["H", "?"], explore: "Key legend", panel: "Key legend", cutscene: null },
+  { keys: ["N"], explore: "Mute", panel: "Mute", cutscene: "Mute" },
+  { keys: ["Esc"], explore: "Close map / journal", panel: "Back (no grading)", cutscene: "Skip" },
+];
+
 /** HUD hotkeys (the HUD listens itself; the host's controller handles movement). */
 export type HudHotkey = "legend" | "mute" | "journal" | "map" | "close";
 

@@ -68,6 +68,8 @@ export interface InstrumentPanelProps {
   handleRef?: Ref<InstrumentPanelHandle>;
   className?: string;
   style?: CSSProperties;
+  /** Clockwork Crypt: the minigame covers the stage instead of sitting in a side column */
+  coverStage?: boolean;
 }
 
 const EMPTY_STATIC: PanelStatic = { cards: [], input: null, probe: null, recordPins: [] };
@@ -447,7 +449,7 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
 
   return (
     <>
-      {layout === "vault" ? <div className="xp-vault-dim" aria-hidden /> : null}
+      {layout === "vault" || props.coverStage ? <div className="xp-vault-dim" aria-hidden /> : null}
       <section
         ref={rootRef}
         className={`xp-panel${props.className ? ` ${props.className}` : ""}`}
@@ -455,6 +457,7 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
         data-panel=""
         data-testid="instrument-panel"
         data-layout={layout}
+        data-cover={props.coverStage ? "stage" : undefined}
         data-control={kind}
         data-encounter={station.encounterId}
         data-opaque={opaque || undefined}

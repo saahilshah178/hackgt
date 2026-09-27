@@ -41,6 +41,7 @@ import { sayRequest } from "../dialogue/lines";
 import { arenaSay, bossPhaseSay, StationSlotFlow } from "../dialogue/station-dialogue";
 import type { SayRequest } from "../dialogue/types";
 import { Hud } from "../hud/Hud";
+import { CRYPT_KEY_LEGEND } from "../hud/key-legend";
 import { meterValue as meterValueOf } from "../hud/objective";
 import { Journal, type JournalItem } from "../journal/Journal";
 import { BriefSheet } from "../panel/BriefSheet";
@@ -69,6 +70,8 @@ import {
   startZoneOf,
   zoneNameOf,
 } from "./session";
+import { TRIG_DUNGEON_SPEC_ID } from "./trig-learn";
+import { useTutorial } from "./tutorial-context";
 import { useRunner } from "./useRunner";
 
 export interface ExpeditionClientProps {
@@ -174,6 +177,8 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const [carrying, setCarrying] = useState<string | null>(null);
   const [briefOpen, setBriefOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
+  const { open: tutorialOpen } = useTutorial();
+  const crypt = spec.id === TRIG_DUNGEON_SPEC_ID;
   const [expressTick, setExpressTick] = useState(0);
   /** px from the dialogue bar's top edge to the bottom of the stage (the panel keeps clear of it) */
   const [barClear, setBarClear] = useState(0);
@@ -187,6 +192,10 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
 
   // ------------------------------------------------------------------ refs (read in callbacks and effects only)
   const hostRef = useRef<ExpeditionHostHandle | null>(null);
+  const tutorialRef = useRef(tutorialOpen);
+  tutorialRef.current = tutorialOpen;
+  /** the host was ready while the Clockwork Crypt tutorial was up: ASSETS_READY waits until it closes */
+  const readyHeld = useRef(false);
   const panelRef = useRef<InstrumentPanelHandle | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const barRef = useRef<HTMLDivElement | null>(null);
@@ -501,6 +510,10 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
           const z = startZoneOf(world, progressRef.current);
           if (z) zoneEntryPlayed.current.add(z); // the intro covers the first zone
         }
+        if (tutorialRef.current) {
+          readyHeld.current = true;
+          return;
+        }
         dispatch({ type: "ASSETS_READY", introId });
         return;
       case "zone_entered": {
@@ -594,6 +607,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       state: wsLive.current,
       guideId,
       express: expressRef.current,
+      splitPlaques: spec.id === TRIG_DUNGEON_SPEC_ID,
     });
     switch (plan.kind) {
       case "open_panel":
@@ -931,6 +945,17 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     return installGameDebug(handle) ?? undefined;
   }, [runner, engine, spec, world]);
 
+  // the Clockwork Crypt tutorial closed: a host that was already ready starts now
+  useEffect(() => {
+    if (tutorialOpen || !readyHeld.current) return;
+    readyHeld.current = false;
+    if (introId) {
+      const z = startZoneOf(world, progressRef.current);
+      if (z) zoneEntryPlayed.current.add(z);
+    }
+    dispatch({ type: "ASSETS_READY", introId });
+  }, [tutorialOpen, introId, world]);
+
   // ------------------------------------------------------------------ derived view
   const lmode = carrying ? "explore" : layoutModeOf(phase, world);
   const focusKind: "station" | "sandbox" | null = phase.kind === "sandbox" ? "sandbox" : lmode !== "explore" && encounterOf(phase) ? "station" : null;
@@ -938,16 +963,17 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const layout = useMemo<LayoutState>(
     () => ({
       mode: lmode,
-      safeRect: safeRectFor(lmode, { w: viewport.w, h: viewport.h }),
+      safeRect: crypt && lmode !== "explore" ? { x: 0, y: 0, w: Math.max(0, Math.round(viewport.w)), h: Math.max(0, Math.round(viewport.h)) } : safeRectFor(lmode, { w: viewport.w, h: viewport.h }),
       focus: focusKind === "station" && focusId ? { kind: "station", encounterId: focusId } : focusKind === "sandbox" && focusId ? { kind: "sandbox", sandboxId: focusId } : null,
+      coverStage: crypt && lmode !== "explore",
     }),
-    [lmode, focusKind, focusId, viewport.w, viewport.h],
+    [lmode, focusKind, focusId, viewport.w, viewport.h, crypt],
   );
   const openSt = openId ? (world.stationByEncounter.get(openId) ?? null) : null;
   const panelStation = useMemo(() => (openSt ? panelStationOf(openSt) : null), [openSt]);
   const panelContext = useMemo(() => panelContextOf(world, progress.solvedIds, openSt), [world, progress.solvedIds, openSt]);
   const meter = useMemo(() => meterValueOf(overlay.story.meter, progress.solvedIds), [overlay.story.meter, progress.solvedIds]);
-  const frozen = hostFrozen(phase, blocking, journalOpen || briefOpen);
+  const frozen = hostFrozen(phase, blocking, journalOpen || briefOpen || tutorialOpen);
 
   if (phase.kind === "finished") {
     const { mastery, lines } = runner.debrief();
@@ -973,7 +999,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       phase={phase.kind}
       label={zone?.name ?? overlay.title}
       stageRef={stageRef}
-      hudInsetRight={hudInsetRight(lmode, viewport, (panelShown && !!openSt) || phase.kind === "sandbox")}
+          hudInsetRight={crypt ? 0 : hudInsetRight(lmode, viewport, (panelShown && !!openSt) || phase.kind === "sandbox")}
       stage={
         <PlayHost
           ref={hostRef as Ref<HostHandle>}
@@ -1005,6 +1031,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
           meterValue={meter}
           mode={hudModeOf(phase)}
           onToggleJournal={() => setJournalOpen((o) => !o)}
+          legend={crypt ? CRYPT_KEY_LEGEND : undefined}
         />
       }
       panel={
@@ -1032,6 +1059,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
             onBack={stable.onBack}
             onBadgeDone={stable.onBadgeDone}
             handleRef={panelRef}
+            coverStage={crypt}
             style={panelClearance(openSt.layout, barClear, viewport.h)}
           />
         ) : sandbox ? (
@@ -1051,6 +1079,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
           hintDisabled={!canHint}
           hintLabel={hintLabelOf(hintsUsed, hintsAvailable)}
           reducedMotion={reducedMotion}
+          advanceExplore={crypt}
         />
         </div>
       }

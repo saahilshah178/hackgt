@@ -199,5 +199,22 @@ export function withTrigLearnPhase(specId: string, world: WorldOverlay): WorldOv
 
   next.triggers = [...next.triggers, ...WALK];
   next.plaques = [...next.plaques, ...NOTES];
+
+  // Dungeon-only world tweaks from game-ui-fixes. The side-scroller shares trig.world.json, so they stay here.
+  for (const zone of next.zones) {
+    zone.platforms = zone.platforms.filter((p) => p.id !== "wisp_ledge");
+    zone.links = zone.links.filter((l) => l.id !== "s1_ledge_up" && l.id !== "s1_ledge_down");
+  }
+  for (const station of next.stations) {
+    if (station.config.rail === "arc" && station.config.radius === 310 && Array.isArray(station.config.gauges)) {
+      station.config = { ...station.config, gauges: ["sin"] };
+    }
+  }
+  const controls = next.triggers.find((t) => t.id === "s0_controls");
+  for (const line of controls?.lines ?? []) {
+    if (line.text.startsWith("Hop ledges with Space.")) {
+      line.text = "Hop ledges with W. When a console glows, press E and its instruments open. Space skips dialogue.";
+    }
+  }
   return next;
 }

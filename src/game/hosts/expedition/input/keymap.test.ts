@@ -43,6 +43,16 @@ describe("keymap (§3.5)", () => {
     expect(actionFor("KeyA", c)).toBeNull();
   });
 
+  it("Clockwork Crypt hops with W and skips dialogue with Space; other games stay on the classic map", () => {
+    const ex = { context: "explore" as const, shift: false, scheme: "crypt" as const };
+    expect(actionFor("KeyW", ex)).toBe("hop");
+    expect(actionFor("ArrowUp", ex)).toBe("up");
+    expect(actionFor("Space", ex)).toBe("advance");
+    expect(actionFor("Space", { context: "panel", shift: false, scheme: "crypt" })).toBeNull();
+    expect(actionFor("Space", { context: "explore", shift: false })).toBe("hop");
+    expect(actionFor("KeyW", { context: "explore", shift: false })).toBe("up");
+  });
+
   it("the legend covers every row; Space and arrows are captured only for the game", () => {
     expect(KEY_MAP).toHaveLength(13);
     expect(KEY_MAP.every((r) => r.codes.length > 0 && r.keys.length > 0)).toBe(true);

@@ -82,6 +82,8 @@ export interface LayoutState {
   mode: LayoutKind;
   safeRect: SafeRect;
   focus: { kind: "station"; encounterId: string } | { kind: "sandbox"; sandboxId: string } | null;
+  /** Clockwork Crypt minigames cover the stage. Other expeditions keep the side panel and its camera frame. */
+  coverStage?: boolean;
 }
 export type LinkVerb = "hop" | "climb" | "ladder" | "drop" | "timed_hop" | "ride";
 export type InteractTarget =

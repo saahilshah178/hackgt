@@ -34,8 +34,11 @@ export const KEY_MAP: readonly KeyRow[] = [
 /** Game keys the host captures (preventDefault) while exploring, so Space and arrows never scroll the page. */
 export const CAPTURED_CODES: readonly string[] = ["Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
 
-export function actionFor(code: string, ctx: { context: KeyContext; shift: boolean }): HostAction | null {
+export type ControlScheme = "classic" | "crypt";
+
+export function actionFor(code: string, ctx: { context: KeyContext; shift: boolean; scheme?: ControlScheme }): HostAction | null {
   const c = ctx.context;
+  const crypt = ctx.scheme === "crypt";
   switch (code) {
     case "KeyA":
     case "ArrowLeft":
@@ -47,8 +50,11 @@ export function actionFor(code: string, ctx: { context: KeyContext; shift: boole
     case "ShiftRight":
       return c === "explore" ? "run" : null;
     case "Space":
+      if (crypt) return c === "panel" ? null : "advance";
       return c === "explore" ? "hop" : c === "cutscene" ? "advance" : null;
     case "KeyW":
+      if (crypt) return c === "explore" ? "hop" : null;
+      return c === "explore" ? "up" : null;
     case "ArrowUp":
       return c === "explore" ? "up" : null;
     case "KeyS":

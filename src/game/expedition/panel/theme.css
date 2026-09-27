@@ -79,6 +79,14 @@
   user-select: none;
   -webkit-user-select: none;
 }
+/* Clockwork Crypt minigames cover the stage. Other expeditions keep the side column above. */
+.xp-panel[data-cover="stage"],
+.xp-panel[data-cover="stage"][data-layout="board"],
+.xp-panel[data-cover="stage"][data-layout="sandbox"],
+.xp-panel[data-cover="stage"][data-layout="vault"] {
+  left: 0;
+  width: auto;
+}
 .xp-panel::before {
   /* the lighter wash toward the top-right (ui.panel.hi) */
   content: "";

@@ -45,6 +45,11 @@ export interface DialogueBarProps {
   /** listen for Space/Enter globally while a blocking line shows (default true) */
   globalAdvance?: boolean;
   /**
+   * Clockwork Crypt: Space skips whatever line is up, including walk-up lines, even after Phaser preventDefault.
+   * Other games keep the blocking-only advance.
+   */
+  advanceExplore?: boolean;
+  /**
    * I = hint rung, Shift+I = brief, while the panel is open (default true). The client must not bind I itself
    * (one press = one rung).
    */
@@ -105,6 +110,7 @@ export function DialogueBar({
   reducedMotion = false,
   drivesClock = true,
   globalAdvance = true,
+  advanceExplore = false,
   hintHotkey = true,
 }: DialogueBarProps) {
   const snap = useDialogueSnapshot(engine);
@@ -118,14 +124,19 @@ export function DialogueBar({
   }, [engine, reducedMotion]);
 
   // Space / Enter advance globally while a blocking line shows and nothing typeable has focus.
+  // Clockwork Crypt also skips non-blocking walk-up lines, and still counts Space after Phaser preventDefault.
   const blocking = snap.blocking;
+  const showing = advanceExplore ? snap.active !== null : blocking;
   useEffect(() => {
-    if (!globalAdvance || !blocking || typeof window === "undefined") return;
+    if (!globalAdvance || !showing || typeof window === "undefined") return;
     const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key !== " " && e.key !== "Enter") return;
-      if (e.repeat || e.defaultPrevented) return;
+      if (e.repeat) return;
+      if (e.defaultPrevented && !(advanceExplore && e.key === " ")) return;
       const active = document.activeElement;
-      if (isTypingTarget(active)) return;
+      const target = e.target instanceof Element ? e.target : active;
+      if (isTypingTarget(target)) return;
+      if (advanceExplore && target instanceof Element && target.closest("[data-panel]")) return;
       if (active && barRef.current?.contains(active)) return; // the bar's own handler runs
       if (active instanceof HTMLButtonElement) return; // a focused button keeps Enter/Space
       e.preventDefault();
@@ -133,7 +144,7 @@ export function DialogueBar({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [engine, blocking, globalAdvance]);
+  }, [engine, showing, globalAdvance, advanceExplore]);
 
   const active = snap.active;
   const pins = snap.pinned;

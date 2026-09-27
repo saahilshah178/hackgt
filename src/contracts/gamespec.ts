@@ -117,7 +117,21 @@ export const GameSpec = z.object({
   intake: IntakeSummary,
   units: z.array(z.object({ id: Id, name: z.string().min(1) })).min(1),
   concepts: z
-    .array(z.object({ id: Id, unitId: Id, name: z.string().min(1), knowledgeType: KnowledgeType, learningObjective: z.string().min(1) }))
+    .array(
+      z.object({
+        id: Id,
+        unitId: Id,
+        name: z.string().min(1),
+        knowledgeType: KnowledgeType,
+        learningObjective: z.string().min(1),
+        /** one-line summary the Burst Cell dossier and room briefings teach from */
+        primer: z.string().min(1).max(400).optional(),
+        /** how the concept works, in order, so a reader can reason a challenge out */
+        keyFacts: z.array(z.string().min(1)).max(6).optional(),
+        /** misconception corrections, stated as the truth */
+        pitfalls: z.array(z.string().min(1)).max(3).optional(),
+      }),
+    )
     .min(1),
   mastery: MasteryConfig,
   // ---- Director ----
