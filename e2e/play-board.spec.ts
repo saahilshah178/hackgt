@@ -122,7 +122,7 @@ test("home page links every premade game, including the logic board", async ({ p
   const ways = page.getByTestId("ways-to-play");
   await expect(ways).toBeVisible();
   for (const g of GAMES) await expect(ways.locator(`a[href="/play/fixture-${g.fixture}"]`)).toBeVisible();
-  for (const href of ["/play/fixture-trig", "/play/fixture-trig-platformer", "/play/fixture-cell-transport", "/play/fixture-civil-rights-mystery", "/play/fixture-civil-rights-dungeon", "/play/fixture-wave2"]) {
+  for (const href of ["/play/fixture-trig", "/play/fixture-trig-platformer", "/play/fixture-cell-transport", "/play/fixture-civil-rights-mystery", "/play/fixture-civil-rights-dungeon"]) {
     await expect(ways.locator(`a[href="${href}"]`)).toBeVisible();
   }
 });

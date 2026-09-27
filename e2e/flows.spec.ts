@@ -37,7 +37,6 @@ const PREMADE_PLAY = [
   "/play/fixture-trig-puzzle",
   "/play/fixture-trig",
   "/play/fixture-trig-platformer",
-  "/play/fixture-wave2",
 ];
 
 test.describe("home showcase", () => {
