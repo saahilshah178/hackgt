@@ -9,7 +9,7 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import type { Cutscene, InteractRef, Requirement, Zone } from "../../../../contracts/world";
 import type { ReqCtx, WorldState } from "../../../../world/types";
-import type { ExpeditionHostDebug, HostHandle, HostProps, InteractTarget, LayoutState } from "../../types";
+import type { ExpeditionHostDebug, HostHandle, HostProps, InteractTarget } from "../../types";
 import type { CutsceneStage } from "../bridge";
 import { frameFor as poseFrame, locomotion } from "../actors/pose-animator";
 import { fetchCatalog, flagsFrom } from "../../../art/manifest-loader";
@@ -20,7 +20,7 @@ import { actionFor, isTypingTarget } from "../input/keymap";
 import { LabelStore } from "../labels/label-store";
 import { WorldLabelLayer } from "../labels/WorldLabelLayer";
 import { inputToward, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharInput, type CharState } from "../scene/character";
-import { baseZoom, centredView, defaultSafeRect, followView, frameFor, lerpFactor, playerFrameRect, unionRect, type CameraView } from "../scene/framing";
+import { baseZoom, centredView, followView, lerpFactor, type CameraView } from "../scene/framing";
 import { interactLabel, nearest, targetKey, type Interactable } from "../scene/proximity";
 import { EMPTY_WORLD_STATE, reqCtxOf, requirementMet } from "../scene/requirements";
 import { planRoute, type RouteStep } from "../scene/route";
@@ -34,8 +34,6 @@ import { DomActor, setActor } from "./DomActor";
 import { DomStage } from "./DomStage";
 import { StubUrlCache } from "./stub-urls";
 import { silhouetteTones, type SilBounds } from "../contraptions/silhouettes";
-
-const DEFAULT_LAYOUT: LayoutState = { mode: "explore", safeRect: { x: 0, y: 0, w: 0, h: 0 }, focus: null };
 
 interface Walk {
   steps: RouteStep[];
@@ -370,20 +368,13 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
         control.current = null;
         cu.resolve();
       }
-      // camera
+      // camera — a minigame covers the stage, so the explore follow view is not reframed into a side column
       const vp = vpRef.current;
-      const layout = p.layout ?? DEFAULT_LAYOUT;
       const zf = { width: z.width, height: z.height, camera: z.camera };
       let target: CameraView;
       if (shot.current) target = shot.current;
-      else if (layout.mode !== "explore" && layout.focus?.kind === "station") {
-        const st = w.stationByEncounter.get(layout.focus.encounterId);
-        const fb = st ? st.meta.frameBounds(st.parsedConfig, null) : { x: -420, y: -560, w: 840, h: 640 };
-        const rect = st ? unionRect({ x: st.anchor.x + fb.x, y: st.anchor.y + fb.y, w: fb.w, h: fb.h }, playerFrameRect(c.x, c.y)) : { x: c.x - 400, y: c.y - 500, w: 800, h: 600 };
-        const safe = layout.safeRect.w > 0 ? layout.safeRect : defaultSafeRect(layout.mode, vp);
-        target = frameFor(rect, safe, vp, zf, st?.frameZoom ?? null);
-      } else target = followView({ ...viewRef.current, zoom: baseZoom(vp) }, c, vp, zf, arena.current);
-      const k = lerpFactor(layout.mode === "explore" && !shot.current ? z.camera.lerp : 0.25, dtMs);
+      else target = followView({ ...viewRef.current, zoom: baseZoom(vp) }, c, vp, zf, arena.current);
+      const k = lerpFactor(shot.current ? 0.25 : z.camera.lerp, dtMs);
       const v = viewRef.current;
       viewRef.current = { viewX: v.viewX + (target.viewX - v.viewX) * k, viewY: v.viewY + (target.viewY - v.viewY) * k, zoom: v.zoom + (target.zoom - v.zoom) * k };
       const view = viewRef.current;

@@ -106,7 +106,7 @@ export function Hud({
 
   return (
     <>
-      <div className={styles.hud} data-testid="hud">
+      <div className={styles.hud} data-testid="hud" data-mode={mode}>
         <div className={styles.row}>
           <ObjectiveRing story={story} progress={progress} zoneId={zone?.id ?? null} onOpenMap={openMap} />
           <h1 className={styles.zoneTitle} data-testid="zone-title">

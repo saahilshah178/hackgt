@@ -34,7 +34,9 @@
 
   /* ---- panel-local derived values (not palette tokens) */
   --xp-panel-opaque: #1f4b57; /* §3.1: no backdrop-filter, or fps < 45 for 2 s */
-  --xp-bar-h: 15%; /* the dialogue bar band below the panel (scrub); board uses 20 % */
+  --xp-bar-h: 15%; /* the dialogue band under the minigame */
+  --xp-hud-clear: 16px; /* the ? / mute row floats over the top-right of the minigame */
+  --xp-stage-inset: 16px;
   --xp-ease-out: cubic-bezier(0.33, 1, 0.68, 1); /* ease-out cubic */
   --xp-slide-ms: 280ms;
 }
@@ -60,21 +62,22 @@
   container-type: inline-size;
   color: var(--ui-text);
 }
+/* Station minigames fill the stage. A slim top band keeps the zone HUD and the ? / mute controls,
+   and the dialogue band stays along the bottom. Side insets keep value chips and the frame off the screen edge. */
 .xp-panel {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: var(--xp-hud-clear);
+  right: var(--xp-stage-inset);
   bottom: var(--xp-bar-h);
-  width: 42%;
+  left: var(--xp-stage-inset);
+  width: auto;
   z-index: 20;
   container-type: size;
   container-name: xp-panel;
   color: var(--ui-text);
   font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
-  background: var(--ui-panel);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  animation: xp-slide-in var(--xp-slide-ms) var(--xp-ease-out) both;
+  background: var(--xp-panel-opaque);
+  animation: xp-fade-in var(--xp-slide-ms) var(--xp-ease-out) both;
   outline: none;
   user-select: none;
   -webkit-user-select: none;
@@ -87,29 +90,20 @@
   pointer-events: none;
   background: radial-gradient(120% 70% at 100% 0%, color-mix(in srgb, var(--ui-panel-hi) 55%, transparent), transparent 70%);
 }
-.xp-panel[data-layout="board"] {
-  width: 55%;
-  bottom: 20%;
-}
-.xp-panel[data-layout="sandbox"] {
-  width: 42%;
-}
 .xp-panel[data-opaque="true"] {
   background: var(--xp-panel-opaque);
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .xp-panel {
     background: var(--xp-panel-opaque);
   }
 }
-@keyframes xp-slide-in {
+@keyframes xp-fade-in {
   from {
-    transform: translateX(100%);
+    opacity: 0;
   }
   to {
-    transform: translateX(0);
+    opacity: 1;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -118,7 +112,7 @@
   }
 }
 
-/* vault: centred modal 80 × 85 % over a 55 % dim, brief column left (30 % of the modal) */
+/* The world stays behind the minigame, dimmed, so the stage reads as one puzzle instead of a split screen. */
 .xp-vault-dim {
   position: absolute;
   inset: 0;
@@ -126,26 +120,14 @@
   background: rgba(0, 0, 0, 0.55);
 }
 .xp-panel[data-layout="vault"] {
-  top: 7.5%;
-  bottom: auto;
-  right: 10%;
-  width: 80%;
-  height: 85%;
   animation-name: xp-fade-in;
 }
-@keyframes xp-fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
 
-/* phone (< 768 px or portrait): bottom sheet 60 vh */
+/* phone (< 768 px or portrait): bottom sheet 60 vh; the top of the stage stays the contraption, undimmed */
 @media (max-width: 767px), (orientation: portrait) {
+  .xp-vault-dim {
+    display: none;
+  }
   .xp-panel,
   .xp-panel[data-layout="board"],
   .xp-panel[data-layout="sandbox"],
@@ -192,6 +174,14 @@
   gap: var(--xp-gap);
   padding: clamp(10px, 1.6cqh, 22px) clamp(14px, 3.2cqw, 34px) clamp(10px, 1.6cqh, 20px) clamp(28px, 5.2cqw, 52px);
 }
+/* Chips hang off the card's left edge. The gutter keeps them inside the full-stage panel. Vault's brief column is that gutter. */
+.xp-panel:not([data-layout="vault"]) .xp-body {
+  padding-top: 28px;
+  padding-left: calc(var(--xp-chip-w) + 48px);
+}
+.xp-panel:not([data-layout="vault"]) .xp-chip {
+  max-width: var(--xp-chip-w);
+}
 .xp-panel[data-layout="vault"] .xp-body {
   display: grid;
   grid-template-columns: 30% 1fr;
@@ -210,6 +200,8 @@
   align-items: center;
   gap: 16px;
   min-height: clamp(40px, 6cqh, 56px);
+  /* the ? and mute controls sit in this row, at the top-right of the stage */
+  padding-right: 148px;
 }
 .xp-head-title {
   font-size: var(--xp-fs-small);
@@ -293,6 +285,13 @@
 }
 .xp-slot[data-grow="2"] {
   flex-grow: 2;
+}
+/* Plots need vertical room for axis labels once the minigame is wide. */
+.xp-slot[data-card="graph"],
+.xp-slot[data-card="unit_circle"],
+.xp-slot[data-card="bars"] {
+  flex-grow: 2;
+  min-height: 140px;
 }
 .xp-slot[data-card="energy_cells"] {
   flex: 0 0 auto;
@@ -390,8 +389,8 @@
 /* ================================================================ value chips (bible §3.5) */
 
 .xp-chip {
-  /* the chip rides the card's LEFT edge (5.png): its right edge meets the card, so it overhangs the panel edge into
-     the world and never covers the y tick labels */
+  /* the chip rides the card's LEFT edge: its right edge meets the card, inside the panel's chip gutter,
+     and never covers the y tick labels */
   position: absolute;
   left: -8px;
   z-index: 4;

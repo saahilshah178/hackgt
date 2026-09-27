@@ -6,7 +6,7 @@
  * TODO(w1): the token tray is a plain list of "place on …" buttons until the Darkroom's art lands (P1 content).
  */
 import "../panel/theme.css";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, type CSSProperties } from "react";
 import type { ResolvedSandbox, SandboxDraft, SandboxInput } from "../../../world/types";
 import { rangeOfProbe } from "../panel/controls/scrub.logic";
 import { BackTab } from "../panel/primitives/BackTab";
@@ -17,12 +17,13 @@ export interface SandboxPanelProps {
   sandbox: ResolvedSandbox;
   onDraft: (d: SandboxDraft) => void;
   onDone: () => void;
+  style?: CSSProperties;
 }
 
 type ProbeInput = Extract<SandboxInput, { kind: "probe" }>;
 type TokenInput = Extract<SandboxInput, { kind: "tokens" }>;
 
-export function SandboxPanel({ sandbox, onDraft, onDone }: SandboxPanelProps) {
+export function SandboxPanel({ sandbox, onDraft, onDone, style }: SandboxPanelProps) {
   const inputs = useMemo<readonly SandboxInput[]>(() => {
     try {
       return sandbox.meta.inputs(sandbox.parsedConfig);
@@ -42,8 +43,11 @@ export function SandboxPanel({ sandbox, onDraft, onDone }: SandboxPanelProps) {
   };
 
   return (
+    <>
+    <div className="xp-vault-dim" aria-hidden />
     <section
       className="xp-panel"
+      style={style}
       data-panel=""
       data-layout="sandbox"
       data-testid="instrument-panel"
@@ -112,5 +116,6 @@ export function SandboxPanel({ sandbox, onDraft, onDone }: SandboxPanelProps) {
         </div>
       </div>
     </section>
+    </>
   );
 }

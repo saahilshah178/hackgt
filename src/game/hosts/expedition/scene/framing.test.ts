@@ -46,7 +46,7 @@ describe("framing: frameFor keeps frameBounds in the safe rect", () => {
   });
 
   it("a big contraption zooms out to fit (clamped at minZoom)", () => {
-    const big = { x: 2000, y: 100, w: 1600, h: 900 };
+    const big = { x: 2000, y: 100, w: 4000, h: 2400 };
     const safe = defaultSafeRect("board", vp);
     const f = frameFor(big, safe, vp, zone, null);
     expect(f.zoom).toBeCloseTo(zone.camera.minZoom * baseZoom(vp));

@@ -1,7 +1,7 @@
 /**
  * scene/framing.ts (pure, H1) — camera maths (docs/design/20 §2.2 framing + camera director, decision 5).
- * The canvas is always full-bleed; the panel overlays the right side, so a contraption is framed inside the visible
- * SAFE RECT (CSS px). The base zoom maps 1080 design units to the viewport height; a station's `frameZoom` overrides
+ * The canvas is always full-bleed. A station minigame covers the stage, so a contraption is framed in the full
+ * SAFE RECT (CSS px) behind it. The base zoom maps 1080 design units to the viewport height; a station's `frameZoom` overrides
  * the fit. Views are expressed as the world-space top-left (viewX, viewY) + zoom; `toScroll` converts to Phaser's
  * scroll convention (zoom about the camera centre).
  */
@@ -40,18 +40,9 @@ export const baseZoom = (vp: Viewport) => Math.max(0.05, vp.h / DESIGN_HEIGHT);
 export const viewSize = (vp: Viewport, zoom: number) => ({ w: vp.w / zoom, h: vp.h / zoom });
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-/** The visible world area per layout when the client did not measure one: scrub left 58 %, board left 45 %, vault centred. */
-export function defaultSafeRect(mode: LayoutKind, vp: Viewport): SafeRect {
-  switch (mode) {
-    case "scrub":
-    case "sandbox":
-      return { x: 0, y: 0, w: Math.round(vp.w * 0.58), h: vp.h };
-    case "board":
-      return { x: 0, y: 0, w: Math.round(vp.w * 0.45), h: vp.h };
-    case "vault":
-    case "explore":
-      return { x: 0, y: 0, w: vp.w, h: vp.h };
-  }
+/** The visible world area per layout when the client did not measure one. Station minigames cover the stage, so every layout frames the whole viewport. */
+export function defaultSafeRect(_mode: LayoutKind, vp: Viewport): SafeRect {
+  return { x: 0, y: 0, w: vp.w, h: vp.h };
 }
 
 /** Phaser scroll for a view (zoom is applied about the camera centre). */

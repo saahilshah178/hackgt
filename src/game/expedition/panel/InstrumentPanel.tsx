@@ -297,7 +297,7 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
   // ---------------------------------------------------------------- focus, keys, handle
   const focusFirst = useCallback(() => {
     const el = rootRef.current?.querySelector<HTMLElement>(FOCUSABLE_FIRST);
-    (el ?? rootRef.current)?.focus();
+    (el ?? rootRef.current)?.focus({ preventScroll: true });
   }, [rootRef]);
   useEffect(() => {
     const raf = requestAnimationFrame(focusFirst);
@@ -447,7 +447,7 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
 
   return (
     <>
-      {layout === "vault" ? <div className="xp-vault-dim" aria-hidden /> : null}
+      <div className="xp-vault-dim" aria-hidden />
       <section
         ref={rootRef}
         className={`xp-panel${props.className ? ` ${props.className}` : ""}`}

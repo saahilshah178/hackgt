@@ -43,43 +43,26 @@ export function layoutModeOf(phase: Phase, world: Pick<ResolvedWorld, "stationBy
 }
 
 /**
- * The visible world area (CSS px) the camera frames the contraption in (§3.1): explore 100 %; scrub and sandbox the
- * left 58 % above the dialogue band (85 %); board the left 45 % above its 20 % band; vault the whole stage (the
- * modal floats over a dim). Compact screens: the top 40 % above the bottom sheet.
+ * The visible world area (CSS px) the camera frames the contraption in. Explore and a desktop station both use the
+ * whole stage: the minigame covers it (dimmed world behind), so there is no side column to frame into. Compact
+ * screens keep the top 40 % above the bottom sheet.
  */
 export function safeRectFor(mode: LayoutKind, vp: Viewport): SafeRect {
   const w = Math.max(0, Math.round(vp.w));
   const h = Math.max(0, Math.round(vp.h));
-  if (mode === "explore") return { x: 0, y: 0, w, h };
-  if (isCompact(vp)) return { x: 0, y: 0, w, h: Math.round(h * 0.4) };
-  switch (mode) {
-    case "scrub":
-    case "sandbox":
-      return { x: 0, y: 0, w: Math.round(w * 0.58), h: Math.round(h * 0.85) };
-    case "board":
-      return { x: 0, y: 0, w: Math.round(w * 0.45), h: Math.round(h * 0.8) };
-    case "vault":
-      return { x: 0, y: 0, w, h };
-  }
+  if (mode === "explore" || !isCompact(vp)) return { x: 0, y: 0, w, h };
+  return { x: 0, y: 0, w, h: Math.round(h * 0.4) };
 }
 
 /**
- * The HUD's right inset (CSS px) while a side panel is open (w1a fix 6): the top-right controls (? and mute) sit on the
- * world side instead of over the panel's first card label. The world side is `safeRect.w` wide; value chips and the
- * scrubber's readout tab overhang the panel's left edge into it, so the controls keep a chip allowance of up to 170 px,
- * shrinking on narrow stages so they never crowd the zone title at the top left (~360 px). Explore, the vault modal
- * and compact screens (bottom sheet) keep the default corner (0).
+ * The HUD's right inset (CSS px). The ? and mute controls stay in the corner: a minigame covers the stage, so they
+ * never slide onto a world column. The arguments stay so callers can pass the open layout without a second policy.
  */
-export const HUD_CHIP_ALLOWANCE = 170;
-/** the ? and mute buttons (two 48 px pills + gap + the 20 px margin) and the zone title's reach from the left */
-const HUD_CONTROLS_W = 136;
-const HUD_TITLE_CLEAR = 380;
 export function hudInsetRight(mode: LayoutKind, vp: Viewport, panelOpen: boolean): number {
-  if (!panelOpen || mode === "explore" || mode === "vault" || isCompact(vp)) return 0;
-  const world = safeRectFor(mode, vp).w;
-  const panel = Math.max(0, Math.round(vp.w) - world);
-  const allowance = Math.max(16, Math.min(HUD_CHIP_ALLOWANCE, world - HUD_CONTROLS_W - HUD_TITLE_CLEAR));
-  return panel + allowance;
+  void mode;
+  void vp;
+  void panelOpen;
+  return 0;
 }
 
 export function layoutFor(phase: Phase, world: Pick<ResolvedWorld, "stationByEncounter">, vp: Viewport): LayoutState {

@@ -84,16 +84,13 @@ const WARP_SPACING_MS = 700;
 /** The payoff badge shows 1.6 s; if the panel never reports it (unmounted, reduced motion), move on anyway. */
 const PAYOFF_FALLBACK_MS = 2600;
 /**
- * The dialogue bar sits under the panel (scrub, board, sandbox) or inside the vault modal's bottom band. Long pinned
- * lines make the bar taller than the band the panel reserves (15 % / 20 % / 14vh), and it would cover Verify. The
- * layout measures the bar and keeps the panel clear of it (§3.1: the canvas never resizes; only the overlay reflows).
- * TODO(w1): S1 caps the pinned lines at two (bible §3.9) and P1 reserves the vault band in theme.css.
+ * The dialogue bar sits under every station minigame. Long pinned lines make the bar taller than the 15 % band
+ * the panel reserves, and it would cover Verify. The layout measures the bar and keeps the panel clear of it
+ * (the canvas never resizes; only the overlay reflows).
  */
-function panelClearance(layout: string, barClear: number, stageH: number): CSSProperties | undefined {
-  if (barClear <= 0) return layout === "vault" ? { paddingBottom: "calc(14vh + 12px)" } : undefined;
-  if (layout === "vault") return { paddingBottom: `${Math.max(0, Math.ceil(barClear + 12 - 0.075 * stageH))}px` };
-  const band = layout === "board" ? "20%" : "15%";
-  return { bottom: `max(${band}, ${Math.ceil(barClear + 8)}px)` };
+function panelClearance(barClear: number): CSSProperties | undefined {
+  if (barClear <= 0) return undefined;
+  return { bottom: `max(15%, ${Math.ceil(barClear + 8)}px)` };
 }
 
 interface PendingCutscene {
@@ -1032,10 +1029,10 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
             onBack={stable.onBack}
             onBadgeDone={stable.onBadgeDone}
             handleRef={panelRef}
-            style={panelClearance(openSt.layout, barClear, viewport.h)}
+            style={panelClearance(barClear)}
           />
         ) : sandbox ? (
-          <SandboxPanel key={sandbox.id} sandbox={sandbox} onDraft={stable.onSandboxDraft} onDone={stable.onBack} />
+          <SandboxPanel key={sandbox.id} sandbox={sandbox} onDraft={stable.onSandboxDraft} onDone={stable.onBack} style={panelClearance(barClear)} />
         ) : null
       }
       dialogue={

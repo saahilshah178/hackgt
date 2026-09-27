@@ -33,7 +33,7 @@ import type { LabelStore } from "./labels/label-store";
 import { CameraDirector } from "./scene/camera-director";
 import { inputToward, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharCtx, type CharInput, type CharState } from "./scene/character";
 import { countDrawn, type DrawNode } from "./scene/draw-count";
-import { defaultSafeRect, playerFrameRect, unionRect, type ZoneFrame } from "./scene/framing";
+import type { ZoneFrame } from "./scene/framing";
 import { interactLabel, nearest, targetKey, type Interactable } from "./scene/proximity";
 import { activeNpcState, reqCtxOf, requirementMet } from "./scene/requirements";
 import { planRoute, type RouteStep } from "./scene/route";
@@ -808,23 +808,14 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
         this.layout = layout;
         if (!this.ready) return;
         const f = layout.focus;
-        const vp = this.cam.viewport;
-        const safe = layout.safeRect.w > 0 && layout.safeRect.h > 0 ? layout.safeRect : defaultSafeRect(layout.mode, vp);
-        const playerRect = playerFrameRect(this.char.x, this.char.y);
+        // A minigame covers the stage. The old side panel framed the contraption into the left column; that pan
+        // stays off so the explore camera does not shift when the panel opens.
         if (layout.mode !== "explore" && f?.kind === "station") {
-          const ctl = this.controllers.get(f.encounterId);
           this.openStation = f.encounterId;
           for (const [id, c] of this.controllers) c.setOpen(id === f.encounterId);
-          if (ctl) {
-            const st = this.d.world.stationByEncounter.get(f.encounterId);
-            void this.cam.frame(unionRect(ctl.frameBounds(), playerRect), safe, st?.frameZoom ?? null);
-          }
         } else if (layout.mode !== "explore" && f?.kind === "sandbox") {
           this.openSandboxId = f.sandboxId;
-          const sb = this.sandboxes.get(f.sandboxId);
-          sb?.setOpen(true);
-          const def = this.d.world.sandboxes.find((s) => s.id === f.sandboxId);
-          if (sb) void this.cam.frame(unionRect(sb.frameBounds(), playerRect), safe, def?.frameZoom ?? null);
+          this.sandboxes.get(f.sandboxId)?.setOpen(true);
         } else {
           this.openStation = null;
           for (const c of this.controllers.values()) c.setOpen(false);

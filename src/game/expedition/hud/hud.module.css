@@ -32,6 +32,10 @@
   align-items: center;
   gap: 14px;
 }
+/* A station minigame owns the stage. The zone ring and title step aside; ? and mute stay in the corner. */
+.hud[data-mode="panel"] {
+  display: none;
+}
 .zoneTitle {
   margin: 0;
   font-size: 20px;

@@ -39,9 +39,7 @@ export default function DevHarness() {
   const openPanel = (encounterId: string) => {
     const st = world.stationByEncounter.get(encounterId);
     const mode = st?.layout ?? "scrub";
-    const w = window.innerWidth;
-    const safeW = mode === "board" ? Math.round(w * 0.45) : mode === "vault" ? w : Math.round(w * 0.58);
-    setLayout({ mode, safeRect: { x: 0, y: 0, w: safeW, h: window.innerHeight }, focus: { kind: "station", encounterId } });
+    setLayout({ mode, safeRect: { x: 0, y: 0, w: window.innerWidth, h: window.innerHeight }, focus: { kind: "station", encounterId } });
     setTimeout(() => panelRef.current?.querySelector<HTMLElement>("input[type=range]")?.focus(), 0);
   };
   const closePanel = () => setLayout(EXPLORE);
@@ -132,7 +130,7 @@ export default function DevHarness() {
           data-panel
           data-testid="instrument-panel"
           aria-label="Instrument panel (dev stand-in)"
-          style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: layout.mode === "board" ? "55vw" : "42vw", zIndex: 20, background: "rgba(38,92,106,0.86)", backdropFilter: "blur(6px)", padding: 24, display: "flex", flexDirection: "column", gap: 16, fontSize: 20 }}
+          style={{ position: "absolute", left: 16, right: 16, top: 16, bottom: "15%", zIndex: 20, background: "#1f4b57", padding: 24, display: "flex", flexDirection: "column", gap: 16, fontSize: 20 }}
         >
           <h2 style={{ margin: 0, fontSize: 24 }}>{layout.focus?.kind === "station" ? world.stationByEncounter.get(layout.focus.encounterId)?.objectNoun : "Panel"}</h2>
           <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>

@@ -99,16 +99,16 @@ function WorldBackdrop({ game }: { game: GameKey }) {
 }
 
 /** A stand-in for S1's dialogue bar (bible §3.9) so the stage reads like the reference frames. */
-function DialogueBarStandIn({ text, board }: { text: string; board: boolean }) {
+function DialogueBarStandIn({ text }: { text: string }) {
   return (
     <div
       aria-hidden
       style={{
         position: "absolute",
-        left: board ? "43%" : "50%",
-        right: 0,
+        left: 16,
+        right: 16,
         bottom: 0,
-        height: board ? "20%" : "15%",
+        height: "15%",
         background: "var(--ui-panel)",
         backdropFilter: "blur(6px)",
         borderTop: "1.5px solid var(--ui-line)",
@@ -219,7 +219,6 @@ function Stage({ game, station, stations, query, onQuery }: { game: GalleryGame;
     [mode, station.params],
   );
 
-  const board = panelStation.layout === "board";
   return (
     <div
       data-testid="gallery-stage"
@@ -233,7 +232,7 @@ function Stage({ game, station, stations, query, onQuery }: { game: GalleryGame;
       }}
     >
       <WorldBackdrop game={game.key} />
-      {panelStation.layout !== "vault" ? <DialogueBarStandIn text={firstSentence(station.prompt)} board={board} /> : null}
+      {panelStation.layout !== "vault" ? <DialogueBarStandIn text={firstSentence(station.prompt)} /> : null}
       <InstrumentPanel
         key={`${game.key}-${station.encounterId}`}
         station={panelStation}
@@ -248,7 +247,6 @@ function Stage({ game, station, stations, query, onQuery }: { game: GalleryGame;
         result={result}
         announce={announce}
         brief={{ prompt: station.prompt, plaque: null, hints: station.hints.slice(0, query.aid) }}
-        style={board ? ({ ["--xp-bar-h" as string]: "20%" } as React.CSSProperties) : undefined}
         onDraft={setLastDraft}
         onVerify={onVerify}
         onBack={() => setAnnounce("Back: the panel would close without grading.")}

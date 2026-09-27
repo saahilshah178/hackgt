@@ -5,16 +5,15 @@
  *   100vw × 100vh, position relative, overflow hidden
  *   ├ stage     PlayHost (Phaser canvas or the DOM host), absolute inset 0, always full-bleed
  *   ├ hud       top-left title/ring/meter, top-right legend + mute
- *   ├ panel     InstrumentPanel (right; board 55 %; vault centred) or the sandbox panel
+ *   ├ panel     InstrumentPanel (full stage, above the dialogue band) or the sandbox panel
  *   ├ dialogue  DialogueBar (toast strip in explore, band in cutscenes, under the panel otherwise)
  *   └ overlays  cutscene Skip, Brief sheet, Journal
  *
  * Nothing here resizes the canvas on a phase change: the host frames the contraption inside `layout.safeRect`
  * instead (no layout shift). The stage is focusable (tabIndex −1) so closing the panel can hand focus back to it.
  *
- * The HUD lives in a region that spans the stage in explore and shrinks to the WORLD side while a side panel is open
- * (`hudInsetRight`, session.ts), so the top-right ? and mute controls never sit over the panel's first card label
- * (w1a fix 6). The region slides with the panel (280 ms ease-out cubic) and never catches pointer events itself.
+ * The HUD lives in a region that spans the stage. While a minigame is open the zone cluster hides and the ? / mute
+ * controls stay in the top-right corner. `hudInsetRight` remains 0. The region never catches pointer events.
  */
 import type { ReactNode, Ref } from "react";
 import styles from "./client.module.css";
