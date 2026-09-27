@@ -4,7 +4,7 @@ import { historyIntake, historyKnowledgeMap, historyMatches } from "../fixtures/
 import { trigIntake, trigKnowledgeMap, trigMatches } from "../fixtures/trig.knowledge-map";
 import type { Genre } from "../src/contracts/common";
 import { EncounterRunner } from "../src/game/runner/encounter-runner";
-import { BOARD_GENRES, BOSS_SOCKET, IMPLEMENTED_GENRES, SOCKETS } from "../src/library/genres";
+import { BOARD_GENRES, BOSS_SOCKET, IMPLEMENTED_GENRES, OFFERED_GENRES, SOCKETS } from "../src/library/genres";
 import { generateGame } from "../src/pipeline/generate";
 import { getModels } from "../src/pipeline/models";
 import { validateGameSpec } from "../src/pipeline/validate/validate-gamespec";
@@ -35,7 +35,8 @@ describe("board genres in mock mode", () => {
   });
 
   for (const sample of SAMPLES) {
-    for (const genre of BOARD_GENRES as readonly Genre[]) {
+    // generation only plays offered genres (a request for the withdrawn logic board resolves to another one)
+    for (const genre of BOARD_GENRES.filter((g) => OFFERED_GENRES.includes(g)) as readonly Genre[]) {
       it(`${sample.name} as ${genre}: generates, validates and plays to the end in free order`, async () => {
         const { spec, genre: got } = await generateGame({
           gameId: `${sample.name}_${genre}_test`,

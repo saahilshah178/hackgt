@@ -26,20 +26,17 @@ interface IntakeData {
 /** How long after the last tick before asking the server for questions on the new selection. */
 const PRECHECK_DEBOUNCE_MS = 700;
 
-const GOALS: { id: Intake["goal"]; label: string; hint: string }[] = [
-  { id: "learn", label: "Learn it", hint: "first time through" },
-  { id: "review", label: "Review", hint: "seen it, want it solid" },
-  { id: "test", label: "Test me", hint: "exam soon" },
-];
 const MINUTES: Intake["minutes"][] = [5, 10, 15];
 /** The length the page opens on; its concept limit decides whether everything starts ticked. */
 const DEFAULT_MINUTES: Intake["minutes"] = 10;
 
-/** The intake is three steps: what to play, what the student brings to it, and the game itself. */
+/**
+ * Two steps, the second optional: pick the concepts and length, then build. The quick check (what trips you up, a
+ * genre, three pre-check questions) sharpens the game but never blocks it: unanswered questions count as "not sure".
+ */
 const STEPS = [
   { title: "Here's what I found", short: "Concepts" },
-  { title: "A few quick questions", short: "About you" },
-  { title: "Your game", short: "Your game" },
+  { title: "Quick check (optional)", short: "Quick check" },
 ] as const;
 
 function conceptPages(km: KnowledgeMap, conceptId: string): number[] {
@@ -66,7 +63,6 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   const router = useRouter();
   const [data, setData] = useState<IntakeData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [goal, setGoal] = useState<Intake["goal"]>("review");
   const [minutes, setMinutes] = useState<Intake["minutes"]>(DEFAULT_MINUTES);
   const [genre, setGenre] = useState<Intake["genre"]>("auto");
   const [confidence, setConfidence] = useState<Record<string, number>>({});
@@ -137,7 +133,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
 
   // Rank genres once the student reaches the last step (the matcher's concept -> mechanic mapping is ready by then).
   useEffect(() => {
-    if (step !== 2 || !data || selected.size === 0 || recs?.key === recKey) return;
+    if (step !== 1 || !data || selected.size === 0 || recs?.key === recKey) return;
     const key = recKey;
     let cancelled = false;
     api<{ recommendations: GenreRecommendation[]; pending?: boolean }>(`/api/sources/${sourceId}/recommend`, {
@@ -158,7 +154,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     headingRef.current?.focus();
   }, [step]);
 
-  const ready = !!data && selected.size > 0 && !overCap && !preCheckBusy && preCheck.length > 0 && answers.length === preCheck.length && answers.every((a) => a !== undefined);
+  // Nothing to answer is required: the game only needs the three pre-check items to exist (skipped = "not sure").
+  const ready = !!data && selected.size > 0 && !overCap && !preCheckBusy && preCheck.length === 3;
 
   if (error) {
     return (
@@ -230,11 +227,11 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     setBusy(true);
     setError(null);
     const intake: Intake = {
-      goal,
+      goal: "learn",
       minutes,
       genre,
       confidence,
-      preCheck: { items: preCheck, answers: answers.map((a) => a ?? 0) },
+      preCheck: { items: preCheck, answers: preCheck.map((_, i) => answers[i] ?? -1) },
       ...(allSelected ? {} : { conceptIds: [...selected] }),
       ...(isEmptyProfile(profile) ? {} : { profile }),
     };
@@ -403,33 +400,20 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         </section>
       )}
 
-      {step === 1 && <IntakeClarify probes={probes} value={clarify} onChange={setClarify} />}
-
-      {step === 2 && (
+      {step === 1 && (
         <>
-          <section aria-labelledby="setup-heading" className="grid gap-8 md:grid-cols-2">
+          <p className="-mt-6 text-lg text-muted-foreground">Everything here is optional. It helps the game focus on what you need; skip any of it.</p>
+          <IntakeClarify probes={probes} value={clarify} onChange={setClarify} />
+          <section aria-labelledby="setup-heading">
             <h2 id="setup-heading" className="sr-only">
-              Game setup
+              Game style
             </h2>
-            <fieldset>
-              <legend className="text-2xl font-semibold">Goal</legend>
-              <div className="mt-3 flex flex-col gap-2">
-                {GOALS.map((g) => (
-                  <label key={g.id} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${goal === g.id ? "border-primary bg-primary/10" : "border-border"}`}>
-                    <input type="radio" name="goal" value={g.id} checked={goal === g.id} onChange={() => setGoal(g.id)} className="h-5 w-5" />
-                    <span>
-                      {g.label} <span className="text-muted-foreground">· {g.hint}</span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
             <GenrePicker genre={genre} onChange={setGenre} recommendations={recs?.key === recKey ? recs.items : null} />
           </section>
 
           <section aria-labelledby="precheck-heading">
             <h2 id="precheck-heading" className="text-2xl font-semibold">
-              Quick check: three questions before you play
+              Three quick questions (so your debrief can show what you learned)
             </h2>
             {selected.size === 0 ? (
               <p className="mt-4 text-lg text-muted-foreground" data-testid="precheck-empty">
@@ -494,21 +478,24 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
             Back
           </Button>
         )}
-        {step < 2 ? (
-          <Button size="lg" className="h-14 px-8 text-xl" disabled={selected.size === 0 || overCap} onClick={() => setStep(step + 1)} data-testid="step-next">
-            {step === 0 ? "Next: a few questions" : "Next: your game"}
-          </Button>
-        ) : (
-          <Button size="lg" className="h-14 px-8 text-xl" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
-            {busy ? "Starting the forge…" : "Forge my game"}
+        <Button size="lg" className="h-14 px-8 text-xl" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
+          {busy ? "Starting…" : "Build my game"}
+        </Button>
+        {step === 0 && (
+          <Button
+            variant="outline"
+            size="lg"
+            className="h-14 px-6 text-xl"
+            disabled={selected.size === 0 || overCap}
+            onClick={() => setStep(1)}
+            data-testid="step-next"
+          >
+            Quick check first (optional)
           </Button>
         )}
-        {step === 0 && selected.size === 0 && <span className="text-lg text-muted-foreground">Pick at least one concept to continue.</span>}
-        {step === 0 && overCap && <span className="text-lg text-muted-foreground">Untick {selected.size - cap} to continue.</span>}
-        {step === 1 && <span className="text-lg text-muted-foreground">Every question here is optional.</span>}
-        {step === 2 && !ready && (
+        {!ready && (
           <span className="text-lg text-muted-foreground">
-            {selected.size === 0 ? "Pick at least one concept to continue." : overCap ? "Too many concepts for this length: go back a step." : preCheckBusy ? "Waiting for your questions…" : "Answer the three questions to continue."}
+            {selected.size === 0 ? "Pick at least one concept to continue." : overCap ? `Untick ${selected.size - cap} to continue.` : "Getting ready…"}
           </span>
         )}
       </div>

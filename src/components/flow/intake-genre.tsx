@@ -1,15 +1,14 @@
 "use client";
 
-import { GENRES, type Genre } from "@/contracts/common";
+import type { Genre } from "@/contracts/common";
 import type { Intake } from "@/contracts/knowledge";
-import { GENRE_LABELS } from "@/library/genre-labels";
+import { GENRE_LABELS, OFFERED_GENRES } from "@/library/genre-labels";
 import type { GenreRecommendation } from "@/pipeline/personalize";
 
 /*
  * The genre choice on the intake's last step. Genres come ranked for this learner (POST
  * /api/sources/:id/recommend: material fit, the library components mapped to their concepts, their
- * interests); "Pick for me" plays the first one. Genres that are not auto-selectable (the platformer)
- * follow, unranked, for students who ask for them.
+ * interests); "Pick for me" plays the first one. Only OFFERED_GENRES appear.
  */
 
 export function GenrePicker({
@@ -24,7 +23,7 @@ export function GenrePicker({
 }) {
   const ranked = recommendations ?? [];
   const top = ranked[0];
-  const rest = GENRES.filter((g) => !ranked.some((r) => r.genre === g));
+  const rest = OFFERED_GENRES.filter((g) => !ranked.some((r) => r.genre === g));
   const option = (g: Genre, rec: GenreRecommendation | undefined, best: boolean) => (
     <label
       key={g}

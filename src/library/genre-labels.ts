@@ -1,6 +1,13 @@
 import type { Genre } from "../contracts/common";
 
 /**
+ * The genres a student can choose, be recommended or be auto-assigned (2026-09-27: the dungeon crawler, the logic
+ * board and the side-view obstacle course were withdrawn; their hosts stay only for old games and fixtures).
+ * Client-safe, so the intake and debrief pages use the same list the server resolves against.
+ */
+export const OFFERED_GENRES: readonly Genre[] = ["mystery", "strategy", "explorer", "story"];
+
+/**
  * Client-safe genre labels (no registry import, so pages can use them without pulling in every mechanic family).
  * The long descriptions live in GENRE_INFO (src/library/genres.ts); tests keep the two names in sync.
  */

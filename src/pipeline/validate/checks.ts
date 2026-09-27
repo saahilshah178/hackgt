@@ -1,7 +1,7 @@
 import type { Genre } from "../../contracts/common";
 import type { Concept } from "../../contracts/knowledge";
 import type { TeachingMechanic } from "../../contracts/library";
-import type { AssessmentItemSlice, AssessmentSlice, BlueprintSlice, ChallengeSlice, NarrativeSlice, PreCheckSlice } from "../../contracts/slices";
+import type { AssessmentItemSlice, AssessmentSlice, BlueprintSlice, ChallengeSlice, NarrativeSlice, PreCheckSlice, TutorSlice } from "../../contracts/slices";
 import { answerVarsFor, type AnyFamilyMode } from "../../mechanics/types";
 import { placeholders } from "../../mechanics/util";
 
@@ -151,6 +151,21 @@ export function checkPreCheck(slice: PreCheckSlice): string[] {
 }
 
 /** The post-check must not repeat the pre-check prompts (passed in from the intake). */
+/** Every concept exactly once, texts short enough for a lesson card. */
+export function checkTutor(slice: TutorSlice, conceptIds: readonly string[]): string[] {
+  const problems: string[] = [];
+  const seen = slice.lessons.map((l) => l.conceptId);
+  for (const id of conceptIds) if (!seen.includes(id)) problems.push(`write a lesson for concept "${id}"`);
+  if (new Set(seen).size !== seen.length) problems.push("one lesson per concept: no repeats");
+  for (const l of slice.lessons) {
+    if (l.explanation.trim().length < 20) problems.push(`"${l.conceptId}": the explanation is too short`);
+    if (l.explanation.length > 500) problems.push(`"${l.conceptId}": keep the explanation under 500 characters`);
+    if (l.example.trim().length < 10) problems.push(`"${l.conceptId}": the example is too short`);
+    if (l.example.length > 400) problems.push(`"${l.conceptId}": keep the example under 400 characters`);
+  }
+  return problems;
+}
+
 export function checkAssessment(slice: AssessmentSlice, prePrompts: readonly string[] = []): string[] {
   const problems = checkItems(slice.post, "post-check");
   const pre = new Set(prePrompts.map((p) => p.trim().toLowerCase()));

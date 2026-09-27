@@ -10,17 +10,17 @@ Built for HackGT 13. Next.js 16 · React 19 · TypeScript · Phaser 4 · AI SDK 
 ## How a session works
 
 1. **Upload** a PDF (a chapter or a whole textbook; there is no page cap), pasted text, or a topic name.
-2. **Intake**, in three steps. *Concepts:* pick a length (5, 10 or 15 minutes, which covers up to 4, 7 or 10 concepts),
-   then tick exactly the concepts the game covers from the ones the pipeline extracted, with page ranges (a long book is read
-   in section-sized parts; everything starts ticked when it fits the length), and set a confidence slider per unit. *About you:* for the weakest concepts, tick the statements that sound true (their misconceptions mixed
-   with one true fact), pick interests, say what it's for, add a note; all optional. *Your game:* a goal (learn / review /
-   test), a genre ranked for you with reasons, and a 3-question pre-check ("Not sure yet"
-   is allowed). The concepts are mapped to library mechanics automatically; what you ticked becomes the game's targets and
-   your interests its theme.
-3. **Forge** streams one live card per AI agent while the game is generated and verified (about 60 to 90 seconds live,
-   instant in mock mode).
-4. **Play** in a genre host: a Phaser **Dungeon**, a Phaser **Platformer**, or a DOM **Mystery** board. Every encounter is
-   a teaching mechanic from a 316-card library, graded by code, with three tiers of hints and a mastery meter.
+2. **Pick** a length (5, 10 or 15 minutes, which covers up to 4, 7 or 10 concepts) and tick exactly the concepts the game
+   covers (with page ranges; everything starts ticked when it fits), then press **Build my game**. An optional quick check
+   asks which statements sound true (misconceptions mixed with one true fact), lets you change the genre from "Pick for
+   me", and asks 3 pre-check questions for the debrief; skipping any of it is fine.
+3. **Generate**: a loading screen with rotating fun facts while the game is generated and verified (about a minute live,
+   instant in mock mode). Agent progress stays internal.
+4. **Learn and play** in one of four genres: a point-and-click investigation, a cozy management sim, a top-down explorer or
+   a narrative adventure. Before the first challenge on each concept, the game's guide character teaches it (the idea, key
+   facts cited to your pages, the formula, a worked example, the classic mistake), and the Field guide (G) keeps every lesson
+   one keypress away. Every challenge is a teaching mechanic from a 316-card library, graded by code, with three tiers of
+   hints and a mastery meter.
 5. **Debrief** asks the post-check, shows pre vs post, per-concept mastery and "what you just did", and offers Replay,
    Regenerate as another genre, or Focus on my weak spots.
 

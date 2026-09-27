@@ -31,6 +31,12 @@ export interface BoardDebugApi {
   active(): string | null;
   /** open an available encounter's challenge, as the host would */
   open(encounterId: string): void;
+  /** concept ids whose lesson is still to be read before the open challenge */
+  lesson?(): string[];
+  /** skip the pending lessons (marks them taught) */
+  dismissLesson?(): void;
+  /** concept ids taught so far this session */
+  taught?(): string[];
 }
 
 /**

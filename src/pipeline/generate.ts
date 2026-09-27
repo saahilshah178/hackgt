@@ -9,6 +9,7 @@ import type { MatchResult } from "../contracts/match";
 import {
   assessmentSchema,
   challengeSchema,
+  tutorSchema,
   directorSchema,
   narrativeSchema,
   type AssessmentItemSlice,
@@ -18,13 +19,15 @@ import {
   type ChallengeSlice,
   type DirectorMenuFamily,
   type NarrativeSlice,
+  type TutorSlice,
 } from "../contracts/slices";
 import { cardPlaysIn, getCard, isCardImplemented } from "../library";
-import { autoSelectGenre, BOSS_SOCKET, IMPLEMENTED_GENRES } from "../library/genres";
+import { autoSelectGenre, BOSS_SOCKET, OFFERED_GENRES } from "../library/genres";
 import { getMode, socketsFor } from "../mechanics/registry";
 import { emit } from "./events";
 import { AgentError, runAgent, type Progress } from "./llm";
-import { checkAssessment, checkBlueprint, checkChallenge, checkNarrative } from "./validate/checks";
+import { checkAssessment, checkBlueprint, checkChallenge, checkNarrative, checkTutor } from "./validate/checks";
+import { isMockLLM } from "../server/env";
 import { validateGameSpec } from "./validate/validate-gamespec";
 import { assembleGameSpec, type Slices } from "./assemble";
 import { applyProfileTargets, personalCards, profileSummary, recommendGenres } from "./personalize";
@@ -33,6 +36,7 @@ import {
   CHALLENGE_SYSTEM,
   DIRECTOR_SYSTEM,
   NARRATIVE_SYSTEM,
+  TUTOR_SYSTEM,
   assessmentPrompt,
   challengePrompt,
   directorMenu,
@@ -40,6 +44,7 @@ import {
   narrativePrompt,
   repairNote,
   sharedContext,
+  tutorPrompt,
 } from "./prompts";
 
 /*
@@ -121,8 +126,8 @@ export function encounterRange(minutes: number): [number, number] {
  * them it falls back to the knowledge-type weights alone (LIBRARY §1.1).
  */
 export function resolveGenre(km: KnowledgeMap, intake: Intake, matches?: readonly MatchResult[]): { genre: Genre; reason: string } {
-  if (intake.genre !== "auto" && IMPLEMENTED_GENRES.includes(intake.genre)) return { genre: intake.genre, reason: "requested" };
-  const why = intake.genre === "auto" ? "auto-selected" : `"${intake.genre}" has no host yet; auto-selected`;
+  if (intake.genre !== "auto" && OFFERED_GENRES.includes(intake.genre)) return { genre: intake.genre, reason: "requested" };
+  const why = intake.genre === "auto" ? "auto-selected" : `"${intake.genre}" is no longer offered; auto-selected`;
   if (matches && matches.length > 0) {
     const [top] = recommendGenres(km, intake, matches);
     if (top) return { genre: top.genre, reason: `${why} for this learner (${top.reasons[0] ?? `fit ${top.score}`})` };
@@ -376,8 +381,31 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     }
   };
 
-  // 2. Fan-out: one challenge writer per encounter, plus narrative and assessment, all in parallel.
-  const [challengeResults, narrative, assessment] = await Promise.all([
+  // The Tutor writes the plain-words explanation and worked example for every lesson. Code builds the rest of
+  // each lesson from the knowledge map (lessons.ts), so a failed or skipped tutor still ships a lesson per concept;
+  // mock mode has no recorded tutor replies, so it is skipped there.
+  const writeTutorSafe = (): Promise<TutorSlice | null> =>
+    isMockLLM()
+      ? Promise.resolve(null)
+      : limit(() =>
+          callAgent({
+            agent: "tutor",
+            tier: "fast",
+            model: a.models.fast,
+            jobId,
+            schema: tutorSchema(conceptIds),
+            system: TUTOR_SYSTEM,
+            prompt: tutorPrompt(shared, conceptIds),
+            check: (s) => checkTutor(s, conceptIds),
+            onProgress: progress,
+          }),
+        ).catch((err: unknown) => {
+          note({ agent: "tutor", status: "fallback", note: `tutor failed (${errMsg(err)}); lessons use the source's facts only` });
+          return null;
+        });
+
+  // 2. Fan-out: one challenge writer per encounter, plus narrative, assessment and tutor, all in parallel.
+  const [challengeResults, narrative, assessment, tutor] = await Promise.all([
     Promise.all(
       blueprint.encounters.map((e) =>
         writeChallenge(e).then(
@@ -388,6 +416,7 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     ),
     writeNarrativeSafe(),
     writeAssessmentSafe(),
+    writeTutorSafe(),
   ]);
 
   // 3. Fallbacks: a failed encounter becomes a Mimic Chest from verified facts, or is dropped (never the boss).
@@ -425,6 +454,7 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
     challenges,
     narrative: trimBeats(narrative),
     assessment,
+    tutor,
   };
 
   // 4. Assemble + validate. On failure, route each issue to the agent that owns it, once.

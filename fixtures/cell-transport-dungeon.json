@@ -1023,5 +1023,223 @@
         "correctIndex": 0
       }
     ]
-  }
+  },
+  "lessons": [
+    {
+      "conceptId": "c_bilayer",
+      "bigIdea": "The membrane is two layers of phospholipids with polar heads out and nonpolar tails in, studded with proteins.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "The membrane is a phospholipid bilayer with the hydrophobic tails pointing inward.",
+          "page": 1,
+          "quote": "The plasma membrane is a phospholipid bilayer: the hydrophilic heads face the water on both sides and the hydrophobic tails point inward."
+        },
+        {
+          "text": "The bilayer blocks most polar and charged molecules.",
+          "page": 1,
+          "quote": "The nonpolar interior of the bilayer blocks most polar molecules and all ions from crossing on their own."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "The membrane is a solid wall with holes in it.",
+        "fix": "It is a fluid double layer of lipids; substances cross by dissolving through it or by using proteins."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_selectivity",
+      "bigIdea": "Small nonpolar molecules cross freely; polar molecules and ions need channels, carriers, or pumps.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Small nonpolar molecules like O2 and CO2 diffuse straight through the bilayer.",
+          "page": 1,
+          "quote": "Small nonpolar molecules such as oxygen and carbon dioxide diffuse straight through the bilayer."
+        },
+        {
+          "text": "Ions and large polar molecules cross only through transport proteins.",
+          "page": 1,
+          "quote": "Ions and large polar molecules such as glucose cross only through transport proteins."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Anything small passes freely.",
+        "fix": "Size matters less than polarity: a small ion like Na+ is blocked, while larger nonpolar molecules slip through."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_diffusion",
+      "bigIdea": "Net movement of particles from high to low concentration, driven by random motion, with no energy input.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Diffusion is net movement down the concentration gradient.",
+          "page": 2,
+          "quote": "Diffusion is the net movement of particles from a region of higher concentration to a region of lower concentration."
+        },
+        {
+          "text": "Diffusion requires no energy from the cell.",
+          "page": 2,
+          "quote": "Because it is driven by the random motion of the particles themselves, diffusion requires no energy from the cell."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Particles move toward empty space on purpose.",
+        "fix": "Each particle moves randomly; the net flow toward low concentration is a statistical result, not a goal."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_osmosis",
+      "bigIdea": "Diffusion of water across a selectively permeable membrane toward the higher solute concentration.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Osmosis is the diffusion of water across a selectively permeable membrane.",
+          "page": 2,
+          "quote": "Osmosis is the diffusion of water across a selectively permeable membrane."
+        },
+        {
+          "text": "Water moves toward the side with more solute.",
+          "page": 2,
+          "quote": "Water moves toward the side with the higher solute concentration, where the water concentration is lower."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Salt crosses the membrane instead of water.",
+        "fix": "Dissolved salt ions cannot cross the bilayer; it is the water that moves, toward the saltier side."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_tonicity",
+      "bigIdea": "The relative solute concentration of a solution predicts whether a cell swells, stays, or shrinks.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "In a hypotonic solution the cell gains water and swells.",
+          "page": 2,
+          "quote": "In a hypotonic solution the cell gains water and swells; an animal cell may burst."
+        },
+        {
+          "text": "In a hypertonic solution the cell loses water and shrinks.",
+          "page": 2,
+          "quote": "In a hypertonic solution the cell loses water and shrinks."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Hypertonic means the solution has more water.",
+        "fix": "Hypertonic means more solute (and therefore less water) than the cell, so water leaves the cell."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_facilitated",
+      "bigIdea": "Channel and carrier proteins let specific polar molecules and ions move down their gradient without energy.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Facilitated diffusion uses transport proteins but still needs no energy.",
+          "page": 3,
+          "quote": "Facilitated diffusion uses channel or carrier proteins, but it is still passive: the molecules move down their gradient and the cell spends no energy."
+        },
+        {
+          "text": "Aquaporins are channels for water.",
+          "page": 3,
+          "quote": "Aquaporins are channel proteins that speed the movement of water."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "If a protein is involved, the cell must be spending energy.",
+        "fix": "Channels and carriers only provide a path; energy is needed only when moving against the gradient."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_active_transport",
+      "bigIdea": "Pumps move substances against their concentration gradient, using ATP.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Active transport moves substances against their gradient and uses ATP.",
+          "page": 3,
+          "quote": "Active transport moves substances against their concentration gradient, from low concentration to high, and requires energy from ATP."
+        },
+        {
+          "text": "Without ATP, pumps stop and gradients dissipate.",
+          "page": 3,
+          "quote": "If a cell runs out of ATP, its pumps stop and the gradients they maintain slowly dissipate."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Transport always goes down the gradient.",
+        "fix": "Pumps push substances uphill, against the gradient, by spending ATP."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_sodium_potassium",
+      "bigIdea": "Each cycle moves 3 Na+ out and 2 K+ in, maintaining the gradients nerve and muscle cells depend on.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "The pump moves three Na+ out and two K+ in per ATP.",
+          "page": 3,
+          "quote": "Each cycle of the sodium-potassium pump moves three sodium ions out of the cell and two potassium ions in, at the cost of one ATP."
+        },
+        {
+          "text": "Nerve cells depend on the gradient the pump maintains.",
+          "page": 3,
+          "quote": "Nerve and muscle cells depend on the gradients this pump maintains."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "The pump moves equal numbers of ions each way.",
+        "fix": "It moves 3 Na+ out for every 2 K+ in, which also leaves the inside slightly negative."
+      },
+      "teacherId": "pilot"
+    },
+    {
+      "conceptId": "c_bulk_transport",
+      "bigIdea": "Large cargo enters or leaves the cell in vesicles that pinch off from or fuse with the membrane, using energy.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Endocytosis folds the membrane inward to form a vesicle around the cargo.",
+          "page": 4,
+          "quote": "In endocytosis the membrane folds inward around the cargo and pinches off to form a vesicle inside the cell."
+        },
+        {
+          "text": "Exocytosis fuses a vesicle with the membrane to release its contents.",
+          "page": 4,
+          "quote": "In exocytosis a vesicle fuses with the plasma membrane and releases its contents outside the cell."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Vesicle transport is passive because the cargo isn't pumped.",
+        "fix": "Reshaping the membrane and moving vesicles costs ATP, so bulk transport is active."
+      },
+      "teacherId": "pilot"
+    }
+  ]
 }

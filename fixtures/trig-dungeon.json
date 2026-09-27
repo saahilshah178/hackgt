@@ -526,5 +526,109 @@
         "correctIndex": 0
       }
     ]
-  }
+  },
+  "lessons": [
+    {
+      "conceptId": "c_radians",
+      "bigIdea": "Angles measured by arc length on the unit circle; one full turn is 2π.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "One full revolution is 2π radians.",
+          "page": 1,
+          "quote": "One complete revolution corresponds to 2π radians."
+        },
+        {
+          "text": "π radians is half a revolution, or 180°.",
+          "page": 1,
+          "quote": "An angle of π radians corresponds to half a revolution."
+        }
+      ],
+      "formula": {
+        "label": "degrees to radians",
+        "expression": "d * pi / 180"
+      },
+      "example": null,
+      "watchOut": {
+        "mistake": "π radians is a full circle.",
+        "fix": "π radians is half a circle; a full circle is 2π."
+      },
+      "teacherId": "cog"
+    },
+    {
+      "conceptId": "c_period",
+      "bigIdea": "The horizontal length of one full cycle, 2π/|b|.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "The period of y = sin(bx) is 2π/|b|.",
+          "page": 3,
+          "quote": "The period of y = sin(bx) is 2π/|b|."
+        },
+        {
+          "text": "Increasing b makes the graph repeat more often.",
+          "page": 3,
+          "quote": "Larger values of b compress the graph horizontally."
+        }
+      ],
+      "formula": {
+        "label": "period",
+        "expression": "2 * pi / abs(b)"
+      },
+      "example": null,
+      "watchOut": {
+        "mistake": "sin(2x) has period 4π, twice as long as sin(x).",
+        "fix": "A bigger b squeezes the wave, so sin(2x) has period π."
+      },
+      "teacherId": "cog"
+    },
+    {
+      "conceptId": "c_amplitude",
+      "bigIdea": "|A| in y = A·sin(x): the height of the wave above its midline.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "The amplitude of y = A sin x is |A|.",
+          "page": 2,
+          "quote": "The amplitude of y = A sin x is |A|."
+        },
+        {
+          "text": "Changing A does not change the period.",
+          "page": 2,
+          "quote": "The value of A stretches the graph vertically but leaves the period unchanged."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Amplitude is the distance from peak to trough.",
+        "fix": "Peak-to-trough is twice the amplitude; amplitude is |A|."
+      },
+      "teacherId": "cog"
+    },
+    {
+      "conceptId": "c_solve",
+      "bigIdea": "Isolate the sine, find the reference angle, then use the quadrants where sine has that sign.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "First isolate the trigonometric function.",
+          "page": 4,
+          "quote": "To solve a trigonometric equation, first isolate the trigonometric function."
+        },
+        {
+          "text": "Sine is positive in quadrants I and II.",
+          "page": 4,
+          "quote": "The sine function is positive in the first and second quadrants."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "sin(x) = 1/2 has only one solution on [0, 2π).",
+        "fix": "It has two: π/6 in quadrant I and 5π/6 in quadrant II."
+      },
+      "teacherId": "cog"
+    }
+  ]
 }

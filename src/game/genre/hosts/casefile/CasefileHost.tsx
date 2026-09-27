@@ -28,6 +28,7 @@ import {
   type Clue,
   type Hotspot,
 } from "./casefile.logic";
+import { GUIDE_TIP } from "../../teach/lessons";
 import { AccusationRoom, SceneRoom, inkFor, pctBox } from "./SceneArt";
 import { Face, StepIcon } from "./glyphs";
 
@@ -732,6 +733,11 @@ function SpeechBand({ speech, spec, partnerId, suspectId, accent }: { speech: Sp
           </div>
         ))}
         {speech.key === 0 && role && <p className="cf-small" style={{ marginTop: 6 }}>{clip(role, 90)}</p>}
+        {speech.key === 0 && (
+          <p style={{ marginTop: 8, fontSize: 18, fontWeight: 700 }} data-testid="field-guide-tip">
+            {GUIDE_TIP}
+          </p>
+        )}
       </div>
     </div>
   );

@@ -1052,5 +1052,271 @@
         "correctIndex": 1
       }
     ]
-  }
+  },
+  "lessons": [
+    {
+      "conceptId": "c_brown",
+      "bigIdea": "The Supreme Court ruled that segregated public schools are unconstitutional, overturning Plessy's 'separate but equal'.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Brown held that segregated public schools are inherently unequal.",
+          "page": 1,
+          "quote": "In Brown v. Board of Education (1954) the Supreme Court ruled unanimously that separate educational facilities are inherently unequal."
+        },
+        {
+          "text": "Brown overturned the 'separate but equal' doctrine of Plessy v. Ferguson.",
+          "page": 1,
+          "quote": "The decision overturned the separate but equal doctrine of Plessy v. Ferguson (1896) for public schools."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Brown ended school segregation immediately.",
+        "fix": "The ruling was resisted for years; Little Rock in 1957 showed enforcement required federal troops."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_montgomery",
+      "bigIdea": "After Rosa Parks's arrest, a 381-day boycott of Montgomery's buses ended with a court ruling against bus segregation and made Martin Luther King Jr. a national leader.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "The boycott began after Rosa Parks was arrested on December 1, 1955.",
+          "page": 1,
+          "quote": "The Montgomery bus boycott began after Rosa Parks was arrested on December 1, 1955, for refusing to give up her seat."
+        },
+        {
+          "text": "The boycott lasted 381 days and ended when the courts struck down bus segregation.",
+          "page": 1,
+          "quote": "The boycott lasted 381 days and ended after the Supreme Court affirmed that bus segregation was unconstitutional."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Rosa Parks was just a tired seamstress who acted alone.",
+        "fix": "Parks was a trained NAACP activist, and the boycott was organized within days by local leaders."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_little_rock",
+      "bigIdea": "Nine Black students integrated Central High School only after President Eisenhower sent federal troops to enforce Brown.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Governor Faubus used the National Guard to block the students.",
+          "page": 1,
+          "quote": "Governor Orval Faubus ordered the Arkansas National Guard to block nine Black students from entering Central High School."
+        },
+        {
+          "text": "Eisenhower sent the 101st Airborne to escort the students.",
+          "page": 1,
+          "quote": "President Eisenhower responded by sending soldiers of the 101st Airborne Division to escort the students into the school."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Southern states complied with Brown once it was decided.",
+        "fix": "Massive resistance meant many districts stayed segregated for a decade or more."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_sit_ins",
+      "bigIdea": "Four students sat at a whites-only lunch counter; the tactic spread to dozens of cities and led to SNCC.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Four students began the Greensboro sit-in on February 1, 1960.",
+          "page": 2,
+          "quote": "On February 1, 1960, four Black college students sat down at a whites-only Woolworth lunch counter in Greensboro, North Carolina."
+        },
+        {
+          "text": "The sit-ins led to the founding of SNCC.",
+          "page": 2,
+          "quote": "Within months the sit-ins had spread to more than fifty cities, and the students founded the Student Nonviolent Coordinating Committee (SNCC)."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Nonviolent protest means passive protest.",
+        "fix": "Sit-ins deliberately broke segregation rules to provoke a public response; they were confrontational but disciplined."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_freedom_rides",
+      "bigIdea": "Integrated groups rode interstate buses into the South to test a Supreme Court ruling; mob violence forced the federal government to enforce desegregation of terminals.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "The riders tested a ruling that desegregated interstate bus terminals.",
+          "page": 2,
+          "quote": "The Freedom Riders of 1961 set out to test the Supreme Court ruling that segregation in interstate bus terminals was illegal."
+        },
+        {
+          "text": "A bus was firebombed in Anniston, Alabama.",
+          "page": 2,
+          "quote": "In Anniston, Alabama, a mob firebombed one of the buses and beat the riders as they escaped."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "The federal government led the civil rights movement.",
+        "fix": "Federal action usually followed pressure and violence exposed by activists, as after Anniston."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_birmingham",
+      "bigIdea": "Televised images of police dogs and fire hoses turned on marchers, including children, shifted national opinion and pushed Kennedy to propose a civil rights bill.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Police under Bull Connor used dogs and fire hoses on marchers.",
+          "page": 2,
+          "quote": "Commissioner Bull Connor ordered police dogs and fire hoses turned on the marchers, many of them children."
+        },
+        {
+          "text": "The images pushed Kennedy to propose a civil rights bill in June 1963.",
+          "page": 2,
+          "quote": "The images shocked the nation, and in June 1963 President Kennedy proposed a sweeping civil rights bill."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Every event has one cause.",
+        "fix": "Kennedy's bill followed Birmingham, the sit-ins, the Freedom Rides and years of organizing together."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_march_washington",
+      "bigIdea": "About 250,000 people gathered for jobs and freedom; King delivered 'I Have a Dream' at the Lincoln Memorial.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "About 250,000 people attended the march on August 28, 1963.",
+          "page": 3,
+          "quote": "On August 28, 1963, about 250,000 people gathered at the Lincoln Memorial for the March on Washington for Jobs and Freedom."
+        },
+        {
+          "text": "King delivered the 'I Have a Dream' speech there.",
+          "page": 3,
+          "quote": "Martin Luther King Jr. closed the day with the speech remembered as I Have a Dream."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "The march was only about King's speech.",
+        "fix": "It was organized by A. Philip Randolph and Bayard Rustin around economic demands as well as civil rights."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_civil_rights_act",
+      "bigIdea": "Signed by Johnson, it outlawed segregation in public accommodations and employment discrimination.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Johnson signed the Civil Rights Act on July 2, 1964.",
+          "page": 3,
+          "quote": "President Lyndon Johnson signed the Civil Rights Act on July 2, 1964."
+        },
+        {
+          "text": "It banned segregation in public accommodations and discrimination in employment.",
+          "page": 3,
+          "quote": "The act outlawed segregation in public accommodations such as restaurants and hotels and banned employment discrimination."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "The Civil Rights Act of 1964 guaranteed the right to vote.",
+        "fix": "Voting protections came with the Voting Rights Act of 1965; the 1964 act targeted segregation and employment."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_selma_vra",
+      "bigIdea": "The Bloody Sunday attack on marchers at the Edmund Pettus Bridge led to the Voting Rights Act, which banned literacy tests and sent federal registrars south.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "State troopers attacked marchers on the Edmund Pettus Bridge on March 7, 1965.",
+          "page": 3,
+          "quote": "On March 7, 1965, state troopers attacked peaceful marchers on the Edmund Pettus Bridge in Selma, a day remembered as Bloody Sunday."
+        },
+        {
+          "text": "The Voting Rights Act banned literacy tests and authorized federal registrars.",
+          "page": 3,
+          "quote": "The Voting Rights Act of 1965 banned literacy tests and sent federal registrars to counties that had blocked Black voters."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Events happened in the order the textbook mentions them.",
+        "fix": "Selma (March 1965) came after the Civil Rights Act (July 1964); the law's date, not the chapter order, fixes the sequence."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_sources",
+      "bigIdea": "A primary source was created by a participant or witness at the time; a secondary source interprets primary sources later.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "A primary source is created by a participant or witness at the time.",
+          "page": 4,
+          "quote": "A primary source is created by a participant or witness at the time of the events, such as a letter, a photograph, or a speech."
+        },
+        {
+          "text": "A secondary source interprets primary sources after the fact.",
+          "page": 4,
+          "quote": "A secondary source, such as a textbook or a documentary made decades later, interprets primary sources after the fact."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "Old means primary.",
+        "fix": "Age doesn't decide it: a 1970 textbook about 1963 is secondary, while a 1963 photograph is primary."
+      },
+      "teacherId": "archivist"
+    },
+    {
+      "conceptId": "c_causation",
+      "bigIdea": "Court rulings, local organizing, direct action, media coverage, and federal law fed one another in chains, not as isolated events.",
+      "explanation": null,
+      "keyPoints": [
+        {
+          "text": "Televised violence repeatedly turned local campaigns into national legislation.",
+          "page": 4,
+          "quote": "Again and again, televised violence against nonviolent protesters turned a local campaign into national legislation."
+        },
+        {
+          "text": "The movement combined courts, organizing, and direct action.",
+          "page": 4,
+          "quote": "The movement's victories came from court cases, local organizing, and direct action working together, not from any one of them alone."
+        }
+      ],
+      "formula": null,
+      "example": null,
+      "watchOut": {
+        "mistake": "History is a list of unrelated events.",
+        "fix": "Each event changed what was possible next: Birmingham made the 1964 act possible, Selma made the 1965 act possible."
+      },
+      "teacherId": "archivist"
+    }
+  ]
 }

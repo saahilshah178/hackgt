@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/button";
-import { GENRES, type Genre } from "@/contracts/common";
-import { GENRE_LABELS } from "@/library/genre-labels";
+import type { Genre } from "@/contracts/common";
+import { GENRE_LABELS, OFFERED_GENRES } from "@/library/genre-labels";
 import type { GameSpec } from "@/contracts/gamespec";
 import { emptyMastery, updateMastery, type TelemetryEvent } from "@/contracts/telemetry";
 import { api } from "@/components/flow/client-fetch";
@@ -229,7 +229,7 @@ export function DebriefView({ spec, serverTelemetry, insights, skipServerPostche
             </label>
             <select id="regen-genre" value={genre} onChange={(e) => setGenre(e.target.value as Genre | "auto")} className="h-12 rounded-md border border-input bg-background px-3 text-lg">
               <option value="auto">auto</option>
-              {GENRES.map((g) => (
+              {OFFERED_GENRES.map((g) => (
                 <option key={g} value={g}>
                   {GENRE_LABELS[g].name}
                 </option>

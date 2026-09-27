@@ -221,6 +221,31 @@ export function assessmentSchema(conceptIds: readonly string[]): z.ZodType<Asses
   }) as unknown as z.ZodType<AssessmentSlice>;
 }
 
+// ---------------------------------------------------------------- S7 Tutor (FAST)
+
+/** Per concept in the game: the idea explained plainly, and one worked example. Code adds the rest of the lesson. */
+export interface TutorSlice {
+  lessons: { conceptId: string; explanation: string; example: string }[];
+}
+
+export function tutorSchema(conceptIds: readonly string[]): z.ZodType<TutorSlice> {
+  return z.object({
+    lessons: z
+      .array(
+        z.object({
+          conceptId: z.enum(asTuple(conceptIds, "concepts")).describe("The concept this lesson teaches"),
+          explanation: z
+            .string()
+            .describe("2-4 short sentences, plain words, like a patient tutor: what it is, why it works, how to use it. Grounded in the listed facts."),
+          example: z
+            .string()
+            .describe("One short worked example or concrete case (1-3 sentences) that shows the idea in action, with the reasoning spelled out."),
+        }),
+      )
+      .describe("Exactly one lesson per concept listed in the task, in that order"),
+  }) as unknown as z.ZodType<TutorSlice>;
+}
+
 // ---------------------------------------------------------------- S6 Director (SMART)
 
 export interface BlueprintEncounter {

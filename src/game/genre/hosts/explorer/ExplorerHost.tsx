@@ -39,6 +39,7 @@ import {
   type Pt,
 } from "./explorer.logic";
 import { CheckGlyph, PadlockGlyph, SocketGlyph } from "./glyphs";
+import { GUIDE_TIP } from "../../teach/lessons";
 
 /*
  * Explorer: a bird's-eye maze. The player walks an avatar token from the central crossroads out along one wing per
@@ -738,6 +739,11 @@ function StatusColumn(p: {
         <p style={{ fontSize: 18 }} className={p.solvedCount === 0 && spec.narrative.intro.length > 0 ? "mt-2 opacity-90" : "opacity-90"}>
           {spec.premise}
         </p>
+        {p.solvedCount === 0 && (
+          <p className="mt-2 font-semibold" style={{ fontSize: 18 }} data-testid="field-guide-tip">
+            {GUIDE_TIP}
+          </p>
+        )}
       </section>
 
       <section className="rounded-xl p-4" style={card}>
@@ -775,7 +781,7 @@ function StatusColumn(p: {
         <Legend colors={colors} />
         <p className="mt-3 leading-snug opacity-90" style={{ fontSize: 16 }}>
           <strong>Arrows / WASD</strong> walk (hold to keep going). <strong>Click</strong> a tile or station to walk there. <strong>E / Enter</strong> uses the
-          station beside you. <strong>Esc</strong> leaves a challenge.
+          station beside you. <strong>Esc</strong> leaves a challenge. <strong>G</strong> opens the Field guide.
         </p>
         {p.hasSentries && (
           <button

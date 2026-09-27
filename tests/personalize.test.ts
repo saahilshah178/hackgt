@@ -156,12 +156,14 @@ describe("the Director's view of the profile", () => {
 describe("recommendGenres", () => {
   it("ranks every auto genre with reasons, and resolveGenre's auto plays the top one", () => {
     const recs = recommendGenres(trigKnowledgeMap, trigIntake, trigMatches);
-    expect(recs.map((r) => r.genre).sort()).toEqual(["dungeon", "explorer", "mystery", "puzzle", "story", "strategy"]);
+    expect(recs.map((r) => r.genre).sort()).toEqual(["explorer", "mystery", "story", "strategy"]);
     expect(recs[0].reasons.length).toBeGreaterThan(0);
     for (let i = 1; i < recs.length; i++) expect(recs[i - 1].score).toBeGreaterThanOrEqual(recs[i].score);
     const auto = resolveGenre(trigKnowledgeMap, { ...trigIntake, genre: "auto" }, trigMatches);
     expect(auto.genre).toBe(recs[0].genre);
-    expect(resolveGenre(trigKnowledgeMap, trigIntake, trigMatches)).toEqual({ genre: "dungeon", reason: "requested" });
+    expect(resolveGenre(trigKnowledgeMap, { ...trigIntake, genre: "story" }, trigMatches)).toEqual({ genre: "story", reason: "requested" });
+    // trigIntake asks for the withdrawn dungeon: it resolves like "auto"
+    expect(resolveGenre(trigKnowledgeMap, trigIntake, trigMatches).genre).toBe(recs[0].genre);
   });
 
   it("lets interests lift a genre and says so", () => {
@@ -346,7 +348,7 @@ describe("POST /api/sources/:id/recommend", () => {
     });
     expect(res.status).toBe(200);
     const { recommendations } = await res.json();
-    expect(recommendations).toHaveLength(6);
+    expect(recommendations).toHaveLength(4);
     expect(recommendations.find((r: { genre: string }) => r.genre === "mystery").reasons.join(" ")).toContain("mysteries");
   });
 });

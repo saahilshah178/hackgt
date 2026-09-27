@@ -27,14 +27,15 @@ function trackConsoleErrors(page: Page): string[] {
 }
 
 test.describe("home showcase", () => {
-  test("renders five showcase cards that each resolve to a playable game", async ({ page }) => {
+  test("renders the four offered genres, each resolving to a playable game, and no withdrawn ones", async ({ page }) => {
     const errors = trackConsoleErrors(page);
     await page.goto("/");
-    const cardLinks = page.getByRole("region", { name: /side-view adventures/i }).getByRole("link", { name: "Play" });
-    await expect(cardLinks).toHaveCount(5);
+    const cardLinks = page.getByTestId("ways-to-play").getByRole("link", { name: "Play" });
+    await expect(cardLinks).toHaveCount(4);
+    await expect(page.getByText(/side-view adventures|platformer|dungeon crawler|logic board/i)).toHaveCount(0);
 
     const hrefs = await cardLinks.evaluateAll((els) => els.map((el) => el.getAttribute("href")));
-    expect(hrefs.length).toBe(5);
+    expect(hrefs.length).toBe(4);
     for (const href of hrefs) {
       if (!href) continue;
       const res = await page.request.get(href);
@@ -137,10 +138,7 @@ test.describe("regenerate as genre", () => {
     const sliders = page.locator('input[type="range"]');
     const n = await sliders.count();
     for (let i = 0; i < n; i++) await sliders.nth(i).fill(i === 1 ? "2" : "4");
-    // The clarify step is optional: skip straight through it.
-    await page.getByTestId("step-next").click();
-    await page.getByTestId("step-next").click();
-    for (let i = 0; i < 3; i++) await page.getByTestId(`precheck-${i}`).getByRole("radio").first().check();
+    // The quick check is optional: build straight from the concepts step.
     await page.getByTestId("forge-button").click();
 
     await page.waitForURL(/\/forge\//, { timeout: 30_000 });

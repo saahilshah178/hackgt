@@ -4,16 +4,32 @@
    references; widgetFor() never creates a new component type. */
 
 import { useEffect, useMemo, useRef } from "react";
-import type { GameSpec } from "../../contracts/gamespec";
+import type { GameSpec, Lesson } from "../../contracts/gamespec";
 import type { Palette } from "../engine/palettes";
 import type { Current } from "../runner/encounter-runner";
 import { widgetFor } from "../widgets/registry";
+import { LessonCard } from "./teach/LessonCard";
+import { watchOutFor } from "./teach/lessons";
 import { speakerName } from "./types";
 
 export interface ChallengeResult {
   correct: boolean;
   feedback: string;
   yourAnswer?: string;
+}
+
+/** The teaching layer's hooks into a challenge (see ./teach): lessons before the widget, review after a mistake. */
+export interface ChallengeTeach {
+  /** every concept's lesson (lessonMap) */
+  lessons: ReadonlyMap<string, Lesson>;
+  /** the concepts this opening teaches first, in order (snapshot at open) */
+  plan: readonly string[];
+  /** of `plan`, the ones not learned yet: the first is on screen; empty = show the challenge */
+  pending: readonly string[];
+  /** the player finished reading a concept's lesson */
+  onLearned(conceptId: string): void;
+  /** open the Field Guide at a concept */
+  onReview(conceptId: string): void;
 }
 
 export interface ChallengePanelProps {
@@ -33,6 +49,8 @@ export interface ChallengePanelProps {
   onRetry(): void;
   /** leave without answering */
   onClose(): void;
+  /** lessons and review links; absent = the challenge alone */
+  teach?: ChallengeTeach;
 }
 
 /**
@@ -44,19 +62,41 @@ export function ChallengePanel(props: ChallengePanelProps) {
   const { spec, palette, current, heading, hintsUsed, lastHint, result } = props;
   const Widget = useMemo(() => widgetFor(current.mode.widget, current.view), [current.mode.widget, current.view]);
   const resultRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (result) resultRef.current?.focus();
   }, [result]);
+
+  const teach = props.teach;
+  const lessonId = teach?.pending[0] ?? null;
+  const lesson = lessonId ? teach?.lessons.get(lessonId) : undefined;
+  const inLesson = !!lesson && !result;
+  const conceptName = (id: string) => spec.concepts.find((c) => c.id === id)?.name ?? id;
+  // after the last lesson, hand focus to the widget (the continue button that had it is gone)
+  const hadLesson = useRef(inLesson);
+  useEffect(() => {
+    if (hadLesson.current && !inLesson) {
+      const root = sectionRef.current;
+      const target =
+        root?.querySelector<HTMLElement>('[data-testid="widget-root"] :is(button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"]))') ?? root;
+      target?.focus({ preventScroll: true });
+    }
+    hadLesson.current = inLesson;
+  }, [inLesson]);
+  const watch = result && !result.correct && teach ? watchOutFor(current.encounter, teach.lessons) : null;
+  const reviewIds = [...new Set(current.encounter.conceptIds)].filter((id) => spec.concepts.some((c) => c.id === id));
 
   const hintsAvailable = current.encounter.hints.length;
   const accent = palette.css.accent;
 
   return (
     <section
+      ref={sectionRef}
       aria-label={heading ?? "Challenge"}
       data-testid="challenge-panel"
       tabIndex={-1}
       data-encounter={current.encounter.id}
+      data-step={inLesson ? "lesson" : result ? "result" : "challenge"}
       className="flex flex-col gap-4 rounded-xl border-2 p-4"
       style={{ borderColor: accent, background: "color-mix(in oklab, #000 55%, transparent)", color: palette.css.text }}
       onKeyDown={(e) => {
@@ -64,6 +104,11 @@ export function ChallengePanel(props: ChallengePanelProps) {
           e.stopPropagation();
           if (result && !result.correct) props.onRetry();
           else if (!result) props.onClose();
+        }
+        // Enter reads on: hosts may park focus on the panel itself rather than the lesson's button
+        if (e.key === "Enter" && inLesson && lessonId && e.target === e.currentTarget) {
+          e.preventDefault();
+          teach?.onLearned(lessonId);
         }
       }}
     >
@@ -80,7 +125,7 @@ export function ChallengePanel(props: ChallengePanelProps) {
             </p>
           ))}
         </div>
-        {!result && (
+        {!result && !inLesson && (
           <button
             type="button"
             onClick={props.onClose}
@@ -93,11 +138,24 @@ export function ChallengePanel(props: ChallengePanelProps) {
         )}
       </header>
 
-      <p className="text-xl font-medium" style={{ fontSize: 20 }} data-testid="encounter-prompt">
-        {current.encounter.prompt}
-      </p>
+      {inLesson && lesson && lessonId && teach ? (
+        <LessonCard
+          key={lessonId}
+          spec={spec}
+          lesson={lesson}
+          conceptName={conceptName(lessonId)}
+          step={teach.plan.length - teach.pending.length}
+          total={teach.plan.length}
+          onContinue={() => teach.onLearned(lessonId)}
+          onLeave={props.onClose}
+        />
+      ) : (
+        <p className="text-xl font-medium" style={{ fontSize: 20 }} data-testid="encounter-prompt">
+          {current.encounter.prompt}
+        </p>
+      )}
 
-      {result ? (
+      {inLesson ? null : result ? (
         <div
           ref={resultRef}
           tabIndex={-1}
@@ -108,7 +166,8 @@ export function ChallengePanel(props: ChallengePanelProps) {
           className="flex flex-col gap-3 rounded-lg p-4 outline-none"
           style={{ background: result.correct ? "color-mix(in oklab, #2e7d32 45%, transparent)" : "color-mix(in oklab, #b3261e 40%, transparent)" }}
           onKeyDown={(e) => {
-            if (e.key === "Enter") (result.correct ? props.onContinue : props.onRetry)();
+            // only on the result box itself: Enter on one of its buttons already clicks that button
+            if (e.key === "Enter" && e.target === e.currentTarget) (result.correct ? props.onContinue : props.onRetry)();
           }}
         >
           <p className="text-2xl font-bold" style={{ fontSize: 24 }}>
@@ -122,6 +181,33 @@ export function ChallengePanel(props: ChallengePanelProps) {
           <p className="text-lg" style={{ fontSize: 18 }}>
             {result.feedback}
           </p>
+          {watch && (
+            <div className="tg-inline-watch" data-testid="challenge-watchout">
+              <p>
+                <strong>Watch out:</strong> {watch.mistake}
+              </p>
+              <p>
+                <strong>Instead:</strong> {watch.fix}
+              </p>
+            </div>
+          )}
+          {!result.correct && teach && reviewIds.length > 0 && (
+            <div className="flex flex-wrap gap-x-6 gap-y-1">
+              {reviewIds.map((id, i) => (
+                <button
+                  key={id}
+                  type="button"
+                  className="tg-review"
+                  data-testid={i === 0 ? "review-link" : undefined}
+                  data-concept={id}
+                  aria-haspopup="dialog"
+                  onClick={() => teach.onReview(id)}
+                >
+                  Review: {conceptName(id)}
+                </button>
+              ))}
+            </div>
+          )}
           {result.correct &&
             current.after.map((a, i) => (
               <p key={i} className="text-lg italic" style={{ fontSize: 18 }}>

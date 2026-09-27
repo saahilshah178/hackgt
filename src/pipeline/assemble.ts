@@ -2,13 +2,14 @@ import { SCHEMA_VERSION } from "../contracts/common";
 import type { Encounter, GameSpec } from "../contracts/gamespec";
 import type { Intake, KnowledgeMap } from "../contracts/knowledge";
 import type { TeachingMechanic } from "../contracts/library";
-import type { AssessmentSlice, BlueprintEncounter, BlueprintSlice, ChallengeSlice, NarrativeSlice } from "../contracts/slices";
+import type { AssessmentSlice, BlueprintEncounter, BlueprintSlice, ChallengeSlice, NarrativeSlice, TutorSlice } from "../contracts/slices";
 import { DEFAULT_MASTERY } from "../contracts/telemetry";
 import { getCard } from "../library";
 import { getMode } from "../mechanics/registry";
 import type { AnyFamilyMode } from "../mechanics/types";
 import { hashString, renderTemplate, seededShuffle } from "../mechanics/util";
 import { layoutFromEncounters } from "./layout";
+import { buildLessons } from "./lessons";
 import { mergeLockedParams } from "./validate/checks";
 
 /** Everything the agents (and code) produced, before it becomes one document. */
@@ -21,6 +22,7 @@ export interface Slices {
   challenges: Record<string, ChallengeSlice>; // challenge writers, keyed by encounter id
   narrative: NarrativeSlice; // narrative writer
   assessment: AssessmentSlice; // assessment writer (post-check)
+  tutor?: TutorSlice | null; // Tutor agent (live mode); lessons are built by code either way
   audio?: GameSpec["audio"]; // ElevenLabs pipeline, filled later
 }
 
@@ -105,5 +107,6 @@ export function assembleGameSpec(s: Slices): GameSpec {
     narrative: s.narrative,
     audio: s.audio ?? { musicTrackId: null, voice: [] },
     assessment: { pre: s.intake.preCheck.items, post: mcqs(s.assessment.post, 202) },
+    lessons: buildLessons(s.km, s.blueprint.characters, s.tutor),
   };
 }

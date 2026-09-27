@@ -74,6 +74,8 @@ const base = {
   intake: trigIntake,
   matches: trigMatches,
   now: () => new Date("2026-09-26T02:00:00.000Z"),
+  // dungeon is withdrawn from what students can pick; these regression runs pin it to replay the dungeon fixture
+  resolved: { genre: "dungeon" as const, reason: "requested" },
 };
 
 describe("generateGame with mock models", () => {

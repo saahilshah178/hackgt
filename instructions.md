@@ -52,7 +52,8 @@ UPLOAD (PDF | text | topic)
   ├─ S4 Matcher (code+FAST) per concept: catalog retrieval top-12 → FAST picks 3 (+ wishlist)
   └─ S5 Challenge bank    optional pre-generation
   S6 Director (SMART)     Blueprint (dynamic schema: card/socket/concept enums)
-  S7 Builders (parallel)  challenge ×N (SMART) | narrative (FAST) | assessment (FAST) | audio (optional)
+  S7 Builders (parallel)  challenge ×N (SMART) | narrative (FAST) | assessment (FAST) | tutor (FAST, live only) | audio (optional)
+                          → code builds GameSpec.lessons (lessons.ts): one grounded lesson per concept + the tutor's text
   S8 Assemble (code)      resolve(), placeholders, seeded shuffles, prefab layout
   S9 Verifier             structural → referential → semantic → self-solve → blind-solve → routed repair → fallback
   → GameSpec v2 → S10 Runtime (genre host + widgets + EncounterRunner) → telemetry → S11 Debrief

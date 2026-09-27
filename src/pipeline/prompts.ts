@@ -92,6 +92,12 @@ export const ASSESSMENT_SYSTEM = `You are the Assessment Writer. Write the 3 pos
 - Cover the same concepts as the pre-check items listed in the prompt, with NEW questions (not rewordings).
 - One unambiguous correct answer; three distractors drawn from real misconceptions.`;
 
+export const TUTOR_SYSTEM = `You are the Tutor for an educational game. Before the player is asked to use a concept, the game teaches it; you write that teaching.
+- For each concept: an explanation a struggling student would understand on first read (plain words, no jargon without a definition, why it works and how to use it), and one worked example with the reasoning spelled out.
+- Ground everything in the listed facts, formulas and summaries from the student's own material; do not introduce outside claims that contradict them.
+- Address the listed misconceptions head-on where they fit ("It's tempting to think X, but...").
+- Speak to the player directly and warmly; keep each explanation under 80 words and each example under 60 words.`;
+
 export const PRECHECK_SYSTEM = `You are the Pre-check Writer. Write 3 quick multiple-choice items that measure the learner's weakest concepts before the game.
 - One unambiguous correct answer; three distractors drawn from real misconceptions.
 - Short prompts a student can answer in 20 seconds each.`;
@@ -129,6 +135,10 @@ export function narrativePrompt(shared: string, bp: BlueprintSlice): string {
 export function assessmentPrompt(shared: string, preCheck: readonly { conceptId: string; prompt: string }[]): string {
   const pre = preCheck.map((q) => `- [${q.conceptId}] ${q.prompt}`).join("\n");
   return `${shared}\n\n# Pre-check items already asked (same concepts, do NOT reuse these questions)\n${pre}\n\n# Task\nWrite the post-check.`;
+}
+
+export function tutorPrompt(shared: string, conceptIds: readonly string[]): string {
+  return `${shared}\n\n# Task\nWrite one lesson for each of these concepts, in this order: ${conceptIds.join(", ")}.`;
 }
 
 export function preCheckPrompt(shared: string, weakestConceptIds: readonly string[]): string {

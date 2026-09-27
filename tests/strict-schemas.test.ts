@@ -4,6 +4,7 @@ import type { z } from "zod";
 import { GENRES } from "../src/contracts/common";
 import {
   assessmentSchema,
+  tutorSchema,
   challengeSchema,
   curriculumSchema,
   directorSchema,
@@ -88,6 +89,7 @@ describe("LLM-facing schemas are strict-mode legal", () => {
   });
   it("pre-check schema", () => expect(audit(preCheckSchema(conceptIds)).errors).toEqual([]));
   it("assessment schema", () => expect(audit(assessmentSchema(conceptIds)).errors).toEqual([]));
+  it("tutor schema", () => expect(audit(tutorSchema(conceptIds)).errors).toEqual([]));
   it("narrative schema", () => expect(audit(narrativeSchema(["cog", "warden"], ["e1", "e2"])).errors).toEqual([]));
 
   for (const genre of GENRES) {

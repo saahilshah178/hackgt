@@ -2,207 +2,164 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import type { ProgressEvent } from "@/contracts/progress";
-import { api, titleCase } from "@/components/flow/client-fetch";
+import { useEffect, useState } from "react";
+import { api } from "@/components/flow/client-fetch";
 
-interface AgentCard {
-  agent: string;
-  status: ProgressEvent["status"];
-  startedAt: number;
-  endedAt: number | null;
-  note: string;
-  repairs: number;
+/*
+ * /forge/[jobId]: a calm "building your game" screen. The agents' progress stays internal (it still streams
+ * over /api/jobs/:id/stream and is kept on the job); the student sees a loader, a status line that moves along,
+ * and a rotating fun fact, then lands in the game. No percentages: generation time varies too much to promise one.
+ */
+
+const STATUS_LINES = [
+  "Reading the concepts you picked…",
+  "Writing a lesson for each idea…",
+  "Designing the challenges…",
+  "Building the world…",
+  "Checking every challenge can be solved…",
+  "Adding the finishing touches…",
+];
+const STATUS_EVERY_MS = 9000;
+
+const FUN_FACTS = [
+  "Octopuses have three hearts, and two of them stop beating while they swim.",
+  "Honey found in ancient Egyptian tombs was still edible after 3,000 years.",
+  "A day on Venus is longer than its year.",
+  "Bananas are berries, but strawberries are not.",
+  "Your brain uses about 20% of your body's energy while weighing about 2% of it.",
+  "There are more possible chess games than atoms in the observable universe.",
+  "Sharks existed before trees did.",
+  "Wombat droppings are cube-shaped.",
+  "The Eiffel Tower grows about 15 cm taller in summer as the metal expands.",
+  "A group of flamingos is called a flamboyance.",
+  "Explaining an idea out loud to someone else is one of the fastest ways to learn it.",
+  "Spacing your practice over days beats cramming the same hours into one night.",
+  "Sea otters hold hands while they sleep so they don't drift apart.",
+  "Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.",
+  "The shortest war in recorded history lasted under 40 minutes.",
+  "Butterflies taste with their feet.",
+  "Testing yourself (retrieval practice) helps memory more than rereading notes.",
+  "A single cloud can weigh more than a million pounds.",
+  "Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid.",
+  "Hot water can sometimes freeze faster than cold water (the Mpemba effect).",
+];
+const FACT_EVERY_MS = 6500;
+
+function startIndex(jobId: string, n: number): number {
+  let h = 0;
+  for (const ch of jobId) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return h % n;
 }
 
-const ORDER = ["gatekeeper", "curriculum", "matcher", "focus", "personalize", "director", "challenge", "narrative", "assessment", "audio", "verifier"];
-const label = (agent: string) => {
-  const [kind, id] = agent.split(":");
-  if (kind === "challenge") return `Challenge writer · ${id}`;
-  if (kind === "blind") return `Blind solver · ${id}`;
-  return titleCase(kind);
-};
-const rank = (agent: string) => {
-  const i = ORDER.indexOf(agent.split(":")[0]);
-  return i === -1 ? ORDER.length : i;
-};
-
-/**
- * /forge/[jobId]: one live card per agent (status, elapsed, latest note) fed by the SSE stream.
- * Cards keep a fixed height and are added in pipeline order so nothing shifts while streaming.
- */
 export function ForgeBoard({ jobId }: { jobId: string }) {
   const router = useRouter();
-  const [cards, setCards] = useState<Record<string, AgentCard>>({});
-  const [catches, setCatches] = useState<{ text: string; warn: boolean }[]>([]);
   const [done, setDone] = useState<{ gameId: string | null; error: string | null } | null>(null);
-  const [wishlist, setWishlist] = useState<{ conceptId: string; teachingMechanicId: string }[]>([]);
   const [sourceId, setSourceId] = useState<string | null>(null);
-  const [now, setNow] = useState(() => Date.now());
+  const [statusIdx, setStatusIdx] = useState(0);
+  const [factIdx, setFactIdx] = useState(() => startIndex(jobId, FUN_FACTS.length));
+  const [factVisible, setFactVisible] = useState(true);
 
   useEffect(() => {
-    const t = setInterval(() => setNow(Date.now()), 500);
-    return () => clearInterval(t);
+    const s = setInterval(() => setStatusIdx((i) => Math.min(i + 1, STATUS_LINES.length - 1)), STATUS_EVERY_MS);
+    let swap: ReturnType<typeof setTimeout> | undefined;
+    const f = setInterval(() => {
+      setFactVisible(false);
+      swap = setTimeout(() => {
+        setFactIdx((i) => (i + 1) % FUN_FACTS.length);
+        setFactVisible(true);
+      }, 350);
+    }, FACT_EVERY_MS);
+    return () => {
+      clearInterval(s);
+      clearInterval(f);
+      if (swap) clearTimeout(swap);
+    };
   }, []);
 
   useEffect(() => {
-    // Create in the effect and close in its cleanup: React StrictMode runs this twice in dev, and a ref
-    // guard here would leave the page listening to an EventSource the first cleanup already closed.
+    // Create in the effect and close in its cleanup: React StrictMode runs this twice in dev.
     const es = new EventSource(`/api/jobs/${jobId}/stream`);
-    const onProgress = (raw: MessageEvent) => {
-      const e = JSON.parse(raw.data) as ProgressEvent;
-      const at = e.at ? Date.parse(e.at) : Date.now();
-      setCards((prev) => {
-        const cur = prev[e.agent] ?? { agent: e.agent, status: "start", startedAt: at, endedAt: null, note: "", repairs: 0 };
-        const next: AgentCard = {
-          ...cur,
-          status: e.status,
-          note: e.note ?? cur.note,
-          repairs: cur.repairs + (e.status === "repair" ? 1 : 0),
-          endedAt: e.status === "done" || e.status === "failed" || e.status === "fallback" ? at : cur.endedAt,
-        };
-        return { ...prev, [e.agent]: next };
-      });
-      if (e.note && (e.agent === "verifier" || e.status === "fallback" || e.status === "repair")) {
-        const text = `${e.agent}: ${e.note}`;
-        const warn = e.status === "fallback" || e.status === "repair";
-        setCatches((prev) => (prev.some((c) => c.text === text) ? prev : [...prev, { text, warn }]));
-      }
-    };
     const onDone = (raw: MessageEvent) => {
       const d = JSON.parse(raw.data) as { gameId: string | null; error: string | null };
       setDone(d);
       es.close();
-      if (d.gameId) setTimeout(() => router.push(`/play/${d.gameId}`), 1200);
+      if (d.gameId) setTimeout(() => router.push(`/play/${d.gameId}`), 600);
     };
-    es.addEventListener("progress", onProgress);
     es.addEventListener("done", onDone);
-    es.onmessage = onProgress; // servers that don't name events
     es.onerror = () => {
-      // The stream closes on completion; if we never got "done", poll the job once.
+      // The stream closes on completion; if we never got "done", ask the job once.
       api<{ status: string; gameId: string | null; error: string | null }>(`/api/jobs/${jobId}`)
         .then((j) => {
-          if (j.status === "done" || j.status === "failed") setDone({ gameId: j.gameId, error: j.error });
+          if (j.status === "done" || j.status === "failed") {
+            setDone({ gameId: j.gameId, error: j.error });
+            if (j.gameId) router.push(`/play/${j.gameId}`);
+          }
         })
         .catch(() => undefined);
     };
     api<{ sourceId: string }>(`/api/jobs/${jobId}`)
-      .then((j) => {
-        setSourceId(j.sourceId);
-        return api<{ conceptId: string; wishlist: { teachingMechanicId: string }[] }[] | { pending: true }>(`/api/sources/${j.sourceId}/matches`);
-      })
-      .then((m) => {
-        if (Array.isArray(m)) setWishlist(m.flatMap((r) => r.wishlist.slice(0, 2).map((w) => ({ conceptId: r.conceptId, teachingMechanicId: w.teachingMechanicId }))));
-      })
+      .then((j) => setSourceId(j.sourceId))
       .catch(() => undefined);
     return () => es.close();
   }, [jobId, router]);
 
-  const list = useMemo(() => Object.values(cards).sort((a, b) => rank(a.agent) - rank(b.agent) || a.startedAt - b.startedAt), [cards]);
+  if (done?.error) {
+    return (
+      <div data-testid="forge-board" className="mx-auto flex max-w-2xl flex-col items-center gap-6 py-16 text-center">
+        <h1 className="text-4xl font-bold tracking-tight">That game didn&apos;t come together</h1>
+        <p role="alert" className="text-xl text-muted-foreground" data-testid="forge-error">
+          Something went wrong while building it. Picking fewer concepts or a longer game usually helps.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          {sourceId && (
+            <Link
+              href={`/intake/${sourceId}`}
+              className="inline-flex h-14 items-center justify-center rounded-md bg-primary px-8 text-xl font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+            >
+              Try again
+            </Link>
+          )}
+          <Link href="/" className="inline-flex h-14 items-center justify-center rounded-md border border-border px-8 text-xl hover:bg-secondary">
+            Start over
+          </Link>
+        </div>
+        <details className="text-left text-base text-muted-foreground">
+          <summary className="cursor-pointer">Technical details</summary>
+          <p className="mt-2 break-words">{done.error}</p>
+        </details>
+      </div>
+    );
+  }
 
   return (
-    <div data-testid="forge-board">
-      <h1 className="text-4xl font-bold tracking-tight">Forging your game</h1>
-      <p className="mt-2 text-xl text-muted-foreground">
-        One card per agent. The verifier checks every encounter is winnable and never leaks an answer.
-      </p>
-      <div role="status" aria-live="polite" className="mt-4 min-h-8 text-lg">
-        {done?.error && <span className="text-destructive">Generation failed: {done.error}</span>}
-        {done?.gameId && <span>Done. Opening your game…</span>}
-        {!done && `${list.filter((c) => c.status === "done").length} of ${Math.max(list.length, 1)} agents finished`}
+    <div data-testid="forge-board" className="mx-auto flex max-w-2xl flex-col items-center gap-10 py-16 text-center">
+      <div className="relative h-28 w-28" aria-hidden="true">
+        <div className="absolute inset-0 rounded-full border-4 border-primary/15" />
+        <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary motion-safe:animate-spin" />
+        <div className="absolute inset-5 rounded-full bg-primary/15 motion-safe:animate-pulse" />
       </div>
-
-      {done?.gameId && (
+      <div>
+        <h1 className="text-4xl font-bold tracking-tight">{done?.gameId ? "Your game is ready" : "Building your game"}</h1>
+        <p role="status" aria-live="polite" className="mt-3 min-h-8 text-xl text-muted-foreground" data-testid="forge-status">
+          {done?.gameId ? "Opening it now…" : STATUS_LINES[statusIdx]}
+        </p>
+        {!done && <p className="mt-1 text-base text-muted-foreground">This usually takes about a minute.</p>}
+      </div>
+      {done?.gameId ? (
         <Link
           href={`/play/${done.gameId}`}
-          className="mt-4 inline-flex h-14 items-center justify-center rounded-md bg-primary px-8 text-xl font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
+          className="inline-flex h-14 items-center justify-center rounded-md bg-primary px-8 text-xl font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ring"
         >
           Enter the game
         </Link>
+      ) : (
+        <figure className="w-full rounded-xl border border-border/60 bg-card px-8 py-6" data-testid="fun-fact">
+          <figcaption className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Did you know?</figcaption>
+          <blockquote className={`mt-2 min-h-16 text-xl leading-relaxed transition-opacity duration-300 ${factVisible ? "opacity-100" : "opacity-0"}`}>
+            {FUN_FACTS[factIdx]}
+          </blockquote>
+        </figure>
       )}
-
-      {done?.error && (
-        <div className="mt-4 flex flex-col gap-2 rounded-lg border border-destructive/50 bg-destructive/10 p-4">
-          <p className="text-lg">{done.error}</p>
-          {sourceId && (
-            <Link href={`/intake/${sourceId}`} className="text-lg font-medium underline underline-offset-4">
-              Back to intake
-            </Link>
-          )}
-        </div>
-      )}
-
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {list.map((c) => {
-          const elapsed = ((c.endedAt ?? now) - c.startedAt) / 1000;
-          const tone =
-            c.status === "done" ? "border-emerald-500/60" : c.status === "failed" ? "border-destructive" : c.status === "fallback" ? "border-amber-400" : "border-primary/60 animate-pulse";
-          return (
-            <article key={c.agent} className={`flex h-40 flex-col rounded-lg border-2 bg-card p-4 ${tone}`} data-testid="agent-card" data-agent={c.agent} data-status={c.status}>
-              <div className="flex items-baseline justify-between gap-2">
-                <h2 className="truncate text-xl font-semibold">{label(c.agent)}</h2>
-                <span className="text-base tabular-nums text-muted-foreground">{elapsed.toFixed(1)}s</span>
-              </div>
-              <p className={`mt-1 text-lg ${c.status === "fallback" ? "font-semibold text-amber-400" : ""}`}>
-                {c.status === "start" && "working…"}
-                {c.status === "repair" && `repairing (${c.repairs})…`}
-                {c.status === "done" && "done"}
-                {c.status === "fallback" && "fell back to a safe default"}
-                {c.status === "failed" && "failed"}
-              </p>
-              <p
-                className={`mt-auto line-clamp-2 text-base ${
-                  c.status === "fallback" || c.status === "repair" ? "font-medium text-amber-400" : "text-muted-foreground"
-                }`}
-                title={c.note}
-              >
-                {c.note}
-              </p>
-            </article>
-          );
-        })}
-        {list.length === 0 && !done && (
-          <article className="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-border p-4 text-lg text-muted-foreground">
-            Connecting to the forge…
-          </article>
-        )}
-      </div>
-
-      <div className="mt-10 grid gap-8 md:grid-cols-2">
-        <section aria-labelledby="catches-heading">
-          <h2 id="catches-heading" className="text-2xl font-semibold">
-            Verifier catches
-          </h2>
-          <ul className="mt-3 min-h-16 space-y-2 text-lg">
-            {catches.length === 0 && <li className="text-muted-foreground">Nothing caught yet.</li>}
-            {catches.map((c) => (
-              <li
-                key={c.text}
-                className={
-                  c.warn
-                    ? "rounded-md border border-amber-400/40 bg-amber-500/10 px-3 py-2 font-medium text-amber-300"
-                    : "rounded-md bg-secondary px-3 py-2"
-                }
-              >
-                {c.text}
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section aria-labelledby="wishlist-heading">
-          <h2 id="wishlist-heading" className="text-2xl font-semibold">
-            Wishlist: great mechanics whose family isn&apos;t built yet
-          </h2>
-          <ul className="mt-3 min-h-16 space-y-2 text-lg">
-            {wishlist.length === 0 && <li className="text-muted-foreground">No wishlist for this material.</li>}
-            {wishlist.map((w) => (
-              <li key={`${w.conceptId}:${w.teachingMechanicId}`} className="rounded-md bg-secondary px-3 py-2">
-                {titleCase(w.teachingMechanicId)} <span className="text-muted-foreground">for {w.conceptId}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
     </div>
   );
 }

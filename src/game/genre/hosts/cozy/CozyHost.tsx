@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { speakerName, type BoardHostHandle, type BoardHostProps } from "../../types";
+import { GUIDE_TIP } from "../../teach/lessons";
 import { COZY_CSS } from "./cozy.styles";
 import {
   FIRST_TRY_BONUS,
@@ -214,11 +215,16 @@ export function CozyHost(props: Props) {
         {/* the requests board: a fixed column, three fixed-height slots */}
         <aside className="relative w-full shrink-0 xl:w-[420px] 2xl:w-[460px]" aria-label="Today's requests">
           <div className="flex h-full flex-col gap-3 rounded-3xl p-3" style={{ background: mix(t.card, t.grass, 0.18), boxShadow: `0 0 0 4px ${mix(t.grassDeep, "#000", 0.35)}` }}>
-            <header className="flex min-h-[86px] flex-col gap-1 px-1">
+            <header className="flex min-h-[116px] flex-col gap-1 px-1">
               <h2 className="text-[24px] font-extrabold leading-tight">
                 Today&apos;s requests <span className="text-[18px] font-semibold" style={{ color: t.inkSoft }}>Day {cur.day}</span>
               </h2>
               <Greeting world={world} st={cur} spec={spec} evening={evening} today={today.length} time={time} t={t} />
+              {cur.day === 1 && solved.size === 0 && (
+                <p className="text-[18px] font-bold leading-snug" data-testid="field-guide-tip">
+                  {GUIDE_TIP}
+                </p>
+              )}
             </header>
             <ol
               ref={boardRef}

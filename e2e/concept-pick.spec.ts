@@ -41,9 +41,8 @@ test("the length caps the pick, and the game covers exactly the ticked concepts"
   }
   expect(picked).toHaveLength(4);
 
-  await page.getByTestId("step-next").click();
-  await page.getByTestId("step-next").click();
-  for (let i = 0; i < 3; i++) await page.getByTestId(`precheck-${i}`).getByRole("radio").first().check({ timeout: 30_000 });
+  // build straight from the concepts step (the quick check is optional)
+  await expect(page.getByTestId("forge-button")).toBeEnabled({ timeout: 30_000 });
   const gamesRequest = page.waitForRequest((r) => r.url().endsWith("/api/games") && r.method() === "POST");
   await page.getByTestId("forge-button").click();
   const body = (await gamesRequest).postDataJSON() as { intake: { minutes: number; conceptIds: string[] } };
