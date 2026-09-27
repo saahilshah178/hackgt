@@ -610,7 +610,7 @@ export const DEV_WORLD_INPUT: WorldOverlayInput = {
       states: [{ id: "before", zoneId: "dev_meadow", x: 3100, lines: [{ speakerId: "brasswick", text: "The pendulum is too quick, I fear." }], pose: "think", anim: "idle" }],
     },
   ],
-  triggers: [{ id: "dev_controls", zoneId: "dev_meadow", x: 320, radius: 200, kind: "ambient", lines: [{ speakerId: "cog", text: "A and D to walk, Space to hop." }] }],
+  triggers: [{ id: "dev_controls", zoneId: "dev_meadow", x: 320, radius: 200, kind: "ambient", lines: [{ speakerId: "cog", text: "A and D to walk, W to hop. Space skips dialogue." }] }],
   sandboxes: [
     {
       id: "dev_music_box",

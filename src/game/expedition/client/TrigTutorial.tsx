@@ -12,10 +12,11 @@ const LEAVE_MS = 240;
 const CONTROLS: readonly { keys: readonly string[]; action: string }[] = [
   { keys: ["A", "D", "←", "→"], action: "Walk left and right" },
   { keys: ["Shift"], action: "Run (hold)" },
-  { keys: ["Space"], action: "Hop across gaps" },
+  { keys: ["W"], action: "Hop across gaps" },
   { keys: ["W", "↑"], action: "Climb up, board a lift, enter a doorway" },
   { keys: ["S", "↓"], action: "Drop down, climb down" },
   { keys: ["E", "Enter"], action: "Use a console to open its puzzle" },
+  { keys: ["Space"], action: "Skip dialogue" },
   { keys: ["I"], action: "Get a hint while solving" },
   { keys: ["Esc"], action: "Close a puzzle without grading" },
   { keys: ["H", "?"], action: "Show every key" },

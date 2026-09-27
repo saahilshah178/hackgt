@@ -46,7 +46,7 @@ describe("proximity", () => {
     expect(interactLabel("touch", "Light the lantern")).toBe("E · Light the lantern");
     expect(interactLabel("collectible", "the page")).toBe("E · Pick up the page");
     expect(interactLabel("vehicle", "lift")).toBe("E · Board the lift");
-    expect(interactLabel("link", "Space · Hop")).toBe("Space · Hop");
+    expect(interactLabel("link", "W · Hop")).toBe("W · Hop");
     expect(interactLabel("exit", "Depths")).toBe("→ Depths");
   });
 });

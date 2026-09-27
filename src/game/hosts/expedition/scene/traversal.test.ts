@@ -20,7 +20,7 @@ describe("traversal: links in range and keys", () => {
     const ctx = ctxFor([]);
     const near = linksInRange(TEST_ZONE.links, { x: 370, surface: "ground" }, ctx);
     expect(near.map((c) => c.link.id)).toEqual(["hop_ledge"]);
-    expect(near[0].key).toBe("space");
+    expect(near[0].key).toBe("hop");
     expect(linksInRange(TEST_ZONE.links, { x: 370 + LINK_RANGE + 20, surface: "ground" }, ctx)).toEqual([]);
     // the two-way hop is also usable from the platform end
     const back = linksInRange(TEST_ZONE.links, { x: 430, surface: "ledge" }, ctx);
@@ -54,9 +54,9 @@ describe("traversal: links in range and keys", () => {
     const ctx = ctxFor([]);
     const atLift = linksInRange(TEST_ZONE.links, { x: 1510, surface: "ground" }, ctx);
     expect(pickLink(atLift, "interact")?.verb).toBe("ride");
-    expect(pickLink([], "space")).toBeNull();
-    expect(linkPrompt({ verb: "hop", key: "space" })).toBe("Space · Hop");
-    expect(linkPrompt({ verb: "timed_hop", key: "space" })).toBe("Space · Hop");
+    expect(pickLink([], "hop")).toBeNull();
+    expect(linkPrompt({ verb: "hop", key: "hop" })).toBe("W · Hop");
+    expect(linkPrompt({ verb: "timed_hop", key: "hop" })).toBe("W · Hop");
     expect(linkPrompt({ verb: "drop", key: "down" })).toBe("S · Drop");
     expect(linkPrompt({ verb: "ride", key: "up" })).toBe("E · Board");
     expect(linkPrompt({ verb: "climb", key: "up" })).toBe("W · Climb");
@@ -158,12 +158,12 @@ describe("traversal: timed hops and planning", () => {
 
   it("plans every link kind into a path that ends on the far end", () => {
     const ctx = ctxFor([]);
-    const plan = (x: number, surface: string, id: string, key: "space" | "up" | "down" | "interact") => {
+    const plan = (x: number, surface: string, id: string, key: "hop" | "up" | "down" | "interact") => {
       const c = pickLink(linksInRange(TEST_ZONE.links, { x, surface }, ctx).filter((q) => q.link.id === id), key);
       if (!c) throw new Error(`no ${id} at ${x}`);
       return planLink(c, ctx.model, { tSec: 0 });
     };
-    const hop = plan(360, "ground", "hop_ledge", "space");
+    const hop = plan(360, "ground", "hop_ledge", "hop");
     expect([hop.kind, hop.endSurface, hop.at(1).y]).toEqual(["hop", "ledge", 600]);
     const climb = plan(980, "ground", "climb_rise", "up");
     expect([climb.kind, climb.at(1).y]).toEqual(["climb", 640]);

@@ -8,8 +8,9 @@ describe("keymap (§3.5)", () => {
     expect(["KeyD", "ArrowRight"].map((c) => actionFor(c, ex))).toEqual(["right", "right"]);
     expect(actionFor("ShiftLeft", ex)).toBe("run");
     expect(actionFor("ShiftRight", ex)).toBe("run");
-    expect(actionFor("Space", ex)).toBe("hop");
-    expect(["KeyW", "ArrowUp"].map((c) => actionFor(c, ex))).toEqual(["up", "up"]);
+    expect(actionFor("Space", ex)).toBe("advance");
+    expect(actionFor("KeyW", ex)).toBe("hop");
+    expect(actionFor("ArrowUp", ex)).toBe("up");
     expect(["KeyS", "ArrowDown"].map((c) => actionFor(c, ex))).toEqual(["down", "down"]);
     expect(["KeyE", "Enter", "NumpadEnter"].map((c) => actionFor(c, ex))).toEqual(["interact", "interact", "interact"]);
     expect(actionFor("KeyM", ex)).toBe("map");
@@ -44,7 +45,7 @@ describe("keymap (§3.5)", () => {
   });
 
   it("the legend covers every row; Space and arrows are captured only for the game", () => {
-    expect(KEY_MAP).toHaveLength(13);
+    expect(KEY_MAP).toHaveLength(14);
     expect(KEY_MAP.every((r) => r.codes.length > 0 && r.keys.length > 0)).toBe(true);
     expect(CAPTURED_CODES).toContain("Space");
     expect(CAPTURED_CODES).not.toContain("KeyE");

@@ -2239,7 +2239,7 @@
         "surface": "ground",
         "radius": 300,
         "kind": "ambient",
-        "lines": [{"speakerId": "cog", "text": "Hop ledges with Space. When a console glows, press E and its instruments open.", "mood": "neutral"}],
+        "lines": [{"speakerId": "cog", "text": "Hop ledges with W. When a console glows, press E and its instruments open. Space skips dialogue.", "mood": "neutral"}],
         "once": true,
         "requires": {"solved": null, "flag": "cog_awake", "notFlag": null, "collected": []},
         "setFlag": null,

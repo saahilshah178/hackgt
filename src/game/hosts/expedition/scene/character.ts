@@ -1,7 +1,7 @@
 /**
  * scene/character.ts (pure, H1) — the character controller both render paths share (docs/design/20 §2.4.1–§2.4.2):
  * walk at 300 units/s, Shift runs at 460 (unless the segment disables running), 90 ms acceleration; walls, sheer
- * edges and blockers stop the walk; walking off a platform end drops to the surface below; Space / W / S run the
+ * edges and blockers stop the walk; walking off a platform end drops to the surface below; W / ↑ / S run the
  * nearest matching link in range (or a cosmetic hop); an active path (arc) owns the position until it lands.
  */
 import type { Requirement, TraversalLink } from "../../../../contracts/world";
@@ -111,22 +111,26 @@ export function stepCharacter(s0: CharState, input: CharInput, ctx: CharCtx, dtS
     return { state: s, events };
   }
 
-  // ---- traversal keys
+  // ---- traversal keys. W is hop: a hop in range, otherwise the climb / board / enter W used to run, otherwise a cosmetic hop.
   if (!ctx.frozen) {
-    for (const key of ["hop", "up", "down", "interact"] as const) {
+    const start = (key: LinkKey) => {
+      const choice = linkForKey(s, key, ctx);
+      if (!choice) return null;
+      const path = planChoice(choice, ctx);
+      events.push({ type: "path_start", kind: path.kind, linkId: path.linkId });
+      if (path.kind === "hop" || path.kind === "timed_hop") events.push({ type: "hop", cosmetic: false });
+      return { state: startPath(s, path), events };
+    };
+    if (input.hop) {
+      const taken = start("hop") ?? start("up");
+      if (taken) return taken;
+      events.push({ type: "hop", cosmetic: true });
+      return { state: startPath(s, cosmeticHop({ x: s.x, y: s.y }, s.surface)), events };
+    }
+    for (const key of ["up", "down", "interact"] as const) {
       if (!input[key]) continue;
-      const lk: LinkKey = key === "hop" ? "space" : key;
-      const choice = linkForKey(s, lk, ctx);
-      if (choice) {
-        const path = planChoice(choice, ctx);
-        events.push({ type: "path_start", kind: path.kind, linkId: path.linkId });
-        if (path.kind === "hop" || path.kind === "timed_hop") events.push({ type: "hop", cosmetic: false });
-        return { state: startPath(s, path), events };
-      }
-      if (key === "hop") {
-        events.push({ type: "hop", cosmetic: true });
-        return { state: startPath(s, cosmeticHop({ x: s.x, y: s.y }, s.surface)), events };
-      }
+      const taken = start(key);
+      if (taken) return taken;
     }
   }
 

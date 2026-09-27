@@ -79,12 +79,14 @@ describe("character controller", () => {
     expect(stuck.s.x).toBeGreaterThan(2404);
   });
 
-  it("Space hops onto a platform, cosmetic-hops with no link, and walking off the platform end drops", () => {
+  it("W hops onto a platform, climbs when that is the link in range, cosmetic-hops with neither, and walking off the platform end drops", () => {
     const c = ctx();
     const h0 = run(spawn(c.model, 360, "ground"), { ...NO_INPUT, hop: true }, c, 1 / 60);
     expect(h0.s.path?.kind).toBe("hop");
     const h = run(h0.s, NO_INPUT, c, 1);
     expect(h.s.surface).toBe("ledge");
+    const climb0 = stepCharacter(spawn(c.model, 2450, "ground"), { ...NO_INPUT, hop: true }, c, 1 / 60);
+    expect(climb0.state.path?.kind).toBe("ladder");
     const cos0 = stepCharacter(spawn(c.model, 200, "ground"), { ...NO_INPUT, hop: true }, c, 1 / 60);
     expect(cos0.state.path?.kind).toBe("cosmetic");
     const cos = run(cos0.state, NO_INPUT, c, 1);
@@ -117,7 +119,7 @@ describe("character controller", () => {
     const bl = blockers([{ encounterId: "e1", zoneId: "z_test", payoff: { blocker: { x: 300, surface: "ground", asset: null } } }], new Set());
     const b = run(spawn(c.model, 100, "ground"), { ...NO_INPUT, right: true }, ctx({ blockers: bl }), 2);
     expect(b.s.x).toBeLessThan(300);
-    expect(linkForKey(spawn(c.model, 100, "ground"), "space", ctx())).toBeNull();
+    expect(linkForKey(spawn(c.model, 100, "ground"), "hop", ctx())).toBeNull();
     expect(inputToward(spawn(c.model, 100, "ground"), 102)).toBeNull();
     expect(inputToward(spawn(c.model, 100, "ground"), 50)?.left).toBe(true);
     expect(spawn(c.model, 100, "nope").surface).toBe("ground");

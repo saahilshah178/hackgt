@@ -16,7 +16,7 @@ export const COSMETIC_APEX = 51;
 export const COSMETIC_SEC = 0.36;
 export const TIMED_DRIVER_LEAD_SEC = 0.35;
 
-export type LinkKey = "space" | "up" | "down" | "interact";
+export type LinkKey = "hop" | "up" | "down" | "interact";
 export type ArcFrame = "jump" | "fall" | "climb" | "idle" | "ride";
 export interface ArcSample {
   x: number;
@@ -53,12 +53,12 @@ export function isTwoWay(link: TraversalLink): boolean {
   return "twoWay" in link ? link.twoWay : false;
 }
 
-/** The key that runs a link in a direction: Space hops, W goes up (or boards), S goes down (§2.4.2, §3.5). */
+/** The key that runs a link in a direction: W hops, W / ↑ goes up (or boards), S goes down (§2.4.2, §3.5). */
 export function keyForLink(link: TraversalLink, startY: number, endY: number): LinkKey {
   switch (link.kind) {
     case "hop":
     case "timed_hop":
-      return "space";
+      return "hop";
     case "drop":
       return "down";
     case "ride":
@@ -117,7 +117,7 @@ export function linkPrompt(c: Pick<LinkChoice, "verb" | "key">): string {
   switch (c.verb) {
     case "hop":
     case "timed_hop":
-      return "Space · Hop";
+      return "W · Hop";
     case "drop":
       return "S · Drop";
     case "ride":
@@ -226,7 +226,7 @@ export function ridePath(path: readonly (readonly [number, number])[], ms: numbe
   };
 }
 
-/** Space with no link in range: apex 51, 0.36 s, never changes surface. */
+/** W with no hop or climb in range: apex 51, 0.36 s, never changes surface. */
 export function cosmeticHop(p0: { x: number; y: number }, surface: string): TraversalPath {
   return {
     kind: "cosmetic",

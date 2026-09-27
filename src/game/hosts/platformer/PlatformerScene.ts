@@ -60,7 +60,6 @@ export function createPlatformerScene(PhaserLib: typeof Phaser): typeof Phaser.S
     private player!: Phaser.GameObjects.Rectangle & { body: Phaser.Physics.Arcade.Body };
     private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
     private wasd!: Record<"W" | "A" | "S" | "D", Phaser.Input.Keyboard.Key>;
-    private spaceKey!: Phaser.Input.Keyboard.Key;
     private frozen = false;
     private currentRoom = -1;
     private lastSafeX = PLAYER_W;
@@ -138,7 +137,6 @@ export function createPlatformerScene(PhaserLib: typeof Phaser): typeof Phaser.S
       if (this.input.keyboard) {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.wasd = this.input.keyboard.addKeys("W,A,S,D") as unknown as Record<"W" | "A" | "S" | "D", Phaser.Input.Keyboard.Key>;
-        this.spaceKey = this.input.keyboard.addKey(PhaserLib.Input.Keyboard.KeyCodes.SPACE);
       }
 
       this.physics.world.gravity.y = GRAVITY_Y;
@@ -300,7 +298,7 @@ export function createPlatformerScene(PhaserLib: typeof Phaser): typeof Phaser.S
 
         const onGround = this.player.body.blocked.down || this.player.body.touching.down;
         if (onGround) this.lastSafeX = this.player.x;
-        const wantsJump = this.cursors.up?.isDown || this.wasd?.W.isDown || this.spaceKey?.isDown;
+        const wantsJump = this.cursors.up?.isDown || this.wasd?.W.isDown;
         if (wantsJump && onGround) this.player.body.setVelocityY(JUMP_VELOCITY);
       }
 

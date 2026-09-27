@@ -18,8 +18,9 @@ export interface KeyRow {
 export const KEY_MAP: readonly KeyRow[] = [
   { codes: ["KeyA", "ArrowLeft", "KeyD", "ArrowRight"], keys: "A / D, ← / →", explore: "walk", panel: "(focused control: step)", cutscene: null },
   { codes: ["ShiftLeft", "ShiftRight"], keys: "Shift", explore: "run (hold)", panel: "×10 step modifier", cutscene: null },
-  { codes: ["Space"], keys: "Space", explore: "hop / timed hop; cosmetic hop with no link in range", panel: "advance the bar when it has focus", cutscene: "advance the line" },
-  { codes: ["KeyW", "ArrowUp"], keys: "W / ↑", explore: "climb, ladder up, board a vehicle, enter a portal", panel: "(control: previous item)", cutscene: null },
+  { codes: ["Space"], keys: "Space", explore: "skip dialogue", panel: "advance the bar when it has focus", cutscene: "skip dialogue" },
+  { codes: ["KeyW"], keys: "W", explore: "hop / timed hop; cosmetic hop with no hop or climb in range; climb, ladder up, board, or enter when that link is in range", panel: "(control: previous item)", cutscene: null },
+  { codes: ["ArrowUp"], keys: "↑", explore: "climb, ladder up, board a vehicle, enter a portal", panel: "(control: previous item)", cutscene: null },
   { codes: ["KeyS", "ArrowDown"], keys: "S / ↓", explore: "drop, ladder down", panel: "(control: next item)", cutscene: null },
   { codes: ["KeyE", "Enter", "NumpadEnter"], keys: "E / Enter", explore: "interact (console, NPC, plaque, pickup, touch, sandbox)", panel: "activate the focused control element; Verify when focused", cutscene: "await_interact" },
   { codes: ["Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9"], keys: "1–9", explore: null, panel: "quick-select claim, valve, bin, socket, stage", cutscene: null },
@@ -47,8 +48,9 @@ export function actionFor(code: string, ctx: { context: KeyContext; shift: boole
     case "ShiftRight":
       return c === "explore" ? "run" : null;
     case "Space":
-      return c === "explore" ? "hop" : c === "cutscene" ? "advance" : null;
+      return c === "panel" ? null : "advance";
     case "KeyW":
+      return c === "explore" ? "hop" : null;
     case "ArrowUp":
       return c === "explore" ? "up" : null;
     case "KeyS":
