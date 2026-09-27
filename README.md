@@ -1,28 +1,32 @@
 # EduXPert
 
-**Turn any chapter into a game where the concept is the rules.** Upload a PDF, paste notes, or type a topic. After a
-60-second intake, EduXPert generates a playable educational game built around what you are shaky on: you tune a
-gate's period to open the door, balance the equation to stop the leak, or walk the number line to find the limit.
-You never answer trivia between jumps.
+**Don't just study. Discover, explore, experiment.**
+
+EduXPert turns your own course material into a game that teaches you the ideas and then has you use them. Upload a
+chapter, paste notes, or name a topic. After a few questions you get a game that both teaches and tests you on the
+material you brought, built around the concepts you picked. You sort, order, link, tune and explain the ideas yourself
+to move the game forward, so the challenges are the concepts themselves, not trivia questions dropped between levels.
+
+**Learn first, then play it.** A guide character teaches every idea before the game asks you to use it, and the Field
+guide keeps the key facts, formulas and common mistakes one keypress away.
 
 Built for HackGT 13. Next.js 16 · React 19 · TypeScript · Phaser 4 · AI SDK v7 · zod.
 
-## How a session works
+## How it works for a learner
 
-1. **Upload** a PDF (a chapter or a whole textbook; there is no page cap), pasted text, or a topic name.
-2. **Pick** a length (5, 10 or 15 minutes, which covers up to 4, 7 or 10 concepts) and tick exactly the concepts the game
-   covers (with page ranges; everything starts ticked when it fits), then press **Build my game**. An optional quick check
-   asks which statements sound true (misconceptions mixed with one true fact), lets you change the genre from "Pick for
-   me", and asks 3 pre-check questions for the debrief; skipping any of it is fine.
-3. **Generate**: a loading screen with rotating fun facts while the game is generated and verified (about a minute live,
-   instant in mock mode). Agent progress stays internal.
-4. **Learn and play** in one of four genres: a point-and-click investigation, a cozy management sim, a top-down explorer or
-   a narrative adventure. Before the first challenge on each concept, the game's guide character teaches it (the idea, key
-   facts cited to your pages, the formula, a worked example, the classic mistake), and the Field guide (G) keeps every lesson
-   one keypress away. Every challenge is a teaching mechanic from a 316-card library, graded by code, with three tiers of
-   hints and a mastery meter.
-5. **Debrief** asks the post-check, shows pre vs post, per-concept mastery and "what you just did", and offers Replay,
-   Regenerate as another genre, or Focus on my weak spots.
+1. **Upload**: a PDF (a chapter or a whole textbook), pasted notes, or just a topic name.
+2. **Pick**: tick the concepts to cover (with page ranges) and choose a length of 5, 10 or 15 minutes, which covers up to
+   4, 7 or 10 concepts. An optional quick check asks which statements sound true, lets you choose a genre instead of
+   "Pick for me", and asks 3 pre-check questions for the debrief. Skipping any of it is fine.
+3. **Generate**: EduXPert builds the game from your own material while a loading screen shows fun facts.
+4. **Learn & play**: before the first challenge on each concept, the guide teaches it (the idea, key facts cited to your
+   pages, the formula, a worked example, the classic mistake). Every challenge comes from a 316-card library of teaching
+   mechanics, is graded by code, and offers three tiers of hints and a mastery meter.
+5. **Debrief**: your before and after scores, mastery per concept, and what to review next, with Replay, Regenerate as
+   another genre, or Focus on my weak spots.
+
+New games come in four genres: a point-and-click investigation, a cozy management sim, a top-down explorer, and a
+narrative adventure. Every game is checked to be winnable before you see it.
 
 Games are data, not generated code. The agents produce a zod-validated `GameSpec` JSON; hand-built hosts and mechanic
 families render and grade it, so a bad model output can never crash the game.
@@ -40,22 +44,13 @@ pnpm run doctor          # checks Node, pnpm and the selected modes ("pnpm docto
 pnpm dev                 # http://localhost:3000
 ```
 
-Try the showcase games:
+Upload `samples/cell-transport.pdf` on the home page (or paste notes, or type a topic) and walk the whole flow. In
+mock mode every upload maps to the closest recorded sample. http://localhost:3000/library browses the teaching-mechanic
+library.
 
-| Game | URL |
-|---|---|
-| Trigonometry (Dungeon) | http://localhost:3000/play/fixture-trig |
-| Cell transport (Dungeon) | http://localhost:3000/play/fixture-cell-transport |
-| Civil rights history (Mystery) | http://localhost:3000/play/fixture-civil-rights-mystery |
-| Trigonometry (Platformer) | http://localhost:3000/play/fixture-trig-platformer |
-| Wave-2 proving ground (nine mechanics) | http://localhost:3000/play/fixture-wave2 |
-| Mechanic library browser | http://localhost:3000/library |
-
-Then upload `samples/cell-transport.pdf` on the home page and walk the whole flow. In mock mode every upload maps to the
-closest recorded sample (trig, cell transport, civil rights).
-
-Controls: arrow keys or WASD to move, Space to jump in the Platformer, E or Enter at an obstacle to open its
-challenge, Tab to reach every widget. Add `?debug=1` to a play URL to expose `window.__GAME_DEBUG__` (state, autoSolve).
+Controls: click or Tab through the game board, arrow keys or WASD to move where there is an avatar, E or Enter at an
+obstacle to open its challenge, G for the Field guide. Add `?debug=1` to a play URL to expose `window.__GAME_DEBUG__`
+(state, autoSolve).
 
 ## Going live
 
@@ -108,8 +103,9 @@ PDF / text / topic
   mode).
 - **Library** (`src/library/catalog/*`): the 316 teaching-mechanic cards from `docs/LIBRARY.md`, 303 playable today,
   plus genre sockets, chunks, and the retrieval scorer. `pnpm library:report` prints the coverage.
-- **Hosts** (`src/game/hosts/*`): Dungeon and Platformer on Phaser 4 (WebGL, client-only), Mystery on the DOM, and a
-  DOM fallback that plays any spec when WebGL is missing.
+- **Hosts**: the four offered genres (casefile investigation, cozy sim, explorer, story) plus the logic board live in
+  `src/game/genre/hosts/*`. The older Dungeon and Platformer hosts run on Phaser 4 (WebGL, client-only) in
+  `src/game/hosts/*`, next to a DOM fallback that plays any spec when WebGL is missing.
 - **Verification**: the pipeline self-solves every encounter, a second model blind-solves it, disagreements are
   repaired or replaced with a known-good Mimic Chest, so every shipped game is winnable.
 - **Mock mode** adapts recorded Director blueprints to the live intake (length, genre, card menu), so the whole product
