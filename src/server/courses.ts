@@ -98,13 +98,6 @@ export const COURSES: CourseMeta[] = [
     blurb: "Run the gantry, clear every gear and gate, and tune the last one so the star chart can drop.",
     interactions: "Running and jumping between gates, tuning period and amplitude, solving for the angle that opens the way",
   },
-  {
-    routeId: "fixture-wave2",
-    subject: "trig",
-    subjectLabel: "Trigonometry",
-    blurb: "Nine rooms, nine different kinds of problem. Clear every one.",
-    interactions: "Slopes, equations, balances, ledgers, codes, machines, traces, and recall",
-  },
 ];
 
 /** Display name for a genre on the example pages; the catalog's platformer name ("obstacle course") reads as a course. */

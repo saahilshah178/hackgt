@@ -10,7 +10,7 @@
 import type Phaser from "phaser";
 import type { CharInput } from "../scene/character";
 import { NO_INPUT } from "../scene/character";
-import { actionFor, CAPTURED_CODES, isTypingTarget, type HostAction, type KeyContext } from "./keymap";
+import { actionFor, CAPTURED_CODES, isTypingTarget, type ControlScheme, type HostAction, type KeyContext } from "./keymap";
 
 export type ActionHandler = (action: HostAction, ev: KeyboardEvent) => void;
 
@@ -20,6 +20,7 @@ export class InputController {
   private frozen = false;
   private captureOn = true;
   private context: KeyContext = "explore";
+  private scheme: ControlScheme = "classic";
   private readonly kb: Phaser.Input.Keyboard.KeyboardPlugin | null;
   private readonly onDown: (ev: KeyboardEvent) => void;
   private readonly onUp: (ev: KeyboardEvent) => void;
@@ -43,6 +44,11 @@ export class InputController {
       // older keyboard plugins: capture is optional
     }
     this.syncCapture();
+  }
+
+  /** Clockwork Crypt hops with W and skips dialogue with Space. Other expeditions keep the classic map. */
+  setScheme(scheme: ControlScheme): void {
+    this.scheme = scheme;
   }
 
   /** The host's context (explore, panel, cutscene); `frozen` releases capture (D4). */
@@ -76,7 +82,7 @@ export class InputController {
   private keyDown(ev: KeyboardEvent): void {
     if (isTypingTarget(ev.target as Element | null)) return;
     if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
-    const action = actionFor(ev.code, { context: this.frozen && this.context === "explore" ? "panel" : this.context, shift: ev.shiftKey });
+    const action = actionFor(ev.code, { context: this.frozen && this.context === "explore" ? "panel" : this.context, shift: ev.shiftKey, scheme: this.scheme });
     this.lastInputAt = this.now();
     this.held.add(ev.code);
     if (!action) return;

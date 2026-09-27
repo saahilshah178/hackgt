@@ -36,7 +36,7 @@ export function DynamicHeroHeading() {
   const visibleVerb = STUDY_VERBS[verbIndex].slice(0, characterCount);
 
   return (
-    <h1 className="mt-5 text-4xl leading-[1.1] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+    <h1 className="text-4xl leading-[1.1] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
       <span className="block">Don&apos;t just study.</span>
       <span className="block min-h-[1.1em] text-primary">
         {visibleVerb}

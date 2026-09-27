@@ -113,11 +113,11 @@ export function pickLink(choices: readonly LinkChoice[], key: LinkKey): LinkChoi
 }
 
 /** Prompt text for the interact glyph (§2.4.2). */
-export function linkPrompt(c: Pick<LinkChoice, "verb" | "key">): string {
+export function linkPrompt(c: Pick<LinkChoice, "verb" | "key">, hopKey: "Space" | "W" = "Space"): string {
   switch (c.verb) {
     case "hop":
     case "timed_hop":
-      return "Space · Hop";
+      return `${hopKey} · Hop`;
     case "drop":
       return "S · Drop";
     case "ride":

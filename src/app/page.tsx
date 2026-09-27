@@ -1,11 +1,26 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BarChart3, Clock, FileUp, GraduationCap, Layers, ListChecks, Play, SlidersHorizontal, Sparkles, Wand2 } from "lucide-react";
+import { ArrowRight, BarChart3, Clock, FileUp, GraduationCap, Layers, ListChecks, Play, SlidersHorizontal, Wand2 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { UploadPanel } from "@/components/upload-panel";
 import { CourseProgress } from "@/components/course-progress";
 import { DynamicHeroHeading } from "@/components/dynamic-hero-heading";
 import { HeroIllustration, SubjectArt } from "@/components/illustrations";
 import { loadCourses, type Course } from "@/server/courses";
+
+/** One illustration per example game, in the same flat pastel style. */
+const COURSE_ART: Record<string, string> = {
+  "fixture-cell-transport-cozy": "/home/cell-cozy.png",
+  "fixture-cell-transport-casefile": "/home/cell-casefile.png",
+  "fixture-cell-transport": "/home/cell-vault.png",
+  "fixture-civil-rights-explorer": "/home/history-explorer.png",
+  "fixture-civil-rights-story": "/home/history-story.png",
+  "fixture-civil-rights-mystery": "/home/history-mystery.png",
+  "fixture-civil-rights-dungeon": "/home/history-archive.png",
+  "fixture-trig-puzzle": "/home/trig-circuit.png",
+  "fixture-trig": "/home/trig-crypt.png",
+  "fixture-trig-platformer": "/home/trig-run.png",
+};
 
 const HOW_IT_WORKS = [
   { step: "Upload", detail: "A PDF chapter, pasted notes, or just a topic name.", icon: FileUp },
@@ -22,10 +37,6 @@ export default async function Home() {
     <AppShell>
       <section className="grid items-center gap-10 pb-6 md:grid-cols-[1.1fr_1fr] lg:gap-16">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-accent px-3.5 py-1.5 text-sm font-semibold text-accent-foreground">
-            <Sparkles className="size-4" aria-hidden />
-            Learn by playing
-          </span>
           <DynamicHeroHeading />
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
             Upload a chapter, paste notes, or name a topic. After a few questions, you&apos;ll get a game that both teaches
@@ -143,7 +154,17 @@ function CourseCard({ course: c }: { course: Course }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-1 hover:border-brand hover:shadow-xl hover:shadow-sky-900/5">
       <div className="relative aspect-[16/9] overflow-hidden">
-        <SubjectArt subject={c.subject} className="size-full transition-transform duration-500 group-hover:scale-105" />
+        {COURSE_ART[c.routeId] ? (
+          <Image
+            src={COURSE_ART[c.routeId]}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 36rem, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <SubjectArt subject={c.subject} className="size-full transition-transform duration-500 group-hover:scale-105" />
+        )}
         <span className="absolute top-3 left-3 rounded-full bg-card/90 px-3 py-1 text-xs font-semibold shadow-sm backdrop-blur">{c.subjectLabel}</span>
       </div>
       <div className="flex flex-1 flex-col gap-4 p-5">

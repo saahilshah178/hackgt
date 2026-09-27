@@ -11,7 +11,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Collectible, Story } from "../../../contracts/world";
 import type { AudioBus } from "../audio/bus";
 import styles from "./hud.module.css";
-import { hudHotkey } from "./key-legend";
+import { hudHotkey, KEY_LEGEND, type LegendRow } from "./key-legend";
 import { KeyLegend } from "./KeyLegend";
 import { MeterBar } from "./MeterBar";
 import { MuteToggle } from "./MuteToggle";
@@ -34,6 +34,8 @@ export interface HudProps {
   onToggleJournal?: () => void;
   /** listen for the HUD hotkeys on window (default true) */
   hotkeys?: boolean;
+  /** key card rows; Clockwork Crypt passes its own map */
+  legend?: readonly LegendRow[];
 }
 
 export function Hud({
@@ -49,6 +51,7 @@ export function Hud({
   onOpenMap,
   onToggleJournal,
   hotkeys = true,
+  legend = KEY_LEGEND,
 }: HudProps) {
   const [legendOpen, setLegendOpen] = useState(false);
   const [objectivePing, setObjectivePing] = useState(0);
@@ -137,7 +140,7 @@ export function Hud({
         </button>
         <MuteToggle bus={bus} />
       </div>
-      <KeyLegend open={legendOpen} onClose={() => setLegendOpen(false)} />
+      <KeyLegend open={legendOpen} onClose={() => setLegendOpen(false)} rows={legend} />
     </>
   );
 }

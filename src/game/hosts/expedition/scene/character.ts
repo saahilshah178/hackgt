@@ -57,6 +57,8 @@ export interface CharCtx {
   driverTop?: (linkId: string) => { x: number; y: number } | null;
   /** movement keys are ignored (frozen) — active paths still complete */
   frozen: boolean;
+  /** Clockwork Crypt: the hop key tries a hop, then a climb, then a cosmetic hop. Other games keep Space as hop only. */
+  cryptControls?: boolean;
 }
 export type CharEvent =
   | { type: "link_used"; linkId: string; landed: "to" | "missTo" }
@@ -113,6 +115,20 @@ export function stepCharacter(s0: CharState, input: CharInput, ctx: CharCtx, dtS
 
   // ---- traversal keys
   if (!ctx.frozen) {
+    if (ctx.cryptControls && input.hop) {
+      const start = (key: LinkKey) => {
+        const choice = linkForKey(s, key, ctx);
+        if (!choice) return null;
+        const path = planChoice(choice, ctx);
+        events.push({ type: "path_start", kind: path.kind, linkId: path.linkId });
+        if (path.kind === "hop" || path.kind === "timed_hop") events.push({ type: "hop", cosmetic: false });
+        return { state: startPath(s, path), events };
+      };
+      const taken = start("space") ?? start("up");
+      if (taken) return taken;
+      events.push({ type: "hop", cosmetic: true });
+      return { state: startPath(s, cosmeticHop({ x: s.x, y: s.y }, s.surface)), events };
+    }
     for (const key of ["hop", "up", "down", "interact"] as const) {
       if (!input[key]) continue;
       const lk: LinkKey = key === "hop" ? "space" : key;

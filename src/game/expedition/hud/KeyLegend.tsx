@@ -5,9 +5,9 @@
  */
 import { useEffect, useRef } from "react";
 import styles from "./hud.module.css";
-import { KEY_LEGEND } from "./key-legend";
+import { KEY_LEGEND, type LegendRow } from "./key-legend";
 
-export function KeyLegend({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function KeyLegend({ open, onClose, rows = KEY_LEGEND }: { open: boolean; onClose: () => void; rows?: readonly LegendRow[] }) {
   const closeRef = useRef<HTMLButtonElement | null>(null);
   useEffect(() => {
     if (!open) return;
@@ -48,7 +48,7 @@ export function KeyLegend({ open, onClose }: { open: boolean; onClose: () => voi
             </tr>
           </thead>
           <tbody>
-            {KEY_LEGEND.map((row) => (
+            {rows.map((row) => (
               <tr key={row.keys.join("")}>
                 <th scope="row">
                   {row.keys.map((k) => (

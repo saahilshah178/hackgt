@@ -27,6 +27,7 @@ import { makeFxKit } from "./fx";
 import { FinishStack } from "./fx/finish";
 import { ParticleField } from "./fx/particles";
 import { ensureFxTextures } from "./fx/textures";
+import { TRIG_DUNGEON_SPEC_ID } from "../../expedition/client/trig-learn";
 import { InputController } from "./input/controller";
 import type { HostAction } from "./input/keymap";
 import type { LabelStore } from "./labels/label-store";
@@ -179,6 +180,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
       this.particles = new ParticleField(this, P);
       this.fade = this.add.rectangle(0, 0, 10, 10, 0x000000, 1).setScrollFactor(0).setDepth(100).setOrigin(0.5);
       this.keys = new InputController(this, (a, ev) => this.onAction(a, ev), () => this.clockMs);
+      if (this.d.spec.id === TRIG_DUNGEON_SPEC_ID) this.keys.setScheme("crypt");
       this.runner = new CutsceneRunner({
         stage: this.stage,
         say: (req) => this.d.events.say(req),
@@ -263,6 +265,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
         speedScale,
         driverTop: (id) => this.built?.driverTop(id, this.tSec + 0.35) ?? null,
         frozen,
+        cryptControls: this.d.spec.id === TRIG_DUNGEON_SPEC_ID,
       };
     }
     private rebuildSurfaces(animate: boolean) {
@@ -765,7 +768,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
         } else {
           const choices = linksInRange(this.zone.links, { x: this.char.x, surface: this.char.surface }, { model: this.model, reqOk: this.reqOk });
           const c: LinkChoice | undefined = choices[0];
-          if (c) L.set({ id: "interact", kind: "interact", x: c.start.x, y: this.groundAt(c.start.x, c.start.surface) - 200, text: linkPrompt(c) });
+          if (c) L.set({ id: "interact", kind: "interact", x: c.start.x, y: this.groundAt(c.start.x, c.start.surface) - 200, text: linkPrompt(c, this.d.spec.id === TRIG_DUNGEON_SPEC_ID ? "W" : "Space") });
         }
       }
       // NPC names near the player, plaque titles when near
@@ -815,7 +818,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
           const ctl = this.controllers.get(f.encounterId);
           this.openStation = f.encounterId;
           for (const [id, c] of this.controllers) c.setOpen(id === f.encounterId);
-          if (ctl) {
+          if (ctl && !layout.coverStage) {
             const st = this.d.world.stationByEncounter.get(f.encounterId);
             void this.cam.frame(unionRect(ctl.frameBounds(), playerRect), safe, st?.frameZoom ?? null);
           }
@@ -824,7 +827,7 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
           const sb = this.sandboxes.get(f.sandboxId);
           sb?.setOpen(true);
           const def = this.d.world.sandboxes.find((s) => s.id === f.sandboxId);
-          if (sb) void this.cam.frame(unionRect(sb.frameBounds(), playerRect), safe, def?.frameZoom ?? null);
+          if (sb && !layout.coverStage) void this.cam.frame(unionRect(sb.frameBounds(), playerRect), safe, def?.frameZoom ?? null);
         } else {
           this.openStation = null;
           for (const c of this.controllers.values()) c.setOpen(false);

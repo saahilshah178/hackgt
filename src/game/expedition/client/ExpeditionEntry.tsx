@@ -10,6 +10,7 @@ import type { WorldOverlay } from "../../../contracts/world";
 import { resolveWorld } from "../../../world/resolve-world";
 import type { WorldSource } from "../../../world/types";
 import { ExpeditionClient } from "./ExpeditionClient";
+import { withTrigLearnPhase } from "./trig-learn";
 
 export interface ExpeditionEntryProps {
   spec: GameSpec;
@@ -19,6 +20,7 @@ export interface ExpeditionEntryProps {
 }
 
 export default function ExpeditionEntry({ spec, world, source, sfx }: ExpeditionEntryProps) {
-  const resolved = useMemo(() => resolveWorld(spec, world, source), [spec, world, source]);
+  const dressed = useMemo(() => withTrigLearnPhase(spec.id, world), [spec.id, world]);
+  const resolved = useMemo(() => resolveWorld(spec, dressed, source), [spec, dressed, source]);
   return <ExpeditionClient spec={spec} world={resolved} sfx={sfx} />;
 }
