@@ -52,7 +52,24 @@ describe("audio pipeline", () => {
 
   it("lists every narrative line with a stable key", () => {
     const lines = narrativeLines(spec);
-    expect(lines.map((l) => l.lineKey)).toEqual(["intro:0", "outro:0", "beat:e2_period:before", "beat:e6_boss:before", "beat:e6_boss:after"]);
+    expect(lines.map((l) => l.lineKey)).toEqual([
+      "intro:0",
+      "intro:1",
+      "intro:2",
+      "outro:0",
+      "beat:e1_radians:before",
+      "beat:e1_radians:after",
+      "beat:e2_period:before",
+      "beat:e2_period:after",
+      "beat:e3_amplitude:before",
+      "beat:e3_amplitude:after",
+      "beat:e4_solve:before",
+      "beat:e4_solve:after",
+      "beat:e5_period_review:before",
+      "beat:e5_period_review:after",
+      "beat:e6_boss:before",
+      "beat:e6_boss:after",
+    ]);
   });
 
   it("is a no-op with AUDIO_MODE=off (no client calls, no blobs)", async () => {
@@ -69,10 +86,11 @@ describe("audio pipeline", () => {
     const client = fakeClient();
     const notes: string[] = [];
     const first = await buildAudio(spec, { storage, client, onProgress: (n) => notes.push(n) });
-    expect(first.voice).toHaveLength(5);
+    const lineCount = narrativeLines(spec).length;
+    expect(first.voice).toHaveLength(lineCount);
     expect(first.voice[0].url).toMatch(/^\/api\/blobs\/audio\/voice\/[0-9a-f]{40}\.mp3$/);
-    expect(client.calls).toHaveLength(5);
-    expect(notes.at(-1)).toMatch(/5 lines ready \(0 cached, 5 new\)/);
+    expect(client.calls).toHaveLength(lineCount);
+    expect(notes.at(-1)).toMatch(new RegExp(`${lineCount} lines ready \\(0 cached, ${lineCount} new\\)`));
     const second = await buildAudio(spec, { storage, client: fakeClient() });
     expect(second.voice).toEqual(first.voice); // all from cache: the second client is never called
   });
@@ -85,7 +103,7 @@ describe("audio pipeline", () => {
     const notes: string[] = [];
     const audio = await buildAudio(spec, { storage, client, deadlineMs: 100, concurrency: 1, onProgress: (n) => notes.push(n) });
     expect(audio.voice.length).toBeGreaterThanOrEqual(1);
-    expect(audio.voice.length).toBeLessThan(5);
+    expect(audio.voice.length).toBeLessThan(narrativeLines(spec).length);
     expect(notes.at(-1)).toMatch(/by the deadline/);
   });
 
@@ -96,7 +114,7 @@ describe("audio pipeline", () => {
     const notes: string[] = [];
     const audio = await buildAudio(spec, { storage, client: fakeClient(0, [spec.narrative.outro[0].text]), onProgress: (n) => notes.push(n) });
     expect(audio.voice.map((v) => v.lineKey)).not.toContain("outro:0");
-    expect(audio.voice).toHaveLength(4);
+    expect(audio.voice).toHaveLength(narrativeLines(spec).length - 1);
     expect(notes.some((n) => /skipped outro:0/.test(n))).toBe(true);
   });
 

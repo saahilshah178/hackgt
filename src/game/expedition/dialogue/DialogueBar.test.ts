@@ -2,7 +2,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import type { SpeakerDirectory, SpeakerInfo } from "../../../world/types";
-import { DialogueBar } from "./DialogueBar";
+import { DialogueBar, dialogueAdvanceKey } from "./DialogueBar";
 import { DialogueEngine } from "./engine";
 import type { SayRequest } from "./types";
 
@@ -31,6 +31,26 @@ const say = (text: string, over: Partial<SayRequest> = {}, kind: SayRequest["lin
 });
 const render = (engine: DialogueEngine, layout: Parameters<typeof DialogueBar>[0]["layout"], extra: Record<string, unknown> = {}) =>
   renderToStaticMarkup(createElement(DialogueBar, { engine, speakers, guideId: "cog", layout, onHint: () => undefined, onBrief: () => undefined, ...extra }));
+
+const advance = (over: Partial<Parameters<typeof dialogueAdvanceKey>[0]> = {}) =>
+  dialogueAdvanceKey({ key: " ", repeat: false, defaultPrevented: false, typingTarget: false, inPanel: false, inBar: false, focusedButton: false, ...over });
+
+describe("Space skips the line on screen", () => {
+  it("dismisses a line even when the game already captured Space, and when a HUD button is focused", () => {
+    expect(advance()).toBe(true);
+    expect(advance({ defaultPrevented: true })).toBe(true);
+    expect(advance({ focusedButton: true })).toBe(true);
+  });
+
+  it("leaves the key with a puzzle control, a text field, the bar itself, and Enter on a button", () => {
+    expect(advance({ inPanel: true })).toBe(false);
+    expect(advance({ typingTarget: true })).toBe(false);
+    expect(advance({ inBar: true })).toBe(false);
+    expect(advance({ key: "Enter", focusedButton: true })).toBe(false);
+    expect(advance({ key: "Enter", defaultPrevented: true })).toBe(false);
+    expect(advance({ repeat: true })).toBe(false);
+  });
+});
 
 describe("DialogueBar (server render)", () => {
   it("renders the speaker, the emblem, the typed prefix aria-hidden and the FULL line in a polite live region", () => {

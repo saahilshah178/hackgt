@@ -9,8 +9,8 @@
  *   aria-hidden; a visually hidden live region receives the FULL line when it starts (assertive for critical, taunt
  *   and feedback lines).
  * - I opens a hint while the panel is open; Shift+I opens the brief. The Hint button itself sits with the top controls.
- * - Space / Enter advance when the bar has focus, or anywhere while a blocking line shows and no input has focus.
- *   Clicking the bar advances too.
+ * - Space / Enter advance the line on screen: they finish typing, then dismiss it. That includes walk-up lines and
+ *   toasts, which do not freeze movement. A puzzle control or text field keeps the key. Clicking the bar advances too.
  * - While the panel is open, spoken lines and feedback stay in the bar. Instruction, tutorial, insight and
  *   success are the station directions and render in the panel instead. In explore, non-blocking lines and
  *   toasts show as a strip bottom-centre.
@@ -43,7 +43,7 @@ export interface DialogueBarProps {
   reducedMotion?: boolean;
   /** run the typewriter clock here (default true); false when the client ticks the engine itself */
   drivesClock?: boolean;
-  /** listen for Space/Enter globally while a blocking line shows (default true) */
+  /** listen for Space/Enter globally while a line is on screen (default true) */
   globalAdvance?: boolean;
   /**
    * I = hint rung, Shift+I = brief, while the panel is open (default true). The client must not bind I itself
@@ -62,6 +62,28 @@ function isTypingTarget(el: Element | null): boolean {
   const role = el.getAttribute("role");
   if (role === "slider" || role === "textbox" || role === "spinbutton") return true;
   return (el as HTMLElement).isContentEditable === true;
+}
+
+/**
+ * Space and Enter dismiss the line on screen. Space still counts after the game captures it (Phaser calls
+ * preventDefault so the page does not scroll). Puzzle controls and text fields keep the key. Enter on a focused
+ * button stays with that button; Space skips the line instead of clicking a HUD button.
+ */
+export function dialogueAdvanceKey(input: {
+  key: string;
+  repeat: boolean;
+  defaultPrevented: boolean;
+  typingTarget: boolean;
+  inPanel: boolean;
+  inBar: boolean;
+  focusedButton: boolean;
+}): boolean {
+  if (input.key !== " " && input.key !== "Enter") return false;
+  if (input.repeat) return false;
+  if (input.defaultPrevented && input.key !== " ") return false;
+  if (input.typingTarget || input.inPanel || input.inBar) return false;
+  if (input.key === "Enter" && input.focusedButton) return false;
+  return true;
 }
 
 function speakerOf(speakers: SpeakerDirectory, id: string): SpeakerInfo | null {
@@ -113,23 +135,32 @@ export function DialogueBar({
     engine.setInstant?.(reducedMotion);
   }, [engine, reducedMotion]);
 
-  // Space / Enter advance globally while a blocking line shows and nothing typeable has focus.
-  const blocking = snap.blocking;
+  // Space / Enter dismiss whatever line is up, including walk-up lines and toasts (those do not freeze movement).
+  const showing = snap.active !== null;
   useEffect(() => {
-    if (!globalAdvance || !blocking || typeof window === "undefined") return;
+    if (!globalAdvance || !showing || typeof window === "undefined") return;
     const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key !== " " && e.key !== "Enter") return;
-      if (e.repeat || e.defaultPrevented) return;
-      const active = document.activeElement;
-      if (isTypingTarget(active)) return;
-      if (active && barRef.current?.contains(active)) return; // the bar's own handler runs
-      if (active instanceof HTMLButtonElement) return; // a focused button keeps Enter/Space
+      const focus = document.activeElement;
+      const target = e.target instanceof Element ? e.target : focus;
+      if (
+        !dialogueAdvanceKey({
+          key: e.key,
+          repeat: e.repeat,
+          defaultPrevented: e.defaultPrevented,
+          typingTarget: isTypingTarget(target),
+          inPanel: !!target?.closest?.("[data-panel]"),
+          inBar: !!(target && barRef.current?.contains(target)),
+          focusedButton: focus instanceof HTMLButtonElement,
+        })
+      ) {
+        return;
+      }
       e.preventDefault();
       engine.advance();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [engine, blocking, globalAdvance]);
+  }, [engine, showing, globalAdvance]);
 
   const active = snap.active;
   const pins = snap.pinned;

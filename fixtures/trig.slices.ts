@@ -5,18 +5,17 @@ import { trigIntake, trigKnowledgeMap } from "./trig.knowledge-map";
 /** What the Director returns. */
 export const trigBlueprint: BlueprintSlice = {
   genre: "dungeon",
-  title: "The Clockwork Crypt",
+  title: "The Sky Clock",
   theme: {
-    setting: "A crypt of brass gears beneath an abandoned observatory",
-    tone: "mysterious but playful",
+    setting: "A clock you walk through, room by room, to reach a star chart",
+    tone: "playful",
     paletteId: "ember",
     musicMood: "curious",
   },
-  premise:
-    "The astronomer sealed her star chart behind machines that only move for someone who can read their rhythms. Tune the crypt to reach it.",
+  premise: "Fix each lock in the sky clock to reach the star chart.",
   characters: [
-    { id: "cog", name: "Cog", role: "brass owl companion", voiceArchetype: "cheerful_sidekick" },
-    { id: "warden", name: "The Warden", role: "clockwork guardian of the chart", voiceArchetype: "gruff_guard" },
+    { id: "cog", name: "Cog", role: "owl who walks with you", voiceArchetype: "cheerful_sidekick" },
+    { id: "warden", name: "The Warden", role: "guard of the star chart", voiceArchetype: "gruff_guard" },
   ],
   encounters: [
     { id: "e1_radians", conceptIds: ["c_radians"], teachingMechanicId: "radian_rune_line", socket: "altar", role: "teach", difficulty: 1, targetMisconception: "π radians is a full circle.", designNote: "Make the player see radians as distance along an unrolled circle." },
@@ -31,7 +30,7 @@ export const trigBlueprint: BlueprintSlice = {
 /** What each challenge writer returns, keyed by encounter id. Note the {{placeholders}}: no computed values. Locked params (ask, scale, labels) are absent: code merges them. */
 export const trigChallenges: Record<string, ChallengeSlice> = {
   e1_radians: {
-    prompt: "Radians measure the walk around this circle: a full lap is 2π and π is halfway. Step onto {{target}}.",
+    prompt: "The altar's rune line runs from 0 to 2π. Step onto {{target}}.",
     params: { min: "0", max: "2*pi", target: "5*pi/6", landmarkStep: "pi/2" },
     hints: [
       "A full turn is 2π, so π sits exactly halfway along the line.",
@@ -43,7 +42,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 1, quote: "An angle of π radians corresponds to half a revolution." },
   },
   e2_period: {
-    prompt: "The rings spin on {{equation}}. A period is 2π divided by |b|. Set the dial to one full period so they lock.",
+    prompt: "The vault door's rings spin on {{equation}}. Set the dial to one full period so the rings lock.",
     params: { wave: "sin", amplitude: 1, b: "2", c: "0", d: 0 },
     hints: [
       "A period is how long the rings take to come back to where they started.",
@@ -55,7 +54,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 3, quote: "The period of y = sin(bx) is 2π/|b|." },
   },
   e3_amplitude: {
-    prompt: "Amplitude is the height from the middle, not peak to trough. One claim is a lie. Point your lantern at it.",
+    prompt: "Three chests, three claims about amplitude. One is a mimic. Point your lantern at the lie.",
     params: {
       statements: [
         { text: "The amplitude of y = 3sin(x) is 3", isTrue: true, explanation: "Amplitude is |A|, the number in front." },
@@ -73,7 +72,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 2, quote: "The amplitude of y = A sin x is |A|." },
   },
   e4_solve: {
-    prompt: "Solve 2sin(x) = 1 on [0, 2π): isolate, find the reference angle, then both answers. One plank doesn't belong.",
+    prompt: "The glyph door opens only if its planks show how to solve 2sin(x) = 1 on [0, 2π). One plank doesn't belong.",
     params: {
       steps: [
         "Isolate the sine: sin(x) = 1/2",
@@ -93,7 +92,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 4, quote: "To solve a trigonometric equation, first isolate the trigonometric function." },
   },
   e5_period_review: {
-    prompt: "One chest is lying about periods. No reminders this time. Find the lie.",
+    prompt: "The treasury's chests remember the vault door. One of them is lying about periods.",
     params: {
       statements: [
         { text: "y = sin(2x) repeats every π, twice as often as sin(x)", isTrue: true, explanation: "2π/|b| = 2π/2 = π." },
@@ -111,7 +110,7 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
     sourceRef: { page: 3, quote: "Larger values of b compress the graph horizontally." },
   },
   e6_boss: {
-    prompt: "Match the period of {{equation}}.",
+    prompt: "The Warden's shield spins on {{equation}}. Match its period to break through, and don't let the big swing fool you.",
     params: { wave: "sin", amplitude: 3, b: "pi/2", c: "0", d: 0 },
     hints: [
       "The 3 in front sets how far the shield swings, not how fast.",
@@ -127,13 +126,24 @@ export const trigChallenges: Record<string, ChallengeSlice> = {
 /** What the narrative writer returns. */
 export const trigNarrative: NarrativeSlice = {
   intro: [
-    { speakerId: "cog", text: "Hoo! The astronomer's crypt runs on rhythm. Read the rhythm, and every door will open." },
+    { speakerId: "cog", text: "The sky clock has stopped." },
+    { speakerId: "cog", text: "The star chart is behind six locks. I'll walk with you." },
+    { speakerId: "cog", text: "The first lock is just ahead." },
   ],
-  outro: [{ speakerId: "cog", text: "Her star chart! You read every rhythm in the crypt." }],
+  outro: [{ speakerId: "cog", text: "You got the star chart. The clock is moving again." }],
   beats: [
-    { encounterId: "e2_period", when: "before", speakerId: "cog", text: "Those rings spin on a sine wave. Watch how fast, not how far." },
-    { encounterId: "e6_boss", when: "before", speakerId: "warden", text: "None pass whose timing is false." },
-    { encounterId: "e6_boss", when: "after", speakerId: "warden", text: "Your timing is true. Pass, reader of rhythms." },
+    { encounterId: "e1_radians", when: "before", speakerId: "cog", text: "This line is the first lock. It measures a walk around a circle." },
+    { encounterId: "e1_radians", when: "after", speakerId: "cog", text: "The first lock is open. That's one of six." },
+    { encounterId: "e2_period", when: "before", speakerId: "cog", text: "These rings use y = sin(2t). Watch how fast they spin." },
+    { encounterId: "e2_period", when: "after", speakerId: "cog", text: "The rings are turning again. That's two of six." },
+    { encounterId: "e3_amplitude", when: "before", speakerId: "cog", text: "Three chests are in this room. One of them is lying." },
+    { encounterId: "e3_amplitude", when: "after", speakerId: "cog", text: "You found the lie. That's three of six." },
+    { encounterId: "e4_solve", when: "before", speakerId: "cog", text: "This door needs the steps in order. One plank is a fake." },
+    { encounterId: "e4_solve", when: "after", speakerId: "cog", text: "The door is open. That's four of six." },
+    { encounterId: "e5_period_review", when: "before", speakerId: "cog", text: "More chests. One is lying about how often a wave repeats." },
+    { encounterId: "e5_period_review", when: "after", speakerId: "cog", text: "That's five of six. The guard is in the last room." },
+    { encounterId: "e6_boss", when: "before", speakerId: "warden", text: "This is the last lock. Match my shield's timing." },
+    { encounterId: "e6_boss", when: "after", speakerId: "warden", text: "Your timing matches. Go take the star chart." },
   ],
 };
 

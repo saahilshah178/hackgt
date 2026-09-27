@@ -87,7 +87,7 @@
   "title": "The Clockwork Run",
   "theme": {
     "setting": "A crumbling clockwork gantry racing along the observatory's outer rim",
-    "tone": "mysterious but playful",
+    "tone": "playful",
     "paletteId": "ember",
     "musicMood": "curious"
   },
@@ -96,13 +96,13 @@
     {
       "id": "cog",
       "name": "Cog",
-      "role": "brass owl companion",
+      "role": "owl who walks with you",
       "voiceArchetype": "cheerful_sidekick"
     },
     {
       "id": "warden",
       "name": "The Warden",
-      "role": "clockwork guardian of the chart",
+      "role": "guard of the star chart",
       "voiceArchetype": "gruff_guard"
     }
   ],
@@ -421,31 +421,93 @@
     "intro": [
       {
         "speakerId": "cog",
-        "text": "Hoo! The astronomer's crypt runs on rhythm. Read the rhythm, and every door will open."
+        "text": "The sky clock has stopped."
+      },
+      {
+        "speakerId": "cog",
+        "text": "The star chart is behind six locks. I'll walk with you."
+      },
+      {
+        "speakerId": "cog",
+        "text": "The first lock is just ahead."
       }
     ],
     "outro": [
       {
         "speakerId": "cog",
-        "text": "Her star chart! You read every rhythm in the crypt."
+        "text": "You got the star chart. The clock is moving again."
       }
     ],
     "beats": [
       {
         "speakerId": "cog",
-        "text": "Those rings spin on a sine wave. Watch how fast, not how far.",
+        "text": "This line is the first lock. It measures a walk around a circle.",
+        "encounterId": "e1_radians",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "The first lock is open. That's one of six.",
+        "encounterId": "e1_radians",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "These rings use y = sin(2t). Watch how fast they spin.",
         "encounterId": "e2_period",
         "when": "before"
       },
       {
+        "speakerId": "cog",
+        "text": "The rings are turning again. That's two of six.",
+        "encounterId": "e2_period",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "Three chests are in this room. One of them is lying.",
+        "encounterId": "e3_amplitude",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "You found the lie. That's three of six.",
+        "encounterId": "e3_amplitude",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "This door needs the steps in order. One plank is a fake.",
+        "encounterId": "e4_solve",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "The door is open. That's four of six.",
+        "encounterId": "e4_solve",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "More chests. One is lying about how often a wave repeats.",
+        "encounterId": "e5_period_review",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "That's five of six. The guard is in the last room.",
+        "encounterId": "e5_period_review",
+        "when": "after"
+      },
+      {
         "speakerId": "warden",
-        "text": "None pass whose timing is false.",
+        "text": "This is the last lock. Match my shield's timing.",
         "encounterId": "e6_boss",
         "when": "before"
       },
       {
         "speakerId": "warden",
-        "text": "Your timing is true. Pass, reader of rhythms.",
+        "text": "Your timing matches. Go take the star chart.",
         "encounterId": "e6_boss",
         "when": "after"
       }

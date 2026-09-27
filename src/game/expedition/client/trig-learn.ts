@@ -1,10 +1,10 @@
 /**
- * Learn phase for the trig dungeon only (The Clockwork Crypt, trig_demo_001). The side-scroller shares this world
+ * Learn phase for the trig dungeon only (The Sky Clock, trig_demo_001). The side-scroller shares this world
  * file, so the lessons are applied here, after the world is chosen, and never written back into it.
  *
- * The first four machines are taught on the way in: Cog talks while you walk, Brasswick says it in his own words,
- * a plaque states the rule, then the machine asks you to use it. After the chasm, the walk stops explaining and the
- * last two machines are quizzes. Hints on a wrong answer are left as they are.
+ * The first four stops are taught on the way in: Cog talks while you walk, Brasswick says it in his own words,
+ * and a plaque states the rule. The six machines themselves stay the Clockwork Crypt puzzles. After the chasm,
+ * the walk stops explaining. Hints on a wrong answer are left as they are.
  */
 import type { NpcState, Plaque, Requirement, Trigger, WorldLine, WorldOverlay } from "../../../contracts/world";
 
@@ -14,21 +14,6 @@ const say = (speakerId: string, text: string): WorldLine => ({ speakerId, text, 
 
 function req(solved: string | null, flag: string | null = null): Requirement {
   return { solved, flag, notFlag: null, collected: [] };
-}
-
-function station(world: WorldOverlay, id: string) {
-  return world.stations.find((s) => s.encounterId === id) ?? null;
-}
-
-/** Drop a card that repeats another view of the same wave. The control and one reference stay. */
-function hideCards(world: WorldOverlay, encounterId: string, slots: readonly number[]) {
-  const st = station(world, encounterId);
-  if (!st) return;
-  for (const slot of slots) {
-    const card = st.panel.cards.find((c) => c.slot === slot);
-    if (card) card.hidden = true;
-    else st.panel.cards.push({ slot, title: null, x: null, y: null, hidden: true });
-  }
 }
 
 const WALK: Trigger[] = [
@@ -208,68 +193,6 @@ const BRASSWICK: NpcState[] = [
 export function withTrigLearnPhase(specId: string, world: WorldOverlay): WorldOverlay {
   if (specId !== TRIG_DUNGEON_SPEC_ID) return world;
   const next = structuredClone(world);
-
-  const e1 = station(next, "e1_radians");
-  if (e1) {
-    e1.dialogue.approach = [
-      say("cog", "The Vesper Dial counts radians, not hours. Sunrise is 0, and one full lap of the rail is 2π."),
-      say("cog", "Fog hides the lens, so we aim by the bearing. π would be halfway. We need a little less than that."),
-    ];
-    e1.dialogue.instruction = {
-      speakerId: "cog",
-      text: "Swing the carriage to 5π/6: five of the six steps from sunrise to the halfway mark.",
-      mood: "neutral",
-    };
-  }
-
-  const e2 = station(next, "e2_period");
-  if (e2) {
-    e2.dialogue.approach = [
-      say("cog", "The Tidewheel Gate runs on y = sin(2t). The 2 inside is b, and one period is 2π divided by |b|."),
-      say("cog", "Ignore how tall the wave is. Set the wait until the ring has come home once, moving the same way."),
-    ];
-    e2.dialogue.instruction = {
-      speakerId: "cog",
-      text: "Set the latch timer to one period of the ring. Divide 2π by the 2 in sin(2t).",
-      mood: "neutral",
-    };
-  }
-
-  const e3 = station(next, "e3_amplitude");
-  if (e3) {
-    e3.dialogue.approach = [
-      say("cog", "Amplitude is the climb from the middle, not from peak to trough. The Echo Choir sings that law."),
-      say("cog", "One singer measures the whole swing and calls that the amplitude. Aim the Tuning Lens at the lie."),
-    ];
-    e3.dialogue.instruction = {
-      speakerId: "cog",
-      text: "Aim the Tuning Lens at each singer. Expose the one whose amplitude claim measures the whole swing.",
-      mood: "neutral",
-    };
-  }
-
-  const e4 = station(next, "e4_solve");
-  if (e4) {
-    e4.dialogue.approach = [
-      say("cog", "Isolate the sine, find the reference angle, then both places on the lap. That order builds the span."),
-      say("cog", "Two pylons, two answers. One glyph stone does not belong in that order."),
-    ];
-  }
-
-  const e5 = station(next, "e5_period_review");
-  if (e5) {
-    e5.dialogue.approach = [
-      say("cog", "The Chime Treasury. One singer is wrong about a period, and I won't reteach the rule."),
-      say("cog", "Read the traces and expose the mimic."),
-    ];
-  }
-
-  // One picture of the angle, not a second sine graph beside the circle.
-  hideCards(next, "e1_radians", [1]);
-  // The stones are the puzzle and the circle is the reference. The equation plot repeats both.
-  hideCards(next, "e4_solve", [2]);
-  // The pendulum card already ghosts the shield wave. The shield card is that wave again.
-  hideCards(next, "e6_boss", [0]);
 
   const wick = next.npcs.find((n) => n.id === "brasswick");
   if (wick) wick.states = BRASSWICK;

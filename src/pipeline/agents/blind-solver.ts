@@ -211,7 +211,13 @@ export async function blindSolveAndFix(a: BlindSolveArgs): Promise<GameSpec> {
     .sort((x, y) => x.index - y.index)
     .flatMap((o) => (o.encounter ? [o.encounter] : []));
   const layout = layoutFromEncounters(spec.genre, encounters);
-  const result = validateGameSpec({ ...spec, encounters, layout });
+  const kept = new Set(encounters.map((e) => e.id));
+  const result = validateGameSpec({
+    ...spec,
+    encounters,
+    layout,
+    narrative: { ...spec.narrative, beats: spec.narrative.beats.filter((b) => kept.has(b.encounterId)) },
+  });
   if (!result.ok) throw new GenerationError(result.issues);
   return result.spec;
 }

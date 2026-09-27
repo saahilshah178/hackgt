@@ -84,25 +84,25 @@
     "laterBonus": 0.08,
     "missPenalty": 0.05
   },
-  "title": "The Clockwork Crypt",
+  "title": "The Sky Clock",
   "theme": {
-    "setting": "A crypt of brass gears beneath an abandoned observatory",
-    "tone": "mysterious but playful",
+    "setting": "A clock you walk through, room by room, to reach a star chart",
+    "tone": "playful",
     "paletteId": "ember",
     "musicMood": "curious"
   },
-  "premise": "The astronomer sealed her star chart behind machines that only move for someone who can read their rhythms. Tune the crypt to reach it.",
+  "premise": "Fix each lock in the sky clock to reach the star chart.",
   "characters": [
     {
       "id": "cog",
       "name": "Cog",
-      "role": "brass owl companion",
+      "role": "owl who walks with you",
       "voiceArchetype": "cheerful_sidekick"
     },
     {
       "id": "warden",
       "name": "The Warden",
-      "role": "clockwork guardian of the chart",
+      "role": "guard of the star chart",
       "voiceArchetype": "gruff_guard"
     }
   ],
@@ -119,7 +119,7 @@
       "targetMisconception": "π radians is a full circle.",
       "familyId": "mapper",
       "mode": "number_line",
-      "prompt": "Radians measure the walk around this circle: a full lap is 2π and π is halfway. Step onto 5π/6.",
+      "prompt": "The altar's rune line runs from 0 to 2π. Step onto 5π/6.",
       "params": {
         "scale": "linear",
         "min": "0",
@@ -159,7 +159,7 @@
       "targetMisconception": "sin(2x) has period 4π, twice as long as sin(x).",
       "familyId": "tuner",
       "mode": "oscillator",
-      "prompt": "The rings spin on y = sin(2t). A period is 2π divided by |b|. Set the dial to one full period so they lock.",
+      "prompt": "The vault door's rings spin on y = sin(2t). Set the dial to one full period so the rings lock.",
       "params": {
         "wave": "sin",
         "amplitude": 1,
@@ -204,7 +204,7 @@
       "targetMisconception": "Amplitude is the distance from peak to trough.",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "Amplitude is the height from the middle, not peak to trough. One claim is a lie. Point your lantern at it.",
+      "prompt": "Three chests, three claims about amplitude. One is a mimic. Point your lantern at the lie.",
       "params": {
         "statements": [
           {
@@ -251,7 +251,7 @@
       "targetMisconception": "sin(x) = 1/2 has only one solution on [0, 2π).",
       "familyId": "sequencer",
       "mode": "linear",
-      "prompt": "Solve 2sin(x) = 1 on [0, 2π): isolate, find the reference angle, then both answers. One plank doesn't belong.",
+      "prompt": "The glyph door opens only if its planks show how to solve 2sin(x) = 1 on [0, 2π). One plank doesn't belong.",
       "params": {
         "steps": [
           "Isolate the sine: sin(x) = 1/2",
@@ -295,7 +295,7 @@
       "targetMisconception": "sin(2x) has period 4π, twice as long as sin(x).",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "One chest is lying about periods. No reminders this time. Find the lie.",
+      "prompt": "The treasury's chests remember the vault door. One of them is lying about periods.",
       "params": {
         "statements": [
           {
@@ -343,7 +343,7 @@
       "targetMisconception": null,
       "familyId": "tuner",
       "mode": "oscillator",
-      "prompt": "Match the period of y = 3sin((π/2)t).",
+      "prompt": "The Warden's shield spins on y = 3sin((π/2)t). Match its period to break through, and don't let the big swing fool you.",
       "params": {
         "wave": "sin",
         "amplitude": 3,
@@ -421,31 +421,93 @@
     "intro": [
       {
         "speakerId": "cog",
-        "text": "Hoo! The astronomer's crypt runs on rhythm. Read the rhythm, and every door will open."
+        "text": "The sky clock has stopped."
+      },
+      {
+        "speakerId": "cog",
+        "text": "The star chart is behind six locks. I'll walk with you."
+      },
+      {
+        "speakerId": "cog",
+        "text": "The first lock is just ahead."
       }
     ],
     "outro": [
       {
         "speakerId": "cog",
-        "text": "Her star chart! You read every rhythm in the crypt."
+        "text": "You got the star chart. The clock is moving again."
       }
     ],
     "beats": [
       {
         "speakerId": "cog",
-        "text": "Those rings spin on a sine wave. Watch how fast, not how far.",
+        "text": "This line is the first lock. It measures a walk around a circle.",
+        "encounterId": "e1_radians",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "The first lock is open. That's one of six.",
+        "encounterId": "e1_radians",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "These rings use y = sin(2t). Watch how fast they spin.",
         "encounterId": "e2_period",
         "when": "before"
       },
       {
+        "speakerId": "cog",
+        "text": "The rings are turning again. That's two of six.",
+        "encounterId": "e2_period",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "Three chests are in this room. One of them is lying.",
+        "encounterId": "e3_amplitude",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "You found the lie. That's three of six.",
+        "encounterId": "e3_amplitude",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "This door needs the steps in order. One plank is a fake.",
+        "encounterId": "e4_solve",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "The door is open. That's four of six.",
+        "encounterId": "e4_solve",
+        "when": "after"
+      },
+      {
+        "speakerId": "cog",
+        "text": "More chests. One is lying about how often a wave repeats.",
+        "encounterId": "e5_period_review",
+        "when": "before"
+      },
+      {
+        "speakerId": "cog",
+        "text": "That's five of six. The guard is in the last room.",
+        "encounterId": "e5_period_review",
+        "when": "after"
+      },
+      {
         "speakerId": "warden",
-        "text": "None pass whose timing is false.",
+        "text": "This is the last lock. Match my shield's timing.",
         "encounterId": "e6_boss",
         "when": "before"
       },
       {
         "speakerId": "warden",
-        "text": "Your timing is true. Pass, reader of rhythms.",
+        "text": "Your timing matches. Go take the star chart.",
         "encounterId": "e6_boss",
         "when": "after"
       }

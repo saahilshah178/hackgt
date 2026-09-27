@@ -22,7 +22,7 @@ const SHOWCASE_META: { fixture: string; href: string; blurb: string }[] = [
   {
     fixture: "trig-dungeon",
     href: "/play/fixture-trig",
-    blurb: "Dial a vault door's period, expose the amplitude mimic, lay the planks that solve 2sin(x) = 1.",
+    blurb: "Fix each lock in the sky clock to reach the star chart.",
   },
   {
     fixture: "cell-transport-dungeon",
