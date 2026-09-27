@@ -83,7 +83,7 @@ export class StubZoneLoader implements ZoneArtLoader {
   private specFor(key: string): StubSpec {
     let s = this.specs.get(key);
     if (!s) {
-      s = stubSpecFor(key, this.hints ?? { layers: new Map(), hubs: new Set(), consoles: new Set(), blockers: new Set(), facades: new Set(), vehicles: new Set() });
+      s = stubSpecFor(key, this.hints ?? { layers: new Map(), skies: new Set(), hubs: new Set(), consoles: new Set(), blockers: new Set(), facades: new Set(), vehicles: new Set() });
       this.specs.set(key, s);
     }
     return s;

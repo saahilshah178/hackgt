@@ -2,10 +2,14 @@
  * art/stub-spec.ts (pure, H1) — what the STUB loader paints for an asset key until A1's manifest loader and the kit
  * art exist: a kit-coloured shape per group (docs/design/20 §5.1 groups), sized by the key's role in the world
  * (layer depth, hub, console, blocker...). Also the residency diff every loader applies on a zone swap (A4, §5.7).
+ *
+ * Backdrops stay clean: the topmost far layer of a set dresses the sky (planets and sparse stars over the segment
+ * gradient), the other far and fore layers are smooth silhouettes, and the mid layer is one low ridge. No columns or
+ * scaffolding float in the sky while the real art is missing.
  */
 import type { Depth, WorldOverlay } from "../../../../contracts/world";
 
-export type StubStyle = "hills" | "haze" | "strip" | "block" | "disc" | "glow" | "figure" | "plaque" | "vista" | "pillar" | "arch" | "colonnade";
+export type StubStyle = "hills" | "haze" | "strip" | "block" | "disc" | "glow" | "figure" | "plaque" | "vista" | "pillar" | "arch" | "ridge" | "celestial" | "wisp" | "none";
 export interface StubSpec {
   key: string;
   w: number; // design units
@@ -20,6 +24,8 @@ export interface StubSpec {
 }
 export interface StubHints {
   layers: ReadonlyMap<string, Depth>;
+  /** per layer set, the topmost repeating L1_far layer: painted as the sky dressing (planets, stars) */
+  skies: ReadonlySet<string>;
   hubs: ReadonlySet<string>;
   consoles: ReadonlySet<string>;
   blockers: ReadonlySet<string>;
@@ -42,11 +48,16 @@ export function groupOfKey(key: string): string {
 
 export function stubHintsFor(world: WorldOverlay): StubHints {
   const layers = new Map<string, Depth>();
+  const skies = new Set<string>();
   const hubs = new Set<string>();
   const facades = new Set<string>();
   const vehicles = new Set<string>();
   for (const z of world.zones) {
-    for (const ls of z.layerSets) for (const l of ls.layers) if (!layers.has(l.asset)) layers.set(l.asset, l.depth);
+    for (const ls of z.layerSets) {
+      for (const l of ls.layers) if (!layers.has(l.asset)) layers.set(l.asset, l.depth);
+      const top = ls.layers.filter((l) => l.depth === "L1_far" && l.repeatX).sort((a, b) => a.y - b.y)[0];
+      if (top) skies.add(top.asset);
+    }
     if (z.hub) hubs.add(z.hub.asset);
     for (const i of z.interiors) facades.add(i.facade);
     for (const l of z.links) if (l.kind === "ride") vehicles.add(l.vehicle);
@@ -57,13 +68,21 @@ export function stubHintsFor(world: WorldOverlay): StubHints {
     if (st.consoleAsset) consoles.add(st.consoleAsset);
     if (st.payoff.blocker?.asset) blockers.add(st.payoff.blocker.asset);
   }
-  return { layers, hubs, consoles, blockers, facades, vehicles };
+  return { layers, skies, hubs, consoles, blockers, facades, vehicles };
 }
 
+/** The sky dressing tile (transparent apart from its planets and stars). */
+const SKY_H = 560;
+/**
+ * Silhouette tiles are tall on purpose: worlds place layer tops for real art of unknown height, and a stub that ends
+ * above the ground leaves a band of sky floating over the play layer. The painter keeps each crest at its design
+ * height (hills 470, ridge 420) and fills the rest of the tile, so the tile bottom lands below the ground in every
+ * shipped zone and the ground fill hides the overshoot.
+ */
 const LAYER_SIZE: Readonly<Record<Depth, { h: number; style: StubStyle; color: string[]; accent: string[] }>> = {
-  L1_far: { h: 560, style: "hills", color: ["rock.light", "foliage.blue.hi", "stone.shade"], accent: ["haze"] },
-  L2_midfar: { h: 470, style: "hills", color: ["foliage.blue", "rock.base", "stone.deep"], accent: ["crystal.base", "gold.base"] },
-  L3_mid: { h: 420, style: "colonnade", color: ["stone.shade", "rock.base", "stone.deep"], accent: ["gold.base"] },
+  L1_far: { h: 1000, style: "hills", color: ["rock.light", "foliage.blue.hi", "stone.shade"], accent: ["haze"] },
+  L2_midfar: { h: 1000, style: "hills", color: ["foliage.blue", "rock.base", "stone.deep"], accent: ["crystal.base", "gold.base"] },
+  L3_mid: { h: 1200, style: "ridge", color: ["rock.shade", "stone.deep", "foliage.blue"], accent: ["gold.deep"] },
   L5_fore: { h: 220, style: "hills", color: ["grass.shade", "foliage.rust", "rock.shade"], accent: ["grass.base"] },
   L6_light: { h: 1080, style: "haze", color: ["haze"], accent: ["gold.hi"] },
 };
@@ -72,6 +91,10 @@ const LAYER_SIZE: Readonly<Record<Depth, { h: number; style: StubStyle; color: s
 export function stubSpecFor(key: string, hints: StubHints): StubSpec {
   const seed = hash32(key);
   const depth = hints.layers.get(key) ?? null;
+  if (depth === "L1_far" && hints.skies.has(key)) {
+    // the sky dressing: a wide tile so its planets repeat rarely at L1's scroll factor
+    return { key, w: 2048, h: SKY_H, pivot: [0, 0], style: "celestial", color: ["crystal.base", "foliage.blue", "stone.base"], accent: ["gold.hi", "crystal.hi", "stone.lit"], seed, depth };
+  }
   if (depth) {
     const d = LAYER_SIZE[depth];
     return { key, w: 1024, h: d.h, pivot: [0, 0], style: d.style, color: d.color, accent: d.accent, seed, depth };
@@ -93,9 +116,12 @@ export function stubSpecFor(key: string, hints: StubHints): StubSpec {
         ? { ...base, w: 110, h: 170, pivot: [0.5, 1], style: "pillar", color: ["bronze.ring", "gold.deep"], accent: ["gold.hi"] }
         : { ...base, w: 160, h: 160, pivot: [0.5, 0.5], style: "disc", color: ["gold.base", "stone.base"], accent: ["inlay.navy"] };
     case "costume":
-      return { ...base, w: 56, h: 56, pivot: [0.5, 0.5], style: "disc", color: ["foliage.salmon", "gold.base"], accent: ["gold.hi"] };
+      // a scarf, satchel or hat pinned to a rig anchor: purely decorative, so the stand-in is invisible rather than a
+      // disc stuck on the character's face or hand (the real hero SVG takes over once the manifest lists it)
+      return { ...base, w: 56, h: 56, pivot: [0.5, 0.5], style: "none", color: ["foliage.salmon", "gold.base"], accent: ["gold.hi"] };
     case "companion":
-      return { ...base, w: 84, h: 84, pivot: [0.5, 0.5], style: "disc", color: ["gold.base", "bronze.ring"], accent: ["crystal.hi", "water.shallow"] };
+      // the guide companion talks and flies to hint targets, so it stays visible: a small glowing creature, not a marker
+      return { ...base, w: 84, h: 84, pivot: [0.5, 0.5], style: "wisp", color: ["gold.base", "bronze.ring"], accent: ["crystal.hi", "glow.cyan", "gold.hi"] };
     case "npc":
       return { ...base, w: 130, h: 210, pivot: [0.5, 1], style: "figure", color: ["gold.deep", "stone.shade"], accent: ["crystal.base"] };
     case "fx":

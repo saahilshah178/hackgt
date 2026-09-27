@@ -20,6 +20,10 @@ function rng(seed: number): () => number {
     return ((s >>> 0) % 100000) / 100000;
   };
 }
+/** `shade()` with an alpha channel, for gradient stops that dissolve to transparent. */
+function rgba(hex: string, alpha: number, f = 0): string {
+  return shade(hex, f).replace("rgb(", "rgba(").replace(")", `,${alpha})`);
+}
 function shade(hex: string, f: number): string {
   const n = parseInt(hex.slice(1), 16);
   const ch = (v: number) => Math.max(0, Math.min(255, Math.round(f >= 0 ? v + (255 - v) * f : v * (1 + f))));
@@ -43,26 +47,23 @@ export function paintStub(ctx: Ctx, spec: StubSpec, palette: Palette, k = 1, ox 
       const f2 = 3 + Math.floor(r() * 3);
       const p1 = r() * Math.PI * 2;
       const p2 = r() * Math.PI * 2;
+      // the crest keeps its design height whatever the tile height; a tall tile just fills further down, to the ground
+      const hr = Math.min(h, 470 * k);
       const grad = ctx.createLinearGradient(0, 0, 0, h);
       grad.addColorStop(0, shade(c, 0.18));
-      grad.addColorStop(1, shade(c, -0.25));
+      grad.addColorStop(0.9, shade(c, -0.25));
+      grad.addColorStop(1, rgba(c, 0, -0.25)); // a short dissolve, in case a tile still ends above the ground
       ctx.fillStyle = grad;
       ctx.beginPath();
       ctx.moveTo(0, h);
       for (let x = 0; x <= w; x += 8 * k) {
         const u = (x / w) * Math.PI * 2;
-        const y = h * (0.32 + 0.18 * Math.sin(f1 * u + p1) + 0.07 * Math.sin(f2 * u + p2));
+        const y = hr * (0.32 + 0.18 * Math.sin(f1 * u + p1) + 0.07 * Math.sin(f2 * u + p2));
         ctx.lineTo(x, y);
       }
       ctx.lineTo(w, h);
       ctx.closePath();
       ctx.fill();
-      ctx.fillStyle = shade(a, 0.1);
-      ctx.globalAlpha = 0.35;
-      for (let i = 0; i < 5; i++) {
-        const x = r() * w;
-        ctx.fillRect(x, h * (0.35 + r() * 0.3), 6 * k, h * 0.6);
-      }
       break;
     }
     case "haze": {
@@ -105,23 +106,88 @@ export function paintStub(ctx: Ctx, spec: StubSpec, palette: Palette, k = 1, ox 
       ctx.fillRect(w * 0.08, h * 0.9, w * 0.84, h * 0.1);
       break;
     }
-    case "colonnade": {
-      // a ruined arcade: 5 columns per tile (tileable: the columns sit at fixed fractions), a broken lintel, soft shade
-      const n = 5;
-      const colW = w / n;
-      const grad = ctx.createLinearGradient(0, 0, 0, h);
-      grad.addColorStop(0, shade(c, 0.1));
-      grad.addColorStop(1, shade(c, -0.3));
+    case "ridge": {
+      // one smooth near silhouette (a tree line or roofline read as a single band): a low ridge over the bottom half
+      // of the tile, tileable (integer sine periods), dissolving toward the tile bottom so it never ends in a hard line
+      const f1 = 2 + Math.floor(r() * 2);
+      const f2 = 5 + Math.floor(r() * 4);
+      const p1 = r() * Math.PI * 2;
+      const p2 = r() * Math.PI * 2;
+      const hr = Math.min(h, 420 * k); // crest height in design units; the fill continues to the tile bottom
+      const grad = ctx.createLinearGradient(0, hr * 0.45, 0, h);
+      grad.addColorStop(0, shade(c, 0.06));
+      grad.addColorStop(0.9, shade(c, -0.28));
+      grad.addColorStop(1, rgba(c, 0, -0.28));
       ctx.fillStyle = grad;
-      for (let i = 0; i < n; i++) {
-        const top = h * (0.15 + r() * 0.35);
-        ctx.fillRect(i * colW + colW * 0.3, top, colW * 0.4, h - top);
-        ctx.fillStyle = shade(a, -0.1);
-        ctx.fillRect(i * colW + colW * 0.24, top - 10 * k, colW * 0.52, 12 * k);
-        ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      for (let x = 0; x <= w; x += 8 * k) {
+        const u = (x / w) * Math.PI * 2;
+        const y = hr * (0.58 + 0.09 * Math.sin(f1 * u + p1) + 0.035 * Math.sin(f2 * u + p2));
+        ctx.lineTo(x, y);
       }
-      ctx.globalAlpha = 0.8;
-      ctx.fillRect(0, h * 0.12, w * (0.35 + r() * 0.3), 16 * k);
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.fill();
+      break;
+    }
+    case "celestial": {
+      // a clean sky dressing over the segment gradient: sparse stars, one ringed planet and a small crescent moon,
+      // every body well inside the tile so repeating never clips one; transparent elsewhere
+      ctx.fillStyle = "#ffffff";
+      for (let i = 0; i < 54; i++) {
+        const x = r() * w;
+        const y = r() * h * 0.9;
+        const s = (0.5 + r() * 1.4) * k;
+        ctx.globalAlpha = 0.2 + r() * 0.5;
+        ctx.beginPath();
+        ctx.arc(x, y, s, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      const px = w * (0.2 + r() * 0.15);
+      const py = h * (0.36 + r() * 0.12);
+      const pr = h * 0.15;
+      const tilt = -0.4 + r() * 0.2;
+      // the ring is built in a squashed, tilted space and stroked in the plain one, so its line width stays even
+      const ring = (from: number, to: number) => {
+        ctx.save();
+        ctx.translate(px, py);
+        ctx.rotate(tilt);
+        ctx.scale(1, 0.3);
+        ctx.beginPath();
+        ctx.arc(0, 0, pr * 1.75, from, to);
+        ctx.restore();
+        ctx.stroke();
+      };
+      ctx.lineWidth = Math.max(2, 4 * k);
+      ctx.strokeStyle = shade(a, 0.35);
+      ctx.globalAlpha = 0.35;
+      ring(Math.PI, Math.PI * 2); // the far half, behind the body
+      const body = ctx.createRadialGradient(px - pr * 0.4, py - pr * 0.4, pr * 0.1, px, py, pr);
+      body.addColorStop(0, shade(a, 0.4));
+      body.addColorStop(0.55, c);
+      body.addColorStop(1, shade(c, -0.35));
+      ctx.globalAlpha = 0.6;
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.arc(px, py, pr, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 0.45;
+      ring(0, Math.PI); // the near half
+      const mx = w * (0.62 + r() * 0.2);
+      const my = h * (0.18 + r() * 0.18);
+      const mr = h * 0.055;
+      ctx.globalAlpha = 0.55;
+      ctx.fillStyle = shade(a, 0.5);
+      ctx.beginPath();
+      ctx.arc(mx, my, mr, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = "destination-out"; // the crescent bite shows the sky through
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.arc(mx + mr * 0.45, my - mr * 0.25, mr * 0.85, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
       break;
     }
     case "arch": {
@@ -165,6 +231,36 @@ export function paintStub(ctx: Ctx, spec: StubSpec, palette: Palette, k = 1, ox 
       ctx.fill();
       break;
     }
+    case "wisp": {
+      // the companion: a soft halo, a bright core with a highlight and two eye dots, so it reads as a small creature
+      const cx = w / 2;
+      const cy = h / 2;
+      const rr = Math.min(w, h) / 2;
+      const halo = ctx.createRadialGradient(cx, cy, rr * 0.15, cx, cy, rr);
+      halo.addColorStop(0, rgba(a, 0.8, 0.3));
+      halo.addColorStop(0.45, rgba(a, 0.3, 0.1));
+      halo.addColorStop(1, rgba(a, 0));
+      ctx.fillStyle = halo;
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = shade(c, 0.1);
+      ctx.beginPath();
+      ctx.arc(cx, cy, rr * 0.34, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = shade(a, 0.6);
+      ctx.beginPath();
+      ctx.arc(cx - rr * 0.1, cy - rr * 0.13, rr * 0.13, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = shade(c, -0.65);
+      for (const ex of [-0.12, 0.12]) {
+        ctx.beginPath();
+        ctx.arc(cx + rr * ex, cy + rr * 0.04, rr * 0.05, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      break;
+    }
+    case "none":
+      // an intentionally empty (transparent) stand-in
+      break;
     case "glow": {
       const g = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.min(w, h) / 2);
       g.addColorStop(0, "rgba(255,255,255,1)");

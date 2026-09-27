@@ -9,16 +9,25 @@ describe("stub art spec", () => {
   const hints = stubHintsFor(world);
 
   it("sizes layers by depth and shapes every group", () => {
-    const far = world.zones[0].layerSets[0].layers.find((l) => l.depth === "L1_far");
-    if (!far) throw new Error("dev world has an L1 layer");
-    expect(stubSpecFor(far.asset, hints)).toMatchObject({ w: 1024, depth: "L1_far", pivot: [0, 0] });
+    const set = world.zones[0].layerSets[0];
+    const sky = set.layers.filter((l) => l.depth === "L1_far" && l.repeatX).sort((a, b) => a.y - b.y)[0];
+    if (!sky) throw new Error("dev world has an L1 layer");
+    // the topmost far layer dresses the sky (planets + stars on a wide tile); every other layer is a 1024-wide silhouette
+    expect(stubSpecFor(sky.asset, hints)).toMatchObject({ w: 2048, depth: "L1_far", pivot: [0, 0], style: "celestial" });
+    for (const l of set.layers) {
+      if (l.asset === sky.asset) continue;
+      const s = stubSpecFor(l.asset, hints);
+      expect(s).toMatchObject({ w: 1024, depth: l.depth, pivot: [0, 0] });
+      if (l.depth === "L3_mid") expect(s.style).toBe("ridge");
+      if (l.depth === "L2_midfar" || l.depth === "L5_fore") expect(s.style).toBe("hills");
+    }
     for (const [key, style] of [
       ["x.ground.path", "strip"],
       ["x.prop.crate", "pillar"],
       ["x.part.ring_gate_console", "pillar"],
       ["x.part.ring_gate_outer", "disc"],
-      ["x.costume.scarf", "disc"],
-      ["x.companion.cog", "disc"],
+      ["x.costume.scarf", "none"],
+      ["x.companion.cog", "wisp"],
       ["x.npc.bot", "figure"],
       ["x.fx.glow", "glow"],
       ["x.vista.end", "vista"],
