@@ -116,14 +116,15 @@ export function stepCharacter(s0: CharState, input: CharInput, ctx: CharCtx, dtS
     for (const key of ["hop", "up", "down", "interact"] as const) {
       if (!input[key]) continue;
       const lk: LinkKey = key === "hop" ? "space" : key;
-      const choice = linkForKey(s, lk, ctx);
+      // W / ↑ climbs, boards or enters when such a link is in range; with none it jumps exactly like Space
+      const choice = linkForKey(s, lk, ctx) ?? (key === "up" ? linkForKey(s, "space", ctx) : null);
       if (choice) {
         const path = planChoice(choice, ctx);
         events.push({ type: "path_start", kind: path.kind, linkId: path.linkId });
         if (path.kind === "hop" || path.kind === "timed_hop") events.push({ type: "hop", cosmetic: false });
         return { state: startPath(s, path), events };
       }
-      if (key === "hop") {
+      if (key === "hop" || key === "up") {
         events.push({ type: "hop", cosmetic: true });
         return { state: startPath(s, cosmeticHop({ x: s.x, y: s.y }, s.surface)), events };
       }
@@ -161,6 +162,11 @@ export function stepCharacter(s0: CharState, input: CharInput, ctx: CharCtx, dtS
     x = s.x;
   }
   return { state: { ...s, x, y, vx: v, facing, motion: locomotion(v) }, events };
+}
+
+/** Path kinds whose landing is a footfall (a hop or a fall) for the shared ui_land cue; climbs and rides settle silently. */
+export function landingThuds(kind: string | null | undefined): boolean {
+  return kind === "hop" || kind === "timed_hop" || kind === "cosmetic" || kind === "drop" || kind === "edge_drop";
 }
 
 /** Synthetic input that walks toward x (walkTo): full speed, then eases in so it never overshoots. */

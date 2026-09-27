@@ -94,6 +94,15 @@ describe("character controller", () => {
     expect(off.s.y).toBe(800);
   });
 
+  it("W / ↑ hops like Space when no climb, ladder or ride link is in range", () => {
+    const c = ctx();
+    const h0 = run(spawn(c.model, 360, "ground"), { ...NO_INPUT, up: true }, c, 1 / 60);
+    expect(h0.s.path?.kind).toBe("hop");
+    const cos0 = stepCharacter(spawn(c.model, 200, "ground"), { ...NO_INPUT, up: true }, c, 1 / 60);
+    expect(cos0.state.path?.kind).toBe("cosmetic");
+    expect(cos0.events).toContainEqual({ type: "hop", cosmetic: true });
+  });
+
   it("rides and timed hops (both outcomes) run from their keys", () => {
     const c = ctx();
     const r0 = run(spawn(c.model, 1500, "ground"), { ...NO_INPUT, interact: true }, c, 1 / 60);

@@ -13,7 +13,7 @@ export const KEY_LEGEND: readonly LegendRow[] = [
   { keys: ["A", "D", "←", "→"], explore: "Walk", panel: "Step the focused control", cutscene: null },
   { keys: ["Shift"], explore: "Run (hold)", panel: "×10 step", cutscene: null },
   { keys: ["Space"], explore: "Hop", panel: "Advance the dialogue", cutscene: "Advance the line" },
-  { keys: ["W", "↑"], explore: "Climb · board · enter", panel: "Previous item", cutscene: null },
+  { keys: ["W", "↑"], explore: "Jump · climb · board · enter", panel: "Previous item", cutscene: null },
   { keys: ["S", "↓"], explore: "Drop · ladder down", panel: "Next item", cutscene: null },
   { keys: ["E", "Enter"], explore: "Interact", panel: "Activate · Verify", cutscene: "Interact when asked" },
   { keys: ["1–9"], explore: null, panel: "Quick-select", cutscene: null },
