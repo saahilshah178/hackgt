@@ -207,11 +207,11 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
           Family × genre adapters
         </h2>
         <p className="mt-2 text-lg text-muted-foreground">
-          Which socket each family mounts on in each genre (LIBRARY §5). The boss socket is always allowed. Hosts built
-          tonight: {IMPLEMENTED_GENRES.join(", ")}.
+          Which socket each family mounts on in each genre (LIBRARY §5). The boss socket is always allowed. All{" "}
+          {IMPLEMENTED_GENRES.length} genres have a host; five of them progress without walking right.
         </p>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[900px] border-collapse text-base">
+          <table className="w-full min-w-[1400px] border-collapse text-base">
             <thead>
               <tr>
                 <th className="border-b border-border p-2 text-left">Family</th>

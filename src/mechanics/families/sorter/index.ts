@@ -19,6 +19,8 @@ export const sorter = defineFamily({
     platformer: { sockets: ["gate"], skin: "Only matching-category platforms are solid" },
     puzzle: { sockets: ["goal_pad"], skin: "Push crates onto category pads" },
     strategy: { sockets: ["market"], skin: "Route goods to districts" },
+    explorer: { sockets: ["cache"], skin: "Sort the supplies into the right crates" },
+    story: { sockets: ["letter"], skin: "File each letter with the right person" },
   },
   modes: {
     bins,

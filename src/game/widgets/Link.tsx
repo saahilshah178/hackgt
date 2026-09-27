@@ -465,12 +465,14 @@ function PathLink({ view, onSubmit, disabled }: { view: LinkPathView; onSubmit: 
 
 function useConnectors(containerRef: RefObject<HTMLDivElement | null>, keys: string[]) {
   const [lines, setLines] = useState<{ x1: number; y1: number; x2: number; y2: number }[]>([]);
+  // callers build `keys` fresh each render: key the effect on its contents, not its identity, or setLines loops forever
+  const signature = keys.join(",");
   useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     const rect = container.getBoundingClientRect();
     const next: { x1: number; y1: number; x2: number; y2: number }[] = [];
-    for (const pairKey of keys) {
+    for (const pairKey of signature ? signature.split(",") : []) {
       const [a, b] = pairKey.split("|");
       const elA = container.querySelector<HTMLElement>(`[data-node="${a}"]`);
       const elB = container.querySelector<HTMLElement>(`[data-node="${b}"]`);
@@ -485,7 +487,7 @@ function useConnectors(containerRef: RefObject<HTMLDivElement | null>, keys: str
       });
     }
     setLines(next);
-  }, [containerRef, keys]);
+  }, [containerRef, signature]);
   return lines;
 }
 

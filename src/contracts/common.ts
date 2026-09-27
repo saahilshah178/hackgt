@@ -4,7 +4,13 @@ export const SCHEMA_VERSION = 2 as const;
 
 // ---------------------------------------------------------------- enums (MEGAPROMPT §5)
 
-export const GENRES = ["dungeon", "mystery", "platformer", "puzzle", "strategy"] as const;
+/**
+ * Game genres. Each one has its own perspective and its own way of progressing (src/library/genres.ts GENRE_INFO):
+ * side-view rooms (dungeon, platformer), point-and-click investigation (mystery), a grid logic board with no avatar
+ * (puzzle), a cozy day-by-day management sim (strategy), a top-down maze (explorer) and a branching text adventure
+ * (story). The ids are stable (stored specs and LLM prompts use them); display names live in GENRE_INFO.
+ */
+export const GENRES = ["dungeon", "mystery", "platformer", "puzzle", "strategy", "explorer", "story"] as const;
 export const Genre = z.enum(GENRES);
 export type Genre = z.infer<typeof Genre>;
 export const GenreOrAuto = z.enum(["auto", ...GENRES]);
@@ -66,12 +72,12 @@ export const DOMAINS = [
 export const Domain = z.enum(DOMAINS);
 export type Domain = z.infer<typeof Domain>;
 
-/** The eight input widgets (LIBRARY §2). Every family mode uses exactly one. */
-export const WIDGETS = ["dial", "pick", "sort", "order", "place", "link", "build", "type"] as const;
+/** The nine input widgets (LIBRARY §2, plus `explain`: write an explanation in your own words). Every family mode uses exactly one. */
+export const WIDGETS = ["dial", "pick", "sort", "order", "place", "link", "build", "type", "explain"] as const;
 export const Widget = z.enum(WIDGETS);
 export type Widget = z.infer<typeof Widget>;
 
-/** The fourteen mechanic families (LIBRARY §4). Families are code; cards are data. */
+/** The fifteen mechanic families (LIBRARY §4, plus `explainer`: teach the concept back). Families are code; cards are data. */
 export const FAMILY_IDS = [
   "tuner",
   "function_world",
@@ -87,6 +93,7 @@ export const FAMILY_IDS = [
   "builder",
   "investigator",
   "recall",
+  "explainer",
 ] as const;
 export const FamilyId = z.enum(FAMILY_IDS);
 export type FamilyId = z.infer<typeof FamilyId>;

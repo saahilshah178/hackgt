@@ -6,6 +6,7 @@ import { historySlices } from "../fixtures/civil-rights.slices";
 import { trigPlatformerSlices } from "../fixtures/trig-platformer.slices";
 import { wave2Slices } from "../fixtures/wave2.slices";
 import { assembleGameSpec } from "../src/pipeline/assemble";
+import { BOARD_SHOWCASE } from "../fixtures/board-showcase.slices";
 
 /*
  * Fixture drift guard (reviewer item "Fixture drift"): the hand-authored *.slices.ts files are the source
@@ -39,4 +40,10 @@ describe("fixture JSON matches its slices (no silent drift)", () => {
   it("wave2.slices.ts ↔ wave2-dungeon.json", () => {
     expect(assembleGameSpec(wave2Slices)).toEqual(loadJson("wave2-dungeon.json"));
   });
+
+  for (const { slices, file } of BOARD_SHOWCASE) {
+    it(`board showcase ${slices.id} ↔ ${file}`, () => {
+      expect(assembleGameSpec(slices)).toEqual(loadJson(file));
+    });
+  }
 });

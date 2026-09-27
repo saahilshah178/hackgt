@@ -4,6 +4,7 @@ import { emptyMastery, updateMastery, type MasteryState, type TelemetryEvent } f
 import { getCard } from "../../library";
 import { getMode } from "../../mechanics/registry";
 import type { AnyFamilyMode, Grade } from "../../mechanics/types";
+import { buildProgression, prerequisitesOf, unlockedIds, type Progression } from "./progression";
 
 export interface Current {
   index: number;
@@ -34,29 +35,51 @@ export interface DebriefLine {
   text: string;
 }
 
+/** "linear": the spec order, one encounter at a time (side-view hosts). "free": any unlocked encounter (board hosts). */
+export type RunnerOrder = "linear" | "free";
+
+export interface RunnerOptions {
+  now?: () => number;
+  onEvent?: (e: TelemetryEvent) => void;
+  /** default "linear" */
+  order?: RunnerOrder;
+}
+
 /**
  * The game logic, with no Phaser in it. A genre host (Phaser scene) owns movement and art:
  * when the player reaches a socket it calls current(), renders the widget from `view`,
  * sends the player's answer to submit(), and animates the result. Because this class is pure
  * logic, it runs headless in tests and powers window.__GAME_DEBUG__ (skipTo, autoSolve).
+ *
+ * In "free" order (board genres: mystery, puzzle, strategy, explorer, story) the player picks among the unlocked
+ * encounters of the progression graph (./progression.ts): `available()` lists them, `focus(id)` opens one, and
+ * `current()` is the focused encounter (or the first unlocked one). Attempts and hints are counted per encounter,
+ * so switching away and back never resets a first-try.
  */
 export class EncounterRunner {
+  readonly order: RunnerOrder;
+  readonly progression: Progression;
   private index = 0;
-  private attempts = 0;
-  private hintsUsed = 0;
-  private startedAt: number;
+  private focusId: string | null = null;
+  private readonly solvedIds = new Set<string>();
+  private readonly attemptsById = new Map<string, number>();
+  private readonly hintsById = new Map<string, number>();
+  private readonly startedById = new Map<string, number>();
   private readonly events: TelemetryEvent[] = [];
   private masteryState: MasteryState;
 
   constructor(
     readonly spec: GameSpec,
-    private readonly opts: { now?: () => number; onEvent?: (e: TelemetryEvent) => void } = {},
+    private readonly opts: RunnerOptions = {},
   ) {
-    this.startedAt = this.now();
+    this.order = opts.order ?? "linear";
+    this.progression = buildProgression(spec);
     this.masteryState = emptyMastery(
       spec.concepts.map((c) => c.id),
       spec.mastery,
     );
+    const first = spec.encounters[0];
+    if (first) this.startedById.set(first.id, this.now());
   }
 
   private now() {
@@ -64,20 +87,76 @@ export class EncounterRunner {
   }
 
   get finished(): boolean {
+    if (this.order === "free") return this.solvedIds.size >= this.spec.encounters.length;
     return this.index >= this.spec.encounters.length;
+  }
+
+  /** Encounter ids solved so far. */
+  solved(): ReadonlySet<string> {
+    return this.solvedIds;
+  }
+
+  /** Encounters the player may open now: the unlocked ones (free), or just the current one (linear). */
+  available(): string[] {
+    if (this.finished) return [];
+    if (this.order === "free") return unlockedIds(this.progression, this.solvedIds);
+    return [this.spec.encounters[this.index].id];
+  }
+
+  /** The encounter the player explicitly opened (free order), or null. */
+  get focused(): string | null {
+    return this.focusId;
+  }
+
+  /** Free order: open an unlocked encounter. Throws if it is locked, solved or unknown (hosts only offer available()). */
+  focus(encounterId: string): void {
+    if (this.order !== "free") throw new Error("focus() is only for free-order runners");
+    if (!this.available().includes(encounterId)) throw new Error(`encounter "${encounterId}" is not available`);
+    this.focusId = encounterId;
+    if (!this.startedById.has(encounterId)) this.startedById.set(encounterId, this.now());
+  }
+
+  /** Free order: close the focused encounter without answering (counters are kept). */
+  unfocus(): void {
+    this.focusId = null;
+  }
+
+  private currentIndex(): number {
+    if (this.order === "linear") return this.index;
+    const id = this.focusId ?? this.available()[0];
+    return this.spec.encounters.findIndex((e) => e.id === id);
   }
 
   current(): Current | null {
     if (this.finished) return null;
-    const encounter = this.spec.encounters[this.index];
+    const index = this.currentIndex();
+    const encounter = this.spec.encounters[index];
     const mode = getMode(encounter.familyId, encounter.mode);
     if (!mode) throw new Error(`no mode "${encounter.familyId}.${encounter.mode}"; validate specs before playing them`);
     return {
-      index: this.index,
+      index,
       encounter,
       mode,
       card: getCard(encounter.teachingMechanicId),
-      view: mode.present(encounter.params, this.spec.seed + this.index),
+      view: mode.present(encounter.params, this.spec.seed + index),
+      before: this.spec.narrative.beats.filter((b) => b.encounterId === encounter.id && b.when === "before"),
+      after: this.spec.narrative.beats.filter((b) => b.encounterId === encounter.id && b.when === "after"),
+    };
+  }
+
+  /** The Current for any encounter (free-order hosts preview locked or solved ones); null for an unknown id. */
+  peek(encounterId: string): Current | null {
+    const index = this.spec.encounters.findIndex((e) => e.id === encounterId);
+    if (index === -1) return null;
+    const encounter = this.spec.encounters[index];
+    const mode = getMode(encounter.familyId, encounter.mode);
+    if (!mode) return null;
+    return {
+      index,
+      encounter,
+      mode,
+      card: getCard(encounter.teachingMechanicId),
+      view: mode.present(encounter.params, this.spec.seed + index),
       before: this.spec.narrative.beats.filter((b) => b.encounterId === encounter.id && b.when === "before"),
       after: this.spec.narrative.beats.filter((b) => b.encounterId === encounter.id && b.when === "after"),
     };
@@ -86,35 +165,52 @@ export class EncounterRunner {
   /** Next rung of the hint ladder, or null when all three are used. */
   hint(): string | null {
     const cur = this.current();
-    if (!cur || this.hintsUsed >= cur.encounter.hints.length) return null;
-    return cur.encounter.hints[this.hintsUsed++];
+    if (!cur) return null;
+    const used = this.hintsById.get(cur.encounter.id) ?? 0;
+    if (used >= cur.encounter.hints.length) return null;
+    this.hintsById.set(cur.encounter.id, used + 1);
+    return cur.encounter.hints[used];
   }
 
   get hintsUsedOnCurrent(): number {
-    return this.hintsUsed;
+    const cur = this.finished ? null : this.spec.encounters[this.currentIndex()];
+    return cur ? (this.hintsById.get(cur.id) ?? 0) : 0;
+  }
+
+  /** Hints used on any encounter. */
+  hintsUsedOn(encounterId: string): number {
+    return this.hintsById.get(encounterId) ?? 0;
+  }
+
+  /** Graded attempts on any encounter. */
+  attemptsOn(encounterId: string): number {
+    return this.attemptsById.get(encounterId) ?? 0;
   }
 
   submit(input: unknown): Grade & { advanced: boolean } {
     const cur = this.current();
     if (!cur) throw new Error("game is finished");
-    this.attempts++;
+    const id = cur.encounter.id;
+    const attempt = (this.attemptsById.get(id) ?? 0) + 1;
+    this.attemptsById.set(id, attempt);
     const g = cur.mode.grade(cur.encounter.params, input);
     const t = this.now();
+    const startedAt = this.startedById.get(id) ?? t;
     const event: TelemetryEvent = {
       gameId: this.spec.id,
-      encounterId: cur.encounter.id,
+      encounterId: id,
       conceptIds: cur.encounter.conceptIds,
       teachingMechanicId: cur.encounter.teachingMechanicId,
-      attempt: this.attempts,
+      attempt,
       correct: g.correct,
-      hintsUsed: this.hintsUsed,
-      ms: Math.max(0, t - this.startedAt),
+      hintsUsed: this.hintsById.get(id) ?? 0,
+      ms: Math.max(0, t - startedAt),
       at: new Date(t).toISOString(),
     };
     this.events.push(event);
     this.masteryState = updateMastery(this.masteryState, event, this.spec.mastery);
     this.opts.onEvent?.(event);
-    if (g.correct) this.advance();
+    if (g.correct) this.advance(id);
     return { ...g, advanced: g.correct };
   }
 
@@ -126,11 +222,23 @@ export class EncounterRunner {
     return this.submit(cur.mode.solutionInput(cur.encounter.params, solution));
   }
 
+  /**
+   * Linear: jump to an encounter. Free: mark its prerequisites solved (no telemetry) and focus it. Either way the
+   * target's attempt and hint counters restart.
+   */
   skipTo(encounterId: string): void {
     const i = this.spec.encounters.findIndex((e) => e.id === encounterId);
     if (i === -1) throw new Error(`no encounter "${encounterId}"`);
-    this.index = i;
-    this.resetCounters();
+    this.resetCounters(encounterId);
+    if (this.order === "linear") {
+      this.index = i;
+      for (const e of this.spec.encounters.slice(0, i)) this.solvedIds.add(e.id);
+      for (const e of this.spec.encounters.slice(i)) this.solvedIds.delete(e.id);
+      return;
+    }
+    this.solvedIds.delete(encounterId);
+    for (const r of prerequisitesOf(this.progression, encounterId)) this.solvedIds.add(r);
+    this.focusId = encounterId;
   }
 
   telemetry(): readonly TelemetryEvent[] {
@@ -164,14 +272,20 @@ export class EncounterRunner {
     return { mastery, lines };
   }
 
-  private advance() {
-    this.index++;
-    this.resetCounters();
+  private advance(solvedId: string) {
+    this.solvedIds.add(solvedId);
+    if (this.order === "linear") {
+      this.index++;
+      const next = this.spec.encounters[this.index];
+      if (next) this.resetCounters(next.id);
+      return;
+    }
+    this.focusId = null;
   }
 
-  private resetCounters() {
-    this.attempts = 0;
-    this.hintsUsed = 0;
-    this.startedAt = this.now();
+  private resetCounters(encounterId: string) {
+    this.attemptsById.delete(encounterId);
+    this.hintsById.delete(encounterId);
+    this.startedById.set(encounterId, this.now());
   }
 }

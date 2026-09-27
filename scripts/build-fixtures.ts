@@ -5,6 +5,7 @@ import { historySlices } from "../fixtures/civil-rights.slices";
 import { trigPlatformerSlices } from "../fixtures/trig-platformer.slices";
 import { trigSlices } from "../fixtures/trig.slices";
 import { wave2Slices } from "../fixtures/wave2.slices";
+import { BOARD_SHOWCASE } from "../fixtures/board-showcase.slices";
 import { assembleGameSpec } from "../src/pipeline/assemble";
 import { validateGameSpec } from "../src/pipeline/validate/validate-gamespec";
 
@@ -17,6 +18,7 @@ const fixtures = [
   { slices: historyMysterySlices, file: "civil-rights-mystery.json" },
   { slices: wave2Slices, file: "wave2-dungeon.json" },
   { slices: trigPlatformerSlices, file: "trig-platformer.json" },
+  ...BOARD_SHOWCASE,
 ];
 
 let failed = false;
