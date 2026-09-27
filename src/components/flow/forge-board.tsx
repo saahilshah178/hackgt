@@ -155,7 +155,6 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
         <p role="status" aria-live="polite" className="mt-3 min-h-8 text-lg font-medium text-muted-foreground" data-testid="forge-status">
           {done?.gameId ? "Opening it now…" : STATUS_LINES[statusIdx]}
         </p>
-        {!done && <p className="mt-1 text-base text-muted-foreground">This usually takes about a minute.</p>}
       </div>
       {done?.gameId ? (
         <Link
