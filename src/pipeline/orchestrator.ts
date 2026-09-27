@@ -1,5 +1,5 @@
 import type { GenreOrAuto } from "../contracts/common";
-import type { Intake, KnowledgeMap } from "../contracts/knowledge";
+import { selectConcepts, type Intake, type KnowledgeMap } from "../contracts/knowledge";
 import type { GameRecord, JobRecord } from "../contracts/storage";
 import { emptyMastery, updateMastery } from "../contracts/telemetry";
 import { newId } from "../server/ids";
@@ -15,12 +15,15 @@ import { getModels } from "./models";
 /*
  * P6 orchestrator: turns { sourceId, intake } into a running job (S6-S9 back half) without blocking
  * the HTTP request. See instructions.md §9 (POST /api/games, /api/jobs/:id/stream) and MEGAPROMPT §3.
+ * The job runs on intake.conceptIds when the student ticked a subset (selectConcepts); the matcher's
+ * stored results cover the whole map, so they need no filtering (the Director's menu is built per
+ * concept in the job's map).
  */
 
 export interface StartGameJobArgs {
   sourceId: string;
   intake: Intake;
-  /** outline titles the student ticked when the source was too big; the Director may ignore it tonight */
+  /** legacy: outline titles from the old "too big" checklist; unused now that the student ticks concepts (intake.conceptIds) */
   sections?: string[];
   /** overrides intake.genre (used by regenerate) */
   genreOverride?: GenreOrAuto;
@@ -136,8 +139,10 @@ async function runJob(args: {
  */
 export async function startGameJob(a: StartGameJobArgs): Promise<{ jobId: string }> {
   const storage = getStorage();
-  const km = await storage.getKnowledgeMap(a.sourceId);
-  if (!km) throw new Error(`No knowledge map for source "${a.sourceId}"; run intake prep first.`);
+  const full = await storage.getKnowledgeMap(a.sourceId);
+  if (!full) throw new Error(`No knowledge map for source "${a.sourceId}"; run intake prep first.`);
+  // A long upload yields far more concepts than one game holds: the job sees only the ticked ones.
+  const km = selectConcepts(full, a.intake.conceptIds);
 
   const jobId = newId("job");
   const gameId = newId("game");

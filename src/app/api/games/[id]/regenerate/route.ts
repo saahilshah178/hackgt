@@ -19,13 +19,19 @@ function jsonError(status: number, error: string) {
 
 /** Falls back to what the stored spec remembers about the intake (assessment.pre carries the full
  *  pre-check Mcqs, so nothing is lost even without a stored Intake record). */
-function intakeFromSpec(spec: { intake: { goal: Intake["goal"]; minutes: Intake["minutes"]; requestedGenre: Intake["genre"]; confidence: { unitId: string; level: number }[]; preCheckAnswers: number[] }; assessment: { pre: Intake["preCheck"]["items"] } }): Intake {
+function intakeFromSpec(spec: {
+  intake: { goal: Intake["goal"]; minutes: Intake["minutes"]; requestedGenre: Intake["genre"]; confidence: { unitId: string; level: number }[]; preCheckAnswers: number[] };
+  assessment: { pre: Intake["preCheck"]["items"] };
+  concepts: { id: string }[];
+}): Intake {
   return {
     goal: spec.intake.goal,
     minutes: spec.intake.minutes,
     genre: spec.intake.requestedGenre,
     confidence: Object.fromEntries(spec.intake.confidence.map((c) => [c.unitId, c.level])),
     preCheck: { items: spec.assessment.pre, answers: spec.intake.preCheckAnswers },
+    // spec.concepts is the map the game was built on: the student's ticked subset when there was one
+    conceptIds: spec.concepts.map((c) => c.id),
   };
 }
 

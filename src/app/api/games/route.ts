@@ -9,6 +9,8 @@ import { getStorage } from "../../../server/storage";
  * POST /api/games: kicks off S6-S9 as a background job (instructions.md §9). Body: { sourceId,
  * intake, sections? }. Returns 202 { jobId } immediately; the browser watches progress over
  * GET /api/jobs/:id/stream. GET lists every generated game (GameSummary[]).
+ * intake.conceptIds (optional) narrows the job to the concepts the student ticked; the pre-check
+ * items are then looked up for that same selection (POST /api/sources/:id/precheck wrote them).
  */
 
 const Body = z.object({
@@ -51,10 +53,10 @@ export async function POST(request: Request): Promise<Response> {
   // The client sends the whole Intake back, including preCheck.items (with correctIndex) — never
   // trust that: a modified correctIndex would let a student report a perfect pre-check score
   // regardless of what they actually answered. Load the real items from the server's own prep record
-  // when one exists and keep only the client's `answers`; when there's no prep record (a fixture or a
-  // test that built an Intake by hand, skipping GET /api/sources/:id/intake), the client's items are
-  // all there is, so accept them as before.
-  const storedPreCheck = await loadStoredPreCheck(parsed.data.sourceId);
+  // (or the record written for this selection) when one exists and keep only the client's `answers`;
+  // when there's no prep record (a fixture or a test that built an Intake by hand, skipping GET
+  // /api/sources/:id/intake), the client's items are all there is, so accept them as before.
+  const storedPreCheck = await loadStoredPreCheck(parsed.data.sourceId, parsed.data.intake.conceptIds);
   const intake = storedPreCheck
     ? { ...parsed.data.intake, preCheck: { items: storedPreCheck, answers: parsed.data.intake.preCheck.answers } }
     : parsed.data.intake;

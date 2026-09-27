@@ -32,7 +32,13 @@ export function parseDirectorConstraints(prompt: string, km: KnowledgeMap): Dire
   const max = range ? Number(range[2]) : 7;
   const menu = prompt.split("# Cards available in this genre")[1] ?? "";
   const cardIds = new Set([...menu.matchAll(/^\s+- ([a-z][a-z0-9_]*) \[/gm)].map((m) => m[1]));
-  const conceptIds = new Set(km.concepts.map((c) => c.id));
+  // The job's concepts are the shared context's "# Concepts" JSON block (one `"id": "c_x"` per concept).
+  // A student who ticked a subset on the intake page runs the job on that subset (Intake.conceptIds),
+  // so the canned blueprint must adapt to those ids, not the sample's full map.
+  const known = new Set(km.concepts.map((c) => c.id));
+  const block = prompt.split("# Concepts")[1]?.split("# Cards available in this genre")[0] ?? "";
+  const listed = [...block.matchAll(/"id":\s*"([a-z][a-z0-9_]*)"/g)].map((m) => m[1]).filter((id) => known.has(id));
+  const conceptIds = new Set(listed.length > 0 ? listed : km.concepts.map((c) => c.id));
   return { genre, min, max, cardIds, conceptIds };
 }
 
@@ -91,7 +97,9 @@ export function adaptBlueprint(key: string, canned: BlueprintSlice, km: Knowledg
   let boss: BlueprintEncounter | null = bossIdx >= 0 ? encounters.splice(bossIdx, 1)[0] : null;
   encounters = encounters.filter((e) => e.role !== "boss");
 
-  const concepts = km.concepts.map((x) => x.id);
+  // only the job's concepts (a ticked subset, or the whole sample) get mimics and coverage
+  const inJob = km.concepts.map((x) => x.id).filter((id) => c.conceptIds.has(id));
+  const concepts = inJob.length > 0 ? inJob : km.concepts.map((x) => x.id);
   const mimicFor = (conceptId: string, role: BlueprintEncounter["role"], n: number): BlueprintEncounter | null => {
     if (!mimicOk) return null;
     const socket = legalSocket("mimic_chest", c.genre, role === "boss");

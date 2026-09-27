@@ -88,8 +88,29 @@ export const Intake = z.object({
     /** Index of the chosen option per item; -1 = "not sure" (skipped), which never scores as correct. */
     answers: z.array(z.number().int().min(-1).max(3)).max(3),
   }),
+  /**
+   * The concepts the student ticked on the intake page. Absent (or empty) = everything in the map.
+   * A long upload (a whole textbook) yields far more concepts than one game holds; the job runs on
+   * this subset (see selectConcepts) and the pre-check is written for it too.
+   */
+  conceptIds: z.array(Id).optional(),
 });
 export type Intake = z.infer<typeof Intake>;
+
+/**
+ * The knowledge map restricted to `conceptIds`: units that end up empty are dropped, prerequisites
+ * that point outside the selection are dropped, and an empty (or all-unknown) selection means the
+ * whole map.
+ */
+export function selectConcepts(km: KnowledgeMap, conceptIds: readonly string[] | undefined): KnowledgeMap {
+  const keep = new Set(conceptIds ?? []);
+  if (keep.size === 0) return km;
+  const concepts = km.concepts.filter((c) => keep.has(c.id)).map((c) => ({ ...c, prerequisites: c.prerequisites.filter((p) => keep.has(p)) }));
+  if (concepts.length === 0) return km;
+  const used = new Set(concepts.map((c) => c.unitId));
+  const units = km.units.filter((u) => used.has(u.id)).map((u) => ({ ...u, conceptIds: u.conceptIds.filter((id) => keep.has(id)) }));
+  return { ...km, units, concepts };
+}
 
 /** Director weight for a concept (LIBRARY §8): core concepts count double, low confidence counts more. */
 export function conceptWeight(concept: Pick<Concept, "importance" | "unitId">, intake: Pick<Intake, "confidence">): number {

@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import fixtureSpec from "../fixtures/trig-dungeon.json";
 import type { GameRecord } from "../src/contracts/storage";
 import { GET as getSource } from "../src/app/api/sources/[id]/route";
-import { POST as postSources } from "../src/app/api/sources/route";
+import { MAX_FILE_BYTES, MAX_TEXT_CHARS, POST as postSources } from "../src/app/api/sources/route";
 import { GET as getBlob } from "../src/app/api/blobs/[...path]/route";
 import { POST as postTelemetry } from "../src/app/api/games/[id]/telemetry/route";
 import { resetEnvCache } from "../src/server/env";
@@ -78,34 +78,43 @@ describe("POST /api/sources", () => {
     expect(blobRes.headers.get("content-type")).toBe("application/pdf");
   });
 
-  it("rejects a PDF over the 40-page limit with 413", async () => {
+  it("accepts a 41-page PDF (there is no page cap; whole books are read in parts)", async () => {
     const doc = await PDFDocument.create();
     for (let i = 0; i < 41; i++) doc.addPage([200, 200]);
     const bytes = await doc.save();
     const form = new FormData();
     form.set("file", new File([new Uint8Array(bytes)], "big.pdf", { type: "application/pdf" }));
     const res = await postSources(new Request("http://test/api/sources", { method: "POST", body: form }));
-    expect(res.status).toBe(413);
+    expect(res.status).toBe(200);
     const json = await res.json();
-    expect(json.error).toMatch(/40/);
+    expect(json).toMatchObject({ kind: "pdf", title: "big", pageCount: 41 });
+    expect(await getStorage().getPages(json.sourceId)).toHaveLength(41);
+  });
+
+  it("rejects bytes that are not a PDF with 400", async () => {
+    const form = new FormData();
+    form.set("file", new File([new TextEncoder().encode("not a pdf at all")], "notes.pdf", { type: "application/pdf" }));
+    const res = await postSources(new Request("http://test/api/sources", { method: "POST", body: form }));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toMatch(/Could not read/);
   });
 
   // M9: reject oversized input with 4xx before the heavier work (PDF decode, page splitting) runs.
-  it("rejects a file over 20 MB with 413, before decoding it as a PDF", async () => {
-    const oversized = new Uint8Array(20 * 1024 * 1024 + 1);
+  it("rejects a file over the size limit with 413, before decoding it as a PDF", async () => {
+    const oversized = new Uint8Array(MAX_FILE_BYTES + 1);
     const form = new FormData();
     form.set("file", new File([oversized], "huge.pdf", { type: "application/pdf" }));
     const res = await postSources(new Request("http://test/api/sources", { method: "POST", body: form }));
     expect(res.status).toBe(413);
     const json = await res.json();
-    expect(json.error).toMatch(/20 MB/);
+    expect(json.error).toMatch(/200 MB/);
   });
 
-  it("rejects text over 200k characters with 400", async () => {
-    const res = await postSources(jsonRequest("http://test/api/sources", { text: "a".repeat(200_001) }));
+  it("rejects text over the character limit with 400", async () => {
+    const res = await postSources(jsonRequest("http://test/api/sources", { text: "a".repeat(MAX_TEXT_CHARS + 1) }));
     expect(res.status).toBe(400);
     const json = await res.json();
-    expect(json.error).toMatch(/200,000/);
+    expect(json.error).toMatch(/2,000,000/);
   });
 
   it("rejects a topic over 200 characters with 400", async () => {
@@ -115,8 +124,8 @@ describe("POST /api/sources", () => {
     expect(json.error).toMatch(/200/);
   });
 
-  it("accepts text right at the 200k character limit", async () => {
-    const res = await postSources(jsonRequest("http://test/api/sources", { text: "a".repeat(200_000) }));
+  it("accepts text right at the character limit", async () => {
+    const res = await postSources(jsonRequest("http://test/api/sources", { text: "a".repeat(MAX_TEXT_CHARS) }));
     expect(res.status).toBe(200);
   });
 });

@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { GENRES, type Genre } from "@/contracts/common";
-import type { Intake, KnowledgeMap, Mcq } from "@/contracts/knowledge";
+import type { Intake, KnowledgeMap, Mcq, Unit } from "@/contracts/knowledge";
 import type { GatekeeperSlice } from "@/contracts/slices";
 import { api } from "@/components/flow/client-fetch";
 
@@ -16,7 +16,14 @@ interface IntakeData {
   dropped: { conceptId: string; page: number; quote: string }[];
   preCheck: Mcq[];
   mock: boolean;
+  /** how many curriculum calls the document took (1 = read in one go) */
+  parts?: number;
 }
+
+/** Up to this many concepts (one chapter's worth) everything starts ticked; above it the student picks. */
+export const SELECT_ALL_UP_TO = 25;
+/** How long after the last tick before asking the server for questions on the new selection. */
+const PRECHECK_DEBOUNCE_MS = 700;
 
 const GOALS: { id: Intake["goal"]; label: string; hint: string }[] = [
   { id: "learn", label: "Learn it", hint: "first time through" },
@@ -55,8 +62,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   const [minutes, setMinutes] = useState<Intake["minutes"]>(10);
   const [genre, setGenre] = useState<Intake["genre"]>("auto");
   const [confidence, setConfidence] = useState<Record<string, number>>({});
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  // The three questions written for the current subset (POST /api/sources/:id/precheck), keyed by the
+  // selection they belong to so a stale reply is never shown against a newer selection.
+  const [subset, setSubset] = useState<{ key: string; items: Mcq[] } | null>(null);
+  const latestKey = useRef<string>("");
   const [answers, setAnswers] = useState<(number | undefined)[]>([]);
-  const [sections, setSections] = useState<Set<string>>(new Set());
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -66,7 +77,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         if (cancelled) return;
         setData(d);
         setConfidence(Object.fromEntries(d.knowledgeMap.units.map((u) => [u.id, 3])));
-        setSections(new Set(d.gatekeeper.outline.map((o) => o.title)));
+        const all = d.knowledgeMap.concepts.map((c) => c.id);
+        setSelected(new Set(all.length <= SELECT_ALL_UP_TO ? all : []));
       })
       .catch((e) => !cancelled && setError(e instanceof Error ? e.message : String(e)));
     return () => {
@@ -74,7 +86,31 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     };
   }, [sourceId]);
 
-  const ready = useMemo(() => data && answers.length === data.preCheck.length && answers.every((a) => a !== undefined), [data, answers]);
+  const total = data?.knowledgeMap.concepts.length ?? 0;
+  const allSelected = total > 0 && selected.size === total;
+  const selectionKey = useMemo(() => [...selected].sort().join(","), [selected]);
+  const needsSubset = data !== null && selected.size > 0 && !allSelected;
+  // Questions follow the selection: the prep pre-check covers the whole map, so a subset gets its own.
+  const preCheck: Mcq[] = !data || selected.size === 0 ? [] : allSelected ? data.preCheck : subset?.key === selectionKey ? subset.items : [];
+  const preCheckBusy = needsSubset && subset?.key !== selectionKey;
+
+  useEffect(() => {
+    if (!needsSubset || subset?.key === selectionKey) return;
+    const key = selectionKey;
+    latestKey.current = key;
+    const timer = setTimeout(() => {
+      api<{ preCheck: Mcq[] }>(`/api/sources/${sourceId}/precheck`, { method: "POST", body: JSON.stringify({ conceptIds: key.split(",") }) })
+        .then((r) => {
+          if (latestKey.current === key) setSubset({ key, items: r.preCheck });
+        })
+        .catch((e) => {
+          if (latestKey.current === key) setError(e instanceof Error ? e.message : String(e));
+        });
+    }, PRECHECK_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [needsSubset, selectionKey, subset, sourceId]);
+
+  const ready = !!data && selected.size > 0 && !preCheckBusy && preCheck.length > 0 && answers.length === preCheck.length && answers.every((a) => a !== undefined);
 
   if (error) {
     return (
@@ -91,7 +127,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         <div className="animate-pulse">
           <div className="h-6 w-72 rounded bg-secondary" />
           <div className="mt-3 h-10 w-96 rounded bg-secondary" />
-          <p className="mt-6 text-2xl">Reading your material and mapping the concepts…</p>
+          <p className="mt-6 text-2xl">Reading your material and mapping the concepts… (a whole book takes a few minutes)</p>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {[0, 1].map((i) => (
               <div key={i} className="h-56 rounded-lg border border-border/60 bg-card p-5">
@@ -118,6 +154,28 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   }
   const km = data.knowledgeMap;
 
+  // Every change of selection goes through here so the answers to the (soon replaced) questions reset.
+  const changeSelection = (next: Set<string>) => {
+    setSelected(next);
+    setAnswers([]);
+  };
+  const toggleConcept = (id: string, on: boolean) => {
+    const next = new Set(selected);
+    if (on) next.add(id);
+    else next.delete(id);
+    changeSelection(next);
+  };
+  const setUnit = (u: Unit, on: boolean) => {
+    const next = new Set(selected);
+    for (const id of u.conceptIds) {
+      if (on) next.add(id);
+      else next.delete(id);
+    }
+    changeSelection(next);
+  };
+  const selectAll = () => changeSelection(new Set(km.concepts.map((c) => c.id)));
+  const selectNone = () => changeSelection(new Set());
+
   const submit = async () => {
     if (!ready) return;
     setBusy(true);
@@ -127,12 +185,13 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
       minutes,
       genre,
       confidence,
-      preCheck: { items: data.preCheck, answers: answers.map((a) => a ?? 0) },
+      preCheck: { items: preCheck, answers: answers.map((a) => a ?? 0) },
+      ...(allSelected ? {} : { conceptIds: [...selected] }),
     };
     try {
       const { jobId } = await api<{ jobId: string }>("/api/games", {
         method: "POST",
-        body: JSON.stringify({ sourceId, intake, sections: data.gatekeeper.tooBig ? [...sections] : undefined }),
+        body: JSON.stringify({ sourceId, intake }),
       });
       router.push(`/forge/${jobId}`);
     } catch (e) {
@@ -141,81 +200,107 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     }
   };
 
+  const bigUpload = total > SELECT_ALL_UP_TO;
+  const parts = data.parts ?? 1;
+
   return (
     <div className="flex flex-col gap-12" data-testid="intake-form">
       <section aria-labelledby="found-heading">
         <p className="text-lg text-muted-foreground">
           {data.source.title} · {data.source.pageCount} page{data.source.pageCount === 1 ? "" : "s"} · {km.subject.domain} / {km.subject.topic}
+          {parts > 1 && ` · read in ${parts} parts`}
           {km.unsourced && " · unsourced (built from general knowledge)"}
         </p>
         <h1 id="found-heading" className="mt-1 text-4xl font-bold tracking-tight">
           Here&apos;s what I found
         </h1>
-        {data.gatekeeper.tooBig && data.gatekeeper.outline.length > 0 && (
-          <fieldset className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4">
-            <legend className="px-2 text-lg font-semibold">This is more than one game&apos;s worth. Pick the sections to play:</legend>
-            <div className="grid gap-2 md:grid-cols-2">
-              {data.gatekeeper.outline.map((o) => (
-                <label key={o.title} className="flex items-center gap-3 text-lg">
-                  <input
-                    type="checkbox"
-                    className="h-5 w-5"
-                    checked={sections.has(o.title)}
-                    onChange={(e) => {
-                      const next = new Set(sections);
-                      if (e.target.checked) next.add(o.title);
-                      else next.delete(o.title);
-                      setSections(next);
-                    }}
-                  />
-                  {o.title} <span className="text-muted-foreground">pp. {o.pageStart}–{o.pageEnd}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
+        {bigUpload && (
+          <p className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4 text-lg" data-testid="big-upload-note">
+            This is more than one game&apos;s worth: {km.units.length} units and {total} concepts. Tick the concepts you want in this game; a 10-minute game
+            works best with about 8 to 12.
+          </p>
         )}
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-lg" data-testid="selection-summary">
+          <span>
+            <strong>{selected.size}</strong> of {total} concept{total === 1 ? "" : "s"} selected
+          </span>
+          <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectAll} data-testid="select-all">
+            Select all
+          </button>
+          <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectNone} data-testid="select-none">
+            Select none
+          </button>
+        </div>
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          {km.units.map((u) => (
-            <div key={u.id} className="rounded-lg border border-border/60 bg-card p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h2 className="text-2xl font-semibold">{u.name}</h2>
-                {unitPageRange(km, u.conceptIds) && <span className="text-base text-muted-foreground">{unitPageRange(km, u.conceptIds)}</span>}
+          {km.units.map((u) => {
+            const picked = u.conceptIds.filter((id) => selected.has(id)).length;
+            const unitAll = u.conceptIds.length > 0 && picked === u.conceptIds.length;
+            return (
+              <div key={u.id} className={`rounded-lg border border-border/60 bg-card p-5 ${picked === 0 ? "opacity-75" : ""}`} data-testid={`unit-card-${u.id}`}>
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      className="h-5 w-5"
+                      checked={unitAll}
+                      ref={(el) => {
+                        if (el) el.indeterminate = picked > 0 && !unitAll;
+                      }}
+                      onChange={(e) => setUnit(u, e.target.checked)}
+                      aria-label={`Select every concept in ${u.name}`}
+                      data-testid={`unit-${u.id}`}
+                    />
+                    <h2 className="text-2xl font-semibold">{u.name}</h2>
+                  </div>
+                  {unitPageRange(km, u.conceptIds) && <span className="text-base text-muted-foreground">{unitPageRange(km, u.conceptIds)}</span>}
+                </div>
+                <ul className="mt-3 space-y-2">
+                  {u.conceptIds.map((cid) => {
+                    const c = km.concepts.find((x) => x.id === cid);
+                    if (!c) return null;
+                    const range = pageRange(km, cid);
+                    return (
+                      <li key={cid} className="text-lg">
+                        <label className="flex cursor-pointer items-start gap-3">
+                          <input
+                            type="checkbox"
+                            className="mt-1.5 h-5 w-5 shrink-0"
+                            checked={selected.has(cid)}
+                            onChange={(e) => toggleConcept(cid, e.target.checked)}
+                            data-testid={`concept-${cid}`}
+                          />
+                          <span>
+                            <span className="font-medium">{c.name}</span>
+                            {range && <span className="text-muted-foreground"> · {range}</span>}
+                            <span className="ml-2 rounded bg-secondary px-2 py-0.5 text-sm">{c.knowledgeType}</span>
+                            {c.importance === "core" && <span className="ml-2 rounded bg-primary/20 px-2 py-0.5 text-sm">core</span>}
+                          </span>
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <label className="mt-5 block text-lg">
+                  How confident are you here? <strong>{confidence[u.id] ?? 3}</strong> / 5
+                  <input
+                    type="range"
+                    min={1}
+                    max={5}
+                    step={1}
+                    value={confidence[u.id] ?? 3}
+                    onChange={(e) => setConfidence({ ...confidence, [u.id]: Number(e.target.value) })}
+                    className="mt-2 w-full accent-primary"
+                    aria-label={`Confidence in ${u.name}`}
+                    data-testid={`confidence-${u.id}`}
+                  />
+                  <span className="flex justify-between text-sm text-muted-foreground">
+                    <span>lost</span>
+                    <span>solid</span>
+                  </span>
+                </label>
               </div>
-              <ul className="mt-3 space-y-2">
-                {u.conceptIds.map((cid) => {
-                  const c = km.concepts.find((x) => x.id === cid);
-                  if (!c) return null;
-                  const range = pageRange(km, cid);
-                  return (
-                    <li key={cid} className="text-lg">
-                      <span className="font-medium">{c.name}</span>
-                      {range && <span className="text-muted-foreground"> · {range}</span>}
-                      <span className="ml-2 rounded bg-secondary px-2 py-0.5 text-sm">{c.knowledgeType}</span>
-                      {c.importance === "core" && <span className="ml-2 rounded bg-primary/20 px-2 py-0.5 text-sm">core</span>}
-                    </li>
-                  );
-                })}
-              </ul>
-              <label className="mt-5 block text-lg">
-                How confident are you here? <strong>{confidence[u.id] ?? 3}</strong> / 5
-                <input
-                  type="range"
-                  min={1}
-                  max={5}
-                  step={1}
-                  value={confidence[u.id] ?? 3}
-                  onChange={(e) => setConfidence({ ...confidence, [u.id]: Number(e.target.value) })}
-                  className="mt-2 w-full accent-primary"
-                  aria-label={`Confidence in ${u.name}`}
-                  data-testid={`confidence-${u.id}`}
-                />
-                <span className="flex justify-between text-sm text-muted-foreground">
-                  <span>lost</span>
-                  <span>solid</span>
-                </span>
-              </label>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {data.dropped.length > 0 && (
           <p className="mt-4 text-base text-muted-foreground">
@@ -274,55 +359,69 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         <h2 id="precheck-heading" className="text-2xl font-semibold">
           Quick check: three questions before you play
         </h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {data.preCheck.map((q, i) => (
-            <fieldset key={i} className="rounded-lg border border-border/60 bg-card p-4" data-testid={`precheck-${i}`}>
-              <legend className="px-1 text-lg font-medium">{q.prompt}</legend>
-              <div className="mt-2 flex flex-col gap-2">
-                {q.choices.map((choice, ci) => (
-                  <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-md border p-2 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
+        {selected.size === 0 ? (
+          <p className="mt-4 text-lg text-muted-foreground" data-testid="precheck-empty">
+            Tick at least one concept above and I&apos;ll write three quick questions about your selection.
+          </p>
+        ) : preCheckBusy ? (
+          <p role="status" aria-live="polite" className="mt-4 text-lg" data-testid="precheck-loading">
+            Writing three quick questions for your selection…
+          </p>
+        ) : (
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {preCheck.map((q, i) => (
+              <fieldset key={`${selectionKey}:${i}`} className="rounded-lg border border-border/60 bg-card p-4" data-testid={`precheck-${i}`}>
+                <legend className="px-1 text-lg font-medium">{q.prompt}</legend>
+                <div className="mt-2 flex flex-col gap-2">
+                  {q.choices.map((choice, ci) => (
+                    <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-md border p-2 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
+                      <input
+                        type="radio"
+                        name={`pre-${i}`}
+                        value={ci}
+                        checked={answers[i] === ci}
+                        onChange={() => {
+                          const next = [...answers];
+                          next[i] = ci;
+                          setAnswers(next);
+                        }}
+                        className="h-5 w-5"
+                      />
+                      {choice}
+                    </label>
+                  ))}
+                  <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-2 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
                     <input
                       type="radio"
                       name={`pre-${i}`}
-                      value={ci}
-                      checked={answers[i] === ci}
+                      value={-1}
+                      checked={answers[i] === -1}
                       onChange={() => {
                         const next = [...answers];
-                        next[i] = ci;
+                        next[i] = -1;
                         setAnswers(next);
                       }}
                       className="h-5 w-5"
+                      data-testid={`precheck-${i}-skip`}
                     />
-                    {choice}
+                    <span className="text-muted-foreground">Not sure yet</span>
                   </label>
-                ))}
-                <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-2 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
-                  <input
-                    type="radio"
-                    name={`pre-${i}`}
-                    value={-1}
-                    checked={answers[i] === -1}
-                    onChange={() => {
-                      const next = [...answers];
-                      next[i] = -1;
-                      setAnswers(next);
-                    }}
-                    className="h-5 w-5"
-                    data-testid={`precheck-${i}-skip`}
-                  />
-                  <span className="text-muted-foreground">Not sure yet</span>
-                </label>
-              </div>
-            </fieldset>
-          ))}
-        </div>
+                </div>
+              </fieldset>
+            ))}
+          </div>
+        )}
       </section>
 
       <div className="flex items-center gap-4">
         <Button size="lg" className="h-14 px-8 text-xl" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
           {busy ? "Starting the forge…" : "Forge my game"}
         </Button>
-        {!ready && <span className="text-lg text-muted-foreground">Answer the three questions to continue.</span>}
+        {!ready && (
+          <span className="text-lg text-muted-foreground">
+            {selected.size === 0 ? "Pick at least one concept to continue." : preCheckBusy ? "Waiting for your questions…" : "Answer the three questions to continue."}
+          </span>
+        )}
       </div>
     </div>
   );
