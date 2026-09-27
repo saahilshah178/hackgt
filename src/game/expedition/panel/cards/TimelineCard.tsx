@@ -38,6 +38,79 @@ export function laneY(model: Pick<TimelineCardModel, "lanes">, lane: string | nu
   return i < 0 ? b.top + b.height / 2 : b.top + row * (i + 0.5) + row * 0.18;
 }
 
+/** Place pin labels so their boxes do not cover each other. Tries beside the pin, then further up and down. */
+export function placePinLabels(
+  pins: readonly { key: string; x: number; y: number; label: string }[],
+  bounds: { left: number; right: number; top: number; bottom: number },
+  fontSize: number,
+): { key: string; x: number; y: number; anchor: "start" | "end" }[] {
+  const h = fontSize + 4;
+  const placed: { key: string; x: number; y: number; anchor: "start" | "end"; w: number }[] = [];
+  const rect = (l: (typeof placed)[number]) => {
+    const left = l.anchor === "start" ? l.x : l.x - l.w;
+    return { left, right: left + l.w, top: l.y - h, bottom: l.y + 2 };
+  };
+  const clear = (box: (typeof placed)[number]) => {
+    const r = rect(box);
+    if (r.left < bounds.left || r.right > bounds.right || r.top < bounds.top || r.bottom > bounds.bottom) return false;
+    return placed.every((prev) => overlapArea(box, prev, h) === 0);
+  };
+  const overlapArea = (a: (typeof placed)[number], b: (typeof placed)[number], line: number) => {
+    const A = rect(a);
+    const B = { left: b.anchor === "start" ? b.x : b.x - b.w, right: (b.anchor === "start" ? b.x : b.x - b.w) + b.w, top: b.y - line, bottom: b.y + 2 };
+    const w = Math.min(A.right, B.right) - Math.max(A.left, B.left);
+    const hh = Math.min(A.bottom, B.bottom) - Math.max(A.top, B.top);
+    return w > 0 && hh > 0 ? w * hh : 0;
+  };
+  for (const p of [...pins].sort((a, b) => a.x - b.x || a.key.localeCompare(b.key))) {
+    const w = Math.max(fontSize, p.label.length * fontSize * 0.7 + 16);
+    const pad = 12;
+    const candidates: { x: number; y: number; anchor: "start" | "end" }[] = [];
+    for (let row = 0; row < 8; row++) {
+      for (const dir of [-1, 1] as const) {
+        const y = p.y - 2 + dir * row * h;
+        candidates.push({ x: p.x + pad, y, anchor: "start" });
+        candidates.push({ x: p.x - pad, y, anchor: "end" });
+      }
+    }
+    const choice =
+      candidates.find((c) => clear({ key: p.key, ...c, w })) ??
+      candidates
+        .map((c) => ({ c, score: placed.reduce((n, prev) => n + overlapArea({ key: p.key, ...c, w }, prev, h), 0) }))
+        .sort((a, b) => a.score - b.score)[0].c;
+    placed.push({ key: p.key, ...choice, w });
+  }
+  return placed.map(({ key, x, y, anchor }) => ({ key, x, y, anchor }));
+}
+
+/**
+ * Pins that land on nearly the same x (several clues in one year of a long axis) stack vertically
+ * so each label stays readable. Spaced pins keep their lane row.
+ */
+export function spreadPinPositions(
+  pins: readonly { key: string; lane: string | null; x: number; y: number }[],
+  box: { gap: number; cluster: number; top: number; bottom: number },
+): Map<string, { x: number; y: number }> {
+  const items = [...pins].sort((a, b) => a.x - b.x || a.key.localeCompare(b.key));
+  const out = new Map<string, { x: number; y: number }>();
+  let i = 0;
+  while (i < items.length) {
+    let j = i + 1;
+    while (j < items.length && items[j].x - items[j - 1].x < box.cluster && (items[j].lane ?? "") === (items[i].lane ?? "")) j += 1;
+    const group = items.slice(i, j);
+    const mid = (group.length - 1) / 2;
+    const span = (group.length - 1) * box.gap;
+    const room = Math.max(0, box.bottom - box.top);
+    const gap = span > room && group.length > 1 ? room / (group.length - 1) : box.gap;
+    group.forEach((item, k) => {
+      const y = item.y + (k - mid) * gap;
+      out.set(item.key, { x: item.x, y: Math.min(box.bottom, Math.max(box.top, y)) });
+    });
+    i = j;
+  }
+  return out;
+}
+
 function PinGlyph({ x, y, pin }: { x: number; y: number; pin: Pin }) {
   // A map pin (bible §3.10): dark teal body, white stroke; the style says what kind of knowledge it is.
   const stroke =
@@ -93,8 +166,10 @@ export function TimelineCard({ model, chips = [], cursor = null }: { model: Time
     else e.after += 1;
     off.set(k, e);
   }
-  const pinPos = new Map<string, { x: number; y: number }>();
-  for (const p of shown) pinPos.set(p.key, { x: xOf(p.at), y: laneY(model, p.lane, b) });
+  const pinPos = spreadPinPositions(
+    shown.map((p) => ({ key: p.key, lane: p.lane, x: xOf(p.at), y: laneY(model, p.lane, b) })),
+    { gap: Math.max(28, small(fs) + 12), cluster: Math.max(72, small(fs) * 4.2), top: b.top + 4, bottom: axisY - 4 },
+  );
   const chipH = m.fsChip * 1.25 + 8;
   const n = Math.max(1, model.lanes.length);
   const chipTop = (laneIndex: number) =>
@@ -207,17 +282,23 @@ export function TimelineCard({ model, chips = [], cursor = null }: { model: Time
                 ) : null}
               </g>
             ))}
-            {shown
-              .filter((p) => p.style === "hint" || p.style === "focus" || p.style === "draft")
-              .map((p) => {
-                const pos = pinPos.get(p.key)!;
-                const right = pos.x < b.left + b.width * 0.6;
-                return (
-                  <text key={`l${p.key}`} className="xp-svg-text" x={pos.x + (right ? 16 : -16)} y={pos.y - 4} textAnchor={right ? "start" : "end"} fontSize={small(fs)}>
-                    {p.label}
-                  </text>
-                );
-              })}
+            {placePinLabels(
+              shown
+                .filter((p) => p.style === "hint" || p.style === "focus" || p.style === "draft")
+                .map((p) => {
+                  const pos = pinPos.get(p.key)!;
+                  return { key: p.key, x: pos.x, y: pos.y, label: p.label };
+                }),
+              { left: b.left, right: b.left + b.width, top: b.top, bottom: axisY - 2 },
+              small(fs),
+            ).map((l) => {
+              const pin = shown.find((p) => p.key === l.key)!;
+              return (
+                <text key={`l${l.key}`} className="xp-svg-text" x={l.x} y={l.y} textAnchor={l.anchor} fontSize={small(fs)}>
+                  {pin.label}
+                </text>
+              );
+            })}
           </g>
           {/* lane labels last, on a dark backing, so pins never hide them */}
           <g aria-hidden>

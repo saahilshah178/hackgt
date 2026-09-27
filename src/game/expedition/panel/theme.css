@@ -182,10 +182,33 @@
 .xp-panel:not([data-layout="vault"]) .xp-chip {
   max-width: var(--xp-chip-w);
 }
+/* Vault chips used to hang into the brief column and cover the brief and the hints.
+   They sit inside the record card instead, clear of that text. */
+.xp-panel[data-layout="vault"] .xp-chip {
+  left: 12px;
+  top: 18px !important;
+  transform: none;
+  max-width: 220px;
+}
 .xp-panel[data-layout="vault"] .xp-body {
   display: grid;
   grid-template-columns: 30% 1fr;
   gap: clamp(14px, 2.4cqw, 32px);
+}
+/* The year readout hangs left of the ruler. The brief fills the column, and its text
+   starts below that readout so the date sits in the empty band, not on the words. */
+.xp-panel[data-layout="vault"] .xp-brief {
+  height: 100%;
+  align-self: stretch;
+  overflow: hidden;
+}
+.xp-panel[data-layout="vault"] .xp-brief [role="tabpanel"] {
+  padding-top: calc(clamp(40px, 6cqh, 56px) + 176px + 2 * var(--xp-gap) + clamp(58px, 9cqh, 78px) - 74px);
+}
+.xp-panel[data-layout="vault"] .xp-slot[data-card="timeline"] {
+  flex: 0 0 auto;
+  min-height: 176px;
+  height: 176px;
 }
 .xp-main {
   position: relative;
@@ -194,6 +217,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--xp-gap);
+}
+/* The ruler sits on the cards it moves. Questions take the space below it, not the gap between. */
+.xp-main[data-coupled="slider"] > .xp-stack {
+  flex: 0 1 auto;
+}
+.xp-main[data-coupled="slider"] > .xp-slot {
+  flex: 1 1 0;
+  min-height: 0;
 }
 .xp-head {
   display: flex;
@@ -276,6 +307,61 @@
   display: flex;
   flex-direction: column;
   gap: var(--xp-gap);
+}
+/* Multiple choice gets the right column, full height, so every option is on screen.
+   The plots and the ruler stay in the left column and keep a shared x scale. */
+.xp-main[data-choices="beside"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 1.05fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  column-gap: var(--xp-gap);
+  row-gap: var(--xp-gap);
+}
+.xp-main[data-choices="beside"] > .xp-stack {
+  grid-column: 1;
+  grid-row: 1;
+}
+.xp-main[data-choices="beside"] > .xp-ruler-row {
+  grid-column: 1;
+  grid-row: 2;
+}
+.xp-main[data-choices="beside"] > .xp-slot[data-card="claims"] {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  min-height: 0;
+  height: auto;
+}
+.xp-main[data-choices="beside"] .xp-stack .xp-slot {
+  min-height: 0;
+}
+.xp-slot[data-card="claims"] > .xp-card {
+  overflow: visible;
+}
+.xp-slot[data-card="claims"] .xp-card-html {
+  overflow: visible;
+}
+.xp-slot[data-card="claims"] .xp-clamp3 {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+@container xp-panel (max-width: 800px) {
+  .xp-main[data-choices="beside"] {
+    display: flex;
+    flex-direction: column;
+  }
+  .xp-main[data-choices="beside"] > .xp-slot[data-card="claims"] {
+    flex: 0 0 auto;
+    order: -1;
+    height: auto;
+  }
+  .xp-main[data-choices="beside"] > .xp-slot[data-card="claims"] > .xp-card,
+  .xp-main[data-choices="beside"] > .xp-slot[data-card="claims"] .xp-card-html {
+    position: relative;
+    inset: auto;
+    height: auto;
+  }
 }
 .xp-slot {
   /* the card sits in a "slot": an outer 1 px frame offset 6 px */

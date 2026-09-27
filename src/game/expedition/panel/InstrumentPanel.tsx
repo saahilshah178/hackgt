@@ -268,7 +268,7 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
           run = null;
         }
       });
-      const next = { segments, width: box.clientWidth };
+      const next = { segments, width: ruler.clientWidth };
       setLine((l) => (l && l.width === next.width && JSON.stringify(l.segments) === JSON.stringify(segments) ? l : next));
     };
     measure();
@@ -373,33 +373,36 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
   const verifyLabel = station.verifyLabel;
   const symbol = station.inputSymbol ?? range?.symbol ?? probeSpec?.symbol ?? "x";
 
-  const instrument = (
-    <div className="xp-main" ref={instrumentRef} data-testid="panel-instrument">
-      <div className="xp-stack" data-testid="card-stack">
-        {stack.map((d) => (
-          <CardSlot key={`${d.metaSlot ?? "record"}-${d.card.kind}`} d={d} live={live} scrubX={scrubX} shares={sharesDomain(d.card, domain)} />
-        ))}
-        {kind !== "scrub" ? (
-          <ControlView
-            key={`${station.encounterId}-${restore.seq}`}
-            kind={kind}
-            modeKey={station.modeKey}
-            view={view}
-            initialInput={restore.input}
-            initialMarks={props.initialDraft?.marks ?? null}
-            surface={surface}
-            highlights={live.highlights}
-            phases={station.bossPhases}
-            attempt={props.attempt ?? 0}
-            disabled={disabled}
-            describedBy={instructionId}
-            verifyLabel={verifyLabel}
-            shadeCounts={hintsUsed >= 3}
-            onChange={onControl}
-            onSubmitInput={(input) => props.onVerify(input, { ...ctrlRef.current, probe, settled })}
-          />
-        ) : null}
-      </div>
+  const control =
+    kind !== "scrub" ? (
+      <ControlView
+        key={`${station.encounterId}-${restore.seq}`}
+        kind={kind}
+        modeKey={station.modeKey}
+        view={view}
+        initialInput={restore.input}
+        initialMarks={props.initialDraft?.marks ?? null}
+        surface={surface}
+        highlights={live.highlights}
+        phases={station.bossPhases}
+        attempt={props.attempt ?? 0}
+        disabled={disabled}
+        describedBy={instructionId}
+        verifyLabel={verifyLabel}
+        shadeCounts={hintsUsed >= 3}
+        onChange={onControl}
+        onSubmitInput={(input) => props.onVerify(input, { ...ctrlRef.current, probe, settled })}
+      />
+    ) : null;
+  /* Multiple choice sits beside the plots. In the stack it was squeezed to a short scroller and the
+     leftover options landed under the ruler and Verify. */
+  const choicesBeside = kind === "aim" && stack.length > 0;
+  /* A probe or scalar ruler adjusts the cards above it. Question controls used to sit between those
+     cards and the ruler, so the slider was no longer next to the thing it moves. */
+  const coupleSlider = !choicesBeside && control !== null && (Boolean(scalar && range) || Boolean(probeSpec && probeRange));
+
+  const ruler = (
+    <>
       {scalar && range ? (
         <ScrubControl
           range={range}
@@ -427,6 +430,25 @@ export function InstrumentPanel(props: InstrumentPanelProps) {
           testId="probe-scrubber"
         />
       ) : null}
+    </>
+  );
+
+  const instrument = (
+    <div
+      className="xp-main"
+      ref={instrumentRef}
+      data-testid="panel-instrument"
+      data-choices={choicesBeside ? "beside" : undefined}
+      data-coupled={coupleSlider ? "slider" : undefined}
+    >
+      <div className="xp-stack" data-testid="card-stack">
+        {stack.map((d) => (
+          <CardSlot key={`${d.metaSlot ?? "record"}-${d.card.kind}`} d={d} live={live} scrubX={scrubX} shares={sharesDomain(d.card, domain)} />
+        ))}
+        {coupleSlider || choicesBeside ? null : control}
+      </div>
+      {ruler}
+      {coupleSlider || choicesBeside ? control : null}
       {line && domain && scrubX !== null
         ? line.segments.map((seg, i) => (
             <div

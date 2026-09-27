@@ -3167,19 +3167,19 @@
         "config": {
           "clues": [{"index": 0, "date": "1965"}, {"index": 1, "date": "1965-03-15"}, {"index": 2, "date": "1965"}, {"index": 3, "date": "1964"}],
           "bolts": 4,
-          "miniStrip": {"start": 1954, "end": 1967},
+          "miniStrip": {"start": 1963, "end": 1966},
           "shadeCountsRung": 3,
           "probe": {
             "symbol": "YEAR",
             "label": "record year",
-            "min": 1954,
+            "min": 1963,
             "max": 1966,
             "step": 0.0833333333,
             "unit": "",
             "format": "month_year",
             "initial": null,
             "stops": [],
-            "window": {"start": 1954, "end": 1966},
+            "window": {"start": 1963, "end": 1966},
             "playback": false
           }
         },
