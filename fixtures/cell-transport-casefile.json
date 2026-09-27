@@ -62,63 +62,153 @@
       "unitId": "u_membrane",
       "name": "Phospholipid bilayer",
       "knowledgeType": "system",
-      "learningObjective": "The student can describe the bilayer's structure and explain why it is a barrier to polar and charged substances."
+      "learningObjective": "The student can describe the bilayer's structure and explain why it is a barrier to polar and charged substances.",
+      "primer": "The membrane is two layers of phospholipids with polar heads out and nonpolar tails in, studded with proteins.",
+      "keyFacts": [
+        "The membrane is a phospholipid bilayer with the hydrophobic tails pointing inward.",
+        "The bilayer blocks most polar and charged molecules.",
+        "The bilayer is fluid: its lipids and proteins drift sideways, so it bends and reseals instead of cracking.",
+        "Polar and charged traffic crosses through proteins embedded in the bilayer, not through fixed holes."
+      ],
+      "pitfalls": [
+        "It is a fluid double layer of lipids; substances cross by dissolving through it or by using proteins."
+      ]
     },
     {
       "id": "c_selectivity",
       "unitId": "u_membrane",
       "name": "Selective permeability",
       "knowledgeType": "category",
-      "learningObjective": "The student can predict whether a molecule crosses freely, needs a channel or carrier, or needs a pump."
+      "learningObjective": "The student can predict whether a molecule crosses freely, needs a channel or carrier, or needs a pump.",
+      "primer": "Small nonpolar molecules cross freely; polar molecules and ions need channels, carriers, or pumps.",
+      "keyFacts": [
+        "Small nonpolar molecules like O2 and CO2 diffuse straight through the bilayer.",
+        "Ions and large polar molecules cross only through transport proteins.",
+        "The route depends on polarity and charge, not size: oxygen, carbon dioxide and steroids slip through the lipids; glucose needs a carrier; ions like Na+ and Cl- need channels or pumps.",
+        "Water is small and polar: a little seeps through, but most crosses through aquaporin channels."
+      ],
+      "pitfalls": [
+        "Size matters less than polarity: a small ion like Na+ is blocked, while larger nonpolar molecules slip through."
+      ]
     },
     {
       "id": "c_diffusion",
       "unitId": "u_passive",
       "name": "Diffusion",
       "knowledgeType": "causal",
-      "learningObjective": "The student can explain diffusion as the net result of random motion down a concentration gradient."
+      "learningObjective": "The student can explain diffusion as the net result of random motion down a concentration gradient.",
+      "primer": "Net movement of particles from high to low concentration, driven by random motion, with no energy input.",
+      "keyFacts": [
+        "Diffusion is net movement down the concentration gradient.",
+        "Diffusion requires no energy from the cell.",
+        "Every particle moves at random, bumping into its neighbours; no particle knows where the others are.",
+        "Where particles are crowded, more of them happen to wander out than wander in, so the net movement runs from high concentration to low.",
+        "The spreading continues until the concentration is even everywhere.",
+        "At that point particles keep moving, but as many enter any region as leave it: no net flow. That is dynamic equilibrium."
+      ],
+      "pitfalls": [
+        "Each particle moves randomly; the net flow toward low concentration is a statistical result, not a goal."
+      ]
     },
     {
       "id": "c_osmosis",
       "unitId": "u_passive",
       "name": "Osmosis",
       "knowledgeType": "causal",
-      "learningObjective": "The student can predict the direction of water movement from the solute concentrations on each side."
+      "learningObjective": "The student can predict the direction of water movement from the solute concentrations on each side.",
+      "primer": "Diffusion of water across a selectively permeable membrane toward the higher solute concentration.",
+      "keyFacts": [
+        "Osmosis is the diffusion of water across a selectively permeable membrane.",
+        "Water moves toward the side with more solute.",
+        "To predict the direction, compare solute on the two sides: water moves toward the side with more solute, which is the side with less water.",
+        "Pond water has far less solute than a cell's insides, so water diffuses into the cell and the cell swells."
+      ],
+      "pitfalls": [
+        "Dissolved salt ions cannot cross the bilayer; it is the water that moves, toward the saltier side."
+      ]
     },
     {
       "id": "c_tonicity",
       "unitId": "u_passive",
       "name": "Tonicity: hypotonic, isotonic, hypertonic",
       "knowledgeType": "category",
-      "learningObjective": "The student can classify a solution as hypotonic, isotonic, or hypertonic relative to a cell and predict the cell's fate."
+      "learningObjective": "The student can classify a solution as hypotonic, isotonic, or hypertonic relative to a cell and predict the cell's fate.",
+      "primer": "The relative solute concentration of a solution predicts whether a cell swells, stays, or shrinks.",
+      "keyFacts": [
+        "In a hypotonic solution the cell gains water and swells.",
+        "In a hypertonic solution the cell loses water and shrinks.",
+        "Isotonic: equal solute on both sides, so water moves in and out equally and the cell keeps its size.",
+        "A drip that is too dilute is hypotonic to blood: water rushes into red blood cells, they swell, and they can burst."
+      ],
+      "pitfalls": [
+        "Hypertonic means more solute (and therefore less water) than the cell, so water leaves the cell."
+      ]
     },
     {
       "id": "c_facilitated",
       "unitId": "u_passive",
       "name": "Facilitated diffusion",
       "knowledgeType": "category",
-      "learningObjective": "The student can distinguish facilitated diffusion from simple diffusion and from active transport."
+      "learningObjective": "The student can distinguish facilitated diffusion from simple diffusion and from active transport.",
+      "primer": "Channel and carrier proteins let specific polar molecules and ions move down their gradient without energy.",
+      "keyFacts": [
+        "Facilitated diffusion uses transport proteins but still needs no energy.",
+        "Aquaporins are channels for water.",
+        "The test for passive transport: does the substance move down its gradient? If yes, no ATP is spent, even when a channel or carrier helps.",
+        "Glucose carriers, ion channels and aquaporins are all facilitated diffusion: a protein path, no energy."
+      ],
+      "pitfalls": [
+        "Channels and carriers only provide a path; energy is needed only when moving against the gradient."
+      ]
     },
     {
       "id": "c_active_transport",
       "unitId": "u_active",
       "name": "Active transport",
       "knowledgeType": "causal",
-      "learningObjective": "The student can explain why moving a substance against its gradient requires ATP and give an example."
+      "learningObjective": "The student can explain why moving a substance against its gradient requires ATP and give an example.",
+      "primer": "Pumps move substances against their concentration gradient, using ATP.",
+      "keyFacts": [
+        "Active transport moves substances against their gradient and uses ATP.",
+        "Without ATP, pumps stop and gradients dissipate.",
+        "Uphill movement lets a cell hoard what it needs and expel what it does not: root cells pulling in scarce minerals, or the sodium-potassium pump."
+      ],
+      "pitfalls": [
+        "Pumps push substances uphill, against the gradient, by spending ATP."
+      ]
     },
     {
       "id": "c_sodium_potassium",
       "unitId": "u_active",
       "name": "The sodium-potassium pump",
       "knowledgeType": "fact",
-      "learningObjective": "The student can state what the sodium-potassium pump moves, in which directions, and why it matters."
+      "learningObjective": "The student can state what the sodium-potassium pump moves, in which directions, and why it matters.",
+      "primer": "Each cycle moves 3 Na+ out and 2 K+ in, maintaining the gradients nerve and muscle cells depend on.",
+      "keyFacts": [
+        "The pump moves three Na+ out and two K+ in per ATP.",
+        "Nerve cells depend on the gradient the pump maintains.",
+        "One cycle: three Na+ bind inside, one ATP is spent and the pump changes shape, the three Na+ are released outside, two K+ bind outside, the pump snaps back, and the two K+ are released inside."
+      ],
+      "pitfalls": [
+        "It moves 3 Na+ out for every 2 K+ in, which also leaves the inside slightly negative."
+      ]
     },
     {
       "id": "c_bulk_transport",
       "unitId": "u_bulk",
       "name": "Endocytosis and exocytosis",
       "knowledgeType": "sequence",
-      "learningObjective": "The student can order the steps of endocytosis and exocytosis and explain why both are active processes."
+      "learningObjective": "The student can order the steps of endocytosis and exocytosis and explain why both are active processes.",
+      "primer": "Large cargo enters or leaves the cell in vesicles that pinch off from or fuse with the membrane, using energy.",
+      "keyFacts": [
+        "Endocytosis folds the membrane inward to form a vesicle around the cargo.",
+        "Exocytosis fuses a vesicle with the membrane to release its contents.",
+        "Endocytosis in order: the membrane sinks inward around the cargo, the pocket deepens, the neck pinches shut, and a vesicle carrying the cargo drifts into the cytoplasm.",
+        "Exocytosis runs the other way: a vesicle travels to the membrane, fuses with it, and its contents spill outside."
+      ],
+      "pitfalls": [
+        "Reshaping the membrane and moving vesicles costs ATP, so bulk transport is active."
+      ]
     }
   ],
   "mastery": {

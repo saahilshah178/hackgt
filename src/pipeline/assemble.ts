@@ -94,7 +94,17 @@ export function assembleGameSpec(s: Slices): GameSpec {
       preCheckAnswers: s.intake.preCheck.answers,
     },
     units: s.km.units.map(({ id, name }) => ({ id, name })),
-    concepts: s.km.concepts.map(({ id, unitId, name, knowledgeType, learningObjective }) => ({ id, unitId, name, knowledgeType, learningObjective })),
+    concepts: s.km.concepts.map(({ id, unitId, name, knowledgeType, learningObjective, summary, facts, misconceptions }) => ({
+      id,
+      unitId,
+      name,
+      knowledgeType,
+      learningObjective,
+      // the teaching material the hosts brief from: the map's summary, its facts and its misconception corrections
+      primer: summary,
+      ...(facts.length > 0 ? { keyFacts: facts.slice(0, 6).map((f) => f.statement) } : {}),
+      ...(misconceptions.length > 0 ? { pitfalls: misconceptions.slice(0, 3).map((m) => m.correction) } : {}),
+    })),
     mastery: DEFAULT_MASTERY,
     title: s.blueprint.title,
     theme: s.blueprint.theme,

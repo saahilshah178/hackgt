@@ -62,77 +62,165 @@
       "unitId": "u_origins",
       "name": "Brown v. Board of Education (1954)",
       "knowledgeType": "fact",
-      "learningObjective": "The student can state what Brown decided and why it mattered as a starting point."
+      "learningObjective": "The student can state what Brown decided and why it mattered as a starting point.",
+      "primer": "The Supreme Court ruled that segregated public schools are unconstitutional, overturning Plessy's 'separate but equal'.",
+      "keyFacts": [
+        "Brown held that segregated public schools are inherently unequal.",
+        "Brown overturned the 'separate but equal' doctrine of Plessy v. Ferguson."
+      ],
+      "pitfalls": [
+        "The ruling was resisted for years; Little Rock in 1957 showed enforcement required federal troops."
+      ]
     },
     {
       "id": "c_montgomery",
       "unitId": "u_origins",
       "name": "Montgomery bus boycott (1955–1956)",
       "knowledgeType": "causal",
-      "learningObjective": "The student can trace the boycott from Parks's arrest to the court ruling and explain what it demonstrated."
+      "learningObjective": "The student can trace the boycott from Parks's arrest to the court ruling and explain what it demonstrated.",
+      "primer": "After Rosa Parks's arrest, a 381-day boycott of Montgomery's buses ended with a court ruling against bus segregation and made Martin Luther King Jr. a national leader.",
+      "keyFacts": [
+        "The boycott began after Rosa Parks was arrested on December 1, 1955.",
+        "The boycott lasted 381 days and ended when the courts struck down bus segregation."
+      ],
+      "pitfalls": [
+        "Parks was a trained NAACP activist, and the boycott was organized within days by local leaders."
+      ]
     },
     {
       "id": "c_little_rock",
       "unitId": "u_origins",
       "name": "Little Rock Nine (1957)",
       "knowledgeType": "causal",
-      "learningObjective": "The student can explain why Little Rock showed that court rulings needed federal enforcement."
+      "learningObjective": "The student can explain why Little Rock showed that court rulings needed federal enforcement.",
+      "primer": "Nine Black students integrated Central High School only after President Eisenhower sent federal troops to enforce Brown.",
+      "keyFacts": [
+        "Governor Faubus used the National Guard to block the students.",
+        "Eisenhower sent the 101st Airborne to escort the students."
+      ],
+      "pitfalls": [
+        "Massive resistance meant many districts stayed segregated for a decade or more."
+      ]
     },
     {
       "id": "c_sit_ins",
       "unitId": "u_direct_action",
       "name": "Greensboro sit-ins (1960)",
       "knowledgeType": "causal",
-      "learningObjective": "The student can explain how the sit-ins worked as nonviolent direct action and what organization grew from them."
+      "learningObjective": "The student can explain how the sit-ins worked as nonviolent direct action and what organization grew from them.",
+      "primer": "Four students sat at a whites-only lunch counter; the tactic spread to dozens of cities and led to SNCC.",
+      "keyFacts": [
+        "Four students began the Greensboro sit-in on February 1, 1960.",
+        "The sit-ins led to the founding of SNCC."
+      ],
+      "pitfalls": [
+        "Sit-ins deliberately broke segregation rules to provoke a public response; they were confrontational but disciplined."
+      ]
     },
     {
       "id": "c_freedom_rides",
       "unitId": "u_direct_action",
       "name": "Freedom Rides (1961)",
       "knowledgeType": "causal",
-      "learningObjective": "The student can explain what the Freedom Rides tested and how violence produced federal action."
+      "learningObjective": "The student can explain what the Freedom Rides tested and how violence produced federal action.",
+      "primer": "Integrated groups rode interstate buses into the South to test a Supreme Court ruling; mob violence forced the federal government to enforce desegregation of terminals.",
+      "keyFacts": [
+        "The riders tested a ruling that desegregated interstate bus terminals.",
+        "A bus was firebombed in Anniston, Alabama."
+      ],
+      "pitfalls": [
+        "Federal action usually followed pressure and violence exposed by activists, as after Anniston."
+      ]
     },
     {
       "id": "c_birmingham",
       "unitId": "u_direct_action",
       "name": "Birmingham campaign (1963)",
       "knowledgeType": "causal",
-      "learningObjective": "The student can connect the Birmingham images to the proposal of the Civil Rights Act."
+      "learningObjective": "The student can connect the Birmingham images to the proposal of the Civil Rights Act.",
+      "primer": "Televised images of police dogs and fire hoses turned on marchers, including children, shifted national opinion and pushed Kennedy to propose a civil rights bill.",
+      "keyFacts": [
+        "Police under Bull Connor used dogs and fire hoses on marchers.",
+        "The images pushed Kennedy to propose a civil rights bill in June 1963."
+      ],
+      "pitfalls": [
+        "Kennedy's bill followed Birmingham, the sit-ins, the Freedom Rides and years of organizing together."
+      ]
     },
     {
       "id": "c_march_washington",
       "unitId": "u_legislation",
       "name": "March on Washington (1963)",
       "knowledgeType": "fact",
-      "learningObjective": "The student can state the march's goals and its role in building support for the bill."
+      "learningObjective": "The student can state the march's goals and its role in building support for the bill.",
+      "primer": "About 250,000 people gathered for jobs and freedom; King delivered 'I Have a Dream' at the Lincoln Memorial.",
+      "keyFacts": [
+        "About 250,000 people attended the march on August 28, 1963.",
+        "King delivered the 'I Have a Dream' speech there."
+      ],
+      "pitfalls": [
+        "It was organized by A. Philip Randolph and Bayard Rustin around economic demands as well as civil rights."
+      ]
     },
     {
       "id": "c_civil_rights_act",
       "unitId": "u_legislation",
       "name": "Civil Rights Act of 1964",
       "knowledgeType": "fact",
-      "learningObjective": "The student can state what the 1964 act banned and distinguish it from the 1965 act."
+      "learningObjective": "The student can state what the 1964 act banned and distinguish it from the 1965 act.",
+      "primer": "Signed by Johnson, it outlawed segregation in public accommodations and employment discrimination.",
+      "keyFacts": [
+        "Johnson signed the Civil Rights Act on July 2, 1964.",
+        "It banned segregation in public accommodations and discrimination in employment."
+      ],
+      "pitfalls": [
+        "Voting protections came with the Voting Rights Act of 1965; the 1964 act targeted segregation and employment."
+      ]
     },
     {
       "id": "c_selma_vra",
       "unitId": "u_legislation",
       "name": "Selma and the Voting Rights Act (1965)",
       "knowledgeType": "causal",
-      "learningObjective": "The student can connect Selma to the Voting Rights Act and state what the act did."
+      "learningObjective": "The student can connect Selma to the Voting Rights Act and state what the act did.",
+      "primer": "The Bloody Sunday attack on marchers at the Edmund Pettus Bridge led to the Voting Rights Act, which banned literacy tests and sent federal registrars south.",
+      "keyFacts": [
+        "State troopers attacked marchers on the Edmund Pettus Bridge on March 7, 1965.",
+        "The Voting Rights Act banned literacy tests and authorized federal registrars."
+      ],
+      "pitfalls": [
+        "Selma (March 1965) came after the Civil Rights Act (July 1964); the law's date, not the chapter order, fixes the sequence."
+      ]
     },
     {
       "id": "c_sources",
       "unitId": "u_sources",
       "name": "Primary vs. secondary sources",
       "knowledgeType": "category",
-      "learningObjective": "The student can classify a document as primary or secondary from who made it, when, and why."
+      "learningObjective": "The student can classify a document as primary or secondary from who made it, when, and why.",
+      "primer": "A primary source was created by a participant or witness at the time; a secondary source interprets primary sources later.",
+      "keyFacts": [
+        "A primary source is created by a participant or witness at the time.",
+        "A secondary source interprets primary sources after the fact."
+      ],
+      "pitfalls": [
+        "Age doesn't decide it: a 1970 textbook about 1963 is secondary, while a 1963 photograph is primary."
+      ]
     },
     {
       "id": "c_causation",
       "unitId": "u_sources",
       "name": "Cause and effect in the movement",
       "knowledgeType": "causal",
-      "learningObjective": "The student can chain at least four events of the movement from cause to consequence."
+      "learningObjective": "The student can chain at least four events of the movement from cause to consequence.",
+      "primer": "Court rulings, local organizing, direct action, media coverage, and federal law fed one another in chains, not as isolated events.",
+      "keyFacts": [
+        "Televised violence repeatedly turned local campaigns into national legislation.",
+        "The movement combined courts, organizing, and direct action."
+      ],
+      "pitfalls": [
+        "Each event changed what was possible next: Birmingham made the 1964 act possible, Selma made the 1965 act possible."
+      ]
     }
   ],
   "mastery": {

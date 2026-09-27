@@ -54,28 +54,60 @@
       "unitId": "u_angles",
       "name": "Radian measure",
       "knowledgeType": "quantitative",
-      "learningObjective": "The student can locate an angle in radians on the unit circle and convert between degrees and radians."
+      "learningObjective": "The student can locate an angle in radians on the unit circle and convert between degrees and radians.",
+      "primer": "Angles measured by arc length on the unit circle; one full turn is 2π.",
+      "keyFacts": [
+        "One full revolution is 2π radians.",
+        "π radians is half a revolution, or 180°."
+      ],
+      "pitfalls": [
+        "π radians is half a circle; a full circle is 2π."
+      ]
     },
     {
       "id": "c_period",
       "unitId": "u_graphs",
       "name": "Period of sin(bx) and cos(bx)",
       "knowledgeType": "quantitative",
-      "learningObjective": "The student can compute the period of y = sin(bx) or cos(bx) and explain why a larger b shortens it."
+      "learningObjective": "The student can compute the period of y = sin(bx) or cos(bx) and explain why a larger b shortens it.",
+      "primer": "The horizontal length of one full cycle, 2π/|b|.",
+      "keyFacts": [
+        "The period of y = sin(bx) is 2π/|b|.",
+        "Increasing b makes the graph repeat more often."
+      ],
+      "pitfalls": [
+        "A bigger b squeezes the wave, so sin(2x) has period π."
+      ]
     },
     {
       "id": "c_amplitude",
       "unitId": "u_graphs",
       "name": "Amplitude",
       "knowledgeType": "quantitative",
-      "learningObjective": "The student can read the amplitude from an equation or graph and distinguish it from the peak-to-trough distance."
+      "learningObjective": "The student can read the amplitude from an equation or graph and distinguish it from the peak-to-trough distance.",
+      "primer": "|A| in y = A·sin(x): the height of the wave above its midline.",
+      "keyFacts": [
+        "The amplitude of y = A sin x is |A|.",
+        "Changing A does not change the period."
+      ],
+      "pitfalls": [
+        "Peak-to-trough is twice the amplitude; amplitude is |A|."
+      ]
     },
     {
       "id": "c_solve",
       "unitId": "u_equations",
       "name": "Solving sin(x) = k on [0, 2π)",
       "knowledgeType": "procedure",
-      "learningObjective": "The student can find every solution of a basic sine equation on one period."
+      "learningObjective": "The student can find every solution of a basic sine equation on one period.",
+      "primer": "Isolate the sine, find the reference angle, then use the quadrants where sine has that sign.",
+      "keyFacts": [
+        "First isolate the trigonometric function.",
+        "Sine is positive in quadrants I and II."
+      ],
+      "pitfalls": [
+        "It has two: π/6 in quadrant I and 5π/6 in quadrant II."
+      ]
     }
   ],
   "mastery": {

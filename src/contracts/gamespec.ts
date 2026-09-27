@@ -90,7 +90,21 @@ export const GameSpec = z.object({
   intake: IntakeSummary,
   units: z.array(z.object({ id: Id, name: z.string().min(1) })).min(1),
   concepts: z
-    .array(z.object({ id: Id, unitId: Id, name: z.string().min(1), knowledgeType: KnowledgeType, learningObjective: z.string().min(1) }))
+    .array(
+      z.object({
+        id: Id,
+        unitId: Id,
+        name: z.string().min(1),
+        knowledgeType: KnowledgeType,
+        learningObjective: z.string().min(1),
+        /** the knowledge map's one-line summary: what the hosts teach from (the casefile's dossier, Dr. Ora's briefings) */
+        primer: z.string().min(1).max(400).optional(),
+        /** the map's facts, in order: how the concept works, written so a reader can reason a challenge out */
+        keyFacts: z.array(z.string().min(1)).max(6).optional(),
+        /** the map's misconception corrections: the traps to watch for, stated as the truth */
+        pitfalls: z.array(z.string().min(1)).max(3).optional(),
+      }),
+    )
     .min(1),
   mastery: MasteryConfig,
   // ---- Director ----

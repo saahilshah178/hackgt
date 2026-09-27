@@ -38,6 +38,8 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "The membrane is a phospholipid bilayer with the hydrophobic tails pointing inward.", sourceRef: { page: 1, quote: "The plasma membrane is a phospholipid bilayer: the hydrophilic heads face the water on both sides and the hydrophobic tails point inward." } },
         { statement: "The bilayer blocks most polar and charged molecules.", sourceRef: { page: 1, quote: "The nonpolar interior of the bilayer blocks most polar molecules and all ions from crossing on their own." } },
+        { statement: "The bilayer is fluid: its lipids and proteins drift sideways, so it bends and reseals instead of cracking.", sourceRef: null },
+        { statement: "Polar and charged traffic crosses through proteins embedded in the bilayer, not through fixed holes.", sourceRef: null },
       ],
       misconceptions: [{ belief: "The membrane is a solid wall with holes in it.", correction: "It is a fluid double layer of lipids; substances cross by dissolving through it or by using proteins." }],
       formulas: [],
@@ -56,6 +58,8 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "Small nonpolar molecules like O2 and CO2 diffuse straight through the bilayer.", sourceRef: { page: 1, quote: "Small nonpolar molecules such as oxygen and carbon dioxide diffuse straight through the bilayer." } },
         { statement: "Ions and large polar molecules cross only through transport proteins.", sourceRef: { page: 1, quote: "Ions and large polar molecules such as glucose cross only through transport proteins." } },
+        { statement: "The route depends on polarity and charge, not size: oxygen, carbon dioxide and steroids slip through the lipids; glucose needs a carrier; ions like Na+ and Cl- need channels or pumps.", sourceRef: null },
+        { statement: "Water is small and polar: a little seeps through, but most crosses through aquaporin channels.", sourceRef: null },
       ],
       misconceptions: [{ belief: "Anything small passes freely.", correction: "Size matters less than polarity: a small ion like Na+ is blocked, while larger nonpolar molecules slip through." }],
       formulas: [],
@@ -74,6 +78,10 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "Diffusion is net movement down the concentration gradient.", sourceRef: { page: 2, quote: "Diffusion is the net movement of particles from a region of higher concentration to a region of lower concentration." } },
         { statement: "Diffusion requires no energy from the cell.", sourceRef: { page: 2, quote: "Because it is driven by the random motion of the particles themselves, diffusion requires no energy from the cell." } },
+        { statement: "Every particle moves at random, bumping into its neighbours; no particle knows where the others are.", sourceRef: null },
+        { statement: "Where particles are crowded, more of them happen to wander out than wander in, so the net movement runs from high concentration to low.", sourceRef: null },
+        { statement: "The spreading continues until the concentration is even everywhere.", sourceRef: null },
+        { statement: "At that point particles keep moving, but as many enter any region as leave it: no net flow. That is dynamic equilibrium.", sourceRef: null },
       ],
       misconceptions: [{ belief: "Particles move toward empty space on purpose.", correction: "Each particle moves randomly; the net flow toward low concentration is a statistical result, not a goal." }],
       formulas: [],
@@ -92,6 +100,8 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "Osmosis is the diffusion of water across a selectively permeable membrane.", sourceRef: { page: 2, quote: "Osmosis is the diffusion of water across a selectively permeable membrane." } },
         { statement: "Water moves toward the side with more solute.", sourceRef: { page: 2, quote: "Water moves toward the side with the higher solute concentration, where the water concentration is lower." } },
+        { statement: "To predict the direction, compare solute on the two sides: water moves toward the side with more solute, which is the side with less water.", sourceRef: null },
+        { statement: "Pond water has far less solute than a cell's insides, so water diffuses into the cell and the cell swells.", sourceRef: null },
       ],
       misconceptions: [{ belief: "Salt crosses the membrane instead of water.", correction: "Dissolved salt ions cannot cross the bilayer; it is the water that moves, toward the saltier side." }],
       formulas: [],
@@ -110,6 +120,8 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "In a hypotonic solution the cell gains water and swells.", sourceRef: { page: 2, quote: "In a hypotonic solution the cell gains water and swells; an animal cell may burst." } },
         { statement: "In a hypertonic solution the cell loses water and shrinks.", sourceRef: { page: 2, quote: "In a hypertonic solution the cell loses water and shrinks." } },
+        { statement: "Isotonic: equal solute on both sides, so water moves in and out equally and the cell keeps its size.", sourceRef: null },
+        { statement: "A drip that is too dilute is hypotonic to blood: water rushes into red blood cells, they swell, and they can burst.", sourceRef: null },
       ],
       misconceptions: [{ belief: "Hypertonic means the solution has more water.", correction: "Hypertonic means more solute (and therefore less water) than the cell, so water leaves the cell." }],
       formulas: [],
@@ -128,6 +140,8 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "Facilitated diffusion uses transport proteins but still needs no energy.", sourceRef: { page: 3, quote: "Facilitated diffusion uses channel or carrier proteins, but it is still passive: the molecules move down their gradient and the cell spends no energy." } },
         { statement: "Aquaporins are channels for water.", sourceRef: { page: 3, quote: "Aquaporins are channel proteins that speed the movement of water." } },
+        { statement: "The test for passive transport: does the substance move down its gradient? If yes, no ATP is spent, even when a channel or carrier helps.", sourceRef: null },
+        { statement: "Glucose carriers, ion channels and aquaporins are all facilitated diffusion: a protein path, no energy.", sourceRef: null },
       ],
       misconceptions: [{ belief: "If a protein is involved, the cell must be spending energy.", correction: "Channels and carriers only provide a path; energy is needed only when moving against the gradient." }],
       formulas: [],
@@ -146,6 +160,7 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "Active transport moves substances against their gradient and uses ATP.", sourceRef: { page: 3, quote: "Active transport moves substances against their concentration gradient, from low concentration to high, and requires energy from ATP." } },
         { statement: "Without ATP, pumps stop and gradients dissipate.", sourceRef: { page: 3, quote: "If a cell runs out of ATP, its pumps stop and the gradients they maintain slowly dissipate." } },
+        { statement: "Uphill movement lets a cell hoard what it needs and expel what it does not: root cells pulling in scarce minerals, or the sodium-potassium pump.", sourceRef: null },
       ],
       misconceptions: [{ belief: "Transport always goes down the gradient.", correction: "Pumps push substances uphill, against the gradient, by spending ATP." }],
       formulas: [],
@@ -164,6 +179,7 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "The pump moves three Na+ out and two K+ in per ATP.", sourceRef: { page: 3, quote: "Each cycle of the sodium-potassium pump moves three sodium ions out of the cell and two potassium ions in, at the cost of one ATP." } },
         { statement: "Nerve cells depend on the gradient the pump maintains.", sourceRef: { page: 3, quote: "Nerve and muscle cells depend on the gradients this pump maintains." } },
+        { statement: "One cycle: three Na+ bind inside, one ATP is spent and the pump changes shape, the three Na+ are released outside, two K+ bind outside, the pump snaps back, and the two K+ are released inside.", sourceRef: null },
       ],
       misconceptions: [{ belief: "The pump moves equal numbers of ions each way.", correction: "It moves 3 Na+ out for every 2 K+ in, which also leaves the inside slightly negative." }],
       formulas: [],
@@ -182,6 +198,8 @@ export const cellKnowledgeMap: KnowledgeMap = {
       facts: [
         { statement: "Endocytosis folds the membrane inward to form a vesicle around the cargo.", sourceRef: { page: 4, quote: "In endocytosis the membrane folds inward around the cargo and pinches off to form a vesicle inside the cell." } },
         { statement: "Exocytosis fuses a vesicle with the membrane to release its contents.", sourceRef: { page: 4, quote: "In exocytosis a vesicle fuses with the plasma membrane and releases its contents outside the cell." } },
+        { statement: "Endocytosis in order: the membrane sinks inward around the cargo, the pocket deepens, the neck pinches shut, and a vesicle carrying the cargo drifts into the cytoplasm.", sourceRef: null },
+        { statement: "Exocytosis runs the other way: a vesicle travels to the membrane, fuses with it, and its contents spill outside.", sourceRef: null },
       ],
       misconceptions: [{ belief: "Vesicle transport is passive because the cargo isn't pumped.", correction: "Reshaping the membrane and moving vesicles costs ATP, so bulk transport is active." }],
       formulas: [],
