@@ -49,19 +49,22 @@ function seededOrder<T>(items: readonly T[], seed: string): T[] {
 /**
  * Probes for the selected concepts that have misconceptions to test, highest Director weight first
  * (core and low-confidence concepts), map order breaking ties. `conceptIds` empty or absent = the whole map.
+ * `pinned` concepts (ones the student already answered) stay in even when a changed slider would push them
+ * past `max`, so going back a step never silently drops an answer.
  */
 export function clarifyProbes(
   km: KnowledgeMap,
   intake: Pick<Intake, "confidence">,
   conceptIds?: readonly string[],
   max = MAX_PROBES,
+  pinned: readonly string[] = [],
 ): ClarifyProbe[] {
   const keep = conceptIds && conceptIds.length > 0 ? new Set(conceptIds) : null;
-  const candidates = km.concepts
+  const ranked = km.concepts
     .map((c, order) => ({ c, order, w: conceptWeight(c, intake) }))
     .filter(({ c }) => (!keep || keep.has(c.id)) && c.misconceptions.length > 0)
-    .sort((a, b) => b.w - a.w || a.order - b.order)
-    .slice(0, max);
+    .sort((a, b) => b.w - a.w || a.order - b.order);
+  const candidates = ranked.filter((x, i) => i < max || pinned.includes(x.c.id));
   return candidates.map(({ c }) => {
     const beliefs = c.misconceptions.slice(0, MAX_BELIEFS_PER_PROBE).map((m, i) => ({ id: `b${i}`, text: m.belief, isBelief: true }));
     const truth = c.facts[0]?.statement ?? c.misconceptions[0].correction;
@@ -72,7 +75,7 @@ export function clarifyProbes(
 function cleanInterests(interests: readonly string[]): string[] {
   const out: string[] = [];
   for (const raw of interests) {
-    const v = raw.trim().replace(/\s+/g, " ").slice(0, 40);
+    const v = raw.replace(/[#\s]+/g, " ").trim().slice(0, 40);
     if (v && !out.some((x) => x.toLowerCase() === v.toLowerCase())) out.push(v);
   }
   return out.slice(0, 6);

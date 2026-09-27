@@ -26,17 +26,20 @@ export interface DirectorConstraints {
 
 /** Reads the constraints the Director schema was built from, straight out of the prompt text. */
 export function parseDirectorConstraints(prompt: string, km: KnowledgeMap): DirectorConstraints {
-  const genre = (/# Genre: (\w+)/.exec(prompt)?.[1] ?? "dungeon") as Genre;
-  const range = /with (\d+)-(\d+) encounters/.exec(prompt);
+  // Markers are anchored to whole lines: the learner's note sits in the shared context JSON-quoted (so on
+  // one line with other text) and must never be read as one of them.
+  const genre = (/^# Genre: (\w+)$/m.exec(prompt)?.[1] ?? "dungeon") as Genre;
+  const task = prompt.split(/^# Task$/m).at(-1) ?? "";
+  const range = /with (\d+)-(\d+) encounters/.exec(task);
   const min = range ? Number(range[1]) : 5;
   const max = range ? Number(range[2]) : 7;
-  const menu = prompt.split("# Cards available in this genre")[1] ?? "";
+  const [beforeMenu, menu = ""] = prompt.split(/^# Cards available in this genre.*$/m);
   const cardIds = new Set([...menu.matchAll(/^\s+- ([a-z][a-z0-9_]*) \[/gm)].map((m) => m[1]));
   // The job's concepts are the shared context's "# Concepts" JSON block (one `"id": "c_x"` per concept).
   // A student who ticked a subset on the intake page runs the job on that subset (Intake.conceptIds),
   // so the canned blueprint must adapt to those ids, not the sample's full map.
   const known = new Set(km.concepts.map((c) => c.id));
-  const block = prompt.split("# Concepts")[1]?.split("# Cards available in this genre")[0] ?? "";
+  const block = beforeMenu.split(/^# Concepts$/m)[1] ?? "";
   const listed = [...block.matchAll(/"id":\s*"([a-z][a-z0-9_]*)"/g)].map((m) => m[1]).filter((id) => known.has(id));
   const conceptIds = new Set(listed.length > 0 ? listed : km.concepts.map((c) => c.id));
   return { genre, min, max, cardIds, conceptIds };

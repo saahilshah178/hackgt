@@ -39,14 +39,16 @@ export function profileContext(km: KnowledgeMap, profile: LearnerProfile | undef
   for (const s of profile.struggles) {
     const c = inJob.get(s.conceptId);
     if (!c) continue;
-    for (const b of s.beliefs) lines.push(`- ${c.id} (${c.name}): the learner thinks ${quote(b)} is true. Target this exact misconception.`);
-    if (s.unsure && s.beliefs.length === 0) lines.push(`- ${c.id} (${c.name}): the learner is not sure about this one. Teach it before testing it.`);
+    // only beliefs the concept actually lists: anything else is not the pipeline's text
+    const beliefs = s.beliefs.filter((b) => c.misconceptions.some((m) => m.belief === b));
+    for (const b of beliefs) lines.push(`- ${c.id} (${c.name}): the learner thinks ${quote(b)} is true. Target this exact misconception.`);
+    if (s.unsure && beliefs.length === 0) lines.push(`- ${c.id} (${c.name}): the learner is not sure about this one. Teach it before testing it.`);
   }
   const out: string[] = [];
   if (lines.length > 0) out.push("# What trips this learner up (from the intake)", ...lines);
   if (profile.interests.length > 0) {
     out.push(
-      `# Learner interests: ${profile.interests.join(", ")}. Build the title, setting, cast and story around these where they fit the subject; the concepts stay the rules of play.`,
+      `# Learner interests: ${profile.interests.map(quote).join(", ")}. Build the title, setting, cast and story around these where they fit the subject; the concepts stay the rules of play.`,
     );
   }
   if (profile.purpose) out.push(`# Learner purpose: ${PURPOSE_TEXT[profile.purpose]}.`);
@@ -54,13 +56,16 @@ export function profileContext(km: KnowledgeMap, profile: LearnerProfile | undef
   return out.join("\n");
 }
 
-/** One Forge-screen line on what the profile changed, or "" when it changes nothing. */
-export function profileSummary(km: KnowledgeMap, profile: LearnerProfile | undefined, extraCards: readonly TeachingMechanic[]): string {
+/**
+ * One Forge-screen line on what the profile changed, or "" when it changes nothing. `addedCards` = the
+ * personal cards that were not already on the Director's menu.
+ */
+export function profileSummary(km: KnowledgeMap, profile: LearnerProfile | undefined, addedCards: readonly TeachingMechanic[]): string {
   if (!profile) return "";
   const parts: string[] = [];
   const flagged = [...struggledConceptIds(profile)].filter((id) => km.concepts.some((c) => c.id === id));
   if (flagged.length > 0) parts.push(`${flagged.length} tricky idea${flagged.length === 1 ? "" : "s"} weighted up`);
-  if (extraCards.length > 0) parts.push(`added ${extraCards.map((c) => c.id).join(", ")} for them`);
+  if (addedCards.length > 0) parts.push(`added ${addedCards.map((c) => c.id).join(", ")} for them`);
   if (profile.interests.length > 0) parts.push(`theme from ${profile.interests.join(", ")}`);
   if (profile.purpose) parts.push(PURPOSE_TEXT[profile.purpose]);
   return parts.join(" · ");
@@ -86,7 +91,8 @@ export function personalCards(km: KnowledgeMap, profile: LearnerProfile | undefi
         genre,
         limit: 5,
       });
-      const best = candidates.find((x) => x.targetsMisconception === belief) ?? candidates[0];
+      // only a card that actually breaks this belief; the top hit alone could be about something else
+      const best = candidates.find((x) => x.targetsMisconception === belief);
       if (best) out.set(best.card.id, best.card);
     }
   }
@@ -128,7 +134,7 @@ export interface GenreRecommendation {
   components: string[];
 }
 
-/** Interest words that suggest a genre. Checked as substrings of the lowercased interest. */
+/** Interest words that suggest a genre, matched at a word start in the lowercased interest ("sport" not in "transport"). */
 const INTEREST_GENRES: { words: string[]; genre: Genre }[] = [
   { words: ["myster", "detective", "crime", "puzzle hunt", "sherlock", "spy"], genre: "mystery" },
   { words: ["puzzle", "logic", "chess", "circuit", "robot", "engineer", "coding"], genre: "puzzle" },
@@ -216,7 +222,7 @@ export function recommendGenres(
     }
     const materialFit = ktScores[genre] / ktMax;
     const componentFit = totalWeight > 0 ? fitSum / totalWeight : 0;
-    const liked = interests.filter((i) => INTEREST_GENRES.some((x) => x.genre === genre && x.words.some((w) => i.includes(w))));
+    const liked = interests.filter((i) => INTEREST_GENRES.some((x) => x.genre === genre && x.words.some((w) => new RegExp(`\\b${w}`).test(i))));
     const score = Math.round(100 * (0.5 * materialFit + 0.35 * componentFit + 0.15 * (liked.length > 0 ? 1 : 0)));
 
     const reasons: string[] = [];

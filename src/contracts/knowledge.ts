@@ -94,9 +94,9 @@ export const LearnerProfile = z.object({
    * from the concept), and whether they said they were not sure. A concept appears only when one of
    * the two flags it.
    */
-  struggles: z.array(z.object({ conceptId: Id, beliefs: z.array(z.string().min(1)).max(6), unsure: z.boolean() })).max(60),
-  /** Themes the student likes, chips or typed; used to theme the game. */
-  interests: z.array(z.string().trim().min(1).max(40)).max(6),
+  struggles: z.array(z.object({ conceptId: Id, beliefs: z.array(z.string().min(1).max(300)).max(6), unsure: z.boolean() })).max(60),
+  /** Themes the student likes, chips or typed; used to theme the game. One line, no "#" (they go into prompts). */
+  interests: z.array(z.string().trim().min(1).max(40).regex(/^[^\r\n#]*$/)).max(6),
   purpose: LearnerPurpose.nullable(),
   /** Free text: "exam on Friday", "I always mix up sine and cosine graphs". */
   note: z.string().max(400),

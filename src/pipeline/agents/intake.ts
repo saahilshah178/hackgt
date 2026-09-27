@@ -108,27 +108,49 @@ export function matcherJob(sourceId: string): Promise<void> | undefined {
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 /**
- * The matcher's results for a source's WHOLE map: stored -> the in-flight background matcher (up to
- * `waitMs`) -> run inline on the whole map and store. Always the whole map, so a later selection of other
- * concepts still finds its matches (the Director's menu and recommendGenres look concepts up by id).
+ * The matcher's results for a source's WHOLE map: stored -> the in-flight matcher run for this source (awaited
+ * to the end: it already has a per-call timeout and retry budget) -> one inline run on the whole map, registered
+ * like the background one so concurrent callers (the recommend route, a job) share it instead of each paying
+ * for a full run. Always the whole map, so a later selection of other concepts still finds its matches.
  */
-export async function loadMatches(sourceId: string, jobId: string, waitMs = 30_000): Promise<MatchResult[]> {
+export async function loadMatches(sourceId: string, jobId: string): Promise<MatchResult[]> {
   const storage = getStorage();
-  let matches = await storage.getMatch(sourceId);
-  if (matches) return matches;
+  const stored = await storage.getMatch(sourceId);
+  if (stored) return stored;
 
-  const bg = matcherJob(sourceId);
-  if (bg) {
-    await Promise.race([bg, sleep(waitMs)]);
-    matches = await storage.getMatch(sourceId);
-    if (matches) return matches;
+  const inFlight = matcherJobs.get(sourceId);
+  if (inFlight) {
+    await inFlight.catch(() => undefined); // a failed run is replaced below
+    const after = await storage.getMatch(sourceId);
+    if (after) return after;
+    // another caller may already have replaced a failed run with a new one: share that
+    if (matcherJobs.get(sourceId) !== inFlight) return loadMatches(sourceId, jobId);
   }
 
   const km = await storage.getKnowledgeMap(sourceId);
   if (!km) throw new Error(`No knowledge map for source "${sourceId}"; run intake prep first.`);
-  matches = await runMatcher(km, { jobId });
-  await storage.putMatch(sourceId, matches);
+  // re-check after the await above: from here to set() is synchronous, so only one caller starts a run
+  const current = matcherJobs.get(sourceId);
+  if (current && current !== inFlight) return loadMatches(sourceId, jobId);
+  const run = runMatcher(km, { jobId }).then((matches) => storage.putMatch(sourceId, matches));
+  matcherJobs.set(sourceId, run);
+  await run; // a failure fails this caller; the next one sees a settled run and starts afresh
+  const matches = await storage.getMatch(sourceId);
+  if (!matches) throw new Error(`The matcher finished for source "${sourceId}" but stored nothing.`);
   return matches;
+}
+
+/**
+ * Stored matches, waiting up to `waitMs` for an in-flight matcher run; null when they are not ready yet.
+ * Never starts the matcher: for callers (the recommend route) that must not trigger a full paid run.
+ */
+export async function storedMatches(sourceId: string, waitMs: number): Promise<MatchResult[] | null> {
+  const storage = getStorage();
+  const stored = await storage.getMatch(sourceId);
+  if (stored) return stored;
+  const inFlight = matcherJobs.get(sourceId);
+  if (inFlight) await Promise.race([inFlight.catch(() => undefined), sleep(waitMs)]);
+  return storage.getMatch(sourceId);
 }
 
 /** Test hook: forget in-memory matcher job state (a fresh process would start clean anyway). */

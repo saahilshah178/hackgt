@@ -123,7 +123,11 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     return () => clearTimeout(timer);
   }, [needsSubset, selectionKey, subset, sourceId]);
 
-  const probes = useMemo(() => (data ? clarifyProbes(data.knowledgeMap, { confidence }, [...selected]) : []), [data, confidence, selected]);
+  const answered = useMemo(() => Object.keys(clarify.answers), [clarify.answers]);
+  const probes = useMemo(
+    () => (data ? clarifyProbes(data.knowledgeMap, { confidence }, [...selected], undefined, answered) : []),
+    [data, confidence, selected, answered],
+  );
   const profile = useMemo(() => profileFromAnswers(probes, clarify.answers, clarify), [probes, clarify]);
   const recKey = useMemo(() => JSON.stringify([selectionKey, confidence, profile]), [selectionKey, confidence, profile]);
 
@@ -132,11 +136,13 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     if (step !== 2 || !data || selected.size === 0 || recs?.key === recKey) return;
     const key = recKey;
     let cancelled = false;
-    api<{ recommendations: GenreRecommendation[] }>(`/api/sources/${sourceId}/recommend`, {
+    api<{ recommendations: GenreRecommendation[]; pending?: boolean }>(`/api/sources/${sourceId}/recommend`, {
       method: "POST",
       body: JSON.stringify({ conceptIds: [...selected], confidence, profile }),
     })
-      .then((r) => !cancelled && setRecs({ key, items: r.recommendations }))
+      // pending = the matcher is still mapping concepts to mechanics: a key that never matches asks again
+      // (the server waits a few seconds per request, so this polls gently)
+      .then((r) => !cancelled && setRecs({ key: r.pending ? `${key}#pending` : key, items: r.recommendations }))
       // A failed ranking only costs the badges: the genre list still works and "Pick for me" still resolves server-side.
       .catch(() => !cancelled && setRecs({ key, items: [] }));
     return () => {

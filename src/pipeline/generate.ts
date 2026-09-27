@@ -271,8 +271,10 @@ export async function generateGame(a: GenerateArgs): Promise<{ spec: GameSpec; w
   const bossSocket = BOSS_SOCKET[genre];
   const extraCards = personalCards(a.km, a.intake.profile, genre);
   const menu = buildDirectorMenu(a.km, a.matches, genre, extraCards);
+  const baseMenu = new Set(buildDirectorMenu(a.km, a.matches, genre).flatMap((f) => f.cards.map((c) => c.id)));
+  const addedCards = extraCards.filter((c) => !baseMenu.has(c.id) && menu.some((f) => f.cards.some((x) => x.id === c.id)));
   if (reason !== "requested") note({ agent: "director", status: "start", note: `genre ${genre}: ${reason}` });
-  const summary = profileSummary(a.km, a.intake.profile, extraCards);
+  const summary = profileSummary(a.km, a.intake.profile, addedCards);
   if (summary) note({ agent: "personalize", status: "done", note: summary });
 
   // 1. Director: the only sequential LLM step.

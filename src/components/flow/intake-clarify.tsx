@@ -46,7 +46,7 @@ export function IntakeClarify({ probes, value, onChange }: { probes: ClarifyProb
     else if (value.interests.length < MAX_INTERESTS) onChange({ ...value, interests: [...value.interests, x] });
   };
   const addDraft = () => {
-    const v = draft.trim().replace(/\s+/g, " ").slice(0, 40);
+    const v = draft.replace(/[#\s]+/g, " ").trim().slice(0, 40);
     if (v && !hasInterest(v) && value.interests.length < MAX_INTERESTS) onChange({ ...value, interests: [...value.interests, v] });
     setDraft("");
   };
@@ -138,6 +138,8 @@ export function IntakeClarify({ probes, value, onChange }: { probes: ClarifyProb
             value={draft}
             maxLength={40}
             onChange={(e) => setDraft(e.target.value)}
+            // typed but not "Add"ed still counts: leaving the box (or the step) adds it
+            onBlur={addDraft}
             placeholder="Something else? (e.g. skateboarding)"
             className="h-12 flex-1 rounded-md border-2 border-border bg-background px-4 text-lg outline-none focus:border-primary"
             data-testid="interest-input"
