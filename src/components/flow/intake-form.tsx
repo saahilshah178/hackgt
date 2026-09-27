@@ -173,7 +173,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         <div className="animate-pulse">
           <div className="h-6 w-72 rounded bg-secondary" />
           <div className="mt-3 h-10 w-96 rounded bg-secondary" />
-          <p className="mt-6 text-2xl">Reading your material and mapping the concepts… (a whole book takes a few minutes)</p>
+          <p className="mt-6 text-2xl">Reading your material and mapping the concepts…</p>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {[0, 1].map((i) => (
               <div key={i} className="h-56 rounded-2xl border border-border bg-card p-5">
