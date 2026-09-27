@@ -411,11 +411,24 @@ describe("owner routing and validateGameSpec's world branch", () => {
     expect(ownerFor(["world", "stations", 2, "config", "holders"])).toBe("world_writer");
     expect(ownerFor(["world", "stations", 2, "payoff", "blocker"])).toBe("code");
   });
+  /**
+   * An inline `spec.world` is World Writer output, so R1 treats a missing key in a built namespace as an error
+   * (side-cars only get a warning). Point the fixture at art that the orrery_terraces index really ships.
+   */
+  function indexedArt(w: Mutable): Mutable {
+    w.cast.guide.companion.asset = "orrery_terraces.companion.cog";
+    w.zones[0].ground.surface = "orrery_terraces.ground.paving";
+    const layers = w.zones[0].layerSets[0].layers;
+    layers[0].asset = "orrery_terraces.layer.z1_clouds";
+    layers[1].asset = "orrery_terraces.layer.z1_aqueduct";
+    layers[2].asset = "orrery_terraces.layer.z1_canopy_ruins";
+    return w;
+  }
   it("validateGameSpec runs validateWorld only when spec.world exists", () => {
     expect(validateGameSpec(trig).ok).toBe(true);
-    const good = validateGameSpec({ ...trig, world: WorldOverlay.parse(baseWorld(trig)) });
+    const good = validateGameSpec({ ...trig, world: WorldOverlay.parse(indexedArt(baseWorld(trig))) });
     expect(good.ok).toBe(true);
-    const w = baseWorld(trig);
+    const w = indexedArt(baseWorld(trig));
     st(w, 1).dialogue.instruction.text = "Set the timer on the console to π.";
     const bad = validateGameSpec({ ...trig, world: WorldOverlay.parse(w) });
     expect(bad.ok).toBe(false);
