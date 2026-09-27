@@ -6,8 +6,8 @@
   "world": {
     "worldVersion": 2,
     "biome": "orrery_terraces",
-    "title": "The Orrery Terraces",
-    "subtitle": "The Clockwork Crypt",
+    "title": "The Sky Clock",
+    "subtitle": "Get the star chart",
     "cast": {
       "protagonist": {
         "name": "Wren",
@@ -73,9 +73,9 @@
       ]
     },
     "story": {
-      "logline": "Wake the canyon's great sky-clock by reading the rhythms its machines run on, before the evening star Vesper sets.",
-      "objective": "Restore the orrery's starlight",
-      "objectiveLabel": "RHYTHMS",
+      "logline": "Climb a broken sky clock and fix six machines to reach the star chart at the top.",
+      "objective": "Get the star chart",
+      "objectiveLabel": "CLIMB",
       "restoredNoun": "rhythm",
       "introCutsceneId": "intro",
       "finaleCutsceneId": "finale",
@@ -95,7 +95,7 @@
     "zones": [
       {
         "id": "z1_sunward",
-        "name": "Sunward Terrace",
+        "name": "Lower Path",
         "width": 8000,
         "height": 1600,
         "layerSets": [
@@ -348,7 +348,7 @@
       },
       {
         "id": "z2_crystal",
-        "name": "Crystal Stair",
+        "name": "Middle Stairs",
         "width": 9600,
         "height": 2400,
         "layerSets": [
@@ -631,7 +631,7 @@
       },
       {
         "id": "z3_dome",
-        "name": "The Warden's Dome",
+        "name": "The Top Room",
         "width": 5400,
         "height": 1400,
         "layerSets": [
@@ -844,8 +844,8 @@
         "panel": {
           "layout": "scrub",
           "inputSymbol": "θ",
-          "verifyLabel": "ALIGN THE DIAL",
-          "successBadge": "VESPER ALIGNED",
+          "verifyLabel": "AIM THE DIAL",
+          "successBadge": "BEAM ON TARGET",
           "cards": [
             {"slot": 0, "title": "UNIT CIRCLE", "x": null, "y": null, "hidden": false},
             {"slot": 1, "title": "sin θ", "x": null, "y": null, "hidden": false},
@@ -856,43 +856,43 @@
           "approach": [
             {
               "speakerId": "cog",
-              "text": "The Vesper Dial! It tells the Orrery where the evening star rises. Its carriage is parked at sunrise.",
+              "text": "This dial aims light up the tower. It's stuck at the start, so we can't climb yet.",
               "mood": "neutral"
             },
             {
               "speakerId": "cog",
-              "text": "Fog hides the star's lens, so we can't aim by eye. The dial only knows the bearing in radians.",
+              "text": "Fog hides the target, so we can't aim by eye. We'll use radians, how far around the circle we go.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "cog",
-            "text": "Swing the carriage along the rail to 5π/6 so Vesper's light can find its lens.",
+            "text": "Slide the dial's carriage along the rail to 5π/6.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "cog",
-            "text": "Drag the orange knob or use the arrow keys. Only quarter marks are labelled; count the small studs.",
+            "text": "Drag the orange knob or use the arrow keys. Count the small marks between the labelled ones.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "cog",
-            "text": "Each labelled stud marks a quarter lap, and six small studs split every quarter.",
+            "text": "Each labelled mark is a quarter turn. Six small steps fill each quarter.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "cog", "text": "A full lap of the rail is 2π, so π is only halfway round. Hoo, that's the whole trick.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "5π/6 is a little less than π. Count the studs in sixths of π, starting from sunrise.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "It sits between the top mark, π/2, and the halfway mark, π, closer to halfway.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "Find π first. A full lap of the rail is 2π, so π is only halfway round.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "5π/6 is five sixths of π. Each sixth of π is two small steps on the rail.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "It's past the π/2 mark and short of π, closer to π.", "mood": "neutral"}
           ],
           "fail": {
-            "default": {"speakerId": "cog", "text": "The beam hit the rim, not the lens. Recount the studs from sunrise.", "mood": "neutral"},
+            "default": {"speakerId": "cog", "text": "The beam missed. Count the small marks again from the start.", "mood": "neutral"},
             "byKey": [
               {
                 "key": "under",
                 "line": {
                   "speakerId": "cog",
-                  "text": "The beam hit fog. The carriage stopped short; count the gaps from sunrise again.",
+                  "text": "Not far enough. The beam went into the fog, so count again from the start.",
                   "mood": "neutral"
                 }
               },
@@ -900,7 +900,7 @@
                 "key": "over",
                 "line": {
                   "speakerId": "cog",
-                  "text": "Past it! The light's scattering off the rim. Walk the carriage back and recount the sixths.",
+                  "text": "Too far! Slide the carriage back and count the sixths of π again.",
                   "mood": "neutral"
                 }
               },
@@ -908,7 +908,7 @@
                 "key": "fullturn",
                 "line": {
                   "speakerId": "cog",
-                  "text": "Five-sixths of the whole rail, and the beam's in the floor. π only walks you halfway round.",
+                  "text": "That's five sixths of the whole lap. π is only halfway round, so come way back.",
                   "mood": "neutral"
                 }
               }
@@ -916,11 +916,11 @@
           },
           "success": {
             "speakerId": "cog",
-            "text": "A radian is a walk, not a turn: π carries you exactly halfway round any circle.",
+            "text": "Yes! π takes you halfway around the circle, so 5π/6 is just short of halfway.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "cog", "text": "Vesper's lens! And the dial is turning its spokes into a stair. Up we go!", "mood": "neutral"},
-          "after": [{"speakerId": "cog", "text": "One rhythm restored. See that beam climbing to the rim? The Orrery felt it.", "mood": "neutral"}]
+          "payoffLine": {"speakerId": "cog", "text": "Hoo, the beam hit the lens! And look, the dial's spokes made a staircase.", "mood": "neutral"},
+          "after": [{"speakerId": "cog", "text": "That's one of six. The path ahead is open. Keep climbing.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "terrain",
@@ -1000,39 +1000,35 @@
           "approach": [
             {
               "speakerId": "cog",
-              "text": "The Tidewheel Gate. Its ring runs on y = sin(2t). It must lap once and lock, or the canals stay dry.",
+              "text": "This is the Tidewheel Gate. Its wheel spins on y = sin(2t), and it's stuck.",
               "mood": "excited"
             },
-            {"speakerId": "cog", "text": "Those rings spin on a sine wave. Watch how fast, not how far.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "Those rings spin on a sine wave. Watch how fast they turn.", "mood": "neutral"}
           ],
           "instruction": {
             "speakerId": "cog",
-            "text": "Set the latch timer to one full period, so the ring's notch comes home and the gate locks open.",
+            "text": "Set the gate's timer to one full turn of the wheel. That's called one period.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "cog",
-            "text": "The ring shows where it'll be when the latch fires. The green ghost is the wave, shifted by your timer.",
+            "text": "Drag the orange knob to set the timer. The green wave shows the wheel after that much time.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "cog",
-            "text": "Where the green ghost lies exactly on the white wave, the ring is home and heading the same way.",
+            "text": "When the green wave sits right on the white one, the wheel is back where it started.",
             "mood": "neutral"
           },
           "hints": [
-            {
-              "speakerId": "cog",
-              "text": "A period is how long the ring takes to come back to where it started, moving the same way.",
-              "mood": "neutral"
-            },
-            {"speakerId": "cog", "text": "For y = sin(b·t), one period lasts 2π/|b|. The 2 in sin(2t) is b.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Here b = 2, so divide 2π by 2.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "Look at the 2 inside sin(2t). It makes this wheel spin faster than plain sin(t).", "mood": "neutral"},
+            {"speakerId": "cog", "text": "One period is 2π divided by the number next to t. Here that's 2π ÷ 2.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Plain sin(t) takes 2π. Twice as fast means half of 2π.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "cog",
-              "text": "The pawl found no notch to catch. Watch the ring come home, moving the way it started.",
+              "text": "The lock didn't catch. The wheel wasn't back at the start.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1040,7 +1036,7 @@
                 "key": "over",
                 "line": {
                   "speakerId": "cog",
-                  "text": "The latch waited too long: the ring kept going past home and the catch slipped. One lap is all it wants.",
+                  "text": "Too long. The wheel went past the start, so try less time.",
                   "mood": "worried"
                 }
               },
@@ -1048,7 +1044,7 @@
                 "key": "under",
                 "line": {
                   "speakerId": "cog",
-                  "text": "Too soon! The notch hasn't come home. A faster wheel still needs one whole lap.",
+                  "text": "Too soon! The wheel hasn't made a full turn yet, so try more time.",
                   "mood": "worried"
                 }
               },
@@ -1056,7 +1052,7 @@
                 "key": "half",
                 "line": {
                   "speakerId": "cog",
-                  "text": "Half a lap: the wave's back at zero, but heading down. A period ends moving the way it began.",
+                  "text": "That's only half a turn. The wave's at zero, but it's heading down.",
                   "mood": "neutral"
                 }
               },
@@ -1064,7 +1060,7 @@
                 "key": "double",
                 "line": {
                   "speakerId": "cog",
-                  "text": "Two laps! The tally counts two. The gate wants one lap, not the lap of plain old sin(t).",
+                  "text": "Two turns! The laps counter says 2, but the gate only needs 1.",
                   "mood": "wry"
                 }
               },
@@ -1072,7 +1068,7 @@
                 "key": "aligned_multiple",
                 "line": {
                   "speakerId": "cog",
-                  "text": "Two laps! The tally counts two. The gate wants one lap, not the lap of plain old sin(t).",
+                  "text": "Too many turns. The gate needs the laps counter to show just 1.",
                   "mood": "wry"
                 }
               }
@@ -1080,12 +1076,12 @@
           },
           "success": {
             "speakerId": "cog",
-            "text": "Speed up the wheel and every lap gets shorter: double b, and the period halves.",
+            "text": "You got it! The 2 makes the wheel spin twice as fast, so each turn takes half as long.",
             "mood": "excited"
           },
-          "payoffLine": {"speakerId": "cog", "text": "Hoo-hoo! Listen to that water. The Tidewheel's turning again.", "mood": "excited"},
+          "payoffLine": {"speakerId": "cog", "text": "Hoo! Hear that water? The wheel's turning again.", "mood": "excited"},
           "after": [
-            {"speakerId": "cog", "text": "Two rhythms. Brasswick's arm should be back in step. He's been waiting on that water.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "That's two of six. The water's moving. We can keep climbing.", "mood": "neutral"}
           ]
         },
         "payoff": {
@@ -1186,8 +1182,8 @@
         "panel": {
           "layout": "board",
           "inputSymbol": null,
-          "verifyLabel": "EXPOSE THE MIMIC",
-          "successBadge": "MIMIC EXPOSED",
+          "verifyLabel": "CATCH THE MIMIC",
+          "successBadge": "MIMIC CAUGHT",
           "cards": [
             {"slot": 0, "title": "SINGERS", "x": null, "y": null, "hidden": false},
             {"slot": 1, "title": "reference", "x": null, "y": null, "hidden": false},
@@ -1199,56 +1195,56 @@
           "approach": [
             {
               "speakerId": "cog",
-              "text": "The Echo Choir. Three automata sing the builders' laws of amplitude. One is a mimic in a choir shell.",
+              "text": "This is the Echo Choir. Three singers make claims about amplitude, and one is a mimic.",
               "mood": "neutral"
             },
             {
               "speakerId": "cog",
-              "text": "Mimics love a half-truth. Aim the Tuning Lens at a singer and compare its trace to the reference.",
+              "text": "Amplitude is how far a wave goes up from its middle line.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "cog",
-            "text": "Aim the Tuning Lens at each singer, compare its trace to the reference wave, and expose the mimic.",
+            "text": "Point the lens at each singer to check its claim. Catch the one that's lying.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "cog",
-            "text": "White is the astronomer's wave; green is the aimed singer's claim. The orange probe walks the lens's playhead.",
+            "text": "The white wave is the real one. The green lines show what that singer claims.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "cog",
-            "text": "Listen as the probe walks: the bell sings the distance from the middle, peak or trough alike.",
+            "text": "Slide the orange probe. The bell shows how far the wave is from the middle, up or down.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "cog", "text": "Amplitude is measured from the midline, not across the whole swing.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Peak to trough is twice the amplitude. Check where each singer starts its bracket.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "The mimic claims: The amplitude of y = 3sin(x) is 6, peak to trough.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "Two singers give a different amplitude for 3sin(x). They can't both be right.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Amplitude goes from the middle line up to the top. For 3sin(x), the top is at 3.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "The singer talking about the period is telling the truth. Compare the other two.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "cog",
-              "text": "An honest bell! That singer's claim holds. Look again at where each bracket starts measuring.",
+              "text": "That singer's telling the truth. Check where each green bracket starts measuring.",
               "mood": "neutral"
             },
             "byKey": []
           },
           "success": {
             "speakerId": "cog",
-            "text": "Amplitude is measured from the middle: swing up to 3 and down to −3, and the amplitude is still 3.",
+            "text": "Yes! It swings from 3 down to −3, but it's only 3 from the middle.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "mimic",
-            "text": "Sss! Six looked so much bigger. Nobody measures from the middle anymore...",
+            "text": "Sss! But six sounded so much bigger.",
             "mood": "neutral"
           },
           "after": [
-            {"speakerId": "cog", "text": "It was jamming the lift gear! The Echo Lift is rising. Hop on, Wren.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Three rhythms. The crystals up here are waking. Hear them humming?", "mood": "neutral"}
+            {"speakerId": "cog", "text": "That's three of six. The lift is free. Hop on.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "We're halfway up. The stairs are next.", "mood": "neutral"}
           ]
         },
         "payoff": {
@@ -1277,10 +1273,10 @@
         "config": {
           "bays": "floating",
           "items": [
-            {"key": "s0", "meta": {"printedDate": null, "madeYear": null, "glyph": "balance_div2", "label": "isolate"}},
+            {"key": "s0", "meta": {"printedDate": null, "madeYear": null, "glyph": "balance_div2", "label": "sin x alone"}},
             {"key": "s1", "meta": {"printedDate": null, "madeYear": null, "glyph": "angle_wedge", "label": "reference angle"}},
             {"key": "s2", "meta": {"printedDate": null, "madeYear": null, "glyph": "upper_half_circle", "label": "quadrants"}},
-            {"key": "s3", "meta": {"printedDate": null, "madeYear": null, "glyph": "twin_beacons", "label": "both solutions"}},
+            {"key": "s3", "meta": {"printedDate": null, "madeYear": null, "glyph": "twin_beacons", "label": "both answers"}},
             {"key": "d0", "meta": {"printedDate": null, "madeYear": null, "glyph": "arcsin_arrow", "label": "inverse sine"}}
           ],
           "stepEffects": [
@@ -1337,35 +1333,35 @@
           "approach": [
             {
               "speakerId": "cog",
-              "text": "The Chasm of Two Answers. The span holds only if its stones are laid in the order you'd solve 2sin(x) = 1.",
+              "text": "This bridge only holds if its stones go in the right order. It's the order you'd solve 2sin(x) = 1.",
               "mood": "neutral"
             },
-            {"speakerId": "cog", "text": "Two anchor pylons on the far side. The Measurers never built two pylons for nothing.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "See the two posts on the far side, x₁ and x₂? We'll need both.", "mood": "neutral"}
           ],
           "instruction": {
             "speakerId": "cog",
-            "text": "Lay the glyph stones in solving order to build the span. One stone doesn't belong.",
+            "text": "Put the stones in order to build the bridge. One stone doesn't belong.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "cog",
-            "text": "Pick a stone, then a socket. Socket 1 is nearest you. Lay the Span once every socket is filled.",
+            "text": "Pick a stone, then a socket, starting with socket 1 nearest you. Press Lay the Span when all are full.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "cog",
-            "text": "The lip relief is carved as 2 sin x, the water line sits at 1, and every glint marks where they meet.",
+            "text": "The carved wave is 2sin(x) and the water line is at 1. Each glint is where they meet.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "cog", "text": "Get the sine by itself before anything else.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Find the quadrant-I angle whose sine is 1/2. That's your reference angle.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Sine is positive in two quadrants, which is why there are two answers, and two pylons.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "The 2 in 2sin(x) is in the way. Get rid of it before you look for any angle.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Once sin(x) = 1/2, find the smallest angle with that sine. Then check where else sine is positive.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "The inverse sine of 2 stone doesn't fit. No angle has a sine of 2.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "cog",
-              "text": "The span won't hold that way. Watch where it tips: the order breaks right there.",
+              "text": "The bridge won't hold like that. Watch where it tips, because that's where the order goes wrong.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1373,7 +1369,7 @@
                 "key": "order",
                 "line": {
                   "speakerId": "cog",
-                  "text": "The span held up to a point, then a stone tipped. Something has to happen right before that one.",
+                  "text": "The bridge held for a bit, then a stone tipped. Something has to come right before that one.",
                   "mood": "neutral"
                 }
               },
@@ -1381,7 +1377,7 @@
                 "key": "decoy",
                 "line": {
                   "speakerId": "cog",
-                  "text": "That stone crumbled: no angle has a sine of 2. You can't undo the 2 until the sine stands alone.",
+                  "text": "That stone crumbled, because no angle has a sine of 2. Deal with the 2 in front first.",
                   "mood": "neutral"
                 }
               },
@@ -1389,7 +1385,7 @@
                 "key": "early",
                 "line": {
                   "speakerId": "cog",
-                  "text": "The span reached for both pylons too soon. It needs one more fact about the circle first.",
+                  "text": "You went for both answers too soon. There's one more thing to check on the circle first.",
                   "mood": "neutral"
                 }
               }
@@ -1397,15 +1393,15 @@
           },
           "success": {
             "speakerId": "cog",
-            "text": "An equation can have two doors: sine is positive twice on every lap, at π/6 and at 5π/6.",
+            "text": "Sine is positive twice around the circle. That's why there are two answers, π/6 and 5π/6.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "cog",
-            "text": "Both pylons lit! Isolate, reference angle, quadrants, both solutions. Now let's walk it.",
+            "text": "Both posts are lit, and the bridge is solid. Come on across!",
             "mood": "neutral"
           },
-          "after": [{"speakerId": "cog", "text": "Four rhythms. The Crystal Stair is ahead, and I can hear the Treasury chimes.", "mood": "neutral"}]
+          "after": [{"speakerId": "cog", "text": "That's four of six. The last stairs are just ahead.", "mood": "neutral"}]
         },
         "payoff": {
           "kind": "terrain",
@@ -1515,8 +1511,8 @@
         "panel": {
           "layout": "board",
           "inputSymbol": null,
-          "verifyLabel": "EXPOSE THE MIMIC",
-          "successBadge": "MIMIC EXPOSED",
+          "verifyLabel": "CATCH THE MIMIC",
+          "successBadge": "MIMIC CAUGHT",
           "cards": [
             {"slot": 0, "title": "SINGERS", "x": null, "y": null, "hidden": false},
             {"slot": 1, "title": "reference", "x": null, "y": null, "hidden": false},
@@ -1528,48 +1524,44 @@
           "approach": [
             {
               "speakerId": "cog",
-              "text": "The Chime Treasury. Its singers remember the Tidewheel Gate, and one of them remembers it wrong.",
+              "text": "This is the Chime Treasury. One of these singers is wrong about periods.",
               "mood": "neutral"
             },
-            {"speakerId": "cog", "text": "This is the trickiest choir yet. Every claim sounds like something we've already seen.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "This one's tricky. Every claim sounds like something we've seen before.", "mood": "neutral"}
           ],
           "instruction": {
             "speakerId": "cog",
-            "text": "Aim the lens at each singer, count the cycles inside its period bracket, and expose the mimic.",
+            "text": "Point the lens at each singer and count the waves inside its period bracket. Catch the one that's lying.",
             "mood": "neutral"
           },
           "tutorial": null,
           "insight": {
             "speakerId": "cog",
-            "text": "A true period bracket closes exactly where the wave comes home, moving the same way.",
+            "text": "A true period bracket ends right where the wave starts to repeat.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "cog", "text": "Period = 2π/|b|. Check each claim with it.", "mood": "neutral"},
-            {
-              "speakerId": "cog",
-              "text": "A bigger b means a faster wave and a shorter period. A true period bracket holds exactly one cycle.",
-              "mood": "neutral"
-            },
-            {"speakerId": "cog", "text": "The mimic claims: y = sin(2x) has period 4π, twice that of sin(x).", "mood": "neutral"}
+            {"speakerId": "cog", "text": "Two singers give sin(2x) different periods. The 2 makes that wave go faster.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Period is 2π divided by the number next to x. For sin(2x), that's 2π ÷ 2.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "The singer talking about cos(x/2) is telling the truth. Compare the other two.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "cog",
-              "text": "Honest! That bracket holds exactly one cycle. Test the others with 2π over b.",
+              "text": "That one's true. Its bracket holds exactly one full wave.",
               "mood": "neutral"
             },
             "byKey": []
           },
           "success": {
             "speakerId": "cog",
-            "text": "A wave that repeats twice as often waits half as long: sin(2x) comes home every π.",
+            "text": "Yes! sin(2x) repeats twice as often, so its period is only π.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "mimic", "text": "Twice the b, twice the period... it sounded so fair. Sss.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "mimic", "text": "Sss. A bigger number should mean a bigger period. It sounded so fair!", "mood": "neutral"},
           "after": [
-            {"speakerId": "cog", "text": "The Treasury chest! The Warden's key-stone, and the rim stair's growing. Hoo, up!", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Five rhythms. One seal left, and it has a guard.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "That's five of six. New stairs just grew up the wall.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "The top room is next. A guard is waiting there.", "mood": "neutral"}
           ]
         },
         "payoff": {
@@ -1641,7 +1633,7 @@
           "layout": "scrub",
           "inputSymbol": "T",
           "verifyLabel": "MATCH THE RHYTHM",
-          "successBadge": "RESONANCE LOCKED",
+          "successBadge": "RHYTHM MATCHED",
           "cards": [
             {"slot": 0, "title": "shield", "x": null, "y": null, "hidden": false},
             {"slot": 1, "title": "pendulum", "x": null, "y": null, "hidden": false},
@@ -1652,34 +1644,34 @@
           "approach": [],
           "instruction": {
             "speakerId": "cog",
-            "text": "Tune the counter-pendulum's period to the shield's rhythm, y = 3sin((π/2)t), and hold the sync thread.",
+            "text": "Set your pendulum's period to match the shield. The shield swings on y = 3sin((π/2)t).",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "cog",
-            "text": "Your pendulum swings with the period you set. When the rhythms match, the thread between them stays bright.",
+            "text": "Drag the knob to set how long each swing takes. When you match, the line between you stays bright.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "cog",
-            "text": "The thread stays bright only while the two rhythms agree. It never cares how wide either one swings.",
+            "text": "The line stays bright when the timing matches, even if the swings are different sizes.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "cog", "text": "The 3 in front sets how far the shield swings, not how fast.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Period = 2π/|b|, and here b = π/2.", "mood": "neutral"},
-            {"speakerId": "cog", "text": "Divide 2π by π/2: the π's cancel.", "mood": "neutral"}
+            {"speakerId": "cog", "text": "The 3 in front only makes the shield swing wider. It doesn't change the timing.", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Period is 2π divided by the number next to t. Here that's 2π ÷ (π/2).", "mood": "neutral"},
+            {"speakerId": "cog", "text": "Dividing by π/2 is the same as multiplying by 2/π. The π's cancel, leaving 2 × 2.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "cog",
-              "text": "Don't let the big swing fool you. Watch one full sweep: out, back, and out again the same way.",
+              "text": "Don't let the big swing fool you. Watch one full swing, out and back to where it started.",
               "mood": "neutral"
             },
             "byKey": []
           },
-          "success": {"speakerId": "cog", "text": "How far a thing swings says nothing about how often. Height is A; timing is b.", "mood": "neutral"},
-          "payoffLine": {"speakerId": "warden", "text": "Your timing is true. Pass, reader of rhythms.", "mood": "neutral"},
+          "success": {"speakerId": "cog", "text": "The big swing didn't change the timing. Only the π/2 next to t did.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "warden", "text": "Your timing matches mine. You may pass.", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -1701,21 +1693,21 @@
           "phases": [],
           "taunts": {
             "approach": [],
-            "fail": [{"speakerId": "warden", "text": "Out of step, reader. Watch me once more.", "mood": "neutral"}],
+            "fail": [{"speakerId": "warden", "text": "Out of step! Watch me swing once more.", "mood": "neutral"}],
             "byKey": [
-              {"key": "over", "line": {"speakerId": "warden", "text": "Too slow! You drift behind my every beat.", "mood": "neutral"}},
-              {"key": "under", "line": {"speakerId": "warden", "text": "Too quick! You race ahead and fall out of step.", "mood": "neutral"}},
+              {"key": "over", "line": {"speakerId": "warden", "text": "Too slow! You're falling behind me.", "mood": "neutral"}},
+              {"key": "under", "line": {"speakerId": "warden", "text": "Too fast! You're running ahead of me.", "mood": "neutral"}},
               {
                 "key": "reach",
                 "line": {
                   "speakerId": "warden",
-                  "text": "You count my reach, not my rhythm. Reach is how far. Rhythm is how often.",
+                  "text": "That's how far I swing. You need how often.",
                   "mood": "neutral"
                 }
               },
               {
                 "key": "half",
-                "line": {"speakerId": "warden", "text": "Zero, yes, but which way do I swing? Half a beat is no beat at all.", "mood": "neutral"}
+                "line": {"speakerId": "warden", "text": "That's only half my swing. I'm heading the other way!", "mood": "neutral"}
               }
             ]
           },
@@ -2206,12 +2198,12 @@
             "lines": [
               {
                 "speakerId": "brasswick",
-                "text": "Oh! A visitor. Oh dear. My arm swings as far as ever, but it keeps coming back too soon.",
+                "text": "Oh, a visitor! My arm swings as far as ever, but it comes back too soon.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "brasswick",
-                "text": "The Tidewheel used to set my rhythm. Since it stopped, I water the air. The crystals are disappointed.",
+                "text": "The water wheel used to keep my timing. Now I just water the air.",
                 "mood": "neutral"
               }
             ],
@@ -2239,7 +2231,7 @@
             "lines": [
               {
                 "speakerId": "ilse",
-                "text": "Whoever you are: if you hear this, you read the rhythms. Angles, periods, swings and solutions.",
+                "text": "If you're hearing this, you got every one of my machines moving again.",
                 "mood": "neutral"
               }
             ],
@@ -2257,7 +2249,7 @@
         "surface": "ground",
         "radius": 300,
         "kind": "ambient",
-        "lines": [{"speakerId": "cog", "text": "Hop ledges with Space. When a console glows, press E and its instruments open.", "mood": "neutral"}],
+        "lines": [{"speakerId": "cog", "text": "Press Space to jump. When a console glows, press E to use it.", "mood": "neutral"}],
         "once": true,
         "requires": {"solved": null, "flag": "cog_awake", "notFlag": null, "collected": []},
         "setFlag": null,
@@ -2277,22 +2269,22 @@
           {"do": "walk", "actor": "companion", "toX": 1500},
           {"do": "camera", "x": 7200, "y": 300, "zoom": 0.6, "ms": 0, "ease": "linear"},
           {"do": "fade", "to": "clear", "ms": 800},
-          {"do": "title", "text": "The Orrery Terraces", "sub": "The Clockwork Crypt", "ms": 3000},
+          {"do": "title", "text": "The Sky Clock", "sub": "Get the star chart", "ms": 3000},
           {"do": "camera", "x": 1000, "y": 1100, "zoom": 1, "ms": 6000, "ease": "in_out_sine"},
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "narrator",
-                "text": "Above the canyon, the Orrery once turned the sky's rhythms into light, water and time.",
+                "text": "This tower is a sky clock. It used to follow the stars.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "narrator",
-                "text": "Then the astronomer Ilse Vantor sealed her Star Chart away, and the great machine fell out of step.",
+                "text": "The astronomer hid her star chart at the top, and the clock stopped.",
                 "mood": "neutral"
               },
-              {"speakerId": "narrator", "text": "Gates froze mid-turn. The Tidewheels stalled. The crystal groves began to fade.", "mood": "neutral"}
+              {"speakerId": "narrator", "text": "The gates froze. The water wheels stopped. The path to the top closed.", "mood": "neutral"}
             ]
           },
           {
@@ -2308,28 +2300,28 @@
             "lines": [
               {
                 "speakerId": "narrator",
-                "text": "Tonight the evening star Vesper rises, and a courier named Wren has come to answer an old letter.",
+                "text": "A messenger named Wren has come for the star chart.",
                 "mood": "neutral"
               }
             ]
           },
-          {"do": "control_until", "x": 1400, "surface": "ground", "prompt": "A / D · walk to the beam pylon", "timeoutMs": 20000},
-          {"do": "await_interact", "target": {"kind": "prop", "id": "beam_pylon_s0"}, "prompt": "Wind Cog", "timeoutMs": null},
+          {"do": "control_until", "x": 1400, "surface": "ground", "prompt": "A / D · walk to the glowing post", "timeoutMs": 20000},
+          {"do": "await_interact", "target": {"kind": "prop", "id": "beam_pylon_s0"}, "prompt": "Wind up Cog", "timeoutMs": null},
           {"do": "sfx", "cue": "cog_wind"},
           {"do": "set_state", "target": {"kind": "flag", "id": "cog_awake"}, "state": "on"},
           {"do": "emote", "actor": "companion", "glyph": "!"},
           {
             "do": "say",
             "lines": [
-              {"speakerId": "cog", "text": "Hoo! Hoo... oh! Someone wound me. Nobody has wound me in years.", "mood": "neutral"},
+              {"speakerId": "cog", "text": "Hoo! Nobody has wound me up in years.", "mood": "neutral"},
               {
                 "speakerId": "cog",
-                "text": "Cog, at your service: assistant to Astronomer Vantor, measurer of arcs, and very good at owling.",
+                "text": "I'm Cog, the astronomer's helper. I'm also very good at being an owl.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "cog",
-                "text": "Hoo! The astronomer's crypt runs on rhythm. Read the rhythm, and every door will open.",
+                "text": "Every machine up here moves like a wave. Work out the wave, and it'll move for you.",
                 "mood": "neutral"
               }
             ]
@@ -2340,17 +2332,17 @@
             "lines": [
               {
                 "speakerId": "cog",
-                "text": "Six rhythm seals hold the Orrery still. Each one we restore sends a beam of starlight up to it.",
+                "text": "Six machines are stuck. Each one we fix opens the next path up.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "cog",
-                "text": "Her Star Chart waits in the Warden's Dome at the top of the canyon. We need it before Vesper sets.",
+                "text": "The star chart is in the top room. A guard waits there.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "cog",
-                "text": "You can't force brass. You move it in step with the wave it runs on. I'll show you how.",
+                "text": "Come on, I'll show you the first one.",
                 "mood": "neutral"
               }
             ]
@@ -2366,7 +2358,7 @@
           {
             "do": "say",
             "lines": [
-              {"speakerId": "cog", "text": "The shield's open and the Star Chart is right there! Take it to the lens, Wren!", "mood": "neutral"}
+              {"speakerId": "cog", "text": "The shield's open, and there's the Star Chart! Take it to the lens, Wren.", "mood": "neutral"}
             ]
           },
           {"do": "walk", "actor": "player", "toX": 4700},
@@ -2376,8 +2368,8 @@
           {
             "do": "say",
             "lines": [
-              {"speakerId": "narrator", "text": "Under Vesper's light, the Star Chart slid into the Orrery's lens.", "mood": "neutral"},
-              {"speakerId": "cog", "text": "Six rhythms, six beams. Hoo, look at them climb!", "mood": "neutral"}
+              {"speakerId": "narrator", "text": "Wren slid the star chart into the clock.", "mood": "neutral"},
+              {"speakerId": "cog", "text": "Hoo, look! All six beams are climbing up.", "mood": "neutral"}
             ]
           },
           {"do": "sfx", "cue": "resonance_lock"},
@@ -2387,12 +2379,12 @@
             "lines": [
               {
                 "speakerId": "ilse",
-                "text": "Whoever you are: if you hear this, you read the rhythms. Angles, periods, swings and solutions.",
+                "text": "If you're hearing this, you got every one of my machines moving again.",
                 "mood": "neutral"
               },
               {
                 "speakerId": "ilse",
-                "text": "I sealed the chart so only someone who understood the machines could restart them. Thank you.",
+                "text": "I hid the chart so only someone who understood these machines could find it. Thank you.",
                 "mood": "neutral"
               }
             ]
@@ -2410,7 +2402,7 @@
             "lines": [
               {
                 "speakerId": "narrator",
-                "text": "The Tidewheels turned. The canals filled terrace by terrace. The groves glowed blue again.",
+                "text": "Water filled the canals again, and the crystal trees glowed blue.",
                 "mood": "neutral"
               }
             ]
@@ -2419,8 +2411,8 @@
           {
             "do": "say",
             "lines": [
-              {"speakerId": "cog", "text": "Her star chart! You read every rhythm in the crypt.", "mood": "neutral"},
-              {"speakerId": "cog", "text": "Same time next year? I'll keep the gears oiled. Hoo.", "mood": "neutral"}
+              {"speakerId": "cog", "text": "Her star chart! You got every machine moving again.", "mood": "neutral"},
+              {"speakerId": "cog", "text": "Same time next year? I'll keep the gears oiled.", "mood": "neutral"}
             ]
           },
           {"do": "fade", "to": "black", "ms": 1000}
@@ -2436,11 +2428,11 @@
           {
             "do": "say",
             "lines": [
-              {"speakerId": "cog", "text": "The Warden. It guards the Star Chart and trusts only one thing: timing.", "mood": "neutral"},
-              {"speakerId": "warden", "text": "None pass whose timing is false.", "mood": "neutral"},
+              {"speakerId": "cog", "text": "That's the Warden. It guards the Star Chart, and it only cares about timing.", "mood": "neutral"},
+              {"speakerId": "warden", "text": "Nobody gets past me with the wrong timing.", "mood": "neutral"},
               {
                 "speakerId": "warden",
-                "text": "My shield sweeps three spans either way. Six spans, end to end! Match THAT, little reader.",
+                "text": "My shield swings three spans each way. Six from end to end! Can you match that?",
                 "mood": "neutral"
               }
             ]
@@ -2463,8 +2455,8 @@
           }
         ]
       },
-      {"id": "z2_entry", "skippable": true, "steps": [{"do": "title", "text": "Crystal Stair", "sub": null, "ms": 2000}]},
-      {"id": "z3_entry", "skippable": true, "steps": [{"do": "title", "text": "The Warden's Dome", "sub": null, "ms": 2000}]}
+      {"id": "z2_entry", "skippable": true, "steps": [{"do": "title", "text": "Middle Stairs", "sub": "Halfway up", "ms": 2000}]},
+      {"id": "z3_entry", "skippable": true, "steps": [{"do": "title", "text": "The Top Room", "sub": "The star chart is here", "ms": 2000}]}
     ],
     "feedbackNouns": [{"from": "chest", "to": "singer", "stations": ["e3_amplitude", "e5_period_review"]}]
   }

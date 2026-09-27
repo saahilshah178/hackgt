@@ -24,6 +24,7 @@
     "library:report": "tsx scripts/library-report.ts",
     "audio:library": "tsx scripts/audio-library.ts",
     "fixtures:build": "tsx scripts/build-fixtures.ts",
+    "text:lint": "tsx scripts/text-lint.ts",
     "art:build": "tsx scripts/build-art.ts",
     "art:check": "tsx scripts/build-art.ts --check",
     "chars:build": "tsx scripts/build-characters.ts",

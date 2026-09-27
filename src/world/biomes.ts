@@ -63,7 +63,7 @@ const TRAVERSAL_COMMON: BiomeKit["traversalTemplates"] = [
 export const BIOME_KITS: Readonly<Record<string, BiomeKit>> = {
   orrery_terraces: {
     id: "orrery_terraces",
-    name: "The Orrery Terraces",
+    name: "The Sky Clock",
     domains: ["math", "physics", "engineering", "earth_space", "cs"],
     sensitive: false,
     paletteId: "orrery_terraces",
@@ -86,7 +86,7 @@ export const BIOME_KITS: Readonly<Record<string, BiomeKit>> = {
   },
   living_gate: {
     id: "living_gate",
-    name: "The Living Gate",
+    name: "Inside a Cell",
     domains: ["biology", "chemistry", "health"],
     sensitive: false,
     paletteId: "living_gate",
@@ -109,7 +109,7 @@ export const BIOME_KITS: Readonly<Record<string, BiomeKit>> = {
   },
   archive_of_voices: {
     id: "archive_of_voices",
-    name: "The Archive of Voices",
+    name: "The Civil Rights Files",
     domains: ["history", "civics", "law", "literature", "writing", "economics", "geography", "philosophy", "language", "art", "music"],
     sensitive: true,
     paletteId: "archive_of_voices",

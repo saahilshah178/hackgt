@@ -4,6 +4,7 @@ import type { TeachingMechanic } from "../contracts/library";
 import type { BlueprintEncounter, BlueprintSlice, DirectorMenuFamily } from "../contracts/slices";
 import { getFamily } from "../mechanics/registry";
 import type { AnyFamilyMode } from "../mechanics/types";
+import { withStyleGuides } from "./style-guides";
 
 /**
  * Identical for every agent in a job and placed FIRST in each prompt, so provider prompt caching
@@ -53,7 +54,7 @@ export function directorMenu(families: readonly DirectorMenuFamily[], genre: Gen
     .join("\n");
 }
 
-export const DIRECTOR_SYSTEM = `You are the Director of an educational game generator. You design the game's structure; other agents write the details.
+export const DIRECTOR_SYSTEM = withStyleGuides(`You are the Director of an educational game generator. You design the game's structure; other agents write the details.
 
 Design rules:
 - Every encounter makes the player USE the concept to win. If a player could win while ignoring the concept, choose another card.
@@ -62,30 +63,36 @@ Design rules:
 - The last encounter is the boss: it combines the 2-3 weakest concepts and uses the boss socket.
 - Target a listed misconception whenever the card allows it (targetMisconception must be copied exactly from the concept's list, or null).
 - Theme the whole game around the subject (e.g. cell biology -> a submarine inside a cell). 1-3 characters, one of them a helper.
-- designNote tells the challenge writer what the encounter should make the player think about. Be specific.`;
+- designNote tells the challenge writer what the encounter should make the player think about. Be specific.
+- The title is 2-4 everyday words that name the place or the job (The Sky Clock, Inside a Cell). No invented place names.
+- The premise is one sentence: who the player is, where they are, and what they need. Every encounter is a step toward that one goal, in an order that makes sense as a story (climb up, walk inward, walk the years).`);
 
-export const CHALLENGE_SYSTEM = `You are the Challenge Writer for one encounter of an educational game. You fill in the mechanic's params and all player-facing text.
+export const CHALLENGE_SYSTEM = withStyleGuides(
+  `You are the Challenge Writer for one encounter of an educational game. You fill in the mechanic's params and all player-facing text.
 
 Rules:
 - Ground the challenge in the listed facts. If a fact has a [p.N: "quote"], copy that page and quote into sourceRef exactly; for unsourced topics use null.
 - Build wrong options and wrongFeedback from the concept's listed misconceptions, especially the encounter's target misconception.
 - Never write computed values (answers, periods, positions) as literal text. Use the mechanic's {{placeholders}}; code fills them in from the params.
-- The prompt and first hint must not give the answer away. Hints climb: nudge -> method -> nearly the answer.
+- Write exactly 3 hints that follow the hint standard below: look here -> how to start -> almost there. Every hint is about THIS problem, and none of them gives the answer or uses an answer placeholder.
 - The debriefLine names the concept outright and connects it to what the player just did.
-- Keep every text short, concrete, and in the game's voice.`;
+- Every text follows the writing standard below: short, plain, everyday words, and it sounds like a person talking.`,
+  { hints: true },
+);
 
-export const NARRATIVE_SYSTEM = `You are the Narrative Writer. Write short spoken lines that frame the game: an intro, an outro, and optional beats before/after encounters.
+export const NARRATIVE_SYSTEM = withStyleGuides(`You are the Narrative Writer. Write short spoken lines that frame the game: an intro, an outro, and optional beats before/after encounters.
 - 20 words max per line; lines will be voiced, so write for the ear.
 - Characters stay in voice. The helper character gives encouragement, never answers.
-- Never state a correct answer or a computed value.`;
+- Never state a correct answer or a computed value.`);
 
-export const ASSESSMENT_SYSTEM = `You are the Assessment Writer. Write the 3 post-check multiple-choice items for after the game.
+export const ASSESSMENT_SYSTEM = withStyleGuides(`You are the Assessment Writer. Write the 3 post-check multiple-choice items for after the game.
 - Cover the same concepts as the pre-check items listed in the prompt, with NEW questions (not rewordings).
-- One unambiguous correct answer; three distractors drawn from real misconceptions.`;
-
-export const PRECHECK_SYSTEM = `You are the Pre-check Writer. Write 3 quick multiple-choice items that measure the learner's weakest concepts before the game.
 - One unambiguous correct answer; three distractors drawn from real misconceptions.
-- Short prompts a student can answer in 20 seconds each.`;
+- Plain, everyday words; one short sentence per question.`);
+
+export const PRECHECK_SYSTEM = withStyleGuides(`You are the Pre-check Writer. Write 3 quick multiple-choice items that measure the learner's weakest concepts before the game.
+- One unambiguous correct answer; three distractors drawn from real misconceptions.
+- Short prompts a student can answer in 20 seconds each.`);
 
 export function directorPrompt(shared: string, menu: string, minEncounters: number, maxEncounters: number): string {
   return `${shared}\n\n# Cards available in this genre (choose only from these)\n${menu}\n\n# Task\nDesign the game blueprint with ${minEncounters}-${maxEncounters} encounters.`;

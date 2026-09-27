@@ -13,7 +13,7 @@ const byCard = Object.fromEntries(WAVE2A.map((w) => [w.cardId, w.slice])) as Rec
 
 const mine: Record<string, ChallengeSlice> = {
   protein_factory: {
-    prompt: "The forge door is carved with mRNA. Translate the codons into the password, one amino acid per codon.",
+    prompt: "The door's password is written in mRNA. Turn each codon, a group of three letters, into its amino acid.",
     params: {
       tableName: "codon table (mRNA codon → amino acid)",
       table: [
@@ -30,69 +30,89 @@ const mine: Record<string, ChallengeSlice> = {
       outputLabel: "amino acid",
       showTable: true,
     },
-    hints: ["Read three bases at a time; each triplet is one codon.", "Look each codon up in the table; the order of the chain follows the order of the codons.", "The chain reads: {{output}}"],
-    wrongFeedback: "Each codon maps to exactly one amino acid, and the chain keeps the codons' order.",
-    debriefLine: "Translation: {{count}} codons became the chain {{output}} because each codon codes for one amino acid, not each base.",
+    hints: [
+      "There are four codons here, starting with AUG. Each one gives you one amino acid.",
+      "Find AUG in the table's left column. The amino acid next to it goes first.",
+      "Look up GGC, then AAA, then UAA the same way. Keep them in that order.",
+    ],
+    wrongFeedback: "Check each codon in the table again. The chain has to keep the codons' order.",
+    debriefLine: "Those {{count}} codons made {{output}}. Each group of three letters codes for one amino acid.",
     sourceRef: null,
   },
   function_factory: {
-    prompt: "A machine at the bench eats numbers. Watch what it does, then predict its output for {{query}}.",
+    prompt: "This machine changes every number the same way. Watch it, then guess what it gives for {{query}}.",
     params: { rule: "2*x + 3", examples: ["1", "2", "5"], ask: "output", query: "10", ruleOptions: [], inputLabel: "input", outputLabel: "output" },
-    hints: ["Compare each input with its output: what single step turns one into the other?", "The step is the same for every pair; test your guess on all three.", "Apply the same step to {{query}}: the machine gives {{answer}}."],
-    wrongFeedback: "A function applies the same rule to every input; check your rule against all the pairs the machine showed.",
-    debriefLine: "A function is a rule, not a formula you're told: from {{examples}} you recovered the machine and predicted {{answer}} for {{query}}.",
+    hints: [
+      "Compare 1 → 5 with 2 → 7. One more going in gives two more coming out.",
+      "So the machine doubles the number first. Double 1 is 2. What gets you from 2 to 5?",
+      "Double it, then add 3. Check that on 5 → 13, then try it on {{query}}.",
+    ],
+    wrongFeedback: "The machine uses one rule for every number. Test your rule on all three examples.",
+    debriefLine: "The machine doubles each number and adds 3. So {{query}} gives {{answer}}.",
     sourceRef: null,
   },
   state_containers: {
-    prompt: "The golem's scroll runs these lines. What does it print at the end?",
+    prompt: "The golem runs these lines from top to bottom. What does it print?",
     params: {
       program: ["x = 3", "y = x * 2 + 1", "if y > 6: x = x + 10 else: x = 0", "a = [4, 7, 9]", "print a[0]", "print x"],
       ask: "output",
       variable: "",
       options: ["4 13", "7 13", "4 3", "7 0"],
     },
-    hints: ["Run each line in order and write down every container's value as it changes.", "a[0] is the FIRST item; lists count from zero.", "The scroll prints {{answer}}."],
-    wrongFeedback: "Trace one line at a time: x = x + 1 is an instruction to update the container, not an equation to solve.",
-    debriefLine: "Variables are containers that change line by line; tracing {{lines}} lines gave {{answer}}.",
+    hints: [
+      "The if line decides what x becomes. It depends on whether y is bigger than 6.",
+      "Work out y first. With x = 3, y is 3 × 2 + 1.",
+      "a[0] is the first item, because lists count from 0. Then print x as it is after the if line.",
+    ],
+    wrongFeedback: "Go one line at a time. x = x + 10 means add 10 to x and keep the new value.",
+    debriefLine: "A variable holds a value that can change line by line. Tracing all {{lines}} lines gave {{answer}}.",
     sourceRef: null,
   },
   rune_recall: {
-    prompt: "Runes flash on the enemy's shield. Type each rune's meaning before it fades; missed runes return.",
+    prompt: "Type what each rune on the shield means before it fades. Missed runes come back.",
     params: {
       items: [
-        { prompt: "sin θ on the unit circle", answers: ["y-coordinate", "y coordinate", "the y-coordinate", "y"], hint: "vertical, not horizontal" },
+        { prompt: "sin θ on the unit circle", answers: ["y-coordinate", "y coordinate", "the y-coordinate", "y"], hint: "the up-and-down one" },
         { prompt: "period of sin(bx)", answers: ["2π/|b|", "2pi/|b|", "2π/b", "2pi/b"], hint: "a fraction with 2π on top" },
-        { prompt: "amplitude of A sin x", answers: ["|A|", "A", "abs(A)"], hint: "the coefficient in front" },
+        { prompt: "amplitude of A sin x", answers: ["|A|", "A", "abs(A)"], hint: "the number in front" },
         { prompt: "π radians in degrees", answers: ["180", "180°", "180 degrees"], hint: "half a turn" },
       ],
       secondsPerItem: 10,
       direction: "term → value",
     },
-    hints: ["Say the definition out loud before you type.", "Missed runes come back: use the hint the shield shows.", "First rune: {{first}}"],
-    wrongFeedback: "Recognizing a formula isn't the same as recalling it; the runes come back until you can produce each one.",
-    debriefLine: "Rapid recall on {{count}} trig facts ({{direction}}): retrieval practice, not rereading, is what makes them stick.",
+    hints: [
+      "Each rune shows a small clue under it. For π radians, the clue is \"half a turn\".",
+      "For the period of sin(bx), start from 2π. The b inside changes how fast it repeats.",
+      "For A sin x, the number in front sets the height. For sin θ, pick between x and y.",
+    ],
+    wrongFeedback: "That's not it. Check the clue under the rune. It'll come back so you can try again.",
+    debriefLine: "You recalled {{count}} trig facts ({{direction}}). Pulling facts from memory helps them stick.",
     sourceRef: null,
   },
   context_clues: {
-    prompt: "The Warden's last riddle is a sentence from your notes with one word missing. Fill it.",
+    prompt: "The Warden's last riddle is a sentence from your notes with one word missing. Fill in the gap.",
     params: {
       sentence: "The value of A stretches the graph vertically but leaves the ___ unchanged.",
       answers: ["period"],
       wordBank: ["amplitude", "frequency", "midline"],
-      hint: "It's the horizontal length of one full cycle.",
+      hint: "It's how long one full wave takes, measured side to side.",
     },
-    hints: ["Read the whole sentence: what could A leave unchanged?", "A is the vertical stretch; the missing word is a horizontal property.", "The word is {{answer}}."],
-    wrongFeedback: "Use the surrounding words: 'stretches vertically but leaves … unchanged' points at a horizontal property.",
-    debriefLine: "Cloze: the notes say A leaves the {{answer}} unchanged, which is exactly why amplitude and period are separate dials.",
+    hints: [
+      "Look at the word \"vertically\". A only changes the graph up and down.",
+      "So the missing word is something measured side to side, left to right.",
+      "Amplitude and midline are both about height, so skip them. You want the length of one full wave.",
+    ],
+    wrongFeedback: "The sentence says A leaves this word alone. A changes height, so look for a side-to-side word.",
+    debriefLine: "Your notes say A leaves the {{answer}} alone. That's why amplitude and period are set by different numbers.",
     sourceRef: { page: 2, quote: "The value of A stretches the graph vertically but leaves the period unchanged." },
   },
 };
 
 export const wave2Blueprint: BlueprintSlice = {
   genre: "dungeon",
-  title: "The Wave-Two Proving Ground",
-  theme: { setting: "A test dungeon where every wave-2 mechanic has a room", tone: "brisk", paletteId: "neon", musicMood: "playful" },
-  premise: "Nine rooms, nine different mechanics. Clear them all.",
+  title: "The Nine-Room Test Dungeon",
+  theme: { setting: "A test dungeon with a different kind of puzzle in every room", tone: "brisk", paletteId: "neon", musicMood: "playful" },
+  premise: "Nine rooms, each with a different kind of puzzle. Solve them all.",
   characters: [{ id: "cog", name: "Cog", role: "test proctor", voiceArchetype: "cheerful_sidekick" }],
   encounters: [
     { id: "w1_slope", conceptIds: ["c_period"], teachingMechanicId: "slope_scanner", socket: "altar", role: "teach", difficulty: 2, targetMisconception: null, designNote: "function_world.slope" },
@@ -125,8 +145,8 @@ export const wave2Slices: Slices = {
     w9_boss: mine.context_clues,
   },
   narrative: {
-    intro: [{ speakerId: "cog", text: "Nine rooms, nine machines. Show me you can drive them all." }],
-    outro: [{ speakerId: "cog", text: "Every machine answered to you. Proving ground cleared." }],
+    intro: [{ speakerId: "cog", text: "Welcome to the test dungeon. Each of these nine rooms has a different puzzle." }],
+    outro: [{ speakerId: "cog", text: "You solved all nine rooms. The test dungeon is clear!" }],
     beats: [],
   },
   assessment: {

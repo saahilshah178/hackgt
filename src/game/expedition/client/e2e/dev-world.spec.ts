@@ -168,7 +168,7 @@ test.describe("play page: world resolution and the legacy escape hatch", () => {
     await page.waitForFunction(() => typeof (window as unknown as W).__GAME_DEBUG__ !== "undefined", null, { timeout: 30_000 });
     await expect(page.getByTestId("expedition-layout")).toHaveCount(0);
     expect(await page.evaluate(() => typeof (window as unknown as W).__GAME_DEBUG__?.expedition)).toBe("undefined");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Clockwork Crypt");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Sky Clock");
     expect(errors, `console/page errors:\n${errors.join("\n")}`).toEqual([]);
   });
 });

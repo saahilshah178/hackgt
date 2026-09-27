@@ -16,15 +16,15 @@ const precheck: PreCheckSlice = {
   items: [
     {
       conceptId: "c_causation",
-      prompt: "What repeatedly turned a local civil rights campaign into national legislation?",
-      correct: "Televised violence against nonviolent protesters",
-      distractors: ["A single court ruling each time", "Direct orders from the President", "Coincidence; the timing wasn't connected"],
+      prompt: "What kept turning local civil rights protests into national laws?",
+      correct: "TV images of violence against peaceful protesters",
+      distractors: ["A single court ruling each time", "Direct orders from the President", "Nothing, the timing was just a coincidence"],
     },
     {
       conceptId: "c_birmingham",
-      prompt: "What did the televised images from the Birmingham campaign push President Kennedy to do?",
-      correct: "Propose a sweeping civil rights bill",
-      distractors: ["Send federal troops to Alabama", "Call for the Voting Rights Act", "Nothing; Congress acted on its own"],
+      prompt: "What did the TV images from Birmingham push President Kennedy to do?",
+      correct: "Propose a big civil rights bill",
+      distractors: ["Send federal troops to Alabama", "Call for the Voting Rights Act", "Nothing, Congress acted on its own"],
     },
     mcqToItem(historyIntake.preCheck.items[0]), // c_civil_rights_act
   ],

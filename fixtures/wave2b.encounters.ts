@@ -9,7 +9,7 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
   {
     cardId: "membrane_balance",
     slice: {
-      prompt: "The cell sits in a solution with more solute outside than in. Predict what happens to it, then watch.",
+      prompt: "This cell sits in water with more solute, or dissolved stuff, outside than inside. Guess what happens, then watch.",
       params: {
         system: {
           variables: [{ name: "cell_volume", initial: "100", unit: "% of normal", min: 0, max: 200 }],
@@ -20,26 +20,26 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
         watch: "cell_volume",
         question: "What happens to the cell?",
         options: [
-          { text: "Water leaves the cell down its own concentration gradient, and the cell shrinks", asserts: "decreases", explanation: "Water crosses the semipermeable membrane toward the higher solute concentration; the solute itself mostly can't cross, so water leaves and the cell shrinks." },
-          { text: "Salt moves into the cell to even out the concentrations, and the cell stays the same size", asserts: "stays", explanation: "The membrane is far more permeable to water than to solute, so it's water, not salt, that moves." },
+          { text: "Water moves out of the cell, and the cell shrinks", asserts: "decreases", explanation: "Water crosses the membrane toward the side with more solute. The solute mostly can't cross, so water leaves and the cell shrinks." },
+          { text: "Salt moves into the cell to even things out, and the cell stays the same size", asserts: "stays", explanation: "The membrane lets water through far more easily than salt. So the water moves, and the salt mostly stays put." },
         ],
         comparison: "decreases",
         threshold: "50",
       },
       hints: [
-        "Water crosses a semipermeable membrane far more easily than solute does.",
-        "Water moves toward the side with MORE solute, trying to dilute it.",
-        "Outside has more solute, so water leaves the cell down its own gradient.",
+        "The membrane lets water through easily. The solute mostly can't get through.",
+        "Water moves toward the side with more solute. Here, that's outside the cell.",
+        "So water heads out of the cell. Decide what losing water does to its size.",
       ],
-      wrongFeedback: "It isn't the solute that crosses the membrane easily here; think about which side water is drawn toward.",
-      debriefLine: "Osmosis in action: {{outcome}}, because {{correct}}",
+      wrongFeedback: "The solute can't cross easily here. Ask which side the water gets pulled toward.",
+      debriefLine: "That's osmosis. Water crossed the membrane toward more solute, so the cell shrank.",
       sourceRef: { page: 4, quote: "In osmosis, water moves across a selectively permeable membrane toward the side with the higher solute concentration." },
     },
   },
   {
     cardId: "feedback_controller",
     slice: {
-      prompt: "Blood glucose keeps climbing after a meal. Release insulin at the right moments to hold it in the safe range.",
+      prompt: "Blood sugar, or glucose, keeps rising after a meal. Set the insulin to keep it in the safe range.",
       params: {
         system: {
           variables: [
@@ -55,19 +55,19 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
         budget: 2,
       },
       hints: [
-        "Left alone, glucose keeps rising after the meal; it won't level off by itself.",
-        "Insulin pulls glucose back down; too little and it keeps climbing, too much and it may crash.",
-        "A single, steady dose of insulin can offset the meal's steady rise and hold glucose flat.",
+        "Without insulin, glucose climbs by 5 every step. It won't settle on its own.",
+        "Each unit of insulin pulls glucose down by half a unit every step. Too much and it drops too low.",
+        "You need just enough insulin to cancel that rise of 5. Half of what number is 5?",
       ],
-      wrongFeedback: "Homeostasis isn't an on/off switch: releasing insulin once and stopping won't offset a rise that keeps happening every tick.",
-      debriefLine: "Keeping {{target}} in band takes ongoing feedback from {{control}}, not a single push.",
+      wrongFeedback: "One burst of insulin won't hold it. The rise keeps coming every step, so the insulin has to keep going too.",
+      debriefLine: "Keeping {{target}} in the safe range takes steady help from {{control}}. One push isn't enough.",
       sourceRef: { page: 6, quote: "Hormonal control in homeostasis is a continuous feedback loop, releasing and easing off as the level shifts." },
     },
   },
   {
     cardId: "prediction_stabilizer",
     slice: {
-      prompt: "Flip the fair coin hundreds of times and watch where the running average of heads settles.",
+      prompt: "Flip a fair coin hundreds of times. Watch where the average number of heads settles.",
       params: {
         system: {
           variables: [{ name: "heads_count", initial: "0", unit: "", min: 0, max: 1 }],
@@ -80,8 +80,8 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
         threshold: "0.5",
         question: "Where does the average settle after many flips?",
         options: [
-          { text: "It settles in close to 0.5, no matter what happened on recent flips", isCorrect: true, explanation: "Each flip is independent; the law of large numbers pulls the running average toward the true 50% odds, not toward 'catching up' on past results." },
-          { text: "After a run of heads, tails becomes more likely to even things out", isCorrect: false, explanation: "The coin has no memory: past flips never change the odds of the next one." },
+          { text: "It settles in close to 0.5, no matter what happened on recent flips", isCorrect: true, explanation: "Each flip is separate from the others. Over many flips, the average moves toward the real 50% chance." },
+          { text: "After a run of heads, tails becomes more likely to even things out", isCorrect: false, explanation: "The coin can't remember. Past flips never change the odds of the next one." },
         ],
         ranges: [
           { optionIndex: 0, low: "0.4", high: "0.6" },
@@ -89,12 +89,12 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
         ],
       },
       hints: [
-        "Each flip is completely independent of every flip before it.",
-        "The coin has no memory, so a streak of heads doesn't make tails \"due\".",
-        "Over many independent flips, the average drifts toward the true 50% odds.",
+        "A fair coin lands heads half the time. Each flip ignores the flips before it.",
+        "A streak of heads doesn't make tails \"due\". The coin can't remember the streak.",
+        "With 800 flips, a few streaks barely move the average. Watch how the line flattens out.",
       ],
-      wrongFeedback: "\"Due for tails\" assumes the coin remembers past flips; a fair coin's odds never change based on history.",
-      debriefLine: "Across {{trials}} trials, {{statistic}}: {{correct}}",
+      wrongFeedback: "\"Due for tails\" would mean the coin remembers. A fair coin's odds never change.",
+      debriefLine: "After {{trials}} flips, you got {{statistic}}. {{correct}}.",
       sourceRef: { page: 9, quote: "Independent trials have no memory; the law of large numbers stabilizes the average only over many trials, not by any single trial 'correcting' the last." },
     },
   },
@@ -111,19 +111,19 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
         ask: "estimate",
       },
       hints: [
-        "Each block's height comes from the curve at the right edge of its slice.",
-        "Add up height times width for all 8 blocks; width is the same for each one.",
-        "The blocks are narrow: (2-0)/8 = 0.25 wide each.",
+        "Each block gets its height from the curve y = x² at the block's right edge.",
+        "The blocks split 0 to 2 into 8 equal parts. So each one is 0.25 wide.",
+        "Add up height times 0.25 for all 8 blocks. The last block is 2² = 4 tall.",
       ],
-      wrongFeedback: "Left sums and right sums don't always over- or underestimate the same way; it depends on whether the curve is rising or falling.",
-      debriefLine: "The right-sum estimate was {{sum}}, close to the true area of {{exact}}.",
+      wrongFeedback: "Check which edge sets each block's height. Here it's the right edge, where the curve is higher.",
+      debriefLine: "Your right-edge estimate was {{sum}}. The true area is {{exact}}, so the blocks poke out a little above the curve.",
       sourceRef: { page: 5, quote: "A Riemann sum approximates the area under a curve using rectangles whose heights come from sample points across the interval." },
     },
   },
   {
     cardId: "fill_the_reservoir",
     slice: {
-      prompt: "Water flows in at a rate of x^2 per unit time starting from x = 0. Close the gate where the reservoir holds exactly the target volume.",
+      prompt: "Water flows in at a rate of x² per unit of time, starting at x = 0. Close the gate when the tank holds exactly the target amount.",
       params: {
         expr: "x^2",
         a: "0",
@@ -132,12 +132,12 @@ export const WAVE2B: { cardId: string; slice: ChallengeSlice }[] = [
         bMax: "2",
       },
       hints: [
-        "The reservoir's volume is the area under the rate curve from a to your gate position b.",
-        "There's no simple shape formula here; the definite integral gives the exact area even for a curved boundary.",
-        "Try gate positions between 1 and 2 and see how the accumulated area grows as b grows.",
+        "The water in the tank so far is the area under the curve from 0 to your gate.",
+        "The area under x² from 0 to b is b³ ÷ 3. Set that equal to the target of 1.",
+        "So b³ needs to be 3. Find the number that cubes to 3.",
       ],
-      wrongFeedback: "A curved boundary doesn't mean you need a special shape formula; the definite integral handles any shape.",
-      debriefLine: "Closing the gate at b = {{b}} holds exactly the target volume of {{target}}.",
+      wrongFeedback: "Check the area under the curve up to your gate. It should come out to exactly the target.",
+      debriefLine: "Closing the gate at b = {{b}} holds exactly {{target}}. That's the area under the curve up to there.",
       sourceRef: { page: 6, quote: "The definite integral gives exact area under a curve even when no simple geometric formula applies." },
     },
   },

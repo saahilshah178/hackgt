@@ -22,8 +22,8 @@ const precheck: PreCheckSlice = {
     {
       conceptId: "c_solve",
       prompt: "How many solutions does sin x = 1/2 have on [0, 2π)?",
-      correct: "Two: π/6 and 5π/6",
-      distractors: ["Only one: π/6", "Four, one per quadrant", "None; sine never equals 1/2 exactly"],
+      correct: "Two, π/6 and 5π/6",
+      distractors: ["Only one, π/6", "Four, one in each quadrant", "None, because sine never equals 1/2"],
     },
     mcqToItem(trigIntake.preCheck.items[2]), // c_radians
   ],

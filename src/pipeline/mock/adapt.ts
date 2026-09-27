@@ -5,6 +5,7 @@ import { getCard } from "../../library";
 import { BOSS_SOCKET } from "../../library/genres";
 import { hashString } from "../../mechanics/util";
 import { socketsFor } from "../../mechanics/registry";
+import { hintLadderProblems, textStyleProblems } from "../../world/text-style";
 import { fallbackMimic } from "../generate";
 
 /*
@@ -164,25 +165,60 @@ export function adaptBlueprint(key: string, canned: BlueprintSlice, km: Knowledg
   return result;
 }
 
-/** A challenge for a padded (mx_*) encounter: the pipeline's own verified-facts Mimic Chest, or a plain one. */
+const wordCount = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
+const reads = (s: string, maxWords: number) => wordCount(s) <= maxWords && textStyleProblems(s).length === 0;
+const unquoted = (s: string) => s.trim().replace(/[.!?]+$/, "").replace(/"/g, "'");
+/** The first few words of a claim, enough for the player to spot it on screen. */
+const opening = (s: string, n = 5) => unquoted(s).replace(/[;:—]/g, ",").split(/\s+/).slice(0, n).join(" ");
+
+/**
+ * A challenge for a padded (mx_*) encounter: the pipeline's own verified-facts Mimic Chest, or a plain one.
+ * The hints follow docs/HINTS.md's ladder from this concept's own text, and never quote the false claim.
+ */
 export function mimicChallengeFor(km: KnowledgeMap, e: BlueprintEncounter, genre: Genre): ChallengeSlice {
   const fb = fallbackMimic(km, e, genre);
   if (fb) return fb.slice;
   const concept = km.concepts.find((x) => x.id === e.conceptIds[0]);
   const name = concept?.name ?? "this idea";
-  const lie = concept?.misconceptions[0]?.belief ?? `${name} plays no part in ${km.subject.topic}.`;
+  const topic = km.subject.topic;
+  const mis = concept?.misconceptions[0];
+  const truth = concept?.summary ?? `${name} is part of ${topic}.`;
+  const lie = mis?.belief ?? `${name} plays no part in ${topic}.`;
+  const correction = mis?.correction ?? `Your notes treat ${name} as a real part of ${topic}.`;
+  const goal = concept?.learningObjective ?? `Understanding ${name} is a goal of these notes.`;
+  const prompt = `Here are three claims about ${name}. Find the one that's false.`;
+
+  const look = mis
+    ? `One claim is a mix-up people often have about ${name}. Look for the one your notes don't back up.`
+    : `Every claim here is about ${name}. Only two of them match your notes on ${topic}.`;
+  const start = reads(correction, 16)
+    ? `Here's what your notes say. ${correction}`
+    : `Test each claim on its own. Would your notes say the same about ${name}?`;
+  const shown = opening(truth) === opening(lie) ? goal : truth;
+  const almost = reads(shown, 12)
+    ? `"${unquoted(shown)}" is true. Compare the other two.`
+    : `The claim that starts "${opening(shown)}…" is true. Compare the other two.`;
+  const safe = [
+    `One claim about ${name} goes against your notes. The other two agree with them.`,
+    `Check each claim against what your notes say about ${name}.`,
+    `Two claims about ${name} are true. Rule out the one you're surest of, then compare the rest.`,
+  ];
+  const picked = [look, start, almost].map((h, i) => (reads(h, 20) ? h : safe[i]));
+  const hints = hintLadderProblems(picked, prompt).length === 0 ? picked : safe;
+
+  const debrief = `The false claim was "{{mimic}}". ${correction}`;
   return {
-    prompt: `Three claims about ${name}. One of them is false. Find it.`,
+    prompt,
     params: {
       statements: [
-        { text: concept?.summary ?? `${name} is part of ${km.subject.topic}.`, isTrue: true, explanation: "This matches the notes." },
-        { text: lie, isTrue: false, explanation: concept?.misconceptions[0]?.correction ?? `The notes treat ${name} as central to ${km.subject.topic}.` },
-        { text: concept?.learningObjective ?? `Understanding ${name} is a goal of these notes.`, isTrue: true, explanation: "This is the stated objective." },
+        { text: truth, isTrue: true, explanation: "This one matches your notes." },
+        { text: lie, isTrue: false, explanation: correction },
+        { text: goal, isTrue: true, explanation: "This is what your notes set out to teach." },
       ],
     },
-    hints: [`Think about what ${name} really means.`, "Two claims agree with your notes. Which one doesn't?", "The false claim is: {{mimic}}"],
-    wrongFeedback: "That claim holds up. Look for the one that contradicts your notes.",
-    debriefLine: `The false claim was "{{mimic}}".`,
+    hints,
+    wrongFeedback: "That one's true. Look for the claim that goes against your notes.",
+    debriefLine: debrief.length <= 200 && textStyleProblems(correction).length === 0 ? debrief : `The false claim was "{{mimic}}".`,
     sourceRef: null,
   };
 }

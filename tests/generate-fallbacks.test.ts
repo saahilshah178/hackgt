@@ -77,7 +77,7 @@ describe("generateGame: writer fallbacks never fail the job (M1)", () => {
 
     expect(spec.narrative.beats).toEqual([]);
     expect(spec.narrative.intro).toEqual([{ speakerId: spec.characters[0].id, text: spec.premise }]);
-    expect(spec.narrative.outro).toEqual([{ speakerId: spec.characters[0].id, text: "Well played." }]);
+    expect(spec.narrative.outro).toEqual([{ speakerId: spec.characters[0].id, text: "You finished every challenge. Nice work!" }]);
     expect(events).toContainEqual(expect.objectContaining({ agent: "narrative", status: "fallback" }));
     expect(validateGameSpec(spec).ok).toBe(true);
   });

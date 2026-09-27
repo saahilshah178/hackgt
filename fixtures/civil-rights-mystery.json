@@ -141,14 +141,14 @@
     "laterBonus": 0.08,
     "missPenalty": 0.05
   },
-  "title": "The 1965 Files",
+  "title": "The Civil Rights Files",
   "theme": {
-    "setting": "A rain-soaked newspaper morgue where a retired editor's last case file waits to be reopened",
+    "setting": "A newspaper archive whose files walk you from 1954 to 1965",
     "tone": "noir, investigative, respectful of the people in the story",
     "paletteId": "dusk",
     "musicMood": "noir"
   },
-  "premise": "The archive's last editor sealed the story of how the movement won its laws. Rebuild the chain of events, weigh the sources, and open the final vault.",
+  "premise": "The paper locked its civil rights files. Walk the years from 1954 to 1965 and put the true story back.",
   "characters": [
     {
       "id": "archivist",
@@ -159,7 +159,7 @@
     {
       "id": "editor",
       "name": "The Editor",
-      "role": "the voice sealed in the final vault",
+      "role": "the voice locked in the last vault",
       "voiceArchetype": "narrator"
     }
   ],
@@ -176,33 +176,33 @@
       "targetMisconception": "Brown ended school segregation immediately.",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "Three file boxes describe Brown v. Board. One label is false. Which?",
+      "prompt": "Brown v. Board was a 1954 case about segregation, keeping Black and white students apart. Find the one false label.",
       "params": {
         "statements": [
           {
-            "text": "The Court ruled segregated schools inherently unequal in 1954",
+            "text": "In 1954, the Court ruled that segregated schools can never be equal",
             "isTrue": true,
-            "explanation": "A unanimous decision."
+            "explanation": "All nine judges agreed."
           },
           {
-            "text": "Schools across the South desegregated within the year",
+            "text": "Within a year, schools across the South let Black and white students learn together",
             "isTrue": false,
-            "explanation": "Resistance lasted years; Little Rock needed federal troops in 1957."
+            "explanation": "Many states fought it for years. Little Rock needed federal troops in 1957."
           },
           {
-            "text": "The ruling overturned Plessy's separate but equal for schools",
+            "text": "The ruling threw out the old 'separate but equal' rule for schools",
             "isTrue": true,
-            "explanation": "Plessy v. Ferguson (1896) had allowed segregation."
+            "explanation": "Plessy v. Ferguson (1896) said separate places were fine if they were 'equal.'"
           }
         ]
       },
       "hints": [
-        "A court ruling is a statement, not an enforcement.",
-        "Think about what happened at Little Rock three years later.",
-        "The false label reads: Schools across the South desegregated within the year"
+        "The ruling came in 1954. Ask what schools really looked like in the years right after that.",
+        "Check each label against Little Rock in 1957. Nine students there needed soldiers to get into school.",
+        "The label about Plessy and 'separate but equal' is true. Compare the other two."
       ],
-      "wrongFeedback": "That box is honest. Look for the label that assumes the ruling was obeyed at once.",
-      "debriefLine": "Brown v. Board: the false label was \"Schools across the South desegregated within the year\"; the ruling came in 1954, but enforcement took years and federal troops.",
+      "wrongFeedback": "That label is true. Look for the one about what schools did after the ruling.",
+      "debriefLine": "The false label said \"Within a year, schools across the South let Black and white students learn together.\" Brown came in 1954, but it took years and federal troops to change schools.",
       "sourceRef": {
         "page": 1,
         "quote": "In Brown v. Board of Education (1954) the Supreme Court ruled unanimously that separate educational facilities are inherently unequal."
@@ -223,25 +223,25 @@
       "targetMisconception": "Rosa Parks was just a tired seamstress who acted alone.",
       "familyId": "sequencer",
       "mode": "linear",
-      "prompt": "The vault door shows the Montgomery boycott in pieces. Set the planks in order. One plank never happened.",
+      "prompt": "In a boycott, people refuse to use something as a protest. Put the Montgomery bus boycott in order and skip the plank that never happened.",
       "params": {
         "steps": [
-          "Rosa Parks refuses to give up her seat and is arrested, December 1, 1955",
-          "Local leaders organize a one-day boycott that becomes a year-long campaign",
-          "Montgomery's Black residents stay off the buses for 381 days",
-          "The Supreme Court affirms that bus segregation is unconstitutional; the boycott ends"
+          "Rosa Parks refuses to give up her bus seat and is arrested, December 1, 1955",
+          "Local leaders plan a one-day boycott, and it grows into a year-long one",
+          "Black riders in Montgomery stay off the buses for 381 days",
+          "The Supreme Court says bus segregation breaks the Constitution, and the boycott ends"
         ],
         "decoys": [
-          "Parks decides on the spot to start a protest movement by herself"
+          "Parks decides on the spot to start a protest movement all by herself"
         ]
       },
       "hints": [
-        "Start with the arrest and end with the court.",
-        "Between them is a year of organized walking and carpooling.",
-        "An arrest of one activist became a campaign because leaders were ready to organize."
+        "Start with the arrest on December 1, 1955. Everything else grew out of that day.",
+        "Nobody walks for 381 days without a plan. Ask what had to happen before the long walk.",
+        "The plank about Parks acting all alone never happened. She was part of a group ready to act."
       ],
-      "wrongFeedback": "Order matters: the boycott had to be organized before it could last 381 days, and the court ruling came at the end.",
-      "debriefLine": "The Montgomery bus boycott in 4 steps: an arrest, an organized boycott, 381 days, a court ruling.",
+      "wrongFeedback": "The boycott had to be planned before it could last 381 days. The court ruling came last.",
+      "debriefLine": "You put the Montgomery boycott's 4 steps in order. One arrest grew into 381 days of planned protest that ended with a court win.",
       "sourceRef": {
         "page": 1,
         "quote": "The boycott lasted 381 days and ended after the Supreme Court affirmed that bus segregation was unconstitutional."
@@ -267,36 +267,36 @@
       "targetMisconception": "Southern states complied with Brown once it was decided.",
       "familyId": "truth_finder",
       "mode": "predict_reveal",
-      "prompt": "September 1957. Governor Faubus has posted the Arkansas National Guard to keep nine students out of Central High. What does President Eisenhower do?",
+      "prompt": "In September 1957, Arkansas's governor used the state's National Guard to block nine Black students from Central High. What does President Eisenhower do?",
       "params": {
-        "scenario": "Governor Faubus defies a federal court order by blocking nine Black students from entering Central High School with the state National Guard.",
+        "scenario": "A federal court said the nine students could attend Central High. Governor Faubus used the state's National Guard to block them anyway.",
         "options": [
           {
-            "text": "Sends the 101st Airborne to escort the students into the school",
+            "text": "Sends the 101st Airborne, an Army unit, to walk the students into school",
             "isCorrect": true,
-            "explanation": "Eisenhower federalized the Guard and sent Army troops to enforce the court order."
+            "explanation": "Eisenhower took control of the Guard and sent Army troops to carry out the court order."
           },
           {
-            "text": "Lets Arkansas decide; schools are a state matter",
+            "text": "Lets Arkansas decide, since schools are a state matter",
             "isCorrect": false,
-            "explanation": "A federal court order was being defied; the president enforced it."
+            "explanation": "A state was ignoring a federal court order. The president stepped in to enforce it."
           },
           {
-            "text": "Cancels the desegregation order to calm the crisis",
+            "text": "Cancels the school order to calm things down",
             "isCorrect": false,
-            "explanation": "The order stood; the students entered under armed escort."
+            "explanation": "The order stayed. The students went in with soldiers guarding them."
           }
         ],
-        "reveal": "On September 25, 1957, soldiers of the 101st Airborne Division escorted the nine students into Central High School.",
+        "reveal": "On September 25, 1957, soldiers of the 101st Airborne Division walked the nine students into Central High School.",
         "revealSource": "sourced"
       },
       "hints": [
-        "A state governor is defying a federal court.",
-        "What tool does a president have when a court order is defied?",
-        "Think about who outranks a state's National Guard."
+        "The governor is ignoring an order from a federal court. That's the fight here.",
+        "Ask who has more power than a governor when a federal court is ignored. Check each choice against that.",
+        "Canceling the order would mean the governor won. That's not what happened, so compare the other two."
       ],
-      "wrongFeedback": "Brown was not self-enforcing; when a state defied a federal court, it took the president and the Army to make the ruling real.",
-      "debriefLine": "Little Rock: you predicted Eisenhower's response (Sends the 101st Airborne to escort the students into the school), which showed that Brown needed federal enforcement.",
+      "wrongFeedback": "Brown didn't enforce itself. When a state ignored a federal court, it took the president and the Army.",
+      "debriefLine": "At Little Rock, the answer was \"Sends the 101st Airborne, an Army unit, to walk the students into school.\" Brown needed federal power to make it real.",
       "sourceRef": {
         "page": 1,
         "quote": "President Eisenhower responded by sending soldiers of the 101st Airborne Division to escort the students into the school."
@@ -317,33 +317,33 @@
       "targetMisconception": "Nonviolent protest means passive protest.",
       "familyId": "truth_finder",
       "mode": "mimic",
-      "prompt": "Three boxes describe the Greensboro sit-ins. One is a mimic.",
+      "prompt": "At a sit-in, protesters sit where they're banned and refuse to leave. Three boxes describe the Greensboro sit-ins, and one is lying.",
       "params": {
         "statements": [
           {
-            "text": "Four students sat at a whites-only lunch counter on February 1, 1960",
+            "text": "On February 1, 1960, four students sat at a whites-only lunch counter",
             "isTrue": true,
-            "explanation": "The Woolworth counter in Greensboro."
+            "explanation": "It was the Woolworth counter in Greensboro."
           },
           {
-            "text": "Nonviolent meant the students avoided confrontation",
+            "text": "Nonviolent meant the students tried not to cause any conflict",
             "isTrue": false,
-            "explanation": "They deliberately broke the rules and stayed put; nonviolence was disciplined, not passive."
+            "explanation": "They broke the rules on purpose and stayed put. Staying calm took discipline."
           },
           {
-            "text": "The sit-ins spread to over fifty cities and led to SNCC",
+            "text": "The sit-ins spread to more than 50 cities and led to a new student group, SNCC",
             "isTrue": true,
-            "explanation": "The Student Nonviolent Coordinating Committee formed in April 1960."
+            "explanation": "SNCC, the Student Nonviolent Coordinating Committee, formed in April 1960."
           }
         ]
       },
       "hints": [
-        "Sitting where you are forbidden to sit is itself a confrontation.",
-        "Nonviolence describes how they answered violence, not whether they provoked a response.",
-        "The mimic claims: Nonviolent meant the students avoided confrontation"
+        "Sitting at a counter where you're banned is already a challenge to the rules.",
+        "Nonviolent means you don't hit back when attacked. Test each box against students who broke a rule on purpose.",
+        "The box about February 1, 1960 is true. Compare the other two."
       ],
-      "wrongFeedback": "That box is honest. Look for the claim that turns nonviolence into passivity.",
-      "debriefLine": "Sit-ins: the mimic said \"Nonviolent meant the students avoided confrontation\"; nonviolent direct action broke unjust rules on purpose and answered violence with discipline.",
+      "wrongFeedback": "That box is true. Look for the one that makes nonviolent sound like doing nothing.",
+      "debriefLine": "The lying box said \"Nonviolent meant the students tried not to cause any conflict.\" Nonviolent protest broke unfair rules on purpose and met violence with calm.",
       "sourceRef": {
         "page": 2,
         "quote": "On February 1, 1960, four Black college students sat down at a whites-only Woolworth lunch counter in Greensboro, North Carolina."
@@ -364,26 +364,26 @@
       "targetMisconception": "The federal government led the civil rights movement.",
       "familyId": "linker",
       "mode": "chain",
-      "prompt": "The dominoes of 1961 are scattered. Connect each event to what it caused.",
+      "prompt": "In 1961, Black and white Freedom Riders rode buses together to test a new ruling. Link each event to what it caused.",
       "params": {
         "nodes": [
-          "The Supreme Court rules segregated interstate bus terminals illegal",
-          "Integrated Freedom Riders board buses to test the ruling in the Deep South",
-          "A mob firebombs a bus in Anniston, Alabama and beats the riders",
-          "Photographs of the burning bus reach national newspapers",
-          "The Kennedy administration pressures the ICC to enforce desegregated terminals"
+          "The Supreme Court bans segregated bus stations for travel between states",
+          "Black and white Freedom Riders ride buses into the Deep South to test the ruling",
+          "A mob firebombs a bus in Anniston, Alabama, and beats the riders",
+          "Photos of the burning bus appear in newspapers across the country",
+          "President Kennedy's team pushes the bus agency, the ICC, to enforce the ruling"
         ],
         "decoys": [
           "Congress passes the Civil Rights Act"
         ]
       },
       "hints": [
-        "Start with the ruling the riders wanted to test.",
-        "Violence became news; news became pressure.",
-        "The federal enforcement came last, and not by choice."
+        "The riders got on the buses to test something. Find the event they were testing.",
+        "Look for what turned the Anniston attack into news across the country. That link comes right after the attack.",
+        "Congress passed no civil rights law in 1961, so leave that one out. Kennedy's push comes last."
       ],
-      "wrongFeedback": "Follow the pressure: activists tested a ruling, violence exposed the defiance, and only then did federal officials act.",
-      "debriefLine": "The Freedom Rides as a causal chain: a ruling, a test, violence, headlines, then federal enforcement.",
+      "wrongFeedback": "Follow the pressure. Washington only acted after the attack on the riders made national news.",
+      "debriefLine": "The Freedom Rides were a chain. Riders tested a ruling, and their beating made headlines that pushed Washington to act.",
       "sourceRef": {
         "page": 2,
         "quote": "In Anniston, Alabama, a mob firebombed one of the buses and beat the riders as they escaped."
@@ -421,26 +421,26 @@
       "targetMisconception": "Every event has one cause.",
       "familyId": "linker",
       "mode": "chain",
-      "prompt": "Birmingham, spring 1963. Link each domino to the one it toppled.",
+      "prompt": "Birmingham, Alabama, spring 1963. Link each event to the one it caused.",
       "params": {
         "nodes": [
-          "The SCLC and local activists launch marches against segregation in Birmingham",
-          "Bull Connor turns police dogs and fire hoses on marchers, many of them children",
-          "Television and newspapers carry the images nationwide",
-          "Public opinion shifts and pressure on the White House mounts",
-          "President Kennedy proposes a sweeping civil rights bill in June 1963"
+          "The SCLC, King's group, and local activists march against segregation in Birmingham",
+          "Bull Connor's police turn dogs and fire hoses on marchers, many of them children",
+          "TV and newspapers show the pictures across the country",
+          "Many Americans change their minds, and pressure on the White House grows",
+          "President Kennedy proposes a big civil rights bill, a plan for a new law, in June 1963"
         ],
         "decoys": [
-          "The Voting Rights Act bans literacy tests"
+          "The Voting Rights Act bans literacy tests for voters"
         ]
       },
       "hints": [
-        "Begin with the marches themselves.",
-        "The images only mattered because they were seen.",
-        "The bill was the last domino, not the first."
+        "Everything starts with the marches in Birmingham. Ask what happened to the marchers next.",
+        "The pictures only mattered once people saw them. Find what came after TV and the newspapers.",
+        "The Voting Rights Act card is from 1965, so leave it out. Kennedy's bill is the last link."
       ],
-      "wrongFeedback": "Kennedy's bill didn't come from nowhere: marches provoked violence, cameras carried it, opinion moved, then the bill followed.",
-      "debriefLine": "Birmingham as cause and effect: marches, violence, images, opinion, and only then Kennedy's civil rights bill.",
+      "wrongFeedback": "Kennedy's bill had causes behind it. Trace what people had to see before anyone in Washington acted.",
+      "debriefLine": "In Birmingham, one thing led to the next. Kennedy only proposed his bill after the whole country saw the violence.",
       "sourceRef": {
         "page": 2,
         "quote": "The images shocked the nation, and in June 1963 President Kennedy proposed a sweeping civil rights bill."
@@ -478,28 +478,28 @@
       "targetMisconception": "The march was only about King's speech.",
       "familyId": "linker",
       "mode": "pairs",
-      "prompt": "Who did what at the March on Washington? Link each person to their part.",
+      "prompt": "In August 1963, about 250,000 people came to the March on Washington. Link each person to their part.",
       "params": {
         "pairs": [
           {
             "left": "A. Philip Randolph",
-            "right": "Veteran labor leader who first called for the march",
-            "why": "He had planned a march on Washington as early as 1941."
+            "right": "Longtime labor leader who first called for the march",
+            "why": "He'd planned a march on Washington as far back as 1941."
           },
           {
             "left": "Bayard Rustin",
-            "right": "Chief organizer who ran the logistics",
-            "why": "He coordinated the day's transport, marshals and program."
+            "right": "Main organizer who planned how the day would run",
+            "why": "He worked out how to move and guide the huge crowd."
           },
           {
             "left": "Martin Luther King Jr.",
-            "right": "Gave the closing speech remembered as I Have a Dream",
-            "why": "The final speech at the Lincoln Memorial."
+            "right": "Gave the last speech, known as 'I Have a Dream'",
+            "why": "He spoke last, at the Lincoln Memorial."
           },
           {
             "left": "The 250,000 marchers",
-            "right": "Demanded jobs and freedom, including a federal jobs program",
-            "why": "The march was for Jobs and Freedom."
+            "right": "Asked for jobs and freedom, including a federal jobs program",
+            "why": "Its full name was the March on Washington for Jobs and Freedom."
           }
         ],
         "decoyRights": [
@@ -507,12 +507,12 @@
         ]
       },
       "hints": [
-        "The march had organizers as well as a famous speaker.",
-        "Its full name was the March on Washington for Jobs and Freedom.",
-        "The person who signed the act was a president, not a marcher."
+        "The march's full name was the March on Washington for Jobs and Freedom. One part matches those words.",
+        "Randolph and Rustin were both organizers. One had the idea years earlier, and one ran the day itself.",
+        "Nobody at the march signed the Civil Rights Act into law. A president did that the next year."
       ],
-      "wrongFeedback": "The march was organized by labor and civil rights veterans around economic demands too; King's speech was its close, not its whole.",
-      "debriefLine": "The March on Washington: you linked 4 people to their roles; it was an organized demand for jobs and freedom, not a single speech.",
+      "wrongFeedback": "Labor and civil rights leaders organized this march around jobs too. King's speech closed the day.",
+      "debriefLine": "You matched 4 people to their parts. The march was a planned demand for jobs and freedom, with King's speech at the end.",
       "sourceRef": {
         "page": 3,
         "quote": "On August 28, 1963, about 250,000 people gathered at the Lincoln Memorial for the March on Washington for Jobs and Freedom."
@@ -538,45 +538,45 @@
       "targetMisconception": "The Civil Rights Act of 1964 guaranteed the right to vote.",
       "familyId": "sorter",
       "mode": "bins",
-      "prompt": "Two laws, one pile of provisions. File each one under the act that created it.",
+      "prompt": "These cards come from two different laws. File each one under the law it belongs to.",
       "params": {
         "bins": [
           {
             "id": "cra_1964",
             "label": "Civil Rights Act of 1964",
-            "feature": "attacked segregation and discrimination in public life and jobs"
+            "feature": "fought segregation and unfair treatment in public places and jobs"
           },
           {
             "id": "vra_1965",
             "label": "Voting Rights Act of 1965",
-            "feature": "protected the right to register and vote"
+            "feature": "protected the right to sign up and vote"
           }
         ],
         "items": [
           {
             "text": "Outlawed segregation in restaurants, hotels and theaters",
             "binId": "cra_1964",
-            "why": "Public accommodations were Title II of the 1964 act."
+            "why": "Public places were Title II of the 1964 act."
           },
           {
-            "text": "Banned employment discrimination by race, sex, religion or national origin",
+            "text": "Banned treating workers unfairly because of race, sex, religion or national origin",
             "binId": "cra_1964",
-            "why": "Title VII of the 1964 act."
+            "why": "That's Title VII of the 1964 act."
           },
           {
-            "text": "Banned literacy tests for voter registration",
+            "text": "Banned reading tests that kept people from signing up to vote",
             "binId": "vra_1965",
-            "why": "A core provision of the 1965 act."
+            "why": "Ending these literacy tests was a main part of the 1965 act."
           },
           {
-            "text": "Sent federal registrars to counties that had blocked Black voters",
+            "text": "Sent federal officials to sign up voters where Black voters had been blocked",
             "binId": "vra_1965",
-            "why": "Federal examiners were the 1965 act's enforcement tool."
+            "why": "These officials were how the 1965 act was enforced."
           },
           {
             "text": "Signed by Lyndon Johnson on July 2, 1964",
             "binId": "cra_1964",
-            "why": "The signing date of the Civil Rights Act."
+            "why": "That's the day the Civil Rights Act was signed."
           },
           {
             "text": "Passed after the Selma marches of March 1965",
@@ -586,12 +586,12 @@
         ]
       },
       "hints": [
-        "Ask what each provision is about: public life and jobs, or the ballot.",
-        "Anything about registering or voting belongs to 1965.",
-        "The 1964 act's dates and titles are about accommodations and employment."
+        "Each card is about daily life and jobs, or about voting. That decides where it goes.",
+        "Try the card about restaurants and hotels. It's about public places, so ask which law covered those.",
+        "Two cards only give dates, July 1964 and March 1965. Match each to the year in a law's name."
       ],
-      "wrongFeedback": "The 1964 act targeted segregation and job discrimination; voting protections waited for the 1965 act.",
-      "debriefLine": "The Civil Rights Act of 1964 vs the Voting Rights Act of 1965: you filed 6 provisions by what each law protected.",
+      "wrongFeedback": "The 1964 law fought segregation and unfair hiring. Voting protections came with the 1965 law.",
+      "debriefLine": "You filed 6 cards under the right law. The 1964 act opened public places and jobs, and the 1965 act protected the vote.",
       "sourceRef": {
         "page": 3,
         "quote": "The act outlawed segregation in public accommodations such as restaurants and hotels and banned employment discrimination."
@@ -619,12 +619,12 @@
       "targetMisconception": "Events happened in the order the textbook mentions them.",
       "familyId": "sequencer",
       "mode": "linear",
-      "prompt": "The chapter tells these out of order. Lay the planks by date. One plank belongs to a different story.",
+      "prompt": "The textbook lists these out of order. Set the planks by their dates, and leave out the one from another story.",
       "params": {
         "steps": [
           "President Johnson signs the Civil Rights Act, July 2, 1964",
           "Marchers are attacked on the Edmund Pettus Bridge in Selma, March 7, 1965",
-          "The Selma-to-Montgomery march reaches the Alabama capitol, March 25, 1965",
+          "The march from Selma reaches the state capitol in Montgomery, March 25, 1965",
           "President Johnson signs the Voting Rights Act, August 6, 1965"
         ],
         "decoys": [
@@ -632,12 +632,12 @@
         ]
       },
       "hints": [
-        "Dates decide the order, not the page they appear on.",
-        "The 1964 act came before Selma.",
-        "The voting law was signed in the summer after the march."
+        "Go by the dates on the planks. The page order in the chapter doesn't count.",
+        "Start with the plank from 1964. The rest of this story happened in 1965.",
+        "The December 1956 plank is from the bus boycott, so leave it out. Then sort the two March planks by day."
       ],
-      "wrongFeedback": "Use the dates: the Civil Rights Act (July 1964) came before Bloody Sunday (March 1965), and the Voting Rights Act (August 1965) came after both.",
-      "debriefLine": "Selma and the Voting Rights Act in 4 dated steps: the 1964 act, Bloody Sunday, the march, the 1965 act.",
+      "wrongFeedback": "Use the dates. The Civil Rights Act came in July 1964, and the Voting Rights Act came in August 1965.",
+      "debriefLine": "You set 4 events by date. The attack on the Selma bridge, called Bloody Sunday, came between the two laws.",
       "sourceRef": {
         "page": 3,
         "quote": "On March 7, 1965, state troopers attacked peaceful marchers on the Edmund Pettus Bridge in Selma, a day remembered as Bloody Sunday."
@@ -663,60 +663,60 @@
       "targetMisconception": "Old means primary.",
       "familyId": "sorter",
       "mode": "bins",
-      "prompt": "Documents spill from the file cabinet. File each one as a primary or secondary source about the movement.",
+      "prompt": "A primary source was made at the time by someone who was there. File each document as primary or secondary.",
       "params": {
         "bins": [
           {
             "id": "primary",
             "label": "Primary source",
-            "feature": "created by a participant or witness at the time"
+            "feature": "made at the time by someone who took part or saw it"
           },
           {
             "id": "secondary",
             "label": "Secondary source",
-            "feature": "created later by someone interpreting primary sources"
+            "feature": "made later by someone explaining what happened"
           }
         ],
         "items": [
           {
-            "text": "A 1963 photograph of marchers at the Lincoln Memorial",
+            "text": "A 1963 photo of marchers at the Lincoln Memorial",
             "binId": "primary",
-            "why": "Made at the event by a witness."
+            "why": "A witness took it at the march."
           },
           {
-            "text": "A 1971 textbook chapter on the civil rights movement",
+            "text": "A 1971 textbook chapter about the civil rights movement",
             "binId": "secondary",
-            "why": "Old, but written after the fact by a non-participant."
+            "why": "It's old, but the writer wasn't there. They wrote about it later."
           },
           {
             "text": "The text of the Voting Rights Act of 1965",
             "binId": "primary",
-            "why": "The document itself, from the time."
+            "why": "It's the law itself, from that time."
           },
           {
-            "text": "A 2019 documentary about Selma",
+            "text": "A 2019 documentary film about Selma",
             "binId": "secondary",
-            "why": "Interprets primary sources decades later."
+            "why": "It explains the events decades later."
           },
           {
             "text": "John Lewis's 1965 hospital interview about Bloody Sunday",
             "binId": "primary",
-            "why": "A participant's account from the time."
+            "why": "He was there, and he spoke about it at the time."
           },
           {
-            "text": "A historian's 1988 biography of King",
+            "text": "A historian's 1988 book about King's life",
             "binId": "secondary",
-            "why": "Later interpretation."
+            "why": "Someone who studied the events wrote it later."
           }
         ]
       },
       "hints": [
-        "Ask who made it and when, not how old it is.",
-        "A textbook from 1971 is still someone else's later account.",
-        "Words or images from the people who were there are primary, even if recent."
+        "Look at who made each document and when. How old it is doesn't decide it.",
+        "Test the 2019 film about Selma. Its makers weren't there, so they learned it from older sources.",
+        "The 1963 photo and the 1971 textbook are both old. Only one was made by someone at the march."
       ],
-      "wrongFeedback": "Age doesn't decide it: a 1971 textbook about 1963 is secondary, while a 1963 photograph is primary.",
-      "debriefLine": "Primary vs secondary sources: you filed 6 documents by who created them and when, not by how old they are.",
+      "wrongFeedback": "Age doesn't decide it. A 1971 textbook about 1963 is secondary, and a 1963 photo is primary.",
+      "debriefLine": "You filed 6 documents by who made them and when. That's what makes a source primary or secondary.",
       "sourceRef": {
         "page": 4,
         "quote": "A primary source is created by a participant or witness at the time of the events, such as a letter, a photograph, or a speech."
@@ -744,13 +744,13 @@
       "targetMisconception": "History is a list of unrelated events.",
       "familyId": "linker",
       "mode": "chain",
-      "prompt": "The big board. Connect the dominoes from Birmingham to the Voting Rights Act.",
+      "prompt": "Link the events from Birmingham in 1963 to the Voting Rights Act in 1965. Two cards belong to an earlier story.",
       "params": {
         "nodes": [
-          "Televised violence in Birmingham shocks the nation, May 1963",
+          "TV shows violence in Birmingham, and the country is shocked, May 1963",
           "President Kennedy proposes a civil rights bill, June 1963",
           "President Johnson signs the Civil Rights Act, July 1964",
-          "Bloody Sunday in Selma is broadcast nationwide, March 1965",
+          "TV shows Bloody Sunday in Selma across the country, March 1965",
           "Johnson signs the Voting Rights Act, August 1965"
         ],
         "decoys": [
@@ -759,12 +759,12 @@
         ]
       },
       "hints": [
-        "Start in Birmingham and end with the vote.",
-        "Each law followed a televised crisis.",
-        "1963 → 1964 → 1965: two crises, two laws."
+        "Start with the TV pictures from Birmingham in May 1963. End with the vote in August 1965.",
+        "Each new law came after the country saw violence on TV. Find the crisis before each law.",
+        "Brown in 1954 and Montgomery in 1955 are too early for this chain. Leave them out."
       ],
-      "wrongFeedback": "Each link is a cause and its consequence: a televised crisis produced pressure, and pressure produced a law. Brown and Montgomery matter, but they belong to an earlier chain.",
-      "debriefLine": "Cause and effect in the movement: Birmingham led to Kennedy's bill and the 1964 act; Selma led to the 1965 act.",
+      "wrongFeedback": "Each link is a cause and what it led to. Brown and Montgomery matter, but they're part of an earlier story.",
+      "debriefLine": "Birmingham led to Kennedy's bill and the 1964 act. Then Selma led to the 1965 act.",
       "sourceRef": {
         "page": 4,
         "quote": "Again and again, televised violence against nonviolent protesters turned a local campaign into national legislation."
@@ -804,21 +804,21 @@
       "targetMisconception": "History is a list of unrelated events.",
       "familyId": "investigator",
       "mode": "elimination",
-      "prompt": "The Editor's question: why did the Voting Rights Act pass in 1965 and not before? Pin the clues, eliminate the explanations that don't fit, and name the one that stands.",
+      "prompt": "The Editor asks why the Voting Rights Act passed in 1965, and not sooner. Use the clues to rule out explanations until one is left.",
       "params": {
         "question": "Why did Congress pass the Voting Rights Act in August 1965?",
         "hypotheses": [
           {
             "id": "h_selma",
-            "text": "Televised violence at Selma in March 1965 created national pressure that Johnson turned into a bill within days"
+            "text": "TV showed the violence at Selma in March 1965, and the pressure pushed Johnson to act within days"
           },
           {
             "id": "h_cra_enough",
-            "text": "The Civil Rights Act of 1964 had already fixed voting, so 1965 was only a technical update"
+            "text": "The Civil Rights Act of 1964 had already fixed voting, so the 1965 law was just a small update"
           },
           {
             "id": "h_inevitable",
-            "text": "It was inevitable after Brown in 1954 and needed no further events"
+            "text": "It was bound to happen after Brown in 1954, with or without anything else"
           },
           {
             "id": "h_court",
@@ -827,25 +827,25 @@
         ],
         "clues": [
           {
-            "text": "The 1964 act covered public accommodations and employment; Black registration in Selma's county was still under 2% in early 1965.",
+            "text": "The 1964 act covered public places and jobs. In early 1965, fewer than 2% of Black adults in Selma's county were signed up to vote.",
             "eliminates": [
               "h_cra_enough"
             ]
           },
           {
-            "text": "Johnson introduced the voting bill on March 15, 1965, eight days after Bloody Sunday, telling Congress 'we shall overcome'.",
+            "text": "Johnson asked Congress for the voting bill on March 15, 1965, eight days after Bloody Sunday. He told them, 'We shall overcome.'",
             "eliminates": [
               "h_inevitable"
             ]
           },
           {
-            "text": "No court ruling in 1965 directed Congress to legislate; the bill originated in the White House.",
+            "text": "No court in 1965 told Congress to pass a law. The bill came from the White House.",
             "eliminates": [
               "h_court"
             ]
           },
           {
-            "text": "Between 1957 and 1964 three federal laws touched voting and registration barely moved; the eleven years after Brown produced no voting act.",
+            "text": "From 1957 to 1964, three federal laws touched voting, but sign-ups barely moved. Eleven years after Brown, there was still no voting law.",
             "eliminates": [
               "h_inevitable",
               "h_cra_enough"
@@ -854,12 +854,12 @@
         ]
       },
       "hints": [
-        "Check each explanation against the dated clues.",
-        "What does the 2% registration figure rule out?",
-        "Only one explanation survives every clue."
+        "Start with the clue about the 2% of Black adults signed up to vote in early 1965.",
+        "If under 2% could vote after the 1964 act, that act hadn't fixed voting. Strike that explanation.",
+        "The court clue rules out one more. Then test the explanation about Brown against the March 15, 1965 clue."
       ],
-      "wrongFeedback": "Look at the clue that contradicts your pick: dated primary sources decide which explanation survives.",
-      "debriefLine": "The boss: you eliminated three explanations with dated sources; the Voting Rights Act followed Selma's televised violence, which is how the movement's laws were won.",
+      "wrongFeedback": "One of your clues rules that one out. Find the clue that says it can't be true.",
+      "debriefLine": "You ruled out three explanations with dated clues. The Voting Rights Act came fast after TV showed the violence at Selma.",
       "sourceRef": {
         "page": 3,
         "quote": "The Voting Rights Act of 1965 banned literacy tests and sent federal registrars to counties that had blocked Black voters."
@@ -954,25 +954,25 @@
     "intro": [
       {
         "speakerId": "archivist",
-        "text": "Every vault in here opens for evidence, not for guesses. Read the dates. Follow the causes."
+        "text": "The files run from 1954 to 1965. Walk the years in order and put the true story back."
       }
     ],
     "outro": [
       {
         "speakerId": "editor",
-        "text": "You found the story I sealed: pressure made law, and the evidence proves it."
+        "text": "That's the story. People pushed for years, and that's how the laws passed."
       }
     ],
     "beats": [
       {
         "speakerId": "archivist",
-        "text": "The chapter's order lies. The dates don't.",
+        "text": "This chapter tells things out of order. Go by the dates.",
         "encounterId": "e9_selma",
         "when": "before"
       },
       {
         "speakerId": "editor",
-        "text": "Tell me why 1965. Not what happened. Why.",
+        "text": "Here's my question. Why did the voting law pass in 1965?",
         "encounterId": "e12_boss",
         "when": "before"
       },
@@ -1029,31 +1029,31 @@
         "conceptId": "c_civil_rights_act",
         "prompt": "Which of these was NOT part of the Civil Rights Act of 1964?",
         "choices": [
-          "Banning employment discrimination",
+          "Banning unfair treatment at work",
           "Outlawing segregation in hotels and restaurants",
           "Being signed by Lyndon Johnson",
-          "Banning literacy tests for voting"
+          "Banning literacy tests, the reading tests for voters"
         ],
         "correctIndex": 3
       },
       {
         "conceptId": "c_sources",
-        "prompt": "A 1975 textbook chapter about the 1963 March on Washington is…",
+        "prompt": "What kind of source is a 1975 textbook chapter about the 1963 March on Washington?",
         "choices": [
-          "Neither; textbooks aren't sources",
-          "A secondary source, because it interprets events after the fact",
-          "A primary source, because it is about a real event",
-          "A primary source, because it is old"
+          "Neither, because textbooks aren't sources",
+          "Secondary, because it explains the events later",
+          "Primary, because it's about a real event",
+          "Primary, because it's old"
         ],
         "correctIndex": 1
       },
       {
         "conceptId": "c_selma_vra",
-        "prompt": "What happened first?",
+        "prompt": "Which of these happened first?",
         "choices": [
           "The Civil Rights Act of 1964 was signed",
           "The Voting Rights Act was signed",
-          "The Selma-to-Montgomery march reached the capitol",
+          "The Selma march reached the state capitol",
           "Bloody Sunday in Selma"
         ],
         "correctIndex": 0

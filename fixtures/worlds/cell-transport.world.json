@@ -3,8 +3,8 @@
   "world": {
     "worldVersion": 2,
     "biome": "living_gate",
-    "title": "The Living Gate",
-    "subtitle": "Cell V-7 · a membrane expedition",
+    "title": "Inside a Cell",
+    "subtitle": "Get to the nucleus",
     "cast": {
       "protagonist": {
         "name": "Diver",
@@ -61,8 +61,8 @@
       ]
     },
     "story": {
-      "logline": "The Stillness has frozen every gate in cell V-7. Restart each one by its true rule before the cell's gradients drain away.",
-      "objective": "Restart the gates and wake the nucleus",
+      "logline": "Start at the outer skin of a cell and open each gate as you walk inward to the nucleus.",
+      "objective": "Get to the nucleus",
       "objectiveLabel": "GATES",
       "restoredNoun": "gate",
       "introCutsceneId": "intro",
@@ -107,7 +107,7 @@
     "zones": [
       {
         "id": "zone_a",
-        "name": "Glycocalyx Shore",
+        "name": "Outer Skin",
         "width": 7400,
         "height": 1350,
         "layerSets": [
@@ -242,7 +242,7 @@
       },
       {
         "id": "zone_b",
-        "name": "Tide Basins",
+        "name": "Water Gates",
         "width": 8400,
         "height": 1600,
         "layerSets": [
@@ -330,7 +330,7 @@
       },
       {
         "id": "zone_c",
-        "name": "Pump Hall",
+        "name": "Pump Room",
         "width": 7800,
         "height": 1600,
         "layerSets": [
@@ -424,7 +424,7 @@
       },
       {
         "id": "zone_d",
-        "name": "Cytoplasm",
+        "name": "Inside Path",
         "width": 5600,
         "height": 1500,
         "layerSets": [
@@ -512,7 +512,7 @@
           "depth": "L4_back",
           "label": "Nuclear Pore",
           "sockets": 11,
-          "restoredLine": {"speakerId": "pilot", "text": "The pore's turning! Every conduit you lit is pouring into it.", "mood": "excited"}
+          "restoredLine": {"speakerId": "pilot", "text": "Look, the pore is turning! Every gate you fixed is helping it.", "mood": "excited"}
         },
         "entry": {"x": 300, "surface": "ground"},
         "entryCutsceneId": null,
@@ -569,8 +569,8 @@
         "panel": {
           "layout": "scrub",
           "inputSymbol": null,
-          "verifyLabel": "QUARANTINE · THAW RIDGE",
-          "successBadge": "MIMIC QUARANTINED",
+          "verifyLabel": "CATCH THE MIMIC",
+          "successBadge": "MIMIC CAUGHT",
           "cards": [
             {
               "slot": 0,
@@ -592,39 +592,39 @@
           "approach": [
             {
               "speakerId": "pilot",
-              "text": "The Stillness froze this stretch of membrane solid. Three specimen pods here, and one of them holds a Mimic.",
+              "text": "This bit of membrane froze solid. One of these three pods holds a Mimic, and it's lying.",
               "mood": "worried"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Push the probe into the membrane and watch it. Then quarantine the pod whose claim the membrane disproves."
+            "text": "Push the probe into the membrane, then catch the pod that's lying."
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "Your depth dial drives the needle. My readouts track how polar the membrane is at its tip, and what that costs an ion."
+            "text": "Turn the depth dial to move the needle. My readouts show what the membrane is like at the tip."
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Healthy membrane parts around the needle and closes behind it. Only the frozen ridge stays stiff."
+            "text": "Healthy membrane moves aside for the needle and closes behind it. Only the frozen ridge stays stiff."
           },
           "hints": [
             {
               "speakerId": "pilot",
-              "text": "Forget the textbook diagram. Watch what the heads do while the needle goes in; that's what this ground is made of."
+              "text": "Watch the heads while the needle goes in. See if they bend and flow, or stay stiff."
             },
-            {"speakerId": "pilot", "text": "Lipids with oily tails make a layer that flows around the probe and closes behind it. That's no wall."},
-            {"speakerId": "pilot", "text": "The Mimic's claim: \"The membrane is a rigid wall with fixed holes in it.\""}
+            {"speakerId": "pilot", "text": "The membrane is fat molecules with oily tails. Oil doesn't hold a stiff shape, so it flows around the needle."},
+            {"speakerId": "pilot", "text": "The pod about the oily middle blocking ions is true. Compare the other two."}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "That pod's claim held up against the real membrane. Push again, and watch which claim the heads keep breaking."
+              "text": "That pod's claim was true. Push the needle in again and watch how the heads move."
             },
             "byKey": []
           },
-          "success": {"speakerId": "pilot", "text": "A membrane is not a wall. It's a film that flows, and only proteins give it doors."},
-          "payoffLine": {"speakerId": "pilot", "text": "Mimic quarantined! And look at the ridge. It's melting back into a path.", "mood": "excited"},
+          "success": {"speakerId": "pilot", "text": "Right! The membrane is a thin film that flows. Proteins in it work as doors."},
+          "payoffLine": {"speakerId": "pilot", "text": "Got the Mimic! Look, the stiff ridge is melting into a path.", "mood": "excited"},
           "after": []
         },
         "payoff": {
@@ -698,39 +698,39 @@
         ],
         "panel": {"layout": "board", "inputSymbol": null, "verifyLabel": "ROUTE CARGO", "successBadge": "CARGO ROUTED", "cards": []},
         "dialogue": {
-          "approach": [{"speakerId": "pilot", "text": "Watch the small ones. Small doesn't mean welcome.", "mood": "neutral"}],
+          "approach": [{"speakerId": "pilot", "text": "Molecules are lining up at Gate 2. Careful with the small ones.", "mood": "neutral"}],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Route each molecule: straight through the bilayer on the Oil Road, or through the Crossing Gate's ring.",
+            "text": "Send each molecule down the Oil Road or through the Crossing Gate's ring.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "Pick a molecule, then a lane. It queues where you send it; nothing crosses until the whole cargo is routed.",
+            "text": "Pick a molecule, then pick a lane. Nothing crosses until every molecule has a lane.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "The oily core between the heads is the real border. Size gets a molecule noticed; chemistry gets it through.",
+            "text": "The oily middle of the membrane does the blocking. The heads just sit on top.",
             "mood": "neutral"
           },
           "hints": [
             {
               "speakerId": "pilot",
-              "text": "Size is a clue, not the rule. Pip's water lens is on now: see which molecules drag a shell of water with them.",
+              "text": "Na+ and Cl- are tiny, but size won't pick their lane. Pip's lens shows which ones carry water.",
               "mood": "neutral"
             },
             {
               "speakerId": "pilot",
-              "text": "Check whether each one is polar or charged. The oily core between the heads turns away anything with a charge.",
+              "text": "Check each molecule for a charge, like the + on Na+. The Oil Road pushes charged ones away.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "Na+ is smaller than O2 and still can't cross alone. Charge beats size, every time.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "The steroid is the one people get wrong. Check if it's charged or made from fat.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "The road refused one. Check its charge and polarity before its size, then reroute it.",
+              "text": "One molecule got turned away. Check for a charge before you check its size.",
               "mood": "neutral"
             },
             "byKey": [
@@ -738,7 +738,7 @@
                 "key": "small_passes",
                 "line": {
                   "speakerId": "pilot",
-                  "text": "Size fooled you there. Even the smallest ion on this yard bounces off the oil.",
+                  "text": "Size fooled you there. Even a tiny ion bounces off the oil.",
                   "mood": "neutral"
                 }
               },
@@ -746,7 +746,7 @@
                 "key": "size_rule",
                 "line": {
                   "speakerId": "pilot",
-                  "text": "Size isn't what the heads check. An oily visitor slips through them whatever its size.",
+                  "text": "Size isn't what the oil checks. A molecule made from fat slips through, even a big one.",
                   "mood": "neutral"
                 }
               }
@@ -754,10 +754,10 @@
           },
           "success": {
             "speakerId": "pilot",
-            "text": "Oil lets the oily through. Charged and polar visitors need a protein door, however small they are.",
+            "text": "Oily molecules slip through the oil. Charged and polar ones need a protein door, even tiny ones.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "pilot", "text": "Every molecule took the right road! The Crossing Gate is spinning up.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "pilot", "text": "Every molecule took the right lane. The Crossing Gate is spinning up!", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -822,8 +822,8 @@
         "panel": {
           "layout": "scrub",
           "inputSymbol": null,
-          "verifyLabel": "QUARANTINE · LEVEL LOCK",
-          "successBadge": "MIMIC QUARANTINED",
+          "verifyLabel": "CATCH THE MIMIC",
+          "successBadge": "MIMIC CAUGHT",
           "cards": [
             {
               "slot": 0,
@@ -852,54 +852,54 @@
           "approach": [
             {
               "speakerId": "pilot",
-              "text": "The Balance Lock only opens when both sides of this tank are even. Right now the dye is piled on the left.",
+              "text": "The Balance Lock opens when both sides of this tank are even. Right now the dye is piled up on the left.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Set the dye load and watch the tank. Then quarantine the pod whose story about the dye is a lie.",
+            "text": "Set the dye load and watch the tank, then catch the pod that's lying.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "The dye dial refills the left chamber. On my top readout the white dot is the left side now, the green dot the right.",
+            "text": "The dye dial refills the left side. On my top readout, white is the left side and green is the right.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Watch the ringed tracer. It wanders, doubles back, and never once checks where the crowd is.",
+            "text": "See the tracer with the white ring? It wanders and doubles back all the time.",
             "mood": "neutral"
           },
           "hints": [
             {
               "speakerId": "pilot",
-              "text": "Follow the tracer, the one with the white ring. Watch whether it ever seems to know where the crowd is.",
+              "text": "Follow the tracer with the white ring. Does it ever seem to know where the empty side is?",
               "mood": "neutral"
             },
             {
               "speakerId": "pilot",
-              "text": "Each particle wanders at random. More start on the crowded side, so more happen to cross from there.",
+              "text": "Each particle moves at random. More start on the crowded side, so more happen to cross from there.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "The Mimic's claim: \"The dye particles head for the empty side on purpose.\"", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "The pod about particles bumping at random is true. Compare the other two.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "That pod's story matched the tank. Watch the tracer's trail for a while before you choose again.",
+              "text": "That pod's story matched the tank. Watch the tracer's path for a bit, then try again.",
               "mood": "neutral"
             },
             "byKey": []
           },
           "success": {
             "speakerId": "pilot",
-            "text": "No particle has a plan. Diffusion is just what a crowd of random steps adds up to.",
+            "text": "Yes! The particles just move at random. That random spreading is called diffusion.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "pilot",
-            "text": "Mimic quarantined. The tank's evening out, and the Balance Lock is levelling off.",
+            "text": "Mimic caught! The tank is evening out, and the Balance Lock is opening.",
             "mood": "neutral"
           },
           "after": []
@@ -966,8 +966,8 @@
         "panel": {
           "layout": "scrub",
           "inputSymbol": null,
-          "verifyLabel": "QUARANTINE · FLOOD LOCK",
-          "successBadge": "MIMIC QUARANTINED",
+          "verifyLabel": "CATCH THE MIMIC",
+          "successBadge": "MIMIC CAUGHT",
           "cards": [
             {
               "slot": 0,
@@ -996,54 +996,54 @@
           "approach": [
             {
               "speakerId": "pilot",
-              "text": "A test cell in a salt bath, and a raft stuck in a dry lock. It won't float until something crosses that window.",
+              "text": "There's a test cell in a salt bath, and our raft is stuck in a dry lock. It won't float until something crosses.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Salt the bath and watch the test cell. Then quarantine the pod whose story about what moves doesn't hold.",
+            "text": "Add salt to the bath and watch the test cell, then catch the pod that's lying.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "The salt dial sets the bath. Below two percent the pods go quiet: their claims are about a salty bath.",
+            "text": "The salt dial sets the bath. Below 2% the pods go quiet, because their claims are about a salty bath.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Those salt cubes have been bouncing off the cell all morning. The membrane is fussy about what it lets in.",
+            "text": "Those salt cubes keep bouncing off the cell. The membrane is picky about what it lets in.",
             "mood": "neutral"
           },
           "hints": [
             {
               "speakerId": "pilot",
-              "text": "Two things could cross: the water or the dissolved salt. Only one of them gets through a bilayer.",
+              "text": "Two things could cross, the water or the salt. Only one of them gets through the membrane.",
               "mood": "neutral"
             },
             {
               "speakerId": "pilot",
-              "text": "Osmosis is water moving toward the side with more solute. Watch where the blue droplets go.",
+              "text": "Water moves toward the side with more salt. Watch where the blue droplets go.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "The Mimic's claim: \"Salt rushes into the cell until both sides match.\"", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "The pod about the cell shrinking is true. Compare the other two.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "That pod was honest. Crank the salt up and down, and watch what the white salt cubes actually do.",
+              "text": "That pod was honest. Turn the salt up and down, and watch what the white salt cubes do.",
               "mood": "neutral"
             },
             "byKey": []
           },
           "success": {
             "speakerId": "pilot",
-            "text": "Salt stays where it is. Water goes where the solute is, and it'll lift a raft to get there.",
+            "text": "Yes! The salt stays put and the water moves toward it. That's called osmosis.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "pilot",
-            "text": "Quarantined! Now I'm salting the raft lock. Water will follow the salt in and float you up. Step aboard!",
+            "text": "Caught it! Now I'm salting the raft lock, so water will flow in and float you up.",
             "mood": "neutral"
           },
           "after": []
@@ -1115,43 +1115,43 @@
           "approach": [
             {
               "speakerId": "poro",
-              "text": "Mm. Visitors. I am Poro. Water passes through my waist in single file, and nothing else. Now, the sluices.",
+              "text": "Mm, visitors. I'm Poro, and I only let water through.",
               "mood": "neutral"
             },
             {
               "speakerId": "pilot",
-              "text": "Cells are drifting down the sluice canal. Each lock needs a label before its cell passes. Quick hands, Diver.",
+              "text": "Cells are drifting down the canal. Each lock needs a label before its cell floats past.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Label each lock's bath before its cell drifts past: hypotonic, isotonic, or hypertonic.",
+            "text": "Label each lock's bath before its cell drifts past.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "Each cell gives you eight seconds at the Label Lock. One that drifts past unlabelled spins into the Eddy and counts as a miss.",
+            "text": "You get eight seconds per cell at the Label Lock. A cell that floats past with no label counts as a miss.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Poro's basins have sorted cells for a billion years. Swell, shrink, or hold steady: the bath decides which.",
+            "text": "The dots show how much salt is dissolved, both in the bath and in the cell.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "pilot", "text": "The label describes the bath around the cell, not the cell itself.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Each label is about the bath around the cell. Compare the dots outside with the dots inside.", "mood": "neutral"},
             {
               "speakerId": "pilot",
-              "text": "Hyper means more solute outside, so water leaves. Hypo means less solute outside, so water comes in.",
+              "text": "Hyper means more dots outside, so water leaves. Hypo means fewer, so water comes in.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "A swelling cell means water came in, so its bath had less solute than the cell.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "The cell in pure water is the one people mix up. Pure water has almost no dots.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "One lock's label doesn't fit its bath. Compare the dots inside that cell with the dots around it.",
+              "text": "One label doesn't fit its bath. Compare the dots inside that cell with the dots around it.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1159,7 +1159,7 @@
                 "key": "hyper_more_water",
                 "line": {
                   "speakerId": "pilot",
-                  "text": "Hyper means more solute, not more water. A bath that's nearly all water is the one with the fewest dots.",
+                  "text": "Hyper means more stuff dissolved, so less water. A bath of nearly pure water has the fewest dots.",
                   "mood": "neutral"
                 }
               }
@@ -1167,18 +1167,18 @@
           },
           "success": {
             "speakerId": "pilot",
-            "text": "Tonicity always compares the bath with the cell. Hyper outside, water leaves. Hypo outside, water arrives.",
+            "text": "Right! Tonicity compares the bath with the cell, and that tells you which way water goes.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "pilot",
-            "text": "The sluice is draining! Steps are coming up out of the water, and that's our way up.",
+            "text": "The canal is draining! Steps are coming up out of the water. That's our way up.",
             "mood": "neutral"
           },
           "after": [
             {
               "speakerId": "poro",
-              "text": "Mm. Well sorted. The water will remember you. Take my ledger; it is heavy with droplets.",
+              "text": "Well sorted. Here, take my notebook. It's a bit damp.",
               "mood": "neutral"
             }
           ]
@@ -1256,38 +1256,38 @@
           "approach": [
             {
               "speakerId": "pilot",
-              "text": "The Pump Hall doors. More cargo waiting, and two gates: the Glide Gate, and the Pump Gate that burns ATP.",
+              "text": "Two gates guard the pump room. The Pump Gate burns ATP, the cell's energy fuel.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Route each cargo: passive, down its slope for free, or active, uphill through the pump at a cost.",
+            "text": "Send each cargo to the Glide Gate if it moves for free, or the Pump Gate if it costs ATP.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "Each cargo floats over its own ramp; the dense end is the crowded side. My ATP readout shows what the Pump Gate would spend.",
+            "text": "Each cargo floats over its own ramp. The thick end of the ramp is the crowded side.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Plenty of proteins in this yard, and most of them never touch a spark of ATP.",
+            "text": "There are lots of proteins here, and most of them never use any ATP.",
             "mood": "neutral"
           },
           "hints": [
             {
               "speakerId": "pilot",
-              "text": "Ignore whether a protein is involved. Look at the slope under each cargo, and which way it has to go.",
+              "text": "Look at the glucose. It rides a carrier protein, but check the slope under it.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "Downhill is always passive, protein or not. A carrier is a door, not an engine.", "mood": "neutral"},
-            {"speakerId": "pilot", "text": "Only the cargo heading toward the more crowded side costs ATP.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "Check if each cargo rolls down its slope or gets pushed up. Only pushing up costs ATP.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Water through its channel often lands at the wrong gate. Ask if anything has to push it.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "One cargo went to a gate that won't take it. Check its slope: rolling down on its own, or being pushed up.",
+              "text": "One cargo went to the wrong gate. Check if it rolls down its slope or gets pushed up.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1295,7 +1295,7 @@
                 "key": "protein_costs_atp",
                 "line": {
                   "speakerId": "pilot",
-                  "text": "A protein on the route doesn't mean a fuel bill. Downhill cargo rides a door for free.",
+                  "text": "Using a protein doesn't mean paying energy. Cargo going downhill rides through for free.",
                   "mood": "neutral"
                 }
               }
@@ -1303,10 +1303,10 @@
           },
           "success": {
             "speakerId": "pilot",
-            "text": "A protein can open a door without paying a thing. Energy is only spent when the cargo climbs.",
+            "text": "That's it. A protein can help for free, and energy only gets spent going uphill.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "pilot", "text": "Threshold open! The Carrier Door is turning. Everybody into the pocket!", "mood": "neutral"},
+          "payoffLine": {"speakerId": "pilot", "text": "The gate's open and the Carrier Door is turning. Everybody in!", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -1371,8 +1371,8 @@
         "panel": {
           "layout": "scrub",
           "inputSymbol": null,
-          "verifyLabel": "QUARANTINE · LIGHT HALL",
-          "successBadge": "MIMIC QUARANTINED",
+          "verifyLabel": "CATCH THE MIMIC",
+          "successBadge": "MIMIC CAUGHT",
           "cards": [
             {
               "slot": 0,
@@ -1401,54 +1401,54 @@
           "approach": [
             {
               "speakerId": "pilot",
-              "text": "Two tanks, one high and one low, and a pump between them. Three pods argue about what that pump does.",
+              "text": "Two tanks, one high and one low, with a pump between them. Three pods argue about what the pump does.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Feed the pump ATP and watch the tanks. Then quarantine the pod that has pumps backwards.",
+            "text": "Feed the pump some ATP and watch the tanks, then catch the pod that's lying.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "The ATP dial feeds the pump. On my readouts white is the high tank, green the low one, and gold is what you're spending.",
+            "text": "The ATP dial feeds the pump. On my readouts, white is the high tank and green is the low one.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "At zero feed the gap between those tanks bleeds away down the leak trough. That's the Stillness in miniature.",
+            "text": "With no ATP, the gap between the tanks drains away. That's why this cell is shutting down.",
             "mood": "neutral"
           },
           "hints": [
             {
               "speakerId": "pilot",
-              "text": "A cell spends ATP on moving things for a reason. Try the feed at zero and watch the tanks.",
+              "text": "Look at the pod about ATP. Set the feed to zero and ask why a cell would pay to move things.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "If everything only ran downhill, nobody would ever need to pay for it.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Things drift from the high tank to the low one for free. Paying ATP only makes sense the other way.", "mood": "neutral"},
             {
               "speakerId": "pilot",
-              "text": "The Mimic's claim: \"Transport always runs down the gradient, so pumps just speed it up.\"",
+              "text": "The pod about ATP is true. Compare the other two.",
               "mood": "neutral"
             }
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "That pod told the truth. Take the feed to zero, then up again, and watch which way the gap between the tanks goes.",
+              "text": "That pod told the truth. Turn the feed to zero, then back up, and watch the gap between the tanks.",
               "mood": "neutral"
             },
             "byKey": []
           },
           "success": {
             "speakerId": "pilot",
-            "text": "A pump is a climber. It carries cargo uphill, from low to high, and ATP pays for every step.",
+            "text": "Right! A pump pushes things uphill, from low to high, and ATP pays for every push.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "pilot",
-            "text": "Quarantined, and the lanterns are catching! The gantry has power. Up you go.",
+            "text": "That's the Mimic! The lanterns are on and the lift has power.",
             "mood": "neutral"
           },
           "after": []
@@ -1534,38 +1534,38 @@
           "approach": [
             {
               "speakerId": "pilot",
-              "text": "There it is: the sodium-potassium pump. Biggest machine on this membrane, and someone pulled its cables.",
+              "text": "There it is, the sodium-potassium pump. It's the biggest machine on this membrane, and someone pulled its cables.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Rewire the pump: link each socket to its value cartridge. Step the stage dial to test a cycle.",
+            "text": "Rewire the pump by plugging each socket into the right cartridge.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "Each cartridge loads exactly what its label says. Step the stage dial and the drum runs a cycle on what you loaded.",
+            "text": "Each cartridge loads what its label says. Turn the stage dial to run one cycle and test it.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Every beat of a nerve starts with this machine. The charge ledger shows what one cycle leaves behind.",
+            "text": "Every nerve signal starts with this pump. The charge readout shows what one cycle leaves behind.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "pilot", "text": "The counts aren't equal. That lopsidedness is the whole point of this machine.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Look at the counts for sodium and potassium. They aren't the same number.", "mood": "neutral"},
             {
               "speakerId": "pilot",
-              "text": "More positive charge leaves than comes in each cycle. Count which ion leaves, and how many.",
+              "text": "Sodium goes out and potassium comes in. More ions leave than come in each cycle.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "Three sodium out, two potassium in, one ATP.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "One of the 'out' cartridges is a trap. Only sodium leaves, and the counts aren't equal.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "The pump jammed at one stage. Find the socket whose cable won't hold and rethink that link.",
+              "text": "The pump jammed partway. Find the socket with the wrong cartridge and try another one.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1573,7 +1573,7 @@
                 "key": "equal_counts",
                 "line": {
                   "speakerId": "pilot",
-                  "text": "Two out and two in moves no charge at all. The ledger needle never leaned; a balanced pump builds nothing.",
+                  "text": "Two out and two in doesn't move any charge. The charge needle didn't budge.",
                   "mood": "neutral"
                 }
               }
@@ -1581,12 +1581,12 @@
           },
           "success": {
             "speakerId": "pilot",
-            "text": "Three out and two in leaves the inside a little negative. That lopsided pump is why nerves can fire.",
+            "text": "Right! Three out and two in leaves the inside a bit negative. That's what lets nerves fire.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "pilot",
-            "text": "It's cycling! Three out, two in, one spark of ATP, again and again. The Hall Gate is lifting.",
+            "text": "It's running, over and over! The Hall Gate is lifting.",
             "mood": "neutral"
           },
           "after": []
@@ -1649,32 +1649,32 @@
         },
         "dialogue": {
           "approach": [
-            {"speakerId": "pilot", "text": "Four cells coming down the Return Sluice, and our barge is sitting on the mud.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "Four cells are coming down the canal, and our barge is stuck in the mud.", "mood": "neutral"}
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "For each lock, set the water flow before the cell drifts past: in, out, or no net movement.",
+            "text": "Set each lock's valve to the way water moves before its cell drifts past.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "Same Label Lock, new valves. Hover one and ghost arrows show the flow it claims. Eight seconds per cell.",
+            "text": "Hover over a valve to see arrows for its flow. You get eight seconds per cell.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Solute dots never leave their side of a membrane. Only the water gets to travel.",
+            "text": "The salt dots never leave their side of the membrane. Only the water moves.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "pilot", "text": "Compare the solute dots inside and outside each cell.", "mood": "neutral"},
-            {"speakerId": "pilot", "text": "Water goes toward the side with more solute.", "mood": "neutral"},
-            {"speakerId": "pilot", "text": "Equal solute on both sides means no net movement at all.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "Compare the dots inside each cell with the dots in the water around it.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Water moves toward the side with more dots. The dots themselves stay put.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "The potato is easy to get wrong. Its syrup is packed with far more sugar than the potato.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "One flow call was off. The salt doesn't move, so ask which side the water is heading toward.",
+              "text": "One flow was wrong. The salt stays put, so check which side the water heads to.",
               "mood": "neutral"
             },
             "byKey": [
@@ -1682,7 +1682,7 @@
                 "key": "salt_moves",
                 "line": {
                   "speakerId": "pilot",
-                  "text": "Salt never makes the trip across. Watch the dots stay put, and let the water do the travelling.",
+                  "text": "The salt never crosses. Watch the dots stay put, and follow the water instead.",
                   "mood": "neutral"
                 }
               }
@@ -1690,12 +1690,12 @@
           },
           "success": {
             "speakerId": "pilot",
-            "text": "You never have to watch the salt. Find where the solute is crowded, and the water's already on its way.",
+            "text": "Nice. Find the side with more dots, and that's where the water goes.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "pilot",
-            "text": "Every call right. The locks are filling, and the barge is rising to the Endocytosis Pit.",
+            "text": "All correct! The locks are filling, and the barge is rising.",
             "mood": "neutral"
           },
           "after": []
@@ -1787,43 +1787,43 @@
           "approach": [
             {
               "speakerId": "pilot",
-              "text": "No channel in this cell is big enough for the Halcyon. So the membrane is going to swallow us. On purpose.",
+              "text": "No gate in this cell is big enough for our sub. So the membrane is going to swallow us, on purpose.",
               "mood": "neutral"
             }
           ],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Set the four stage plates in the order that brings us into the cell. One plate doesn't belong.",
+            "text": "Put the stage plates in the order that gets us into the cell. One plate doesn't belong.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "The playback dial runs the membrane through your plates, slot by slot. Scrub it and watch the pit try each step.",
+            "text": "The playback dial runs the membrane through your plates, one slot at a time. Turn it to watch each step.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Nothing this big fits through a protein. The membrane will have to do the carrying itself, and that costs ATP.",
+            "text": "Nothing this big fits through a protein. The membrane has to carry it, and that costs ATP.",
             "mood": "neutral"
           },
           "hints": [
-            {"speakerId": "pilot", "text": "Something too big for any protein channel has to be wrapped up.", "mood": "neutral"},
-            {"speakerId": "pilot", "text": "The membrane does the wrapping first, then closes the pocket.", "mood": "neutral"},
-            {"speakerId": "pilot", "text": "Start at the moment of contact and end with the vesicle moving.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "Start with our sub outside the cell. Nothing can happen until it touches the membrane.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "The membrane has to wrap around us before it can close the pocket.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Once the pocket pinches off, we're inside a bubble. What happens to that bubble last?", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "The Lift stalled partway. Scrub through your plates and find the step that can't happen yet.",
+              "text": "The lift got stuck partway. Play back your plates and find the step that can't happen yet.",
               "mood": "neutral"
             },
             "byKey": [
-              {"key": "order", "line": {"speakerId": "ferryman", "text": "Hold. The membrane cannot do that yet.", "mood": "neutral"}},
+              {"key": "order", "line": {"speakerId": "ferryman", "text": "Hold. The membrane can't do that yet.", "mood": "neutral"}},
               {
                 "key": "decoy",
                 "line": {
                   "speakerId": "ferryman",
-                  "text": "Nothing this size dissolves through us. The membrane must carry it, and carrying costs.",
+                  "text": "Nothing this big dissolves through us. The membrane has to carry it.",
                   "mood": "neutral"
                 }
               }
@@ -1831,12 +1831,12 @@
           },
           "success": {
             "speakerId": "pilot",
-            "text": "Big cargo can't pass through a door, so the membrane becomes the door. Folding and pinching both cost ATP.",
+            "text": "We were too big for a protein, so the membrane wrapped us up. That's called endocytosis.",
             "mood": "neutral"
           },
           "payoffLine": {
             "speakerId": "pilot",
-            "text": "We're folding in... pinching off... and we're in! Welcome to the cytoplasm, Diver.",
+            "text": "We're folding in... pinching off... and we're in! Welcome inside the cell, Diver.",
             "mood": "neutral"
           },
           "after": []
@@ -1921,42 +1921,42 @@
           "approach": [],
           "instruction": {
             "speakerId": "pilot",
-            "text": "Sort every cargo into a maw: simple diffusion, facilitated diffusion, or active transport.",
+            "text": "Feed each cargo to the maw that matches how it crosses the membrane.",
             "mood": "neutral"
           },
           "tutorial": {
             "speakerId": "pilot",
-            "text": "Cargo comes in three batches. Each maw opens as you pick it, and my ATP readout shows the Pump Maw's bill.",
+            "text": "Cargo comes in three batches. My ATP readout shows what the Pump Maw costs.",
             "mood": "neutral"
           },
           "insight": {
             "speakerId": "pilot",
-            "text": "Every crossing in this cell comes down to two things: which way the cargo is headed, and whether it dissolves in oil.",
+            "text": "Every crossing comes down to two things. Which way is it going, and can it pass through oil?",
             "mood": "neutral"
           },
           "hints": [
             {
               "speakerId": "pilot",
-              "text": "Check two things per cargo: which way it's headed on its gradient, and whether it can dissolve through lipid alone.",
+              "text": "Check the slope under each cargo first. It shows which way that one is moving.",
               "mood": "neutral"
             },
-            {"speakerId": "pilot", "text": "Uphill is always active. Downhill with a protein is facilitated.", "mood": "neutral"},
-            {"speakerId": "pilot", "text": "Only small nonpolar molecules cross alone.", "mood": "neutral"}
+            {"speakerId": "pilot", "text": "Anything pushed uphill goes to the Pump Maw. If it's downhill, ask if it can slip through oil.", "mood": "neutral"},
+            {"speakerId": "pilot", "text": "Water is the tricky one. Check if it goes through a protein.", "mood": "neutral"}
           ],
           "fail": {
             "default": {
               "speakerId": "pilot",
-              "text": "One came back up. Take it from the top: the way it's headed first, then whether oil lets it through.",
+              "text": "One came back. Check which way it's going first, then whether oil lets it through.",
               "mood": "neutral"
             },
             "byKey": []
           },
           "success": {
             "speakerId": "pilot",
-            "text": "Oil for the small and nonpolar, a protein door for the rest, and ATP only for the climb. That's every crossing.",
+            "text": "Oil lets small nonpolar things through. Proteins help the rest, and only uphill trips cost ATP.",
             "mood": "neutral"
           },
-          "payoffLine": {"speakerId": "gatekeeper", "text": "Sorted true. Pass, molecule-wise crew.", "mood": "neutral"},
+          "payoffLine": {"speakerId": "gatekeeper", "text": "Hrrm. All sorted right. You may pass.", "mood": "neutral"},
           "after": []
         },
         "payoff": {
@@ -1979,38 +1979,38 @@
             {
               "id": "p1",
               "itemKeys": ["i0", "i1"],
-              "line": {"speakerId": "gatekeeper", "text": "Hrrm. Two cargo to start. Show me you can tell a slope from a shove."}
+              "line": {"speakerId": "gatekeeper", "text": "Two cargo first. Show me which roll and which get pushed."}
             },
             {
               "id": "p2",
               "itemKeys": ["i2", "i3"],
-              "line": {"speakerId": "gatekeeper", "text": "Two more. My pump maw is hungry, and it hates waste."}
+              "line": {"speakerId": "gatekeeper", "text": "Two more. My Pump Maw is hungry, and it hates waste."}
             },
             {
               "id": "p3",
               "itemKeys": ["i4", "i5", "i6"],
-              "line": {"speakerId": "gatekeeper", "text": "The last three. A billion years of pumping rides on these.", "mood": "solemn"}
+              "line": {"speakerId": "gatekeeper", "text": "The last three. Get these right and the vault opens.", "mood": "solemn"}
             }
           ],
           "taunts": {
             "approach": [],
             "fail": [
-              {"speakerId": "gatekeeper", "text": "Hrrm. That one came back up. Direction first. Then ask whether it can pass through oil."},
-              {"speakerId": "gatekeeper", "text": "Hrrm. My maws do not argue. They spit. Look at the slope under what I spat."}
+              {"speakerId": "gatekeeper", "text": "Hrrm. That one came back. Check which way it's going."},
+              {"speakerId": "gatekeeper", "text": "My maws don't argue, they spit. Check the slope under that one."}
             ],
             "byKey": [
               {
                 "key": "protein_costs_atp",
-                "line": {"speakerId": "gatekeeper", "text": "A door is not an engine. My pump maw will not pay for a downhill trip."}
+                "line": {"speakerId": "gatekeeper", "text": "A door costs nothing. My Pump Maw won't pay for downhill trips."}
               },
               {
                 "key": "always_downhill",
                 "line": {
                   "speakerId": "gatekeeper",
-                  "text": "Downhill only, you think. Then nothing would ever climb, and my pump maw has climbed for a billion years."
+                  "text": "Only downhill? Then how does my Pump Maw climb all day?"
                 }
               },
-              {"key": "small_passes", "line": {"speakerId": "gatekeeper", "text": "Small is not welcome. Charge sinks in my oil maw like a stone."}}
+              {"key": "small_passes", "line": {"speakerId": "gatekeeper", "text": "Small won't get you in. Charged things sink in my oil."}}
             ]
           },
           "music": "boss"
@@ -2047,8 +2047,8 @@
         "surface": "root_ledge",
         "asset": "living_gate.prop.plaque_post",
         "kind": "plaque",
-        "title": "The Two Faces",
-        "text": "Each lipid has a head that loves water and two tails that flee it. Tails hide inside; heads face out.",
+        "title": "Heads and Tails",
+        "text": "Each fat molecule has a head that likes water and two tails that don't. The tails hide inside, and the heads face out.",
         "sourceRef": null,
         "requires": null
       },
@@ -2060,7 +2060,7 @@
         "asset": "living_gate.prop.plaque_post",
         "kind": "plaque",
         "title": "Why Oil Says No",
-        "text": "A charge wants water around it. The bilayer's oily core has none, so ions are turned away.",
+        "text": "Charged things like to have water around them. The membrane's oily middle has none, so ions get turned away.",
         "sourceRef": null,
         "requires": null
       }
@@ -2074,13 +2074,13 @@
           {"do": "camera", "x": 700, "y": 1250, "zoom": 1.3, "ms": 0},
           {"do": "fade", "to": "clear", "ms": 900},
           {"do": "camera", "x": 700, "y": 540, "zoom": 1, "ms": 2200, "ease": "in_out_sine"},
-          {"do": "title", "text": "THE LIVING GATE", "sub": "Cell V-7 · the outer membrane", "ms": 2400},
+          {"do": "title", "text": "Inside a Cell", "sub": "Get to the nucleus", "ms": 2400},
           {
             "do": "say",
             "lines": [
               {
                 "speakerId": "narrator",
-                "text": "Cell V-7, deep in living tissue. Its gates have gone still, and its gradients are draining away.",
+                "text": "You are on the outside of a living cell. Its gates have stopped, and the cell is running down.",
                 "mood": "solemn"
               }
             ]
@@ -2094,13 +2094,13 @@
             "lines": [
               {
                 "speakerId": "pilot",
-                "text": "Hull's holding at seven nanometres, all hands dry. Welcome to the outside of a living cell, Diver.",
+                "text": "The hull is holding and everyone's dry. Welcome to the outside of a living cell, Diver.",
                 "mood": "excited"
               },
-              {"speakerId": "pilot", "text": "Shrink complete. That wall ahead is the membrane. Nothing gets through it without a reason."},
+              {"speakerId": "pilot", "text": "We've shrunk! That shiny film ahead is the membrane, the cell's thin skin."},
               {
                 "speakerId": "pilot",
-                "text": "Bad news first: the Stillness hit this cell. Pumps stopped, gates locked, gradients flattening out.",
+                "text": "Bad news. The pumps and gates have stopped, so we can't get inside yet.",
                 "mood": "worried"
               }
             ]
@@ -2111,25 +2111,25 @@
             "lines": [
               {
                 "speakerId": "pilot",
-                "text": "When inside matches outside, a cell goes quiet for good. Equilibrium sounds calm. For a cell, it's the end.",
+                "text": "A cell needs its inside to be different from its outside. If they end up the same, the cell stops working.",
                 "mood": "solemn"
               },
               {
                 "speakerId": "pilot",
-                "text": "Good news: every gate here is a machine, and machines restart. Set each one to its true rule and it runs.",
+                "text": "Good news. Every gate here is a machine, and machines can be restarted.",
                 "mood": "excited"
               },
-              {"speakerId": "pilot", "text": "What crosses, how, and at what cost. Get those right at every gate and we reach the nucleus."}
+              {"speakerId": "pilot", "text": "Get every gate running again and we'll reach the nucleus. That's the cell's control center."}
             ]
           },
           {"do": "pan", "x": 700, "y": null, "zoom": 1, "ms": 1600},
           {
             "do": "say",
             "lines": [
-              {"speakerId": "pilot", "text": "I'll hold the Halcyon's helm. Pip goes with you. Pip, say hello. ...Pip says hello.", "mood": "wry"},
+              {"speakerId": "pilot", "text": "Pip goes with you, and I'll stay with the sub. ...Pip says hello.", "mood": "wry"},
               {
                 "speakerId": "pilot",
-                "text": "Gradient Meter reads twelve percent. Let's make it a hundred. Pip will blink at anything worth a closer look."
+                "text": "The Gradient Meter reads twelve percent. Pip will blink at anything worth a closer look."
               }
             ]
           },
@@ -2159,7 +2159,7 @@
             "ms": 900,
             "path": [[7880, 1213], [7960, 1213]]
           },
-          {"do": "title", "text": "THE PUMP HALL", "sub": null, "ms": 1600}
+          {"do": "title", "text": "Pump Room", "sub": "Deeper in", "ms": 1600}
         ]
       },
       {
@@ -2210,7 +2210,7 @@
           },
           {"do": "fade", "to": "white", "ms": 200},
           {"do": "fade", "to": "clear", "ms": 300},
-          {"do": "title", "text": "THE VAULT ROAD", "sub": "inside cell V-7", "ms": 1600}
+          {"do": "title", "text": "Inside Path", "sub": "Almost at the nucleus", "ms": 1600}
         ]
       },
       {
@@ -2227,7 +2227,7 @@
               {"speakerId": "gatekeeper", "text": "I have pumped for a billion years. Show me you know what costs energy.", "mood": "solemn"},
               {
                 "speakerId": "gatekeeper",
-                "text": "Three maws. Oil, Channel, Pump. Feed each cargo to the right one. Waste my ATP and the vault stays shut."
+                "text": "Feed each cargo to the right maw. Waste my ATP and the vault stays shut."
               }
             ]
           },
@@ -2240,7 +2240,7 @@
         "steps": [
           {
             "do": "say",
-            "lines": [{"speakerId": "gatekeeper", "text": "The pore turns. Go. And tell the nucleus the pumps are running again.", "mood": "solemn"}]
+            "lines": [{"speakerId": "gatekeeper", "text": "The pore is turning. Go, and tell the nucleus the pumps are running again.", "mood": "solemn"}]
           },
           {"do": "hub", "zoneId": "zone_d", "state": "restored"},
           {"do": "sfx", "cue": "pore_open"},
@@ -2251,18 +2251,18 @@
             "lines": [
               {
                 "speakerId": "pilot",
-                "text": "The nucleus! You got the whole crew through by knowing what crosses, how, and at what cost.",
+                "text": "We made it to the nucleus! You knew what could cross each gate, and how.",
                 "mood": "excited"
               },
               {
                 "speakerId": "pilot",
-                "text": "Gradient Meter: one hundred percent. Inside and outside are different again. That difference is what alive means."
+                "text": "The Gradient Meter is at a hundred percent. Inside and outside are different again, so the cell can live."
               },
               {
                 "speakerId": "pilot",
-                "text": "Oxygen through the oil, glucose on a carrier, water through Poro, sodium uphill for ATP. You rebuilt a cell's rules."
+                "text": "Oxygen slips through the oil, and glucose rides a carrier. Sodium gets pumped uphill with ATP."
               },
-              {"speakerId": "pilot", "text": "Bring Pip home, Diver. And, er... the cell next door is looking a little still, too.", "mood": "wry"}
+              {"speakerId": "pilot", "text": "Bring Pip home, Diver. And, um... the cell next door looks a little still, too.", "mood": "wry"}
             ]
           },
           {"do": "fade", "to": "white", "ms": 1200},
