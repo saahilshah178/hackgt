@@ -3,10 +3,11 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { Id } from "../../../contracts/common";
 import { allSkins } from "../../../world/library";
-import { CUE_MAP, RECIPES, RECIPE_IDS, cueDurationMs, cueFor, isLoopCue, repeatOffsets } from "./cues";
+import { CUE_MAP, RECIPES, RECIPE_IDS, cueDurationMs, cueFor, isLoopCue, repeatOffsets, type RecipeId } from "./cues";
 
 const ROOT = path.resolve(import.meta.dirname, "../../../..");
-const doc = (name: string) => readFileSync(path.join(ROOT, "docs/design", name), "utf8");
+// normalised to LF: on a CRLF checkout (Windows autocrlf) the blank line that ends a table is "\r\n\r\n"
+const doc = (name: string) => readFileSync(path.join(ROOT, "docs/design", name), "utf8").replace(/\r\n/g, "\n");
 
 /** Every backticked id in the FIRST column of the first table under `heading` (until the next heading). */
 function firstColumnIds(markdown: string, heading: string): string[] {
@@ -35,6 +36,14 @@ const CELL = firstColumnIds(doc("11-game-cell-transport.md"), "### 6.7 Sound cue
 const CIVIL = firstColumnIds(doc("12-game-civil-rights.md"), "#### 5.0.6 Success grammar");
 
 describe("CUE_MAP coverage (trig §6.8, cell §6.7, civil §5.0.6)", () => {
+  it("the shared ui_* core set sits on the intended recipes", () => {
+    const core: Record<string, RecipeId> = {
+      ui_hop: "pop", ui_land: "thunk", ui_bump: "thunk", ui_advance: "tick", ui_talk: "select", ui_hint: "select",
+      ui_pickup: "chime", ui_zone: "whoosh", ui_finale: "chord", ui_knob_tick: "tick", ui_page_turn: "page",
+    };
+    for (const [id, recipe] of Object.entries(core)) expect(cueFor(id)?.recipe, id).toBe(recipe);
+  });
+
   it("parsed every table", () => {
     expect(TRIG.length).toBeGreaterThanOrEqual(35);
     expect(CELL.length).toBeGreaterThanOrEqual(20);

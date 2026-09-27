@@ -82,6 +82,7 @@ export function Hud({
       if (!action) return;
       switch (action) {
         case "legend":
+          bus?.play("ui_page_turn");
           setLegendOpen((o) => !o);
           break;
         case "mute":
@@ -139,7 +140,10 @@ export function Hud({
           aria-label="Keys"
           aria-keyshortcuts="H ?"
           aria-expanded={legendOpen}
-          onClick={() => setLegendOpen((o) => !o)}
+          onClick={() => {
+            bus?.play("ui_page_turn");
+            setLegendOpen((o) => !o);
+          }}
         >
           ?
         </button>

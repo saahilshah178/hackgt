@@ -182,6 +182,8 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const [carrying, setCarrying] = useState<string | null>(null);
   const [briefOpen, setBriefOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
+  /** the shared knob tick: one per discrete input/probe change on the open station, at most every 45 ms */
+  const lastTick = useRef({ enc: "", key: "", at: 0 });
   const [expressTick, setExpressTick] = useState(0);
   /** px from the dialogue bar's top edge to the bottom of the stage (the panel keeps clear of it) */
   const [barClear, setBarClear] = useState(0);
@@ -352,6 +354,17 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   const onDraft = (d: PanelDraft) => {
     const o = openRef.current;
     if (!o) return;
+    const tickKey = `${JSON.stringify(d.input ?? null)}|${d.probe ?? ""}`;
+    const lt = lastTick.current;
+    if (lt.enc !== o.encounterId) lastTick.current = { enc: o.encounterId, key: tickKey, at: 0 };
+    else if (tickKey !== lt.key) {
+      lt.key = tickKey;
+      const now = performance.now();
+      if (now - lt.at > 45) {
+        lt.at = now;
+        bus.play("ui_knob_tick");
+      }
+    }
     seq.current += 1;
     const draft: Draft = { ...d, encounterId: o.encounterId, modeKey: o.modeKey, seq: seq.current };
     drafts.current.set(o.encounterId, draft);
@@ -479,6 +492,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
     const text = runner.hint();
     sync();
     if (text === null) return;
+    bus.play("ui_hint");
     const used = toHintsUsed(runner.hintsUsedOnCurrent);
     hintsRef.current = { ...hintsRef.current, [p.encounterId]: used };
     setHints(hintsRef.current);
@@ -513,6 +527,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
         return;
       case "zone_entered": {
         setZoneId(e.zoneId);
+        bus.play("ui_zone");
         const z = world.zones.find((x) => x.id === e.zoneId);
         const id = z?.entryCutsceneId ?? null;
         if (z && id && !zoneEntryPlayed.current.has(z.id)) {
@@ -608,12 +623,16 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
         openStation(plan.encounterId);
         return;
       case "replay":
-        if (plan.say) void engine.say(plan.say);
+        if (plan.say) {
+          bus.play("ui_talk");
+          void engine.say(plan.say);
+        }
         return;
       case "sandbox":
         openSandbox(plan.sandboxId);
         return;
       case "npc":
+        if (plan.say) bus.play("ui_talk");
         if (plan.say) void engine.say(plan.say).then(() => {
           applyWorld(plan.after);
           settle();
@@ -624,9 +643,11 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
         }
         return;
       case "plaque":
+        bus.play("ui_talk");
         void engine.say(plan.say);
         return;
       case "collect":
+        bus.play("ui_pickup");
         void engine.say(plan.say);
         applyWorld(plan.events);
         mirrorBonus(sessionStore(), spec.id, { collected: [plan.collectibleId] });
@@ -766,9 +787,10 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   useEffect(() => {
     if (phaseStarted.current === phase) return; // StrictMode re-runs effects: start each phase once
     phaseStarted.current = phase;
+    if (phase.kind === "finale") bus.play("ui_finale");
     if (phase.kind === "intro" || phase.kind === "finale") void H.current.runCutscene(phase.cutsceneId, "phase");
     if (phase.kind === "explore") H.current.drain();
-  }, [phase]);
+  }, [phase, bus]);
   // the payoff normally ends when the badge reports done; this fallback covers an unmounted or never-shown badge
   const payoffId = phase.kind === "payoff" ? phase.encounterId : null;
   useEffect(() => {
@@ -871,6 +893,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   useEffect(() => {
     const expedition: ExpeditionDebugApi = {
       host: () => hostRef.current?.debug?.() ?? null,
+      cues: () => bus.playedCues(),
       phase: () => phaseRef.current.kind,
       dialogue: () => engine.current(),
       worldState: () => worldStateDebug(wsLive.current),
@@ -937,7 +960,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       expedition,
     };
     return installGameDebug(handle) ?? undefined;
-  }, [runner, engine, spec, world]);
+  }, [runner, engine, spec, world, bus]);
 
   // ------------------------------------------------------------------ derived view
   const lmode = carrying ? "explore" : layoutModeOf(phase, world);
@@ -1013,7 +1036,10 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
           collected={ws.collected}
           meterValue={meter}
           mode={hudModeOf(phase)}
-          onToggleJournal={() => setJournalOpen((o) => !o)}
+          onToggleJournal={() => {
+            bus.play("ui_page_turn");
+            setJournalOpen((o) => !o);
+          }}
           leading={<ExitButton confirm onConfirmOpenChange={setExitOpen} />}
         />
       }
@@ -1061,6 +1087,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
           hintDisabled={!canHint}
           hintLabel={hintLabelOf(hintsUsed, hintsAvailable)}
           reducedMotion={reducedMotion}
+          onAdvance={() => bus.play("ui_advance")}
         />
         </div>
       }

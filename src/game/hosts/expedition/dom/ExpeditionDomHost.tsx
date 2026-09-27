@@ -19,7 +19,7 @@ import { installHostDebug, makeHostDebugApi } from "../debug-api";
 import { actionFor, isTypingTarget } from "../input/keymap";
 import { LabelStore } from "../labels/label-store";
 import { WorldLabelLayer } from "../labels/WorldLabelLayer";
-import { inputToward, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharInput, type CharState } from "../scene/character";
+import { inputToward, landingThuds, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharInput, type CharState } from "../scene/character";
 import { baseZoom, centredView, defaultSafeRect, followView, frameFor, lerpFactor, unionRect, type CameraView } from "../scene/framing";
 import { interactLabel, nearest, targetKey, type Interactable } from "../scene/proximity";
 import { EMPTY_WORLD_STATE, reqCtxOf, requirementMet } from "../scene/requirements";
@@ -102,6 +102,7 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
   const vpRef = useRef({ w: 1280, h: 720 });
   const held = useRef(new Set<string>());
   const edgesIn = useRef(new Set<"hop" | "up" | "down" | "interact">());
+  const lastBump = useRef(-1e9);
   const walkRef = useRef<Walk | null>(null);
   const nearRef = useRef<Interactable | null>(null);
   const clock = useRef({ ms: 0, tSec: 0, fps: 60, lastInput: 0 });
@@ -301,9 +302,17 @@ export const ExpeditionDomHost = forwardRef<HostHandle, HostProps>(function Expe
         }
       }
       if (control.current && !walkRef.current && clock.current.ms > control.current.deadline) inp = inputToward(c, control.current.x) ?? NO_INPUT;
+      const prevPath = c.path?.kind ?? null;
       const r = stepCharacter(c, inp, ctx, dtMs / 1000);
       c = r.state;
       for (const e of r.events) {
+        // the shared movement cues, same as the Phaser host
+        if (e.type === "hop") p.onHostEvent?.({ type: "cue", cue: "ui_hop" });
+        else if (e.type === "landed" && landingThuds(prevPath)) p.onHostEvent?.({ type: "cue", cue: "ui_land" });
+        else if (e.type === "blocked" && clock.current.ms - lastBump.current > 700) {
+          lastBump.current = clock.current.ms;
+          p.onHostEvent?.({ type: "cue", cue: "ui_bump" });
+        }
         if (e.type !== "link_used") continue;
         p.onHostEvent?.({ type: "link_used", linkId: e.linkId, landed: e.landed });
         const ws = linkWaiters.current;

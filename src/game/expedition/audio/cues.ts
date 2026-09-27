@@ -185,6 +185,18 @@ export const CUE_MAP: Readonly<Record<string, CueEntry>> = Object.fromEntries([
   ...many("chime", ["node_ignite", "lantern_lit", "beacon_ignite", "beacon_fire", "conduit_on", "relief_glint", "lamp_chime"]),
   ...many("chime", ["ridge_thaw"], { pitch: 0.8 }),
   ...many("grind", ["stone_grind", "tumbler_grind", "clunk", "lift_chain", "door_slide", "door_turn"]),
+  // ---- the shared core set: the same handful of sounds in every world, so the games feel like one instrument.
+  // Movement (the hosts emit these as cue events), dialogue, pickups and hints, navigation, the finale. Quiet on
+  // purpose: they play constantly, the skins' own cues are the loud moments.
+  ...many("pop", ["ui_hop"], { pitch: 0.9, gain: 0.45 }),
+  ...many("thunk", ["ui_land"], { pitch: 1.3, gain: 0.4 }),
+  ...many("thunk", ["ui_bump"], { pitch: 0.9, gain: 0.3 }),
+  ...many("tick", ["ui_advance"], { pitch: 0.7, gain: 0.6 }),
+  ...many("select", ["ui_talk"], { pitch: 0.8, gain: 0.55 }),
+  ...many("select", ["ui_hint"], { pitch: 1.2, gain: 0.7 }),
+  ...many("chime", ["ui_pickup"], { pitch: 1.25, gain: 0.6 }),
+  ...many("whoosh", ["ui_zone"], { pitch: 0.5, gain: 0.6 }),
+  ...many("chord", ["ui_finale"], { gain: 0.8 }),
 ]);
 
 /** The cue's entry, or null (an unmapped cue is silent; validateWorld R16 warns about it). */

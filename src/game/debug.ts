@@ -47,6 +47,8 @@ export interface ExpeditionDebugApi {
   openSandbox(id: string): void;
   express(on: boolean): void;
   skipCutscene(): void;
+  /** cue ids the audio bus actually scheduled so far (needs an enabled, unlocked, unmuted bus) */
+  cues?(): readonly string[];
   /** pause tweens/typewriter/particles/clocks for deterministic screenshots */
   freeze(on: boolean): void;
   /** the client's half of freeze (the typewriter); the host's installer chains it into `freeze` */

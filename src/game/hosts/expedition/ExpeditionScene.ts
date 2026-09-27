@@ -31,7 +31,7 @@ import { InputController } from "./input/controller";
 import type { HostAction } from "./input/keymap";
 import type { LabelStore } from "./labels/label-store";
 import { CameraDirector } from "./scene/camera-director";
-import { inputToward, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharCtx, type CharInput, type CharState } from "./scene/character";
+import { inputToward, landingThuds, linkForKey, NO_INPUT, planChoice, spawn, startPath, stepCharacter, type CharCtx, type CharInput, type CharState } from "./scene/character";
 import { defaultSafeRect, unionRect, type ZoneFrame } from "./scene/framing";
 import { interactLabel, nearest, targetKey, type Interactable } from "./scene/proximity";
 import { activeNpcState, reqCtxOf, requirementMet } from "./scene/requirements";
@@ -109,6 +109,8 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
     private char!: CharState;
     private player!: Protagonist;
     private companion!: Companion;
+    /** last ui_bump cue: walking into a wall thuds once per 700 ms, not once per frame */
+    private lastBumpAt = -1e9;
     private npcs = new Map<string, NpcActor>();
     private controllers = new Map<string, ContraptionController>();
     private sandboxes = new Map<string, SandboxController>();
@@ -542,9 +544,17 @@ export function createExpeditionScene(P: typeof Phaser): typeof Phaser.Scene {
       }
       if (controlOpen && this.control?.auto && !this.walk) inp = inputToward(this.char, this.control.x) ?? NO_INPUT;
       const interactPressed = this.keys.consumeInteract();
+      const prevPath = this.char.path?.kind ?? null;
       const r = stepCharacter(this.char, inp, this.charCtx(!allowMove && !this.walk, speedScale), dt);
       this.char = r.state;
       for (const e of r.events) {
+        // the shared movement cues (§2.12 core set): one voice for hops, footfalls and bumps in every world
+        if (e.type === "hop") this.d.events.onEvent({ type: "cue", cue: "ui_hop" });
+        else if (e.type === "landed" && landingThuds(prevPath)) this.d.events.onEvent({ type: "cue", cue: "ui_land" });
+        else if (e.type === "blocked" && this.clockMs - this.lastBumpAt > 700) {
+          this.lastBumpAt = this.clockMs;
+          this.d.events.onEvent({ type: "cue", cue: "ui_bump" });
+        }
         if (e.type === "link_used") {
           this.d.events.onEvent({ type: "link_used", linkId: e.linkId, landed: e.landed });
           if (e.landed === "missTo") this.emote("player", "!");

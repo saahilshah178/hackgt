@@ -107,7 +107,7 @@ export type HostEvent =
   | { type: "back" } // Esc pressed in-canvas
   | { type: "flag"; id: string; on: boolean } // cutscene set_state flag (the client's world-state reducer owns flags)
   | { type: "sandbox_goal"; sandboxId: string; goal: string } // first time meta.goalMet holds (client records sandbox_goal + reward)
-  | { type: "cue"; cue: string } // cutscene sfx step → the client's audio bus
+  | { type: "cue"; cue: string } // cutscene sfx steps and the hosts' movement cues (ui_hop / ui_land / ui_bump) → the client's audio bus
   | { type: "music"; cue: string | null }; // cutscene music step
 export interface ExpeditionHostDebug {
   ready: boolean;

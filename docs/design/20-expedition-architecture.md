@@ -2294,20 +2294,20 @@ about 150 lines), `bus.ts` (external store: enabled, muted, master gain, loop re
 
 Every cue id is snake_case and `Id`-legal (A10), because `Trigger.cue`, `PropPlacement.touch.cue` and the cutscene
 `sfx` step take an `Id`. `CUE_MAP` is seeded from the **union** of trig §6.8, cell §6.7 and civil §5.0.6; this table
-is that union (params in parentheses: pitch multiplier, gain, repeat).
+is that union (params in parentheses: pitch multiplier, gain, repeat). The `ui_*` ids are the shared core set every world plays through the same recipes: movement (`ui_hop`, `ui_land`, `ui_bump`, emitted by the hosts as cue events), dialogue (`ui_advance`, `ui_talk`), pickups and hints (`ui_pickup`, `ui_hint`), navigation (`ui_zone`, the panel whooshes, `ui_page_turn` for the journal and legend, `ui_knob_tick` for panel scrubs) and the finale (`ui_finale`).
 
 | Recipe | Synthesis | Cue ids mapped to it |
 |---|---|---|
-| `tick` | 1.8 kHz sine, 25 ms, exp decay | `ui_knob_tick`, `stud_tick`, `tally_click`, `pendulum_tick`, `relay_click`; `mimic_scuttle` (repeat 6); `cog_wind` (pitch 0.8, repeat 6) |
-| `select` | two sines 660 → 990 Hz, 60 ms | `ui_select`, `cord_seat`, `pip_chirp` |
+| `tick` | 1.8 kHz sine, 25 ms, exp decay | `ui_knob_tick`, `stud_tick`, `tally_click`, `pendulum_tick`, `relay_click`; `mimic_scuttle` (repeat 6); `cog_wind` (pitch 0.8, repeat 6); `ui_advance` (pitch 0.7, gain 0.6) |
+| `select` | two sines 660 → 990 Hz, 60 ms | `ui_select`, `cord_seat`, `pip_chirp`; `ui_talk` (pitch 0.8, gain 0.55); `ui_hint` (pitch 1.2, gain 0.7) |
 | `verify` | triangle 440 Hz + 880 Hz, 140 ms | `ui_verify` |
 | `badge` | major triad (C5 E5 G5) arpeggio, 90 ms steps | `ui_badge` |
-| `whoosh` | band-passed noise, centre sweep 400 → 2 kHz, 280 ms | `ui_panel_in`, `ui_panel_out`, `tube_whoosh`, `beam_rise`, `beam_surge`, `fog_part`, `stone_float`, `shield_swoosh`, `slip`; `pod_fog` (pitch 0.6); `lamp_swing` (pitch 0.6, gain 0.4); `printing_sweep` (pitch 1.6, gain 0.3); `lift_hum` (pitch 0.5) |
+| `whoosh` | band-passed noise, centre sweep 400 → 2 kHz, 280 ms | `ui_panel_in`, `ui_panel_out`, `tube_whoosh`, `beam_rise`, `beam_surge`, `fog_part`, `stone_float`, `shield_swoosh`, `slip`; `pod_fog` (pitch 0.6); `lamp_swing` (pitch 0.6, gain 0.4); `printing_sweep` (pitch 1.6, gain 0.3); `lift_hum` (pitch 0.5); `ui_zone` (pitch 0.5, gain 0.6) |
 | `hum` (loop) | sine + 2nd harmonic at 10 %, pitch and gain params | `beam_hum`, `bell_hum`, `sync_hum`, `current_hum`, `dial_carriage_roll`, `ring_turn`, `mb_tone` (220·b Hz) |
 | `bell` | FM: carrier f, modulator 3.5 f, index 4 → 0, 1.2 s | `bell_honest` |
-| `chord` | three bells, a major chord | `chord_true`, `resonance_lock`, `pore_open` |
+| `chord` | three bells, a major chord | `chord_true`, `resonance_lock`, `pore_open`; `ui_finale` (gain 0.8) |
 | `clunk` | 90 Hz sine drop + low-passed noise, 180 ms | `latch_clack`, `stone_lock_thunk`, `spoke_extend_clunk`, `drawer_thunk`, `gate_open`, `breaker_throw`; `bolt_slide` (repeat 4) |
-| `thunk` | 60 Hz sine, 120 ms | `slab_set`, `halcyon_settle` |
+| `thunk` | 60 Hz sine, 120 ms | `slab_set`, `halcyon_settle`; `ui_land` (pitch 1.3, gain 0.4); `ui_bump` (pitch 0.9, gain 0.3) |
 | `latch` | click + 40 ms delayed click | `latch_click`, `latch`, `chest_unlock`, `cable_snap_taut`; `latch_slip` (repeat 2) |
 | `spark` | high-passed noise burst, 70 ms | `beam_scatter`, `mimic_hiss`, `thread_snap`, `fuse_pop`, `atp_spark` |
 | `water` | low-passed noise swell, 1.2 s | `water_rush`, `raft_flood`, `sluice_drain`, `falls_part` |
@@ -2315,8 +2315,8 @@ is that union (params in parentheses: pitch multiplier, gain, repeat).
 | `teletype` | 14 Hz train of `tick`s, 1 s | `teletype` |
 | `page` | short filtered noise flutter | `ui_page_turn`, `page_turn`, `pickup_page` |
 | `rumble` | 40 Hz sine + noise, 800 ms | `gatekeeper_rumble`, `warden_bow_rumble`, `stone_crumble`, `engine_spin` |
-| `pop` | 400 → 900 Hz sine blip, 50 ms | `mote_pop`, `pod_crack`, `boing_soft`, `vesicle_pinch`; `spit_back` (repeat 3) |
-| `chime` | 1.3 kHz + 2.6 kHz bells, 600 ms | `node_ignite`, `lantern_lit`, `beacon_ignite`, `beacon_fire`, `conduit_on`, `relief_glint`, `lamp_chime`; `ridge_thaw` (pitch 0.8) |
+| `pop` | 400 → 900 Hz sine blip, 50 ms | `mote_pop`, `pod_crack`, `boing_soft`, `vesicle_pinch`; `spit_back` (repeat 3); `ui_hop` (pitch 0.9, gain 0.45) |
+| `chime` | 1.3 kHz + 2.6 kHz bells, 600 ms | `node_ignite`, `lantern_lit`, `beacon_ignite`, `beacon_fire`, `conduit_on`, `relief_glint`, `lamp_chime`; `ridge_thaw` (pitch 0.8); `ui_pickup` (pitch 1.25, gain 0.6) |
 | `grind` | sawtooth 70 Hz through a comb filter, 400 ms | `stone_grind`, `tumbler_grind`, `clunk`, `lift_chain`, `door_slide`, `door_turn` |
 
 Conflicts between the game docs, resolved here: `lift_hum` is a one-shot `whoosh` (pitch 0.5) in every game (civil

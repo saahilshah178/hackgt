@@ -15,7 +15,7 @@
  *   with any active bar line above them. In explore, non-blocking lines and toasts show as a strip bottom-centre.
  * - Reduced motion: lines appear complete.
  */
-import { useEffect, useMemo, useRef, type KeyboardEvent, type PointerEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, type KeyboardEvent, type PointerEvent } from "react";
 import type { Emblem as EmblemSpec } from "../../../contracts/world";
 import type { SpeakerDirectory, SpeakerInfo } from "../../../world/types";
 import styles from "./dialogue.module.css";
@@ -49,6 +49,8 @@ export interface DialogueBarProps {
    * (one press = one rung).
    */
   hintHotkey?: boolean;
+  /** a player advanced a showing line (key or click): the client plays the shared ui_advance cue */
+  onAdvance?: () => void;
 }
 
 export const DIALOGUE_PIN_PRIMARY_ID = "dialogue-pin-primary";
@@ -106,10 +108,20 @@ export function DialogueBar({
   drivesClock = true,
   globalAdvance = true,
   hintHotkey = true,
+  onAdvance,
 }: DialogueBarProps) {
   const snap = useDialogueSnapshot(engine);
   useDialogueClock(engine, drivesClock);
   const barRef = useRef<HTMLDivElement | null>(null);
+  const onAdvanceRef = useRef(onAdvance);
+  useEffect(() => {
+    onAdvanceRef.current = onAdvance;
+  }, [onAdvance]);
+  /** A player advance: the cue fires only when a line is actually showing. */
+  const advance = useCallback(() => {
+    if (engine.snapshot().active) onAdvanceRef.current?.();
+    engine.advance();
+  }, [engine]);
   const pressTimer = useRef<number | null>(null);
   const longPressed = useRef(false);
 
@@ -129,11 +141,11 @@ export function DialogueBar({
       if (active && barRef.current?.contains(active)) return; // the bar's own handler runs
       if (active instanceof HTMLButtonElement) return; // a focused button keeps Enter/Space
       e.preventDefault();
-      engine.advance();
+      advance();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [engine, blocking, globalAdvance]);
+  }, [advance, blocking, globalAdvance]);
 
   const active = snap.active;
   const pins = snap.pinned;
@@ -175,7 +187,7 @@ export function DialogueBar({
     if (e.target !== e.currentTarget) return;
     if (e.key === " " || e.key === "Enter") {
       e.preventDefault();
-      engine.advance();
+      advance();
     }
   };
 
@@ -264,7 +276,7 @@ export function DialogueBar({
       <div className={`${styles.root} ${styles.toastStrip}`} data-testid="dialogue-bar" data-state={active ? "toast" : "idle"}>
         {liveRegions}
         {active && (
-          <div className={styles.toast} onClick={() => engine.advance()} data-testid="dialogue-toast">
+          <div className={styles.toast} onClick={advance} data-testid="dialogue-toast">
             <Emblem emblem={lineEmblem} size={48} desaturate={desaturate} />
             <div className={styles.body}>
               {speakerName && <span className={styles.speaker}>{speakerName}</span>}
@@ -289,7 +301,7 @@ export function DialogueBar({
         aria-label="Dialogue"
         tabIndex={0}
         onKeyDown={onBarKey}
-        onClick={() => engine.advance()}
+        onClick={advance}
       >
         <HexTexture />
         <span className={styles.leftTerminal} aria-hidden="true" />
