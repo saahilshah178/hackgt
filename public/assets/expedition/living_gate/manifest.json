@@ -2,31 +2,6650 @@
  "namespace": "living_gate",
  "paletteId": "living_gate",
  "heroCap": 40,
- "heroCount": 0,
- "entries": [],
- "totalBytes": 0,
- "gzipBytes": 0,
+ "heroCount": 22,
+ "entries": [
+  {
+   "kind": "puppet",
+   "key": "living_gate.companion.ora_bust",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "2c76971bcf9e8c320d6a10c6b81cbbb03aabe2a6",
+   "legacyId": "#179",
+   "file": "living_gate/companion/ora_bust.svg",
+   "restFile": "living_gate/companion/ora_bust.rest.svg",
+   "width": 220,
+   "height": 220,
+   "rasterScale": 1.5,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "parts": [
+    {
+     "name": "frame",
+     "frames": 1,
+     "rest": [
+      110,
+      110
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -3,
+     "box": [
+      0,
+      0,
+      224,
+      224
+     ]
+    },
+    {
+     "name": "torso",
+     "frames": 1,
+     "rest": [
+      110,
+      200
+     ],
+     "pivot": [
+      0.495,
+      0.945
+     ],
+     "z": -2,
+     "box": [
+      0,
+      228,
+      200,
+      200
+     ]
+    },
+    {
+     "name": "head",
+     "frames": 1,
+     "rest": [
+      110,
+      150
+     ],
+     "pivot": [
+      0.5,
+      0.9
+     ],
+     "z": 0,
+     "box": [
+      0,
+      432,
+      96,
+      100
+     ]
+    },
+    {
+     "name": "headset",
+     "frames": 1,
+     "rest": [
+      110,
+      110
+     ],
+     "pivot": [
+      0.5,
+      0.6667
+     ],
+     "z": 1,
+     "box": [
+      0,
+      536,
+      104,
+      120
+     ]
+    },
+    {
+     "name": "goggles",
+     "frames": 1,
+     "rest": [
+      110,
+      76
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 2,
+     "box": [
+      0,
+      660,
+      88,
+      36
+     ]
+    },
+    {
+     "name": "eyes",
+     "frames": 2,
+     "rest": [
+      110,
+      110
+     ],
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 3,
+     "box": [
+      0,
+      700,
+      56,
+      24
+     ]
+    },
+    {
+     "name": "brows",
+     "frames": 2,
+     "rest": [
+      110,
+      95
+     ],
+     "pivot": [
+      0.5,
+      0.55
+     ],
+     "z": 4,
+     "box": [
+      0,
+      728,
+      56,
+      20
+     ]
+    },
+    {
+     "name": "mouth",
+     "frames": 2,
+     "rest": [
+      110,
+      137
+     ],
+     "pivot": [
+      0.5,
+      0.4583
+     ],
+     "z": 3,
+     "box": [
+      0,
+      752,
+      36,
+      24
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 4800,
+     "tracks": [
+      {
+       "part": "torso",
+       "prop": "scaleY",
+       "wave": {
+        "amp": 0.008,
+        "hz": 0.4167,
+        "phase": 0
+       },
+       "keys": [
+        [
+         0,
+         1.008
+        ]
+       ]
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": {
+        "amp": 0.8,
+        "hz": 0.4167,
+        "phase": 0.5
+       },
+       "keys": []
+      },
+      {
+       "part": "eyes",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         3600,
+         1
+        ],
+        [
+         3760,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "brows",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "mouth",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "talk",
+     "loop": true,
+     "ms": 2000,
+     "tracks": [
+      {
+       "part": "mouth",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 4,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": {
+        "amp": 1.5,
+        "hz": 1,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "eyes",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         1500,
+         1
+        ],
+        [
+         1620,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "brows",
+       "prop": "y",
+       "wave": {
+        "amp": 1.2,
+        "hz": 2,
+        "phase": 0
+       },
+       "keys": []
+      }
+     ]
+    },
+    {
+     "id": "cue",
+     "loop": false,
+     "ms": 800,
+     "tracks": [
+      {
+       "part": "brows",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ]
+       ]
+      },
+      {
+       "part": "mouth",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "eyes",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "head",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         200,
+         -3
+        ],
+        [
+         800,
+         -3
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "react",
+     "loop": false,
+     "ms": 800,
+     "tracks": [
+      {
+       "part": "mouth",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "brows",
+       "prop": "frame",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "brows",
+       "prop": "y",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         150,
+         -3
+        ],
+        [
+         800,
+         -2
+        ]
+       ]
+      },
+      {
+       "part": "head",
+       "prop": "y",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         120,
+         -3
+        ],
+        [
+         400,
+         0
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "anchors": [
+    {
+     "name": "face",
+     "x": 110,
+     "y": 112
+    }
+   ]
+  },
+  {
+   "kind": "puppet",
+   "key": "living_gate.companion.pip",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "84511a4087c89ec65d82f262d5d1c1a3a699ba4f",
+   "legacyId": "#177",
+   "file": "living_gate/companion/pip.svg",
+   "restFile": "living_gate/companion/pip.rest.svg",
+   "width": 72,
+   "height": 100,
+   "rasterScale": 1.5,
+   "pivot": [
+    0.5,
+    0.22
+   ],
+   "parts": [
+    {
+     "name": "lens_cone",
+     "frames": 1,
+     "rest": [
+      44,
+      27
+     ],
+     "pivot": [
+      0.5,
+      0.0395
+     ],
+     "z": -1,
+     "box": [
+      0,
+      0,
+      56,
+      76
+     ]
+    },
+    {
+     "name": "prop",
+     "frames": 2,
+     "rest": [
+      10,
+      22
+     ],
+     "pivot": [
+      0.5625,
+      0.5
+     ],
+     "z": -1,
+     "box": [
+      0,
+      80,
+      16,
+      28
+     ]
+    },
+    {
+     "name": "hull",
+     "frames": 1,
+     "rest": [
+      36,
+      22
+     ],
+     "pivot": [
+      0.4667,
+      0.525
+     ],
+     "z": 0,
+     "box": [
+      0,
+      112,
+      60,
+      40
+     ]
+    },
+    {
+     "name": "porthole_glow",
+     "frames": 1,
+     "rest": [
+      44,
+      20
+     ],
+     "pivot": [
+      0.45,
+      0.45
+     ],
+     "z": 1,
+     "box": [
+      0,
+      156,
+      20,
+      20
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 2500,
+     "tracks": [
+      {
+       "part": "prop",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "porthole_glow",
+       "prop": "alpha",
+       "wave": {
+        "amp": 0.12,
+        "hz": 0.8,
+        "phase": 0
+       },
+       "keys": [
+        [
+         0,
+         0.86
+        ]
+       ]
+      },
+      {
+       "part": "lens_cone",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "talk",
+     "loop": true,
+     "ms": 600,
+     "tracks": [
+      {
+       "part": "prop",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 6,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "porthole_glow",
+       "prop": "scaleX",
+       "wave": {
+        "amp": 0.075,
+        "hz": 3.33,
+        "phase": 0
+       },
+       "keys": [
+        [
+         0,
+         1.075
+        ]
+       ]
+      },
+      {
+       "part": "porthole_glow",
+       "prop": "scaleY",
+       "wave": {
+        "amp": 0.075,
+        "hz": 3.33,
+        "phase": 0
+       },
+       "keys": [
+        [
+         0,
+         1.075
+        ]
+       ]
+      },
+      {
+       "part": "lens_cone",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "cue",
+     "loop": true,
+     "ms": 1200,
+     "tracks": [
+      {
+       "part": "prop",
+       "prop": "frame",
+       "wave": {
+        "amp": 1,
+        "hz": 10,
+        "phase": 0
+       },
+       "keys": []
+      },
+      {
+       "part": "lens_cone",
+       "prop": "alpha",
+       "wave": {
+        "amp": 0.15,
+        "hz": 0.83,
+        "phase": 0
+       },
+       "keys": [
+        [
+         0,
+         0.85
+        ]
+       ]
+      },
+      {
+       "part": "lens_cone",
+       "prop": "scaleX",
+       "wave": {
+        "amp": 0.06,
+        "hz": 0.83,
+        "phase": 0.25
+       },
+       "keys": []
+      },
+      {
+       "part": "porthole_glow",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1.18
+        ]
+       ]
+      },
+      {
+       "part": "porthole_glow",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1.18
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "anchors": [
+    {
+     "name": "lens",
+     "x": 44,
+     "y": 96
+    },
+    {
+     "name": "porthole",
+     "x": 44,
+     "y": 20
+    }
+   ]
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.costume.diver_helmet",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "1813795f2401bb2884ac7d3a6fba72682391f5b5",
+   "legacyId": "#174",
+   "file": "living_gate/costume/diver_helmet.svg",
+   "width": 128,
+   "height": 140,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.657
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.costume.diver_scarf",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "fc9c116637584860d024af25321156198472cba8",
+   "legacyId": "#175",
+   "file": "living_gate/costume/diver_scarf.svg",
+   "width": 84,
+   "height": 40,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.84,
+    0.25
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.costume.probe_staff",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "8acfcade13028250ec0c5157f761e5e27f0695d6",
+   "legacyId": "#176",
+   "file": "living_gate/costume/probe_staff.svg",
+   "width": 28,
+   "height": 184,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.185
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.atp_spark",
+   "zone": "zone_a",
+   "source": "kit:glowSprite",
+   "sha1": "36e333c54b71cb43a4c889a4ebc00744d42609f0",
+   "legacyId": null,
+   "file": "living_gate/fx/atp_spark.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3598267393,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.bubble_pop",
+   "zone": "zone_a",
+   "source": "kit:glowSprite",
+   "sha1": "fb48640825b3b8ee059d444278b101cb178645df",
+   "legacyId": null,
+   "file": "living_gate/fx/bubble_pop.svg",
+   "width": 256,
+   "height": 64,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2744048826,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.dust_puff",
+   "zone": "zone_a",
+   "source": "kit:glowSprite",
+   "sha1": "1cf112ffd9b5d3d8a2a4025f78ed7c3bd4ea0846",
+   "legacyId": null,
+   "file": "living_gate/fx/dust_puff.svg",
+   "width": 96,
+   "height": 96,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2765006794,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.frost_sparkle",
+   "zone": "zone_a",
+   "source": "kit:glowSprite",
+   "sha1": "4f91c4e817f7a0f6c81b6d2dc9ecd3b6f349e62b",
+   "legacyId": null,
+   "file": "living_gate/fx/frost_sparkle.svg",
+   "width": 24,
+   "height": 24,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 550577251,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.lantern_pool",
+   "zone": "zone_a",
+   "source": "kit:glowSprite",
+   "sha1": "5dea269f9fc4e39ab41786805bc03e1dd44ec82c",
+   "legacyId": null,
+   "file": "living_gate/fx/lantern_pool.svg",
+   "width": 512,
+   "height": 512,
+   "rasterScale": 0.25,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 646938023,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.mol_dye",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "5542f54b1ebaa72c5db55dbd6761a856df1e7fc9",
+   "legacyId": null,
+   "file": "living_gate/fx/mol_dye.svg",
+   "width": 23,
+   "height": 23,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 12,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 344916529,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.mol_salt",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "872c651d294594e5d517f09a648f76c66b1524ad",
+   "legacyId": null,
+   "file": "living_gate/fx/mol_salt.svg",
+   "width": 23,
+   "height": 23,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 12,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 538450865,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.mol_sugar",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "0c2fbddce32c631abe35b8b03d332444add79c1c",
+   "legacyId": null,
+   "file": "living_gate/fx/mol_sugar.svg",
+   "width": 23,
+   "height": 23,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 12,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 2969656885,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.mol_water",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "aa726536bbb032732cb1cc0c5894f53db5a485e6",
+   "legacyId": null,
+   "file": "living_gate/fx/mol_water.svg",
+   "width": 23,
+   "height": 23,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 12,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 3546658880,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.mote",
+   "zone": "zone_a",
+   "source": "kit:glowSprite",
+   "sha1": "118460bc478e9116fd858e16473cf95717871a30",
+   "legacyId": null,
+   "file": "living_gate/fx/mote.svg",
+   "width": 32,
+   "height": 32,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2971425983,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.fx.pod_fog",
+   "zone": "zone_a",
+   "source": "kit:glowSprite",
+   "sha1": "e82469f7a63364a8fb2cbb7dd33b4dfd463ba708",
+   "legacyId": null,
+   "file": "living_gate/fx/pod_fog.svg",
+   "width": 150,
+   "height": 150,
+   "rasterScale": 0.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 461596064,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ground.bilayer",
+   "zone": "zone_a",
+   "source": "kit:bilayerTile",
+   "sha1": "88f8db6f04005089d7285437f86d63c545461524",
+   "legacyId": "cell.ground.bilayer",
+   "file": "living_gate/ground/bilayer.svg",
+   "width": 512,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 840969131,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ground.bilayer_gel",
+   "zone": "zone_a",
+   "source": "kit:bilayerTile",
+   "sha1": "5a598809250fb1e6af20e8cbd9f2ae9494376e75",
+   "legacyId": "cell.ground.bilayer_gel",
+   "file": "living_gate/ground/bilayer_gel.svg",
+   "width": 512,
+   "height": 192,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3940008096,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ground.causeway",
+   "zone": "zone_d",
+   "source": "kit:groundStrip",
+   "sha1": "586e01e0b0088744e7ce0c43bb845748c89fdf40",
+   "legacyId": "cell.ground.causeway",
+   "file": "living_gate/ground/causeway.svg",
+   "width": 512,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "walk",
+     "x": 0,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3423170177,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ground.hall_deck",
+   "zone": "zone_c",
+   "source": "kit:bilayerTile",
+   "sha1": "b2b75610777aecf253d51c15652713244d2b5c75",
+   "legacyId": "cell.ground.hall_deck",
+   "file": "living_gate/ground/hall_deck.svg",
+   "width": 512,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 1844569280,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ground.head",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "379b4a86fb5cb8a257357db5585d24eb6a32d7e2",
+   "legacyId": "cell.ground.head",
+   "file": "living_gate/ground/head.svg",
+   "width": 47,
+   "height": 47,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 1699619281,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ground.tailpair",
+   "zone": "zone_a",
+   "source": "kit:bilayerTile",
+   "sha1": "e79698b8619c7e33e4b353d8003aac9051b1afe0",
+   "legacyId": "cell.ground.tailpair",
+   "file": "living_gate/ground/tailpair.svg",
+   "width": 76,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 0,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 2778190045,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ground.trench",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "a29cf6b53b270297c73610f5b84862d4749f889a",
+   "legacyId": null,
+   "file": "living_gate/ground/trench.svg",
+   "width": 512,
+   "height": 360,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3399092929,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.pore_night_far",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "f0f6093d6ec7652ea8653cc5c8cf67742b5aa655",
+   "legacyId": null,
+   "file": "living_gate/kit/pore_night_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 973333081,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.pore_night_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "3f5c6ae04aec14df26d4a660ccb900c3e5e973e6",
+   "legacyId": null,
+   "file": "living_gate/kit/pore_night_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 200,
+     "y": 203
+    },
+    {
+     "name": "i1_sway",
+     "x": 560,
+     "y": 203
+    },
+    {
+     "name": "i2_sway",
+     "x": 930,
+     "y": 195
+    }
+   ],
+   "scroll": null,
+   "seed": 4138451958,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.pore_night_ground",
+   "zone": "kit",
+   "source": "kit:bilayerTile",
+   "sha1": "ddaa776462f3ecb3789046e4a346727c9e810fce",
+   "legacyId": null,
+   "file": "living_gate/kit/pore_night_ground.svg",
+   "width": 512,
+   "height": 116,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 336588291,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.pore_night_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "4f4da43c039567be6116b4968892bd276b4625e8",
+   "legacyId": null,
+   "file": "living_gate/kit/pore_night_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 256809564,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.pore_night_mid",
+   "zone": "kit",
+   "source": "kit:lipidColonnade",
+   "sha1": "f7182b87ca2286a13ecbf15fcfbd94bde6864386",
+   "legacyId": null,
+   "file": "living_gate/kit/pore_night_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1485918130,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.pore_night_midfar",
+   "zone": "kit",
+   "source": "kit:scatter",
+   "sha1": "d56a35077d110d4f60cd6dd6a53406b284093a70",
+   "legacyId": null,
+   "file": "living_gate/kit/pore_night_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 841803151,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.pore_night_underside",
+   "zone": "kit",
+   "source": "kit:bilayerTile",
+   "sha1": "dfc0e848237885e139e55bd6569d15103b829733",
+   "legacyId": null,
+   "file": "living_gate/kit/pore_night_underside.svg",
+   "width": 512,
+   "height": 116,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 89721277,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.shore_aqua_far",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "5be45c3b0707d61a2c909cb382bc6c51c8a8b1f5",
+   "legacyId": null,
+   "file": "living_gate/kit/shore_aqua_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 165712726,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.shore_aqua_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "4420b3275ba02728e5ddb523ee5b218c9cb516a4",
+   "legacyId": null,
+   "file": "living_gate/kit/shore_aqua_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 200,
+     "y": 203
+    },
+    {
+     "name": "i1_sway",
+     "x": 560,
+     "y": 203
+    },
+    {
+     "name": "i2_sway",
+     "x": 930,
+     "y": 195
+    }
+   ],
+   "scroll": null,
+   "seed": 2686167639,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.shore_aqua_ground",
+   "zone": "kit",
+   "source": "kit:bilayerTile",
+   "sha1": "dc590c60233a20530bab53cd653f895663ddce54",
+   "legacyId": null,
+   "file": "living_gate/kit/shore_aqua_ground.svg",
+   "width": 512,
+   "height": 116,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3172708918,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.shore_aqua_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "1d499c9f12bbff61e726a88f5df5b117327ce2b8",
+   "legacyId": null,
+   "file": "living_gate/kit/shore_aqua_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2854658151,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.shore_aqua_mid",
+   "zone": "kit",
+   "source": "kit:lipidColonnade",
+   "sha1": "9d7b6f92ef5da6304a49821dac3f879c24b12c4b",
+   "legacyId": null,
+   "file": "living_gate/kit/shore_aqua_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2205244333,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.shore_aqua_midfar",
+   "zone": "kit",
+   "source": "kit:scatter",
+   "sha1": "27b5324a804821b4169f6ad6819e9a4ddf544039",
+   "legacyId": null,
+   "file": "living_gate/kit/shore_aqua_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1420950022,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.shore_aqua_underside",
+   "zone": "kit",
+   "source": "kit:bilayerTile",
+   "sha1": "a37fb0941c1121e55fc6d4feff0f1fb72d01311e",
+   "legacyId": null,
+   "file": "living_gate/kit/shore_aqua_underside.svg",
+   "width": 512,
+   "height": 116,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2413259390,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.trench_amber_far",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "eb5e928164efc06aeeac4c23cfee82e32d2fa6c2",
+   "legacyId": null,
+   "file": "living_gate/kit/trench_amber_far.svg",
+   "width": 1024,
+   "height": 520,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3051500390,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.trench_amber_fore",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "f4a694a1067bd969dcd6cd3f92a3d9a2a37b1893",
+   "legacyId": null,
+   "file": "living_gate/kit/trench_amber_fore.svg",
+   "width": 2048,
+   "height": 300,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 200,
+     "y": 203
+    },
+    {
+     "name": "i1_sway",
+     "x": 560,
+     "y": 203
+    },
+    {
+     "name": "i2_sway",
+     "x": 930,
+     "y": 195
+    }
+   ],
+   "scroll": null,
+   "seed": 1990894471,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.trench_amber_ground",
+   "zone": "kit",
+   "source": "kit:bilayerTile",
+   "sha1": "da454938e485bcf47e5a61a87dfba929450bc202",
+   "legacyId": null,
+   "file": "living_gate/kit/trench_amber_ground.svg",
+   "width": 512,
+   "height": 116,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 633287430,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.trench_amber_light",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "c6d9a728f67f6d1c0a50a0aab9ad3ab6b644abb9",
+   "legacyId": null,
+   "file": "living_gate/kit/trench_amber_light.svg",
+   "width": 1024,
+   "height": 1500,
+   "rasterScale": 0.25,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2670007991,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.trench_amber_mid",
+   "zone": "kit",
+   "source": "kit:lipidColonnade",
+   "sha1": "2ad0bbfd9c004e3de03ca97ac70bd9fa647fe2c9",
+   "legacyId": null,
+   "file": "living_gate/kit/trench_amber_mid.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.6,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 290311837,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.trench_amber_midfar",
+   "zone": "kit",
+   "source": "kit:scatter",
+   "sha1": "68dac542a61f5502271032aceabce0c037b83834",
+   "legacyId": null,
+   "file": "living_gate/kit/trench_amber_midfar.svg",
+   "width": 1024,
+   "height": 480,
+   "rasterScale": 0.5,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3310608694,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.kit.trench_amber_underside",
+   "zone": "kit",
+   "source": "kit:bilayerTile",
+   "sha1": "9225e5bf4075c9245d7ab05716ad11506271cc72",
+   "legacyId": null,
+   "file": "living_gate/kit/trench_amber_underside.svg",
+   "width": 512,
+   "height": 116,
+   "rasterScale": 1,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 256,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 4049342478,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.actin",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "59670f279248345d50634d4b24229f447ca25cfa",
+   "legacyId": "cell.fore.actin",
+   "file": "living_gate/layer/actin.svg",
+   "width": 2048,
+   "height": 307,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 300,
+     "y": 311
+    },
+    {
+     "name": "i1_surface",
+     "x": 900,
+     "y": 279
+    },
+    {
+     "name": "i2_sway",
+     "x": 1500,
+     "y": 311
+    }
+   ],
+   "scroll": null,
+   "seed": 2482693600,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.basin_walls",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "64cf3b4a7635ab818324c41f3d72839c52e7279a",
+   "legacyId": "cell.mid.basin_walls",
+   "file": "living_gate/layer/basin_walls.svg",
+   "width": 2048,
+   "height": 560,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_medallion_0",
+     "x": 256,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_1",
+     "x": 768,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_2",
+     "x": 1280,
+     "y": 356
+    },
+    {
+     "name": "i0_medallion_3",
+     "x": 1792,
+     "y": 356
+    },
+    {
+     "name": "i3_sway",
+     "x": 300,
+     "y": 60
+    },
+    {
+     "name": "i4_sway",
+     "x": 1250,
+     "y": 179
+    }
+   ],
+   "scroll": null,
+   "seed": 1449826300,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.bubbles",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "6a0b7bb291577efe555493e4d243faccc41daec9",
+   "legacyId": "cell.fore.bubbles",
+   "file": "living_gate/layer/bubbles.svg",
+   "width": 2048,
+   "height": 522,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 200,
+     "y": 451
+    },
+    {
+     "name": "i3_sway",
+     "x": 1500,
+     "y": 451
+    }
+   ],
+   "scroll": null,
+   "seed": 1640845100,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.caustics",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "758de38d6b607b3a2f1e1c78d8d57e47c7d0f1af",
+   "legacyId": "cell.light.caustics",
+   "file": "living_gate/layer/caustics.svg",
+   "width": 512,
+   "height": 1600,
+   "rasterScale": 0.3,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1585419940,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.ceiling_band",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "18883b8dcd3fe5a59a6fd38ebf1ad59b2ea5b48f",
+   "legacyId": "cell.ground.ceiling_band",
+   "file": "living_gate/layer/ceiling_band.svg",
+   "width": 512,
+   "height": 640,
+   "rasterScale": 0.6,
+   "tileWidth": 512,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_surface",
+     "x": 256,
+     "y": 420
+    }
+   ],
+   "scroll": null,
+   "seed": 2759347478,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.colonnade_rise",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "614c564da7558f2815bf9a9fdaaf2ae564be5f8f",
+   "legacyId": "cell.mid.colonnade_rise",
+   "file": "living_gate/layer/colonnade_rise.svg",
+   "width": 2048,
+   "height": 560,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_tip",
+     "x": 300,
+     "y": 300
+    },
+    {
+     "name": "i2_tip",
+     "x": 820,
+     "y": 240
+    },
+    {
+     "name": "i3_tip",
+     "x": 1400,
+     "y": 280
+    },
+    {
+     "name": "i4_tip",
+     "x": 1850,
+     "y": 330
+    }
+   ],
+   "scroll": null,
+   "seed": 2884286010,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.cyto_glimpse",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "f92d8934bb980feac1d2ccdb943fd7ed42629d28",
+   "legacyId": "cell.midfar.cyto_glimpse",
+   "file": "living_gate/layer/cyto_glimpse.svg",
+   "width": 1024,
+   "height": 160,
+   "rasterScale": 0.4,
+   "tileWidth": 1024,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 512,
+     "y": 80
+    },
+    {
+     "name": "i1_hub",
+     "x": 300,
+     "y": 80
+    }
+   ],
+   "scroll": null,
+   "seed": 1553164796,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.cytoskeleton",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "f16506ad01e59b86fa258cce9df7bcd33b7ea03f",
+   "legacyId": "cell.midfar.cytoskeleton",
+   "file": "living_gate/layer/cytoskeleton.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_bay_0",
+     "x": 186,
+     "y": 700
+    },
+    {
+     "name": "i0_bay_1",
+     "x": 529,
+     "y": 700
+    },
+    {
+     "name": "i0_bay_2",
+     "x": 871,
+     "y": 700
+    },
+    {
+     "name": "i0_bay_3",
+     "x": 1214,
+     "y": 700
+    },
+    {
+     "name": "i0_door",
+     "x": 700,
+     "y": 700
+    },
+    {
+     "name": "i2_surface",
+     "x": 1600,
+     "y": 75
+    }
+   ],
+   "scroll": null,
+   "seed": 3632328959,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.dormant_towers",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "a721d360cf5f0212fc03ea7471e50d4b9be0a339",
+   "legacyId": "cell.midfar.dormant_towers",
+   "file": "living_gate/layer/dormant_towers.svg",
+   "width": 2048,
+   "height": 620,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_i0_band_0",
+     "x": 430,
+     "y": 342
+    },
+    {
+     "name": "i0_i0_band_1",
+     "x": 430,
+     "y": 402
+    },
+    {
+     "name": "i0_i0_top",
+     "x": 430,
+     "y": 260
+    },
+    {
+     "name": "i0_i1_hub",
+     "x": 430,
+     "y": 170
+    },
+    {
+     "name": "i1_i0_band_0",
+     "x": 870,
+     "y": 410
+    },
+    {
+     "name": "i1_i0_band_1",
+     "x": 870,
+     "y": 455
+    },
+    {
+     "name": "i1_i0_top",
+     "x": 870,
+     "y": 347
+    },
+    {
+     "name": "i1_i1_hub",
+     "x": 870,
+     "y": 230
+    },
+    {
+     "name": "i2_i0_band_0",
+     "x": 1830,
+     "y": 468
+    },
+    {
+     "name": "i2_i0_band_1",
+     "x": 1830,
+     "y": 501
+    },
+    {
+     "name": "i2_i0_top",
+     "x": 1830,
+     "y": 422
+    },
+    {
+     "name": "i2_i1_hub",
+     "x": 1830,
+     "y": 290
+    }
+   ],
+   "scroll": null,
+   "seed": 3874827689,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.envelope",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "73e4c1dae4130c305be2a5943e97d436920e4b9b",
+   "legacyId": "cell.far.envelope",
+   "file": "living_gate/layer/envelope.svg",
+   "width": 2048,
+   "height": 900,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_hub",
+     "x": 256,
+     "y": 520
+    },
+    {
+     "name": "i2_hub",
+     "x": 768,
+     "y": 520
+    },
+    {
+     "name": "i3_hub",
+     "x": 1280,
+     "y": 520
+    },
+    {
+     "name": "i4_hub",
+     "x": 1792,
+     "y": 520
+    }
+   ],
+   "scroll": null,
+   "seed": 3321512829,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.glycan_forest",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "d4aabcdb638bd836a45c717c61696ed0d5507002",
+   "legacyId": "cell.midfar.glycan_forest",
+   "file": "living_gate/layer/glycan_forest.svg",
+   "width": 2048,
+   "height": 600,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2837542975,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.glycan_fronds",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "a216f9f1f7584f2f40ef584b6ced52d43ef4125e",
+   "legacyId": "cell.fore.glycan_fronds",
+   "file": "living_gate/layer/glycan_fronds.svg",
+   "width": 2048,
+   "height": 287,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 120,
+     "y": 177
+    },
+    {
+     "name": "i1_sway",
+     "x": 330,
+     "y": 168
+    },
+    {
+     "name": "i2_sway",
+     "x": 1180,
+     "y": 177
+    },
+    {
+     "name": "i3_sway",
+     "x": 1960,
+     "y": 177
+    }
+   ],
+   "scroll": null,
+   "seed": 674275446,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.godrays",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "617ca663b8f30a69bff4a7e1c16462731515dece",
+   "legacyId": "cell.light.godrays",
+   "file": "living_gate/layer/godrays.svg",
+   "width": 1920,
+   "height": 1080,
+   "rasterScale": 0.25,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 792647156,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.hall_balustrade",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "640b713e8a5de454744c55be0d6cec356ee234fa",
+   "legacyId": "cell.fore.hall_balustrade",
+   "file": "living_gate/layer/hall_balustrade.svg",
+   "width": 2048,
+   "height": 287,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 437269080,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.hall_pillars",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "905fa42e68d73f0e44da134347f57018058eafd7",
+   "legacyId": "cell.midfar.hall_pillars",
+   "file": "living_gate/layer/hall_pillars.svg",
+   "width": 2048,
+   "height": 800,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 240,
+     "y": 243
+    },
+    {
+     "name": "i0_band_1",
+     "x": 240,
+     "y": 347
+    },
+    {
+     "name": "i0_top",
+     "x": 240,
+     "y": 40
+    },
+    {
+     "name": "i1_band_0",
+     "x": 920,
+     "y": 243
+    },
+    {
+     "name": "i1_band_1",
+     "x": 920,
+     "y": 347
+    },
+    {
+     "name": "i1_top",
+     "x": 920,
+     "y": 40
+    },
+    {
+     "name": "i2_band_0",
+     "x": 1600,
+     "y": 243
+    },
+    {
+     "name": "i2_band_1",
+     "x": 1600,
+     "y": 347
+    },
+    {
+     "name": "i2_top",
+     "x": 1600,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 2026708284,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.hall_rails",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "0b5cdaf6e01c82f86f54f9bc3d345a5650330fd5",
+   "legacyId": "cell.mid.hall_rails",
+   "file": "living_gate/layer/hall_rails.svg",
+   "width": 2048,
+   "height": 600,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i5_hub",
+     "x": 800,
+     "y": 348
+    },
+    {
+     "name": "i5_t_0",
+     "x": 744,
+     "y": 348
+    },
+    {
+     "name": "i5_t_1",
+     "x": 800,
+     "y": 292
+    },
+    {
+     "name": "i5_t_2",
+     "x": 856,
+     "y": 348
+    },
+    {
+     "name": "i6_hub",
+     "x": 1250,
+     "y": 388
+    },
+    {
+     "name": "i6_t_0",
+     "x": 1194,
+     "y": 388
+    },
+    {
+     "name": "i6_t_1",
+     "x": 1250,
+     "y": 332
+    },
+    {
+     "name": "i6_t_2",
+     "x": 1306,
+     "y": 388
+    }
+   ],
+   "scroll": null,
+   "seed": 3728917180,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.hall_ribs",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "a4ec5c85bcddcd3a7d8d1ebdabcfccc6e996ffde",
+   "legacyId": "cell.sky.hall",
+   "file": "living_gate/layer/hall_ribs.svg",
+   "width": 2048,
+   "height": 1080,
+   "rasterScale": 0.25,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_hub",
+     "x": 170,
+     "y": 700
+    },
+    {
+     "name": "i1_hub",
+     "x": 511,
+     "y": 700
+    },
+    {
+     "name": "i2_hub",
+     "x": 852,
+     "y": 700
+    },
+    {
+     "name": "i3_hub",
+     "x": 1193,
+     "y": 700
+    },
+    {
+     "name": "i4_hub",
+     "x": 1534,
+     "y": 700
+    },
+    {
+     "name": "i5_hub",
+     "x": 1875,
+     "y": 700
+    }
+   ],
+   "scroll": null,
+   "seed": 1087388289,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.hall_vault",
+   "zone": "zone_c",
+   "source": "hero",
+   "sha1": "8576ea17ffa68dfa5204b226d784365394e3228c",
+   "legacyId": "#9",
+   "file": "living_gate/layer/hall_vault.svg",
+   "width": 2048,
+   "height": 760,
+   "rasterScale": 0.75,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": 0.15,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.nucleus_dome",
+   "zone": "zone_d",
+   "source": "hero",
+   "sha1": "349b8e32b31d133305415cf351a558cdf5eb2e61",
+   "legacyId": "#11",
+   "file": "living_gate/layer/nucleus_dome.svg",
+   "width": 2600,
+   "height": 900,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "dome_top",
+     "x": 1900,
+     "y": 40
+    }
+   ],
+   "scroll": 0.15,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.organelles",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "b172fd54803b5593f4bdc531e34cad6324d564ce",
+   "legacyId": "cell.far.organelles",
+   "file": "living_gate/layer/organelles.svg",
+   "width": 2048,
+   "height": 760,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 380,
+     "y": 360
+    },
+    {
+     "name": "i1_label",
+     "x": 380,
+     "y": 404
+    },
+    {
+     "name": "i2_label",
+     "x": 380,
+     "y": 448
+    },
+    {
+     "name": "i3_label",
+     "x": 380,
+     "y": 492
+    },
+    {
+     "name": "i4_label",
+     "x": 380,
+     "y": 536
+    },
+    {
+     "name": "i5_hub",
+     "x": 1000,
+     "y": 521
+    },
+    {
+     "name": "i6_hub",
+     "x": 1650,
+     "y": 600
+    }
+   ],
+   "scroll": null,
+   "seed": 3228414417,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.pit_rim",
+   "zone": "zone_c",
+   "source": "kit:lipidColonnade",
+   "sha1": "94ef460395926ecc0cf1bba76c8a0503f368448d",
+   "legacyId": "cell.mid.pit_rim",
+   "file": "living_gate/layer/pit_rim.svg",
+   "width": 2048,
+   "height": 400,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 913029285,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.swirl_basins",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "0cd8f9473a8db708928288075d6d17f137c55733",
+   "legacyId": "cell.sky.basins",
+   "file": "living_gate/layer/swirl_basins.svg",
+   "width": 2048,
+   "height": 520,
+   "rasterScale": 0.35,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1450167499,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.swirl_cytoplasm",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "fed4151eb5acb6239d0964964ad3128fd54eeca6",
+   "legacyId": "cell.sky.cytoplasm",
+   "file": "living_gate/layer/swirl_cytoplasm.svg",
+   "width": 2048,
+   "height": 520,
+   "rasterScale": 0.35,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3325188999,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.swirl_pit",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "f96e870c8d8c23a0a3df633b05d18a18fb4f27eb",
+   "legacyId": "cell.sky.pit",
+   "file": "living_gate/layer/swirl_pit.svg",
+   "width": 2048,
+   "height": 520,
+   "rasterScale": 0.35,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1860836390,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.swirl_shore",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "2fdd994b68faaf4aa0e25901691106ffad365f64",
+   "legacyId": "cell.sky.shore",
+   "file": "living_gate/layer/swirl_shore.svg",
+   "width": 2048,
+   "height": 520,
+   "rasterScale": 0.35,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3070107486,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.tide_cliffs",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "b492ee70cb43145656b81a4a7f4ce2ea3ac1fa41",
+   "legacyId": "cell.far.tidecliffs",
+   "file": "living_gate/layer/tide_cliffs.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1230284401,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.tide_cliffs_dusk",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "43edce6cb9325b491c316a88896d11afc5839ea3",
+   "legacyId": null,
+   "file": "living_gate/layer/tide_cliffs_dusk.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 2639854595,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.tissue_far",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "2195ea56a06993945bbd2f728992d0956c86d04f",
+   "legacyId": "cell.far.tissue",
+   "file": "living_gate/layer/tissue_far.svg",
+   "width": 2048,
+   "height": 700,
+   "rasterScale": 0.5,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1038357868,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.vault_court",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "f04fdda969c31b428fd3240c69ecae70280ae1b4",
+   "legacyId": "cell.mid.vault_court",
+   "file": "living_gate/layer/vault_court.svg",
+   "width": 2048,
+   "height": 600,
+   "rasterScale": 0.6,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_band_0",
+     "x": 300,
+     "y": 277
+    },
+    {
+     "name": "i1_band_1",
+     "x": 300,
+     "y": 337
+    },
+    {
+     "name": "i1_socket",
+     "x": 300,
+     "y": 238
+    },
+    {
+     "name": "i1_top",
+     "x": 300,
+     "y": 160
+    },
+    {
+     "name": "i2_band_0",
+     "x": 1000,
+     "y": 277
+    },
+    {
+     "name": "i2_band_1",
+     "x": 1000,
+     "y": 337
+    },
+    {
+     "name": "i2_socket",
+     "x": 1000,
+     "y": 238
+    },
+    {
+     "name": "i2_top",
+     "x": 1000,
+     "y": 160
+    },
+    {
+     "name": "i3_band_0",
+     "x": 1700,
+     "y": 277
+    },
+    {
+     "name": "i3_band_1",
+     "x": 1700,
+     "y": 337
+    },
+    {
+     "name": "i3_socket",
+     "x": 1700,
+     "y": 238
+    },
+    {
+     "name": "i3_top",
+     "x": 1700,
+     "y": 160
+    }
+   ],
+   "scroll": null,
+   "seed": 4270149931,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.layer.vault_glints",
+   "zone": "zone_d",
+   "source": "kit:scatter",
+   "sha1": "e9dd913efeccc85a9c7b265f82232c89f0fdffc4",
+   "legacyId": "cell.sky.vault",
+   "file": "living_gate/layer/vault_glints.svg",
+   "width": 2048,
+   "height": 1080,
+   "rasterScale": 0.35,
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1218437709,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.npc.poro",
+   "zone": "zone_b",
+   "source": "hero",
+   "sha1": "ff20f1e6308d0e53be57b7f7c5f99e3f101eb06d",
+   "legacyId": "#186",
+   "file": "living_gate/npc/poro.svg",
+   "width": 180,
+   "height": 280,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "eyes",
+     "x": 90,
+     "y": 71
+    },
+    {
+     "name": "groove",
+     "x": 90,
+     "y": 146
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.carrier_lanes_cargo_glyph",
+   "zone": "zone_b",
+   "source": "kit:molecule",
+   "sha1": "96172a75b73c33637c49fa2f85ac37ecf62de365",
+   "legacyId": null,
+   "file": "living_gate/part/carrier_lanes_cargo_glyph.svg",
+   "width": 51,
+   "height": 43,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 22,
+     "y": 22
+    }
+   ],
+   "scroll": null,
+   "seed": 3608247589,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.carrier_lanes_carrier_door",
+   "zone": "zone_b",
+   "source": "kit:ringStack",
+   "sha1": "16d48f5d4fc17ce9b6e5d4f08d40a55a8135d4aa",
+   "legacyId": "#112",
+   "file": "living_gate/part/carrier_lanes_carrier_door.svg",
+   "width": 420,
+   "height": 420,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 210,
+     "y": 210
+    }
+   ],
+   "scroll": null,
+   "seed": 1864346897,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.carrier_lanes_console",
+   "zone": "zone_b",
+   "source": "kit:lectern",
+   "sha1": "1d93e9b27ff711d7561b11c83769c11a37fab725",
+   "legacyId": null,
+   "file": "living_gate/part/carrier_lanes_console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 4266467549,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.carrier_lanes_glide_gate",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "1f96c4b7a9ab3a0834b30d3885fedd742fd6448a",
+   "legacyId": null,
+   "file": "living_gate/part/carrier_lanes_glide_gate.svg",
+   "width": 300,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_hub",
+     "x": 150,
+     "y": 90
+    },
+    {
+     "name": "i1_step_0",
+     "x": 45,
+     "y": 238
+    },
+    {
+     "name": "i1_step_1",
+     "x": 115,
+     "y": 216
+    },
+    {
+     "name": "i1_step_2",
+     "x": 185,
+     "y": 194
+    },
+    {
+     "name": "i1_step_3",
+     "x": 255,
+     "y": 172
+    }
+   ],
+   "scroll": null,
+   "seed": 1696550369,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.carrier_lanes_pump_gate",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "f3ac9dab6df4d93a05ee208e4fb7b93fdcb57244",
+   "legacyId": "#115",
+   "file": "living_gate/part/carrier_lanes_pump_gate.svg",
+   "width": 260,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 130,
+     "y": 170
+    },
+    {
+     "name": "i1_hub",
+     "x": 130,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": 3704650860,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.carrier_lanes_ramp_wedge",
+   "zone": "zone_b",
+   "source": "kit:stairs",
+   "sha1": "e38228572e53aae8a211ff0ae61ae6e2bd7de16d",
+   "legacyId": null,
+   "file": "living_gate/part/carrier_lanes_ramp_wedge.svg",
+   "width": 120,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 20,
+     "y": 36
+    },
+    {
+     "name": "step_1",
+     "x": 60,
+     "y": 24
+    },
+    {
+     "name": "step_2",
+     "x": 100,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 618361435,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.endocytosis_lift_clathrin_cell",
+   "zone": "zone_c",
+   "source": "kit:molecule",
+   "sha1": "85634f92ff27810cf140c602e8621c76a245f483",
+   "legacyId": "#136",
+   "file": "living_gate/part/endocytosis_lift_clathrin_cell.svg",
+   "width": 59,
+   "height": 59,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 30,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 721112134,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.endocytosis_lift_console",
+   "zone": "zone_c",
+   "source": "kit:lectern",
+   "sha1": "86bb10e6ebee27f50108db6a216a9fff7a9e36bb",
+   "legacyId": null,
+   "file": "living_gate/part/endocytosis_lift_console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 176725095,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.endocytosis_lift_dynamin_collar",
+   "zone": "zone_c",
+   "source": "hero",
+   "sha1": "a806c9007753027665b7a72c67ad1f2472f34129",
+   "legacyId": "#137",
+   "file": "living_gate/part/endocytosis_lift_dynamin_collar.svg",
+   "width": 180,
+   "height": 70,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "collar",
+     "x": 90,
+     "y": 35
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.endocytosis_lift_halcyon",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "b7a747ab3b62d4711329e744c6aca6013df4eba6",
+   "legacyId": "#135",
+   "file": "living_gate/part/endocytosis_lift_halcyon.svg",
+   "width": 380,
+   "height": 170,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "hatch",
+     "x": 196,
+     "y": 18
+    },
+    {
+     "name": "porthole",
+     "x": 250,
+     "y": 80
+    },
+    {
+     "name": "sub",
+     "x": 196,
+     "y": 90
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.endocytosis_lift_stage_lamp",
+   "zone": "zone_c",
+   "source": "kit:ringStack",
+   "sha1": "4630cffe759b5457fe74376c880827f2378f5270",
+   "legacyId": "#139",
+   "file": "living_gate/part/endocytosis_lift_stage_lamp.svg",
+   "width": 90,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 45,
+     "y": 45
+    }
+   ],
+   "scroll": null,
+   "seed": 3009769899,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.endocytosis_lift_vesicle",
+   "zone": "zone_c",
+   "source": "kit:bilayerTile",
+   "sha1": "824006efcb747b0445baaaa90f32cffe144c15c9",
+   "legacyId": "#140",
+   "file": "living_gate/part/endocytosis_lift_vesicle.svg",
+   "width": 404,
+   "height": 404,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 202,
+     "y": 2
+    }
+   ],
+   "scroll": null,
+   "seed": 4251824871,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_atp_pipe",
+   "zone": "zone_d",
+   "source": "kit:linkStrip",
+   "sha1": "ddd3e63e32886bcbdcf6068245d81a6d1c93c7f3",
+   "legacyId": "#117",
+   "file": "living_gate/part/gatekeeper_maws_atp_pipe.svg",
+   "width": 40,
+   "height": 128,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 4221715314,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_console",
+   "zone": "zone_d",
+   "source": "kit:lectern",
+   "sha1": "f471a1866dc56270b54dcc0e0fd462b22f05cb1e",
+   "legacyId": null,
+   "file": "living_gate/part/gatekeeper_maws_console.svg",
+   "width": 180,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 90,
+     "y": 111
+    },
+    {
+     "name": "screen",
+     "x": 90,
+     "y": 84
+    }
+   ],
+   "scroll": null,
+   "seed": 1039965795,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_eye_pupil",
+   "zone": "zone_d",
+   "source": "kit:ringStack",
+   "sha1": "e7f753b2607e8eb472341ece18184f6185fc1927",
+   "legacyId": "#144",
+   "file": "living_gate/part/gatekeeper_maws_eye_pupil.svg",
+   "width": 140,
+   "height": 140,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 70,
+     "y": 70
+    },
+    {
+     "name": "notch_0",
+     "x": 70,
+     "y": 10
+    }
+   ],
+   "scroll": null,
+   "seed": 4000361268,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_eye_ring",
+   "zone": "zone_d",
+   "source": "kit:ringStack",
+   "sha1": "93e5988e96dafb25cf7b69aa7d15dfca80dc20fd",
+   "legacyId": "#143",
+   "file": "living_gate/part/gatekeeper_maws_eye_ring.svg",
+   "width": 260,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 130,
+     "y": 130
+    }
+   ],
+   "scroll": null,
+   "seed": 2108945894,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_gatekeeper_body",
+   "zone": "zone_d",
+   "source": "kit:compose",
+   "sha1": "7bf8da735f526e355bf51737c8ef82c25a9fa761",
+   "legacyId": "#142",
+   "file": "living_gate/part/gatekeeper_maws_gatekeeper_body.svg",
+   "width": 900,
+   "height": 1040,
+   "rasterScale": 0.6,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_medallion_0",
+     "x": 190,
+     "y": 310
+    },
+    {
+     "name": "i0_medallion_1",
+     "x": 490,
+     "y": 310
+    },
+    {
+     "name": "i0_medallion_2",
+     "x": 790,
+     "y": 310
+    },
+    {
+     "name": "i1_hub",
+     "x": 450,
+     "y": 240
+    }
+   ],
+   "scroll": null,
+   "seed": 1125543644,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_maw_channel",
+   "zone": "zone_d",
+   "source": "kit:ringStack",
+   "sha1": "367e4098dc0a9a3ac82e3294fe862f8f6bd7db67",
+   "legacyId": "#146",
+   "file": "living_gate/part/gatekeeper_maws_maw_channel.svg",
+   "width": 180,
+   "height": 180,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 90,
+     "y": 90
+    },
+    {
+     "name": "notch_0",
+     "x": 90,
+     "y": 15
+    },
+    {
+     "name": "notch_1",
+     "x": 155,
+     "y": 53
+    },
+    {
+     "name": "notch_2",
+     "x": 155,
+     "y": 128
+    },
+    {
+     "name": "notch_3",
+     "x": 90,
+     "y": 165
+    },
+    {
+     "name": "notch_4",
+     "x": 25,
+     "y": 128
+    },
+    {
+     "name": "notch_5",
+     "x": 25,
+     "y": 52
+    }
+   ],
+   "scroll": null,
+   "seed": 2718511165,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_maw_oil",
+   "zone": "zone_d",
+   "source": "kit:bilayerTile",
+   "sha1": "eaf5811ad386d6067ae849dd13df97f1182a2d4e",
+   "legacyId": "#145",
+   "file": "living_gate/part/gatekeeper_maws_maw_oil.svg",
+   "width": 202,
+   "height": 202,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 101,
+     "y": 2
+    }
+   ],
+   "scroll": null,
+   "seed": 1790957930,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.gatekeeper_maws_maw_pump",
+   "zone": "zone_d",
+   "source": "kit:plate",
+   "sha1": "77201a8d87d95e6017b8c6020dd9c638a3e944be",
+   "legacyId": "#147",
+   "file": "living_gate/part/gatekeeper_maws_maw_pump.svg",
+   "width": 220,
+   "height": 180,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 110,
+     "y": 90
+    }
+   ],
+   "scroll": null,
+   "seed": 2177396828,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_carrier_rocker",
+   "zone": "zone_a",
+   "source": "hero",
+   "sha1": "e11c5918504ea68e21cf0d94ca56556bae7308e2",
+   "legacyId": "#86",
+   "file": "living_gate/part/membrane_router_carrier_rocker.svg",
+   "width": 560,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "cradle",
+     "x": 280,
+     "y": 130
+    },
+    {
+     "name": "rocker_pivot",
+     "x": 280,
+     "y": 200
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_console",
+   "zone": "zone_a",
+   "source": "kit:lectern",
+   "sha1": "5b7e0c2b60a744cdfec7e4e2c25fc7cb0f8a2acc",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 868548582,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_crossing_gate",
+   "zone": "zone_a",
+   "source": "hero",
+   "sha1": "cb112a39c043102a8fb3e4c34f73657ce8de38d5",
+   "legacyId": "#80",
+   "file": "living_gate/part/membrane_router_crossing_gate.svg",
+   "width": 520,
+   "height": 620,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.677
+   ],
+   "anchors": [
+    {
+     "name": "doorway",
+     "x": 260,
+     "y": 420
+    },
+    {
+     "name": "fin_split",
+     "x": 260,
+     "y": 4
+    },
+    {
+     "name": "gate_ring",
+     "x": 260,
+     "y": 230
+    },
+    {
+     "name": "keystone",
+     "x": 260,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_gate_fin",
+   "zone": "zone_a",
+   "source": "hero",
+   "sha1": "9a508dea4f3759bbef61b250053f60f77c1d6c27",
+   "legacyId": "#83",
+   "file": "living_gate/part/membrane_router_gate_fin.svg",
+   "width": 90,
+   "height": 300,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.95,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "fin_tip",
+     "x": 86,
+     "y": 4
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_gate_ring_inner",
+   "zone": "zone_a",
+   "source": "kit:ringStack",
+   "sha1": "d5846ac082d75b1b37fee7fa2273ee3a06615469",
+   "legacyId": "#82",
+   "file": "living_gate/part/membrane_router_gate_ring_inner.svg",
+   "width": 260,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 130,
+     "y": 130
+    },
+    {
+     "name": "notch_0",
+     "x": 130,
+     "y": 17
+    },
+    {
+     "name": "notch_1",
+     "x": 228,
+     "y": 74
+    },
+    {
+     "name": "notch_2",
+     "x": 228,
+     "y": 187
+    },
+    {
+     "name": "notch_3",
+     "x": 130,
+     "y": 243
+    },
+    {
+     "name": "notch_4",
+     "x": 32,
+     "y": 187
+    },
+    {
+     "name": "notch_5",
+     "x": 32,
+     "y": 73
+    }
+   ],
+   "scroll": null,
+   "seed": 2600358918,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_gate_ring_outer",
+   "zone": "zone_a",
+   "source": "kit:ringStack",
+   "sha1": "ed38ee027312b1b274e6c398699a91d73de16a92",
+   "legacyId": "#81",
+   "file": "living_gate/part/membrane_router_gate_ring_outer.svg",
+   "width": 380,
+   "height": 380,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 190,
+     "y": 190
+    }
+   ],
+   "scroll": null,
+   "seed": 1045122861,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_lane_mouth",
+   "zone": "zone_a",
+   "source": "kit:ringStack",
+   "sha1": "16177bf335b01f12c7a5806cbe84512153fae792",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_lane_mouth.svg",
+   "width": 160,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 80,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 441073007,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_cl",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "5b553b097906b54ad181e3cbd4abd322c8692190",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_cl.svg",
+   "width": 49,
+   "height": 41,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 21,
+     "y": 21
+    }
+   ],
+   "scroll": null,
+   "seed": 2703998695,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_co2",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "02ef26463bf1d4c4495a181e7f3e04adc19beafc",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_co2.svg",
+   "width": 71,
+   "height": 33,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 36,
+     "y": 17
+    }
+   ],
+   "scroll": null,
+   "seed": 2464133464,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_glucose",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "8dcf55cda3fa024f65e2372c28b496112f5771c0",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_glucose.svg",
+   "width": 55,
+   "height": 55,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 28,
+     "y": 28
+    }
+   ],
+   "scroll": null,
+   "seed": 3232696576,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_h",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "cca9e27ea5535fc26b27a3d04bfc5465bac1502d",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_h.svg",
+   "width": 33,
+   "height": 25,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 13,
+     "y": 13
+    }
+   ],
+   "scroll": null,
+   "seed": 1358291040,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_k",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "56c87f110c214c5f2eec17c176bb1f763daddfda",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_k.svg",
+   "width": 55,
+   "height": 47,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 1408623897,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_na",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "93757a7837d425387c64075e881667b95e93ccd7",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_na.svg",
+   "width": 49,
+   "height": 41,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 21,
+     "y": 21
+    }
+   ],
+   "scroll": null,
+   "seed": 2552161481,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_o2",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "83ed87c67d928e164ad3bae440b4e792552fa170",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_o2.svg",
+   "width": 51,
+   "height": 33,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 26,
+     "y": 17
+    }
+   ],
+   "scroll": null,
+   "seed": 3475077621,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_mol_steroid",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "1d8a2028f44d540d58bba1e15a1722528fdac6b6",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_mol_steroid.svg",
+   "width": 98,
+   "height": 47,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 44,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 346750980,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_molecule_glyph",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "bca2c560e1724a16ac16821a9b3ecb8b8464f178",
+   "legacyId": null,
+   "file": "living_gate/part/membrane_router_molecule_glyph.svg",
+   "width": 43,
+   "height": 43,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 22,
+     "y": 22
+    }
+   ],
+   "scroll": null,
+   "seed": 3745748824,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.membrane_router_oil_road",
+   "zone": "zone_a",
+   "source": "kit:ringStack",
+   "sha1": "0fdd85123f98b475db3d8bd176ff035f0ca42f3f",
+   "legacyId": "#85",
+   "file": "living_gate/part/membrane_router_oil_road.svg",
+   "width": 320,
+   "height": 96,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 160,
+     "y": 48
+    },
+    {
+     "name": "stud_0",
+     "x": 160,
+     "y": 5
+    },
+    {
+     "name": "stud_1",
+     "x": 284,
+     "y": 69
+    },
+    {
+     "name": "stud_2",
+     "x": 36,
+     "y": 69
+    }
+   ],
+   "scroll": null,
+   "seed": 1318637710,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.plant_pool_console",
+   "zone": "kit",
+   "source": "kit:lectern",
+   "sha1": "529e865ae8162ee67daa9273fd36a964f071bb4c",
+   "legacyId": null,
+   "file": "living_gate/part/plant_pool_console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 1339975095,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.plant_pool_plant_cell",
+   "zone": "kit",
+   "source": "kit:molecule",
+   "sha1": "49f4f18c5a69b9a1162d74e2364af1305bfb04cd",
+   "legacyId": null,
+   "file": "living_gate/part/plant_pool_plant_cell.svg",
+   "width": 144,
+   "height": 144,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 72,
+     "y": 72
+    }
+   ],
+   "scroll": null,
+   "seed": 2697988312,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.plant_pool_pool",
+   "zone": "kit",
+   "source": "kit:waterBand",
+   "sha1": "cebd53cda9167867f148cf1fcb75a788d883697c",
+   "legacyId": null,
+   "file": "living_gate/part/plant_pool_pool.svg",
+   "width": 400,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 400,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 363546788,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.plant_pool_pool.b",
+   "zone": "kit",
+   "source": "kit:waterBand",
+   "sha1": "f6890e95d82e64657b1e40c6110e6cbc2bcb107e",
+   "legacyId": null,
+   "file": "living_gate/part/plant_pool_pool.b.svg",
+   "width": 400,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 400,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 363546788,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.plant_pool_salt_hopper",
+   "zone": "kit",
+   "source": "kit:compose",
+   "sha1": "d84c266eaf90feb11b4e58129bac94fc6d66a0cf",
+   "legacyId": null,
+   "file": "living_gate/part/plant_pool_salt_hopper.svg",
+   "width": 160,
+   "height": 220,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 80,
+     "y": 90
+    }
+   ],
+   "scroll": null,
+   "seed": 1919871673,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_beacon_tower",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "b8838e2aca613c24384a117232a79d4fe39c05df",
+   "legacyId": null,
+   "file": "living_gate/part/pump_rewiring_beacon_tower.svg",
+   "width": 120,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 60,
+     "y": 109
+    },
+    {
+     "name": "i0_band_1",
+     "x": 60,
+     "y": 145
+    },
+    {
+     "name": "i0_top",
+     "x": 60,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": 2133840082,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_cartridge",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "3cd96cf3a7cc8bb9d263c11a54de504caafb92ac",
+   "legacyId": "#132",
+   "file": "living_gate/part/pump_rewiring_cartridge.svg",
+   "width": 110,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 55,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 2550943993,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_console",
+   "zone": "zone_c",
+   "source": "kit:lectern",
+   "sha1": "2524fb115be4c260a6b90deedc93708de3bdaf96",
+   "legacyId": null,
+   "file": "living_gate/part/pump_rewiring_console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 4088891565,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_drum",
+   "zone": "zone_c",
+   "source": "kit:ringStack",
+   "sha1": "525a48e6bab2fe963d51f4bf6a376e171619293a",
+   "legacyId": "#128",
+   "file": "living_gate/part/pump_rewiring_drum.svg",
+   "width": 320,
+   "height": 320,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 160,
+     "y": 160
+    },
+    {
+     "name": "socket_0",
+     "x": 160,
+     "y": 18
+    },
+    {
+     "name": "socket_1",
+     "x": 283,
+     "y": 89
+    },
+    {
+     "name": "socket_2",
+     "x": 283,
+     "y": 231
+    },
+    {
+     "name": "socket_3",
+     "x": 160,
+     "y": 302
+    },
+    {
+     "name": "socket_4",
+     "x": 37,
+     "y": 231
+    },
+    {
+     "name": "socket_5",
+     "x": 37,
+     "y": 89
+    }
+   ],
+   "scroll": null,
+   "seed": 699009036,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_hall_gate",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "7705fade8a5b9c22cbaf0fcfea6303b60f4cae05",
+   "legacyId": "#134",
+   "file": "living_gate/part/pump_rewiring_hall_gate.svg",
+   "width": 500,
+   "height": 520,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_hub",
+     "x": 250,
+     "y": 90
+    }
+   ],
+   "scroll": null,
+   "seed": 2892262471,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_jaw_lower",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "01cea5bc378985eb50afd8e692ab1e42fbe855e9",
+   "legacyId": "#127",
+   "file": "living_gate/part/pump_rewiring_jaw_lower.svg",
+   "width": 300,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 150,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": 3980038156,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_jaw_upper",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "0827b93bff52dd963c89212f7c5dc06b0f1e3ea0",
+   "legacyId": "#126",
+   "file": "living_gate/part/pump_rewiring_jaw_upper.svg",
+   "width": 300,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 150,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": 225791217,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_pump_housing",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "1b2a9bca4070faa4b52a4e81de686006e5220890",
+   "legacyId": "#125",
+   "file": "living_gate/part/pump_rewiring_pump_housing.svg",
+   "width": 600,
+   "height": 620,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_hub",
+     "x": 300,
+     "y": 310
+    }
+   ],
+   "scroll": null,
+   "seed": 502468846,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.pump_rewiring_socket",
+   "zone": "zone_c",
+   "source": "kit:ringStack",
+   "sha1": "33998cd86792794ab9fd5aa60c21086d34f4e7f9",
+   "legacyId": "#129",
+   "file": "living_gate/part/pump_rewiring_socket.svg",
+   "width": 46,
+   "height": 46,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 23,
+     "y": 23
+    }
+   ],
+   "scroll": null,
+   "seed": 3313805957,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_balance_beam",
+   "zone": "zone_b",
+   "source": "hero",
+   "sha1": "62dd64ac442a797104d61a4279c52b0ffa489af5",
+   "legacyId": "#90",
+   "file": "living_gate/part/specimen_pods_balance_beam.svg",
+   "width": 860,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hook_l",
+     "x": 28,
+     "y": 58
+    },
+    {
+     "name": "hook_r",
+     "x": 832,
+     "y": 58
+    },
+    {
+     "name": "hub",
+     "x": 430,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_balance_float",
+   "zone": "zone_a",
+   "source": "kit:plate",
+   "sha1": "1c0be123e9e69cfd19052d30c37c564d78a46b2b",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_balance_float.svg",
+   "width": 70,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 35,
+     "y": 45
+    }
+   ],
+   "scroll": null,
+   "seed": 549719178,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_balance_pillar",
+   "zone": "zone_a",
+   "source": "kit:column",
+   "sha1": "582d6d331e8e787415f129438094f32cefc71949",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_balance_pillar.svg",
+   "width": 140,
+   "height": 420,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 70,
+     "y": 112
+    },
+    {
+     "name": "band_1",
+     "x": 70,
+     "y": 169
+    },
+    {
+     "name": "top",
+     "x": 70,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 2378458340,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_basin",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "86834a6508fdc50bed57144cd0bd82681f11574a",
+   "legacyId": "#93",
+   "file": "living_gate/part/specimen_pods_basin.svg",
+   "width": 620,
+   "height": 300,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_opening_0",
+     "x": 310,
+     "y": 260
+    }
+   ],
+   "scroll": null,
+   "seed": 2315891994,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_chain",
+   "zone": "zone_a",
+   "source": "kit:linkStrip",
+   "sha1": "ea7ec92f296d6063695c10d203908415ce56ceee",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_chain.svg",
+   "width": 16,
+   "height": 128,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3647774202,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_console",
+   "zone": "zone_a",
+   "source": "kit:lectern",
+   "sha1": "7b9eeeb6f3d83d650180c6c4dcb86eff8c5853d1",
+   "legacyId": "#66",
+   "file": "living_gate/part/specimen_pods_console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 4056915166,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_dye_tank",
+   "zone": "zone_a",
+   "source": "kit:glassTank",
+   "sha1": "fb41fc1ca460863ad9c046d0e97b51e91d42d16a",
+   "legacyId": "#87",
+   "file": "living_gate/part/specimen_pods_dye_tank.svg",
+   "width": 780,
+   "height": 310,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 390,
+     "y": 155
+    },
+    {
+     "name": "i2_surface",
+     "x": 55,
+     "y": 155
+    }
+   ],
+   "scroll": null,
+   "seed": 2279204638,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_flume_pump",
+   "zone": "zone_c",
+   "source": "hero",
+   "sha1": "cae73d438467a7b512d4a258a306fdb0b7a595b2",
+   "legacyId": "#120",
+   "file": "living_gate/part/specimen_pods_flume_pump.svg",
+   "width": 200,
+   "height": 260,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "feed_port",
+     "x": 20,
+     "y": 112
+    },
+    {
+     "name": "outlet",
+     "x": 190,
+     "y": 178
+    },
+    {
+     "name": "piston",
+     "x": 100,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_high_tank",
+   "zone": "zone_a",
+   "source": "kit:glassTank",
+   "sha1": "fb235e92a865aaed10867ce434ea7fcc054dd164",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_high_tank.svg",
+   "width": 300,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 150,
+     "y": 130
+    },
+    {
+     "name": "i2_surface",
+     "x": 21,
+     "y": 130
+    }
+   ],
+   "scroll": null,
+   "seed": 478189610,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_ion",
+   "zone": "zone_a",
+   "source": "kit:molecule",
+   "sha1": "e831097bb915a32be7dfa72668b5df60a64efd3a",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_ion.svg",
+   "width": 55,
+   "height": 47,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 3720811881,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_lantern",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "bd7cb04cfd11a8f0d5c9c6f129342c1714df27ff",
+   "legacyId": "#122",
+   "file": "living_gate/part/specimen_pods_lantern.svg",
+   "width": 60,
+   "height": 110,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_hub",
+     "x": 30,
+     "y": 70
+    }
+   ],
+   "scroll": null,
+   "seed": 1739770867,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_letter_plate",
+   "zone": "zone_a",
+   "source": "kit:ringStack",
+   "sha1": "4fd42d1698bb228f29129318602af29af48af0d2",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_letter_plate.svg",
+   "width": 40,
+   "height": 40,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 20,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 1022768410,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_low_tank",
+   "zone": "zone_a",
+   "source": "kit:glassTank",
+   "sha1": "a9614e47c57410a677ffc1ed059524ed7465687b",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_low_tank.svg",
+   "width": 300,
+   "height": 260,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 150,
+     "y": 130
+    },
+    {
+     "name": "i2_surface",
+     "x": 21,
+     "y": 130
+    }
+   ],
+   "scroll": null,
+   "seed": 3707229478,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_mimic_mote",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "1482ef7038bce263f31cdaddf882d707c41fcb0e",
+   "legacyId": "#77",
+   "file": "living_gate/part/specimen_pods_mimic_mote.svg",
+   "width": 80,
+   "height": 64,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "eyes",
+     "x": 40,
+     "y": 40
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_needle",
+   "zone": "zone_a",
+   "source": "hero",
+   "sha1": "273545b4209276a12b8324232bb8c5a091b34732",
+   "legacyId": "#79",
+   "file": "living_gate/part/specimen_pods_needle.svg",
+   "width": 60,
+   "height": 240,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 30,
+     "y": 238
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_pod",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "8629c03cd075e7876de50eb52ad56e15063d1624",
+   "legacyId": "#73",
+   "file": "living_gate/part/specimen_pods_pod.svg",
+   "width": 150,
+   "height": 230,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "capsule",
+     "x": 75,
+     "y": 76
+    },
+    {
+     "name": "mote",
+     "x": 75,
+     "y": 112
+    },
+    {
+     "name": "plate",
+     "x": 75,
+     "y": 190
+    },
+    {
+     "name": "top",
+     "x": 75,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_probe_emitter",
+   "zone": "all",
+   "source": "hero",
+   "sha1": "541d43d125f7377c132740ff71980ba70eba88f1",
+   "legacyId": "#78",
+   "file": "living_gate/part/specimen_pods_probe_emitter.svg",
+   "width": 60,
+   "height": 150,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "beam_origin",
+     "x": 30,
+     "y": 22
+    },
+    {
+     "name": "orb",
+     "x": 30,
+     "y": 22
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_probe_well",
+   "zone": "zone_a",
+   "source": "kit:bilayerTile",
+   "sha1": "aee8b535ad82e9562a4080a05b1eb318b95b1e2a",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_probe_well.svg",
+   "width": 384,
+   "height": 112,
+   "rasterScale": 1,
+   "tileWidth": 384,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 192,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 1647034466,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_raft_lock",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "717e216f330a774038d4461e3ca15e082998a8ce",
+   "legacyId": "#96",
+   "file": "living_gate/part/specimen_pods_raft_lock.svg",
+   "width": 300,
+   "height": 520,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_opening_0",
+     "x": 150,
+     "y": 480
+    },
+    {
+     "name": "i1_label",
+     "x": 150,
+     "y": 260
+    }
+   ],
+   "scroll": null,
+   "seed": 2097317600,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_tank_window",
+   "zone": "zone_a",
+   "source": "kit:bilayerTile",
+   "sha1": "e3f45b84a5d4f8d1385af890bfe5692b0953fe9a",
+   "legacyId": null,
+   "file": "living_gate/part/specimen_pods_tank_window.svg",
+   "width": 44,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "surface",
+     "x": 0,
+     "y": 150
+    }
+   ],
+   "scroll": null,
+   "seed": 4023698346,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.specimen_pods_test_cell",
+   "zone": "zone_b",
+   "source": "hero",
+   "sha1": "795ec9ddbc205982b9e307dfa505af9368e0ee1a",
+   "legacyId": "#94",
+   "file": "living_gate/part/specimen_pods_test_cell.svg",
+   "width": 280,
+   "height": 280,
+   "rasterScale": 1.5,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 140,
+     "y": 140
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_barge",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "c6992b0aad1f7da8665a3fa3e799a4f650fea5f2",
+   "legacyId": "#111",
+   "file": "living_gate/part/tonicity_sluices_barge.svg",
+   "width": 360,
+   "height": 80,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 180,
+     "y": 55
+    }
+   ],
+   "scroll": null,
+   "seed": 3768404909,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_basin",
+   "zone": "zone_b",
+   "source": "kit:waterBand",
+   "sha1": "ddb22dec7681869f20d971af4b7f7a4a3517e6fb",
+   "legacyId": "#102",
+   "file": "living_gate/part/tonicity_sluices_basin.svg",
+   "width": 300,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 300,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1791020841,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_basin.b",
+   "zone": "zone_b",
+   "source": "kit:waterBand",
+   "sha1": "a9aa97b1f94678178614c4507664a6ea06e1dcfc",
+   "legacyId": "#102",
+   "file": "living_gate/part/tonicity_sluices_basin.b.svg",
+   "width": 300,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 300,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1791020841,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_cell_generic",
+   "zone": "zone_b",
+   "source": "kit:molecule",
+   "sha1": "f36aa3aee456781390e75b61257c7e4c37716e58",
+   "legacyId": "#109",
+   "file": "living_gate/part/tonicity_sluices_cell_generic.svg",
+   "width": 156,
+   "height": 156,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 78,
+     "y": 78
+    }
+   ],
+   "scroll": null,
+   "seed": 2915646802,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_cell_plant",
+   "zone": "zone_b",
+   "source": "kit:molecule",
+   "sha1": "87f7168c5dc34c80879733bf304051ef64ff3676",
+   "legacyId": "#107",
+   "file": "living_gate/part/tonicity_sluices_cell_plant.svg",
+   "width": 164,
+   "height": 164,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 82,
+     "y": 82
+    }
+   ],
+   "scroll": null,
+   "seed": 2602492042,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_cell_potato",
+   "zone": "zone_b",
+   "source": "kit:molecule",
+   "sha1": "1cfc44dc03df236b8c5c7b068da1d1eea7bdee80",
+   "legacyId": "#110",
+   "file": "living_gate/part/tonicity_sluices_cell_potato.svg",
+   "width": 164,
+   "height": 164,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 82,
+     "y": 82
+    }
+   ],
+   "scroll": null,
+   "seed": 1492046522,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_cell_protoplast",
+   "zone": "zone_b",
+   "source": "kit:molecule",
+   "sha1": "896b8064afc8bec0ac478bcb03ad5186949161bf",
+   "legacyId": "#108",
+   "file": "living_gate/part/tonicity_sluices_cell_protoplast.svg",
+   "width": 144,
+   "height": 144,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 72,
+     "y": 72
+    }
+   ],
+   "scroll": null,
+   "seed": 2719538635,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_cell_rbc",
+   "zone": "zone_b",
+   "source": "kit:molecule",
+   "sha1": "4c0d99b71dece304055d2fcc876e2ad0298fa848",
+   "legacyId": "#106",
+   "file": "living_gate/part/tonicity_sluices_cell_rbc.svg",
+   "width": 92,
+   "height": 92,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "center",
+     "x": 46,
+     "y": 46
+    }
+   ],
+   "scroll": null,
+   "seed": 3974698906,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_console",
+   "zone": "zone_b",
+   "source": "kit:lectern",
+   "sha1": "7d02fdd79f08125a4c7e8e699d3749913f195df8",
+   "legacyId": null,
+   "file": "living_gate/part/tonicity_sluices_console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 1095343669,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_eddy",
+   "zone": "zone_b",
+   "source": "kit:cloudBand",
+   "sha1": "876a3992fd3ba260610d9f66dc78706ef767badc",
+   "legacyId": "#103",
+   "file": "living_gate/part/tonicity_sluices_eddy.svg",
+   "width": 300,
+   "height": 160,
+   "rasterScale": 1,
+   "tileWidth": 300,
+   "pivot": [
+    0,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3981922246,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_label_lock",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "6b4095a3e1fb8d6b4662b2f1bfb727521047ceb9",
+   "legacyId": "#98",
+   "file": "living_gate/part/tonicity_sluices_label_lock.svg",
+   "width": 420,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_opening_0",
+     "x": 210,
+     "y": 260
+    }
+   ],
+   "scroll": null,
+   "seed": 4226686456,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_lock_leaf",
+   "zone": "zone_b",
+   "source": "kit:plate",
+   "sha1": "35378b4ccf65f88094336398e1adeda90860e3f5",
+   "legacyId": "#99",
+   "file": "living_gate/part/tonicity_sluices_lock_leaf.svg",
+   "width": 40,
+   "height": 220,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 20,
+     "y": 110
+    }
+   ],
+   "scroll": null,
+   "seed": 1461387564,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.part.tonicity_sluices_valve_wheel",
+   "zone": "zone_b",
+   "source": "kit:ringStack",
+   "sha1": "0118e38bf49b126a20b8df3ad65b250501adb5ec",
+   "legacyId": "#100",
+   "file": "living_gate/part/tonicity_sluices_valve_wheel.svg",
+   "width": 220,
+   "height": 220,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 110,
+     "y": 110
+    }
+   ],
+   "scroll": null,
+   "seed": 4090932178,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.basin_plaque",
+   "zone": "zone_b",
+   "source": "kit:plate",
+   "sha1": "697fccb972eb2a7ef8b479470049b790ee04e6ce",
+   "legacyId": null,
+   "file": "living_gate/prop/basin_plaque.svg",
+   "width": 160,
+   "height": 50,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 80,
+     "y": 25
+    }
+   ],
+   "scroll": null,
+   "seed": 2111286863,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.cable_plinth",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "a76a991269e3494dcd4130b6349c4c515e90a810",
+   "legacyId": null,
+   "file": "living_gate/prop/cable_plinth.svg",
+   "width": 160,
+   "height": 240,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_label",
+     "x": 80,
+     "y": 130
+    },
+    {
+     "name": "i1_hub",
+     "x": 50,
+     "y": 90
+    },
+    {
+     "name": "i2_hub",
+     "x": 110,
+     "y": 90
+    },
+    {
+     "name": "i3_hub",
+     "x": 50,
+     "y": 150
+    },
+    {
+     "name": "i4_hub",
+     "x": 110,
+     "y": 150
+    }
+   ],
+   "scroll": null,
+   "seed": 3585907028,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.cartridge_rack",
+   "zone": "zone_c",
+   "source": "kit:shelving",
+   "sha1": "2cc84ace43fa5861a67dcac1c1fffeecd543b74e",
+   "legacyId": null,
+   "file": "living_gate/prop/cartridge_rack.svg",
+   "width": 220,
+   "height": 360,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "bay_0",
+     "x": 110,
+     "y": 74
+    }
+   ],
+   "scroll": null,
+   "seed": 2903140496,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.cholesterol_a",
+   "zone": "zone_a",
+   "source": "kit:crystalCluster",
+   "sha1": "3fd0b7a1b42e7ca97dc8105c6ffa106bb4cd6a94",
+   "legacyId": null,
+   "file": "living_gate/prop/cholesterol_a.svg",
+   "width": 60,
+   "height": 140,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 30,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3939581095,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.cholesterol_b",
+   "zone": "zone_a",
+   "source": "kit:crystalCluster",
+   "sha1": "6ac2677718b85ca08b49acbaa989a9de4b5a75b8",
+   "legacyId": null,
+   "file": "living_gate/prop/cholesterol_b.svg",
+   "width": 110,
+   "height": 90,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 55,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3956358714,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.cholesterol_c",
+   "zone": "zone_a",
+   "source": "kit:crystalCluster",
+   "sha1": "317b500777150c01ac524d17b1b1978fefe3755e",
+   "legacyId": null,
+   "file": "living_gate/prop/cholesterol_c.svg",
+   "width": 150,
+   "height": 70,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 75,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3973136333,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.console",
+   "zone": "zone_a",
+   "source": "kit:lectern",
+   "sha1": "1a007ed64fddd96270dd6a530a90d9dbb3bc48c5",
+   "legacyId": "cell.prop.console",
+   "file": "living_gate/prop/console.svg",
+   "width": 113,
+   "height": 125,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 56,
+     "y": 38
+    },
+    {
+     "name": "screen",
+     "x": 59,
+     "y": 16
+    }
+   ],
+   "scroll": null,
+   "seed": 2527783854,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.deck_ladder",
+   "zone": "zone_c",
+   "source": "kit:linkStrip",
+   "sha1": "a4294c92056b287db34ac1fc386d22442c452fe9",
+   "legacyId": null,
+   "file": "living_gate/prop/deck_ladder.svg",
+   "width": 40,
+   "height": 340,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1383735293,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.gantry_platform",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "976dbb7f642b01c01ebe287356b7ac1c6d31ae60",
+   "legacyId": "cell.prop.gantry_platform",
+   "file": "living_gate/prop/gantry_platform.svg",
+   "width": 360,
+   "height": 60,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 180,
+     "y": 30
+    }
+   ],
+   "scroll": null,
+   "seed": 2780438276,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.gantry_rail",
+   "zone": "zone_c",
+   "source": "kit:linkStrip",
+   "sha1": "27da3e986978f9cad5ed0d624c7c94b3302e43e5",
+   "legacyId": null,
+   "file": "living_gate/prop/gantry_rail.svg",
+   "width": 40,
+   "height": 128,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 3534466171,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.garden_alcove",
+   "zone": "zone_b",
+   "source": "kit:compose",
+   "sha1": "fe156f6a675ff504732c1a87bd4cdbf98fdaab22",
+   "legacyId": null,
+   "file": "living_gate/prop/garden_alcove.svg",
+   "width": 260,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i1_sway",
+     "x": 130,
+     "y": 53
+    }
+   ],
+   "scroll": null,
+   "seed": 1446813131,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.hall_facade",
+   "zone": "zone_b",
+   "source": "kit:facade",
+   "sha1": "e7a118e06e4b8ab6bb2038335b7ac485c642136b",
+   "legacyId": "cell.prop.hall_facade",
+   "file": "living_gate/prop/hall_facade.svg",
+   "width": 1200,
+   "height": 700,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "door",
+     "x": 600,
+     "y": 700
+    },
+    {
+     "name": "window_0_0",
+     "x": 200,
+     "y": 571
+    },
+    {
+     "name": "window_0_2",
+     "x": 1000,
+     "y": 571
+    },
+    {
+     "name": "window_1_0",
+     "x": 200,
+     "y": 242
+    },
+    {
+     "name": "window_1_1",
+     "x": 600,
+     "y": 242
+    },
+    {
+     "name": "window_1_2",
+     "x": 1000,
+     "y": 242
+    }
+   ],
+   "scroll": null,
+   "seed": 114926057,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.kiosk",
+   "zone": "zone_d",
+   "source": "kit:lectern",
+   "sha1": "92e83a20515bffbf85b0b63db5c8f425cc1d2d1a",
+   "legacyId": "cell.prop.kiosk",
+   "file": "living_gate/prop/kiosk.svg",
+   "width": 180,
+   "height": 200,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "console",
+     "x": 90,
+     "y": 111
+    },
+    {
+     "name": "screen",
+     "x": 90,
+     "y": 84
+    }
+   ],
+   "scroll": null,
+   "seed": 1589975788,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.leak_trough",
+   "zone": "zone_c",
+   "source": "kit:stairs",
+   "sha1": "55969b79204d4fa704d9e56c1a8915c156178c7a",
+   "legacyId": null,
+   "file": "living_gate/prop/leak_trough.svg",
+   "width": 400,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 300,
+     "y": 28
+    },
+    {
+     "name": "step_1",
+     "x": 100,
+     "y": 8
+    }
+   ],
+   "scroll": null,
+   "seed": 2116629394,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.lift_frame",
+   "zone": "zone_c",
+   "source": "kit:column",
+   "sha1": "4a74b55bc61b2c2bbca3ce182d101871e4bd490c",
+   "legacyId": null,
+   "file": "living_gate/prop/lift_frame.svg",
+   "width": 220,
+   "height": 520,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "band_0",
+     "x": 110,
+     "y": 139
+    },
+    {
+     "name": "band_1",
+     "x": 110,
+     "y": 210
+    },
+    {
+     "name": "socket",
+     "x": 110,
+     "y": 93
+    },
+    {
+     "name": "top",
+     "x": 110,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 3325166854,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.microtubule_rail",
+   "zone": "zone_c",
+   "source": "kit:linkStrip",
+   "sha1": "d273f3a90b1d5ed5a829a593aa6533a8e79cb047",
+   "legacyId": null,
+   "file": "living_gate/prop/microtubule_rail.svg",
+   "width": 256,
+   "height": 40,
+   "rasterScale": 1,
+   "tileWidth": 256,
+   "pivot": [
+    0,
+    0.5
+   ],
+   "anchors": [],
+   "scroll": null,
+   "seed": 1835675319,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.nuclear_pore",
+   "zone": "zone_d",
+   "source": "hero",
+   "sha1": "0110d366600d68121e6bf9bd61583614ae3b41d0",
+   "legacyId": "#149",
+   "file": "living_gate/prop/nuclear_pore.svg",
+   "width": 960,
+   "height": 1040,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "fin_split",
+     "x": 480,
+     "y": 22
+    },
+    {
+     "name": "hub_center",
+     "x": 480,
+     "y": 468
+    },
+    {
+     "name": "socket_0",
+     "x": 194.9,
+     "y": 427
+    },
+    {
+     "name": "socket_1",
+     "x": 218,
+     "y": 348.4
+    },
+    {
+     "name": "socket_10",
+     "x": 765.1,
+     "y": 427
+    },
+    {
+     "name": "socket_2",
+     "x": 262.3,
+     "y": 279.4
+    },
+    {
+     "name": "socket_3",
+     "x": 324.3,
+     "y": 225.7
+    },
+    {
+     "name": "socket_4",
+     "x": 398.9,
+     "y": 191.7
+    },
+    {
+     "name": "socket_5",
+     "x": 480,
+     "y": 180
+    },
+    {
+     "name": "socket_6",
+     "x": 561.1,
+     "y": 191.7
+    },
+    {
+     "name": "socket_7",
+     "x": 635.7,
+     "y": 225.7
+    },
+    {
+     "name": "socket_8",
+     "x": 697.7,
+     "y": 279.4
+    },
+    {
+     "name": "socket_9",
+     "x": 742,
+     "y": 348.4
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.pit_terrace",
+   "zone": "zone_c",
+   "source": "kit:compose",
+   "sha1": "06b5c7caa0c82062e159373274efc5fa6303c671",
+   "legacyId": null,
+   "file": "living_gate/prop/pit_terrace.svg",
+   "width": 2320,
+   "height": 340,
+   "rasterScale": 0.6,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_surface",
+     "x": 1152,
+     "y": 0
+    },
+    {
+     "name": "i1_band_0",
+     "x": 200,
+     "y": 180
+    },
+    {
+     "name": "i1_top",
+     "x": 200,
+     "y": 100
+    },
+    {
+     "name": "i2_band_0",
+     "x": 1160,
+     "y": 180
+    },
+    {
+     "name": "i2_top",
+     "x": 1160,
+     "y": 100
+    },
+    {
+     "name": "i3_band_0",
+     "x": 2120,
+     "y": 180
+    },
+    {
+     "name": "i3_top",
+     "x": 2120,
+     "y": 100
+    }
+   ],
+   "scroll": null,
+   "seed": 2156935235,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.plaque_post",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "35aa8f40734946486386e23f679f146c2ab0b866",
+   "legacyId": "cell.prop.plaque_post",
+   "file": "living_gate/prop/plaque_post.svg",
+   "width": 70,
+   "height": 140,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_band_0",
+     "x": 35,
+     "y": 68
+    },
+    {
+     "name": "i0_top",
+     "x": 35,
+     "y": 30
+    },
+    {
+     "name": "i1_hub",
+     "x": 35,
+     "y": 36
+    }
+   ],
+   "scroll": null,
+   "seed": 3499865092,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.pore_inner",
+   "zone": "zone_d",
+   "source": "kit:ringStack",
+   "sha1": "081e43e8f0aac94ca7c95714e5926ad1978630f9",
+   "legacyId": "cell.prop.pore_inner",
+   "file": "living_gate/prop/pore_inner.svg",
+   "width": 620,
+   "height": 620,
+   "rasterScale": 0.75,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 310,
+     "y": 310
+    },
+    {
+     "name": "notch_0",
+     "x": 310,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 112068166,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.pore_plug",
+   "zone": "zone_d",
+   "source": "kit:ringStack",
+   "sha1": "8412c8a39ae13398f9a644f88c044cd94510d426",
+   "legacyId": "cell.prop.pore_plug",
+   "file": "living_gate/prop/pore_plug.svg",
+   "width": 300,
+   "height": 300,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 150,
+     "y": 150
+    }
+   ],
+   "scroll": null,
+   "seed": 2597317710,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.raft",
+   "zone": "zone_b",
+   "source": "kit:plate",
+   "sha1": "e82dc9aad68fcc214d8e5c28e697623ce5fdb817",
+   "legacyId": "cell.prop.raft",
+   "file": "living_gate/prop/raft.svg",
+   "width": 240,
+   "height": 50,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 120,
+     "y": 25
+    }
+   ],
+   "scroll": null,
+   "seed": 2782816770,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.root_ledge",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "09f71b31e4e7a524431817f65271a315c9452708",
+   "legacyId": null,
+   "file": "living_gate/prop/root_ledge.svg",
+   "width": 200,
+   "height": 150,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_sway",
+     "x": 60,
+     "y": 73
+    },
+    {
+     "name": "i1_walk",
+     "x": 0,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 2999567131,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.seal_node",
+   "zone": "zone_a",
+   "source": "kit:ringStack",
+   "sha1": "d3260fbc2cc0dadf6285c548abc940cd1f60f03b",
+   "legacyId": "cell.prop.seal_node",
+   "file": "living_gate/prop/seal_node.svg",
+   "width": 120,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 60,
+     "y": 60
+    }
+   ],
+   "scroll": null,
+   "seed": 2380570185,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.side_stair",
+   "zone": "zone_b",
+   "source": "kit:stairs",
+   "sha1": "160a3fbb879059224fcab78ae826d23cd37670a7",
+   "legacyId": null,
+   "file": "living_gate/prop/side_stair.svg",
+   "width": 200,
+   "height": 312,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 180,
+     "y": 252
+    },
+    {
+     "name": "step_1",
+     "x": 140,
+     "y": 192
+    },
+    {
+     "name": "step_2",
+     "x": 100,
+     "y": 132
+    },
+    {
+     "name": "step_3",
+     "x": 60,
+     "y": 72
+    },
+    {
+     "name": "step_4",
+     "x": 20,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 3501061564,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.sluice_steps",
+   "zone": "zone_b",
+   "source": "kit:stairs",
+   "sha1": "f8d4e07ac88d73a496e4b158e82cbdf7783df4ef",
+   "legacyId": "cell.prop.sluice_steps",
+   "file": "living_gate/prop/sluice_steps.svg",
+   "width": 360,
+   "height": 272,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "step_0",
+     "x": 36,
+     "y": 220
+    },
+    {
+     "name": "step_1",
+     "x": 108,
+     "y": 168
+    },
+    {
+     "name": "step_2",
+     "x": 180,
+     "y": 116
+    },
+    {
+     "name": "step_3",
+     "x": 252,
+     "y": 64
+    },
+    {
+     "name": "step_4",
+     "x": 324,
+     "y": 12
+    }
+   ],
+   "scroll": null,
+   "seed": 3346144328,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.stiff_ridge",
+   "zone": "zone_a",
+   "source": "hero",
+   "sha1": "01c4c293d8a9fcd5e6cdb19f3ec1cc1dfaf2d440",
+   "legacyId": "#33",
+   "file": "living_gate/prop/stiff_ridge.svg",
+   "width": 1520,
+   "height": 290,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "ridge_left",
+     "x": 760,
+     "y": 290
+    },
+    {
+     "name": "ridge_right",
+     "x": 1520,
+     "y": 290
+    },
+    {
+     "name": "ridge_top",
+     "x": 1140,
+     "y": 28
+    }
+   ],
+   "scroll": null,
+   "seed": null,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.stud_ledge",
+   "zone": "zone_a",
+   "source": "kit:compose",
+   "sha1": "a14ed2d1e45aa9cb4b7bb333a786cbf04e44ec10",
+   "legacyId": null,
+   "file": "living_gate/prop/stud_ledge.svg",
+   "width": 260,
+   "height": 120,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "i0_tip",
+     "x": 210,
+     "y": 30
+    },
+    {
+     "name": "i1_walk",
+     "x": 0,
+     "y": 20
+    }
+   ],
+   "scroll": null,
+   "seed": 1954313145,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.prop.wisp_shard",
+   "zone": "zone_a",
+   "source": "kit:crystalCluster",
+   "sha1": "aea9488dfc02ed7687e062eb246f8379f8eaa3ad",
+   "legacyId": null,
+   "file": "living_gate/prop/wisp_shard.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "anchors": [
+    {
+     "name": "tip",
+     "x": 24,
+     "y": 0
+    }
+   ],
+   "scroll": null,
+   "seed": 561018521,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ui.plank_carry",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "49fe87ff91250ddd5e1fdf91c14f331e1a145a9b",
+   "legacyId": null,
+   "file": "living_gate/ui/plank_carry.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 3957529952,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ui.plank_dissolve",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "e37466a24fbb2f6fbab3e43a46e54fae5acfa2ee",
+   "legacyId": null,
+   "file": "living_gate/ui/plank_dissolve.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 1355179066,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ui.plank_fold",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "8a599b0360f83a8a2c344e59033aec584a54daca",
+   "legacyId": null,
+   "file": "living_gate/ui/plank_fold.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 2722742586,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ui.plank_pinch",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "e5fc30697e31aac2edb9c372db1f2f631361ccc1",
+   "legacyId": null,
+   "file": "living_gate/ui/plank_pinch.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 3424446327,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ui.plank_touch",
+   "zone": "zone_c",
+   "source": "kit:plate",
+   "sha1": "5169a8b5c7d5df6d0e3290868b5c54061751ffef",
+   "legacyId": null,
+   "file": "living_gate/ui/plank_touch.svg",
+   "width": 48,
+   "height": 48,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "label",
+     "x": 24,
+     "y": 24
+    }
+   ],
+   "scroll": null,
+   "seed": 3252438952,
+   "engraved": []
+  },
+  {
+   "kind": "svg",
+   "key": "living_gate.ui.porthole_frame",
+   "zone": "zone_a",
+   "source": "kit:ringStack",
+   "sha1": "af82524e59e3cfd3833bbeb044e8c04f79d7c1f2",
+   "legacyId": null,
+   "file": "living_gate/ui/porthole_frame.svg",
+   "width": 240,
+   "height": 240,
+   "rasterScale": 1,
+   "tileWidth": null,
+   "pivot": [
+    0.5,
+    0.5
+   ],
+   "anchors": [
+    {
+     "name": "hub",
+     "x": 120,
+     "y": 120
+    },
+    {
+     "name": "stud_0",
+     "x": 120,
+     "y": 15
+    },
+    {
+     "name": "stud_1",
+     "x": 194,
+     "y": 46
+    },
+    {
+     "name": "stud_2",
+     "x": 225,
+     "y": 120
+    },
+    {
+     "name": "stud_3",
+     "x": 194,
+     "y": 194
+    },
+    {
+     "name": "stud_4",
+     "x": 120,
+     "y": 225
+    },
+    {
+     "name": "stud_5",
+     "x": 46,
+     "y": 194
+    },
+    {
+     "name": "stud_6",
+     "x": 15,
+     "y": 120
+    },
+    {
+     "name": "stud_7",
+     "x": 46,
+     "y": 46
+    }
+   ],
+   "scroll": null,
+   "seed": 540727879,
+   "engraved": []
+  }
+ ],
+ "totalBytes": 752260,
+ "gzipBytes": 193053,
  "vram": [
   {
    "zone": "all",
-   "mb": 5.3
+   "mb": 16.4
   },
   {
    "zone": "zone_a",
-   "mb": 5.3
+   "mb": 55.5
   },
   {
    "zone": "zone_b",
-   "mb": 5.3
+   "mb": 51.5
   },
   {
    "zone": "zone_c",
-   "mb": 5.3
+   "mb": 63.7
   },
   {
    "zone": "zone_d",
-   "mb": 5.3
+   "mb": 75.7
   }
  ],
- "swapPeakMb": 5.3
+ "swapPeakMb": 123
 }

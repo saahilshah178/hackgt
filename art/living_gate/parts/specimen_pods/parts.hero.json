@@ -1,3 +1,43 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "living_gate.part.specimen_pods_pod",
+   "file": "pod.svg",
+   "legacyId": "#73"
+  },
+  {
+   "key": "living_gate.part.specimen_pods_probe_emitter",
+   "file": "probe_emitter.svg",
+   "legacyId": "#78"
+  },
+  {
+   "key": "living_gate.part.specimen_pods_needle",
+   "file": "needle.svg",
+   "zone": "zone_a",
+   "legacyId": "#79"
+  },
+  {
+   "key": "living_gate.part.specimen_pods_mimic_mote",
+   "file": "mimic_mote.svg",
+   "legacyId": "#77"
+  },
+  {
+   "key": "living_gate.part.specimen_pods_balance_beam",
+   "file": "balance_beam.svg",
+   "zone": "zone_b",
+   "legacyId": "#90"
+  },
+  {
+   "key": "living_gate.part.specimen_pods_test_cell",
+   "file": "test_cell.svg",
+   "zone": "zone_b",
+   "legacyId": "#94"
+  },
+  {
+   "key": "living_gate.part.specimen_pods_flume_pump",
+   "file": "flume_pump.svg",
+   "zone": "zone_c",
+   "legacyId": "#120"
+  }
+ ]
 }

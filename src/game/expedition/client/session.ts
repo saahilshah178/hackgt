@@ -63,6 +63,25 @@ export function safeRectFor(mode: LayoutKind, vp: Viewport): SafeRect {
   }
 }
 
+/**
+ * The HUD's right inset (CSS px) while a side panel is open (w1a fix 6): the top-right controls (? and mute) sit on the
+ * world side instead of over the panel's first card label. The world side is `safeRect.w` wide; value chips and the
+ * scrubber's readout tab overhang the panel's left edge into it, so the controls keep a chip allowance of up to 170 px,
+ * shrinking on narrow stages so they never crowd the zone title at the top left (~360 px). Explore, the vault modal
+ * and compact screens (bottom sheet) keep the default corner (0).
+ */
+export const HUD_CHIP_ALLOWANCE = 170;
+/** the ? and mute buttons (two 48 px pills + gap + the 20 px margin) and the zone title's reach from the left */
+const HUD_CONTROLS_W = 136;
+const HUD_TITLE_CLEAR = 380;
+export function hudInsetRight(mode: LayoutKind, vp: Viewport, panelOpen: boolean): number {
+  if (!panelOpen || mode === "explore" || mode === "vault" || isCompact(vp)) return 0;
+  const world = safeRectFor(mode, vp).w;
+  const panel = Math.max(0, Math.round(vp.w) - world);
+  const allowance = Math.max(16, Math.min(HUD_CHIP_ALLOWANCE, world - HUD_CONTROLS_W - HUD_TITLE_CLEAR));
+  return panel + allowance;
+}
+
 export function layoutFor(phase: Phase, world: Pick<ResolvedWorld, "stationByEncounter">, vp: Viewport): LayoutState {
   const mode = layoutModeOf(phase, world);
   const id = encounterOf(phase);

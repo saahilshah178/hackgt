@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 100" width="72" height="100" data-pivot="0.5,0.22">
+  <!-- living_gate.companion.pip (cell §3.2): Pilot Ora's teardrop mini-sub drone. 4 parts: the lens cone (the water
+       lens: hidden in idle/talk, raised by cue), the 2-frame propeller, the cream hull with its gold porthole ring and
+       navy stripe, and the porthole glow that pulses while Ora talks. Nose points right; the puppet's pivot is the
+       hull centre (36, 22). -->
+  <defs>
+    <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{crystal.hi|alpha:0.55}}"/>
+      <stop offset="0.6" stop-color="{{water.shallow|alpha:0.2}}"/>
+      <stop offset="1" stop-color="{{water.shallow|alpha:0}}"/>
+    </linearGradient>
+    <linearGradient id="hull" x1="0.2" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <radialGradient id="port" cx="0.35" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="{{crystal.hi}}"/>
+      <stop offset="0.6" stop-color="{{crystal.base}}"/>
+      <stop offset="1" stop-color="{{crystal.shade}}"/>
+    </radialGradient>
+  </defs>
+  <g id="part-lens_cone" data-pivot="44,27" data-z="-1" data-box="18 26 52 72">
+    <path d="M 40 27 L 48 27 L 68 96 L 20 96 Z" fill="url(#cone)"/>
+    <path d="M 40 27 L 20 96 M 48 27 L 68 96" stroke="{{crystal.hi|alpha:0.35}}" stroke-width="1"/>
+  </g>
+  <g id="part-prop" data-pivot="10,22" data-z="-1" data-box="3 10 12 24">
+    <g id="f0">
+      <ellipse cx="9" cy="16" rx="2.4" ry="5.5" fill="{{inlay.navy}}"/>
+      <ellipse cx="9" cy="28" rx="2.4" ry="5.5" fill="{{inlay.navy|light:0.2}}"/>
+      <circle cx="10" cy="22" r="2.6" fill="{{gold.base}}"/>
+    </g>
+    <g id="f1">
+      <ellipse cx="9" cy="19" rx="2.4" ry="2.6" fill="{{inlay.navy}}"/>
+      <ellipse cx="9" cy="25" rx="2.4" ry="2.6" fill="{{inlay.navy|light:0.2}}"/>
+      <circle cx="10" cy="22" r="2.6" fill="{{gold.base}}"/>
+    </g>
+  </g>
+  <g id="part-hull" data-pivot="36,22" data-z="0" data-box="10 3 55 36">
+    <ellipse cx="38" cy="36.5" rx="20" ry="2" fill="{{shadow|alpha:0.3}}"/>
+    <path d="M 17 12 L 15 4 L 27 9 Z" fill="{{gold.base}}"/>
+    <path d="M 17 12 L 15 4 L 20 8 Z" fill="{{gold.hi}}"/>
+    <path d="M 12 22 C 16 13 27 8 40 8 C 54 8 64 14 64 22 C 64 30 54 36 40 36 C 27 36 16 31 12 22 Z" fill="url(#hull)"/>
+    <path d="M 14 25 C 20 31 29 34 40 34 C 52 34 60 31 63 26 C 58 29 50 30.5 40 30.5 C 29 30.5 21 29 14 25 Z" fill="{{inlay.navy}}"/>
+    <path d="M 20 15 C 26 11 33 10 40 10" fill="none" stroke="{{haze|alpha:0.8}}" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="44" cy="20" r="8.2" fill="{{crystal.shade}}" stroke="{{gold.base}}" stroke-width="3"/>
+    <path d="M 38.5 15 A 8 8 0 0 1 48 13.5" fill="none" stroke="{{gold.hi}}" stroke-width="1.4"/>
+    <circle cx="26" cy="21" r="1.1" fill="{{gold.deep}}"/>
+    <circle cx="31" cy="27" r="1.1" fill="{{gold.deep}}"/>
+    <circle cx="57" cy="25" r="1.1" fill="{{gold.deep}}"/>
+  </g>
+  <g id="part-porthole_glow" data-pivot="44,20" data-z="1" data-box="37 13 14 14">
+    <circle cx="44" cy="20" r="6.3" fill="url(#port)"/>
+    <ellipse cx="42" cy="17.6" rx="2.3" ry="1.5" fill="{{haze|alpha:0.9}}"/>
+  </g>
+  <circle id="anchor-porthole" cx="44" cy="20" r="0"/>
+  <circle id="anchor-lens" cx="44" cy="96" r="0"/>
+</svg>

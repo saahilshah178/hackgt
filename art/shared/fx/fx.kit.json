@@ -1,3 +1,16 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"shared.fx.glow_64","zone":"all","gen":"glowSprite","params":{"size":64,"shape":"radial","core":"haze","edge":"haze","falloff":0.45,"frames":1}},
+    {"key":"shared.fx.glow_128","zone":"all","gen":"glowSprite","params":{"size":128,"shape":"radial","core":"haze","edge":"haze","falloff":0.45,"frames":1}},
+    {"key":"shared.fx.glow_256","zone":"all","gen":"glowSprite","params":{"size":256,"shape":"radial","core":"haze","edge":"haze","falloff":0.45,"frames":1},"legacyId":"A71"},
+    {"key":"shared.fx.spark","zone":"all","gen":"glowSprite","params":{"size":32,"shape":"spark4","core":"gold.hi","edge":"gold.hi","falloff":0.5,"frames":1}},
+    {"key":"shared.fx.puff","zone":"all","gen":"glowSprite","params":{"size":96,"shape":"puff","core":"stone.lit","edge":"shadow|light:0.45","falloff":0.6,"frames":1}},
+    {"key":"shared.part.beam_cap","zone":"all","gen":"glowSprite","params":{"size":96,"shape":"spark4","core":"haze","edge":"glow.cyan","falloff":0.4,"frames":1}},
+    {"key":"shared.fx.grain","zone":"all","gen":"grainTile","params":{"size":128,"style":"grain","density":0.35,"tok":"shadow"}},
+    {"key":"shared.fx.vignette","zone":"all","gen":"glowSprite","params":{"size":256,"shape":"ring_pop","core":"shadow|alpha:0.35","edge":"shadow","falloff":0.9,"frames":1}},
+    {"key":"shared.fx.scanlines","zone":"all","gen":"grainTile","params":{"size":128,"style":"scanlines","density":0.5,"tok":"ui.card"}},
+    {"key":"shared.fx.shard","zone":"all","gen":"crystalCluster","params":{"w":48,"h":48,"form":"stud","shards":3,"lean":0,"ramp":{"lit":"wisp.indigo|light:0.5","base":"wisp.indigo","shade":"wisp.indigo|dim:0.3"},"glow":"wisp.indigo"}},
+    {"key":"shared.fx.page","zone":"all","gen":"plate","params":{"w":64,"h":80,"style":"paper_card","bevel":3,"rivets":0,"screen":false,"ramp":{"lit":"stone.lit","base":"stone.lit","shade":"stone.shade"},"face":"stone.lit","engraved":null}},
+    {"key":"shared.fx.negative","zone":"all","gen":"plate","params":{"w":90,"h":40,"style":"flip_cell","bevel":2,"rivets":0,"screen":false,"ramp":{"lit":"ui.card.deep|light:0.2","base":"ui.card.deep","shade":"ui.card.deep"},"face":"gold.hi|alpha:0.6","engraved":null}}
+  ]
 }

@@ -510,3 +510,38 @@ describe("hints, plans, lerp, sim", () => {
     expect(frame.h).toBeGreaterThan(0);
   });
 });
+
+describe("KA3: the trig singers in the world (letter pins, frame, DOM snapshots)", () => {
+  it("the tuning-lens singers carry their display letters as pins on holder_i; other aimers add none", () => {
+    const e3 = station("e3_amplitude");
+    const d = meta.describe(meta.pose(poseInput(e3)), poseInput(e3));
+    expect(d.pins).toEqual([
+      { anchor: "holder_0", text: "A", glyph: null },
+      { anchor: "holder_1", text: "B", glyph: null },
+      { anchor: "holder_2", text: "C", glyph: null },
+    ]);
+    // letters follow DISPLAY order only: the same whatever is aimed (no tell)
+    expect(meta.describe(meta.pose(poseInput(e3, { draft: draftOf(e3.ctx, 1) })), poseInput(e3)).pins).toEqual(d.pins);
+    const brown = station("e1_brown");
+    expect(meta.describe(meta.pose(poseInput(brown)), poseInput(brown)).pins).toEqual([]);
+  });
+
+  it("frames the singer row with its payoff object (fits a board layout at the zones' minZoom when centred)", () => {
+    const f = meta.frameBounds(station("e3_amplitude").config, station("e3_amplitude").ctx.view);
+    expect(f.x).toBeLessThanOrEqual(-560); // the console (−500) and the player beside it
+    expect(f.x + f.w).toBeGreaterThanOrEqual(800); // the Echo Lift / the rim stair
+    expect(f.y).toBeLessThanOrEqual(-500); // the letter pins above the heads
+  });
+
+  it("DOM snapshots lay the singers out on the side-car row; solved lifts the Echo Lift and opens the chest", () => {
+    const res = CLAIM_HOLDERS_SKINS.find((s) => s.id === "resonance_pillars")!.snapshot;
+    const lift = (parts: typeof res.dormant) => parts.find((p) => p.asset.endsWith("echo_lift"))!.dy;
+    expect(lift(res.solved) - lift(res.dormant)).toBe(-40);
+    expect(res.dormant.filter((p) => /automaton_[abc]$/.test(p.asset)).map((p) => p.dx)).toEqual([-345, 75, 495]);
+    const tre = CLAIM_HOLDERS_SKINS.find((s) => s.id === "treasury_pillars")!.snapshot;
+    expect(tre.dormant.find((p) => p.asset.endsWith("chest_lid"))!.rotateDeg).toBe(0);
+    expect(tre.solved.find((p) => p.asset.endsWith("chest_lid"))!.rotateDeg).toBe(70);
+    expect(tre.solved.filter((p) => p.asset.endsWith("rim_step"))).toHaveLength(5);
+    expect(tre.dormant.some((p) => p.asset.endsWith("rim_step"))).toBe(false);
+  });
+});

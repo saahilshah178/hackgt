@@ -1,3 +1,285 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "living_gate.costume.diver_helmet",
+   "legacyId": "cell.char.diver_helmet",
+   "gen": "ringStack",
+   "pivot": [
+    0.5,
+    0.66
+   ],
+   "params": {
+    "size": 124,
+    "ellipse": 1,
+    "rings": [
+     {
+      "r": 60,
+      "width": 3,
+      "tok": "crystal.hi|alpha:0.8",
+      "edge": null,
+      "gaps": [],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     },
+     {
+      "r": 56,
+      "width": 50,
+      "tok": "glass.tint|alpha:0.18",
+      "edge": null,
+      "gaps": [],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     }
+    ],
+    "hub": null,
+    "cutout": null,
+    "knurl": false
+   }
+  },
+  {
+   "key": "living_gate.costume.diver_scarf",
+   "legacyId": "cell.char.diver_scarf",
+   "gen": "plate",
+   "pivot": [
+    0.84,
+    0.25
+   ],
+   "params": {
+    "w": 80,
+    "h": 24,
+    "style": "slab",
+    "bevel": 2,
+    "rivets": 0,
+    "screen": false,
+    "ramp": {
+     "lit": "costume.diver.scarf.stripe",
+     "base": "costume.diver.scarf",
+     "shade": "costume.diver.scarf|dim:0.25"
+    },
+    "face": "costume.diver.scarf",
+    "engraved": null
+   }
+  },
+  {
+   "key": "living_gate.costume.probe_staff",
+   "legacyId": "cell.char.probe_staff",
+   "gen": "linkStrip",
+   "pivot": [
+    0.5,
+    0.185
+   ],
+   "params": {
+    "len": 184,
+    "axis": "y",
+    "style": "rod",
+    "thick": 8,
+    "bandEvery": 48,
+    "band": "gold.base",
+    "ramp": {
+     "lit": "stone.lit",
+     "base": "stone.base",
+     "shade": "stone.shade"
+    }
+   }
+  },
+  {
+   "key": "living_gate.companion.pip",
+   "kind": "puppet",
+   "legacyId": "cell.char.pip_hull",
+   "recipe": "companion_standin",
+   "args": {
+    "body": "stone.base",
+    "bodyLit": "stone.lit",
+    "bodyShade": "stone.shade",
+    "trim": "inlay.navy",
+    "glow": "crystal.base",
+    "wing": "gold.hi"
+   }
+  },
+  {
+   "key": "living_gate.companion.ora_bust",
+   "legacyId": "cell.char.ora_portrait",
+   "gen": "ringStack",
+   "params": {
+    "size": 220,
+    "ellipse": 1,
+    "rings": [
+     {
+      "r": 104,
+      "width": 12,
+      "tok": "bronze.ring",
+      "edge": "gold.deep",
+      "gaps": [],
+      "notches": [],
+      "studs": {
+       "n": 8,
+       "r": 3.5,
+       "tok": "gold.base"
+      },
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     },
+     {
+      "r": 80,
+      "width": 10,
+      "tok": "tide.shallow",
+      "edge": null,
+      "gaps": [
+       [
+        200,
+        240
+       ],
+       [
+        20,
+        60
+       ]
+      ],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     },
+     {
+      "r": 58,
+      "width": 8,
+      "tok": "char.ora.suit",
+      "edge": null,
+      "gaps": [
+       [
+        110,
+        150
+       ]
+      ],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     }
+    ],
+    "hub": {
+     "r": 34,
+     "ramp": {
+      "lit": "char.ora.skin|light:0.15",
+      "base": "char.ora.skin",
+      "shade": "char.ora.skin|dim:0.2"
+     }
+    },
+    "cutout": null,
+    "knurl": false
+   }
+  },
+  {
+   "key": "living_gate.npc.poro",
+   "legacyId": "cell.char.poro",
+   "gen": "compose",
+   "pivot": [
+    0.5,
+    1
+   ],
+   "params": {
+    "w": 180,
+    "h": 280,
+    "tileWidth": null,
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    },
+    "items": [
+     {
+      "gen": "column",
+      "params": {
+       "w": 110,
+       "h": 270,
+       "style": "stone",
+       "flutes": 3,
+       "capital": "band",
+       "base": "plinth",
+       "bands": 3,
+       "broken": 0,
+       "socket": true,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       },
+       "trim": "gold.base",
+       "inlay": "inlay.navy",
+       "finish": {
+        "ao": true,
+        "rim": true,
+        "haze": 0
+       }
+      },
+      "seed": null,
+      "x": 35,
+      "y": 10,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "arch",
+      "params": {
+       "w": 150,
+       "h": 120,
+       "shape": "round",
+       "bays": 1,
+       "thickness": 22,
+       "keystone": true,
+       "recess": "tide.deep",
+       "buried": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       },
+       "trim": "gold.base",
+       "finish": {
+        "ao": false,
+        "rim": true,
+        "haze": 0
+       }
+      },
+      "seed": null,
+      "x": 15,
+      "y": 0,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ]
+   },
+   "zone": "zone_b"
+  }
+ ]
 }

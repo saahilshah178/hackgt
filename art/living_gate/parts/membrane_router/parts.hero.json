@@ -1,3 +1,22 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "living_gate.part.membrane_router_crossing_gate",
+   "file": "crossing_gate.svg",
+   "zone": "zone_a",
+   "legacyId": "#80"
+  },
+  {
+   "key": "living_gate.part.membrane_router_gate_fin",
+   "file": "gate_fin.svg",
+   "zone": "zone_a",
+   "legacyId": "#83"
+  },
+  {
+   "key": "living_gate.part.membrane_router_carrier_rocker",
+   "file": "carrier_rocker.svg",
+   "zone": "zone_a",
+   "legacyId": "#86"
+  }
+ ]
 }

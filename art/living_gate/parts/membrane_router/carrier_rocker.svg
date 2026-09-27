@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 200" width="560" height="200" data-pivot="0.5,1">
+  <!-- living_gate.part.membrane_router_carrier_rocker: the e2 payoff (cell §5.2): the carrier rocker, a cream see-saw protein with raised ends, a navy band and a cradle pocket at its centre. The pivot (centre bottom) rests on the fulcrum; tilting it 22 degrees makes the ramp up to the terrace. -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{gold.hi}}"/>
+      <stop offset="0.55" stop-color="{{gold.base}}"/>
+      <stop offset="1" stop-color="{{gold.deep}}"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0.36" cy="0.34" r="0.7">
+      <stop offset="0" stop-color="{{haze}}"/>
+      <stop offset="0.45" stop-color="{{crystal.hi}}"/>
+      <stop offset="1" stop-color="{{crystal.base}}"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+    
+  </defs>
+  <g id="shade">
+    <path d="M 20 150 C 120 196 440 196 540 150" fill="none" stroke="{{shadow|alpha:0.3}}" stroke-width="16" filter="url(#soft)"/>
+  </g>
+  <g id="lit">
+    <path d="M 6 60 C 4 30 30 22 46 40 C 90 92 190 118 250 118 L 310 118 C 370 118 470 92 514 40 C 530 22 556 30 554 60 C 550 130 430 190 330 196 L 230 196 C 130 190 10 130 6 60 Z" fill="url(#stone)"/>
+    <path d="M 20 96 C 90 150 180 170 250 172 L 310 172 C 380 170 470 150 540 96" fill="none" stroke="{{inlay.navy}}" stroke-width="14"/>
+    <path d="M 22 90 C 92 144 180 162 250 164" fill="none" stroke="{{gold.base}}" stroke-width="3"/>
+    <path d="M 230 118 C 236 150 324 150 330 118 Z" fill="{{stone.deep}}"/>
+    <path d="M 238 120 C 246 142 314 142 322 120" fill="none" stroke="{{gold.base}}" stroke-width="4"/>
+    <path d="M 14 58 C 14 40 30 34 42 46" fill="none" stroke="{{haze|alpha:0.7}}" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="280" cy="186" r="9" fill="url(#gold)"/>
+    <circle cx="40" cy="70" r="8" fill="{{gold.base}}"/>
+    <circle cx="520" cy="70" r="8" fill="{{gold.base}}"/>
+  </g>
+  <circle id="anchor-cradle" cx="280" cy="130" r="0"/>
+  <circle id="anchor-rocker_pivot" cx="280" cy="200" r="0"/>
+</svg>

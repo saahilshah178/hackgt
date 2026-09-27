@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 280" width="180" height="280" data-pivot="0.5,1">
+  <!-- living_gate.npc.poro (cell §3.4, §0.1.3): Poro the aquaporin keeper, the zone B landmark statue. An hourglass-
+       waisted cream stone body with navy bands, gold collars, two sleepy eye slots and a single-file water groove down
+       its waist with droplets trickling through. Static at P0 (a prop); the P1 NPC puppet reuses this silhouette. -->
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <linearGradient id="groove" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{poro.water|alpha:0.35}}"/>
+      <stop offset="0.5" stop-color="{{poro.water}}"/>
+      <stop offset="1" stop-color="{{tide.deep}}"/>
+    </linearGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+  <g id="shade">
+    <ellipse cx="96" cy="274" rx="78" ry="7" fill="{{shadow|alpha:0.3}}" filter="url(#soft)"/>
+  </g>
+  <g id="lit">
+    <path d="M 28 280 L 32 252 L 148 252 L 152 280 Z" fill="url(#body)"/>
+    <rect x="28" y="248" width="124" height="8" rx="2" fill="{{gold.base}}"/>
+    <rect x="28" y="248" width="124" height="3" rx="1.5" fill="{{gold.hi}}"/>
+    <rect x="34" y="262" width="112" height="7" fill="{{inlay.navy}}"/>
+    <path d="M 48 248 C 24 226 30 186 74 164 L 76 128 C 34 110 28 62 56 38 C 72 24 108 24 124 38 C 152 62 146 110 104 128 L 106 164 C 150 186 156 226 132 248 Z" fill="url(#body)"/>
+    <path d="M 132 248 C 156 226 150 186 106 164 L 104 128 C 146 110 152 62 124 38 C 136 52 140 80 128 104 C 118 122 102 128 100 140 L 100 170 C 124 186 142 204 136 236 Z" fill="{{stone.shade|alpha:0.55}}"/>
+    <path d="M 37 222 C 37 216 38 212 40 208 C 70 212 110 212 140 208 C 142 212 143 216 143 222 C 110 227 70 227 37 222 Z" fill="{{inlay.navy}}"/>
+    <path d="M 40 211 C 70 215 110 215 140 211" fill="none" stroke="{{gold.base}}" stroke-width="2"/>
+    <path d="M 58 116 C 64 120 70 122 76 123 L 104 123 C 110 122 116 120 122 116 C 104 119 76 119 58 116 Z" fill="{{inlay.navy}}"/>
+    <path d="M 44 52 C 56 44 72 40 90 40 C 108 40 124 44 136 52" fill="none" stroke="{{inlay.navy}}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 50 196 C 66 186 78 182 90 182 C 102 182 114 186 130 196" fill="none" stroke="{{gold.deep|alpha:0.6}}" stroke-width="2"/>
+    <ellipse cx="90" cy="129" rx="18" ry="6" fill="{{gold.base}}"/>
+    <ellipse cx="90" cy="127.5" rx="16" ry="3.5" fill="{{gold.hi}}"/>
+    <ellipse cx="90" cy="164" rx="19" ry="6" fill="{{gold.base}}"/>
+    <ellipse cx="90" cy="162.5" rx="17" ry="3.5" fill="{{gold.hi}}"/>
+    <path d="M 58 40 C 72 28 108 28 122 40 C 106 34 74 34 58 40 Z" fill="{{gold.base}}"/>
+    <circle cx="90" cy="30" r="8" fill="{{gold.base}}" stroke="{{gold.deep}}" stroke-width="2"/>
+    <circle cx="90" cy="30" r="3.5" fill="{{poro.water}}"/>
+    <path d="M 52 60 C 58 48 68 42 80 40" fill="none" stroke="{{haze|alpha:0.7}}" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g id="trim">
+    <rect x="58" y="66" width="24" height="10" rx="5" fill="{{oil.seam.dark}}"/>
+    <rect x="98" y="66" width="24" height="10" rx="5" fill="{{oil.seam.dark}}"/>
+    <path d="M 58 71 C 64 66 76 66 82 71 L 82 66 L 58 66 Z" fill="{{stone.shade}}"/>
+    <path d="M 98 71 C 104 66 116 66 122 71 L 122 66 L 98 66 Z" fill="{{stone.shade}}"/>
+    <path d="M 61 73 C 66 75 74 75 79 73 M 101 73 C 106 75 114 75 119 73" fill="none" stroke="{{poro.water}}" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 58 66 C 64 62 76 62 82 66 M 98 66 C 104 62 116 62 122 66" fill="none" stroke="{{gold.deep}}" stroke-width="2"/>
+  </g>
+  <g id="glow">
+    <rect x="87" y="84" width="6" height="170" rx="3" fill="url(#groove)"/>
+    <path d="M 90 112 C 87 116 87 120 90 121 C 93 120 93 116 90 112 Z" fill="{{poro.water}}"/>
+    <path d="M 90 140 C 87 144 87 148 90 149 C 93 148 93 144 90 140 Z" fill="{{crystal.hi}}"/>
+    <path d="M 90 182 C 87 186 87 190 90 191 C 93 190 93 186 90 182 Z" fill="{{poro.water}}"/>
+    <path d="M 90 226 C 87 230 87 234 90 235 C 93 234 93 230 90 226 Z" fill="{{crystal.hi}}"/>
+  </g>
+  <circle id="anchor-eyes" cx="90" cy="71" r="0"/>
+  <circle id="anchor-groove" cx="90" cy="146" r="0"/>
+</svg>

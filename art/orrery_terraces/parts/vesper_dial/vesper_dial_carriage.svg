@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 70" width="90" height="70" data-pivot="0.5,0.71">
+<!-- Vesper Dial carriage (trig A78): brass shoe on four rollers straddling the rail, emitter cup with a cyan orb; local -y points outward. -->
+<defs><linearGradient id="shoe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{{orrery.brass.hi}}"/><stop offset="0.45" stop-color="{{orrery.brass}}"/><stop offset="1" stop-color="{{orrery.brass.deep}}"/></linearGradient><linearGradient id="cup" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{{orrery.brass.hi}}"/><stop offset="0.5" stop-color="{{orrery.brass}}"/><stop offset="1" stop-color="{{orrery.brass.deep}}"/></linearGradient><radialGradient id="orb" gradientUnits="userSpaceOnUse" cx="45" cy="15" r="13" fx="41" fy="11"><stop offset="0" stop-color="{{crystal.hi}}"/><stop offset="0.55" stop-color="{{crystal.base}}"/><stop offset="1" stop-color="{{crystal.shade}}"/></radialGradient><filter id="sh" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5"/></filter></defs>
+<ellipse cx="48" cy="59.7" rx="40" ry="8" fill="{{shadow}}" opacity="0.3" filter="url(#sh)"/>
+<circle cx="20" cy="37.7" r="6.5" fill="{{orrery.brass.deep}}"/>
+<circle cx="19" cy="36.7" r="4.5" fill="{{orrery.brass}}"/>
+<circle cx="20" cy="37.7" r="1.6" fill="{{inlay.navy.dark}}"/>
+<circle cx="20" cy="61.7" r="6.5" fill="{{orrery.brass.deep}}"/>
+<circle cx="19" cy="60.7" r="4.5" fill="{{orrery.brass}}"/>
+<circle cx="20" cy="61.7" r="1.6" fill="{{inlay.navy.dark}}"/>
+<circle cx="70" cy="37.7" r="6.5" fill="{{orrery.brass.deep}}"/>
+<circle cx="69" cy="36.7" r="4.5" fill="{{orrery.brass}}"/>
+<circle cx="70" cy="37.7" r="1.6" fill="{{inlay.navy.dark}}"/>
+<circle cx="70" cy="61.7" r="6.5" fill="{{orrery.brass.deep}}"/>
+<circle cx="69" cy="60.7" r="4.5" fill="{{orrery.brass}}"/>
+<circle cx="70" cy="61.7" r="1.6" fill="{{inlay.navy.dark}}"/>
+<path d="M8 33.7 Q8 25.700000000000003 16 25.700000000000003 L74 25.700000000000003 Q82 25.700000000000003 82 33.7 L82 61.7 Q82 68.7 75 68.7 L15 68.7 Q8 68.7 8 61.7 Z" fill="url(#shoe)" stroke="{{orrery.brass.deep}}" stroke-width="1.5"/>
+<rect x="8" y="43.7" width="74" height="12" fill="{{orrery.brass.deep}}" opacity="0.85"/>
+<rect x="8" y="55.7" width="74" height="2" fill="{{orrery.brass.hi}}" opacity="0.7"/>
+<rect x="8" y="38.7" width="74" height="4" fill="{{inlay.navy}}"/>
+<rect x="12" y="27.700000000000003" width="40" height="3" rx="1.5" fill="{{gold.hi}}" opacity="0.8"/>
+<rect x="6" y="29.700000000000003" width="6" height="36" rx="2" fill="{{orrery.brass.deep}}"/>
+<rect x="78" y="29.700000000000003" width="6" height="36" rx="2" fill="{{orrery.brass.deep}}"/>
+<path d="M36 25.700000000000003 L40 32 L50 32 L54 25.700000000000003 Z" fill="url(#cup)"/>
+<path d="M26 22 Q27 34 45 35 Q63 34 64 22 Z" fill="url(#cup)" stroke="{{orrery.brass.deep}}" stroke-width="1.5"/>
+<path d="M26 22 L64 22" stroke="{{gold.hi}}" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="45" cy="15" r="12" fill="url(#orb)"/>
+<circle cx="45" cy="15" r="12" fill="none" stroke="{{glass}}" stroke-width="1.2" opacity="0.8"/>
+<circle cx="41" cy="11" r="3.2" fill="{{glass}}"/>
+<circle id="anchor-beam_origin" cx="45" cy="13" r="0"/>
+<circle id="anchor-rail" cx="45" cy="49.7" r="0"/>
+</svg>

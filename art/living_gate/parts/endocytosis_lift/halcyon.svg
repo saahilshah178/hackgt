@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 170" width="380" height="170" data-pivot="0.5,1">
+  <!-- living_gate.part.endocytosis_lift_halcyon: the Halcyon (cell §3.2, §5.10): a brass-and-cream teardrop submarine with a big gold porthole, a navy stripe, a tail fin and propeller, riveted panels and two landing skids. Docked at zone A x 300 in the intro; reused as the sub in the e10 Endocytosis Lift. -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="{{stone.lit}}"/>
+      <stop offset="0.55" stop-color="{{stone.base}}"/>
+      <stop offset="1" stop-color="{{stone.shade}}"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{{gold.hi}}"/>
+      <stop offset="0.55" stop-color="{{gold.base}}"/>
+      <stop offset="1" stop-color="{{gold.deep}}"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0.36" cy="0.34" r="0.7">
+      <stop offset="0" stop-color="{{haze}}"/>
+      <stop offset="0.45" stop-color="{{crystal.hi}}"/>
+      <stop offset="1" stop-color="{{crystal.base}}"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+    
+  </defs>
+  <g id="shade">
+    <ellipse cx="200" cy="166" rx="150" ry="6" fill="{{shadow|alpha:0.3}}" filter="url(#soft)"/>
+  </g>
+  <g id="lit">
+    <path d="M 120 150 L 108 166 L 150 166 L 150 150 Z M 270 150 L 280 166 L 238 166 L 238 150 Z" fill="{{bronze.ring}}"/>
+    <rect x="100" y="162" width="190" height="6" rx="3" fill="{{gold.deep}}"/>
+    <path d="M 44 70 L 12 38 L 20 80 Z" fill="url(#gold)"/>
+    <path d="M 44 112 L 12 146 L 20 104 Z" fill="{{gold.deep}}"/>
+    <path d="M 172 28 C 176 6 212 4 220 26 Z" fill="{{glass.tint|alpha:0.7}}" stroke="{{gold.base}}" stroke-width="3"/>
+    <path d="M 356 92 C 356 52 300 26 214 24 C 130 22 64 42 34 80 C 30 86 30 98 34 104 C 64 142 130 158 214 156 C 300 154 356 132 356 92 Z" fill="url(#stone)"/>
+    <path d="M 34 104 C 64 142 130 158 214 156 C 300 154 356 132 356 92 C 340 120 290 134 214 134 C 132 134 70 124 34 104 Z" fill="url(#gold)"/>
+    <path d="M 36 100 C 68 120 132 130 214 130 C 292 130 340 118 355 98" fill="none" stroke="{{inlay.navy}}" stroke-width="9"/>
+    <path d="M 60 60 C 100 38 160 30 214 30" fill="none" stroke="{{haze|alpha:0.8}}" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 130 30 L 126 132 M 300 40 L 306 128" stroke="{{stone.shade}}" stroke-width="2"/>
+    <circle cx="130" cy="42" r="2.4" fill="{{gold.deep}}"/><circle cx="130" cy="64" r="2.4" fill="{{gold.deep}}"/><circle cx="130" cy="86" r="2.4" fill="{{gold.deep}}"/><circle cx="130" cy="108" r="2.4" fill="{{gold.deep}}"/><circle cx="302" cy="52" r="2.4" fill="{{gold.deep}}"/><circle cx="302" cy="72" r="2.4" fill="{{gold.deep}}"/><circle cx="302" cy="92" r="2.4" fill="{{gold.deep}}"/><circle cx="302" cy="112" r="2.4" fill="{{gold.deep}}"/><circle cx="214" cy="40" r="2.4" fill="{{gold.deep}}"/><circle cx="214" cy="120" r="2.4" fill="{{gold.deep}}"/>
+    <circle cx="250" cy="80" r="34" fill="{{gold.deep}}"/>
+    <circle cx="250" cy="80" r="30" fill="url(#gold)"/>
+    <circle cx="250" cy="80" r="22" fill="url(#orb)"/>
+    <ellipse cx="243" cy="72" rx="8" ry="5" transform="rotate(-30 243 72)" fill="{{haze|alpha:0.85}}"/>
+    <circle cx="276" cy="80" r="1.8" fill="{{gold.deep}}"/><circle cx="268.4" cy="98.4" r="1.8" fill="{{gold.deep}}"/><circle cx="250" cy="106" r="1.8" fill="{{gold.deep}}"/><circle cx="231.6" cy="98.4" r="1.8" fill="{{gold.deep}}"/><circle cx="224" cy="80" r="1.8" fill="{{gold.deep}}"/><circle cx="231.6" cy="61.6" r="1.8" fill="{{gold.deep}}"/><circle cx="250" cy="54" r="1.8" fill="{{gold.deep}}"/><circle cx="268.4" cy="61.6" r="1.8" fill="{{gold.deep}}"/>
+    <circle cx="178" cy="86" r="12" fill="{{gold.base}}"/>
+    <circle cx="178" cy="86" r="8" fill="url(#orb)"/>
+  </g>
+  <g id="trim">
+    <rect x="18" y="86" width="16" height="12" rx="4" fill="{{bronze.ring}}"/>
+    <ellipse cx="12" cy="74" rx="5" ry="18" fill="{{inlay.navy}}"/>
+    <ellipse cx="12" cy="110" rx="5" ry="18" fill="{{inlay.navy|light:0.2}}"/>
+    <circle cx="14" cy="92" r="6" fill="{{gold.base}}"/>
+  </g>
+  <circle id="anchor-porthole" cx="250" cy="80" r="0"/>
+  <circle id="anchor-hatch" cx="196" cy="18" r="0"/>
+  <circle id="anchor-sub" cx="196" cy="90" r="0"/>
+</svg>

@@ -41,6 +41,7 @@ import type {
   PlotModel,
   PoseInput,
   SimSpec,
+  SnapshotPart,
   StaticInput,
   SuccessBeat,
   SuccessPlan,
@@ -62,7 +63,7 @@ import {
   yearAppearsIn,
   yearProbeFor,
 } from "./config-parts";
-import { defineSkin } from "./skin-kit";
+import { defineSkin, partKey } from "./skin-kit";
 import { probeFromWriter, wDate, wEnumOrNull, wExpr, wProbe, type WriterProbe } from "./writer-kit";
 import { ClaimHoldersConfig, type Aimer, type QuarantineAnim, type RefSimId } from "./claim-holders.config";
 import { ghostIdsForDomain, REF_SIM_GHOSTS, REF_SIMS, simIdsForDomain } from "../sims";
@@ -261,8 +262,49 @@ export function withExtraTargets(base: readonly HintTarget[], extra: readonly Hi
 
 const ht = (anchor: string, action: HintTarget["action"], holdMs: number): HintTarget => ({ anchor, action, holdMs });
 
+/**
+ * DOM-fallback snapshots of the trig singer stations (amendment 31, §4.3), laid out like the KA3 prefab on the side-car
+ * stations (singer rows shifted clear of the console; container-local, feet on y = 0): dormant = the singers, the lens
+ * and the payoff object at rest; solved = the Echo Lift hovering 40 up / the Treasury Chest open and the rim stair out.
+ */
+export function singerSnapshots(skinId: "resonance_pillars" | "treasury_pillars"): ContraptionSkin["snapshot"] {
+  const k = (slot: string) => partKey("orrery_terraces", "resonance_pillars", slot);
+  const own = (slot: string) => partKey("orrery_terraces", skinId, slot);
+  const treasury = skinId === "treasury_pillars";
+  const spacing = treasury ? 200 : 420;
+  const shift = treasury ? 55 : 75;
+  const xs = [-1, 0, 1].map((i) => shift + i * spacing);
+  const lensX = shift - spacing / 2;
+  const singers: SnapshotPart[] = xs.flatMap((x, i) => [
+    { asset: k(`automaton_${"abc"[i]}`), dx: x, dy: -216 },
+    { asset: k("slate"), dx: x, dy: -232 },
+    { asset: k("plaque"), dx: x, dy: -37 },
+  ]);
+  const lens: SnapshotPart[] = [
+    { asset: k("lens_pedestal"), dx: lensX, dy: -75 },
+    { asset: k("lens_head"), dx: lensX, dy: -150 },
+  ];
+  if (!treasury) {
+    const lift = (up: number): SnapshotPart[] => [
+      { asset: k("echo_lift"), dx: 800, dy: -13 - up },
+      { asset: k("lift_chain"), dx: 704, dy: -330 },
+      { asset: k("lift_chain"), dx: 896, dy: -330 },
+    ];
+    return { dormant: [...singers, ...lens, ...lift(0)], solved: [...singers, ...lens, ...lift(40)] };
+  }
+  const chest = (open: boolean): SnapshotPart[] => [
+    { asset: own("chest_body"), dx: 455, dy: -74 },
+    { asset: own("chest_lid"), dx: 455, dy: -140, rotateDeg: open ? 70 : 0 },
+  ];
+  const steps: SnapshotPart[] = [569, 624, 674, 724, 775].map((dx, j) => ({ asset: own("rim_step"), dx, dy: -80 * (j + 1) + 40 }));
+  return { dormant: [...singers, ...lens, ...chest(false)], solved: [...singers, ...lens, ...chest(true), ...steps] };
+}
+function withSnapshot(skin: ContraptionSkin, snapshot: ContraptionSkin["snapshot"]): ContraptionSkin {
+  return { ...skin, snapshot };
+}
+
 export const CLAIM_HOLDERS_SKINS = [
-  defineSkin({
+  withSnapshot(defineSkin({
     id: "resonance_pillars",
     name: "Resonance Pillars",
     ns: "orrery_terraces",
@@ -275,8 +317,8 @@ export const CLAIM_HOLDERS_SKINS = [
     cues: { live: "bell_hum", succeed: "chord_true", fail: "bell_honest" },
     // trig §5.3: rung 1 circle the lens; rung 2 hover each slate in turn; rung 3 land on the lens
     hintTargets: [[ht("lens", "circle", 1500)], [ht("slate_0", "hover", 700), ht("slate_1", "hover", 700), ht("slate_2", "hover", 700)], [ht("lens", "land", 1500)]],
-  }),
-  defineSkin({
+  }), singerSnapshots("resonance_pillars")),
+  withSnapshot(defineSkin({
     id: "treasury_pillars",
     name: "Treasury Pillars",
     ns: "orrery_terraces",
@@ -297,7 +339,7 @@ export const CLAIM_HOLDERS_SKINS = [
     anchors: ["holder_0…2", "slate_0…2", "lens", "lift", "chest_hinge", "console"],
     cues: { live: "bell_hum", succeed: "chord_true", fail: "bell_honest" },
     hintTargets: [[ht("lens", "circle", 1500)], [ht("slate_0", "hover", 700), ht("slate_1", "hover", 700), ht("slate_2", "hover", 700)], [ht("lens", "land", 1500)]],
-  }),
+  }), singerSnapshots("treasury_pillars")),
   defineSkin({
     id: "specimen_pods",
     name: "Specimen Pods",
@@ -809,7 +851,10 @@ function claimDescribe(pose: ClaimHoldersPose, input: PoseInput<ClaimHoldersConf
     if (pose.ghost) srText += ` Its claim's ghost projects over the apparatus.`;
   } else srText = `The ${rig.aimerNoun} is searching; ${pose.n} ${rig.holderNoun}s wait to be aimed at.`;
   if (!pose.scenarioOk && !pose.solved) srText += " The claims are outside their scenario at this setting.";
-  return { chips, pins: [], srText, nearMiss: null };
+  // KA3: the trig singers carry their display letters (A, B, C) so "aim: singer B" and the claims card map onto the
+  // world; the other aimers' skins (KB pods, KC slides) opt in once their holder anchors are native.
+  const pins = config.aimer === "tuning_lens" ? Array.from({ length: pose.n }, (_, i) => ({ anchor: `${rig.holderAnchor}${i}`, text: LETTERS[i] ?? String(i + 1), glyph: null })) : [];
+  return { chips, pins, srText, nearMiss: null };
 }
 
 // ================================================================ panel models
@@ -1281,6 +1326,9 @@ function claimFootprint(config: ClaimHoldersConfig): Footprint2D {
   return { left: Math.max(half - rig.cx, -rig.aimer.x + 120), right: Math.max(half + rig.cx, rig.aimer.x + 120), height: Math.abs(Math.min(rig.holderY, rig.aimer.y)) + 200 };
 }
 function claimFrameBounds(config: ClaimHoldersConfig, view: unknown): Bounds {
+  // KA3: the trig singer rows (shifted clear of the console) with the Echo Lift / Treasury Chest and rim stair beside
+  // them, and the letter pins above the heads
+  if (config.aimer === "tuning_lens") return { x: -640, y: -620, w: 1580, h: 740 };
   const rig = AIM_RIGS[config.aimer];
   const n = Math.max(2, chestsOf(view).length || 3);
   const xs = [rig.aimer.x, holderPos(rig, n, 0).x, holderPos(rig, n, n - 1).x];

@@ -1,3 +1,21 @@
 {
-  "entries": []
+  "entries": [
+    { "key": "orrery_terraces.companion.cog", "kind": "puppet", "recipe": "companion_standin", "zone": "all", "legacyId": "A155",
+      "args": { "body": "orrery.brass", "bodyLit": "orrery.brass.hi", "bodyShade": "orrery.brass.deep", "trim": "inlay.navy", "glow": "cog.eye", "wing": "orrery.brass.hi" } },
+    { "key": "orrery_terraces.npc.brasswick", "kind": "puppet", "recipe": "companion_standin", "zone": "z1_sunward", "legacyId": "A162",
+      "args": { "body": "copper", "bodyLit": "copper.hi", "bodyShade": "copper.deep", "trim": "moss", "glow": "crystal.base", "wing": "stone.lit" } },
+    { "key": "orrery_terraces.costume.wren_hair_bun", "gen": "ringStack", "zone": "all", "legacyId": "A138",
+      "params": { "size": 36, "ellipse": 0.9, "hub": { "r": 14, "ramp": { "lit": "costume.wren.hair.hi", "base": "costume.wren.hair", "shade": "costume.wren.hair" } },
+                  "rings": [ { "r": 17, "width": 4, "tok": "costume.wren.hair", "edge": null, "gaps": [], "notches": [], "studs": null, "teeth": null, "grooves": null, "spokes": null, "wave": null, "sockets": null, "ticks": null, "labels": [] } ],
+                  "cutout": null, "knurl": false } },
+    { "key": "orrery_terraces.costume.wren_scarf", "gen": "linkStrip", "zone": "all", "legacyId": "A141",
+      "params": { "len": 72, "axis": "x", "style": "cable", "thick": 12, "bandEvery": null, "band": null,
+                  "ramp": { "lit": "costume.wren.scarf.hi", "base": "costume.wren.scarf", "shade": "costume.wren.scarf.deep" } } },
+    { "key": "orrery_terraces.costume.wren_satchel", "gen": "plate", "zone": "all", "legacyId": "A152",
+      "params": { "w": 44, "h": 38, "style": "slab", "bevel": 6, "rivets": 0, "screen": false,
+                  "ramp": { "lit": "leather.hi", "base": "leather", "shade": "leather.deep" }, "face": "leather", "engraved": null } },
+    { "key": "orrery_terraces.costume.wren_staff", "gen": "linkStrip", "zone": "all", "legacyId": "A153",
+      "params": { "len": 160, "axis": "y", "style": "rod", "thick": 6, "bandEvery": null, "band": null,
+                  "ramp": { "lit": "orrery.brass.hi", "base": "orrery.brass", "shade": "orrery.brass.deep" } } }
+  ]
 }

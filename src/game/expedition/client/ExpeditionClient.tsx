@@ -59,6 +59,7 @@ import {
   briefOf,
   expressWorldOf,
   hintLabelOf,
+  hudInsetRight,
   hudModeOf,
   layoutModeOf,
   outroFor,
@@ -101,14 +102,6 @@ interface PendingCutscene {
   encounterId?: string;
   before?: SayRequest | null;
 }
-
-/** Host events the host sends before HostEvent carries them (TODO(w1): outside diff for src/game/hosts/types.ts). */
-type ExtraHostEvent =
-  | { type: "flag"; id: string; on: boolean }
-  | { type: "sandbox_goal"; sandboxId: string; goal: string }
-  | { type: "cue"; cue: string }
-  | { type: "music"; cue: string | null };
-type AnyHostEvent = HostEvent | ExtraHostEvent;
 
 function searchFlag(name: string): boolean {
   try {
@@ -501,7 +494,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   };
 
   // ------------------------------------------------------------------ host → client
-  const onHostEvent = (e: AnyHostEvent) => {
+  const onHostEvent = (e: HostEvent) => {
     switch (e.type) {
       case "ready":
         if (introId) {
@@ -734,7 +727,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
   });
   const stable = useMemo(
     () => ({
-      onHostEvent: (e: HostEvent) => H.current.onHostEvent(e as AnyHostEvent),
+      onHostEvent: (e: HostEvent) => H.current.onHostEvent(e),
       onInteract: (t: InteractTarget) => H.current.onInteract(t),
       onSay: (req: SayRequest) => H.current.onSay(req),
       onDraft: (d: PanelDraft) => H.current.onDraft(d),
@@ -980,6 +973,7 @@ export function ExpeditionClient({ spec, world, sfx = true }: ExpeditionClientPr
       phase={phase.kind}
       label={zone?.name ?? overlay.title}
       stageRef={stageRef}
+      hudInsetRight={hudInsetRight(lmode, viewport, (panelShown && !!openSt) || phase.kind === "sandbox")}
       stage={
         <PlayHost
           ref={hostRef as Ref<HostHandle>}

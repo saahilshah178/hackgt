@@ -1,3 +1,5 @@
 {
-  "entries": []
+  "entries": [
+    {"key":"archive_of_voices.layer.far_city_industrial","zone":"s5_church_mast","rasterScale":0.5,"legacyId":"cr.far.city_industrial","gen":"skyline","params":{"w":2048,"h":560,"blocks":20,"height":[120,360],"features":["setback_tower","water_tower","steeple"],"fill":"far.city","windowTok":"window.dot","windowDensity":0.14,"finish":{"ao":false,"rim":false,"haze":0.25}}}
+  ]
 }

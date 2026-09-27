@@ -1,3 +1,683 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "archive_of_voices.prop.courthouse",
+   "legacyId": "cr.set.courthouse",
+   "zone": "s2_courthouse",
+   "file": "courthouse.svg"
+  },
+  {
+   "key": "archive_of_voices.prop.schoolhouse",
+   "legacyId": "cr.set.schoolhouse",
+   "zone": "s3_schoolhouse",
+   "file": "schoolhouse.svg",
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.dimestore_facade",
+   "legacyId": "cr.set.dimestore",
+   "zone": "s4_main_street",
+   "file": "dimestore_facade.svg",
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.terminal_facade",
+   "legacyId": "cr.set.terminal",
+   "zone": "s4_main_street",
+   "file": "terminal_facade.svg",
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.church",
+   "legacyId": "cr.set.church",
+   "zone": "s5_church_mast",
+   "file": "church.svg",
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.memorial_colonnade",
+   "legacyId": "cr.set.memorial",
+   "zone": "s6_memorial",
+   "file": "memorial_colonnade.svg",
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.counter_stool",
+   "legacyId": "cr.set.counter_stool",
+   "zone": "s4_main_street",
+   "file": "counter_stool.svg"
+  },
+  {
+   "key": "archive_of_voices.prop.courier_ledger_tower",
+   "legacyId": "cr.far.city_south",
+   "zone": "all",
+   "file": "courier_ledger_tower.svg",
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.main_breaker",
+   "legacyId": "cr.set.main_breaker",
+   "zone": "s1_morgue",
+   "file": "main_breaker.svg"
+  },
+  {
+   "key": "archive_of_voices.prop.reading_desk",
+   "legacyId": "cr.set.reading_desk",
+   "zone": "s1_morgue",
+   "file": "reading_desk.svg"
+  },
+  {
+   "key": "archive_of_voices.prop.proof_press",
+   "legacyId": "cr.set.proof_press",
+   "zone": "s1_morgue",
+   "file": "proof_press.svg"
+  },
+  {
+   "key": "archive_of_voices.prop.record_engine",
+   "kind": "puppet",
+   "legacyId": "cr.set.engine_plinth",
+   "rasterScale": 0.6,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "size": [
+    1000,
+    1370
+   ],
+   "parts": [
+    {
+     "name": "glow",
+     "from": {
+      "gen": "glowSprite",
+      "params": {
+       "size": 520,
+       "shape": "radial",
+       "core": "flame.core",
+       "edge": "recordlight",
+       "falloff": 0.55,
+       "frames": 1
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -2,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "ring_outer",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 860,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 430,
+         "width": 60,
+         "tok": "brass.base",
+         "edge": "brass.deep",
+         "gaps": [],
+         "notches": [
+          {
+           "at": 270,
+           "width": 16,
+           "depth": 26
+          }
+         ],
+         "studs": {
+          "n": 24,
+          "r": 6,
+          "tok": "brass.hi"
+         },
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 372,
+         "width": 8,
+         "tok": "gold.hi",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -1,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "ring_mid",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 660,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 330,
+         "width": 44,
+         "tok": "stone.lit",
+         "edge": "stone.shade",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": {
+          "n": 1,
+          "tok": "inlay.navy"
+         },
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": {
+          "n": 24,
+          "len": 12,
+          "tok": "inlay.navy"
+         },
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 0,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "ring_inner",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 480,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 240,
+         "width": 70,
+         "tok": "brass.base",
+         "edge": "brass.deep",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": {
+          "n": 12,
+          "r": 26,
+          "tok": "lens.dormant"
+         },
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 1,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "drum",
+     "from": {
+      "file": "engine_drum.svg"
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 2,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "iris",
+     "from": {
+      "file": "engine_iris.svg"
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 3,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "crown",
+     "from": {
+      "file": "engine_crown.svg"
+     },
+     "pivot": [
+      0.5,
+      1
+     ],
+     "z": -1,
+     "rest": [
+      500,
+      300
+     ]
+    },
+    {
+     "name": "plinth",
+     "from": {
+      "gen": "stairs",
+      "params": {
+       "steps": 3,
+       "rise": 70,
+       "tread": 333,
+       "depth": 30,
+       "style": "stepped_plinth",
+       "dir": "straight",
+       "nosing": "gold.base",
+       "cheekWalls": false,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      1
+     ],
+     "z": 4,
+     "rest": [
+      500,
+      1370
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 4000,
+     "tracks": [
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "partial",
+     "loop": false,
+     "ms": 2400,
+     "tracks": [
+      {
+       "part": "ring_outer",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         600,
+         260
+        ],
+        [
+         1200,
+         420
+        ],
+        [
+         1800,
+         510
+        ],
+        [
+         2400,
+         540
+        ]
+       ]
+      },
+      {
+       "part": "ring_mid",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         600,
+         -170
+        ],
+        [
+         1200,
+         -280
+        ],
+        [
+         1800,
+         -340
+        ],
+        [
+         2400,
+         -360
+        ]
+       ]
+      },
+      {
+       "part": "ring_inner",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         2400,
+         90
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         2400,
+         0.18
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         2400,
+         0.85
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         2400,
+         0.85
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "restored",
+     "loop": false,
+     "ms": 2600,
+     "tracks": [
+      {
+       "part": "ring_outer",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         540
+        ],
+        [
+         1300,
+         760
+        ],
+        [
+         2600,
+         900
+        ]
+       ]
+      },
+      {
+       "part": "ring_mid",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         -360
+        ],
+        [
+         1300,
+         -480
+        ],
+        [
+         2600,
+         -540
+        ]
+       ]
+      },
+      {
+       "part": "ring_inner",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         90
+        ],
+        [
+         2600,
+         180
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.85
+        ],
+        [
+         1400,
+         0.2
+        ],
+        [
+         2600,
+         0.15
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.85
+        ],
+        [
+         1400,
+         0.2
+        ],
+        [
+         2600,
+         0.15
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         1400,
+         120
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         1400,
+         1
+        ],
+        [
+         2000,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.18
+        ],
+        [
+         1400,
+         0.75
+        ],
+        [
+         2600,
+         0.6
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.8
+        ],
+        [
+         1400,
+         1.25
+        ],
+        [
+         2600,
+         1.1
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.8
+        ],
+        [
+         1400,
+         1.25
+        ],
+        [
+         2600,
+         1.1
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "zone": "s1_morgue"
+  }
+ ]
 }

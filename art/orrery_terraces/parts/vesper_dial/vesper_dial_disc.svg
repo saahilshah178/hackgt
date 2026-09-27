@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 560" width="560" height="560" data-pivot="0.5,0.5">
+<!-- Vesper Dial disc (trig A76, §7.10): cream stone sun-disc, 24 spoke sockets, navy inlay at r 200, 8-ray gold sun. Rotates by multiples of 15° on success. -->
+<defs><radialGradient id="face" gradientUnits="userSpaceOnUse" cx="280" cy="280" r="272" fx="240" fy="234"><stop offset="0" stop-color="{{stone.lit}}"/><stop offset="0.62" stop-color="{{stone.base}}"/><stop offset="1" stop-color="{{stone.shade}}"/></radialGradient><radialGradient id="inner" gradientUnits="userSpaceOnUse" cx="280" cy="280" r="196" fx="254" fy="250"><stop offset="0" stop-color="{{stone.lit}}"/><stop offset="0.7" stop-color="{{stone.base}}"/><stop offset="1" stop-color="{{stone.shade}}"/></radialGradient><radialGradient id="ao" gradientUnits="userSpaceOnUse" cx="280" cy="280" r="280"><stop offset="0.86" stop-color="{{shadow}}" stop-opacity="0"/><stop offset="0.975" stop-color="{{shadow}}" stop-opacity="0.14"/><stop offset="1" stop-color="{{shadow}}" stop-opacity="0.3"/></radialGradient><radialGradient id="boss" gradientUnits="userSpaceOnUse" cx="280" cy="280" r="56" fx="264" fy="262"><stop offset="0" stop-color="{{gold.hi}}"/><stop offset="0.55" stop-color="{{gold.base}}"/><stop offset="1" stop-color="{{gold.deep}}"/></radialGradient><radialGradient id="glass" gradientUnits="userSpaceOnUse" cx="280" cy="280" r="20" fx="274" fy="273"><stop offset="0" stop-color="{{crystal.hi}}"/><stop offset="0.6" stop-color="{{crystal.base}}"/><stop offset="1" stop-color="{{crystal.shade}}"/></radialGradient><filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter></defs>
+<circle cx="280" cy="280" r="280" fill="{{stone.deep}}"/>
+<circle cx="280" cy="280" r="276" fill="{{stone.shade}}"/>
+<circle cx="280" cy="280" r="272" fill="url(#face)"/>
+<g id="shade">
+<path d="M9 280 a271 271 0 1 0 542 0 a271 271 0 1 0 -542 0 Z M12 280 a268 268 0 1 0 536 0 a268 268 0 1 0 -536 0 Z" fill-rule="evenodd" fill="{{stone.deep}}" opacity="0.8"/>
+<path d="M38 280 a242 242 0 1 0 484 0 a242 242 0 1 0 -484 0 Z M41 280 a239 239 0 1 0 478 0 a239 239 0 1 0 -478 0 Z" fill-rule="evenodd" fill="{{stone.deep}}" opacity="0.75"/>
+<path d="M36 280 a244 244 0 1 0 488 0 a244 244 0 1 0 -488 0 Z M38 280 a242 242 0 1 0 484 0 a242 242 0 1 0 -484 0 Z" fill-rule="evenodd" fill="{{stone.lit}}" opacity="0.9"/>
+<path d="M544.6 293.9 A265 265 0 0 0 544.6 266.1 L526.7 267.1 A247 247 0 0 1 526.7 292.9 Z" fill="{{stone.deep}}"/>
+<path d="M541.8 289.1 A262 262 0 0 0 541.8 270.9 L529.8 271.3 A250 250 0 0 1 529.8 288.7 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M544.6 293.9 A265 265 0 0 0 544.6 266.1 L541.6 266.3 A262 262 0 0 1 541.6 293.7 Z" fill="{{gold.base}}"/>
+<path d="M539.2 224.9 A265 265 0 0 0 532 198.1 L514.9 203.7 A247 247 0 0 1 521.6 228.6 Z" fill="{{stone.deep}}"/>
+<path d="M535.3 221.1 A262 262 0 0 0 530.6 203.4 L519.1 206.9 A250 250 0 0 1 523.6 223.8 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M539.2 224.9 A265 265 0 0 0 532 198.1 L529.2 199 A262 262 0 0 1 536.3 225.5 Z" fill="{{gold.base}}"/>
+<path d="M516.1 159.7 A265 265 0 0 0 502.2 135.7 L487.2 145.5 A247 247 0 0 1 500.1 167.9 Z" fill="{{stone.deep}}"/>
+<path d="M511.3 157 A262 262 0 0 0 502.2 141.2 L492 147.5 A250 250 0 0 1 500.7 162.6 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M516.1 159.7 A265 265 0 0 0 502.2 135.7 L499.7 137.3 A262 262 0 0 1 513.4 161.1 Z" fill="{{gold.base}}"/>
+<path d="M476.9 102.7 A265 265 0 0 0 457.3 83.1 L445.3 96.4 A247 247 0 0 1 463.6 114.7 Z" fill="{{stone.deep}}"/>
+<path d="M471.6 101.3 A262 262 0 0 0 458.7 88.4 L450.5 97.2 A250 250 0 0 1 462.8 109.5 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M476.9 102.7 A265 265 0 0 0 457.3 83.1 L455.3 85.3 A262 262 0 0 1 474.7 104.7 Z" fill="{{gold.base}}"/>
+<path d="M424.3 57.8 A265 265 0 0 0 400.3 43.9 L392.1 59.9 A247 247 0 0 1 414.5 72.8 Z" fill="{{stone.deep}}"/>
+<path d="M418.8 57.8 A262 262 0 0 0 403 48.7 L397.4 59.3 A250 250 0 0 1 412.5 68 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M424.3 57.8 A265 265 0 0 0 400.3 43.9 L398.9 46.6 A262 262 0 0 1 422.7 60.3 Z" fill="{{gold.base}}"/>
+<path d="M361.9 28 A265 265 0 0 0 335.1 20.8 L331.4 38.4 A247 247 0 0 1 356.3 45.1 Z" fill="{{stone.deep}}"/>
+<path d="M356.6 29.4 A262 262 0 0 0 338.9 24.7 L336.2 36.4 A250 250 0 0 1 353.1 40.9 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M361.9 28 A265 265 0 0 0 335.1 20.8 L334.5 23.7 A262 262 0 0 1 361 30.8 Z" fill="{{gold.base}}"/>
+<path d="M293.9 15.4 A265 265 0 0 0 266.1 15.4 L267.1 33.3 A247 247 0 0 1 292.9 33.3 Z" fill="{{stone.deep}}"/>
+<path d="M289.1 18.2 A262 262 0 0 0 270.9 18.2 L271.3 30.2 A250 250 0 0 1 288.7 30.2 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M293.9 15.4 A265 265 0 0 0 266.1 15.4 L266.3 18.4 A262 262 0 0 1 293.7 18.4 Z" fill="{{gold.base}}"/>
+<path d="M224.9 20.8 A265 265 0 0 0 198.1 28 L203.7 45.1 A247 247 0 0 1 228.6 38.4 Z" fill="{{stone.deep}}"/>
+<path d="M221.1 24.7 A262 262 0 0 0 203.4 29.4 L206.9 40.9 A250 250 0 0 1 223.8 36.4 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M224.9 20.8 A265 265 0 0 0 198.1 28 L199 30.8 A262 262 0 0 1 225.5 23.7 Z" fill="{{gold.base}}"/>
+<path d="M159.7 43.9 A265 265 0 0 0 135.7 57.8 L145.5 72.8 A247 247 0 0 1 167.9 59.9 Z" fill="{{stone.deep}}"/>
+<path d="M157 48.7 A262 262 0 0 0 141.2 57.8 L147.5 68 A250 250 0 0 1 162.6 59.3 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M159.7 43.9 A265 265 0 0 0 135.7 57.8 L137.3 60.3 A262 262 0 0 1 161.1 46.6 Z" fill="{{gold.base}}"/>
+<path d="M102.7 83.1 A265 265 0 0 0 83.1 102.7 L96.4 114.7 A247 247 0 0 1 114.7 96.4 Z" fill="{{stone.deep}}"/>
+<path d="M101.3 88.4 A262 262 0 0 0 88.4 101.3 L97.2 109.5 A250 250 0 0 1 109.5 97.2 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M102.7 83.1 A265 265 0 0 0 83.1 102.7 L85.3 104.7 A262 262 0 0 1 104.7 85.3 Z" fill="{{gold.base}}"/>
+<path d="M57.8 135.7 A265 265 0 0 0 43.9 159.7 L59.9 167.9 A247 247 0 0 1 72.8 145.5 Z" fill="{{stone.deep}}"/>
+<path d="M57.8 141.2 A262 262 0 0 0 48.7 157 L59.3 162.6 A250 250 0 0 1 68 147.5 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M57.8 135.7 A265 265 0 0 0 43.9 159.7 L46.6 161.1 A262 262 0 0 1 60.3 137.3 Z" fill="{{gold.base}}"/>
+<path d="M28 198.1 A265 265 0 0 0 20.8 224.9 L38.4 228.6 A247 247 0 0 1 45.1 203.7 Z" fill="{{stone.deep}}"/>
+<path d="M29.4 203.4 A262 262 0 0 0 24.7 221.1 L36.4 223.8 A250 250 0 0 1 40.9 206.9 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M28 198.1 A265 265 0 0 0 20.8 224.9 L23.7 225.5 A262 262 0 0 1 30.8 199 Z" fill="{{gold.base}}"/>
+<path d="M15.4 266.1 A265 265 0 0 0 15.4 293.9 L33.3 292.9 A247 247 0 0 1 33.3 267.1 Z" fill="{{stone.deep}}"/>
+<path d="M18.2 270.9 A262 262 0 0 0 18.2 289.1 L30.2 288.7 A250 250 0 0 1 30.2 271.3 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M15.4 266.1 A265 265 0 0 0 15.4 293.9 L18.4 293.7 A262 262 0 0 1 18.4 266.3 Z" fill="{{gold.base}}"/>
+<path d="M20.8 335.1 A265 265 0 0 0 28 361.9 L45.1 356.3 A247 247 0 0 1 38.4 331.4 Z" fill="{{stone.deep}}"/>
+<path d="M24.7 338.9 A262 262 0 0 0 29.4 356.6 L40.9 353.1 A250 250 0 0 1 36.4 336.2 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M20.8 335.1 A265 265 0 0 0 28 361.9 L30.8 361 A262 262 0 0 1 23.7 334.5 Z" fill="{{gold.base}}"/>
+<path d="M43.9 400.3 A265 265 0 0 0 57.8 424.3 L72.8 414.5 A247 247 0 0 1 59.9 392.1 Z" fill="{{stone.deep}}"/>
+<path d="M48.7 403 A262 262 0 0 0 57.8 418.8 L68 412.5 A250 250 0 0 1 59.3 397.4 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M43.9 400.3 A265 265 0 0 0 57.8 424.3 L60.3 422.7 A262 262 0 0 1 46.6 398.9 Z" fill="{{gold.base}}"/>
+<path d="M83.1 457.3 A265 265 0 0 0 102.7 476.9 L114.7 463.6 A247 247 0 0 1 96.4 445.3 Z" fill="{{stone.deep}}"/>
+<path d="M88.4 458.7 A262 262 0 0 0 101.3 471.6 L109.5 462.8 A250 250 0 0 1 97.2 450.5 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M83.1 457.3 A265 265 0 0 0 102.7 476.9 L104.7 474.7 A262 262 0 0 1 85.3 455.3 Z" fill="{{gold.base}}"/>
+<path d="M135.7 502.2 A265 265 0 0 0 159.7 516.1 L167.9 500.1 A247 247 0 0 1 145.5 487.2 Z" fill="{{stone.deep}}"/>
+<path d="M141.2 502.2 A262 262 0 0 0 157 511.3 L162.6 500.7 A250 250 0 0 1 147.5 492 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M135.7 502.2 A265 265 0 0 0 159.7 516.1 L161.1 513.4 A262 262 0 0 1 137.3 499.7 Z" fill="{{gold.base}}"/>
+<path d="M198.1 532 A265 265 0 0 0 224.9 539.2 L228.6 521.6 A247 247 0 0 1 203.7 514.9 Z" fill="{{stone.deep}}"/>
+<path d="M203.4 530.6 A262 262 0 0 0 221.1 535.3 L223.8 523.6 A250 250 0 0 1 206.9 519.1 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M198.1 532 A265 265 0 0 0 224.9 539.2 L225.5 536.3 A262 262 0 0 1 199 529.2 Z" fill="{{gold.base}}"/>
+<path d="M266.1 544.6 A265 265 0 0 0 293.9 544.6 L292.9 526.7 A247 247 0 0 1 267.1 526.7 Z" fill="{{stone.deep}}"/>
+<path d="M270.9 541.8 A262 262 0 0 0 289.1 541.8 L288.7 529.8 A250 250 0 0 1 271.3 529.8 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M266.1 544.6 A265 265 0 0 0 293.9 544.6 L293.7 541.6 A262 262 0 0 1 266.3 541.6 Z" fill="{{gold.base}}"/>
+<path d="M335.1 539.2 A265 265 0 0 0 361.9 532 L356.3 514.9 A247 247 0 0 1 331.4 521.6 Z" fill="{{stone.deep}}"/>
+<path d="M338.9 535.3 A262 262 0 0 0 356.6 530.6 L353.1 519.1 A250 250 0 0 1 336.2 523.6 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M335.1 539.2 A265 265 0 0 0 361.9 532 L361 529.2 A262 262 0 0 1 334.5 536.3 Z" fill="{{gold.base}}"/>
+<path d="M400.3 516.1 A265 265 0 0 0 424.3 502.2 L414.5 487.2 A247 247 0 0 1 392.1 500.1 Z" fill="{{stone.deep}}"/>
+<path d="M403 511.3 A262 262 0 0 0 418.8 502.2 L412.5 492 A250 250 0 0 1 397.4 500.7 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M400.3 516.1 A265 265 0 0 0 424.3 502.2 L422.7 499.7 A262 262 0 0 1 398.9 513.4 Z" fill="{{gold.base}}"/>
+<path d="M457.3 476.9 A265 265 0 0 0 476.9 457.3 L463.6 445.3 A247 247 0 0 1 445.3 463.6 Z" fill="{{stone.deep}}"/>
+<path d="M458.7 471.6 A262 262 0 0 0 471.6 458.7 L462.8 450.5 A250 250 0 0 1 450.5 462.8 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M457.3 476.9 A265 265 0 0 0 476.9 457.3 L474.7 455.3 A262 262 0 0 1 455.3 474.7 Z" fill="{{gold.base}}"/>
+<path d="M502.2 424.3 A265 265 0 0 0 516.1 400.3 L500.1 392.1 A247 247 0 0 1 487.2 414.5 Z" fill="{{stone.deep}}"/>
+<path d="M502.2 418.8 A262 262 0 0 0 511.3 403 L500.7 397.4 A250 250 0 0 1 492 412.5 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M502.2 424.3 A265 265 0 0 0 516.1 400.3 L513.4 398.9 A262 262 0 0 1 499.7 422.7 Z" fill="{{gold.base}}"/>
+<path d="M532 361.9 A265 265 0 0 0 539.2 335.1 L521.6 331.4 A247 247 0 0 1 514.9 356.3 Z" fill="{{stone.deep}}"/>
+<path d="M530.6 356.6 A262 262 0 0 0 535.3 338.9 L523.6 336.2 A250 250 0 0 1 519.1 353.1 Z" fill="{{stone.deep|dim:0.35}}"/>
+<path d="M532 361.9 A265 265 0 0 0 539.2 335.1 L536.3 334.5 A262 262 0 0 1 529.2 361 Z" fill="{{gold.base}}"/>
+</g>
+<g id="trim">
+<line x1="492" y1="280" x2="514" y2="280" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="500.1" y1="251" x2="512" y2="249.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="494.4" y1="222.5" x2="506" y2="219.4" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="485.1" y1="195" x2="496.2" y2="190.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="472.3" y1="169" x2="482.6" y2="163" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="456.1" y1="144.9" x2="465.6" y2="137.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="429.9" y1="130.1" x2="445.5" y2="114.5" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="415.1" y1="103.9" x2="422.5" y2="94.4" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="391" y1="87.7" x2="397" y2="77.4" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="365" y1="74.9" x2="369.5" y2="63.8" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="337.5" y1="65.6" x2="340.6" y2="54" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="309" y1="59.9" x2="310.5" y2="48" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="280" y1="68" x2="280" y2="46" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="251" y1="59.9" x2="249.5" y2="48" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="222.5" y1="65.6" x2="219.4" y2="54" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="195" y1="74.9" x2="190.5" y2="63.8" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="169" y1="87.7" x2="163" y2="77.4" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="144.9" y1="103.9" x2="137.5" y2="94.4" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="130.1" y1="130.1" x2="114.5" y2="114.5" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="103.9" y1="144.9" x2="94.4" y2="137.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="87.7" y1="169" x2="77.4" y2="163" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="74.9" y1="195" x2="63.8" y2="190.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="65.6" y1="222.5" x2="54" y2="219.4" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="59.9" y1="251" x2="48" y2="249.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="68" y1="280" x2="46" y2="280" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="59.9" y1="309" x2="48" y2="310.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="65.6" y1="337.5" x2="54" y2="340.6" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="74.9" y1="365" x2="63.8" y2="369.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="87.7" y1="391" x2="77.4" y2="397" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="103.9" y1="415.1" x2="94.4" y2="422.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="130.1" y1="429.9" x2="114.5" y2="445.5" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="144.9" y1="456.1" x2="137.5" y2="465.6" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="169" y1="472.3" x2="163" y2="482.6" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="195" y1="485.1" x2="190.5" y2="496.2" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="222.5" y1="494.4" x2="219.4" y2="506" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="251" y1="500.1" x2="249.5" y2="512" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="280" y1="492" x2="280" y2="514" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="309" y1="500.1" x2="310.5" y2="512" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="337.5" y1="494.4" x2="340.6" y2="506" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="365" y1="485.1" x2="369.5" y2="496.2" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="391" y1="472.3" x2="397" y2="482.6" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="415.1" y1="456.1" x2="422.5" y2="465.6" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="429.9" y1="429.9" x2="445.5" y2="445.5" stroke="{{stone.deep}}" stroke-width="4" stroke-linecap="round"/>
+<line x1="456.1" y1="415.1" x2="465.6" y2="422.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="472.3" y1="391" x2="482.6" y2="397" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="485.1" y1="365" x2="496.2" y2="369.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="494.4" y1="337.5" x2="506" y2="340.6" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="500.1" y1="309" x2="512" y2="310.5" stroke="{{stone.deep}}" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M72 280 a208 208 0 1 0 416 0 a208 208 0 1 0 -416 0 Z M87 280 a193 193 0 1 0 386 0 a193 193 0 1 0 -386 0 Z" fill-rule="evenodd" fill="{{gold.deep}}"/>
+<path d="M74 280 a206 206 0 1 0 412 0 a206 206 0 1 0 -412 0 Z M85 280 a195 195 0 1 0 390 0 a195 195 0 1 0 -390 0 Z" fill-rule="evenodd" fill="{{gold.base}}"/>
+<path d="M76 280 a204 204 0 1 0 408 0 a204 204 0 1 0 -408 0 Z M84 280 a196 196 0 1 0 392 0 a196 196 0 1 0 -392 0 Z" fill-rule="evenodd" fill="{{inlay.navy}}"/>
+<path d="M82 280 a198 198 0 1 0 396 0 a198 198 0 1 0 -396 0 Z M84 280 a196 196 0 1 0 392 0 a196 196 0 1 0 -392 0 Z" fill-rule="evenodd" fill="{{inlay.navy.dark}}"/>
+</g>
+<circle cx="280" cy="280" r="193" fill="url(#inner)"/>
+<path d="M127 280 a153 153 0 1 0 306 0 a153 153 0 1 0 -306 0 Z M130 280 a150 150 0 1 0 300 0 a150 150 0 1 0 -300 0 Z" fill-rule="evenodd" fill="{{stone.deep}}" opacity="0.55"/>
+<path d="M125 280 a155 155 0 1 0 310 0 a155 155 0 1 0 -310 0 Z M127 280 a153 153 0 1 0 306 0 a153 153 0 1 0 -306 0 Z" fill-rule="evenodd" fill="{{stone.lit}}" opacity="0.9"/>
+<g id="lit">
+<path d="M321 239 L315.7 234.3 L353.5 206.5 Z" fill="{{gold.hi}}"/><path d="M321 239 L353.5 206.5 L325.7 244.3 Z" fill="{{gold.base}}"/><path d="M315.7 234.3 L353.5 206.5 L325.7 244.3" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M280 222 L272.9 222.4 L280 176 Z" fill="{{gold.hi}}"/><path d="M280 222 L280 176 L287.1 222.4 Z" fill="{{gold.base}}"/><path d="M272.9 222.4 L280 176 L287.1 222.4" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M239 239 L234.3 244.3 L206.5 206.5 Z" fill="{{gold.hi}}"/><path d="M239 239 L206.5 206.5 L244.3 234.3 Z" fill="{{gold.base}}"/><path d="M234.3 244.3 L206.5 206.5 L244.3 234.3" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M222 280 L222.4 287.1 L176 280 Z" fill="{{gold.hi}}"/><path d="M222 280 L176 280 L222.4 272.9 Z" fill="{{gold.base}}"/><path d="M222.4 287.1 L176 280 L222.4 272.9" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M239 321 L244.3 325.7 L206.5 353.5 Z" fill="{{gold.hi}}"/><path d="M239 321 L206.5 353.5 L234.3 315.7 Z" fill="{{gold.base}}"/><path d="M244.3 325.7 L206.5 353.5 L234.3 315.7" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M280 338 L287.1 337.6 L280 384 Z" fill="{{gold.hi}}"/><path d="M280 338 L280 384 L272.9 337.6 Z" fill="{{gold.base}}"/><path d="M287.1 337.6 L280 384 L272.9 337.6" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M321 321 L325.7 315.7 L353.5 353.5 Z" fill="{{gold.hi}}"/><path d="M321 321 L353.5 353.5 L315.7 325.7 Z" fill="{{gold.base}}"/><path d="M325.7 315.7 L353.5 353.5 L315.7 325.7" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M338 280 L337.6 272.9 L384 280 Z" fill="{{gold.hi}}"/><path d="M338 280 L384 280 L337.6 287.1 Z" fill="{{gold.base}}"/><path d="M337.6 272.9 L384 280 L337.6 287.1" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M333.6 257.8 L328.4 248 L414.9 224.1 Z" fill="{{gold.hi}}"/><path d="M333.6 257.8 L414.9 224.1 L336.8 268.4 Z" fill="{{gold.base}}"/><path d="M328.4 248 L414.9 224.1 L336.8 268.4" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M302.2 226.4 L291.6 223.2 L335.9 145.1 Z" fill="{{gold.hi}}"/><path d="M302.2 226.4 L335.9 145.1 L312 231.6 Z" fill="{{gold.base}}"/><path d="M291.6 223.2 L335.9 145.1 L312 231.6" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M257.8 226.4 L248 231.6 L224.1 145.1 Z" fill="{{gold.hi}}"/><path d="M257.8 226.4 L224.1 145.1 L268.4 223.2 Z" fill="{{gold.base}}"/><path d="M248 231.6 L224.1 145.1 L268.4 223.2" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M226.4 257.8 L223.2 268.4 L145.1 224.1 Z" fill="{{gold.hi}}"/><path d="M226.4 257.8 L145.1 224.1 L231.6 248 Z" fill="{{gold.base}}"/><path d="M223.2 268.4 L145.1 224.1 L231.6 248" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M226.4 302.2 L231.6 312 L145.1 335.9 Z" fill="{{gold.hi}}"/><path d="M226.4 302.2 L145.1 335.9 L223.2 291.6 Z" fill="{{gold.base}}"/><path d="M231.6 312 L145.1 335.9 L223.2 291.6" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M257.8 333.6 L268.4 336.8 L224.1 414.9 Z" fill="{{gold.hi}}"/><path d="M257.8 333.6 L224.1 414.9 L248 328.4 Z" fill="{{gold.base}}"/><path d="M268.4 336.8 L224.1 414.9 L248 328.4" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M302.2 333.6 L312 328.4 L335.9 414.9 Z" fill="{{gold.hi}}"/><path d="M302.2 333.6 L335.9 414.9 L291.6 336.8 Z" fill="{{gold.base}}"/><path d="M312 328.4 L335.9 414.9 L291.6 336.8" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M333.6 302.2 L336.8 291.6 L414.9 335.9 Z" fill="{{gold.hi}}"/><path d="M333.6 302.2 L414.9 335.9 L328.4 312 Z" fill="{{gold.base}}"/><path d="M336.8 291.6 L414.9 335.9 L328.4 312" fill="none" stroke="{{gold.deep}}" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="280" cy="280" r="60" fill="{{gold.deep}}"/>
+<circle cx="280" cy="280" r="56" fill="url(#boss)"/>
+<path d="M242 280 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0 Z M250 280 a30 30 0 1 0 60 0 a30 30 0 1 0 -60 0 Z" fill-rule="evenodd" fill="{{inlay.navy}}"/>
+<path d="M240 280 a40 40 0 1 0 80 0 a40 40 0 1 0 -80 0 Z M242 280 a38 38 0 1 0 76 0 a38 38 0 1 0 -76 0 Z" fill-rule="evenodd" fill="{{gold.hi}}" opacity="0.9"/>
+<circle cx="280" cy="280" r="24" fill="{{inlay.navy.dark}}"/>
+<circle cx="280" cy="280" r="19" fill="url(#glass)"/>
+<circle cx="274" cy="273" r="5" fill="{{glass}}" opacity="0.95"/>
+</g>
+<circle cx="280" cy="280" r="280" fill="url(#ao)"/>
+<circle id="anchor-center" cx="280" cy="280" r="0"/>
+<circle id="anchor-spoke_0" cx="512.1" cy="414" r="0"/>
+<circle id="anchor-spoke_1" cx="538.9" cy="349.4" r="0"/>
+<circle id="anchor-spoke_2" cx="548" cy="280" r="0"/>
+<circle id="anchor-spoke_3" cx="538.9" cy="210.6" r="0"/>
+<circle id="anchor-spoke_4" cx="512.1" cy="146" r="0"/>
+</svg>

@@ -84,12 +84,28 @@ export function clampView(view: CameraView, vp: Viewport, zone: Pick<ZoneFrame, 
   return { viewX: clamp(view.viewX, x0, x1), viewY: clamp(view.viewY, y0, y1), zoom: view.zoom };
 }
 
+/** Breathing room (CSS px) between a framed target and the safe rect's edges (H3: the player was clipped at x = 0). */
+export const FRAME_MARGIN_PX = 28;
+/** The safe rect inset by the frame margin (at most 5 % of each side). */
+export function innerSafe(safe: SafeRect): SafeRect {
+  const m = Math.max(0, Math.min(FRAME_MARGIN_PX, safe.w * 0.05, safe.h * 0.05));
+  return { x: safe.x + m, y: safe.y + m, w: Math.max(1, safe.w - 2 * m), h: Math.max(1, safe.h - 2 * m) };
+}
 /**
- * Frames `target` (world units: a contraption's frameBounds, usually unioned with the player) inside the safe rect.
- * zoom = (frameZoom ?? clamp(fit, minZoom, 1)) × viewportHeight / 1080. The view is clamped to the zone only as far as
- * the target stays inside the safe rect.
+ * What of the player a panel framing keeps in view (world units): the body (≈ 16 % of the 1080 view, feet at y) plus
+ * the companion, which floats over either shoulder, so the box is symmetric about x.
  */
-export function frameFor(target: Rect, safe: SafeRect, vp: Viewport, zone: ZoneFrame, frameZoom: number | null): FrameResult {
+export function playerFrameRect(x: number, y: number): Rect {
+  return { x: x - 130, y: y - 250, w: 260, h: 250 };
+}
+
+/**
+ * Frames `target` (world units: a contraption's frameBounds, usually unioned with `playerFrameRect`) inside the safe
+ * rect less FRAME_MARGIN_PX. zoom = (frameZoom ?? clamp(fit, minZoom, 1)) × viewportHeight / 1080. The view is clamped
+ * to the zone only as far as the target stays inside the safe rect.
+ */
+export function frameFor(target: Rect, safeRect: SafeRect, vp: Viewport, zone: ZoneFrame, frameZoom: number | null): FrameResult {
+  const safe = innerSafe(safeRect);
   const base = baseZoom(vp);
   const fit = Math.min(safe.w / Math.max(1, target.w * base), safe.h / Math.max(1, target.h * base));
   const zf = frameZoom ?? clamp(fit, zone.camera.minZoom, 1);

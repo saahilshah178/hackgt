@@ -395,3 +395,25 @@ describe("plans, hints, lerp", () => {
     expect(meta.debug(a)).toMatchObject({ bays: "stage_rail", placed: "s0,s1,s2,s3", stageK: 1 });
   });
 });
+
+describe("KA3: floating_steps in the world (focus chip, DOM snapshot)", () => {
+  it("floating bays label only the stone you point at (in its socket or its cradle bay)", () => {
+    const e4 = station("e4_solve");
+    const at = (draft: PoseInput<StepBridgeConfig, null>["draft"]) => meta.describe(meta.pose(poseInput(e4, { draft })), poseInput(e4, { draft })).chips.filter((c) => c.anchor !== "lip_relief");
+    const view = e4.ctx.view as { slots: number };
+    const slots = Array.from({ length: view.slots }, (_, j) => (j === 0 ? "s0" : null));
+    const base = { encounterId: "e4_solve", modeKey: "sequencer.linear" as const, input: { slots }, complete: false, focus: null, hover: null, probe: null, settled: true, wave: null, marks: null, seq: 1 };
+    expect(at(base)).toEqual([]);
+    expect(at({ ...base, focus: "s0" })).toEqual([{ anchor: "socket_0", text: "isolate", color: "f" }]);
+    const planks = (e4.ctx.view as { planks: { key: string }[] }).planks.map((p) => p.key);
+    expect(at({ ...base, hover: "d0" })).toEqual([{ anchor: `cradle_${planks.indexOf("d0")}`, text: "inverse sine", color: "f" }]);
+  });
+
+  it("the DOM snapshot seats the four stones on success (dormant: in the cradle)", () => {
+    const snap = STEP_BRIDGE_SKINS.find((s) => s.id === "floating_steps")!.snapshot;
+    const stones = (parts: typeof snap.dormant) => parts.filter((p) => p.asset.endsWith("floating_steps_stone")).map((p) => p.dx);
+    expect(stones(snap.dormant)).toEqual([-580, -580, -580, -580]);
+    expect(stones(snap.solved)).toEqual([-360, -140, 80, 300]);
+    expect(snap.solved.filter((p) => p.asset.endsWith("floating_steps_pylon"))).toHaveLength(2);
+  });
+});

@@ -141,7 +141,10 @@ describe("one negative test per rule", () => {
     };
     const r = run(trig, baseWorld(trig), { assetIndex: index });
     expectIssue(r.issues, "R1", /lacks anims cue/); // a companion without `cue`
-    expectIssue(r.issues, "R1", /not in the asset index/);
+    // A missing key in a built namespace is an error for World Writer output (strict) but only a warning for a
+    // hand-authored side-car, whose art lands after its content (kit stand-ins play meanwhile).
+    expectIssue(run(trig, baseWorld(trig), { assetIndex: index, sidecar: false }).issues, "R1", /not in the asset index/);
+    expectIssue(run(trig, baseWorld(trig), { assetIndex: index, sidecar: true }).warnings, "R1", /not indexed yet/);
     const w2 = baseWorld(trig);
     (w2.cast as Any).guide.companion.asset = "orrery_terraces.prop.guide";
     expectIssue(run(trig, w2).issues, "R1", /group "companion"/);

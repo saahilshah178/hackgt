@@ -1,3 +1,521 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "living_gate.prop.stiff_ridge",
+   "legacyId": "cell.ground.stiff_ridge",
+   "gen": "compose",
+   "pivot": [
+    0.5,
+    1
+   ],
+   "zone": "zone_a",
+   "params": {
+    "w": 1520,
+    "h": 290,
+    "tileWidth": null,
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    },
+    "items": [
+     {
+      "gen": "bilayerTile",
+      "params": {
+       "w": 736,
+       "headR": 14,
+       "pitch": 32,
+       "tailLen": 34,
+       "variant": "gel",
+       "ringR": 120,
+       "gaps": [],
+       "tokens": {
+        "head": "gel.frost",
+        "headLit": "gel.frost.lit",
+        "headShade": "gel.frost.shade",
+        "tail": "lipid.tail|mix:gel.frost:0.55",
+        "core": "oil.seam|mix:gel.frost:0.55",
+        "frost": "haze",
+        "inlay": "oil.seam",
+        "stud": "crystal.hi"
+       }
+      },
+      "seed": null,
+      "x": 772,
+      "y": 52,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "bilayerTile",
+      "params": {
+       "w": 736,
+       "headR": 14,
+       "pitch": 32,
+       "tailLen": 34,
+       "variant": "gel",
+       "ringR": 120,
+       "gaps": [],
+       "tokens": {
+        "head": "gel.frost",
+        "headLit": "gel.frost.lit",
+        "headShade": "gel.frost.shade",
+        "tail": "lipid.tail|mix:gel.frost:0.55",
+        "core": "oil.seam|mix:gel.frost:0.55",
+        "frost": "haze",
+        "inlay": "oil.seam",
+        "stud": "crystal.hi"
+       }
+      },
+      "seed": null,
+      "x": 772,
+      "y": 170,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ]
+   }
+  },
+  {
+   "key": "living_gate.prop.nuclear_pore",
+   "legacyId": "cell.prop.pore_outer",
+   "gen": "compose",
+   "pivot": [
+    0.5,
+    1
+   ],
+   "zone": "zone_d",
+   "params": {
+    "w": 960,
+    "h": 1040,
+    "tileWidth": null,
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    },
+    "items": [
+     {
+      "gen": "plate",
+      "params": {
+       "w": 620,
+       "h": 90,
+       "style": "slab",
+       "bevel": 8,
+       "rivets": 0,
+       "screen": false,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       },
+       "face": "stone.base",
+       "engraved": null
+      },
+      "seed": null,
+      "x": 480,
+      "y": 995,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ringStack",
+      "params": {
+       "size": 864,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 432,
+         "width": 70,
+         "tok": "stone.base",
+         "edge": "gold.base",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 360,
+         "width": 18,
+         "tok": "inlay.navy",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 8,
+          "width": 44
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 288,
+         "width": 40,
+         "tok": "stone.shade",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": {
+          "n": 11,
+          "r": 18,
+          "tok": "bronze.ring"
+         },
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 150,
+         "width": 40,
+         "tok": "bronze.ring",
+         "edge": "gold.base",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": {
+        "r": 124,
+        "ramp": {
+         "lit": "atp.gold.core",
+         "base": "nucleus.dome",
+         "shade": "oil.seam.dark"
+        }
+       },
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null,
+      "x": 48,
+      "y": 36,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ]
+   }
+  },
+  {
+   "key": "living_gate.layer.hall_vault",
+   "legacyId": "cell.far.hallwall",
+   "gen": "compose",
+   "zone": "zone_c",
+   "tileWidth": 2048,
+   "pivot": [
+    0,
+    1
+   ],
+   "params": {
+    "w": 2048,
+    "h": 760,
+    "tileWidth": 2048,
+    "finish": {
+     "ao": false,
+     "rim": false,
+     "haze": 0.1
+    },
+    "items": [
+     {
+      "gen": "ashlarWall",
+      "params": {
+       "w": 2048,
+       "h": 760,
+       "unit": [
+        256,
+        120
+       ],
+       "mortar": "hall.wall.shade",
+       "ramp": {
+        "lit": "hall.wall.lit",
+        "base": "hall.wall",
+        "shade": "hall.wall.shade"
+       },
+       "jitter": 0.2,
+       "rounded": 0,
+       "bands": [
+        {
+         "y": 612,
+         "h": 14,
+         "tok": "inlay.navy"
+        }
+       ],
+       "cap": null,
+       "medallions": null,
+       "openings": [],
+       "tileable": true,
+       "finish": {
+        "ao": false,
+        "rim": false,
+        "haze": 0
+       }
+      },
+      "seed": null,
+      "x": 0,
+      "y": 0,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ringStack",
+      "params": {
+       "size": 320,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 150,
+         "width": 16,
+         "tok": "bronze.ring",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 120,
+         "width": 12,
+         "tok": "bronze.ring",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 4,
+          "width": 7
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": {
+        "r": 20,
+        "ramp": {
+         "lit": "gold.hi",
+         "base": "gold.base",
+         "shade": "gold.deep"
+        }
+       },
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null,
+      "x": 181,
+      "y": 180,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ringStack",
+      "params": {
+       "size": 320,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 150,
+         "width": 16,
+         "tok": "bronze.ring",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 120,
+         "width": 12,
+         "tok": "bronze.ring",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 4,
+          "width": 7
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": {
+        "r": 20,
+        "ramp": {
+         "lit": "gold.hi",
+         "base": "gold.base",
+         "shade": "gold.deep"
+        }
+       },
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null,
+      "x": 864,
+      "y": 180,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ringStack",
+      "params": {
+       "size": 320,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 150,
+         "width": 16,
+         "tok": "bronze.ring",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 120,
+         "width": 12,
+         "tok": "bronze.ring",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 4,
+          "width": 7
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": {
+        "r": 20,
+        "ramp": {
+         "lit": "gold.hi",
+         "base": "gold.base",
+         "shade": "gold.deep"
+        }
+       },
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null,
+      "x": 1547,
+      "y": 180,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ]
+   }
+  },
+  {
+   "key": "living_gate.layer.nucleus_dome",
+   "legacyId": "cell.far.nucleus_dome",
+   "gen": "compose",
+   "zone": "zone_d",
+   "pivot": [
+    0,
+    1
+   ],
+   "params": {
+    "w": 2600,
+    "h": 900,
+    "tileWidth": null,
+    "finish": {
+     "ao": false,
+     "rim": false,
+     "haze": 0.2
+    },
+    "items": [
+     {
+      "gen": "ridgeBand",
+      "params": {
+       "w": 1400,
+       "h": 900,
+       "style": "cell_dome",
+       "peaks": 1,
+       "height": [
+        860,
+        860
+       ],
+       "flutes": 0,
+       "ramp": {
+        "lit": "nucleus.dome.lit",
+        "base": "nucleus.dome",
+        "shade": "nucleus.dome.shade"
+       },
+       "rimLine": "nucleus.rim",
+       "finish": {
+        "ao": false,
+        "rim": true,
+        "haze": 0.2
+       }
+      },
+      "seed": null,
+      "x": 1200,
+      "y": 0,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ]
+   }
+  }
+ ]
 }

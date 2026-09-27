@@ -1,3 +1,2323 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "archive_of_voices.prop.courthouse",
+   "legacyId": "cr.set.courthouse",
+   "zone": "s2_courthouse",
+   "gen": "compose",
+   "params": {
+    "w": 1500,
+    "h": 1000,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "ashlarWall",
+      "params": {
+       "w": 1500,
+       "h": 260,
+       "tileable": false
+      },
+      "seed": null,
+      "x": 750,
+      "y": 1000,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 330,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 400,
+      "y": 740,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 330,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 540,
+      "y": 740,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 330,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 680,
+      "y": 740,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 330,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 820,
+      "y": 740,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 330,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 960,
+      "y": 740,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 330,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 1100,
+      "y": 740,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ashlarWall",
+      "params": {
+       "w": 860,
+       "h": 80,
+       "tileable": false,
+       "bands": [
+        {
+         "y": 20,
+         "h": 24,
+         "tok": "inlay.navy"
+        }
+       ]
+      },
+      "seed": null,
+      "x": 750,
+      "y": 440,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.schoolhouse",
+   "legacyId": "cr.set.schoolhouse",
+   "zone": "s3_schoolhouse",
+   "gen": "facade",
+   "params": {
+    "w": 1600,
+    "h": 700,
+    "style": "collegiate",
+    "floors": 2,
+    "bays": 9,
+    "ramp": {
+     "lit": "tan.lit",
+     "base": "tan.base",
+     "shade": "tan.shade"
+    },
+    "trim": "stone.lit",
+    "window": {
+     "w": 60,
+     "h": 130,
+     "tok": "glass.dark",
+     "arch": false
+    },
+    "door": {
+     "bay": 3,
+     "recessed": true
+    }
+   },
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.dimestore_facade",
+   "legacyId": "cr.set.dimestore",
+   "zone": "s4_main_street",
+   "gen": "facade",
+   "params": {
+    "w": 1400,
+    "h": 950,
+    "style": "storefront",
+    "floors": 2,
+    "bays": 5,
+    "ramp": {
+     "lit": "brick.lit",
+     "base": "brick.base",
+     "shade": "brick.shade"
+    },
+    "trim": "stone.lit",
+    "window": {
+     "w": 110,
+     "h": 200,
+     "tok": "glass.dark",
+     "arch": false
+    },
+    "door": {
+     "bay": 2,
+     "recessed": true
+    }
+   },
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.terminal_facade",
+   "legacyId": "cr.set.terminal",
+   "zone": "s4_main_street",
+   "gen": "facade",
+   "params": {
+    "w": 1900,
+    "h": 950,
+    "style": "moderne",
+    "floors": 2,
+    "bays": 6,
+    "ramp": {
+     "lit": "stucco.lit",
+     "base": "stucco",
+     "shade": "stucco.shade"
+    },
+    "trim": "inlay.navy",
+    "window": {
+     "w": 160,
+     "h": 150,
+     "tok": "glassblock",
+     "arch": false
+    },
+    "door": {
+     "bay": 3,
+     "recessed": true
+    },
+    "sign": {
+     "text": "TERMINAL",
+     "tok": "lamp"
+    }
+   },
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.church",
+   "legacyId": "cr.set.church",
+   "zone": "s5_church_mast",
+   "gen": "compose",
+   "params": {
+    "w": 1300,
+    "h": 1400,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "brickWall",
+      "params": {
+       "w": 580,
+       "h": 900,
+       "tileable": false,
+       "ramp": {
+        "lit": "brick.lit",
+        "base": "brick.base",
+        "shade": "brick.shade"
+       },
+       "mortar": "brick.shade"
+      },
+      "seed": null,
+      "x": 650,
+      "y": 1340,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 260,
+       "h": 1140,
+       "style": "pylon",
+       "flutes": 0,
+       "capital": "band",
+       "ramp": {
+        "lit": "brick.lit",
+        "base": "brick.base",
+        "shade": "brick.shade"
+       }
+      },
+      "seed": null,
+      "x": 230,
+      "y": 1340,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 260,
+       "h": 1140,
+       "style": "pylon",
+       "flutes": 0,
+       "capital": "band",
+       "ramp": {
+        "lit": "brick.lit",
+        "base": "brick.base",
+        "shade": "brick.shade"
+       }
+      },
+      "seed": null,
+      "x": 1070,
+      "y": 1340,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ringStack",
+      "params": {
+       "size": 300,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 150,
+         "width": 22,
+         "tok": "stone.lit",
+         "edge": "stone.shade",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 12,
+          "width": 8
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": {
+        "r": 40,
+        "ramp": {
+         "lit": "rose.amber",
+         "base": "rose.amber",
+         "shade": "rose.teal"
+        }
+       },
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null,
+      "x": 650,
+      "y": 930,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "stairs",
+      "params": {
+       "steps": 3,
+       "rise": 20,
+       "tread": 260,
+       "depth": 20,
+       "style": "stone",
+       "dir": "straight",
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 260,
+      "y": 1400,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   },
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.memorial_colonnade",
+   "legacyId": "cr.set.memorial",
+   "zone": "s6_memorial",
+   "gen": "compose",
+   "params": {
+    "w": 1900,
+    "h": 620,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 120,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 271,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 422,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 573,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 724,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 875,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 1026,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 1177,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 1328,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 1479,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 1630,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 90,
+       "h": 380,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 1781,
+      "y": 580,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ashlarWall",
+      "params": {
+       "w": 1900,
+       "h": 130,
+       "tileable": false,
+       "bands": [
+        {
+         "y": 60,
+         "h": 16,
+         "tok": "inlay.navy"
+        }
+       ]
+      },
+      "seed": null,
+      "x": 950,
+      "y": 200,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ashlarWall",
+      "params": {
+       "w": 1900,
+       "h": 50,
+       "tileable": false
+      },
+      "seed": null,
+      "x": 950,
+      "y": 620,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   },
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.counter_stool",
+   "legacyId": "cr.set.counter_stool",
+   "zone": "s4_main_street",
+   "gen": "column",
+   "params": {
+    "w": 90,
+    "h": 170,
+    "style": "cast_iron",
+    "flutes": 0,
+    "capital": "band",
+    "base": "step",
+    "bands": 0,
+    "ramp": {
+     "lit": "chrome.hi",
+     "base": "chrome",
+     "shade": "chrome.shade"
+    },
+    "trim": "vinyl.teal",
+    "inlay": "vinyl.teal.shade"
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.courier_ledger_tower",
+   "legacyId": "cr.far.city_south",
+   "zone": "all",
+   "gen": "skyline",
+   "params": {
+    "w": 520,
+    "h": 900,
+    "blocks": 1,
+    "height": [
+     700,
+     880
+    ],
+    "features": [
+     "setback_tower"
+    ],
+    "fill": "far.city",
+    "windowTok": "window.dot",
+    "windowDensity": 0.15,
+    "finish": {
+     "ao": false,
+     "rim": false,
+     "haze": 0.4
+    }
+   },
+   "rasterScale": 0.75
+  },
+  {
+   "key": "archive_of_voices.prop.main_breaker",
+   "legacyId": "cr.set.main_breaker",
+   "zone": "s1_morgue",
+   "gen": "plate",
+   "params": {
+    "w": 120,
+    "h": 220,
+    "style": "junction_box",
+    "bevel": 8,
+    "rivets": 4,
+    "screen": false,
+    "ramp": {
+     "lit": "breaker.lit",
+     "base": "breaker.base",
+     "shade": "breaker.shade"
+    },
+    "face": "breaker.base",
+    "engraved": {
+     "text": "MAIN",
+     "face": "caps",
+     "size": 24
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.reading_desk",
+   "legacyId": "cr.set.reading_desk",
+   "zone": "s1_morgue",
+   "gen": "shelving",
+   "params": {
+    "w": 480,
+    "h": 260,
+    "style": "filing_drawers",
+    "shelves": 3,
+    "bays": 2,
+    "fill": [
+     "box"
+    ],
+    "ramp": {
+     "lit": "wood.lit",
+     "base": "wood.base",
+     "shade": "wood.shade"
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.proof_press",
+   "legacyId": "cr.set.proof_press",
+   "zone": "s1_morgue",
+   "gen": "compose",
+   "params": {
+    "w": 520,
+    "h": 420,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "plate",
+      "params": {
+       "w": 460,
+       "h": 40,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "wood.lit",
+        "base": "wood.base",
+        "shade": "wood.shade"
+       },
+       "face": "wood.base"
+      },
+      "seed": null,
+      "x": 260,
+      "y": 240,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "ringStack",
+      "params": {
+       "size": 90,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 44,
+         "width": 8,
+         "tok": "brass.base",
+         "edge": "brass.deep",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 6,
+          "width": 6
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null,
+      "x": 468,
+      "y": 195,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 60,
+       "h": 170,
+       "style": "cast_iron",
+       "flutes": 0,
+       "ramp": {
+        "lit": "steel",
+        "base": "steel.shade",
+        "shade": "asphalt.wet"
+       }
+      },
+      "seed": null,
+      "x": 70,
+      "y": 420,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 60,
+       "h": 170,
+       "style": "cast_iron",
+       "flutes": 0,
+       "ramp": {
+        "lit": "steel",
+        "base": "steel.shade",
+        "shade": "asphalt.wet"
+       }
+      },
+      "seed": null,
+      "x": 450,
+      "y": 420,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.record_engine",
+   "kind": "puppet",
+   "legacyId": "cr.set.engine_plinth",
+   "rasterScale": 0.6,
+   "pivot": [
+    0.5,
+    1
+   ],
+   "size": [
+    1000,
+    1370
+   ],
+   "parts": [
+    {
+     "name": "glow",
+     "from": {
+      "gen": "glowSprite",
+      "params": {
+       "size": 520,
+       "shape": "radial",
+       "core": "flame.core",
+       "edge": "recordlight",
+       "falloff": 0.55,
+       "frames": 1
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -2,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "ring_outer",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 860,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 430,
+         "width": 60,
+         "tok": "brass.base",
+         "edge": "brass.deep",
+         "gaps": [],
+         "notches": [
+          {
+           "at": 270,
+           "width": 16,
+           "depth": 26
+          }
+         ],
+         "studs": {
+          "n": 24,
+          "r": 6,
+          "tok": "brass.hi"
+         },
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        },
+        {
+         "r": 372,
+         "width": 8,
+         "tok": "gold.hi",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": -1,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "ring_mid",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 660,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 330,
+         "width": 44,
+         "tok": "stone.lit",
+         "edge": "stone.shade",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": {
+          "n": 1,
+          "tok": "inlay.navy"
+         },
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": {
+          "n": 24,
+          "len": 12,
+          "tok": "inlay.navy"
+         },
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 0,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "ring_inner",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 480,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 240,
+         "width": 70,
+         "tok": "brass.base",
+         "edge": "brass.deep",
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": {
+          "n": 12,
+          "r": 26,
+          "tok": "lens.dormant"
+         },
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": null,
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 1,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "drum",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 300,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 150,
+         "width": 26,
+         "tok": "brass.base",
+         "edge": "brass.deep",
+         "gaps": [],
+         "notches": [],
+         "studs": {
+          "n": 12,
+          "r": 5,
+          "tok": "brass.hi"
+         },
+         "teeth": null,
+         "grooves": null,
+         "spokes": null,
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": {
+        "r": 100,
+        "ramp": {
+         "lit": "inlay.navy",
+         "base": "inlay.navy.dark",
+         "shade": "inlay.navy.dark"
+        }
+       },
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 2,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "iris",
+     "from": {
+      "gen": "ringStack",
+      "params": {
+       "size": 220,
+       "ellipse": 1,
+       "rings": [
+        {
+         "r": 104,
+         "width": 10,
+         "tok": "brass.deep",
+         "edge": null,
+         "gaps": [],
+         "notches": [],
+         "studs": null,
+         "teeth": null,
+         "grooves": null,
+         "spokes": {
+          "n": 8,
+          "width": 30
+         },
+         "wave": null,
+         "sockets": null,
+         "ticks": null,
+         "labels": []
+        }
+       ],
+       "hub": {
+        "r": 96,
+        "ramp": {
+         "lit": "brass.hi",
+         "base": "brass.base",
+         "shade": "brass.deep"
+        }
+       },
+       "cutout": null,
+       "knurl": false
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      0.5
+     ],
+     "z": 3,
+     "rest": [
+      500,
+      690
+     ]
+    },
+    {
+     "name": "crown",
+     "from": {
+      "gen": "crystalCluster",
+      "params": {
+       "w": 440,
+       "h": 300,
+       "form": "fan",
+       "shards": 5,
+       "lean": 0,
+       "ramp": {
+        "lit": "gold.hi",
+        "base": "gold.base",
+        "shade": "gold.deep"
+       },
+       "glow": null
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      1
+     ],
+     "z": -1,
+     "rest": [
+      500,
+      300
+     ]
+    },
+    {
+     "name": "plinth",
+     "from": {
+      "gen": "stairs",
+      "params": {
+       "steps": 3,
+       "rise": 70,
+       "tread": 333,
+       "depth": 30,
+       "style": "stepped_plinth",
+       "dir": "straight",
+       "nosing": "gold.base",
+       "cheekWalls": false,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null
+     },
+     "pivot": [
+      0.5,
+      1
+     ],
+     "z": 4,
+     "rest": [
+      500,
+      1370
+     ]
+    }
+   ],
+   "anims": [
+    {
+     "id": "idle",
+     "loop": true,
+     "ms": 4000,
+     "tracks": [
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "partial",
+     "loop": false,
+     "ms": 2400,
+     "tracks": [
+      {
+       "part": "ring_outer",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         600,
+         260
+        ],
+        [
+         1200,
+         420
+        ],
+        [
+         1800,
+         510
+        ],
+        [
+         2400,
+         540
+        ]
+       ]
+      },
+      {
+       "part": "ring_mid",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         600,
+         -170
+        ],
+        [
+         1200,
+         -280
+        ],
+        [
+         1800,
+         -340
+        ],
+        [
+         2400,
+         -360
+        ]
+       ]
+      },
+      {
+       "part": "ring_inner",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         2400,
+         90
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         2400,
+         0.18
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         2400,
+         0.85
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         2400,
+         0.85
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "restored",
+     "loop": false,
+     "ms": 2600,
+     "tracks": [
+      {
+       "part": "ring_outer",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         540
+        ],
+        [
+         1300,
+         760
+        ],
+        [
+         2600,
+         900
+        ]
+       ]
+      },
+      {
+       "part": "ring_mid",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         -360
+        ],
+        [
+         1300,
+         -480
+        ],
+        [
+         2600,
+         -540
+        ]
+       ]
+      },
+      {
+       "part": "ring_inner",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         90
+        ],
+        [
+         2600,
+         180
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.85
+        ],
+        [
+         1400,
+         0.2
+        ],
+        [
+         2600,
+         0.15
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.85
+        ],
+        [
+         1400,
+         0.2
+        ],
+        [
+         2600,
+         0.15
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "rot",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0
+        ],
+        [
+         1400,
+         120
+        ]
+       ]
+      },
+      {
+       "part": "iris",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         1
+        ],
+        [
+         1400,
+         1
+        ],
+        [
+         2000,
+         0
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "alpha",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.18
+        ],
+        [
+         1400,
+         0.75
+        ],
+        [
+         2600,
+         0.6
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleX",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.8
+        ],
+        [
+         1400,
+         1.25
+        ],
+        [
+         2600,
+         1.1
+        ]
+       ]
+      },
+      {
+       "part": "glow",
+       "prop": "scaleY",
+       "wave": null,
+       "keys": [
+        [
+         0,
+         0.8
+        ],
+        [
+         1400,
+         1.25
+        ],
+        [
+         2600,
+         1.1
+        ]
+       ]
+      }
+     ]
+    }
+   ],
+   "zone": "s1_morgue"
+  },
+  {
+   "key": "archive_of_voices.prop.courthouse_clock",
+   "legacyId": "cr.set.courthouse_clock",
+   "zone": "s2_courthouse",
+   "gen": "ringStack",
+   "params": {
+    "size": 148,
+    "ellipse": 1,
+    "rings": [
+     {
+      "r": 74,
+      "width": 10,
+      "tok": "brass.base",
+      "edge": "brass.deep",
+      "gaps": [],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     },
+     {
+      "r": 62,
+      "width": 26,
+      "tok": "paper",
+      "edge": null,
+      "gaps": [],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": {
+       "n": 12,
+       "len": 8,
+       "tok": "inlay.navy"
+      },
+      "labels": [
+       {
+        "at": 270,
+        "text": "XII",
+        "face": "caps",
+        "size": 13
+       },
+       {
+        "at": 0,
+        "text": "III",
+        "face": "caps",
+        "size": 13
+       },
+       {
+        "at": 90,
+        "text": "VI",
+        "face": "caps",
+        "size": 13
+       },
+       {
+        "at": 180,
+        "text": "IX",
+        "face": "caps",
+        "size": 13
+       }
+      ]
+     }
+    ],
+    "hub": {
+     "r": 8,
+     "ramp": {
+      "lit": "inlay.navy",
+      "base": "inlay.navy",
+      "shade": "inlay.navy.dark"
+     }
+    },
+    "cutout": null,
+    "knurl": false
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.school_doors",
+   "legacyId": "cr.set.school_doors",
+   "zone": "s3_schoolhouse",
+   "gen": "compose",
+   "params": {
+    "w": 260,
+    "h": 340,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "arch",
+      "params": {
+       "w": 260,
+       "h": 340,
+       "shape": "round",
+       "thickness": 30,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       },
+       "recess": "wood.shade"
+      },
+      "seed": null,
+      "x": 130,
+      "y": 340,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "plate",
+      "params": {
+       "w": 90,
+       "h": 250,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "wood.lit",
+        "base": "wood.base",
+        "shade": "wood.shade"
+       },
+       "face": "wood.base"
+      },
+      "seed": null,
+      "x": 85,
+      "y": 215,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "plate",
+      "params": {
+       "w": 90,
+       "h": 250,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "wood.lit",
+        "base": "wood.base",
+        "shade": "wood.shade"
+       },
+       "face": "wood.shade"
+      },
+      "seed": null,
+      "x": 175,
+      "y": 215,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.rose_window_glow",
+   "legacyId": "cr.set.rose_window_glow",
+   "zone": "s5_church_mast",
+   "gen": "glowSprite",
+   "params": {
+    "size": 300,
+    "shape": "radial",
+    "core": "rose.amber",
+    "edge": "rose.teal",
+    "falloff": 0.55,
+    "frames": 1
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.basement_stair",
+   "legacyId": "cr.set.basement_stair",
+   "zone": "s1_morgue",
+   "gen": "stairs",
+   "params": {
+    "steps": 10,
+    "rise": 50,
+    "tread": 48,
+    "depth": 20,
+    "style": "iron",
+    "dir": "up_left",
+    "nosing": "brass.base",
+    "cheekWalls": true,
+    "ramp": {
+     "lit": "steel.shade",
+     "base": "asphalt.wet",
+     "shade": "ink"
+    }
+   },
+   "pivot": [
+    0.5,
+    0.5
+   ]
+  },
+  {
+   "key": "archive_of_voices.prop.front_pages_wall",
+   "legacyId": "cr.set.front_pages_wall",
+   "zone": "all",
+   "gen": "shelving",
+   "params": {
+    "w": 1400,
+    "h": 700,
+    "style": "cork_frames",
+    "shelves": 3,
+    "bays": 4,
+    "fill": [
+     "frame"
+    ],
+    "endPanel": "wood.shade",
+    "ramp": {
+     "lit": "wood.lit",
+     "base": "wood.base",
+     "shade": "wood.shade"
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.darkroom_door",
+   "legacyId": "cr.set.darkroom_door",
+   "zone": "all",
+   "gen": "compose",
+   "params": {
+    "w": 320,
+    "h": 620,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "plate",
+      "params": {
+       "w": 300,
+       "h": 560,
+       "style": "slab",
+       "bevel": 10,
+       "rivets": 0,
+       "ramp": {
+        "lit": "wood.lit",
+        "base": "wood.base",
+        "shade": "wood.shade"
+       },
+       "face": "wood.base"
+      },
+      "seed": null,
+      "x": 160,
+      "y": 340,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "plate",
+      "params": {
+       "w": 220,
+       "h": 50,
+       "style": "sign_blade",
+       "rivets": 2,
+       "ramp": {
+        "lit": "ink",
+        "base": "ink",
+        "shade": "ink"
+       },
+       "face": "ink",
+       "engraved": {
+        "text": "DARKROOM",
+        "face": "caps",
+        "size": 22
+       }
+      },
+      "seed": null,
+      "x": 160,
+      "y": 150,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "glowSprite",
+      "params": {
+       "size": 60,
+       "shape": "radial",
+       "core": "safelight",
+       "edge": "safelight",
+       "falloff": 0.5
+      },
+      "seed": null,
+      "x": 160,
+      "y": 40,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.console_reader",
+   "legacyId": "cr.part.console_reader",
+   "zone": "all",
+   "gen": "lectern",
+   "params": {
+    "h": 210,
+    "style": "microfilm",
+    "ramp": {
+     "lit": "brass.hi",
+     "base": "brass.base",
+     "shade": "brass.deep"
+    },
+    "trim": "inlay.navy",
+    "screen": "recordlight",
+    "emblem": true
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.vault_socket",
+   "legacyId": "cr.set.vault_socket",
+   "zone": "s8_stacks_vault",
+   "gen": "ringStack",
+   "params": {
+    "size": 1300,
+    "ellipse": 1,
+    "rings": [
+     {
+      "r": 650,
+      "width": 150,
+      "tok": "stone.base",
+      "edge": "stone.shade",
+      "gaps": [],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": {
+       "n": 8,
+       "tok": "inlay.navy"
+      },
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     },
+     {
+      "r": 500,
+      "width": 20,
+      "tok": "gold.base",
+      "edge": "gold.deep",
+      "gaps": [],
+      "notches": [],
+      "studs": null,
+      "teeth": null,
+      "grooves": null,
+      "spokes": null,
+      "wave": null,
+      "sockets": null,
+      "ticks": null,
+      "labels": []
+     }
+    ],
+    "hub": {
+     "r": 490,
+     "ramp": {
+      "lit": "ink",
+      "base": "ink",
+      "shade": "ink"
+     }
+    },
+    "cutout": null,
+    "knurl": false
+   },
+   "rasterScale": 0.5,
+   "pivot": [
+    0.5,
+    1
+   ]
+  },
+  {
+   "key": "archive_of_voices.prop.telegraph_pole",
+   "legacyId": null,
+   "zone": "s3_schoolhouse",
+   "gen": "column",
+   "params": {
+    "w": 120,
+    "h": 470,
+    "style": "pole",
+    "flutes": 0,
+    "capital": "crossarm",
+    "base": "buried",
+    "bands": 0,
+    "ramp": {
+     "lit": "wood.lit",
+     "base": "wood.base",
+     "shade": "wood.shade"
+    },
+    "trim": "glassblock"
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.bandstand",
+   "legacyId": "cr.set.bandstand",
+   "zone": "s5_church_mast",
+   "gen": "compose",
+   "params": {
+    "w": 720,
+    "h": 520,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "column",
+      "params": {
+       "w": 40,
+       "h": 360,
+       "style": "cast_iron",
+       "flutes": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 60,
+      "y": 460,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 40,
+       "h": 360,
+       "style": "cast_iron",
+       "flutes": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 210,
+      "y": 460,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 40,
+       "h": 360,
+       "style": "cast_iron",
+       "flutes": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 360,
+      "y": 460,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 40,
+       "h": 360,
+       "style": "cast_iron",
+       "flutes": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 510,
+      "y": 460,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "column",
+      "params": {
+       "w": 40,
+       "h": 360,
+       "style": "cast_iron",
+       "flutes": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 660,
+      "y": 460,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "plate",
+      "params": {
+       "w": 720,
+       "h": 60,
+       "style": "slab",
+       "rivets": 0,
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       },
+       "face": "stone.base"
+      },
+      "seed": null,
+      "x": 360,
+      "y": 490,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "awning",
+      "params": {
+       "w": 720,
+       "drop": 90,
+       "stripes": [
+        "inlay.navy",
+        "stone.lit"
+       ],
+       "valance": "scallop"
+      },
+      "seed": null,
+      "x": 360,
+      "y": 100,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "railing",
+      "params": {
+       "w": 700,
+       "h": 60,
+       "style": "balustrade",
+       "ramp": {
+        "lit": "stone.lit",
+        "base": "stone.base",
+        "shade": "stone.shade"
+       }
+      },
+      "seed": null,
+      "x": 360,
+      "y": 460,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.bank_ladder",
+   "legacyId": null,
+   "zone": "s7_selma",
+   "gen": "stairs",
+   "params": {
+    "steps": 6,
+    "rise": 20,
+    "tread": 30,
+    "depth": 10,
+    "style": "ladder",
+    "dir": "straight",
+    "ramp": {
+     "lit": "steel.shade",
+     "base": "asphalt.wet",
+     "shade": "ink"
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.prop.riverside_ledge",
+   "legacyId": null,
+   "zone": "s7_selma",
+   "gen": "groundStrip",
+   "params": {
+    "w": 240,
+    "h": 60,
+    "style": "ledge_cap",
+    "ramp": {
+     "lit": "stone.lit",
+     "base": "stone.base",
+     "shade": "stone.shade"
+    },
+    "lip": null,
+    "grassEdge": null,
+    "wet": true
+   }
+  },
+  {
+   "key": "archive_of_voices.doc.plaque_bronze",
+   "legacyId": "cr.set.courthouse_plaque",
+   "zone": "all",
+   "gen": "plate",
+   "params": {
+    "w": 160,
+    "h": 110,
+    "style": "brass_plaque",
+    "bevel": 8,
+    "rivets": 4,
+    "ramp": {
+     "lit": "brass.hi",
+     "base": "bronze.ring",
+     "shade": "brass.deep"
+    },
+    "face": "bronze.ring"
+   }
+  },
+  {
+   "key": "archive_of_voices.doc.document_plate",
+   "legacyId": null,
+   "zone": "all",
+   "gen": "plate",
+   "params": {
+    "w": 200,
+    "h": 150,
+    "style": "paper_card",
+    "bevel": 4,
+    "rivets": 2,
+    "ramp": {
+     "lit": "paper",
+     "base": "paper.aged",
+     "shade": "stone.deep"
+    },
+    "face": "paper"
+   }
+  },
+  {
+   "key": "archive_of_voices.doc.photo_withheld",
+   "legacyId": "cr.set.photo_withheld",
+   "zone": "s4_main_street",
+   "gen": "compose",
+   "params": {
+    "w": 260,
+    "h": 200,
+    "tileWidth": null,
+    "items": [
+     {
+      "gen": "plate",
+      "params": {
+       "w": 260,
+       "h": 200,
+       "style": "slide_mat",
+       "bevel": 18,
+       "rivets": 0,
+       "ramp": {
+        "lit": "brass.hi",
+        "base": "brass.base",
+        "shade": "brass.deep"
+       },
+       "face": "paper.aged"
+      },
+      "seed": null,
+      "x": 130,
+      "y": 100,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     },
+     {
+      "gen": "glowSprite",
+      "params": {
+       "size": 150,
+       "shape": "puff",
+       "core": "paper.trap",
+       "edge": "stone.deep",
+       "falloff": 0.6
+      },
+      "seed": null,
+      "x": 130,
+      "y": 90,
+      "scale": 1,
+      "flip": false,
+      "alpha": 1
+     }
+    ],
+    "finish": {
+     "ao": true,
+     "rim": false,
+     "haze": 0
+    }
+   }
+  },
+  {
+   "key": "archive_of_voices.fx.projector_cone",
+   "legacyId": "cr.light.projector_cone",
+   "zone": "all",
+   "gen": "glowSprite",
+   "params": {
+    "size": 256,
+    "shape": "cone",
+    "core": "recordlight.hi",
+    "edge": "recordlight",
+    "falloff": 0.6,
+    "frames": 1
+   }
+  },
+  {
+   "key": "archive_of_voices.fx.blinds_shadow",
+   "legacyId": "cr.light.blinds_shadow",
+   "zone": "all",
+   "gen": "grainTile",
+   "params": {
+    "size": 256,
+    "style": "blinds",
+    "density": 0.5,
+    "tok": "shadow"
+   }
+  }
+ ]
 }

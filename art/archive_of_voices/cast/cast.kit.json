@@ -1,3 +1,54 @@
 {
-  "entries": []
+  "entries": [
+    {
+      "key": "archive_of_voices.companion.wick",
+      "kind": "puppet",
+      "legacyId": "cr.char.wick_body",
+      "recipe": "companion_standin",
+      "args": { "body": "brass.base", "bodyLit": "brass.hi", "bodyShade": "brass.deep", "trim": "inlay.navy", "glow": "lamp", "wing": "paper" }
+    },
+    {
+      "key": "archive_of_voices.costume.nell_scarf",
+      "legacyId": "cr.char.nell_scarf",
+      "gen": "plate",
+      "params": { "w": 70, "h": 34, "style": "slab", "bevel": 3, "rivets": 0, "screen": false, "ramp": { "lit": "scarf.hi", "base": "scarf", "shade": "scarf.shade" }, "face": "scarf", "engraved": null }
+    },
+    {
+      "key": "archive_of_voices.costume.nell_satchel",
+      "legacyId": "cr.char.nell_satchel",
+      "gen": "plate",
+      "params": { "w": 50, "h": 40, "style": "slab", "bevel": 4, "rivets": 2, "screen": false, "ramp": { "lit": "leather.hi", "base": "leather", "shade": "leather.shade" }, "face": "leather", "engraved": null }
+    },
+    {
+      "key": "archive_of_voices.costume.ida_bun_glasses",
+      "legacyId": "cr.char.ida_overlay",
+      "gen": "ringStack",
+      "params": {
+        "size": 40,
+        "ellipse": 1,
+        "rings": [{ "r": 18, "width": 6, "tok": "silver", "edge": "silver.shade", "gaps": [], "notches": [], "studs": null, "teeth": null, "grooves": null, "spokes": null, "wave": null, "sockets": null, "ticks": null, "labels": [] }],
+        "hub": { "r": 12, "ramp": { "lit": "silver.hi", "base": "silver", "shade": "silver.shade" } },
+        "cutout": null,
+        "knurl": false
+      }
+    },
+    {
+      "key": "archive_of_voices.costume.ida_cardigan",
+      "legacyId": "cr.char.ida_overlay",
+      "gen": "plate",
+      "params": { "w": 96, "h": 30, "style": "slab", "bevel": 4, "rivets": 0, "screen": false, "ramp": { "lit": "cardigan.teal.hi", "base": "cardigan.teal", "shade": "cardigan.teal.shade" }, "face": "cardigan.teal", "engraved": null }
+    },
+    {
+      "key": "archive_of_voices.costume.otis_watch_cap",
+      "legacyId": "cr.char.otis",
+      "gen": "plate",
+      "params": { "w": 100, "h": 40, "style": "slab", "bevel": 8, "rivets": 0, "screen": false, "ramp": { "lit": "knit.navy.hi", "base": "knit.navy", "shade": "knit.navy.shade" }, "face": "knit.navy", "engraved": null }
+    },
+    {
+      "key": "archive_of_voices.costume.otis_flashlight",
+      "legacyId": "cr.char.otis",
+      "gen": "linkStrip",
+      "params": { "len": 56, "axis": "x", "style": "rod", "thick": 14, "bandEvery": null, "band": null, "ramp": { "lit": "chrome.hi", "base": "chrome", "shade": "chrome.shade" } }
+    }
+  ]
 }

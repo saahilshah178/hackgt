@@ -17,8 +17,15 @@ import { defineConfig, devices } from "@playwright/test";
  * `e2e/helpers/expedition.ts` reads `testInfo.project.name` to append `renderer=dom` and to pick the right
  * host testid (`phaser-host` vs `dom-host`) so the same `expedition-{trig,cell,civil,express}.spec.ts` files
  * run unmodified on both projects (§8.2).
+ *
+ * `EXPEDITION_E2E_URL` (docs/design/w1a-report.md fix #12; mirrors the same override the now-deleted H2
+ * sub-config had): when set, the suite runs against an already-running server at that URL instead of spawning
+ * its own `pnpm dev --port 3100` — for when the shared :3100 dev server is already up (Next 16 refuses a second
+ * `next dev` in the same project directory) or a throwaway server is running on another port. `webServer` is
+ * omitted entirely in that case, so Playwright never tries to start or reuse one.
  */
 const EXPEDITION_SPEC_PATTERN = /expedition-(trig|cell|civil|express|client)\.spec\.ts$/;
+const E2E_URL = process.env.EXPEDITION_E2E_URL ?? "http://localhost:3100";
 
 export default defineConfig({
   testDir: "e2e",
@@ -27,7 +34,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: "http://localhost:3100",
+    baseURL: E2E_URL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
@@ -45,19 +52,21 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-  webServer: {
-    command: "pnpm dev --port 3100",
-    url: "http://localhost:3100",
-    reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
-    stdout: "ignore",
-    stderr: "pipe",
-    env: {
-      LLM_MODE: "mock",
-      STORAGE_DRIVER: "local",
-      AUDIO_MODE: "off",
-      EXPEDITION_SFX: "off",
-      NEXT_TELEMETRY_DISABLED: "1",
-    },
-  },
+  webServer: process.env.EXPEDITION_E2E_URL
+    ? undefined
+    : {
+        command: "pnpm dev --port 3100",
+        url: E2E_URL,
+        reuseExistingServer: !process.env.CI,
+        timeout: 180_000,
+        stdout: "ignore",
+        stderr: "pipe",
+        env: {
+          LLM_MODE: "mock",
+          STORAGE_DRIVER: "local",
+          AUDIO_MODE: "off",
+          EXPEDITION_SFX: "off",
+          NEXT_TELEMETRY_DISABLED: "1",
+        },
+      },
 });

@@ -1,3 +1,41 @@
 {
-  "entries": []
+ "entries": [
+  {
+   "key": "archive_of_voices.costume.nell_scarf",
+   "legacyId": "cr.char.nell_scarf",
+   "file": "nell_scarf.svg"
+  },
+  {
+   "key": "archive_of_voices.costume.nell_satchel",
+   "legacyId": "cr.char.nell_satchel",
+   "file": "nell_satchel.svg"
+  },
+  {
+   "key": "archive_of_voices.costume.ida_bun_glasses",
+   "legacyId": "cr.char.ida_overlay",
+   "file": "ida_bun_glasses.svg"
+  },
+  {
+   "key": "archive_of_voices.costume.ida_cardigan",
+   "legacyId": "cr.char.ida_overlay",
+   "file": "ida_cardigan.svg"
+  },
+  {
+   "key": "archive_of_voices.costume.otis_watch_cap",
+   "legacyId": "cr.char.otis",
+   "file": "otis_watch_cap.svg"
+  },
+  {
+   "key": "archive_of_voices.costume.otis_flashlight",
+   "legacyId": "cr.char.otis",
+   "file": "otis_flashlight.svg"
+  },
+  {
+   "key": "archive_of_voices.companion.wick",
+   "kind": "puppet",
+   "legacyId": "cr.char.wick_body",
+   "file": "wick.svg",
+   "anims": "wick.anims.json"
+  }
+ ]
 }

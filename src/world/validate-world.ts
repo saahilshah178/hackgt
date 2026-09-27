@@ -193,8 +193,11 @@ export function validateWorld(spec: GameSpec, world: WorldOverlay, opts: Validat
       return false;
     }
     if (!(key in index)) {
-      if (built.has(ns)) E("R1", path, `asset "${key}" is not in the asset index`);
-      else W("R1", path, `asset "${key}" is not indexed yet (namespace "${ns}" has no built art; kit stand-ins play)`);
+      // Side-cars are hand-polished content that lands before all of its art: a missing key is a warning there
+      // (the hosts draw kit stand-ins and console.warn). World Writer output (spec.world) stays strict once the
+      // namespace has built art, so generated games never reference art that does not exist.
+      if (built.has(ns) && !opts.sidecar) E("R1", path, `asset "${key}" is not in the asset index`);
+      else W("R1", path, `asset "${key}" is not indexed yet (kit stand-ins play)`);
       return false;
     }
     return true;
