@@ -131,12 +131,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   const profile = useMemo(() => profileFromAnswers(probes, clarify.answers, clarify), [probes, clarify]);
   const recKey = useMemo(() => JSON.stringify([selectionKey, confidence, profile]), [selectionKey, confidence, profile]);
 
-  // Rank genres once the student reaches the last step (the matcher's concept -> mechanic mapping is ready by then).
+  // Rank genres for the current pick (debounced so ticking concepts doesn't refetch on every click).
   useEffect(() => {
-    if (step !== 1 || !data || selected.size === 0 || recs?.key === recKey) return;
+    if (!data || selected.size === 0 || recs?.key === recKey) return;
     const key = recKey;
     let cancelled = false;
-    api<{ recommendations: GenreRecommendation[]; pending?: boolean }>(`/api/sources/${sourceId}/recommend`, {
+    const timer = setTimeout(() => api<{ recommendations: GenreRecommendation[]; pending?: boolean }>(`/api/sources/${sourceId}/recommend`, {
       method: "POST",
       body: JSON.stringify({ conceptIds: [...selected], confidence, profile }),
     })
@@ -144,11 +144,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
       // (the server waits a few seconds per request, so this polls gently)
       .then((r) => !cancelled && setRecs({ key: r.pending ? `${key}#pending` : key, items: r.recommendations }))
       // A failed ranking only costs the badges: the genre list still works and "Pick for me" still resolves server-side.
-      .catch(() => !cancelled && setRecs({ key, items: [] }));
+      .catch(() => !cancelled && setRecs({ key, items: [] })), PRECHECK_DEBOUNCE_MS);
     return () => {
       cancelled = true;
+      clearTimeout(timer);
     };
-  }, [step, data, selected, confidence, profile, recKey, recs, sourceId]);
+  }, [data, selected, confidence, profile, recKey, recs, sourceId]);
 
   useEffect(() => {
     headingRef.current?.focus();
@@ -404,12 +405,6 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         <>
           <p className="-mt-6 text-lg text-muted-foreground">Everything here is optional. It helps the game focus on what you need; skip any of it.</p>
           <IntakeClarify probes={probes} value={clarify} onChange={setClarify} />
-          <section aria-labelledby="setup-heading">
-            <h2 id="setup-heading" className="sr-only">
-              Game style
-            </h2>
-            <GenrePicker genre={genre} onChange={setGenre} recommendations={recs?.key === recKey ? recs.items : null} />
-          </section>
 
           <section aria-labelledby="precheck-heading">
             <h2 id="precheck-heading" className="text-2xl font-semibold">
@@ -471,6 +466,14 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
 
         </>
       )}
+
+      {/* The genre is always the student's choice (default "Pick for me"), on either screen. */}
+      <section aria-labelledby="setup-heading" data-testid="genre-section">
+        <h2 id="setup-heading" className="sr-only">
+          Game style
+        </h2>
+        <GenrePicker genre={genre} onChange={setGenre} recommendations={recs?.key === recKey ? recs.items : null} />
+      </section>
 
       <div className="flex flex-wrap items-center gap-4">
         {step > 0 && (

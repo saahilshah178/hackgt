@@ -41,16 +41,20 @@ test("the length caps the pick, and the game covers exactly the ticked concepts"
   }
   expect(picked).toHaveLength(4);
 
+  // the genre is chosen right here, no quick check needed
+  await page.getByTestId("genre-story").locator("input").check();
   // build straight from the concepts step (the quick check is optional)
   await expect(page.getByTestId("forge-button")).toBeEnabled({ timeout: 30_000 });
   const gamesRequest = page.waitForRequest((r) => r.url().endsWith("/api/games") && r.method() === "POST");
   await page.getByTestId("forge-button").click();
-  const body = (await gamesRequest).postDataJSON() as { intake: { minutes: number; conceptIds: string[] } };
+  const body = (await gamesRequest).postDataJSON() as { intake: { minutes: number; genre: string; conceptIds: string[] } };
   expect(body.intake.minutes).toBe(5);
+  expect(body.intake.genre).toBe("story");
   expect([...body.intake.conceptIds].sort()).toEqual([...picked].sort());
 
   await page.waitForURL(/\/play\//, { timeout: 180_000 });
   const gameId = page.url().split("/play/")[1].split(/[?#]/)[0];
   const game = await (await page.request.get(`/api/games/${gameId}`)).json();
   expect(game.spec.concepts.map((c: { id: string }) => c.id).sort()).toEqual([...picked].sort());
+  expect(game.spec.genre).toBe("story");
 });
