@@ -9,7 +9,7 @@
  */
 import type { Depth, WorldOverlay } from "../../../../contracts/world";
 
-export type StubStyle = "hills" | "haze" | "strip" | "block" | "disc" | "glow" | "figure" | "plaque" | "vista" | "pillar" | "arch" | "ridge" | "celestial" | "wisp" | "none";
+export type StubStyle = "hills" | "haze" | "strip" | "block" | "disc" | "glow" | "figure" | "plaque" | "vista" | "pillar" | "arch" | "ridge" | "celestial" | "wisp" | "none" | "shard";
 export interface StubSpec {
   key: string;
   w: number; // design units
@@ -103,7 +103,8 @@ export function stubSpecFor(key: string, hints: StubHints): StubSpec {
   if (hints.hubs.has(key)) return { ...base, w: 560, h: 760, pivot: [0.5, 1], style: "arch", color: ["stone.base", "gold.base"], accent: ["gold.hi", "crystal.base"] };
   if (hints.facades.has(key)) return { ...base, w: 900, h: 620, pivot: [0, 0], style: "block", color: ["stone.shade", "rock.base"], accent: ["gold.base"] };
   if (hints.consoles.has(key)) return { ...base, w: 110, h: 170, pivot: [0.5, 1], style: "pillar", color: ["bronze.ring", "gold.deep"], accent: ["gold.hi"] };
-  if (hints.blockers.has(key)) return { ...base, w: 90, h: 320, pivot: [0.5, 1], style: "block", color: ["inlay.navy", "rock.shade"], accent: ["gold.base"] };
+  // a payoff blocker (the frozen ridge, a sealed door): a translucent shard cluster reads as "sealed until solved"
+  if (hints.blockers.has(key)) return { ...base, w: 110, h: 320, pivot: [0.5, 1], style: "shard", color: ["crystal.base", "inlay.navy", "stone.shade"], accent: ["crystal.hi", "gold.hi", "stone.lit"] };
   if (hints.vehicles.has(key)) return { ...base, w: 240, h: 90, pivot: [0.5, 1], style: "block", color: ["bronze.ring", "gold.deep"], accent: ["gold.hi"] };
   const group = groupOfKey(key);
   switch (group) {

@@ -261,6 +261,45 @@ export function paintStub(ctx: Ctx, spec: StubSpec, palette: Palette, k = 1, ox 
     case "none":
       // an intentionally empty (transparent) stand-in
       break;
+    case "shard": {
+      // a blocker: four overlapping translucent shards leaning together, lit edges on the left, rooted at the bottom
+      const shards = [
+        { x: 0.5, top: 0.02, w: 0.42, lean: 0.06 },
+        { x: 0.26, top: 0.3, w: 0.34, lean: -0.05 },
+        { x: 0.74, top: 0.24, w: 0.36, lean: 0.08 },
+        { x: 0.5, top: 0.52, w: 0.5, lean: 0 },
+      ];
+      for (const s of shards) {
+        const cx = s.x * w;
+        const tx = cx + s.lean * w;
+        const ty = s.top * h;
+        const hw = (s.w * w) / 2;
+        const grad = ctx.createLinearGradient(cx - hw, 0, cx + hw, 0);
+        grad.addColorStop(0, rgba(a, 0.85, 0.35));
+        grad.addColorStop(0.45, rgba(c, 0.8, 0.05));
+        grad.addColorStop(1, rgba(c, 0.85, -0.3));
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(cx + hw, h * 0.92);
+        ctx.lineTo(cx + hw * 0.7, h);
+        ctx.lineTo(cx - hw * 0.7, h);
+        ctx.lineTo(cx - hw, h * 0.94);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = rgba(a, 0.9, 0.5);
+        ctx.lineWidth = Math.max(1.5, 2.5 * k);
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(cx - hw, h * 0.94);
+        ctx.stroke();
+      }
+      ctx.fillStyle = rgba(c, 0.6, -0.4);
+      ctx.beginPath();
+      ctx.ellipse(w / 2, h * 0.985, w * 0.5, h * 0.02, 0, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    }
     case "glow": {
       const g = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.min(w, h) / 2);
       g.addColorStop(0, "rgba(255,255,255,1)");
