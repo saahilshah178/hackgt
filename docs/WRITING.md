@@ -38,9 +38,7 @@ Read every line out loud. If you wouldn't say it to a friend sitting next to you
 - **Say it once.** Don't repeat the same idea in two ways in one line, and don't have every line restate the
   lesson.
 - **Plain story.** Lore is a light seasoning. One story detail per line at most, and never in the same
-  sentence as an instruction. The whole game has one story (section 8), not a pile of set dressing.
-- **Character voice is a light touch.** Give each character one small habit (Cog says "Hoo") and use it at
-  most once per scene. Voice never gets in the way of being clear.
+  sentence as an instruction. The whole game has one story (section 7), not a pile of set dressing.
 
 ## 3. Things that make text sound machine-written (don't do these)
 
@@ -92,23 +90,22 @@ what it means, leave it, even when a shorter word exists.
 
 | Instead of | Write |
 |---|---|
-| utilize, employ | use |
-| commence, initiate | start |
-| ascertain, determine | find out, work out |
-| subsequently | then, next |
-| approximately | about |
-| sufficient | enough |
-| residing, located | is, sits |
-| traverse | cross, walk |
-| align | line up |
-| restore | fix, bring back |
-| expose (the mimic) | find, catch |
-| isolate (the sine) | get sin(x) by itself |
-| corresponds to | is the same as, matches |
-| rotation, revolution | turn |
-| midline | the middle line |
-| oscillate | swing back and forth |
-| trajectory | path |
+| ameliorate | make better |
+| elucidate | explain |
+| obfuscate | hide |
+| eschew | skip |
+| juxtapose | put next to |
+| nomenclature | names |
+| extant | still here |
+| nascent | just starting |
+| heretofore | until now |
+| wherein | where |
+| cognizant | aware |
+| disseminate | spread |
+| erstwhile | earlier |
+| henceforth | from now on |
+| imbue | fill |
+| redress | set right |
 
 ## 6. Before and after
 
@@ -128,7 +125,7 @@ what it means, leave it, even when a shorter word exists.
 >
 > After: "One of these singers is lying. Point the lens at each one and compare its wave to the white one."
 
-## 8. The story of a game
+## 7. The story of a game
 
 A game is one short story the player can retell in two sentences. Fancy names and extra plots get in the way.
 
@@ -174,7 +171,7 @@ at dawn) unless that *is* the goal. One reason to keep going is enough.
 Zone names and title cards follow the title rule: "Lower Path", "Middle Stairs", "The Top Room". Not "Sunward
 Terrace" or "The Warden's Dome".
 
-## 9. Checklist before you ship text
+## 8. Checklist before you ship text
 
 - [ ] I read every line out loud, and it sounds like a person talking.
 - [ ] A 10-year-old could follow every line. A word can stay if most people know what it means.
