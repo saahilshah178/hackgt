@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
+import { ExitButton } from "./ExitButton";
 import type { DebriefConcept, DebriefLine } from "../runner/encounter-runner";
 import type { TelemetryEvent } from "../../contracts/telemetry";
 
@@ -44,6 +45,7 @@ export function EndScreen({ gameId, title, outro, mastery, lines, telemetry }: E
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4 p-6" data-testid="end-screen">
+      <ExitButton className="self-start" />
       <h1 className="text-3xl font-bold" style={{ fontSize: 30 }}>
         {title}: run complete
       </h1>

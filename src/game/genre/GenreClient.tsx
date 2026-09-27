@@ -12,6 +12,7 @@ import { installGameDebug, type GameDebugHandle } from "../debug";
 import { getPalette } from "../engine/palettes";
 import { EncounterRunner, type Current } from "../runner/encounter-runner";
 import { EndScreen } from "../systems/EndScreen";
+import { ExitButton } from "../systems/ExitButton";
 import { MasteryHud } from "../systems/MasteryHud";
 import { ChallengePanel, type ChallengeResult } from "./ChallengePanel";
 import type { BoardHostHandle, BoardHostProps, LastResult } from "./types";
@@ -171,9 +172,12 @@ export function GenreClient({ spec }: { spec: GameSpec }) {
     <div className="flex min-h-screen flex-col gap-2 px-3 pb-3 pt-2" style={{ background: palette.css.background, color: inkOn(palette.css.background, palette.css.text) }} data-testid="board-client" data-genre={spec.genre}>
       {/* compact header: the hosts need the vertical space; mastery opens as a dropdown over the board */}
       <header className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold" style={{ fontSize: 24 }}>
-          {spec.title}
-        </h1>
+        <div className="flex items-center gap-4">
+          <ExitButton confirm />
+          <h1 className="text-2xl font-bold" style={{ fontSize: 24 }}>
+            {spec.title}
+          </h1>
+        </div>
         <div className="flex items-center gap-4">
           <p className="text-lg" style={{ fontSize: 18 }} data-testid="board-progress">
             {runner.solved().size} / {spec.encounters.length} solved

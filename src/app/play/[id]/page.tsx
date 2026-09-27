@@ -4,6 +4,7 @@ import type { GameSpec } from "@/contracts/gamespec";
 import { validateGameSpec, type ValidationResult } from "@/pipeline/validate/validate-gamespec";
 import { expeditionSfxOn } from "@/server/env";
 import { getGameSpecById } from "@/server/storage";
+import { ExitButton } from "@/game/systems/ExitButton";
 import { loadWorldFor } from "@/server/worlds";
 import { PlayClient } from "./PlayClient";
 
@@ -56,6 +57,7 @@ export default async function PlayPage({ params, searchParams }: { params: Promi
   if (!result.ok) {
     return (
       <main className="mx-auto flex max-w-2xl flex-col gap-4 p-8">
+        <ExitButton className="self-start" />
         <h1 className="text-3xl font-bold" style={{ fontSize: 30 }}>
           This game can&apos;t be played
         </h1>
