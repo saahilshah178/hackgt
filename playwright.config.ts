@@ -18,6 +18,9 @@ import { defineConfig, devices } from "@playwright/test";
  * host testid (`phaser-host` vs `dom-host`) so the same `expedition-{trig,cell,civil,express}.spec.ts` files
  * run unmodified on both projects (§8.2).
  */
+/** E2E_PORT lets a second checkout (a git worktree) run e2e next to the main one. */
+const PORT = process.env.E2E_PORT ?? "3100";
+
 const EXPEDITION_SPEC_PATTERN = /expedition-(trig|cell|civil|express|client)\.spec\.ts$/;
 
 export default defineConfig({
@@ -27,7 +30,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "github" : "list",
   use: {
-    baseURL: "http://localhost:3100",
+    baseURL: `http://localhost:${PORT}`,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
@@ -46,8 +49,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm dev --port 3100",
-    url: "http://localhost:3100",
+    command: `pnpm dev --port ${PORT}`,
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
     stdout: "ignore",

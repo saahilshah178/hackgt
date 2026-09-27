@@ -4,10 +4,9 @@ import type { GameRecord, JobRecord } from "../contracts/storage";
 import { emptyMastery, updateMastery } from "../contracts/telemetry";
 import { newId } from "../server/ids";
 import { getStorage } from "../server/storage";
-import { matcherJob } from "./agents/intake";
+import { loadMatches } from "./agents/intake";
 import { blindSolveAndFix } from "./agents/blind-solver";
 import { attachAudio } from "./audio";
-import { runMatcher } from "./agents/matcher";
 import { emit, close } from "./events";
 import { generateGame, type Models } from "./generate";
 import { getModels } from "./models";
@@ -16,8 +15,8 @@ import { getModels } from "./models";
  * P6 orchestrator: turns { sourceId, intake } into a running job (S6-S9 back half) without blocking
  * the HTTP request. See instructions.md §9 (POST /api/games, /api/jobs/:id/stream) and MEGAPROMPT §3.
  * The job runs on intake.conceptIds when the student ticked a subset (selectConcepts); the matcher's
- * stored results cover the whole map, so they need no filtering (the Director's menu is built per
- * concept in the job's map).
+ * results always cover the whole map (loadMatches), so they need no filtering (the Director's menu is
+ * built per concept in the job's map). intake.profile (the clarify step) personalizes S6 onward.
  */
 
 export interface StartGameJobArgs {
@@ -34,8 +33,6 @@ export interface StartGameJobArgs {
   /** regenerate only: emitted as the job's first progress event, before the Director even starts */
   firstNote?: string;
 }
-
-const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 /** MEGAPROMPT §8: mastery per unit, averaged from the concepts it contains, from a game's telemetry. */
 async function weakestUnitsByTelemetry(km: KnowledgeMap, gameId: string): Promise<string[] | null> {
@@ -72,24 +69,6 @@ async function applyFocusWeak(km: KnowledgeMap, intake: Intake, previousGameId?:
   return { ...intake, confidence };
 }
 
-/** Loads matches for a source: stored -> the in-flight background matcher (30s cap) -> run inline. */
-async function loadMatches(sourceId: string, km: KnowledgeMap, jobId: string) {
-  const storage = getStorage();
-  let matches = await storage.getMatch(sourceId);
-  if (matches) return matches;
-
-  const bg = matcherJob(sourceId);
-  if (bg) {
-    await Promise.race([bg, sleep(30_000)]);
-    matches = await storage.getMatch(sourceId);
-    if (matches) return matches;
-  }
-
-  matches = await runMatcher(km, { jobId });
-  await storage.putMatch(sourceId, matches);
-  return matches;
-}
-
 async function runJob(args: {
   jobId: string;
   gameId: string;
@@ -104,7 +83,7 @@ async function runJob(args: {
   try {
     await storage.putJob({ id: jobId, sourceId, status: "running", gameId: null, error: null, createdAt: now(), updatedAt: now() });
 
-    const matches = await loadMatches(sourceId, km, jobId);
+    const matches = await loadMatches(sourceId, jobId);
     // No onProgress here: every runAgent() call auto-emits to this jobId's event bus (llm.ts), and
     // generateGame()/blindSolveAndFix()'s own non-runAgent notes (verifier, fallback, genre choice)
     // emit directly too (see the `note()` helpers in generate.ts and blind-solver.ts) — passing a

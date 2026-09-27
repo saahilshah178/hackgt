@@ -137,6 +137,9 @@ test.describe("regenerate as genre", () => {
     const sliders = page.locator('input[type="range"]');
     const n = await sliders.count();
     for (let i = 0; i < n; i++) await sliders.nth(i).fill(i === 1 ? "2" : "4");
+    // The clarify step is optional: skip straight through it.
+    await page.getByTestId("step-next").click();
+    await page.getByTestId("step-next").click();
     for (let i = 0; i < 3; i++) await page.getByTestId(`precheck-${i}`).getByRole("radio").first().check();
     await page.getByTestId("forge-button").click();
 

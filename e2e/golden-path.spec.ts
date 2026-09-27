@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import path from "node:path";
 
 /*
- * The golden path in mock mode: upload samples/trig-notes.pdf → intake → forge → play (autoSolve via the
+ * The golden path in mock mode: upload samples/trig-notes.pdf → intake (concepts → clarify → game) → forge → play (autoSolve via the
  * debug hook) → debrief shows a pre→post score. Zero console errors. One screenshot per page lands in
  * docs/overnight/screens/. Requires P5b (intake API) and P6 (job + SSE) to be in place.
  */
@@ -37,16 +37,40 @@ test("upload → intake → forge → play → debrief", async ({ page }) => {
   await expect(page.getByTestId("intake-form")).toBeVisible({ timeout: 60_000 });
   await shot(page, "02-intake");
 
-  // Confidence: mark the graphs unit as weak; answer the three pre-check questions (any choice).
+  // Step 1, concepts: mark the graphs unit as weak.
   const sliders = page.locator('input[type="range"]');
   const n = await sliders.count();
   for (let i = 0; i < n; i++) await sliders.nth(i).fill(i === 1 ? "2" : "4");
+  await page.getByTestId("step-next").click();
+
+  // Step 2, clarify: tick every statement on the first probe (at least one is a misconception), pick an
+  // interest and a purpose. These become the learner profile the game is personalized with.
+  await expect(page.getByTestId("clarify-step")).toBeVisible();
+  const probe = page.locator('fieldset[data-testid^="probe-"]').first();
+  await expect(probe).toBeVisible();
+  const boxes = probe.getByRole("checkbox");
+  const count = await boxes.count();
+  for (let i = 0; i < count - 1; i++) await boxes.nth(i).check(); // the last box is "not sure"
+  await page.getByTestId("interest-space").click();
+  await page.getByTestId("purpose-exam").check();
+  await shot(page, "02b-clarify");
+  await page.getByTestId("step-next").click();
+
+  // Step 3, the game: genres come ranked for this learner; answer the three pre-check questions (any choice).
+  await expect(page.getByTestId("genre-reasons")).toBeVisible({ timeout: 30_000 });
   for (let i = 0; i < 3; i++) await page.getByTestId(`precheck-${i}`).getByRole("radio").first().check();
+  await shot(page, "02c-game-setup");
+  const gamesRequest = page.waitForRequest((r) => r.url().endsWith("/api/games") && r.method() === "POST");
   await page.getByTestId("forge-button").click();
+  const body = (await gamesRequest).postDataJSON() as { intake: { profile?: { interests: string[]; purpose: string; struggles: unknown[] } } };
+  expect(body.intake.profile?.interests).toEqual(["space"]);
+  expect(body.intake.profile?.purpose).toBe("exam");
+  expect(body.intake.profile?.struggles.length).toBe(1);
 
   await page.waitForURL(/\/forge\//, { timeout: 30_000 });
   await expect(page.getByTestId("forge-board")).toBeVisible();
   await expect(page.getByTestId("agent-card").first()).toBeVisible({ timeout: 60_000 });
+  await expect(page.locator('[data-testid="agent-card"][data-agent="personalize"]')).toBeVisible({ timeout: 60_000 });
   await shot(page, "03-forge");
 
   await page.waitForURL(/\/play\//, { timeout: 180_000 });

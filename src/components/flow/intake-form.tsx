@@ -3,11 +3,13 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { GENRES } from "@/contracts/common";
-import { GENRE_LABELS } from "@/library/genre-labels";
 import type { Intake, KnowledgeMap, Mcq, Unit } from "@/contracts/knowledge";
 import type { GatekeeperSlice } from "@/contracts/slices";
 import { api } from "@/components/flow/client-fetch";
+import { EMPTY_CLARIFY, IntakeClarify, type ClarifyState } from "@/components/flow/intake-clarify";
+import { GenrePicker } from "@/components/flow/intake-genre";
+import { clarifyProbes, isEmptyProfile, profileFromAnswers } from "@/pipeline/clarify";
+import type { GenreRecommendation } from "@/pipeline/personalize";
 
 /** Response of GET /api/sources/:id/intake (instructions.md §9). */
 interface IntakeData {
@@ -32,6 +34,13 @@ const GOALS: { id: Intake["goal"]; label: string; hint: string }[] = [
   { id: "test", label: "Test me", hint: "exam soon" },
 ];
 const MINUTES: Intake["minutes"][] = [5, 10, 15];
+
+/** The intake is three steps: what to play, what the student brings to it, and the game itself. */
+const STEPS = [
+  { title: "Here's what I found", short: "Concepts" },
+  { title: "A few quick questions", short: "About you" },
+  { title: "Your game", short: "Your game" },
+] as const;
 
 function conceptPages(km: KnowledgeMap, conceptId: string): number[] {
   const c = km.concepts.find((x) => x.id === conceptId);
@@ -68,6 +77,11 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   const latestKey = useRef<string>("");
   const [answers, setAnswers] = useState<(number | undefined)[]>([]);
   const [busy, setBusy] = useState(false);
+  const [step, setStep] = useState(0);
+  const [clarify, setClarify] = useState<ClarifyState>(EMPTY_CLARIFY);
+  // Genre ranking for the inputs it was computed from, so a stale reply never shows against newer answers.
+  const [recs, setRecs] = useState<{ key: string; items: GenreRecommendation[] } | null>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -108,6 +122,31 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
     }, PRECHECK_DEBOUNCE_MS);
     return () => clearTimeout(timer);
   }, [needsSubset, selectionKey, subset, sourceId]);
+
+  const probes = useMemo(() => (data ? clarifyProbes(data.knowledgeMap, { confidence }, [...selected]) : []), [data, confidence, selected]);
+  const profile = useMemo(() => profileFromAnswers(probes, clarify.answers, clarify), [probes, clarify]);
+  const recKey = useMemo(() => JSON.stringify([selectionKey, confidence, profile]), [selectionKey, confidence, profile]);
+
+  // Rank genres once the student reaches the last step (the matcher's concept -> mechanic mapping is ready by then).
+  useEffect(() => {
+    if (step !== 2 || !data || selected.size === 0 || recs?.key === recKey) return;
+    const key = recKey;
+    let cancelled = false;
+    api<{ recommendations: GenreRecommendation[] }>(`/api/sources/${sourceId}/recommend`, {
+      method: "POST",
+      body: JSON.stringify({ conceptIds: [...selected], confidence, profile }),
+    })
+      .then((r) => !cancelled && setRecs({ key, items: r.recommendations }))
+      // A failed ranking only costs the badges: the genre list still works and "Pick for me" still resolves server-side.
+      .catch(() => !cancelled && setRecs({ key, items: [] }));
+    return () => {
+      cancelled = true;
+    };
+  }, [step, data, selected, confidence, profile, recKey, recs, sourceId]);
+
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, [step]);
 
   const ready = !!data && selected.size > 0 && !preCheckBusy && preCheck.length > 0 && answers.length === preCheck.length && answers.every((a) => a !== undefined);
 
@@ -186,6 +225,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
       confidence,
       preCheck: { items: preCheck, answers: answers.map((a) => a ?? 0) },
       ...(allSelected ? {} : { conceptIds: [...selected] }),
+      ...(isEmptyProfile(profile) ? {} : { profile }),
     };
     try {
       const { jobId } = await api<{ jobId: string }>("/api/games", {
@@ -203,224 +243,243 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
   const parts = data.parts ?? 1;
 
   return (
-    <div className="flex flex-col gap-12" data-testid="intake-form">
-      <section aria-labelledby="found-heading">
-        <p className="text-lg text-muted-foreground">
+    <div className="flex flex-col gap-12" data-testid="intake-form" data-step={step}>
+      <header>
+        <nav aria-label="Intake steps">
+          <ol className="flex flex-wrap gap-3 text-lg">
+            {STEPS.map((st, i) => (
+              <li
+                key={st.short}
+                aria-current={i === step ? "step" : undefined}
+                className={`rounded-full border-2 px-4 py-1 ${i === step ? "border-primary bg-primary/15 font-semibold" : i < step ? "border-primary/40" : "border-border text-muted-foreground"}`}
+              >
+                {i + 1}. {st.short}
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <p className="mt-6 text-lg text-muted-foreground">
           {data.source.title} · {data.source.pageCount} page{data.source.pageCount === 1 ? "" : "s"} · {km.subject.domain} / {km.subject.topic}
           {parts > 1 && ` · read in ${parts} parts`}
           {km.unsourced && " · unsourced (built from general knowledge)"}
         </p>
-        <h1 id="found-heading" className="mt-1 text-4xl font-bold tracking-tight">
-          Here&apos;s what I found
+        <h1 id="step-heading" ref={headingRef} tabIndex={-1} className="mt-1 text-4xl font-bold tracking-tight outline-none">
+          {STEPS[step].title}
         </h1>
-        {bigUpload && (
-          <p className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4 text-lg" data-testid="big-upload-note">
-            This is more than one game&apos;s worth: {km.units.length} units and {total} concepts. Tick the concepts you want in this game; a 10-minute game
-            works best with about 8 to 12.
-          </p>
-        )}
-        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-lg" data-testid="selection-summary">
-          <span>
-            <strong>{selected.size}</strong> of {total} concept{total === 1 ? "" : "s"} selected
-          </span>
-          <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectAll} data-testid="select-all">
-            Select all
-          </button>
-          <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectNone} data-testid="select-none">
-            Select none
-          </button>
-        </div>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          {km.units.map((u) => {
-            const picked = u.conceptIds.filter((id) => selected.has(id)).length;
-            const unitAll = u.conceptIds.length > 0 && picked === u.conceptIds.length;
-            return (
-              <div key={u.id} className={`rounded-lg border border-border/60 bg-card p-5 ${picked === 0 ? "opacity-75" : ""}`} data-testid={`unit-card-${u.id}`}>
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      className="h-5 w-5"
-                      checked={unitAll}
-                      ref={(el) => {
-                        if (el) el.indeterminate = picked > 0 && !unitAll;
-                      }}
-                      onChange={(e) => setUnit(u, e.target.checked)}
-                      aria-label={`Select every concept in ${u.name}`}
-                      data-testid={`unit-${u.id}`}
-                    />
-                    <h2 className="text-2xl font-semibold">{u.name}</h2>
-                  </div>
-                  {unitPageRange(km, u.conceptIds) && <span className="text-base text-muted-foreground">{unitPageRange(km, u.conceptIds)}</span>}
-                </div>
-                <ul className="mt-3 space-y-2">
-                  {u.conceptIds.map((cid) => {
-                    const c = km.concepts.find((x) => x.id === cid);
-                    if (!c) return null;
-                    const range = pageRange(km, cid);
-                    return (
-                      <li key={cid} className="text-lg">
-                        <label className="flex cursor-pointer items-start gap-3">
-                          <input
-                            type="checkbox"
-                            className="mt-1.5 h-5 w-5 shrink-0"
-                            checked={selected.has(cid)}
-                            onChange={(e) => toggleConcept(cid, e.target.checked)}
-                            data-testid={`concept-${cid}`}
-                          />
-                          <span>
-                            <span className="font-medium">{c.name}</span>
-                            {range && <span className="text-muted-foreground"> · {range}</span>}
-                            <span className="ml-2 rounded bg-secondary px-2 py-0.5 text-sm">{c.knowledgeType}</span>
-                            {c.importance === "core" && <span className="ml-2 rounded bg-primary/20 px-2 py-0.5 text-sm">core</span>}
-                          </span>
-                        </label>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <label className="mt-5 block text-lg">
-                  How confident are you here? <strong>{confidence[u.id] ?? 3}</strong> / 5
-                  <input
-                    type="range"
-                    min={1}
-                    max={5}
-                    step={1}
-                    value={confidence[u.id] ?? 3}
-                    onChange={(e) => setConfidence({ ...confidence, [u.id]: Number(e.target.value) })}
-                    className="mt-2 w-full accent-primary"
-                    aria-label={`Confidence in ${u.name}`}
-                    data-testid={`confidence-${u.id}`}
-                  />
-                  <span className="flex justify-between text-sm text-muted-foreground">
-                    <span>lost</span>
-                    <span>solid</span>
-                  </span>
-                </label>
-              </div>
-            );
-          })}
-        </div>
-        {data.dropped.length > 0 && (
-          <p className="mt-4 text-base text-muted-foreground">
-            {data.dropped.length} quote{data.dropped.length === 1 ? "" : "s"} could not be verified against the pages and were dropped.
-          </p>
-        )}
-      </section>
+      </header>
 
-      <section aria-labelledby="setup-heading" className="grid gap-8 md:grid-cols-3">
-        <h2 id="setup-heading" className="sr-only">
-          Game setup
-        </h2>
-        <fieldset>
-          <legend className="text-2xl font-semibold">Goal</legend>
-          <div className="mt-3 flex flex-col gap-2">
-            {GOALS.map((g) => (
-              <label key={g.id} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${goal === g.id ? "border-primary bg-primary/10" : "border-border"}`}>
-                <input type="radio" name="goal" value={g.id} checked={goal === g.id} onChange={() => setGoal(g.id)} className="h-5 w-5" />
-                <span>
-                  {g.label} <span className="text-muted-foreground">· {g.hint}</span>
-                </span>
-              </label>
-            ))}
+      {step === 0 && (
+        <section aria-labelledby="step-heading">
+          {bigUpload && (
+            <p className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4 text-lg" data-testid="big-upload-note">
+              This is more than one game&apos;s worth: {km.units.length} units and {total} concepts. Tick the concepts you want in this game; a 10-minute game
+              works best with about 8 to 12.
+            </p>
+          )}
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-lg" data-testid="selection-summary">
+            <span>
+              <strong>{selected.size}</strong> of {total} concept{total === 1 ? "" : "s"} selected
+            </span>
+            <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectAll} data-testid="select-all">
+              Select all
+            </button>
+            <button type="button" className="underline underline-offset-4 hover:text-primary" onClick={selectNone} data-testid="select-none">
+              Select none
+            </button>
           </div>
-        </fieldset>
-        <fieldset>
-          <legend className="text-2xl font-semibold">Length</legend>
-          <div className="mt-3 flex flex-col gap-2">
-            {MINUTES.map((m) => (
-              <label key={m} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}>
-                <input type="radio" name="minutes" value={m} checked={minutes === m} onChange={() => setMinutes(m)} className="h-5 w-5" />
-                {m} minutes
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend className="text-2xl font-semibold">Genre</legend>
-          <div className="mt-3 flex flex-col gap-2">
-            <label className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${genre === "auto" ? "border-primary bg-primary/10" : "border-border"}`}>
-              <input type="radio" name="genre" value="auto" checked={genre === "auto"} onChange={() => setGenre("auto")} className="h-5 w-5" />
-              Pick for me
-            </label>
-            {GENRES.map((g) => (
-              <label key={g} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${genre === g ? "border-primary bg-primary/10" : "border-border"}`}>
-                <input type="radio" name="genre" value={g} checked={genre === g} onChange={() => setGenre(g)} className="h-5 w-5" />
-                <span className="flex flex-col">
-                  <span>
-                    {GENRE_LABELS[g].name} <span className="text-base text-muted-foreground">· {GENRE_LABELS[g].perspective}</span>
-                  </span>
-                  <span className="text-base text-muted-foreground">{GENRE_LABELS[g].blurb}</span>
-                </span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-      </section>
-
-      <section aria-labelledby="precheck-heading">
-        <h2 id="precheck-heading" className="text-2xl font-semibold">
-          Quick check: three questions before you play
-        </h2>
-        {selected.size === 0 ? (
-          <p className="mt-4 text-lg text-muted-foreground" data-testid="precheck-empty">
-            Tick at least one concept above and I&apos;ll write three quick questions about your selection.
-          </p>
-        ) : preCheckBusy ? (
-          <p role="status" aria-live="polite" className="mt-4 text-lg" data-testid="precheck-loading">
-            Writing three quick questions for your selection…
-          </p>
-        ) : (
-          <div className="mt-4 grid gap-4 md:grid-cols-3">
-            {preCheck.map((q, i) => (
-              <fieldset key={`${selectionKey}:${i}`} className="rounded-lg border border-border/60 bg-card p-4" data-testid={`precheck-${i}`}>
-                <legend className="px-1 text-lg font-medium">{q.prompt}</legend>
-                <div className="mt-2 flex flex-col gap-2">
-                  {q.choices.map((choice, ci) => (
-                    <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-md border p-2 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            {km.units.map((u) => {
+              const picked = u.conceptIds.filter((id) => selected.has(id)).length;
+              const unitAll = u.conceptIds.length > 0 && picked === u.conceptIds.length;
+              return (
+                <div key={u.id} className={`rounded-lg border border-border/60 bg-card p-5 ${picked === 0 ? "opacity-75" : ""}`} data-testid={`unit-card-${u.id}`}>
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <div className="flex items-center gap-3">
                       <input
-                        type="radio"
-                        name={`pre-${i}`}
-                        value={ci}
-                        checked={answers[i] === ci}
-                        onChange={() => {
-                          const next = [...answers];
-                          next[i] = ci;
-                          setAnswers(next);
-                        }}
+                        type="checkbox"
                         className="h-5 w-5"
+                        checked={unitAll}
+                        ref={(el) => {
+                          if (el) el.indeterminate = picked > 0 && !unitAll;
+                        }}
+                        onChange={(e) => setUnit(u, e.target.checked)}
+                        aria-label={`Select every concept in ${u.name}`}
+                        data-testid={`unit-${u.id}`}
                       />
-                      {choice}
-                    </label>
-                  ))}
-                  <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-2 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
+                      <h2 className="text-2xl font-semibold">{u.name}</h2>
+                    </div>
+                    {unitPageRange(km, u.conceptIds) && <span className="text-base text-muted-foreground">{unitPageRange(km, u.conceptIds)}</span>}
+                  </div>
+                  <ul className="mt-3 space-y-2">
+                    {u.conceptIds.map((cid) => {
+                      const c = km.concepts.find((x) => x.id === cid);
+                      if (!c) return null;
+                      const range = pageRange(km, cid);
+                      return (
+                        <li key={cid} className="text-lg">
+                          <label className="flex cursor-pointer items-start gap-3">
+                            <input
+                              type="checkbox"
+                              className="mt-1.5 h-5 w-5 shrink-0"
+                              checked={selected.has(cid)}
+                              onChange={(e) => toggleConcept(cid, e.target.checked)}
+                              data-testid={`concept-${cid}`}
+                            />
+                            <span>
+                              <span className="font-medium">{c.name}</span>
+                              {range && <span className="text-muted-foreground"> · {range}</span>}
+                              <span className="ml-2 rounded bg-secondary px-2 py-0.5 text-sm">{c.knowledgeType}</span>
+                              {c.importance === "core" && <span className="ml-2 rounded bg-primary/20 px-2 py-0.5 text-sm">core</span>}
+                            </span>
+                          </label>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <label className="mt-5 block text-lg">
+                    How confident are you here? <strong>{confidence[u.id] ?? 3}</strong> / 5
                     <input
-                      type="radio"
-                      name={`pre-${i}`}
-                      value={-1}
-                      checked={answers[i] === -1}
-                      onChange={() => {
-                        const next = [...answers];
-                        next[i] = -1;
-                        setAnswers(next);
-                      }}
-                      className="h-5 w-5"
-                      data-testid={`precheck-${i}-skip`}
+                      type="range"
+                      min={1}
+                      max={5}
+                      step={1}
+                      value={confidence[u.id] ?? 3}
+                      onChange={(e) => setConfidence({ ...confidence, [u.id]: Number(e.target.value) })}
+                      className="mt-2 w-full accent-primary"
+                      aria-label={`Confidence in ${u.name}`}
+                      data-testid={`confidence-${u.id}`}
                     />
-                    <span className="text-muted-foreground">Not sure yet</span>
+                    <span className="flex justify-between text-sm text-muted-foreground">
+                      <span>lost</span>
+                      <span>solid</span>
+                    </span>
                   </label>
                 </div>
-              </fieldset>
-            ))}
+              );
+            })}
           </div>
-        )}
-      </section>
+          {data.dropped.length > 0 && (
+            <p className="mt-4 text-base text-muted-foreground">
+              {data.dropped.length} quote{data.dropped.length === 1 ? "" : "s"} could not be verified against the pages and were dropped.
+            </p>
+          )}
+        </section>
+      )}
 
-      <div className="flex items-center gap-4">
-        <Button size="lg" className="h-14 px-8 text-xl" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
-          {busy ? "Starting the forge…" : "Forge my game"}
-        </Button>
-        {!ready && (
+      {step === 1 && <IntakeClarify probes={probes} value={clarify} onChange={setClarify} />}
+
+      {step === 2 && (
+        <>
+          <section aria-labelledby="setup-heading" className="grid gap-8 md:grid-cols-3">
+            <h2 id="setup-heading" className="sr-only">
+              Game setup
+            </h2>
+            <fieldset>
+              <legend className="text-2xl font-semibold">Goal</legend>
+              <div className="mt-3 flex flex-col gap-2">
+                {GOALS.map((g) => (
+                  <label key={g.id} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${goal === g.id ? "border-primary bg-primary/10" : "border-border"}`}>
+                    <input type="radio" name="goal" value={g.id} checked={goal === g.id} onChange={() => setGoal(g.id)} className="h-5 w-5" />
+                    <span>
+                      {g.label} <span className="text-muted-foreground">· {g.hint}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend className="text-2xl font-semibold">Length</legend>
+              <div className="mt-3 flex flex-col gap-2">
+                {MINUTES.map((m) => (
+                  <label key={m} className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}>
+                    <input type="radio" name="minutes" value={m} checked={minutes === m} onChange={() => setMinutes(m)} className="h-5 w-5" />
+                    {m} minutes
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <GenrePicker genre={genre} onChange={setGenre} recommendations={recs?.key === recKey ? recs.items : null} />
+          </section>
+
+          <section aria-labelledby="precheck-heading">
+            <h2 id="precheck-heading" className="text-2xl font-semibold">
+              Quick check: three questions before you play
+            </h2>
+            {selected.size === 0 ? (
+              <p className="mt-4 text-lg text-muted-foreground" data-testid="precheck-empty">
+                Tick at least one concept above and I&apos;ll write three quick questions about your selection.
+              </p>
+            ) : preCheckBusy ? (
+              <p role="status" aria-live="polite" className="mt-4 text-lg" data-testid="precheck-loading">
+                Writing three quick questions for your selection…
+              </p>
+            ) : (
+              <div className="mt-4 grid gap-4 md:grid-cols-3">
+                {preCheck.map((q, i) => (
+                  <fieldset key={`${selectionKey}:${i}`} className="rounded-lg border border-border/60 bg-card p-4" data-testid={`precheck-${i}`}>
+                    <legend className="px-1 text-lg font-medium">{q.prompt}</legend>
+                    <div className="mt-2 flex flex-col gap-2">
+                      {q.choices.map((choice, ci) => (
+                        <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-md border p-2 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
+                          <input
+                            type="radio"
+                            name={`pre-${i}`}
+                            value={ci}
+                            checked={answers[i] === ci}
+                            onChange={() => {
+                              const next = [...answers];
+                              next[i] = ci;
+                              setAnswers(next);
+                            }}
+                            className="h-5 w-5"
+                          />
+                          {choice}
+                        </label>
+                      ))}
+                      <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-2 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
+                        <input
+                          type="radio"
+                          name={`pre-${i}`}
+                          value={-1}
+                          checked={answers[i] === -1}
+                          onChange={() => {
+                            const next = [...answers];
+                            next[i] = -1;
+                            setAnswers(next);
+                          }}
+                          className="h-5 w-5"
+                          data-testid={`precheck-${i}-skip`}
+                        />
+                        <span className="text-muted-foreground">Not sure yet</span>
+                      </label>
+                    </div>
+                  </fieldset>
+                ))}
+              </div>
+            )}
+          </section>
+
+        </>
+      )}
+
+      <div className="flex flex-wrap items-center gap-4">
+        {step > 0 && (
+          <Button variant="outline" size="lg" className="h-14 px-6 text-xl" onClick={() => setStep(step - 1)} data-testid="step-back">
+            Back
+          </Button>
+        )}
+        {step < 2 ? (
+          <Button size="lg" className="h-14 px-8 text-xl" disabled={selected.size === 0} onClick={() => setStep(step + 1)} data-testid="step-next">
+            {step === 0 ? "Next: a few questions" : "Next: your game"}
+          </Button>
+        ) : (
+          <Button size="lg" className="h-14 px-8 text-xl" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
+            {busy ? "Starting the forge…" : "Forge my game"}
+          </Button>
+        )}
+        {step === 0 && selected.size === 0 && <span className="text-lg text-muted-foreground">Pick at least one concept to continue.</span>}
+        {step === 1 && <span className="text-lg text-muted-foreground">Every question here is optional.</span>}
+        {step === 2 && !ready && (
           <span className="text-lg text-muted-foreground">
             {selected.size === 0 ? "Pick at least one concept to continue." : preCheckBusy ? "Waiting for your questions…" : "Answer the three questions to continue."}
           </span>

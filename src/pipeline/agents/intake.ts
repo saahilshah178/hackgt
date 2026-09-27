@@ -1,4 +1,5 @@
 import { selectConcepts, type KnowledgeMap, type Mcq } from "../../contracts/knowledge";
+import type { MatchResult } from "../../contracts/match";
 import type { GatekeeperSlice, PreCheckSlice } from "../../contracts/slices";
 import type { PageRecord, SourceRecord } from "../../contracts/storage";
 import { hashString, seededShuffle } from "../../mechanics/util";
@@ -102,6 +103,32 @@ function startMatcher(sourceId: string, km: KnowledgeMap, jobId: string): void {
 /** Test hook: the in-flight (or already settled) background matcher promise for a source, if started. */
 export function matcherJob(sourceId: string): Promise<void> | undefined {
   return matcherJobs.get(sourceId);
+}
+
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+/**
+ * The matcher's results for a source's WHOLE map: stored -> the in-flight background matcher (up to
+ * `waitMs`) -> run inline on the whole map and store. Always the whole map, so a later selection of other
+ * concepts still finds its matches (the Director's menu and recommendGenres look concepts up by id).
+ */
+export async function loadMatches(sourceId: string, jobId: string, waitMs = 30_000): Promise<MatchResult[]> {
+  const storage = getStorage();
+  let matches = await storage.getMatch(sourceId);
+  if (matches) return matches;
+
+  const bg = matcherJob(sourceId);
+  if (bg) {
+    await Promise.race([bg, sleep(waitMs)]);
+    matches = await storage.getMatch(sourceId);
+    if (matches) return matches;
+  }
+
+  const km = await storage.getKnowledgeMap(sourceId);
+  if (!km) throw new Error(`No knowledge map for source "${sourceId}"; run intake prep first.`);
+  matches = await runMatcher(km, { jobId });
+  await storage.putMatch(sourceId, matches);
+  return matches;
 }
 
 /** Test hook: forget in-memory matcher job state (a fresh process would start clean anyway). */
