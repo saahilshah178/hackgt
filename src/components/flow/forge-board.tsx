@@ -80,28 +80,35 @@ export function ForgeBoard({ jobId }: { jobId: string }) {
   useEffect(() => {
     // Create in the effect and close in its cleanup: React StrictMode runs this twice in dev.
     const es = new EventSource(`/api/jobs/${jobId}/stream`);
-    const onDone = (raw: MessageEvent) => {
-      const d = JSON.parse(raw.data) as { gameId: string | null; error: string | null };
+    let finished = false;
+    const finish = (d: { gameId: string | null; error: string | null }, delayMs: number) => {
+      if (finished) return;
+      finished = true;
       setDone(d);
       es.close();
-      if (d.gameId) setTimeout(() => router.push(`/play/${d.gameId}`), 600);
+      clearInterval(poll);
+      if (d.gameId) setTimeout(() => router.push(`/play/${d.gameId}`), delayMs);
     };
-    es.addEventListener("done", onDone);
-    es.onerror = () => {
-      // The stream closes on completion; if we never got "done", ask the job once.
+    // The job record is the source of truth. The stream's events live in the memory of the server
+    // instance running the job, so on a serverless host the stream can land on another instance and
+    // never hear "done"; polling the stored job always settles.
+    const check = () =>
       api<{ status: string; gameId: string | null; error: string | null }>(`/api/jobs/${jobId}`)
         .then((j) => {
-          if (j.status === "done" || j.status === "failed") {
-            setDone({ gameId: j.gameId, error: j.error });
-            if (j.gameId) router.push(`/play/${j.gameId}`);
-          }
+          if (j.status === "done" || j.status === "failed") finish({ gameId: j.gameId, error: j.error }, 0);
         })
         .catch(() => undefined);
-    };
+    const poll = setInterval(check, 4000);
+    es.addEventListener("done", (raw: MessageEvent) => finish(JSON.parse(raw.data) as { gameId: string | null; error: string | null }, 600));
+    // The stream closes on completion; if we never got "done", ask the job.
+    es.onerror = () => void check();
     api<{ sourceId: string }>(`/api/jobs/${jobId}`)
       .then((j) => setSourceId(j.sourceId))
       .catch(() => undefined);
-    return () => es.close();
+    return () => {
+      es.close();
+      clearInterval(poll);
+    };
   }, [jobId, router]);
 
   if (done?.error) {

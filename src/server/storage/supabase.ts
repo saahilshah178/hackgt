@@ -7,9 +7,8 @@ import type { TelemetryEvent } from "../../contracts/telemetry";
 import { getEnv } from "../env";
 
 /*
- * SupabaseDriver: mirrors LocalDriver onto the tables + buckets in supabase/schema.sql. Complete but
- * UNTESTED tonight (MEGAPROMPT §5, §8): STORAGE_DRIVER stays "local" for the whole demo, so this is
- * never instantiated in tests or in the running app unless someone explicitly opts in with real keys.
+ * SupabaseDriver: mirrors LocalDriver onto the tables + buckets in supabase/schema.sql. Production (Vercel) runs on
+ * it, since serverless instances share no filesystem; local dev and tests stay on LocalDriver.
  * Uses the secret key server-side only; never imported from a client component.
  */
 
@@ -41,7 +40,8 @@ function fromSourceRow(r: Record<string, unknown>): SourceRecord {
 }
 
 function toPageRow(sourceId: string, p: PageRecord) {
-  return { source_id: sourceId, page: p.page, text: p.text, low_text: p.lowText };
+  // Postgres text cannot hold NUL, which some PDFs' extracted text contains.
+  return { source_id: sourceId, page: p.page, text: p.text.replaceAll("\u0000", ""), low_text: p.lowText };
 }
 function fromPageRow(r: Record<string, unknown>): PageRecord {
   return { sourceId: r.source_id as string, page: r.page as number, text: r.text as string, lowText: r.low_text as boolean };
