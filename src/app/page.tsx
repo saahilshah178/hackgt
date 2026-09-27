@@ -10,7 +10,7 @@ import { loadCourses, type Course } from "@/server/courses";
 const HOW_IT_WORKS = [
   { step: "Upload", detail: "A PDF chapter, pasted notes, or just a topic name.", icon: FileUp },
   { step: "Pick", detail: "The concepts to cover and how long a game (optional quick check).", icon: SlidersHorizontal },
-  { step: "Generate", detail: "About a minute to build a game from your own material.", icon: Wand2 },
+  { step: "Generate", detail: "Build a game from your own material.", icon: Wand2 },
   { step: "Learn & play", detail: "A guide teaches each idea, then the game has you use it.", icon: GraduationCap },
   { step: "Debrief", detail: "Your before → after score and what to review next.", icon: BarChart3 },
 ];
@@ -28,9 +28,8 @@ export default async function Home() {
           </span>
           <h1 className="mt-5 text-4xl leading-[1.1] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">{APP_TAGLINE}</h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Upload a chapter, paste notes, or name a topic. In about a minute you get a game that teaches you the material
-            and then has you use it: a guide explains each idea from your own notes, and the concept <em>is</em> the rules
-            of play, not trivia between moves.
+            Upload a chapter, paste notes, or name a topic. After a few questions, you&apos;ll get a game that both teaches
+            and tests you on the material you uploaded. Have fun!
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
