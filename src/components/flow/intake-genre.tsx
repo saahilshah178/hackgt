@@ -27,14 +27,14 @@ export function GenrePicker({
   const option = (g: Genre, rec: GenreRecommendation | undefined, best: boolean) => (
     <label
       key={g}
-      className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 text-lg ${genre === g ? "border-primary bg-primary/10" : "border-border"}`}
+      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-lg ${genre === g ? "border-primary bg-primary/10" : "border-border"}`}
       data-testid={`genre-${g}`}
     >
       <input type="radio" name="genre" value={g} checked={genre === g} onChange={() => onChange(g)} className="mt-1 h-5 w-5 shrink-0" />
       <span className="flex flex-col">
         <span>
           {GENRE_LABELS[g].name} <span className="text-base text-muted-foreground">· {GENRE_LABELS[g].perspective}</span>
-          {best && <span className="ml-2 rounded bg-primary/20 px-2 py-0.5 text-sm font-medium">Best fit</span>}
+          {best && <span className="ml-2 rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-accent-foreground">Best fit</span>}
         </span>
         <span className="text-base text-muted-foreground">{GENRE_LABELS[g].blurb}</span>
         {rec && best && rec.reasons.length > 0 && (
@@ -50,10 +50,10 @@ export function GenrePicker({
 
   return (
     <fieldset className="md:col-span-1">
-      <legend className="text-2xl font-semibold">Genre</legend>
+      <legend className="text-2xl font-bold tracking-tight">Genre</legend>
       <div className="mt-3 flex flex-col gap-2">
         <label
-          className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 text-lg ${genre === "auto" ? "border-primary bg-primary/10" : "border-border"}`}
+          className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-lg ${genre === "auto" ? "border-primary bg-primary/10" : "border-border"}`}
           data-testid="genre-auto"
         >
           <input type="radio" name="genre" value="auto" checked={genre === "auto"} onChange={() => onChange("auto")} className="mt-1 h-5 w-5 shrink-0" />

@@ -29,7 +29,7 @@ export function IntakeClarify({ probes, value, onChange }: { probes: ClarifyProb
   return (
     <div className="flex flex-col gap-12" data-testid="clarify-step">
       <section aria-labelledby="trips-heading">
-        <h2 id="trips-heading" className="text-2xl font-semibold">
+        <h2 id="trips-heading" className="text-2xl font-bold tracking-tight">
           What trips you up?
         </h2>
         <p className="mt-1 text-lg text-muted-foreground">
@@ -44,13 +44,13 @@ export function IntakeClarify({ probes, value, onChange }: { probes: ClarifyProb
             {probes.map((p) => {
               const a = answerFor(p.conceptId);
               return (
-                <fieldset key={p.conceptId} className="rounded-lg border border-border/60 bg-card p-5" data-testid={`probe-${p.conceptId}`}>
+                <fieldset key={p.conceptId} className="rounded-2xl border border-border bg-card p-5" data-testid={`probe-${p.conceptId}`}>
                   <legend className="px-1 text-xl font-semibold">{p.conceptName}</legend>
                   <div className="mt-2 flex flex-col gap-2">
                     {p.statements.map((s) => (
                       <label
                         key={s.id}
-                        className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 text-lg ${a.ticked.includes(s.id) ? "border-primary bg-primary/10" : "border-border"}`}
+                        className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-lg ${a.ticked.includes(s.id) ? "border-primary bg-primary/10" : "border-border"}`}
                       >
                         <input
                           type="checkbox"
@@ -62,7 +62,7 @@ export function IntakeClarify({ probes, value, onChange }: { probes: ClarifyProb
                         <span>{s.text}</span>
                       </label>
                     ))}
-                    <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-3 text-lg ${a.unsure ? "border-primary bg-primary/10" : "border-border"}`}>
+                    <label className={`flex cursor-pointer items-center gap-3 rounded-xl border border-dashed p-3 text-lg ${a.unsure ? "border-primary bg-primary/10" : "border-border"}`}>
                       <input
                         type="checkbox"
                         className="h-5 w-5"

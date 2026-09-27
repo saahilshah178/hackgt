@@ -176,7 +176,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           <p className="mt-6 text-2xl">Reading your material and mapping the concepts… (a whole book takes a few minutes)</p>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
             {[0, 1].map((i) => (
-              <div key={i} className="h-56 rounded-lg border border-border/60 bg-card p-5">
+              <div key={i} className="h-56 rounded-2xl border border-border bg-card p-5">
                 <div className="h-7 w-48 rounded bg-secondary" />
                 <div className="mt-4 h-4 w-full rounded bg-secondary" />
                 <div className="mt-2 h-4 w-5/6 rounded bg-secondary" />
@@ -187,12 +187,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
         </div>
         <div className="grid animate-pulse gap-8 md:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-40 rounded-lg border border-border/60 bg-card" />
+            <div key={i} className="h-40 rounded-2xl border border-border bg-card" />
           ))}
         </div>
         <div className="grid animate-pulse gap-4 md:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-32 rounded-lg border border-border/60 bg-card" />
+            <div key={i} className="h-32 rounded-2xl border border-border bg-card" />
           ))}
         </div>
       </div>
@@ -273,7 +273,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           {parts > 1 && ` · read in ${parts} parts`}
           {km.unsourced && " · unsourced (built from general knowledge)"}
         </p>
-        <h1 id="step-heading" ref={headingRef} tabIndex={-1} className="mt-1 text-4xl font-bold tracking-tight outline-none">
+        <h1 id="step-heading" ref={headingRef} tabIndex={-1} className="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl outline-none">
           {STEPS[step].title}
         </h1>
       </header>
@@ -281,12 +281,12 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
       {step === 0 && (
         <section aria-labelledby="step-heading">
           <fieldset>
-            <legend className="text-2xl font-semibold">How long a game?</legend>
+            <legend className="text-2xl font-bold tracking-tight">How long a game?</legend>
             <div className="mt-3 flex flex-wrap gap-3">
               {MINUTES.map((m) => (
                 <label
                   key={m}
-                  className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}
+                  className={`flex cursor-pointer items-center gap-3 rounded-xl border p-3 text-lg ${minutes === m ? "border-primary bg-primary/10" : "border-border"}`}
                 >
                   <input type="radio" name="minutes" value={m} checked={minutes === m} onChange={() => setMinutes(m)} className="h-5 w-5" data-testid={`minutes-${m}`} />
                   <span>
@@ -297,13 +297,13 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
             </div>
           </fieldset>
           {bigUpload && (
-            <p className="mt-6 rounded-lg border border-amber-400/40 bg-amber-500/10 p-4 text-lg" data-testid="big-upload-note">
+            <p className="mt-6 rounded-2xl border border-amber-200 bg-warning-soft p-4 text-lg" data-testid="big-upload-note">
               I found {total} concepts in {km.units.length} unit{km.units.length === 1 ? "" : "s"}, more than a {minutes}-minute game covers. Tick the {cap} you want
               this game to cover, or pick a longer game.
             </p>
           )}
           {overCap && (
-            <p role="alert" className="mt-4 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-lg" data-testid="over-cap-note">
+            <p role="alert" className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-4 text-lg" data-testid="over-cap-note">
               A {minutes}-minute game covers up to {cap} concepts. Untick {selected.size - cap} or pick a longer game.
             </p>
           )}
@@ -325,7 +325,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
               const picked = u.conceptIds.filter((id) => selected.has(id)).length;
               const unitAll = u.conceptIds.length > 0 && picked === u.conceptIds.length;
               return (
-                <div key={u.id} className={`rounded-lg border border-border/60 bg-card p-5 ${picked === 0 ? "opacity-75" : ""}`} data-testid={`unit-card-${u.id}`}>
+                <div key={u.id} className={`rounded-2xl border border-border bg-card p-5 ${picked === 0 ? "opacity-75" : ""}`} data-testid={`unit-card-${u.id}`}>
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <div className="flex items-center gap-3">
                       <input
@@ -340,7 +340,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                         aria-label={`Select every concept in ${u.name}`}
                         data-testid={`unit-${u.id}`}
                       />
-                      <h2 className="text-2xl font-semibold">{u.name}</h2>
+                      <h2 className="text-2xl font-bold tracking-tight">{u.name}</h2>
                     </div>
                     {unitPageRange(km, u.conceptIds) && <span className="text-base text-muted-foreground">{unitPageRange(km, u.conceptIds)}</span>}
                   </div>
@@ -363,8 +363,8 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                             <span>
                               <span className="font-medium">{c.name}</span>
                               {range && <span className="text-muted-foreground"> · {range}</span>}
-                              <span className="ml-2 rounded bg-secondary px-2 py-0.5 text-sm">{c.knowledgeType}</span>
-                              {c.importance === "core" && <span className="ml-2 rounded bg-primary/20 px-2 py-0.5 text-sm">core</span>}
+                              <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-xs font-medium">{c.knowledgeType}</span>
+                              {c.importance === "core" && <span className="ml-2 rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-accent-foreground">core</span>}
                             </span>
                           </label>
                         </li>
@@ -407,7 +407,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
           <IntakeClarify probes={probes} value={clarify} onChange={setClarify} />
 
           <section aria-labelledby="precheck-heading">
-            <h2 id="precheck-heading" className="text-2xl font-semibold">
+            <h2 id="precheck-heading" className="text-2xl font-bold tracking-tight">
               Three quick questions (so your debrief can show what you learned)
             </h2>
             {selected.size === 0 ? (
@@ -421,11 +421,11 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
             ) : (
               <div className="mt-4 grid gap-4 md:grid-cols-3">
                 {preCheck.map((q, i) => (
-                  <fieldset key={`${selectionKey}:${i}`} className="rounded-lg border border-border/60 bg-card p-4" data-testid={`precheck-${i}`}>
+                  <fieldset key={`${selectionKey}:${i}`} className="rounded-2xl border border-border bg-card p-4" data-testid={`precheck-${i}`}>
                     <legend className="px-1 text-lg font-medium">{q.prompt}</legend>
                     <div className="mt-2 flex flex-col gap-2">
                       {q.choices.map((choice, ci) => (
-                        <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-md border p-2 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
+                        <label key={ci} className={`flex cursor-pointer items-center gap-3 rounded-xl border p-2.5 text-lg ${answers[i] === ci ? "border-primary bg-primary/10" : "border-border"}`}>
                           <input
                             type="radio"
                             name={`pre-${i}`}
@@ -441,7 +441,7 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
                           {choice}
                         </label>
                       ))}
-                      <label className={`flex cursor-pointer items-center gap-3 rounded-md border border-dashed p-2 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
+                      <label className={`flex cursor-pointer items-center gap-3 rounded-xl border border-dashed p-2.5 text-lg ${answers[i] === -1 ? "border-primary bg-primary/10" : "border-border"}`}>
                         <input
                           type="radio"
                           name={`pre-${i}`}
@@ -477,18 +477,18 @@ export function IntakeForm({ sourceId }: { sourceId: string }) {
 
       <div className="flex flex-wrap items-center gap-4">
         {step > 0 && (
-          <Button variant="outline" size="lg" className="h-14 px-6 text-xl" onClick={() => setStep(step - 1)} data-testid="step-back">
+          <Button variant="outline" size="lg" className="h-12 rounded-full px-6 text-base font-semibold" onClick={() => setStep(step - 1)} data-testid="step-back">
             Back
           </Button>
         )}
-        <Button size="lg" className="h-14 px-8 text-xl" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
+        <Button size="lg" className="h-12 rounded-full px-8 text-base font-semibold" disabled={!ready || busy} onClick={submit} data-testid="forge-button">
           {busy ? "Starting…" : "Build my game"}
         </Button>
         {step === 0 && (
           <Button
             variant="outline"
             size="lg"
-            className="h-14 px-6 text-xl"
+            className="h-12 rounded-full px-6 text-base font-semibold"
             disabled={selected.size === 0 || overCap}
             onClick={() => setStep(1)}
             data-testid="step-next"
