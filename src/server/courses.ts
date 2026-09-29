@@ -29,6 +29,13 @@ export interface Course extends CourseMeta {
 /** Every shipped fixture game, in the order the home page groups them. */
 export const COURSES: CourseMeta[] = [
   {
+    routeId: "fixture-ancient-egypt-world3d",
+    subject: "history",
+    subjectLabel: "Ancient Egypt · 3D open world",
+    blurb: "Roam Giza at golden hour, from the Nile's banks to the Great Pyramid. Its people hold the challenges, and every answer opens the way to the capstone.",
+    interactions: "Talking with scribes, farmers and embalmers, reading carvings, weighing the evidence of who built the pyramid, explaining the flood in your own words",
+  },
+  {
     routeId: "fixture-cell-transport-cozy",
     subject: "cells",
     subjectLabel: "Cell transport",

@@ -8,6 +8,7 @@ import { wave2Slices } from "../fixtures/wave2.slices";
 import { BOARD_SHOWCASE } from "../fixtures/board-showcase.slices";
 import { assembleGameSpec } from "../src/pipeline/assemble";
 import { validateGameSpec } from "../src/pipeline/validate/validate-gamespec";
+import { buildWorld3DFixture, WORLD3D_SHOWCASE } from "../fixtures/world3d-showcase";
 
 // Slices -> assemble -> validate -> fixtures/<name>.json. No LLM involved. Never hand-edit the JSON.
 // tests/fixtures-drift.test.ts fails if a JSON here no longer matches its slices.
@@ -31,5 +32,16 @@ for (const f of fixtures) {
   }
   writeFileSync(new URL(`../fixtures/${f.file}`, import.meta.url), JSON.stringify(result.spec, null, 2) + "\n");
   console.log(`wrote fixtures/${f.file} (${result.spec.encounters.length} encounters, ${result.warnings.length} warnings)`);
+}
+// 3D open worlds: assembled like the rest, then the world is composed, checked and attached (fixtures/world3d-showcase.ts)
+for (const f of WORLD3D_SHOWCASE) {
+  try {
+    const spec = buildWorld3DFixture(f);
+    writeFileSync(new URL(`../fixtures/${f.file}`, import.meta.url), JSON.stringify(spec, null, 2) + "\n");
+    console.log(`wrote fixtures/${f.file} (${spec.encounters.length} encounters, world3d with ${spec.world3d?.provenance?.fixes.length ?? 0} composer fixes)`);
+  } catch (err) {
+    console.error(String(err));
+    failed = true;
+  }
 }
 if (failed) process.exit(1);

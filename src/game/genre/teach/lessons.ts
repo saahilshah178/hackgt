@@ -206,6 +206,14 @@ export function lessonFrame(genre: Genre, key: string): LessonFrame {
         signoff: (t) => `Yours, ${t}`,
         guideSubtitle: "Every letter and journal page, gathered in one place.",
       };
+    case "world3d":
+      return {
+        look: "letter",
+        kicker: variant(["What you learn here", "Before you begin", "A lesson on the road"], key),
+        byline: (t) => variant([`${t} takes a moment to teach you first.`, `${t} explains, the way a good teacher does.`, `${t} draws it out for you in the dust.`], key),
+        signoff: (t) => `— ${t}`,
+        guideSubtitle: "Everything the people of this world taught you, in one book.",
+      };
     default:
       return {
         look: "briefing",

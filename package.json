@@ -27,7 +27,8 @@
     "art:build": "tsx scripts/build-art.ts",
     "art:check": "tsx scripts/build-art.ts --check",
     "chars:build": "tsx scripts/build-characters.ts",
-    "art:sheet": "tsx scripts/art-contact-sheet.ts"
+    "art:sheet": "tsx scripts/art-contact-sheet.ts",
+    "world3d:shot": "tsx scripts/world3d-shot.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "4.0.78",

@@ -40,6 +40,8 @@ interface ConsequenceState {
 // ---- Expedition (docs/design/20 §2.1, H2): a resolved world plays in ExpeditionClient, loaded lazily so legacy games
 // never fetch it. `?host=legacy` forces the legacy client below, which is the pre-Expedition GameClient unchanged.
 const ExpeditionEntry = lazy(() => import("./expedition/client/ExpeditionEntry"));
+// ---- 3D open worlds (docs/design/60): the world3d genre plays in its own client, loaded only for those games.
+const World3DEntry = lazy(() => import("./world3d/World3DEntry"));
 
 export interface GameClientProps {
   spec: GameSpec;
@@ -60,6 +62,12 @@ function legacyRequested(): boolean {
 
 export function GameClient({ spec, world = null, worldSource = null, sfx = true }: GameClientProps) {
   const [legacy] = useState(legacyRequested);
+  if (spec.genre === "world3d")
+    return (
+      <Suspense fallback={<div role="status" style={{ position: "fixed", inset: 0, display: "grid", placeItems: "center", background: "#0b0906", color: "#f3e7cf", fontSize: 18 }}>Loading the world…</div>}>
+        <World3DEntry spec={spec} />
+      </Suspense>
+    );
   // Board genres (mystery, puzzle, strategy, explorer, story) progress non-linearly in their own hosts; `?host=legacy`
   // still reaches the pre-board hosts (the legacy MysteryHost, the DOM fallback).
   if (!legacy && (!world || !worldSource) && BOARD_GENRES.includes(spec.genre)) return <GenreClient spec={spec} />;
