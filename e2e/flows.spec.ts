@@ -27,6 +27,7 @@ function trackConsoleErrors(page: Page): string[] {
 }
 
 const PREMADE_PLAY = [
+  "/play/fixture-ancient-egypt-world3d",
   "/play/fixture-cell-transport-cozy",
   "/play/fixture-cell-transport-casefile",
   "/play/fixture-cell-transport",
