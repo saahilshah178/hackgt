@@ -27,6 +27,8 @@ export class KeyboardInput {
   private enabled = true;
   /** arrow keys turn the camera instead of strafing (settings: "Arrow keys turn the camera") */
   arrowsTurn = false;
+  /** the on-screen joystick (touch devices): -1..1 per axis, added to the keys */
+  virtual = { forward: 0, right: 0, sprint: false };
 
   private onDown = (e: KeyboardEvent) => {
     if (!this.enabled || isTyping(e.target) || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -52,16 +54,21 @@ export class KeyboardInput {
 
   setEnabled(on: boolean): void {
     this.enabled = on;
-    if (!on) this.down.clear();
+    if (!on) {
+      this.down.clear();
+      this.virtual = { forward: 0, right: 0, sprint: false };
+    }
   }
 
   read(): InputState {
     const k = (c: string) => (this.down.has(c) ? 1 : 0);
     const arrowsMove = !this.arrowsTurn;
+    const clamp1 = (v: number) => Math.max(-1, Math.min(1, v));
+    const v = this.enabled ? this.virtual : { forward: 0, right: 0, sprint: false };
     return {
-      forward: k("KeyW") - k("KeyS") + (arrowsMove ? k("ArrowUp") - k("ArrowDown") : k("ArrowUp") - k("ArrowDown")),
-      right: k("KeyD") - k("KeyA") + (arrowsMove ? k("ArrowRight") - k("ArrowLeft") : 0),
-      sprint: this.down.has("ShiftLeft") || this.down.has("ShiftRight"),
+      forward: clamp1(k("KeyW") - k("KeyS") + k("ArrowUp") - k("ArrowDown") + v.forward),
+      right: clamp1(k("KeyD") - k("KeyA") + (arrowsMove ? k("ArrowRight") - k("ArrowLeft") : 0) + v.right),
+      sprint: this.down.has("ShiftLeft") || this.down.has("ShiftRight") || v.sprint,
       jump: this.down.has("Space"),
       turn: arrowsMove ? 0 : k("ArrowRight") - k("ArrowLeft"),
     };

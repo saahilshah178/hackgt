@@ -146,3 +146,26 @@ amulets with true facts, cats to pet, felucca sails on the river, a sunset final
 - Keyboard-only play works end to end; no pointer lock required; reduced motion disables camera sway and flyovers.
 - Unit tests for the contract, core (determinism, reachability), composer, checks, critics' repair loop (mock models),
   fallback, the mock pipeline end to end, and chat guardrails; Playwright e2e for the demo and the intake option.
+
+## 5. As built (2026-09-29)
+
+| Area | Where | Notes |
+|---|---|---|
+| Contract | `src/contracts/world3d.ts`, `src/contracts/world3d-slices.ts` | stored schema; strict LLM slice + critic schemas (audited by `tests/strict-schemas.test.ts`) |
+| Genre | `src/library/genres.ts`, `genre-labels.ts`, every family's `world3d` skin | offered, never auto-picked (`AUTO_GENRES` leaves it out) |
+| Core | `src/world3d/core/*` | prng, noise, biomes, moods, catalog, heightfield, compose, navgrid, validate, spatial-checks, digest, samples; pure (eslint enforces no three/React) |
+| Kit | `src/world3d/kit/*` | WorldScene, terrain, sky, water, vegetation, structures (38 kinds × 10 styles), characters, wildlife, fx, post, materials (CC0 textures in `public/world3d`), quality |
+| Game | `src/game/world3d/*` | World3DClient, scene (player, camera, npcs, markers), physics, model, HUD, dialogue + free chat, challenge sheet, journal, map, pause + settings, photo mode, audio |
+| Pipeline | `src/pipeline/world3d/*` | S10: architect (Astra + exemplar), checks, critics, fallback composer, npc chat; hooked in `orchestrator.ts` |
+| Chat API | `src/app/api/games/[id]/npc/[npcId]/chat/route.ts` | FAST tier, leak guard, rate limit, `NPC_CHAT` switch, fixture ids |
+| Demo | `samples/ancient-egypt.md`, `fixtures/ancient-egypt.*`, `fixtures/world3d-showcase.ts` | `/play/fixture-ancient-egypt-world3d`; mock sample `egypt` replays it from an upload |
+| QA | `/dev/kit3d`, `/dev/world3d` (`?mode=composer`), `pnpm world3d:shot`, `pnpm world3d:critique` | screenshots in headless Chrome with the GPU; vision critic grades them |
+
+Running it:
+
+- Offline (mock): `pnpm dev`, open the demo from the home page, or upload `samples/ancient-egypt.pdf` and choose
+  "3D open world". Other uploads in mock mode get a world from the fallback composer.
+- Live: `LLM_MODE=live` with `OPENAI_API_KEY`; `CODER_MODEL` (default `gpt-6-astra`) is the Architect, `CRITIC_MODEL`
+  (default `SMART_MODEL`) the critics, `NPC_CHAT=on` enables free chat.
+- Debug: in development `window.__GAME_DEBUG__.world3d` has `begin`, `choose`, `warpTo`, `interact`, `leads`, `phase`,
+  `dialogue`, `finale`; `.board` and `.autoSolve()` work as in the board genres.

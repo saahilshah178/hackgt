@@ -41,9 +41,10 @@ export function Player({ look, findTarget }: { look: NpcLook; findTarget: (pose:
     const wx = fx * input.forward - fz * input.right;
     const wz = fz * input.forward + fx * input.right;
     const len = Math.hypot(wx, wz);
-    const speed = len > 0 ? (input.sprint ? SPRINT : JOG) : 0;
-    const tx = len > 0 ? (wx / len) * speed : 0;
-    const tz = len > 0 ? (wz / len) * speed : 0;
+    // analog input (the touch stick) walks when pushed gently; keys are always full tilt
+    const speed = len > 0.05 ? (input.sprint ? SPRINT : JOG) * Math.min(1, len) : 0;
+    const tx = len > 0.05 ? (wx / len) * speed : 0;
+    const tz = len > 0.05 ? (wz / len) * speed : 0;
     const accel = p.grounded ? 10 : 2.5;
     const k = 1 - Math.exp(-accel * dt);
     velocity.current.x += (tx - velocity.current.x) * k;
@@ -53,7 +54,7 @@ export function Player({ look, findTarget }: { look: NpcLook; findTarget: (pose:
     const moved = Math.hypot(next.x - p.x, next.z - p.z) / Math.max(dt, 1e-4);
     Object.assign(p, next);
     p.speed = moved;
-    if (len > 0) {
+    if (len > 0.05) {
       const want = Math.atan2(wx, wz);
       const diff = Math.atan2(Math.sin(want - p.yaw), Math.cos(want - p.yaw));
       p.yaw += diff * Math.min(1, dt * 12);

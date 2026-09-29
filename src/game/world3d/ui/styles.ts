@@ -162,6 +162,12 @@ export const W3_CSS = /* css */ `
 .w3-nametag.is-target { outline: 2px solid #ffd27a; }
 .w3-bark { max-width: 260px; padding: 8px 12px; border-radius: 12px; background: rgba(255, 250, 240, 0.94); color: #2a1d10; font-size: 15px; line-height: 1.35; white-space: normal; text-align: center; box-shadow: 0 6px 16px rgba(0,0,0,0.3); font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif; }
 
+/* ---- touch controls */
+.w3-stick { position: absolute; left: 28px; bottom: 28px; width: 136px; height: 136px; border-radius: 50%; background: rgba(0,0,0,0.28); border: 2px solid rgba(255,255,255,0.35); touch-action: none; display: grid; place-items: center; }
+.w3-stick-knob { width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,0.85); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.w3-action { position: absolute; right: 220px; bottom: 36px; min-width: 96px; height: 64px; padding: 0 16px; border-radius: 32px; border: none; background: var(--w3-accent); color: #1a120a; font-size: 16px; font-weight: 800; box-shadow: 0 8px 20px rgba(0,0,0,0.35); touch-action: manipulation; }
+@media (pointer: coarse) { .w3-controls { display: none; } .w3-prompt { bottom: 190px; } }
+
 /* ---- photo mode */
 .w3-photobar { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; padding: 8px 10px 8px 16px; font-size: 16px; font-weight: 600; }
 

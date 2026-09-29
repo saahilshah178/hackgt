@@ -22,12 +22,13 @@ import { buildPhysics } from "./physics";
 import { createDirector, dialogueShot, flyoverPath, landmarkShot, orbitGoal } from "./scene/camera";
 import { GameCanvas } from "./scene/GameCanvas";
 import type { SceneRefs } from "./scene/refs";
-import { createLive, type Pose, type Target } from "./store";
+import { createLive, useStore, type Pose, type Target } from "./store";
 import { ChallengeSheet } from "./ui/ChallengeSheet";
 import { Dialogue, type Choice, type SpokenLine } from "./ui/Dialogue";
 import { Compass, ControlsHint, InteractPrompt, QuestTracker, Toasts, type CompassMark, type Toast } from "./ui/hud";
 import { MapOverlay, Minimap } from "./ui/map";
 import { NpcLabels } from "./ui/NpcLabels";
+import { TouchControls } from "./ui/TouchControls";
 import { DEFAULT_SETTINGS, IntroCard, Journal, PauseMenu, playerLooks, provenanceLines, type Settings } from "./ui/overlays";
 import { W3_CSS } from "./ui/styles";
 import { themeFor } from "./ui/themes";
@@ -146,14 +147,17 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
   const taughtRef = useRef<Set<string>>(new Set());
   const planRef = useRef<string[]>([]);
 
-  // ---- scene refs: one object per composition (physics and camera follow the composed world)
+  // ---- scene refs: one object per composition (physics and camera follow the composed world). A recomposition (the
+  // quality setting changed) keeps the player where they stood instead of sending them back to the spawn.
+  const prevRefs = useRef<SceneRefs | null>(null);
   const refs = useMemo<SceneRefs | null>(() => {
     if (!composed) return null;
-    const s = composed.spawn;
+    const was = prevRefs.current?.player;
+    const s = was ? { ...composed.spawn, x: was.x, y: composed.hf.height(was.x, was.z), z: was.z, facing: was.yaw } : composed.spawn;
     const input = new KeyboardInput();
     const director = createDirector(s.facing);
     // the opening flyover, only on the first composition and when motion is welcome
-    if (!flewRef.current && !reducedMotionRef.current && composed.world.opening.flyover.length > 0) {
+    if (!was && !flewRef.current && !reducedMotionRef.current && composed.world.opening.flyover.length > 0) {
       flewRef.current = true;
       const path = flyoverPath(composed, composed.world.opening.flyover, s);
       path.onDone = () => setFlying(false);
@@ -174,6 +178,9 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     };
   }, [composed]);
 
+  useEffect(() => {
+    prevRefs.current = refs;
+  }, [refs]);
   const moments = useMemo(() => (composed ? buildMoments(spec, composed) : new Map<string, MomentInfo>()), [spec, composed]);
   const solved = runner.solved();
   const available = runner.available();
@@ -572,9 +579,9 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
   );
 
   // ---- debug handle (dev, or ?debug=1): the board shape plus world3d controls for e2e and screenshots
-  const debugRef = useRef({ interact, openChallenge, begin, closeChallenge, moments, refs, phase, dialogue });
+  const debugRef = useRef({ interact, openChallenge, begin, closeChallenge, moments, refs, phase, dialogue, finale });
   useEffect(() => {
-    debugRef.current = { interact, openChallenge, begin, closeChallenge, moments, refs, phase, dialogue };
+    debugRef.current = { interact, openChallenge, begin, closeChallenge, moments, refs, phase, dialogue, finale };
   });
   useEffect(() => {
     const d = () => debugRef.current;
@@ -642,6 +649,8 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
         choose: (id: string) => d().dialogue?.handlers[id]?.(),
         leads: () => [...d().moments.values()].filter((m) => runner.available().includes(m.encounterId)).map((m) => m.encounterId),
         composeFixes: () => d().refs?.composed.fixes ?? [],
+        /** play the finale cinematic (goal orbit + outro) without solving everything, for screenshots */
+        finale: () => d().finale(),
       },
     };
     return installGameDebug(handle) ?? undefined;
@@ -778,6 +787,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
               />
               <Minimap live={refs.live} composed={composed} leads={leadList} accent={theme.accent} goalReady={goalReady} />
               <InteractPrompt live={refs.live} />
+              <TouchAction refs={refs} onAction={() => interact(refs.live.get().target)} />
               <ControlsHint live={refs.live} />
             </>
           )}
@@ -872,4 +882,10 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
       />
     </div>
   );
+}
+
+/** The touch controls, labelled with what the action button would do right now. */
+function TouchAction({ refs, onAction }: { refs: SceneRefs; onAction(): void }) {
+  const label = useStore(refs.live, (s) => s.target?.label ?? null);
+  return <TouchControls input={refs.input} onAction={onAction} actionLabel={label ? label.split(" ")[0] : null} />;
 }
