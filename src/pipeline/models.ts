@@ -45,6 +45,21 @@ export function getModels(): Models {
 }
 
 /**
+ * The world3d critics' model (docs/design/60 §2.5): CRITIC_MODEL when set, so the reviewer can differ from the author,
+ * else the SMART tier. Returns the id too, for the stored CriticReport.
+ */
+export function getCriticModel(): { model: LanguageModel; id: string } {
+  const env = getEnv();
+  const id = env.CRITIC_MODEL ?? env.SMART_MODEL;
+  return { model: env.LLM_MODE === "mock" ? getMockModel("smart", id) : openai()(id), id };
+}
+
+/** A readable id for a model handle (a string id, or a provider/mock model object). */
+export function modelIdOf(model: LanguageModel): string {
+  return typeof model === "string" ? model : model.modelId;
+}
+
+/**
  * Per-tier `providerOptions` for `generateText`. FAST uses low reasoning effort (MEGAPROMPT §3);
  * mock mode passes no provider options (the mock model ignores them anyway, but this keeps the
  * live/mock code paths honest about what actually gets sent).

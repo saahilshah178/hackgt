@@ -68,6 +68,9 @@ cp .env.example .env.local
 | `LLM_MODE` | `mock` or `live` (OpenAI via the AI SDK) | `mock` |
 | `OPENAI_API_KEY` | required when `LLM_MODE=live`; server only | |
 | `SMART_MODEL` / `FAST_MODEL` | model ids for the reasoning and fast tiers | `gpt-6-sol` / `gpt-6-luna` |
+| `CODER_MODEL` | the World Architect ("Astra") that designs 3D open worlds (genre `world3d`) | `gpt-6-astra` |
+| `CRITIC_MODEL` | optional: the 3D world's story and world critics; unset uses `SMART_MODEL` | |
+| `NPC_CHAT` | `on` or `off`: free chat with 3D-world characters (FAST tier; mock mode answers from the lessons) | `on` |
 | `STORAGE_DRIVER` | `local` (`.data/` folder) or `supabase` | `local` |
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` | Supabase project; schema in `supabase/schema.sql` | |
 | `AUDIO_MODE` | `off` or `live` (ElevenLabs voice, SFX, music) | `off` |

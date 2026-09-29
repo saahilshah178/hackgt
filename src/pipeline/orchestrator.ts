@@ -8,9 +8,10 @@ import { loadMatches } from "./agents/intake";
 import { blindSolveAndFix } from "./agents/blind-solver";
 import { attachAudio } from "./audio";
 import { emit, close } from "./events";
-import { generateGame, resolveGenre, type Models } from "./generate";
+import { generateGame, resolveGenre } from "./generate";
 import { focusConcepts } from "./personalize";
-import { getModels } from "./models";
+import { getModels, type Models } from "./models";
+import { buildWorld3D } from "./world3d";
 
 /*
  * P6 orchestrator: turns { sourceId, intake } into a running job (S6-S9 back half) without blocking
@@ -103,7 +104,9 @@ async function runJob(args: {
     }
 
     const { spec: generated } = await generateGame({ gameId, jobId, km: focused, intake, matches, models, resolved });
-    const verified = await blindSolveAndFix({ spec: generated, km: focused, intake, models, jobId });
+    const solved = await blindSolveAndFix({ spec: generated, km: focused, intake, models, jobId });
+    // S10 World Architect (docs/design/60 §2.5): a world3d game gets its 3D world once its encounters are final.
+    const verified = solved.genre === "world3d" ? await buildWorld3D({ spec: solved, km: focused, intake, models, jobId }) : solved;
 
     // S7 audio (optional): a no-op with AUDIO_MODE=off; with a key it voices the narrative lines within a
     // 25 s deadline and ships whatever finished (the rest stays text-only). Never fails the job.
