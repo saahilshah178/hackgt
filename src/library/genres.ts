@@ -18,6 +18,7 @@ export const SOCKETS = {
   strategy: ["production_line", "market", "policy_dial", "research_node", "event_card", "ledger", "crisis"],
   explorer: ["locked_gate", "terminal", "shrine", "bridge", "sentry", "cache", "heart"],
   story: ["dialogue", "choice", "letter", "debate", "journal", "trial", "climax"],
+  world3d: ["conversation", "inscription", "artifact", "device", "vista", "seal", "finale"],
 } as const satisfies Record<Genre, readonly string[]>;
 
 /** The socket the final (boss) encounter must use in each genre. */
@@ -29,6 +30,7 @@ export const BOSS_SOCKET: Record<Genre, string> = {
   strategy: "crisis",
   explorer: "heart",
   story: "climax",
+  world3d: "finale",
 };
 
 export interface GenreInfo {
@@ -86,10 +88,17 @@ export const GENRE_INFO: Record<Genre, GenreInfo> = {
     bestAt: "arguments, causes and consequences, history, literature, ethics",
     buildTier: 7,
   },
+  world3d: {
+    name: "3D open world",
+    coreLoop:
+      "A third-person 3D world you roam freely toward one clear goal on the horizon: characters, carvings, instruments and sealed gates hold the challenges, and every one you solve moves the story and opens the way.",
+    bestAt: "history, earth and space science, geography, biology, anything with places, people and stories",
+    buildTier: 8,
+  },
 };
 
 /** Genre hosts that exist in src/game/hosts. Flip a genre on when its host lands. A requested genre plays only if it is here. */
-export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon", "mystery", "platformer", "puzzle", "strategy", "explorer", "story"];
+export const IMPLEMENTED_GENRES: readonly Genre[] = ["dungeon", "mystery", "platformer", "puzzle", "strategy", "explorer", "story", "world3d"];
 
 /**
  * Genres played by a board host (src/game/genre): non-linear progression through the free-order runner, no
@@ -99,9 +108,10 @@ export const BOARD_GENRES: readonly Genre[] = ["mystery", "puzzle", "strategy", 
 
 /**
  * Genres the auto-selector may choose when the intake says "auto". Platformer is explicit-request only: its host has
- * trigger-only obstacles, and the quantitative/spatial weights would otherwise send most math uploads to it.
+ * trigger-only obstacles, and the quantitative/spatial weights would otherwise send most math uploads to it. The 3D
+ * open world is offered but explicit-request only too: it needs WebGL and a stronger machine, so the student opts in.
  */
-export const AUTO_GENRES: readonly Genre[] = OFFERED_GENRES;
+export const AUTO_GENRES: readonly Genre[] = OFFERED_GENRES.filter((g) => g !== "world3d");
 
 /**
  * LIBRARY §1.1: knowledge type → genre weight, extended so each knowledge type has a home that is not a side-scroller:
@@ -109,15 +119,15 @@ export const AUTO_GENRES: readonly Genre[] = OFFERED_GENRES;
  * causal → the investigation, arguments → the narrative adventure.
  */
 export const GENRE_WEIGHTS: Record<KnowledgeType, Record<Genre, number>> = {
-  fact: { dungeon: 3, mystery: 2, platformer: 1, puzzle: 1, strategy: 1, explorer: 2, story: 2 },
-  category: { dungeon: 2, mystery: 2, platformer: 1, puzzle: 2, strategy: 3, explorer: 2, story: 1 },
-  sequence: { dungeon: 1, mystery: 2, platformer: 2, puzzle: 3, strategy: 1, explorer: 2, story: 2 },
-  causal: { dungeon: 1, mystery: 3, platformer: 0, puzzle: 1, strategy: 2, explorer: 1, story: 2 },
-  system: { dungeon: 1, mystery: 1, platformer: 1, puzzle: 2, strategy: 3, explorer: 2, story: 1 },
-  quantitative: { dungeon: 1, mystery: 0, platformer: 3, puzzle: 3, strategy: 2, explorer: 1, story: 0 },
-  spatial: { dungeon: 2, mystery: 1, platformer: 3, puzzle: 2, strategy: 1, explorer: 3, story: 0 },
-  procedure: { dungeon: 2, mystery: 1, platformer: 1, puzzle: 3, strategy: 2, explorer: 2, story: 1 },
-  argument: { dungeon: 0, mystery: 3, platformer: 0, puzzle: 0, strategy: 1, explorer: 0, story: 4 },
+  fact: { dungeon: 3, mystery: 2, platformer: 1, puzzle: 1, strategy: 1, explorer: 2, story: 2, world3d: 2 },
+  category: { dungeon: 2, mystery: 2, platformer: 1, puzzle: 2, strategy: 3, explorer: 2, story: 1, world3d: 2 },
+  sequence: { dungeon: 1, mystery: 2, platformer: 2, puzzle: 3, strategy: 1, explorer: 2, story: 2, world3d: 2 },
+  causal: { dungeon: 1, mystery: 3, platformer: 0, puzzle: 1, strategy: 2, explorer: 1, story: 2, world3d: 2 },
+  system: { dungeon: 1, mystery: 1, platformer: 1, puzzle: 2, strategy: 3, explorer: 2, story: 1, world3d: 2 },
+  quantitative: { dungeon: 1, mystery: 0, platformer: 3, puzzle: 3, strategy: 2, explorer: 1, story: 0, world3d: 1 },
+  spatial: { dungeon: 2, mystery: 1, platformer: 3, puzzle: 2, strategy: 1, explorer: 3, story: 0, world3d: 3 },
+  procedure: { dungeon: 2, mystery: 1, platformer: 1, puzzle: 3, strategy: 2, explorer: 2, story: 1, world3d: 2 },
+  argument: { dungeon: 0, mystery: 3, platformer: 0, puzzle: 0, strategy: 1, explorer: 0, story: 4, world3d: 2 },
 };
 
 /**
@@ -227,6 +237,18 @@ export const CHUNKS: Record<Genre, ChunkDef[]> = {
     { id: "n_journal", kind: "room", socket: "journal" },
     { id: "n_hearing", kind: "room", socket: "trial" },
     { id: "n_climax", kind: "boss", socket: "climax" },
+  ],
+  // world3d places its encounters in 3D space (spec.world3d); these chunks only keep GameSpec.layout well-formed
+  world3d: [
+    { id: "w_arrival", kind: "start", socket: null },
+    { id: "w_trail", kind: "connector", socket: null },
+    { id: "w_conversation", kind: "room", socket: "conversation" },
+    { id: "w_inscription", kind: "room", socket: "inscription" },
+    { id: "w_artifact", kind: "room", socket: "artifact" },
+    { id: "w_device", kind: "room", socket: "device" },
+    { id: "w_vista", kind: "room", socket: "vista" },
+    { id: "w_seal", kind: "room", socket: "seal" },
+    { id: "w_goal", kind: "boss", socket: "finale" },
   ],
 };
 

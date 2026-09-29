@@ -26,6 +26,7 @@ const GENRE_SUBJECT: Record<GameSpec["genre"], Subject> = {
   strategy: "cells",
   explorer: "history",
   story: "history",
+  world3d: "history",
 };
 
 /** /learn/[id]: the overview for one generated game: preview, lessons, exercises, progress and next steps. */

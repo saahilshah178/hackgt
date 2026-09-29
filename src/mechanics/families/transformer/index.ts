@@ -21,6 +21,7 @@ export const transformer = defineFamily({
     strategy: { sockets: ["production_line"], skin: "Processing chain" },
     explorer: { sockets: ["terminal"], skin: "Decode the terminal's cipher" },
     story: { sockets: ["letter"], skin: "Decode the message" },
+    world3d: { sockets: ["inscription", "seal"], skin: "Decode the carving to open the way" },
   },
   modes: {
     function_machine: functionMachine,

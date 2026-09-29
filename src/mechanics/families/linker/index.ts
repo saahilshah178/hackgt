@@ -21,6 +21,7 @@ export const linker = defineFamily({
     strategy: { sockets: ["research_node"], skin: "Supply links" },
     explorer: { sockets: ["bridge"], skin: "Connect matching pylons to extend the bridge" },
     story: { sockets: ["dialogue"], skin: "Connect who said what to whom" },
+    world3d: { sockets: ["conversation", "inscription"], skin: "Connect who and what belong together" },
   },
   modes: {
     pairs,

@@ -19,6 +19,7 @@ export const recall = defineFamily({
     strategy: { sockets: ["research_node"], skin: "Quick recall boosts research" },
     explorer: { sockets: ["sentry"], skin: "Answer the sentry challenge to pass" },
     story: { sockets: ["dialogue"], skin: "Remember what the elder taught you" },
+    world3d: { sockets: ["conversation", "seal"], skin: "Answer the keeper from what you have learned" },
   },
   modes: {
     rapid,

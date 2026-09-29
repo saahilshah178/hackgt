@@ -18,6 +18,7 @@ export const truthFinder = defineFamily({
     strategy: { sockets: ["event_card"], skin: "Advisors' claims; the false one tanks a stat" },
     explorer: { sockets: ["sentry"], skin: "One sentry lies; find the false claim" },
     story: { sockets: ["trial"], skin: "One witness contradicts the record; object" },
+    world3d: { sockets: ["conversation", "seal"], skin: "Catch the false claim among what the townsfolk tell you" },
   },
   modes: {
     mimic,

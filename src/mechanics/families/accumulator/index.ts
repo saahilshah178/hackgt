@@ -22,6 +22,7 @@ export const accumulator = defineFamily({
     strategy: { sockets: ["production_line"], skin: "Output over time" },
     explorer: { sockets: ["cache"], skin: "Fill the cistern to raise the water bridge" },
     story: { sockets: ["journal"], skin: "Tally the expedition ledger over time" },
+    world3d: { sockets: ["device", "artifact"], skin: "Fill the store, the vessel or the tally to the right amount over time" },
   },
   modes: {
     riemann,

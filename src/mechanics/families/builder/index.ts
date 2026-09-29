@@ -20,6 +20,7 @@ export const builder = defineFamily({
     strategy: { sockets: ["production_line"], skin: "Lay out the factory" },
     explorer: { sockets: ["terminal"], skin: "Rebuild the broken mechanism at the terminal" },
     story: { sockets: ["letter"], skin: "Compose the message piece by piece" },
+    world3d: { sockets: ["artifact", "inscription"], skin: "Assemble the piece from its parts" },
   },
   modes: {
     molecule,

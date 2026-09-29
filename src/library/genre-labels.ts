@@ -2,10 +2,11 @@ import type { Genre } from "../contracts/common";
 
 /**
  * The genres a student can choose, be recommended or be auto-assigned (2026-09-27: the dungeon crawler, the logic
- * board and the side-view obstacle course were withdrawn; their hosts stay only for old games and fixtures).
+ * board and the side-view obstacle course were withdrawn; their hosts stay only for old games and fixtures). The 3D
+ * open world (2026-09-29) is chosen explicitly only: AUTO_GENRES in genres.ts leaves it out.
  * Client-safe, so the intake and debrief pages use the same list the server resolves against.
  */
-export const OFFERED_GENRES: readonly Genre[] = ["mystery", "strategy", "explorer", "story"];
+export const OFFERED_GENRES: readonly Genre[] = ["mystery", "strategy", "explorer", "story", "world3d"];
 
 /**
  * Client-safe genre labels (no registry import, so pages can use them without pulling in every mechanic family).
@@ -38,5 +39,10 @@ export const GENRE_LABELS: Record<Genre, { name: string; perspective: string; bl
     name: "Narrative adventure",
     perspective: "Text + choices",
     blurb: "A branching story where explaining ideas moves the plot.",
+  },
+  world3d: {
+    name: "3D open world",
+    perspective: "Third-person 3D",
+    blurb: "Roam a living 3D world toward one goal; characters and places hold the challenges.",
   },
 };

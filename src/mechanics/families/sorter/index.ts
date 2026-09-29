@@ -21,6 +21,7 @@ export const sorter = defineFamily({
     strategy: { sockets: ["market"], skin: "Route goods to districts" },
     explorer: { sockets: ["cache"], skin: "Sort the supplies into the right crates" },
     story: { sockets: ["letter"], skin: "File each letter with the right person" },
+    world3d: { sockets: ["artifact", "vista"], skin: "Sort the objects into the places they belong" },
   },
   modes: {
     bins,

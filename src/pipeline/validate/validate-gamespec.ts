@@ -4,6 +4,7 @@ import { getCard } from "../../library";
 import { BOSS_SOCKET, chunkById } from "../../library/genres";
 import { getFamily, getMode, socketsFor } from "../../mechanics/registry";
 import { validateWorld, worldOwnerFor } from "../../world/validate-world";
+import { validateWorld3D } from "../../world3d/core/validate";
 
 /*
  * Run this (1) at the end of generation, before saving, and (2) whenever /play loads a spec.
@@ -43,6 +44,8 @@ export function ownerFor(path: readonly (string | number)[]): Owner {
       return "narrative";
     case "world":
       return worldOwnerFor(path); // docs/design/20 §1.5: writer text → world_writer, geometry/structure → code
+    case "world3d":
+      return "world_architect"; // docs/design/60 §4: the 3D world is the World Architect's (Astra's) to repair
     case "assessment":
       return "assessment";
     case "title":
@@ -205,6 +208,15 @@ export function validateGameSpec(input: unknown): ValidationResult {
     const w = validateWorld(spec, spec.world);
     issues.push(...w.issues);
     warnings.push(...w.warnings);
+  }
+
+  // 6. the 3D open world (docs/design/60 §4): referential rules here, spatial rules in the pipeline's world checks.
+  //    A world3d game with no world yet is fine mid-pipeline (the architect runs after the blind solver), so the
+  //    play page and storage enforce presence, not this validator.
+  if (spec.world3d) {
+    const w3 = validateWorld3D(spec, spec.world3d);
+    issues.push(...w3.issues);
+    warnings.push(...w3.warnings);
   }
 
   // design warnings: don't block the game, but show up on the Forge screen

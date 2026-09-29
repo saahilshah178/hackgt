@@ -7,10 +7,11 @@ export const SCHEMA_VERSION = 2 as const;
 /**
  * Game genres. Each one has its own perspective and its own way of progressing (src/library/genres.ts GENRE_INFO):
  * side-view rooms (dungeon, platformer), point-and-click investigation (mystery), a grid logic board with no avatar
- * (puzzle), a cozy day-by-day management sim (strategy), a top-down maze (explorer) and a branching text adventure
- * (story). The ids are stable (stored specs and LLM prompts use them); display names live in GENRE_INFO.
+ * (puzzle), a cozy day-by-day management sim (strategy), a top-down maze (explorer), a branching text adventure
+ * (story) and a third-person 3D open world (world3d, docs/design/60-world3d.md). The ids are stable (stored specs and
+ * LLM prompts use them); display names live in GENRE_INFO.
  */
-export const GENRES = ["dungeon", "mystery", "platformer", "puzzle", "strategy", "explorer", "story"] as const;
+export const GENRES = ["dungeon", "mystery", "platformer", "puzzle", "strategy", "explorer", "story", "world3d"] as const;
 export const Genre = z.enum(GENRES);
 export type Genre = z.infer<typeof Genre>;
 export const GenreOrAuto = z.enum(["auto", ...GENRES]);
@@ -134,7 +135,7 @@ export const SourceRef = z.object({
 export type SourceRef = z.infer<typeof SourceRef>;
 
 /** Which agent (or code) owns each slice of the spec. Validation issues are routed back to the owner. */
-export type Owner = "director" | "challenge_writer" | "narrative" | "assessment" | "world_writer" | "code";
+export type Owner = "director" | "challenge_writer" | "narrative" | "assessment" | "world_writer" | "world_architect" | "code";
 
 export interface Issue {
   path: (string | number)[];

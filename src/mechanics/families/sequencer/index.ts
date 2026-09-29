@@ -18,6 +18,7 @@ export const sequencer = defineFamily({
     strategy: { sockets: ["research_node"], skin: "Tech tree order" },
     explorer: { sockets: ["locked_gate"], skin: "Press the floor plates in process order" },
     story: { sockets: ["journal"], skin: "Put the diary pages back in order" },
+    world3d: { sockets: ["inscription", "vista"], skin: "Put the carved panels, or the stages you can see across the land, back in order" },
   },
   modes: {
     linear,
