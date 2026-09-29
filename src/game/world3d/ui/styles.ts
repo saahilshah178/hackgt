@@ -162,6 +162,9 @@ export const W3_CSS = /* css */ `
 .w3-nametag.is-target { outline: 2px solid #ffd27a; }
 .w3-bark { max-width: 260px; padding: 8px 12px; border-radius: 12px; background: rgba(255, 250, 240, 0.94); color: #2a1d10; font-size: 15px; line-height: 1.35; white-space: normal; text-align: center; box-shadow: 0 6px 16px rgba(0,0,0,0.3); font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif; }
 
+/* ---- photo mode */
+.w3-photobar { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; padding: 8px 10px 8px 16px; font-size: 16px; font-weight: 600; }
+
 /* ---- loading */
 .w3-loading { position: absolute; inset: 0; display: grid; place-items: center; background: #0b0906; color: #f3e7cf; z-index: 10; }
 .w3-loading p { font-size: 18px; margin-top: 12px; }

@@ -224,6 +224,9 @@ export function ControlsHint({ live }: { live: Store<Live> }) {
       <span>
         <kbd>M</kbd>map
       </span>
+      <span>
+        <kbd>P</kbd>photo
+      </span>
     </div>
   );
 }

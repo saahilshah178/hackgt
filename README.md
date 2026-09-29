@@ -30,6 +30,14 @@ Built for HackGT 13. Next.js 16 · React 19 · TypeScript · Phaser 4 · AI SDK 
 New games come in four genres: a point-and-click investigation, a cozy management sim, a top-down explorer, and a
 narrative adventure. Every game is checked to be winnable before you see it.
 
+**Or choose a 3D open world.** A third-person world written for your material: terrain, sky, architecture and people
+in the right era and place, one clear goal on the horizon, and a story told by the characters you meet. The challenges
+live in the world (ask the scribe, read the carving, open the sealed gate) and are graded like every other genre. The
+World Architect ("Astra", `gpt-6-astra`) designs it, code checks that everything is reachable and the goal is visible,
+and two LLM critics review the story and the world before you play. In live mode you can also ask any character a
+question of your own. Try the demo, *The Scribe of the Nile* (Ancient Egypt), from the home page, or upload
+`samples/ancient-egypt.pdf` and pick "3D open world". Design notes: `docs/design/60-world3d.md`.
+
 Games are data, not generated code. The agents produce a zod-validated `GameSpec` JSON; hand-built hosts and mechanic
 families render and grade it, so a bad model output can never crash the game.
 
@@ -98,6 +106,7 @@ PDF / text / topic
   → S6 Director (picks genre, encounters, boss)   → S7 challenge writers ×N, narrative, assessment, audio
   → S8 assemble (code derives every answer, seeded shuffles, prefab layout)
   → S9 verifier (structural → referential → semantic → self-solve → blind-solve → routed repair → fallback)
+  → S10 3D world (world3d only: Astra drafts → compose + checks → story & world critics → repair → fallback composer)
   → GameSpec v2 JSON → genre host + widgets → telemetry → mastery → debrief
 ```
 
@@ -111,6 +120,11 @@ PDF / text / topic
 - **Hosts**: the four offered genres (casefile investigation, cozy sim, explorer, story) plus the logic board live in
   `src/game/genre/hosts/*`. The older Dungeon and Platformer hosts run on Phaser 4 (WebGL, client-only) in
   `src/game/hosts/*`, next to a DOM fallback that plays any spec when WebGL is missing.
+- **3D open worlds** (`src/world3d`, `src/game/world3d`, `src/pipeline/world3d`): a pure core (seeded terrain,
+  composer, pathfinding, spatial checks), a React Three Fiber component library (terrain, sky, water, vegetation,
+  38 procedural structure kinds in 10 architectural styles, characters, wildlife, weather, post-processing; gallery at
+  `/dev/kit3d`), and the game client (third-person controller, cinematic dialogue with free chat, diegetic challenge
+  sheet, compass, quest tracker, minimap, journal, photo mode, procedural ambience).
 - **Verification**: the pipeline self-solves every encounter, a second model blind-solves it, disagreements are
   repaired or replaced with a known-good Mimic Chest, so every shipped game is winnable.
 - **Mock mode** adapts recorded Director blueprints to the live intake (length, genre, card menu), so the whole product
@@ -129,7 +143,8 @@ PDF / text / topic
 | `src/components/` | shadcn/ui-based flow components |
 | `src/game/` | Phaser hosts, React widgets, HUD systems, debug hook |
 | `fixtures/` | knowledge maps, agent mocks, encounter fixtures, showcase GameSpec JSON |
-| `samples/` | three sample PDFs and their markdown sources |
+| `samples/` | four sample PDFs and their markdown sources (the fourth, Ancient Egypt, is the 3D demo) |
+| `src/world3d/` | 3D worlds: pure core (terrain, composer, checks, digest) and the React Three Fiber kit |
 | `scripts/` | doctor, smoke tests, try-pdf, fixture and sample builders, library report |
 | `tests/`, `e2e/` | Vitest unit tests and Playwright end-to-end specs |
 | `docs/` | `LIBRARY.md` (genre and mechanic design library), `overnight/` (mode contracts, screenshots) |
@@ -146,6 +161,7 @@ PDF / text / topic
 | `pnpm run doctor` | environment check for the selected modes |
 | `pnpm library:report` | catalog coverage and validation |
 | `pnpm fixtures:build` | rebuilds `fixtures/*.json` from the slice files (a drift test fails if they diverge) |
+| `pnpm world3d:shot <url> <out.png>` | screenshots a WebGL page in headless Chrome (GPU), with `--eval` to drive a game state |
 | `pnpm samples:build` | rebuilds the sample PDFs from `samples/*.md` |
 | `pnpm try:pdf <file>` | runs the ingest half of the pipeline on a PDF and prints the result |
 | `pnpm audio:library` | generates the music and SFX library once (needs ElevenLabs) |

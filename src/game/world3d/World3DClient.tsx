@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { GameSpec } from "../../contracts/gamespec";
 import type { World3D, WorldLine } from "../../contracts/world3d";
 import { composeWorld, type ComposedWorld, type Quality } from "../../world3d/core/compose";
+import { distanceToPolyline } from "../../world3d/core/heightfield";
 import { CLOTH_HEX } from "../../world3d/kit/materials";
 import { describeAnswer } from "../describe-answer";
 import { installGameDebug, type GameDebugHandle } from "../debug";
@@ -14,6 +15,7 @@ import { conceptsToTeach, lessonMap } from "../genre/teach/lessons";
 import { TEACH_CSS } from "../genre/teach/teach.styles";
 import { EncounterRunner, type Current } from "../runner/encounter-runner";
 import { EndScreen } from "../systems/EndScreen";
+import { WorldAudio } from "./audio";
 import { KeyboardInput, isTyping } from "./input";
 import { buildMoments, currentAct, leads as rankLeads, momentForNpc, nearestTarget, targetCandidates, withArticle, type MomentInfo } from "./model";
 import { buildPhysics } from "./physics";
@@ -26,7 +28,7 @@ import { Dialogue, type Choice, type SpokenLine } from "./ui/Dialogue";
 import { Compass, ControlsHint, InteractPrompt, QuestTracker, Toasts, type CompassMark, type Toast } from "./ui/hud";
 import { MapOverlay, Minimap } from "./ui/map";
 import { NpcLabels } from "./ui/NpcLabels";
-import { DEFAULT_SETTINGS, IntroCard, Journal, PauseMenu, playerLooks, type Settings } from "./ui/overlays";
+import { DEFAULT_SETTINGS, IntroCard, Journal, PauseMenu, playerLooks, provenanceLines, type Settings } from "./ui/overlays";
 import { W3_CSS } from "./ui/styles";
 import { themeFor } from "./ui/themes";
 
@@ -96,6 +98,10 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
   const reducedMotion = settings.reducedMotion;
   const reducedMotionRef = useRef(reducedMotion);
   const flewRef = useRef(false);
+  // procedural ambience + cues; the AudioContext only starts on a user gesture (Begin)
+  const audioRef = useRef<WorldAudio | null>(null);
+  if (!audioRef.current) audioRef.current = new WorldAudio(world, spec.theme.musicMood);
+  const audio = audioRef.current;
 
   // ---- composition (≈0.2–1 s): after the loading screen has painted
   const [composed, setComposed] = useState<ComposedWorld | null>(null);
@@ -131,6 +137,8 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
   const [panel, setPanel] = useState<null | "guide" | "journal" | "map" | "pause">(null);
   const [guideFocus, setGuideFocus] = useState<string | null>(null);
   const [lookIndex, setLookIndex] = useState(0);
+  // photo mode (P): the HUD hides, movement stops, the camera still orbits; a button saves the frame
+  const [photo, setPhoto] = useState(false);
   const toastId = useRef(0);
   const pets = useRef(0);
 
@@ -195,6 +203,9 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     },
     [npcById, world.npcs, spec.characters, looks, lookIndex],
   );
+
+  useEffect(() => () => audio.dispose(), [audio]);
+  useEffect(() => audio.setEnabled(settings.sound), [audio, settings.sound]);
 
   const toast = useCallback((icon: string, title: string, text: string) => {
     const id = ++toastId.current;
@@ -263,13 +274,15 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
       setDialogue(null);
       setPhase("challenge");
       frameTarget(m.anchor.kind, m.anchor.id, 0.22);
+      audio.cue("open");
       bump();
     },
-    [runner, spec, frameTarget],
+    [runner, spec, frameTarget, audio],
   );
 
   const finale = useCallback(() => {
     if (refs?.composed.goal && !reducedMotion) refs.director.mode = orbitGoal(refs.composed.goal);
+    audio.cue("finale");
     const outro = spec.narrative.outro.map((l) => speak(l));
     setDialogue({
       lines: outro.length ? outro : [{ name: null, text: "The journey is complete." }],
@@ -278,7 +291,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
       chatNpc: null,
     });
     setPhase("finale");
-  }, [refs, reducedMotion, spec.narrative.outro, speak]);
+  }, [refs, reducedMotion, spec.narrative.outro, speak, audio]);
 
   const closeChallenge = useCallback(
     (success: boolean) => {
@@ -298,7 +311,11 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
         return;
       }
       toast(REWARD_ICON[m.moment.reward.kind] ?? "✦", m.moment.reward.name, m.moment.reward.description);
-      if (m.moment.opens) setOpened((o) => new Set([...o, m.moment.opens!]));
+      audio.cue("reward");
+      if (m.moment.opens) {
+        setOpened((o) => new Set([...o, m.moment.opens!]));
+        audio.cue("gate");
+      }
       const isBoss = cur.encounter.id === bossId || runner.finished;
       const after = isBoss ? finale : endDialogue;
       say(
@@ -307,7 +324,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
         m.anchor.kind === "npc" ? m.anchor.id : null,
       );
     },
-    [active, runner, moments, toast, bossId, finale, endDialogue, say, speak],
+    [active, runner, moments, toast, bossId, finale, endDialogue, say, speak, audio],
   );
 
   // ---- interaction (E)
@@ -317,11 +334,13 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
       if (target.kind === "collectible") {
         const item = world.collectibles.items.find((i) => i.id === target.id);
         setCollected((c) => new Set([...c, target.id]));
+        audio.cue("relic");
         if (item) toast("✦", item.title, item.fact);
         return;
       }
       if (target.kind === "animal") {
         pets.current++;
+        audio.cue("pet");
         const kind = target.id.split("_")[0];
         const lines: Record<string, string> = {
           cat: "The cat purrs and winds around your ankles.",
@@ -385,7 +404,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
         say([{ name: null, text: `${g?.name ?? "The goal"}. ${world.quest.goal.description}` }, { name: null, text: remaining > 0 ? `${remaining} challenge${remaining === 1 ? "" : "s"} still stand between you and the goal.` : "Everything is ready." }], [{ id: "ok", label: "OK", run: endDialogue }]);
       }
     },
-    [refs, world, toast, npcById, frameTarget, moments, solved, available, say, speak, bossId, openChallenge, endDialogue, requirementHint, met, spec.encounters.length],
+    [refs, world, toast, npcById, frameTarget, moments, solved, available, say, speak, bossId, openChallenge, endDialogue, requirementHint, met, spec.encounters.length, audio],
   );
 
   // ---- the target finder the player calls ~12×/s
@@ -400,15 +419,17 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
 
   /** end the flyover early: land behind the player and show the full title card */
   const skipFlight = useCallback(() => {
+    audio.start();
     if (refs && refs.director.mode.kind === "path") {
       const done = refs.director.mode.onDone;
       refs.director.mode = { kind: "follow" };
       done?.();
     }
     setFlying(false);
-  }, [refs]);
+  }, [refs, audio]);
 
   const begin = useCallback(() => {
+    audio.start();
     setFlying(false);
     follow();
     const intro = spec.narrative.intro.map((l) => speak(l));
@@ -416,18 +437,34 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
       const speakerNpc = world.npcs.find((n) => n.characterId === spec.narrative.intro[0].speakerId);
       say(intro, [{ id: "go", label: "Let's begin", primary: true, run: endDialogue }], speakerNpc?.id ?? null);
     } else setPhase("explore");
-  }, [follow, spec.narrative.intro, speak, world.npcs, say, endDialogue]);
+  }, [follow, spec.narrative.intro, speak, world.npcs, say, endDialogue, audio]);
 
   // input and control gating
   useEffect(() => {
     if (!refs) return;
     const enabled = phase === "explore" && panel === null;
     refs.control.enabled = enabled;
-    refs.input.setEnabled(enabled);
+    refs.input.setEnabled(enabled && !photo);
     refs.input.arrowsTurn = settings.arrowsTurn;
     refs.director.sensitivity = settings.sensitivity;
     refs.director.invertY = settings.invertY;
-  }, [refs, phase, panel, settings]);
+  }, [refs, phase, panel, settings, photo]);
+
+  // the river swells as the player walks toward the water
+  useEffect(() => {
+    if (!refs) return;
+    const hf = refs.composed.hf;
+    const t = setInterval(() => {
+      const p = refs.player;
+      let d = Infinity;
+      if (hf.river.length > 1) d = Math.max(0, distanceToPolyline(p.x, p.z, hf.river).d - hf.riverWidth / 2);
+      else if (hf.waterLevel !== null)
+        for (let r = 0; r <= 80 && d === Infinity; r += 10)
+          for (let k = 0; k < 8; k++) if (hf.waterDepth(p.x + Math.cos(k * 0.785) * r, p.z + Math.sin(k * 0.785) * r) > 0) d = r;
+      audio.setWaterDistance(d);
+    }, 500);
+    return () => clearInterval(t);
+  }, [refs, audio]);
 
   // persist settings
   useEffect(() => {
@@ -443,8 +480,18 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.repeat || e.ctrlKey || e.metaKey || e.altKey || isTyping(e.target)) return;
       const k = e.key.toLowerCase();
+      if (photo) {
+        if (k === "p" || e.key === "Escape") {
+          e.preventDefault();
+          setPhoto(false);
+        }
+        return;
+      }
       if (phase === "explore" && panel === null) {
-        if (k === "e") {
+        if (k === "p") {
+          e.preventDefault();
+          setPhoto(true);
+        } else if (k === "e") {
           e.preventDefault();
           interact(refs?.live.get().target ?? null);
         } else if (k === "g") {
@@ -477,13 +524,14 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [phase, panel, refs, interact, dialogue, result, active, closeChallenge]);
+  }, [phase, panel, refs, interact, dialogue, result, active, closeChallenge, photo]);
 
   // ---- grading
   const submit = (input: unknown) => {
     const cur = runner.current();
     if (!cur || !active || cur.encounter.id !== active.encounter.id) return;
     const g = runner.submit(input);
+    audio.cue(g.correct ? "correct" : "wrong");
     setResult({ correct: g.correct, feedback: g.feedback, yourAnswer: describeAnswer(cur.encounter.mode, cur.view, input) });
     bump();
   };
@@ -612,6 +660,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     pending: planRef.current.filter((c) => !taughtRef.current.has(c)),
     onLearned: (id) => {
       taughtRef.current.add(id);
+      audio.cue("page");
       bump();
     },
     onReview: (id) => {
@@ -646,7 +695,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
           findTarget={findTarget}
         />
       )}
-      {refs && composed && <NpcLabels refs={refs} npcs={world.npcs} leads={leadsByNpc} hidden={phase === "intro" || phase === "loading"} />}
+      {refs && composed && <NpcLabels refs={refs} npcs={world.npcs} leads={leadsByNpc} hidden={photo || phase === "intro" || phase === "loading"} />}
       {phase === "loading" && (
         <div className="w3-loading" role="status">
           <div style={{ textAlign: "center" }}>
@@ -658,7 +707,31 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
         </div>
       )}
 
-      {refs && composed && (phase === "explore" || phase === "challenge") && (
+      {photo && (
+        <div className="w3-layer">
+          <div className="w3-photobar w3-chip w3-fade-in" data-testid="w3-photo">
+            <span>Photo mode · drag to frame your shot</span>
+            <button
+              type="button"
+              className="w3-iconbtn w3-chip"
+              onClick={() => {
+                const canvas = document.querySelector<HTMLCanvasElement>('[data-testid="world3d-canvas"] canvas, canvas');
+                if (!canvas) return;
+                const a = document.createElement("a");
+                a.href = canvas.toDataURL("image/png");
+                a.download = `${spec.title.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.png`;
+                a.click();
+              }}
+            >
+              Save photo
+            </button>
+            <button type="button" className="w3-iconbtn w3-chip" onClick={() => setPhoto(false)}>
+              Done <kbd aria-hidden>P</kbd>
+            </button>
+          </div>
+        </div>
+      )}
+      {refs && composed && !photo && (phase === "explore" || phase === "challenge") && (
         <div className="w3-layer">
           <div className="w3-topleft">
             <div className="w3-title w3-chip">
@@ -776,6 +849,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
           onResume={() => setPanel(null)}
           onQuit={() => router.push("/")}
           fps={refs?.live.get().fps ?? 0}
+          about={provenanceLines(world.provenance)}
         />
       )}
       <FieldGuide

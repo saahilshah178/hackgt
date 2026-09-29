@@ -253,7 +253,19 @@ export function Journal({ data, onClose }: { data: JournalData; onClose(): void 
   );
 }
 
-export function PauseMenu({ settings, onChange, onResume, onQuit, fps }: { settings: Settings; onChange(s: Settings): void; onResume(): void; onQuit(): void; fps: number }) {
+/** "Built by … · reviewed by …": the world's provenance in one line per source, for the pause menu. */
+export function provenanceLines(p: World3D["provenance"]): string[] {
+  if (!p) return [];
+  const who = p.source === "astra" ? `Designed by the World Architect (${p.model ?? "Astra"})` : p.source === "fixture" ? "Hand-authored demo world" : "Composed by code from your game";
+  const reviews = p.reviews.map((r) => {
+    const mean = r.scores.length ? r.scores.reduce((a, b) => a + b.score, 0) / r.scores.length : 0;
+    return `${r.critic === "story" ? "Story" : r.critic === "world" ? "World & UI" : "Vision"} critic: ${mean.toFixed(1)}/5${r.pass ? ", passed" : ", shipped with notes"}${r.rounds ? ` after ${r.rounds} revision${r.rounds === 1 ? "" : "s"}` : ""}`;
+  });
+  const fixes = p.fixes.length ? [`${p.fixes.length} placement fix${p.fixes.length === 1 ? "" : "es"} by code`] : [];
+  return [who, ...reviews, ...fixes];
+}
+
+export function PauseMenu({ settings, onChange, onResume, onQuit, fps, about = [] }: { settings: Settings; onChange(s: Settings): void; onResume(): void; onQuit(): void; fps: number; about?: readonly string[] }) {
   useEscape(onResume);
   const first = useRef<HTMLButtonElement>(null);
   useEffect(() => first.current?.focus({ preventScroll: true }), []);
@@ -302,6 +314,16 @@ export function PauseMenu({ settings, onChange, onResume, onQuit, fps }: { setti
           Sound
           <input type="checkbox" checked={settings.sound} onChange={(e) => set("sound", e.target.checked)} />
         </label>
+        {about.length > 0 && (
+          <details style={{ fontSize: 15, fontFamily: "var(--font-jakarta), sans-serif" }}>
+            <summary style={{ cursor: "pointer", fontWeight: 700 }}>About this world</summary>
+            <ul style={{ margin: "6px 0 0", paddingLeft: 18, lineHeight: 1.5 }} data-testid="w3-about">
+              {about.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+          </details>
+        )}
         <p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.75, textAlign: "center", fontFamily: "var(--font-jakarta), sans-serif" }}>{fps > 0 ? `${fps} fps` : ""}</p>
         <button type="button" className="w3-cta is-ghost" onClick={onQuit}>
           Leave the game
