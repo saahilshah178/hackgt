@@ -151,10 +151,17 @@ export function Minimap({ live, composed, leads, accent, goalReady }: { live: St
     const half = composed.hf.size / 2;
     const scale = size / span;
     const toMap = (x: number, z: number) => [size / 2 + (x - player.x) * scale, size / 2 + (z - player.z) * scale] as const;
-    ctx.fillStyle = "#101010";
+    // beyond the map's edge: the biome's land, dimmed, with the boundary drawn
+    ctx.fillStyle = BIOMES[composed.world.biome].map.land;
     ctx.fillRect(0, 0, size, size);
-    const srcScale = image.width / composed.hf.size;
-    ctx.drawImage(image, (player.x - span / 2 + half) * srcScale, (player.z - span / 2 + half) * srcScale, span * srcScale, span * srcScale, 0, 0, size, size);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+    ctx.fillRect(0, 0, size, size);
+    // draw the whole map image positioned under the player (a source rect outside the image is clipped by some browsers)
+    const [ox, oy] = toMap(-half, -half);
+    ctx.drawImage(image, ox, oy, composed.hf.size * scale, composed.hf.size * scale);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(ox, oy, composed.hf.size * scale, composed.hf.size * scale);
     const g = composed.goal;
     if (g) {
       const [x, y] = toMap(g.x, g.z);

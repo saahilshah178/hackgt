@@ -8,6 +8,7 @@ import { validateGameSpec } from "@/pipeline/validate/validate-gamespec";
 import { BOSS_SOCKET } from "@/library/genres";
 import { socketsFor } from "@/mechanics/registry";
 import { SAMPLE_WORLDS } from "@/world3d/core/samples";
+import { composeFallbackWorld } from "@/pipeline/world3d/fallback";
 import { PlayClient } from "../../play/[id]/PlayClient";
 
 export const metadata = { title: "World3D host (dev)" };
@@ -15,7 +16,8 @@ export const metadata = { title: "World3D host (dev)" };
 /**
  * /dev/world3d?base=civil-rights-story&world=nile — the world3d host on any shipped fixture: the fixture's encounters
  * re-socketed for world3d and anchored round-robin to a sample world's npcs and landmarks (the finale at its goal).
- * A development harness for the host and HUD, not a real world; real worlds come from the pipeline or fixtures.
+ * `mode=composer` instead plays it in the world the pipeline's fallback composer builds for it (what mock mode ships),
+ * for visual QA of composed worlds. A development harness, not a shipped route.
  */
 export default async function DevWorld3DPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   if (process.env.NODE_ENV === "production") notFound();
@@ -51,6 +53,12 @@ export default async function DevWorld3DPage({ searchParams }: { searchParams: P
       opens: null,
     };
   });
+  if (one(sp.mode) === "composer") {
+    const base3d = { ...raw, genre: "world3d" as const, encounters, layout: layoutFromEncounters("world3d", encounters) };
+    const composed = validateGameSpec({ ...base3d, world3d: composeFallbackWorld(base3d) });
+    if (!composed.ok) return <pre style={{ padding: 24, whiteSpace: "pre-wrap" }}>{composed.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("\n")}</pre>;
+    return <PlayClient spec={composed.spec} />;
+  }
   const bossId = encounters.find((e) => e.role === "boss")?.id;
   const rest = encounters.filter((e) => e.id !== bossId).map((e) => e.id);
   const half = Math.ceil(rest.length / 2);

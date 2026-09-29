@@ -13,7 +13,15 @@ import type { ComposedWorld, Placed } from "../../../world3d/core/compose";
 
 export type CameraMode =
   | { kind: "follow" }
-  | { kind: "frame"; position: THREE.Vector3; look: THREE.Vector3; /** shift the subject left of centre (0..1 of the view width) when a side panel covers the right */ shiftLeft?: number }
+  | {
+      kind: "frame";
+      position: THREE.Vector3;
+      look: THREE.Vector3;
+      /** shift the subject left of centre (0..1 of the view width) when a side panel covers the right */
+      shiftLeft?: number;
+      /** shift the subject up (0..1 of the view height) when the dialogue box covers the bottom */
+      shiftUp?: number;
+    }
   | { kind: "path"; curve: THREE.CatmullRomCurve3; looks: THREE.CatmullRomCurve3; duration: number; started: number; onDone?: () => void }
   | { kind: "orbit"; center: THREE.Vector3; radius: number; height: number; speed: number };
 
@@ -63,7 +71,7 @@ export function dialogueShot(player: { x: number; y: number; z: number }, npc: {
   // over the player's right shoulder, far enough to the side that the player frames the left edge and the npc reads
   const position = new THREE.Vector3(player.x - fx * 1.5 + rx * 1.9, player.y + 1.8, player.z - fz * 1.5 + rz * 1.9);
   const look = new THREE.Vector3(npc.x - rx * 0.35, head - 0.12, npc.z - rz * 0.35);
-  return { kind: "frame", position, look, shiftLeft: 0 };
+  return { kind: "frame", position, look, shiftLeft: 0, shiftUp: 0.16 };
 }
 
 /** Frames a landmark from where the player stands, subject left of centre so a right-side panel doesn't cover it. */

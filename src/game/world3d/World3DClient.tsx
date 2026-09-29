@@ -227,11 +227,12 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
         const pose = refs.live.get().npcs[id] ?? refs.composed.npcs.find((n) => n.id === id);
         if (!pose) return;
         const shot = dialogueShot(p, pose, npcById.get(id)?.look.height ?? 1);
-        refs.director.mode = { ...shot, shiftLeft };
+        // a side sheet (challenge) covers the right: shift left; the dialogue box covers the bottom: shift up
+        refs.director.mode = { ...shot, shiftLeft, shiftUp: shiftLeft > 0 ? 0 : shot.shiftUp };
         refs.talkingTo.id = id;
       } else {
         const l = refs.composed.landmarks.find((x) => x.id === id);
-        if (l) refs.director.mode = landmarkShot(p, l, shiftLeft);
+        if (l) refs.director.mode = { ...landmarkShot(p, l, shiftLeft), shiftUp: shiftLeft > 0 ? 0 : 0.12 };
       }
     },
     [refs, npcById],
@@ -417,6 +418,12 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     [refs, moments, collected],
   );
 
+  /** the first moment of play: how the world marks where to go */
+  const orient = useCallback(() => {
+    const g = composed?.goal?.name ?? "the goal";
+    setTimeout(() => toast("◆", "Follow the light", `Gold beams mark your leads. The tallest, over ${withArticle(g)}, marks your goal.`), 600);
+  }, [composed, toast]);
+
   /** end the flyover early: land behind the player and show the full title card */
   const skipFlight = useCallback(() => {
     audio.start();
@@ -435,9 +442,12 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     const intro = spec.narrative.intro.map((l) => speak(l));
     if (intro.length) {
       const speakerNpc = world.npcs.find((n) => n.characterId === spec.narrative.intro[0].speakerId);
-      say(intro, [{ id: "go", label: "Let's begin", primary: true, run: endDialogue }], speakerNpc?.id ?? null);
-    } else setPhase("explore");
-  }, [follow, spec.narrative.intro, speak, world.npcs, say, endDialogue, audio]);
+      say(intro, [{ id: "go", label: "Let's begin", primary: true, run: () => (endDialogue(), orient()) }], speakerNpc?.id ?? null);
+    } else {
+      setPhase("explore");
+      orient();
+    }
+  }, [follow, spec.narrative.intro, speak, world.npcs, say, endDialogue, audio, orient]);
 
   // input and control gating
   useEffect(() => {
@@ -695,7 +705,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
           findTarget={findTarget}
         />
       )}
-      {refs && composed && <NpcLabels refs={refs} npcs={world.npcs} leads={leadsByNpc} hidden={photo || phase === "intro" || phase === "loading"} />}
+      {refs && composed && <NpcLabels refs={refs} npcs={world.npcs} leads={leadsByNpc} hidden={photo || phase !== "explore"} />}
       {phase === "loading" && (
         <div className="w3-loading" role="status">
           <div style={{ textAlign: "center" }}>

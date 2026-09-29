@@ -78,6 +78,7 @@ export function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
     const mode = d.mode;
     let lambda = 3.2;
     let shiftLeft = 0;
+    let shiftUp = 0;
     if (mode.kind === "follow") {
       const o = d.orbit;
       const input = refs.control.enabled ? refs.input.read() : null;
@@ -113,6 +114,7 @@ export function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
       tmpPos.copy(mode.position);
       tmpLook.copy(mode.look);
       shiftLeft = mode.shiftLeft ?? 0;
+      shiftUp = mode.shiftUp ?? 0;
       lambda = reducedMotion ? 30 : 3.5;
     } else if (mode.kind === "path") {
       if (mode.started < 0) mode.started = state.clock.elapsedTime;
@@ -145,8 +147,9 @@ export function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
     // a side panel covers the right of the screen: shift the principal point so the subject sits in the open left part
     const w = size.width;
     const h = size.height;
-    const offset = Math.round(shiftLeft * w);
-    if (offset > 0) cam.setViewOffset(w, h, offset, 0, w, h);
+    const offsetX = Math.round(shiftLeft * w);
+    const offsetY = Math.round(shiftUp * h);
+    if (offsetX > 0 || offsetY > 0) cam.setViewOffset(w, h, offsetX, offsetY, w, h);
     else if (cam.view?.enabled) cam.clearViewOffset();
   });
   return null;

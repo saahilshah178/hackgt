@@ -61,7 +61,7 @@ export const W3_CSS = /* css */ `
 /* ---- toasts */
 .w3-toasts { position: absolute; top: 72px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; align-items: center; width: min(520px, 60vw); pointer-events: none; }
 .w3-toast { padding: 12px 16px; display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; width: 100%; }
-.w3-toast-icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: color-mix(in oklab, var(--w3-accent) 30%, transparent); color: var(--w3-accent); font-size: 20px; }
+.w3-toast-icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: color-mix(in oklab, var(--w3-accent) 30%, transparent); color: var(--w3-accent); font-size: 24px; line-height: 1; }
 .w3-toast strong { display: block; font-size: 16px; }
 .w3-toast span { display: block; font-size: 15px; opacity: 0.92; line-height: 1.35; }
 
