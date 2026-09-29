@@ -22,6 +22,7 @@ import civilFixture from "../fixtures/civil-rights-mystery.json";
 import trigFixture from "../fixtures/trig-dungeon.json";
 import { GameSpec } from "../src/contracts/gamespec";
 import { contraptionsForMode, writerCtxFor } from "../src/world/library";
+import { visionCriticSchema } from "../src/pipeline/world3d/vision-critic";
 import { storyCriticSchema, world3dArchitectSchema, worldCriticSchema } from "../src/contracts/world3d-slices";
 
 /*
@@ -156,6 +157,7 @@ describe("world3d schemas are strict-mode legal (docs/design/60 §2.5)", () => {
   });
   it("story critic schema", () => expect(audit(storyCriticSchema()).errors).toEqual([]));
   it("world critic schema", () => expect(audit(worldCriticSchema()).errors).toEqual([]));
+  it("vision critic schema", () => expect(audit(visionCriticSchema()).errors).toEqual([]));
 });
 
 describe("contraption writer schemas are strict-mode legal (docs/design/20 §4.4)", () => {

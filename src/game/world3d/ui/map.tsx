@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { BIOMES } from "../../../world3d/core/biomes";
 import { STRUCTURES } from "../../../world3d/core/catalog";
 import type { ComposedWorld } from "../../../world3d/core/compose";
@@ -203,6 +203,30 @@ export function MapOverlay({ live, composed, leads, accent, goalReady, onClose }
     drawPlayer(ctx, (player.x + half) * k, (player.z + half) * k, player.yaw);
   }, [image, player, composed, leads, accent, goalReady, half]);
   const named = composed.landmarks.filter((l) => l.role !== "decor" && l.name);
+  // label collisions: place in priority order (goal, leads, places, people), nudge a label up or down, hide it last
+  const labelsRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const root = labelsRef.current;
+    if (!root) return;
+    const els = [...root.querySelectorAll<HTMLElement>(".w3-map-label")].sort((a, b) => Number(b.dataset.priority ?? 0) - Number(a.dataset.priority ?? 0));
+    const placed: DOMRect[] = [];
+    const hits = (r: DOMRect) => placed.some((p) => r.left < p.right && r.right > p.left && r.top < p.bottom && r.bottom > p.top);
+    for (const el of els) {
+      el.style.translate = "0 0";
+      el.style.visibility = "visible";
+      let ok = false;
+      for (const dy of [0, 16, -16, 30, -30]) {
+        el.style.translate = `0 ${dy}px`;
+        const r = el.getBoundingClientRect();
+        if (!hits(r)) {
+          placed.push(r);
+          ok = true;
+          break;
+        }
+      }
+      if (!ok) el.style.visibility = "hidden";
+    }
+  }, [composed, leads]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" || e.key === "m" || e.key === "M") {
@@ -215,10 +239,15 @@ export function MapOverlay({ live, composed, leads, accent, goalReady, onClose }
   }, [onClose]);
   return (
     <div className="w3-overlay" role="dialog" aria-modal="true" aria-label="Map" data-testid="w3-map" onClick={onClose}>
-      <div className="w3-map" onClick={(e) => e.stopPropagation()}>
+      <div className="w3-map" ref={labelsRef} onClick={(e) => e.stopPropagation()}>
         <canvas ref={canvas} width={1024} height={1024} />
         {named.map((l) => (
-          <span key={l.id} className={`w3-map-label${l.role === "goal" ? " is-goal" : leads.some((m) => m.anchor.id === l.id) ? " is-lead" : ""}`} style={{ ...pct(l.x, l.z), marginTop: -Math.min(26, l.radius * 0.1 + 12) }}>
+          <span
+            key={l.id}
+            className={`w3-map-label${l.role === "goal" ? " is-goal" : leads.some((m) => m.anchor.id === l.id) ? " is-lead" : ""}`}
+            data-priority={l.role === "goal" ? 4 : leads.some((m) => m.anchor.id === l.id) ? 3 : 2}
+            style={{ ...pct(l.x, l.z), marginTop: -Math.min(26, l.radius * 0.1 + 12) }}
+          >
             {l.name}
           </span>
         ))}
@@ -226,7 +255,7 @@ export function MapOverlay({ live, composed, leads, accent, goalReady, onClose }
           const at = composed.npcs.find((a) => a.id === n.id);
           if (!at) return null;
           return (
-            <span key={n.id} className={`w3-map-label${leads.some((m) => m.anchor.id === n.id) ? " is-lead" : ""}`} style={{ ...pct(at.x, at.z), fontSize: 12, marginTop: 14 }}>
+            <span key={n.id} className={`w3-map-label${leads.some((m) => m.anchor.id === n.id) ? " is-lead" : ""}`} data-priority={leads.some((m) => m.anchor.id === n.id) ? 3 : 1} style={{ ...pct(at.x, at.z), fontSize: 12, marginTop: 14 }}>
               {n.name}
             </span>
           );

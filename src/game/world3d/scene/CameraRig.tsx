@@ -92,7 +92,8 @@ export function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
         const diff = Math.atan2(Math.sin(behind - o.yaw), Math.cos(behind - o.yaw));
         o.yaw += diff * Math.min(1, dt * 0.9);
       }
-      const head = new THREE.Vector3(p.x, p.y + 1.55, p.z);
+      // aim a little above the head: more horizon, the goal in view, the player in the lower third
+      const head = new THREE.Vector3(p.x, p.y + 1.9, p.z);
       let dist = o.distance;
       const dir = new THREE.Vector3(Math.sin(o.yaw) * Math.cos(o.pitch), Math.sin(o.pitch), Math.cos(o.yaw) * Math.cos(o.pitch));
       // pull in when terrain sits between the head and the camera

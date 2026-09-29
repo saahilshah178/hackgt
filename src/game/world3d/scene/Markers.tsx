@@ -9,8 +9,8 @@ import { useSceneRefs } from "./refs";
 
 /*
  * Wayfinding in the world itself: every open lead gets a soft light beam you can spot across the map (it fades as you
- * arrive) and a pulsing ring on the ground where you press E; the goal keeps a taller beam from the first minute so the
- * destination is never in doubt. Collectibles bob and glint. All additive, unlit and cheap.
+ * arrive) and a pulsing ring on the ground where you press E; the goal's tall beacon comes from the kit (<WorldScene>)
+ * so the destination is never in doubt. Collectibles bob and glint. All additive, unlit and cheap.
  */
 
 function beamMaterial(color: string, opacity: number) {
@@ -29,9 +29,11 @@ function beamMaterial(color: string, opacity: number) {
       varying vec2 vUv;
       void main() {
         float edge = 1.0 - abs(vUv.x - 0.5) * 2.0;
-        float fade = pow(1.0 - vUv.y, 1.6) * smoothstep(0.0, 0.04, vUv.y);
+        float fade = pow(1.0 - vUv.y, 1.2) * smoothstep(0.0, 0.03, vUv.y);
         float shimmer = 0.85 + 0.15 * sin(uTime * 2.0 + vUv.y * 18.0);
-        gl_FragColor = vec4(uColor, uOpacity * edge * edge * fade * shimmer);
+        // a bright core inside a soft halo, over-bright so bloom and tone mapping keep it gold in daylight
+        float core = smoothstep(0.55, 1.0, edge);
+        gl_FragColor = vec4(uColor * (1.4 + 1.6 * core), uOpacity * (edge * edge + core) * fade * shimmer);
       }
     `,
   });
@@ -101,7 +103,7 @@ function Relic({ x, y, z, accent }: { x: number; y: number; z: number; accent: s
   );
 }
 
-export function Markers({ leads, goalReady, collected, accent }: { leads: readonly MomentInfo[]; goalReady: boolean; collected: ReadonlySet<string>; accent: string }) {
+export function Markers({ leads, collected, accent }: { leads: readonly MomentInfo[]; collected: ReadonlySet<string>; accent: string }) {
   const refs = useSceneRefs();
   const goal = refs.composed.goal;
   return (
@@ -112,7 +114,7 @@ export function Markers({ leads, goalReady, collected, accent }: { leads: readon
           if (!home) return null;
           return (
             <group key={m.encounterId}>
-              <Beam x={home.x} y={home.y} z={home.z} height={34} width={2.2} color={accent} opacity={0.5} fadeNear={10} />
+              <Beam x={home.x} y={home.y} z={home.z} height={38} width={3} color={accent} opacity={0.8} fadeNear={10} />
               <Ring x={home.x} y={home.y} z={home.z} radius={1.25} color={accent} />
             </group>
           );
@@ -124,12 +126,11 @@ export function Markers({ leads, goalReady, collected, accent }: { leads: readon
         const isGoal = goal?.id === l.id;
         return (
           <group key={m.encounterId}>
-            {!isGoal && <Beam x={door.x} y={y} z={door.z} height={40} width={2.6} color={accent} opacity={0.5} fadeNear={14} />}
+            {!isGoal && <Beam x={door.x} y={y} z={door.z} height={46} width={3.4} color={accent} opacity={0.8} fadeNear={14} />}
             <Ring x={door.x} y={y} z={door.z} radius={2.2} color={accent} />
           </group>
         );
       })}
-      {goal && <Beam x={goal.x} y={goal.y + goal.height * 0.92} z={goal.z} height={260} width={goal.radius * 0.14 + 3} color={goalReady ? "#ffe29a" : "#ffd27a"} opacity={goalReady ? 0.75 : 0.35} fadeNear={goal.radius * 0.6} />}
       {refs.composed.collectibles
         .filter((c) => !collected.has(c.id))
         .map((c) => (

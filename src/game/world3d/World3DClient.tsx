@@ -83,6 +83,22 @@ function prefersReducedMotion(): boolean {
   }
 }
 
+/** The character id who hosts a moment: its npc, or the npc voicing a landmark (their characterId, else their npc id). */
+function momentHost(m: MomentInfo, world: World3D): string | null {
+  const id = m.anchor.kind === "npc" ? m.anchor.id : m.moment.approach.map((l) => l.speaker).find((s) => s !== "narrator" && s !== "you");
+  const npc = id ? world.npcs.find((n) => n.id === id) : undefined;
+  return npc ? (npc.characterId ?? npc.id) : null;
+}
+
+/** The spec the challenge panel renders with: the Director's cast plus the world's own characters, so any of them can teach. */
+function withWorldCast(spec: GameSpec, world: World3D): GameSpec {
+  const extra = world.npcs.filter((n) => !n.characterId).map((n) => ({ id: n.id, name: n.name, role: n.role, voiceArchetype: n.voiceArchetype }));
+  return extra.length ? { ...spec, characters: [...spec.characters, ...extra] } : spec;
+}
+
+/** A stand-in store for hooks that run before the world is composed. */
+const EMPTY_LIVE = createLive({ x: 0, y: 0, z: 0, yaw: 0 });
+
 /** The mechanic that framed each reward, for the toast icon. */
 const REWARD_ICON: Record<string, string> = { key: "🗝", relic: "✦", map_fragment: "🗺", tool: "⚒", insight: "✧", blessing: "☀" };
 
@@ -95,7 +111,12 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     const s = loadSettings();
     return prefersReducedMotion() ? { ...s, reducedMotion: true } : s;
   });
-  const quality: Quality = settings.quality === "auto" ? autoQuality() : settings.quality;
+  // `?quality=low|medium|high` overrides the setting (screenshots, the vision critic, slow classroom machines)
+  const [urlQuality] = useState<Quality | null>(() => {
+    const q = new URLSearchParams(window.location.search).get("quality");
+    return q === "low" || q === "medium" || q === "high" ? q : null;
+  });
+  const quality: Quality = urlQuality ?? (settings.quality === "auto" ? autoQuality() : settings.quality);
   const reducedMotion = settings.reducedMotion;
   const reducedMotionRef = useRef(reducedMotion);
   const flewRef = useRef(false);
@@ -140,10 +161,13 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
   const [lookIndex, setLookIndex] = useState(0);
   // photo mode (P): the HUD hides, movement stops, the camera still orbits; a button saves the frame
   const [photo, setPhoto] = useState(false);
+  // a burst of light at the anchor of the moment just solved
+  const [burst, setBurst] = useState<{ key: number; x: number; y: number; z: number } | null>(null);
   const toastId = useRef(0);
   const pets = useRef(0);
 
   const lessons = useMemo(() => lessonMap(spec), [spec]);
+  const teachSpec = useMemo(() => withWorldCast(spec, world), [spec, world]);
   const taughtRef = useRef<Set<string>>(new Set());
   const planRef = useRef<string[]>([]);
 
@@ -194,6 +218,9 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     return m;
   }, [leadList]);
   const goalReady = !!bossId && available.includes(bossId);
+  // the landmark E would act on gets the structure's rim highlight
+  const targetKey = useStore(refs?.live ?? EMPTY_LIVE, (s) => (s.target && (s.target.kind === "moment" || s.target.kind === "goal") ? `${s.target.kind}:${s.target.id}` : null));
+  const highlightId = !targetKey ? null : targetKey.startsWith("goal:") ? targetKey.slice(5) : (moments.get(targetKey.slice(7))?.anchor.id ?? null);
 
   // ---- speakers
   const npcById = useMemo(() => new Map(world.npcs.map((n) => [n.id, n])), [world.npcs]);
@@ -320,6 +347,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
       }
       toast(REWARD_ICON[m.moment.reward.kind] ?? "✦", m.moment.reward.name, m.moment.reward.description);
       audio.cue("reward");
+      setBurst((b) => ({ key: (b?.key ?? 0) + 1, x: m.x, y: m.y + (m.anchor.kind === "npc" ? 1.2 : Math.min(8, 2 + m.radius * 0.2)), z: m.z }));
       if (m.moment.opens) {
         setOpened((o) => new Set([...o, m.moment.opens!]));
         audio.cue("gate");
@@ -643,6 +671,26 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
           Object.assign(r.player, { x, z, y: r.physics.ground(x, z), vy: 0, yaw: ang + Math.PI });
           return true;
         },
+        /** teleport the player to (x, z) facing (faceX, faceZ), camera behind them: for vantage-point screenshots */
+        warpAt: (x: number, z: number, faceX: number, faceZ: number) => {
+          const r = d().refs;
+          if (!r) return false;
+          const yaw = Math.atan2(faceX - x, faceZ - z);
+          Object.assign(r.player, { x, z, y: r.physics.ground(x, z), vy: 0, yaw });
+          r.director.orbit.yaw = yaw + Math.PI;
+          r.director.orbit.touched = performance.now();
+          return true;
+        },
+        /** a wide vantage on the goal: back from it toward the spawn by a few of its radii */
+        goalVantage: () => {
+          const r = d().refs;
+          const g = r?.composed.goal;
+          if (!r || !g) return null;
+          const s = r.composed.spawn;
+          const dist = Math.hypot(s.x - g.x, s.z - g.z) || 1;
+          const back = Math.min(dist, g.radius * 2.6 + 20);
+          return { x: g.x + ((s.x - g.x) / dist) * back, z: g.z + ((s.z - g.z) / dist) * back, faceX: g.x, faceZ: g.z };
+        },
         interact: () => d().interact(d().refs?.live.get().target ?? null),
         begin: () => d().begin(),
         dialogue: () => d().dialogue && { lines: d().dialogue!.lines.map((l) => l.text), choices: d().dialogue!.choices.map((c) => c.id) },
@@ -688,6 +736,9 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
     },
   };
   const activeMoment = active ? moments.get(active.encounter.id) : undefined;
+  // lessons are taught by whoever hosts the moment (the npc, or the character who voices the place)
+  const host = activeMoment ? momentHost(activeMoment, world) : null;
+  const teachHere: ChallengeTeach = host ? { ...teach, lessons: new Map([...lessons].map(([id, l]) => [id, { ...l, teacherId: host }])) } : teach;
   const marks: CompassMark[] = [
     ...(composed?.goal ? [{ id: "goal", label: composed.goal.name ?? "Goal", x: composed.goal.x, z: composed.goal.z, goal: true }] : []),
     ...leadList.map((m) => ({ id: m.encounterId, label: m.place, x: m.x, z: m.z })),
@@ -708,9 +759,10 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
           opened={opened}
           playerLook={looks[lookIndex]}
           leads={leadList}
-          goalReady={goalReady}
           collected={collected}
           accent={theme.accent}
+          highlightId={highlightId}
+          burst={burst}
           findTarget={findTarget}
         />
       )}
@@ -800,10 +852,9 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
           <ChallengeSheet socket={activeMoment.socket} place={activeMoment.place} objective={activeMoment.moment.objective} onClose={() => closeChallenge(false)}>
             <ChallengePanel
               key={active.encounter.id}
-              spec={spec}
+              spec={teachSpec}
               palette={theme.palette}
               current={active}
-              heading={activeMoment.anchor.kind === "npc" ? activeMoment.place : withArticle(activeMoment.place).replace(/^the /, "The ")}
               hintsUsed={runner.hintsUsedOn(active.encounter.id)}
               lastHint={lastHint}
               result={result}
@@ -812,7 +863,7 @@ export function World3DClient({ spec }: { spec: GameSpec & { world3d: World3D } 
               onContinue={() => closeChallenge(true)}
               onRetry={() => setResult(null)}
               onClose={() => closeChallenge(false)}
-              teach={teach}
+              teach={teachHere}
             />
           </ChallengeSheet>
         </div>

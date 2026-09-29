@@ -49,7 +49,7 @@ export interface Director {
 export function createDirector(spawnYaw: number): Director {
   return {
     mode: { kind: "follow" },
-    orbit: { yaw: spawnYaw + Math.PI, pitch: 0.32, distance: 6.5, touched: 0 },
+    orbit: { yaw: spawnYaw + Math.PI, pitch: 0.2, distance: 6.2, touched: 0 },
     position: new THREE.Vector3(),
     look: new THREE.Vector3(),
     sensitivity: 1,
@@ -62,6 +62,7 @@ export function dialogueShot(player: { x: number; y: number; z: number }, npc: {
   const dx = npc.x - player.x;
   const dz = npc.z - player.z;
   const d = Math.hypot(dx, dz) || 1;
+  if (d > 5) return speakerCloseUp(player, npc, heightScale);
   const fx = dx / d;
   const fz = dz / d;
   // right of the line player → npc
@@ -71,6 +72,19 @@ export function dialogueShot(player: { x: number; y: number; z: number }, npc: {
   // over the player's right shoulder, far enough to the side that the player frames the left edge and the npc reads
   const position = new THREE.Vector3(player.x - fx * 1.5 + rx * 1.9, player.y + 1.8, player.z - fz * 1.5 + rz * 1.9);
   const look = new THREE.Vector3(npc.x - rx * 0.35, head - 0.12, npc.z - rz * 0.35);
+  return { kind: "frame", position, look, shiftLeft: 0, shiftUp: 0.16 };
+}
+
+/** A speaker further than a conversation's distance: a medium close-up from the player's side, the speaker facing us. */
+export function speakerCloseUp(player: { x: number; z: number }, npc: { x: number; y: number; z: number }, heightScale = 1): Extract<CameraMode, { kind: "frame" }> {
+  const dx = player.x - npc.x;
+  const dz = player.z - npc.z;
+  const d = Math.hypot(dx, dz) || 1;
+  const fx = dx / d;
+  const fz = dz / d;
+  const head = npc.y + 1.58 * heightScale;
+  const position = new THREE.Vector3(npc.x + fx * 3.4 - fz * 1.1, head + 0.15, npc.z + fz * 3.4 + fx * 1.1);
+  const look = new THREE.Vector3(npc.x, head - 0.25, npc.z);
   return { kind: "frame", position, look, shiftLeft: 0, shiftUp: 0.16 };
 }
 
@@ -123,7 +137,8 @@ export function flyoverPath(c: ComposedWorld, ids: readonly string[], spawn: { x
 }
 
 export function orbitGoal(goal: Pick<Placed, "x" | "y" | "z" | "radius" | "height">): Extract<CameraMode, { kind: "orbit" }> {
-  return { kind: "orbit", center: new THREE.Vector3(goal.x, goal.y + goal.height * 0.45, goal.z), radius: Math.max(30, goal.radius * 2.1), height: goal.height * 0.55 + 12, speed: 0.06 };
+  // low and wide: the goal stands against the sky with its beacon, the land around it in view
+  return { kind: "orbit", center: new THREE.Vector3(goal.x, goal.y + goal.height * 0.42, goal.z), radius: Math.max(40, goal.radius * 2.8), height: -goal.height * 0.12 + 6, speed: 0.05 };
 }
 
 /** Ease in-out for the flyover so it starts and lands softly. */
