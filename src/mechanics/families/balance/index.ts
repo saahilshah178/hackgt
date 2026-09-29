@@ -22,6 +22,7 @@ export const balance = defineFamily({
     strategy: { sockets: ["ledger"], skin: "Balance budgets and flows" },
     explorer: { sockets: ["shrine"], skin: "Balance the shrine scales to open the passage" },
     story: { sockets: ["debate"], skin: "Weigh both sides until the argument balances" },
+    world3d: { sockets: ["device", "conversation"], skin: "Balance the great scale, or the two sides of an argument, until it settles" },
   },
   modes: {
     equation,

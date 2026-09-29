@@ -22,6 +22,7 @@ export const investigator = defineFamily({
     strategy: { sockets: ["event_card"], skin: "Policy debate with evidence" },
     explorer: { sockets: ["locked_gate"], skin: "Each gate is a hypothesis; clues seal the wrong ones" },
     story: { sockets: ["trial"], skin: "Weigh the testimony and decide" },
+    world3d: { sockets: ["conversation", "artifact"], skin: "Weigh the evidence and the witnesses" },
   },
   modes: {
     elimination,

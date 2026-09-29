@@ -23,6 +23,7 @@ export const functionWorld = defineFamily({
     strategy: { sockets: ["market"], skin: "Price curve over time" },
     explorer: { sockets: ["bridge"], skin: "The bridge deck follows f(x); find the missing span" },
     story: { sockets: ["journal"], skin: "Read the trend in the expedition log" },
+    world3d: { sockets: ["device", "vista"], skin: "Shape the curve on the survey instrument and watch the land respond" },
   },
   modes: {
     limit,

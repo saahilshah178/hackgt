@@ -18,6 +18,7 @@ export const tuner = defineFamily({
     strategy: { sockets: ["policy_dial", "production_line"], skin: "Machine settings on the production line" },
     explorer: { sockets: ["locked_gate"], skin: "Tune the gate's lock dial" },
     story: { sockets: ["choice"], skin: "Set the instrument before the expedition leaves" },
+    world3d: { sockets: ["device", "vista"], skin: "Set the instrument (a dial, a lever, a sighting rod) until the world answers" },
   },
   modes: {
     oscillator,

@@ -10,6 +10,7 @@ import { loadCourses, type Course } from "@/server/courses";
 
 /** One illustration per example game, in the same flat pastel style. */
 const COURSE_ART: Record<string, string> = {
+  "fixture-ancient-egypt-world3d": "/home/egypt-world3d.jpg",
   "fixture-cell-transport-cozy": "/home/cell-cozy.png",
   "fixture-cell-transport-casefile": "/home/cell-casefile.png",
   "fixture-cell-transport": "/home/cell-vault.png",

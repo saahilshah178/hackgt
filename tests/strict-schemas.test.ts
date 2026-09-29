@@ -22,6 +22,8 @@ import civilFixture from "../fixtures/civil-rights-mystery.json";
 import trigFixture from "../fixtures/trig-dungeon.json";
 import { GameSpec } from "../src/contracts/gamespec";
 import { contraptionsForMode, writerCtxFor } from "../src/world/library";
+import { visionCriticSchema } from "../src/pipeline/world3d/vision-critic";
+import { storyCriticSchema, world3dArchitectSchema, worldCriticSchema } from "../src/contracts/world3d-slices";
 
 /*
  * Walks the JSON Schema the AI SDK actually sends and enforces the strict-mode subset we rely on.
@@ -136,6 +138,26 @@ describe("LLM-facing schemas are strict-mode legal", () => {
     expect(errors.join("\n")).toMatch(/\$\.b: must be required/);
     expect(errors.join("\n")).toMatch(/\$\.c: additionalProperties must be false/);
   });
+});
+
+describe("world3d schemas are strict-mode legal (docs/design/60 §2.5)", () => {
+  const encounterIds = ["e1_radians", "e2_period", "e3_amplitude", "e4_solve", "e5_review", "e6_boss"];
+  it("World Architect schema, for every map size", () => {
+    for (const size of [420, 560, 700]) {
+      const { errors, stats } = audit(world3dArchitectSchema({ encounterIds, conceptIds, characterIds: ["cog", "warden"], size }));
+      expect(errors).toEqual([]);
+      expect(stats.enumValues).toBeLessThan(1000);
+    }
+  });
+  it("World Architect schema at the largest job (14 encounters, 25 concepts, 4 characters)", () => {
+    const many = (prefix: string, n: number) => Array.from({ length: n }, (_, i) => `${prefix}${i}`);
+    const { errors, stats } = audit(world3dArchitectSchema({ encounterIds: many("e", 14), conceptIds: many("c_", 25), characterIds: many("ch", 4), size: 700 }));
+    expect(errors).toEqual([]);
+    expect(stats.enumValues).toBeLessThan(1000);
+  });
+  it("story critic schema", () => expect(audit(storyCriticSchema()).errors).toEqual([]));
+  it("world critic schema", () => expect(audit(worldCriticSchema()).errors).toEqual([]));
+  it("vision critic schema", () => expect(audit(visionCriticSchema()).errors).toEqual([]));
 });
 
 describe("contraption writer schemas are strict-mode legal (docs/design/20 §4.4)", () => {

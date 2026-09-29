@@ -44,6 +44,34 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  {
+    // src/world3d/core is the pure side of the 3D worlds (docs/design/60 §2): the pipeline's checks and critics and Vitest
+    // (node) import it, so it may never import three.js or React.
+    files: ["src/world3d/core/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            { name: "three", message: "src/world3d/core is pure: no three.js. Put rendering in src/world3d/kit/**." },
+            { name: "react", message: "src/world3d/core is pure: no React." },
+          ],
+          patterns: [{ group: ["three/*", "@react-three/*", "react/*", "next", "next/*"], message: "src/world3d/core is pure: no three.js, React or Next." }],
+        },
+      ],
+    },
+  },
+  {
+    // WebGL render-loop code (React Three Fiber): every frame mutates three.js objects and the loop-owned per-frame state
+    // (player body, camera director, shared uniforms) held in context and refs. That imperative state is outside the
+    // React Compiler's immutability model, so these rules would flag the intended pattern; everything else still applies.
+    files: ["src/world3d/kit/**/*.tsx", "src/game/world3d/**/*.tsx", "src/app/dev/kit3d/**/*.tsx"],
+    rules: {
+      "react-hooks/immutability": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/preserve-manual-memoization": "off",
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

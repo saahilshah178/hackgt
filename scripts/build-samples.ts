@@ -10,7 +10,7 @@ import { PDFDocument, rgb, StandardFonts, type PDFFont } from "pdf-lib";
  * symbols like π render correctly. Run with `pnpm samples:build`.
  */
 
-const SAMPLES = ["trig-notes", "cell-transport", "civil-rights-history"];
+const SAMPLES = ["trig-notes", "cell-transport", "civil-rights-history", "ancient-egypt"];
 const PAGE_SIZE: [number, number] = [612, 792]; // US Letter
 const MARGIN = 56;
 const BODY_SIZE = 11;

@@ -1,0 +1,2405 @@
+{
+  "schemaVersion": 2,
+  "id": "egypt_world3d_001",
+  "createdAt": "2026-09-29T12:00:00.000Z",
+  "seed": 3739012176,
+  "source": {
+    "sourceId": "src_ancient_egypt",
+    "title": "World History Ch. 3: Ancient Egypt and the Old Kingdom",
+    "unsourced": false
+  },
+  "genre": "world3d",
+  "targetMinutes": 10,
+  "intake": {
+    "goal": "learn",
+    "minutes": 10,
+    "requestedGenre": "world3d",
+    "confidence": [
+      {
+        "unitId": "u_nile",
+        "level": 3
+      },
+      {
+        "unitId": "u_society",
+        "level": 3
+      },
+      {
+        "unitId": "u_pyramids",
+        "level": 2
+      },
+      {
+        "unitId": "u_afterlife",
+        "level": 3
+      }
+    ],
+    "preCheckAnswers": [
+      0,
+      1,
+      -1
+    ]
+  },
+  "units": [
+    {
+      "id": "u_nile",
+      "name": "The gift of the Nile"
+    },
+    {
+      "id": "u_society",
+      "name": "Pharaoh, society and writing"
+    },
+    {
+      "id": "u_pyramids",
+      "name": "Building for eternity"
+    },
+    {
+      "id": "u_afterlife",
+      "name": "Death and the afterlife"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "c_flood",
+      "unitId": "u_nile",
+      "name": "The Nile's yearly flood",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can explain how the flood made farming possible and order the three seasons of the farming year."
+    },
+    {
+      "id": "c_social_pyramid",
+      "unitId": "u_society",
+      "name": "The social pyramid",
+      "knowledgeType": "category",
+      "learningObjective": "The student can place Egyptian roles in the levels of society and say what each level did."
+    },
+    {
+      "id": "c_hieroglyphs",
+      "unitId": "u_society",
+      "name": "Hieroglyphs and scribes",
+      "knowledgeType": "system",
+      "learningObjective": "The student can explain how hieroglyphs work and what cartouches, papyrus and the Rosetta Stone are."
+    },
+    {
+      "id": "c_builders",
+      "unitId": "u_pyramids",
+      "name": "Who built the pyramids",
+      "knowledgeType": "causal",
+      "learningObjective": "The student can use the evidence to explain who built the pyramids and why the slave story is wrong."
+    },
+    {
+      "id": "c_construction",
+      "unitId": "u_pyramids",
+      "name": "How the Great Pyramid was built",
+      "knowledgeType": "procedure",
+      "learningObjective": "The student can describe, in order, how a block got from the quarry into the pyramid."
+    },
+    {
+      "id": "c_mummification",
+      "unitId": "u_afterlife",
+      "name": "Mummification",
+      "knowledgeType": "sequence",
+      "learningObjective": "The student can put the steps of mummification in order and explain why the heart stayed in the body."
+    },
+    {
+      "id": "c_gods",
+      "unitId": "u_afterlife",
+      "name": "The gods and the weighing of the heart",
+      "knowledgeType": "category",
+      "learningObjective": "The student can match the main gods to their roles and explain the weighing of the heart."
+    }
+  ],
+  "mastery": {
+    "initial": 0.5,
+    "firstTryBonus": 0.15,
+    "laterBonus": 0.08,
+    "missPenalty": 0.05
+  },
+  "title": "The Scribe of the Nile",
+  "theme": {
+    "setting": "Giza in the reign of Khufu, c. 2560 BCE: the Great Pyramid stands finished but for its golden capstone",
+    "tone": "warm, wondrous, grounded in real archaeology",
+    "paletteId": "parchment",
+    "musicMood": "curious"
+  },
+  "premise": "Khufu's pyramid awaits its golden capstone, but its inscription is lost. As Hemiunu's apprentice scribe, learn from the people of Giza and carve the true story of how Egypt raised it before the sun sets.",
+  "characters": [
+    {
+      "id": "hemiunu",
+      "name": "Hemiunu",
+      "role": "the king's architect and vizier, your master",
+      "voiceArchetype": "wise_mentor"
+    },
+    {
+      "id": "nebet",
+      "name": "Nebet",
+      "role": "master scribe of the House of Life",
+      "voiceArchetype": "nervous_scholar"
+    },
+    {
+      "id": "meryt",
+      "name": "Meryt",
+      "role": "embalmer and priestess of Anubis",
+      "voiceArchetype": "cheerful_sidekick"
+    },
+    {
+      "id": "ipi",
+      "name": "Ipi",
+      "role": "keeper of the Nilometer",
+      "voiceArchetype": "gruff_guard"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "e1_flood",
+      "conceptIds": [
+        "c_flood"
+      ],
+      "teachingMechanicId": "chrono_bridge",
+      "socket": "inscription",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Egyptian farmers watered their fields with rain.",
+      "familyId": "sequencer",
+      "mode": "linear",
+      "prompt": "The Nilometer's wall shows the farming year in four carvings, and a fifth that doesn't belong. Set the year in order.",
+      "params": {
+        "steps": [
+          "Akhet: the Nile floods and the fields lie under water",
+          "The water draws back and leaves a layer of black silt",
+          "Peret: farmers plant wheat and barley in the damp silt",
+          "Shemu: the crops are cut and stored before the next flood"
+        ],
+        "decoys": [
+          "The spring rains soak the fields so the seed can sprout"
+        ]
+      },
+      "hints": [
+        "Everything here starts with the river, not the sky.",
+        "Nothing can be planted while the fields are under water. What has to happen to the water first?",
+        "The year runs flood, silt, planting, harvest. It starts with: Akhet: the Nile floods and the fields lie under water"
+      ],
+      "wrongFeedback": "Not quite. In Egypt almost no rain falls: the year follows the river rising and falling.",
+      "debriefLine": "The Nile's year: Akhet flood, black silt, Peret planting, Shemu harvest, with no rain needed.",
+      "sourceRef": {
+        "page": 1,
+        "quote": "Akhet was the season of the flood, when the fields lay under water."
+      },
+      "solution": {
+        "order": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ]
+      }
+    },
+    {
+      "id": "e2_society",
+      "conceptIds": [
+        "c_social_pyramid"
+      ],
+      "teachingMechanicId": "era_sorter",
+      "socket": "artifact",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": null,
+      "familyId": "sorter",
+      "mode": "bins",
+      "prompt": "The temple relief shows Egypt in three bands. Place each person of Giza in the band where they belong.",
+      "params": {
+        "bins": [
+          {
+            "id": "rulers",
+            "label": "Pharaoh and officials",
+            "feature": "They rule, govern and judge: the god-king, the vizier and the nobles."
+          },
+          {
+            "id": "learned",
+            "label": "Priests and scribes",
+            "feature": "They serve the gods or keep the written records that run the kingdom."
+          },
+          {
+            "id": "workers",
+            "label": "Artisans and farmers",
+            "feature": "They make goods or grow the food; farmers are the large majority."
+          }
+        ],
+        "items": [
+          {
+            "text": "Khufu, god-king on earth",
+            "binId": "rulers",
+            "why": "The pharaoh stands at the very top and keeps ma'at."
+          },
+          {
+            "text": "Hemiunu, the vizier who collects the taxes",
+            "binId": "rulers",
+            "why": "The vizier runs the government under the pharaoh."
+          },
+          {
+            "text": "A priest who tends the temple's offerings",
+            "binId": "learned",
+            "why": "Priests serve the gods, just below the nobles."
+          },
+          {
+            "text": "Nebet, who writes the harvest records",
+            "binId": "learned",
+            "why": "Scribes keep the written records that hold the kingdom together."
+          },
+          {
+            "text": "A stone carver shaping a statue",
+            "binId": "workers",
+            "why": "Skilled artisans make goods for the kingdom."
+          },
+          {
+            "text": "A merchant trading cedar wood",
+            "binId": "workers",
+            "why": "Traders sit with the artisans, below the scribes."
+          },
+          {
+            "text": "Tjeti, who plants barley in the silt",
+            "binId": "workers",
+            "why": "Farmers grow the food and are most of the people."
+          }
+        ]
+      },
+      "hints": [
+        "Ask what each person spends their day doing: ruling, writing and praying, or making and growing.",
+        "Reading and writing lifts a person above the artisans. Who in this list writes for a living?",
+        "Khufu and the vizier rule; the priest and Nebet serve and record; the carver, merchant and farmer work."
+      ],
+      "wrongFeedback": "Someone is in the wrong band. Think about what that person does all day, not how rich they might be.",
+      "debriefLine": "Egypt's social pyramid: the pharaoh and officials rule, priests and scribes serve and record, and artisans and farmers, most of all people, do the work.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "Farmers made up the large majority of the population."
+      },
+      "solution": {
+        "assignments": {
+          "i0": "rulers",
+          "i1": "rulers",
+          "i2": "learned",
+          "i3": "learned",
+          "i4": "workers",
+          "i5": "workers",
+          "i6": "workers"
+        }
+      }
+    },
+    {
+      "id": "e3_signs",
+      "conceptIds": [
+        "c_hieroglyphs"
+      ],
+      "teachingMechanicId": "who_said_it",
+      "socket": "conversation",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "Every hieroglyph is a picture of the thing it means.",
+      "familyId": "linker",
+      "mode": "pairs",
+      "prompt": "Nebet slides five words across the table. Match each one to what it means before the ink dries.",
+      "params": {
+        "pairs": [
+          {
+            "left": "Logogram",
+            "right": "A sign that stands for a whole word",
+            "why": "'Logo' means word: one sign, one word."
+          },
+          {
+            "left": "Phonogram",
+            "right": "A sign that stands for a sound",
+            "why": "'Phono' means sound: signs you sound out, like letters."
+          },
+          {
+            "left": "Cartouche",
+            "right": "An oval ring drawn around a pharaoh's name",
+            "why": "It protects and marks a royal name."
+          },
+          {
+            "left": "Papyrus",
+            "right": "Paper made from reeds that grow along the Nile",
+            "why": "Scribes wrote everyday records on it in ink."
+          },
+          {
+            "left": "Rosetta Stone",
+            "right": "One decree carved in hieroglyphs, demotic and Greek",
+            "why": "The Greek let Champollion read the hieroglyphs in 1822."
+          }
+        ],
+        "decoyRights": [
+          "A small picture that always shows the very object it means"
+        ]
+      },
+      "hints": [
+        "Two of the words are built from Greek roots: 'logo' is word, 'phono' is sound.",
+        "One of the answers is a trap: not every sign is a picture of its meaning.",
+        "The Rosetta Stone had three scripts; the cartouche circles a king's name."
+      ],
+      "wrongFeedback": "One match is off. Remember that many signs stand for sounds, not for the thing they show.",
+      "debriefLine": "Hieroglyphs mix logograms (words) and phonograms (sounds); cartouches circle royal names, papyrus holds the records, and the Rosetta Stone unlocked them.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "Some signs are logograms that stand for a whole word, while others are phonograms that stand for sounds."
+      },
+      "solution": {
+        "links": {
+          "l0": "r0",
+          "l1": "r1",
+          "l2": "r2",
+          "l3": "r3",
+          "l4": "r4"
+        }
+      }
+    },
+    {
+      "id": "e4_builders",
+      "conceptIds": [
+        "c_builders"
+      ],
+      "teachingMechanicId": "mimic_chest",
+      "socket": "conversation",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "The pyramids were built by slaves.",
+      "familyId": "truth_finder",
+      "mode": "mimic",
+      "prompt": "Khenu the baker has heard four stories about the pyramid's builders. One of them is false. Which?",
+      "params": {
+        "statements": [
+          {
+            "text": "The crews were paid in rations of bread and beer",
+            "isTrue": true,
+            "explanation": "The workers' village had bakeries and breweries to feed them."
+          },
+          {
+            "text": "Workers who died were buried in tombs beside the pyramid",
+            "isTrue": true,
+            "explanation": "An honor no slave would have received."
+          },
+          {
+            "text": "Slaves in chains were forced to haul every block",
+            "isTrue": false,
+            "explanation": "The evidence shows paid, fed crews, honored with tombs, not slaves."
+          },
+          {
+            "text": "Many builders were farmers waiting out the flood",
+            "isTrue": true,
+            "explanation": "Their fields were under water during Akhet, so they worked on the pyramid."
+          }
+        ]
+      },
+      "hints": [
+        "Think about what archaeologists found beside the pyramid: bakeries, breweries, sleeping halls and tombs.",
+        "Would anyone build honored tombs for slaves next to the king's pyramid?",
+        "The false story is: Slaves in chains were forced to haul every block"
+      ],
+      "wrongFeedback": "That story holds up against the evidence. Look for the one the workers' village and their tombs contradict.",
+      "debriefLine": "The false story was \"Slaves in chains were forced to haul every block\": the pyramids were built by paid, fed crews, many of them farmers, buried with honor beside their work.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "Workers who died on the job were buried in tombs close to the pyramid, an honor no slave would have received."
+      },
+      "solution": {
+        "mimicIndex": 2
+      }
+    },
+    {
+      "id": "e5_construction",
+      "conceptIds": [
+        "c_construction"
+      ],
+      "teachingMechanicId": "domino_engine",
+      "socket": "conversation",
+      "role": "teach",
+      "difficulty": 2,
+      "targetMisconception": "The blocks were carried from far away to Giza.",
+      "familyId": "linker",
+      "mode": "chain",
+      "prompt": "Senbi the overseer tests every new scribe: chain the journey of one block from the rock to the pyramid.",
+      "params": {
+        "nodes": [
+          "Cut a limestone block from the Giza quarry with copper tools",
+          "Lever the block onto a wooden sledge",
+          "Pour water on the sand in front of the sledge",
+          "Haul the sledge up a ramp of mud brick and rubble",
+          "Set the block in its place on the rising pyramid"
+        ],
+        "decoys": [
+          "Ship the block to Giza from a quarry across the sea"
+        ]
+      },
+      "hints": [
+        "Start where the stone starts: the quarry is right here at Giza.",
+        "Wet sand makes the sledge slide, so the water must come before the hard pull.",
+        "Cut, load, wet the sand, drag up the ramp, set in place."
+      ],
+      "wrongFeedback": "The block got lost on the way. Most of this stone never left Giza: follow it from the quarry to the ramp.",
+      "debriefLine": "A Great Pyramid block: quarried at Giza with copper tools, loaded on a sledge, slid over wetted sand and hauled up ramps into place.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "Workers cut limestone blocks with copper tools, dragged them on wooden sledges and pulled them up ramps of mud brick and rubble."
+      },
+      "solution": {
+        "edges": [
+          {
+            "from": "n0",
+            "to": "n1"
+          },
+          {
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "from": "n2",
+            "to": "n3"
+          },
+          {
+            "from": "n3",
+            "to": "n4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e6_flood_explain",
+      "conceptIds": [
+        "c_flood"
+      ],
+      "teachingMechanicId": "explain_the_cause",
+      "socket": "conversation",
+      "role": "practice",
+      "difficulty": 2,
+      "targetMisconception": "Egyptian farmers watered their fields with rain.",
+      "familyId": "explainer",
+      "mode": "teach_back",
+      "prompt": "Tjeti, a young farmer, can't see why the village cheers at the Nilometer. Explain it in your own words.",
+      "params": {
+        "listener": "Tjeti, a young farmer worried about this year's flood",
+        "question": "Why does the whole village cheer when the Nilometer shows a good flood?",
+        "ideas": [
+          {
+            "label": "what the water leaves behind",
+            "keywords": [
+              "silt",
+              "black soil",
+              "black land",
+              "fertile",
+              "rich soil",
+              "mud",
+              "kemet",
+              "nutrients",
+              "good soil"
+            ],
+            "followUp": "But the water goes away again. What's left on our fields when it does?",
+            "exemplar": "When the flood goes down it leaves rich black silt that makes the soil fertile."
+          },
+          {
+            "label": "how the crops drink",
+            "keywords": [
+              "water the crops",
+              "waters the fields",
+              "soaks",
+              "damp",
+              "wet",
+              "irrigation",
+              "irrigate",
+              "canals",
+              "basins",
+              "moist"
+            ],
+            "followUp": "And the crops need to drink. Where does their water come from, out here?",
+            "exemplar": "The flood soaks the fields, and canals carry the water to fields farther away."
+          },
+          {
+            "label": "what a good year means for everyone",
+            "keywords": [
+              "harvest",
+              "food",
+              "enough to eat",
+              "grain",
+              "wheat",
+              "barley",
+              "taxes",
+              "hunger",
+              "bread",
+              "crops grow"
+            ],
+            "followUp": "So what does a good flood mean when Shemu comes, for us and for the king?",
+            "exemplar": "A good flood means a big harvest, enough food for everyone and grain for the taxes."
+          }
+        ],
+        "required": 2,
+        "misconceptions": [
+          {
+            "keywords": [
+              "rainfall",
+              "rainy season",
+              "rain waters",
+              "the rain",
+              "storms"
+            ],
+            "correction": "Rain? Look up, friend. Hardly a drop falls here all year. So where does our water come from?"
+          }
+        ],
+        "wordBank": [
+          "silt",
+          "fertile",
+          "water",
+          "canals",
+          "harvest",
+          "taxes"
+        ]
+      },
+      "hints": [
+        "Think about what is on the fields after the water drains away.",
+        "It almost never rains here. The river is the only water, and the silt is the only fertilizer.",
+        "Say that the flood leaves fertile black silt and waters the fields, so the harvest is big and everyone eats."
+      ],
+      "wrongFeedback": "Tjeti still looks worried. Think about what the flood leaves behind and what that means at harvest time.",
+      "debriefLine": "A good flood leaves fertile black silt and waters the fields, so the harvest feeds Egypt and fills the tax stores.",
+      "sourceRef": {
+        "page": 1,
+        "quote": "When the water drew back it left a layer of rich black silt behind."
+      },
+      "solution": {
+        "exemplar": "When the flood goes down it leaves rich black silt that makes the soil fertile. The flood soaks the fields, and canals carry the water to fields farther away. A good flood means a big harvest, enough food for everyone and grain for the taxes.",
+        "ideaCount": 3
+      }
+    },
+    {
+      "id": "e7_mummy",
+      "conceptIds": [
+        "c_mummification"
+      ],
+      "teachingMechanicId": "chrono_bridge",
+      "socket": "inscription",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Embalmers removed the heart along with the other organs.",
+      "familyId": "sequencer",
+      "mode": "linear",
+      "prompt": "The House of Purification's wall shows how a body is prepared for eternity. Put the paintings in order.",
+      "params": {
+        "steps": [
+          "Remove the internal organs and seal them in canopic jars",
+          "Cover the body in natron salt to dry it for forty days",
+          "Wrap the body in layers of linen with protective amulets",
+          "Place the wrapped mummy in its coffin"
+        ],
+        "decoys": [
+          "Take out the heart and store it in a jar of its own"
+        ]
+      },
+      "hints": [
+        "The whole work takes about seventy days, and drying is most of it.",
+        "Nothing can be wrapped until it is dry. And one organ never leaves the body.",
+        "Organs out into jars, natron to dry, linen and amulets, then the coffin."
+      ],
+      "wrongFeedback": "The embalmers would frown. Remember what must stay inside the body, and what must happen before any wrapping.",
+      "debriefLine": "Mummification: organs into canopic jars (the heart stays for the weighing), 40 days of natron, linen and amulets, then the coffin.",
+      "sourceRef": {
+        "page": 4,
+        "quote": "Next they covered the body with natron, a natural salt, for about 40 days to dry it out."
+      },
+      "solution": {
+        "order": [
+          "s0",
+          "s1",
+          "s2",
+          "s3"
+        ]
+      }
+    },
+    {
+      "id": "e8_gods",
+      "conceptIds": [
+        "c_gods"
+      ],
+      "teachingMechanicId": "who_said_it",
+      "socket": "conversation",
+      "role": "teach",
+      "difficulty": 1,
+      "targetMisconception": "Anubis was the god who judged the dead.",
+      "familyId": "linker",
+      "mode": "pairs",
+      "prompt": "Meryt quizzes you before the offerings: match each god to the work they do.",
+      "params": {
+        "pairs": [
+          {
+            "left": "Ra",
+            "right": "Sails the sun across the sky each day",
+            "why": "He is the sun god."
+          },
+          {
+            "left": "Osiris",
+            "right": "Rules the afterlife and judges the dead",
+            "why": "The king of the underworld sits in judgment."
+          },
+          {
+            "left": "Isis",
+            "right": "Goddess of magic and protection",
+            "why": "Her spells protect the living and the dead."
+          },
+          {
+            "left": "Anubis",
+            "right": "Jackal-headed guardian of embalming and guide of souls",
+            "why": "He watches over the embalmers and leads souls to judgment."
+          },
+          {
+            "left": "Thoth",
+            "right": "Ibis-headed god of writing and wisdom",
+            "why": "Every scribe's patron."
+          }
+        ],
+        "decoyRights": [
+          "Falcon-headed protector of kingship"
+        ]
+      },
+      "hints": [
+        "Each god's head gives a clue: the jackal watches over the dead's bodies, the ibis over the scribes.",
+        "Guiding a soul to judgment is not the same as judging it.",
+        "Osiris judges; Anubis guides and guards the embalming."
+      ],
+      "wrongFeedback": "One god is doing someone else's job. Who judges the dead, and who only leads them there?",
+      "debriefLine": "Ra the sun, Osiris judge of the dead, Isis magic, Anubis embalming and guide of souls, Thoth writing and wisdom.",
+      "sourceRef": {
+        "page": 4,
+        "quote": "Osiris ruled the afterlife and judged the dead."
+      },
+      "solution": {
+        "links": {
+          "l0": "r0",
+          "l1": "r1",
+          "l2": "r2",
+          "l3": "r3",
+          "l4": "r4"
+        }
+      }
+    },
+    {
+      "id": "e9_review",
+      "conceptIds": [
+        "c_social_pyramid"
+      ],
+      "teachingMechanicId": "mimic_chest",
+      "socket": "seal",
+      "role": "review",
+      "difficulty": 2,
+      "targetMisconception": "Most Egyptians were slaves.",
+      "familyId": "truth_finder",
+      "mode": "mimic",
+      "prompt": "The causeway gate is sealed with four claims about Egypt's people. Break the one false seal.",
+      "params": {
+        "statements": [
+          {
+            "text": "The vizier ran the government and collected the taxes",
+            "isTrue": true,
+            "explanation": "He served just beneath the pharaoh."
+          },
+          {
+            "text": "A farmer's son who learned to write could become a scribe",
+            "isTrue": true,
+            "explanation": "Writing was the way up in Egyptian society."
+          },
+          {
+            "text": "Most Egyptians were slaves owned by the nobles",
+            "isTrue": false,
+            "explanation": "Farmers were the large majority; enslaved people were few."
+          },
+          {
+            "text": "The pharaoh was believed to be a god on earth",
+            "isTrue": true,
+            "explanation": "His duty was to keep ma'at, the balance of the world."
+          }
+        ]
+      },
+      "hints": [
+        "Think back to the temple relief: which band held the most people?",
+        "Enslaved people existed, usually prisoners of war. Were they most of Egypt?",
+        "The false seal reads: Most Egyptians were slaves owned by the nobles"
+      ],
+      "wrongFeedback": "That seal is true. Look for the claim about who most Egyptians were.",
+      "debriefLine": "The false seal was \"Most Egyptians were slaves owned by the nobles\": farmers were most of Egypt, and enslaved people were a small part of it.",
+      "sourceRef": {
+        "page": 2,
+        "quote": "Farmers made up the large majority of the population."
+      },
+      "solution": {
+        "mimicIndex": 2
+      }
+    },
+    {
+      "id": "e10_capstone",
+      "conceptIds": [
+        "c_builders",
+        "c_flood",
+        "c_construction"
+      ],
+      "teachingMechanicId": "evidence_board",
+      "socket": "finale",
+      "role": "boss",
+      "difficulty": 3,
+      "targetMisconception": "The pyramids were built by slaves.",
+      "familyId": "investigator",
+      "mode": "elimination",
+      "prompt": "The capstone must name what truly raised this pyramid. Weigh the evidence of Giza until one answer stands.",
+      "params": {
+        "question": "What truly raised the Great Pyramid of Khufu?",
+        "hypotheses": [
+          {
+            "id": "slaves",
+            "text": "Enslaved captives, driven by whips, who were left where they fell"
+          },
+          {
+            "id": "foreign",
+            "text": "Blocks shipped whole from distant lands and set by foreign engineers"
+          },
+          {
+            "id": "one_season",
+            "text": "The king's household, working through a single season"
+          },
+          {
+            "id": "crews",
+            "text": "Paid Egyptian crews, many of them farmers in the flood season, using sledges and ramps"
+          }
+        ],
+        "clues": [
+          {
+            "text": "A workers' village with bakeries and breweries lies beside the pyramid",
+            "eliminates": [
+              "slaves"
+            ]
+          },
+          {
+            "text": "Workers who died were honored with tombs close to the pyramid",
+            "eliminates": [
+              "slaves"
+            ]
+          },
+          {
+            "text": "Most of the stone was quarried at Giza itself",
+            "eliminates": [
+              "foreign"
+            ]
+          },
+          {
+            "text": "The pyramid holds about 2.3 million stone blocks",
+            "eliminates": [
+              "one_season"
+            ]
+          },
+          {
+            "text": "Many laborers were farmers who came while the flood covered their fields",
+            "eliminates": [
+              "slaves"
+            ]
+          }
+        ]
+      },
+      "hints": [
+        "Test each story against the village, the tombs and the quarry right here.",
+        "2.3 million blocks is far more than one household could move in one season.",
+        "Only one story survives every clue: Paid Egyptian crews, many of them farmers in the flood season, using sledges and ramps"
+      ],
+      "wrongFeedback": "A story you kept is broken by one of the clues. Read each clue against each story again.",
+      "debriefLine": "The capstone's truth: Paid Egyptian crews, many of them farmers in the flood season, using sledges and ramps. The Nile's harvest fed them, and Egypt's organization made it possible.",
+      "sourceRef": {
+        "page": 3,
+        "quote": "The pyramids were not built by slaves."
+      },
+      "solution": {
+        "survivorId": "crews",
+        "eliminatedBy": {
+          "slaves": 0,
+          "foreign": 2,
+          "one_season": 3
+        }
+      }
+    }
+  ],
+  "layout": {
+    "chunks": [
+      {
+        "chunkId": "w_arrival",
+        "encounterId": null
+      },
+      {
+        "chunkId": "w_inscription",
+        "encounterId": "e1_flood"
+      },
+      {
+        "chunkId": "w_artifact",
+        "encounterId": "e2_society"
+      },
+      {
+        "chunkId": "w_trail",
+        "encounterId": null
+      },
+      {
+        "chunkId": "w_conversation",
+        "encounterId": "e3_signs"
+      },
+      {
+        "chunkId": "w_conversation",
+        "encounterId": "e4_builders"
+      },
+      {
+        "chunkId": "w_trail",
+        "encounterId": null
+      },
+      {
+        "chunkId": "w_conversation",
+        "encounterId": "e5_construction"
+      },
+      {
+        "chunkId": "w_conversation",
+        "encounterId": "e6_flood_explain"
+      },
+      {
+        "chunkId": "w_trail",
+        "encounterId": null
+      },
+      {
+        "chunkId": "w_inscription",
+        "encounterId": "e7_mummy"
+      },
+      {
+        "chunkId": "w_conversation",
+        "encounterId": "e8_gods"
+      },
+      {
+        "chunkId": "w_trail",
+        "encounterId": null
+      },
+      {
+        "chunkId": "w_seal",
+        "encounterId": "e9_review"
+      },
+      {
+        "chunkId": "w_goal",
+        "encounterId": "e10_capstone"
+      }
+    ]
+  },
+  "narrative": {
+    "intro": [
+      {
+        "speakerId": "hemiunu",
+        "text": "Scribe! The pyramid is finished but for its capstone, and the capstone must carry the truth."
+      },
+      {
+        "speakerId": "hemiunu",
+        "text": "Walk the land. Learn from its people. Bring me the words before the sun sets."
+      }
+    ],
+    "outro": [
+      {
+        "speakerId": "hemiunu",
+        "text": "The capstone rises, and its words are true: the river fed Egypt, and Egypt built for eternity."
+      },
+      {
+        "speakerId": "nebet",
+        "text": "Your signs were steady. The House of Life will want you back."
+      }
+    ],
+    "beats": []
+  },
+  "audio": {
+    "musicTrackId": null,
+    "voice": []
+  },
+  "assessment": {
+    "pre": [
+      {
+        "conceptId": "c_builders",
+        "prompt": "Who built the Great Pyramid?",
+        "choices": [
+          "Enslaved prisoners of war",
+          "Paid crews, many of them farmers",
+          "Foreign engineers hired by Khufu",
+          "Priests in their spare time"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "conceptId": "c_flood",
+        "prompt": "Why did Egypt depend on the Nile's flood?",
+        "choices": [
+          "It brought rain to the desert",
+          "It left fertile silt and water for farming",
+          "It carried stone to Giza",
+          "It kept enemies away"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "conceptId": "c_hieroglyphs",
+        "prompt": "What is a cartouche?",
+        "choices": [
+          "A scribe's reed pen",
+          "An oval ring around a royal name",
+          "A jar for a mummy's organs",
+          "A boat on the Nile"
+        ],
+        "correctIndex": 1
+      }
+    ],
+    "post": [
+      {
+        "conceptId": "c_builders",
+        "prompt": "Which find shows the pyramid builders were not slaves?",
+        "choices": [
+          "The gold on the capstone",
+          "The height of the pyramid",
+          "Their honored tombs right beside the pyramid",
+          "The size of the blocks"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "conceptId": "c_flood",
+        "prompt": "What made the land beside the Nile so good for farming?",
+        "choices": [
+          "Sand blown in from the desert",
+          "The black silt the flood left behind",
+          "Heavy spring rains",
+          "Water carried up from wells"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "conceptId": "c_hieroglyphs",
+        "prompt": "A phonogram is a hieroglyph that…",
+        "choices": [
+          "Can only be carved in stone",
+          "Stands for a sound",
+          "Circles a pharaoh's name",
+          "Always shows the object it means"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "lessons": [
+    {
+      "conceptId": "c_flood",
+      "bigIdea": "Each summer the Nile flooded and left black silt; farming followed three seasons (Akhet flood, Peret growing, Shemu harvest), and the flood's height decided the harvest and the taxes.",
+      "explanation": "Egypt gets almost no rain, so its farms live on the river. Every summer the Nile overflows, soaks the valley and then drains away, leaving rich black silt. Farmers plant in that damp silt and harvest before the next flood.",
+      "keyPoints": [
+        {
+          "text": "When the flood drew back it left rich black silt on the fields.",
+          "page": 1,
+          "quote": "When the water drew back it left a layer of rich black silt behind."
+        },
+        {
+          "text": "Akhet was the flood season, Peret the growing season, Shemu the harvest.",
+          "page": 1,
+          "quote": "Akhet was the season of the flood, when the fields lay under water."
+        },
+        {
+          "text": "A low flood meant hunger; a flood too high swept away villages.",
+          "page": 1,
+          "quote": "A low flood meant dry fields, poor harvests and hunger, while a flood that rose too high could sweep away villages."
+        }
+      ],
+      "formula": null,
+      "example": "In a good year the Nilometer shows a flood of the right height: the fields get water and silt, the harvest is big, and the tax scribes collect plenty of grain.",
+      "watchOut": {
+        "mistake": "Egyptian farmers watered their fields with rain.",
+        "fix": "Almost no rain falls across most of Egypt; the Nile's flood and canals watered the fields."
+      },
+      "teacherId": "ipi"
+    },
+    {
+      "conceptId": "c_social_pyramid",
+      "bigIdea": "The pharaoh ruled as a god on earth, then the vizier, nobles and priests, scribes, artisans and traders, and a large majority of farmers; enslaved people were few.",
+      "explanation": "Picture society as a pyramid. The pharaoh sits at the top as a god on earth. Below him the vizier runs the government, then nobles and priests, then scribes, then artisans and traders, and at the wide base the farmers, who are most of the people.",
+      "keyPoints": [
+        {
+          "text": "The pharaoh was believed to be a god on earth who kept ma'at.",
+          "page": 2,
+          "quote": "At the top of Egyptian society stood the pharaoh, who was believed to be a god on earth."
+        },
+        {
+          "text": "The vizier ran the government, collected taxes and judged.",
+          "page": 2,
+          "quote": "Beneath the pharaoh, the vizier ran the government, collected taxes and served as chief judge."
+        },
+        {
+          "text": "Farmers were the large majority of the population.",
+          "page": 2,
+          "quote": "Farmers made up the large majority of the population."
+        }
+      ],
+      "formula": null,
+      "example": "A farmer's son who learns hieroglyphs can become a scribe and move up a level, because writing runs the kingdom.",
+      "watchOut": {
+        "mistake": "Most Egyptians were slaves.",
+        "fix": "Farmers were the large majority; enslaved people, usually prisoners of war, were a small part of the population."
+      },
+      "teacherId": "ipi"
+    },
+    {
+      "conceptId": "c_hieroglyphs",
+      "bigIdea": "Hieroglyphs mix logograms (whole words) and phonograms (sounds); royal names sit in cartouches; scribes wrote on papyrus; the Rosetta Stone unlocked the script in 1822.",
+      "explanation": "Hieroglyphs have more than 700 signs. Some are logograms that mean a whole word; others are phonograms that stand for sounds, like our letters. A pharaoh's name is drawn inside an oval called a cartouche.",
+      "keyPoints": [
+        {
+          "text": "Hieroglyphs have more than 700 signs, some for words and some for sounds.",
+          "page": 2,
+          "quote": "Some signs are logograms that stand for a whole word, while others are phonograms that stand for sounds."
+        },
+        {
+          "text": "A pharaoh's name was written inside a cartouche.",
+          "page": 2,
+          "quote": "The name of a pharaoh was written inside an oval ring called a cartouche."
+        },
+        {
+          "text": "Papyrus was paper made from Nile reeds.",
+          "page": 2,
+          "quote": "Everyday records were written in ink on papyrus, a paper made from reeds that grew along the Nile."
+        }
+      ],
+      "formula": null,
+      "example": "A sign shaped like a mouth can be read as the sound 'r', not as the word 'mouth'. That is a phonogram at work.",
+      "watchOut": {
+        "mistake": "Every hieroglyph is a picture of the thing it means.",
+        "fix": "Many signs are phonograms that stand for sounds, not for the object drawn."
+      },
+      "teacherId": "ipi"
+    },
+    {
+      "conceptId": "c_builders",
+      "bigIdea": "Paid crews, many of them farmers working during the flood season, built the pyramids; they lived in a workers' village, ate rations of bread and beer, and were buried near the pyramid.",
+      "explanation": "The pyramids were built by paid crews, not slaves. Beside the pyramids archaeologists found a workers' village with bakeries and breweries, and tombs where workers who died were buried with honor.",
+      "keyPoints": [
+        {
+          "text": "Archaeologists found a workers' village with bakeries, breweries and sleeping halls.",
+          "page": 3,
+          "quote": "Archaeologists have found a workers' village near the pyramids with bakeries, breweries and sleeping halls."
+        },
+        {
+          "text": "Paid crews got rations of bread and beer, and doctors treated injuries.",
+          "page": 3,
+          "quote": "Paid workers were organized into crews and received rations of bread and beer, and some were treated for injuries by doctors."
+        },
+        {
+          "text": "Workers who died were buried in tombs near the pyramid.",
+          "page": 3,
+          "quote": "Workers who died on the job were buried in tombs close to the pyramid, an honor no slave would have received."
+        }
+      ],
+      "formula": null,
+      "example": "A farmer whose field is under the flood in Akhet joins a crew for the season, eats bread and beer rations, and goes home to plant when the water drains.",
+      "watchOut": {
+        "mistake": "The pyramids were built by slaves.",
+        "fix": "The evidence shows paid, fed crews who were honored with tombs beside the pyramid."
+      },
+      "teacherId": "ipi"
+    },
+    {
+      "conceptId": "c_construction",
+      "bigIdea": "Khufu's Great Pyramid (c. 2560 BCE, about 2.3 million blocks, 146 m) was built from limestone quarried on site, dragged on sledges over wetted sand and up ramps, and cased in white Tura limestone.",
+      "explanation": "Most blocks were cut right at Giza with copper tools. Workers loaded them onto wooden sledges, poured water on the sand to make them slide, and hauled them up ramps. White Tura limestone made the smooth outer casing.",
+      "keyPoints": [
+        {
+          "text": "The Great Pyramid has about 2.3 million blocks and first rose 146 meters.",
+          "page": 3,
+          "quote": "It contains about 2.3 million stone blocks and originally rose 146 meters"
+        },
+        {
+          "text": "Blocks were cut with copper tools, dragged on sledges and pulled up ramps.",
+          "page": 3,
+          "quote": "Workers cut limestone blocks with copper tools, dragged them on wooden sledges and pulled them up ramps of mud brick and rubble."
+        },
+        {
+          "text": "Wetting the sand in front of a sledge made it easier to drag.",
+          "page": 3,
+          "quote": "Pouring water on the sand in front of a sledge made it much easier to drag."
+        }
+      ],
+      "formula": null,
+      "example": "Wet sand is firmer than dry sand, so a sledge that would dig into dry sand glides over wet sand with far fewer workers pulling.",
+      "watchOut": {
+        "mistake": "The blocks were carried from far away to Giza.",
+        "fix": "Most of the stone was quarried at Giza itself; only the casing and the granite came from farther off."
+      },
+      "teacherId": "ipi"
+    },
+    {
+      "conceptId": "c_mummification",
+      "bigIdea": "Over about 70 days embalmers removed the organs into canopic jars (leaving the heart), dried the body in natron for about 40 days, then wrapped it in linen with amulets.",
+      "explanation": "Mummification took about 70 days. Embalmers removed the organs into canopic jars but left the heart, dried the body in natron salt for about 40 days, then wrapped it in linen with amulets.",
+      "keyPoints": [
+        {
+          "text": "Mummification took about 70 days.",
+          "page": 4,
+          "quote": "Embalmers turned the body into a mummy in a process that took about 70 days."
+        },
+        {
+          "text": "Organs went into canopic jars but the heart stayed in the body.",
+          "page": 4,
+          "quote": "First they removed the internal organs and placed them in canopic jars"
+        },
+        {
+          "text": "Natron dried the body for about 40 days.",
+          "page": 4,
+          "quote": "Next they covered the body with natron, a natural salt, for about 40 days to dry it out."
+        }
+      ],
+      "formula": null,
+      "example": "The heart stays because in the afterlife it will be weighed against the feather of Ma'at, so the dead need it.",
+      "watchOut": {
+        "mistake": "Embalmers removed the heart along with the other organs.",
+        "fix": "They left the heart in the body because it was thought to be the seat of thought, needed for the weighing of the heart."
+      },
+      "teacherId": "ipi"
+    },
+    {
+      "conceptId": "c_gods",
+      "bigIdea": "Each god had a role (Ra the sun, Osiris the afterlife, Isis magic, Anubis embalming, Horus kingship, Thoth writing); in the afterlife the heart was weighed against the feather of Ma'at.",
+      "explanation": "Each god had a job. Ra sailed the sun across the sky, Osiris ruled the afterlife and judged the dead, Isis worked magic and protection, Anubis watched over embalming and guided souls, and Thoth was the god of writing.",
+      "keyPoints": [
+        {
+          "text": "The heart was weighed against the feather of Ma'at.",
+          "page": 4,
+          "quote": "In the Hall of Two Truths the heart was weighed against the feather of Ma'at."
+        },
+        {
+          "text": "Osiris ruled the afterlife and judged the dead.",
+          "page": 4,
+          "quote": "Osiris ruled the afterlife and judged the dead."
+        },
+        {
+          "text": "Anubis watched over embalming and guided souls.",
+          "page": 4,
+          "quote": "Anubis, shown with the head of a jackal, watched over embalming and guided souls."
+        }
+      ],
+      "formula": null,
+      "example": "At death, Anubis leads the soul to the Hall of Two Truths, where the heart is weighed and Osiris gives the judgment.",
+      "watchOut": {
+        "mistake": "Anubis was the god who judged the dead.",
+        "fix": "Osiris judged the dead; Anubis watched over embalming and guided souls to the judgment."
+      },
+      "teacherId": "ipi"
+    }
+  ],
+  "world3d": {
+    "version": 1,
+    "seed": 2560,
+    "biome": "desert",
+    "setting": {
+      "era": "Old Kingdom Egypt, c. 2560 BCE",
+      "place": "The Giza plateau above the Nile",
+      "style": "ancient_egypt"
+    },
+    "terrain": {
+      "size": 560,
+      "relief": 0.35,
+      "features": [
+        {
+          "kind": "plateau",
+          "at": {
+            "x": -130,
+            "z": -50
+          },
+          "radius": 175,
+          "height": 13
+        },
+        {
+          "kind": "dunes",
+          "at": {
+            "x": -215,
+            "z": 175
+          },
+          "radius": 110,
+          "height": 7
+        },
+        {
+          "kind": "hill",
+          "at": {
+            "x": -40,
+            "z": 230
+          },
+          "radius": 70,
+          "height": 8
+        },
+        {
+          "kind": "ridge",
+          "at": {
+            "x": -240,
+            "z": -210
+          },
+          "radius": 90,
+          "height": 16
+        }
+      ],
+      "water": {
+        "kind": "river",
+        "level": 0,
+        "course": [
+          {
+            "x": 170,
+            "z": -280
+          },
+          {
+            "x": 190,
+            "z": -150
+          },
+          {
+            "x": 165,
+            "z": -20
+          },
+          {
+            "x": 200,
+            "z": 110
+          },
+          {
+            "x": 215,
+            "z": 280
+          }
+        ],
+        "width": 46,
+        "coast": null
+      }
+    },
+    "atmosphere": {
+      "mood": "golden_hour",
+      "weather": "haze",
+      "fog": 0.35,
+      "wind": 0.3
+    },
+    "landmarks": [
+      {
+        "id": "great_pyramid",
+        "kind": "pyramid",
+        "name": "The Great Pyramid",
+        "at": {
+          "x": -115,
+          "z": -110
+        },
+        "rotation": 0,
+        "scale": 1.2,
+        "material": "limestone",
+        "style": "ancient_egypt",
+        "role": "goal",
+        "description": "Khufu's pyramid, cased in polished white Tura limestone. Its gilded capstone waits to be raised."
+      },
+      {
+        "id": "queens_pyramid",
+        "kind": "pyramid",
+        "name": "The Queen's Pyramid",
+        "at": {
+          "x": -215,
+          "z": 60
+        },
+        "rotation": 0,
+        "scale": 0.55,
+        "material": "limestone",
+        "style": "ancient_egypt",
+        "role": "decor",
+        "description": "A smaller pyramid for one of Khufu's queens."
+      },
+      {
+        "id": "sphinx",
+        "kind": "sphinx",
+        "name": "The Great Sphinx",
+        "at": {
+          "x": -30,
+          "z": 20
+        },
+        "rotation": 90,
+        "scale": 1,
+        "material": "sandstone",
+        "style": "ancient_egypt",
+        "role": "poi",
+        "description": "A lion's body with a king's face, carved from the bedrock, watching the sunrise."
+      },
+      {
+        "id": "valley_temple",
+        "kind": "temple",
+        "name": "The Valley Temple",
+        "at": {
+          "x": 45,
+          "z": 50
+        },
+        "rotation": 90,
+        "scale": 1,
+        "material": "granite",
+        "style": "ancient_egypt",
+        "role": "hub",
+        "description": "Where the king's funeral boat will land. A painted relief of all Egypt covers its inner wall."
+      },
+      {
+        "id": "obelisk_north",
+        "kind": "obelisk",
+        "name": "North Obelisk",
+        "at": {
+          "x": 78,
+          "z": 38
+        },
+        "rotation": 90,
+        "scale": 1,
+        "material": "granite",
+        "style": "ancient_egypt",
+        "role": "decor",
+        "description": "A granite needle carved with the king's names in cartouches."
+      },
+      {
+        "id": "obelisk_south",
+        "kind": "obelisk",
+        "name": "South Obelisk",
+        "at": {
+          "x": 78,
+          "z": 62
+        },
+        "rotation": 90,
+        "scale": 1,
+        "material": "granite",
+        "style": "ancient_egypt",
+        "role": "decor",
+        "description": "Its pyramidion is capped in gold that catches the sun."
+      },
+      {
+        "id": "causeway_gate",
+        "kind": "gate",
+        "name": "The Causeway Gate",
+        "at": {
+          "x": -72,
+          "z": 0
+        },
+        "rotation": 63,
+        "scale": 1.1,
+        "material": "limestone",
+        "style": "ancient_egypt",
+        "role": "poi",
+        "description": "The sealed gate on the causeway to the pyramid. Four claims are carved into its seal."
+      },
+      {
+        "id": "nilometer",
+        "kind": "monolith",
+        "name": "The Nilometer",
+        "at": {
+          "x": 130,
+          "z": -25
+        },
+        "rotation": 90,
+        "scale": 1.2,
+        "material": "limestone",
+        "style": "ancient_egypt",
+        "role": "poi",
+        "description": "A tall column at the river's edge, marked in cubits, to measure the flood."
+      },
+      {
+        "id": "house_of_life",
+        "kind": "library",
+        "name": "The House of Life",
+        "at": {
+          "x": 60,
+          "z": -60
+        },
+        "rotation": 0,
+        "scale": 1,
+        "material": "limestone",
+        "style": "ancient_egypt",
+        "role": "poi",
+        "description": "The temple school where scribes copy the sacred texts and keep the records of the kingdom."
+      },
+      {
+        "id": "embalmers",
+        "kind": "workshop",
+        "name": "The House of Purification",
+        "at": {
+          "x": -120,
+          "z": 110
+        },
+        "rotation": 45,
+        "scale": 1.2,
+        "material": "adobe",
+        "style": "ancient_egypt",
+        "role": "poi",
+        "description": "Where the embalmers prepare the dead for eternity. The steps of their craft are painted on its wall."
+      },
+      {
+        "id": "bakery",
+        "kind": "workshop",
+        "name": "Khenu's Bakery",
+        "at": {
+          "x": 10,
+          "z": 110
+        },
+        "rotation": 0,
+        "scale": 1,
+        "material": "adobe",
+        "style": "ancient_egypt",
+        "role": "poi",
+        "description": "The workers' village bakery, where the crews' bread rations come out of the ovens."
+      },
+      {
+        "id": "builders_tombs",
+        "kind": "tomb",
+        "name": "Tombs of the Builders",
+        "at": {
+          "x": 5,
+          "z": -110
+        },
+        "rotation": 200,
+        "scale": 1.1,
+        "material": "limestone",
+        "style": "ancient_egypt",
+        "role": "decor",
+        "description": "Honored tombs of workers who died building the pyramid."
+      },
+      {
+        "id": "overseers_camp",
+        "kind": "tent",
+        "name": "The Overseer's Camp",
+        "at": {
+          "x": -80,
+          "z": 55
+        },
+        "rotation": 45,
+        "scale": 1.2,
+        "material": "wood",
+        "style": "ancient_egypt",
+        "role": "poi",
+        "description": "Senbi's camp at the edge of the quarry, where the crews gather each morning."
+      },
+      {
+        "id": "field_shrine",
+        "kind": "shrine",
+        "name": "Shrine of the Harvest",
+        "at": {
+          "x": 80,
+          "z": 100
+        },
+        "rotation": 0,
+        "scale": 1,
+        "material": "limestone",
+        "style": "ancient_egypt",
+        "role": "decor",
+        "description": "Farmers leave the first sheaf of every harvest here."
+      }
+    ],
+    "clusters": [
+      {
+        "id": "workers_village",
+        "kind": "village",
+        "at": {
+          "x": 5,
+          "z": 152
+        },
+        "radius": 42,
+        "count": 12,
+        "material": "adobe",
+        "style": "ancient_egypt"
+      },
+      {
+        "id": "fields",
+        "kind": "farmland",
+        "at": {
+          "x": 115,
+          "z": 135
+        },
+        "radius": 45,
+        "count": 6,
+        "material": "adobe",
+        "style": "ancient_egypt"
+      },
+      {
+        "id": "harbor",
+        "kind": "harbor",
+        "at": {
+          "x": 152,
+          "z": 48
+        },
+        "radius": 40,
+        "count": 3,
+        "material": "wood",
+        "style": "ancient_egypt"
+      },
+      {
+        "id": "palm_grove",
+        "kind": "grove",
+        "at": {
+          "x": 118,
+          "z": -150
+        },
+        "radius": 35,
+        "count": 10,
+        "material": "wood",
+        "style": "ancient_egypt"
+      },
+      {
+        "id": "quarry",
+        "kind": "quarry",
+        "at": {
+          "x": -112,
+          "z": 42
+        },
+        "radius": 25,
+        "count": 1,
+        "material": "limestone",
+        "style": "ancient_egypt"
+      }
+    ],
+    "scatter": [
+      {
+        "kind": "palm",
+        "density": 0.85,
+        "zone": "near_water",
+        "landmarkId": null
+      },
+      {
+        "kind": "reeds",
+        "density": 0.9,
+        "zone": "near_water",
+        "landmarkId": null
+      },
+      {
+        "kind": "tall_grass",
+        "density": 0.5,
+        "zone": "near_water",
+        "landmarkId": null
+      },
+      {
+        "kind": "bush",
+        "density": 0.25,
+        "zone": "lowlands",
+        "landmarkId": null
+      },
+      {
+        "kind": "rock",
+        "density": 0.35,
+        "zone": "everywhere",
+        "landmarkId": null
+      },
+      {
+        "kind": "boulder",
+        "density": 0.25,
+        "zone": "highlands",
+        "landmarkId": null
+      },
+      {
+        "kind": "palm",
+        "density": 0.5,
+        "zone": "around_landmark",
+        "landmarkId": "valley_temple"
+      },
+      {
+        "kind": "palm",
+        "density": 0.4,
+        "zone": "around_landmark",
+        "landmarkId": "bakery"
+      }
+    ],
+    "paths": [
+      {
+        "from": "spawn",
+        "to": "valley_temple",
+        "style": "stone"
+      },
+      {
+        "from": "valley_temple",
+        "to": "sphinx",
+        "style": "stone"
+      },
+      {
+        "from": "sphinx",
+        "to": "causeway_gate",
+        "style": "stone"
+      },
+      {
+        "from": "causeway_gate",
+        "to": "great_pyramid",
+        "style": "stone"
+      },
+      {
+        "from": "spawn",
+        "to": "nilometer",
+        "style": "dirt"
+      },
+      {
+        "from": "nilometer",
+        "to": "house_of_life",
+        "style": "dirt"
+      },
+      {
+        "from": "house_of_life",
+        "to": "builders_tombs",
+        "style": "sand"
+      },
+      {
+        "from": "valley_temple",
+        "to": "embalmers",
+        "style": "dirt"
+      },
+      {
+        "from": "valley_temple",
+        "to": "bakery",
+        "style": "dirt"
+      },
+      {
+        "from": "bakery",
+        "to": "field_shrine",
+        "style": "dirt"
+      },
+      {
+        "from": "sphinx",
+        "to": "overseers_camp",
+        "style": "sand"
+      },
+      {
+        "from": "overseers_camp",
+        "to": "embalmers",
+        "style": "dirt"
+      }
+    ],
+    "wildlife": [
+      {
+        "kind": "cat",
+        "count": 5,
+        "zone": "around_landmark",
+        "landmarkId": "valley_temple"
+      },
+      {
+        "kind": "cat",
+        "count": 3,
+        "zone": "around_landmark",
+        "landmarkId": "bakery"
+      },
+      {
+        "kind": "goat",
+        "count": 4,
+        "zone": "around_landmark",
+        "landmarkId": "field_shrine"
+      },
+      {
+        "kind": "ibis",
+        "count": 6,
+        "zone": "near_water",
+        "landmarkId": null
+      },
+      {
+        "kind": "camel",
+        "count": 2,
+        "zone": "around_landmark",
+        "landmarkId": "overseers_camp"
+      },
+      {
+        "kind": "bird_flock",
+        "count": 14,
+        "zone": "near_water",
+        "landmarkId": null
+      },
+      {
+        "kind": "fish",
+        "count": 10,
+        "zone": "near_water",
+        "landmarkId": null
+      }
+    ],
+    "npcs": [
+      {
+        "id": "hemiunu",
+        "characterId": "hemiunu",
+        "name": "Hemiunu",
+        "role": "The king's architect and vizier",
+        "at": {
+          "x": -103,
+          "z": -15
+        },
+        "facing": 60,
+        "look": {
+          "skin": "tone5",
+          "outfit": "robe",
+          "color": "linen",
+          "accent": "gold",
+          "headwear": "headdress",
+          "held": "scroll",
+          "height": 1.06
+        },
+        "behavior": "study",
+        "voiceArchetype": "wise_mentor",
+        "greeting": "There you are, scribe. The capstone waits, and the light will not.",
+        "barks": [
+          "Every block measured twice.",
+          "The sun is lowering. Hurry, but do not rush."
+        ],
+        "persona": "Hemiunu, Khufu's vizier and the architect of the Great Pyramid. Precise, proud of his crews, patient with honest learners. Speaks in short, measured sentences and loves exact numbers: 2.3 million blocks, 146 meters. Believes the pyramid is Egypt's work, not one man's: the Nile's harvests fed the crews and the scribes' records organized them.",
+        "topics": [
+          "c_builders",
+          "c_construction",
+          "c_social_pyramid"
+        ]
+      },
+      {
+        "id": "nebet",
+        "characterId": "nebet",
+        "name": "Nebet",
+        "role": "Master scribe of the House of Life",
+        "at": {
+          "x": 63,
+          "z": -42
+        },
+        "facing": 10,
+        "look": {
+          "skin": "tone4",
+          "outfit": "dress",
+          "color": "linen",
+          "accent": "teal",
+          "headwear": "none",
+          "held": "tablet",
+          "height": 1
+        },
+        "behavior": "idle",
+        "voiceArchetype": "nervous_scholar",
+        "greeting": "Mind the ink! Oh, it's you. Have you been practising your signs?",
+        "barks": [
+          "Reed, ink, papyrus. That is all a scribe needs.",
+          "Seven hundred signs, and every one matters."
+        ],
+        "persona": "Nebet, a sharp, kind and slightly anxious teacher of hieroglyphs at the House of Life. Fusses over ink blots, adores wordplay, and gets excited explaining that signs can stand for sounds. Proud that writing lets a farmer's child rise to become a scribe.",
+        "topics": [
+          "c_hieroglyphs",
+          "c_social_pyramid"
+        ]
+      },
+      {
+        "id": "ipi",
+        "characterId": "ipi",
+        "name": "Ipi",
+        "role": "Keeper of the Nilometer",
+        "at": {
+          "x": 116,
+          "z": -22
+        },
+        "facing": 90,
+        "look": {
+          "skin": "tone6",
+          "outfit": "kilt",
+          "color": "linen",
+          "accent": "ochre",
+          "headwear": "scarf",
+          "held": "staff",
+          "height": 1
+        },
+        "behavior": "work",
+        "voiceArchetype": "gruff_guard",
+        "greeting": "The river's rising. Can you read the marks, or are you another scribe who only reads papyrus?",
+        "barks": [
+          "Sixteen cubits, and we eat well.",
+          "Too high, and the villages drown."
+        ],
+        "persona": "Ipi, a weathered, gruff but fair farmer who keeps the Nilometer. Talks about the river like an old friend. Knows the three seasons (Akhet, Peret, Shemu), the black silt of Kemet, and that the flood's height sets the harvest and the taxes. Has no patience for talk of rain.",
+        "topics": [
+          "c_flood"
+        ]
+      },
+      {
+        "id": "meryt",
+        "characterId": "meryt",
+        "name": "Meryt",
+        "role": "Embalmer and priestess of Anubis",
+        "at": {
+          "x": -108,
+          "z": 118
+        },
+        "facing": 45,
+        "look": {
+          "skin": "tone5",
+          "outfit": "dress",
+          "color": "charcoal",
+          "accent": "gold",
+          "headwear": "none",
+          "held": "book",
+          "height": 1
+        },
+        "behavior": "work",
+        "voiceArchetype": "cheerful_sidekick",
+        "greeting": "Welcome to the House of Purification! Don't mind the smell of natron. You get used to it.",
+        "barks": [
+          "Seventy days, from start to finish.",
+          "Never, ever take out the heart."
+        ],
+        "persona": "Meryt, a cheerful, warm embalmer and priestess of Anubis who finds her work beautiful rather than grim. Knows the 70-day process, the canopic jars, natron, linen and amulets, the Book of the Dead, the weighing of the heart, and every god's role. Gently corrects anyone who thinks Anubis is the judge (that is Osiris).",
+        "topics": [
+          "c_mummification",
+          "c_gods"
+        ]
+      },
+      {
+        "id": "khenu",
+        "characterId": null,
+        "name": "Khenu",
+        "role": "Baker of the workers' village",
+        "at": {
+          "x": 14,
+          "z": 124
+        },
+        "facing": 0,
+        "look": {
+          "skin": "tone6",
+          "outfit": "work_clothes",
+          "color": "cream",
+          "accent": "terracotta",
+          "headwear": "scarf",
+          "held": "basket",
+          "height": 1
+        },
+        "behavior": "work",
+        "voiceArchetype": "cheerful_sidekick",
+        "greeting": "Fresh bread for the crews! Ten loaves a man, and beer to wash it down.",
+        "barks": [
+          "The crews eat before the king does!",
+          "Smell that? Barley bread."
+        ],
+        "persona": "Khenu, the loud, generous baker of the workers' village who feeds the pyramid crews. Proud that the builders are paid in bread and beer, have doctors for their injuries, and are buried with honor beside the pyramid. Laughs at the idea that slaves built it.",
+        "topics": [
+          "c_builders"
+        ]
+      },
+      {
+        "id": "senbi",
+        "characterId": null,
+        "name": "Senbi",
+        "role": "Overseer of the quarry crews",
+        "at": {
+          "x": -78,
+          "z": 70
+        },
+        "facing": 20,
+        "look": {
+          "skin": "tone7",
+          "outfit": "kilt",
+          "color": "linen",
+          "accent": "crimson",
+          "headwear": "wide_hat",
+          "held": "tool",
+          "height": 1
+        },
+        "behavior": "guard",
+        "voiceArchetype": "gruff_guard",
+        "greeting": "Mind your feet, scribe. Stone doesn't care who you work for.",
+        "barks": [
+          "Wet the sand! Wet it!",
+          "Copper chisels dull fast. Sharpen them."
+        ],
+        "persona": "Senbi, a blunt, capable quarry overseer who runs the crews that cut and haul the limestone. Knows every step: copper tools, sledges, wetting the sand, ramps of mud brick and rubble, Tura limestone for the casing, granite floated from Aswan. Insists most of the stone comes from right here at Giza.",
+        "topics": [
+          "c_construction",
+          "c_builders"
+        ]
+      },
+      {
+        "id": "tjeti",
+        "characterId": null,
+        "name": "Tjeti",
+        "role": "A young farmer",
+        "at": {
+          "x": 90,
+          "z": 112
+        },
+        "facing": 220,
+        "look": {
+          "skin": "tone5",
+          "outfit": "kilt",
+          "color": "cream",
+          "accent": "emerald",
+          "headwear": "none",
+          "held": "basket",
+          "height": 0.93
+        },
+        "behavior": "wander",
+        "voiceArchetype": "nervous_scholar",
+        "greeting": "Everyone's cheering at the Nilometer, and I don't know why. Is a flood good? It sounds terrible.",
+        "barks": [
+          "Barley, then wheat. Or wheat, then barley?",
+          "My father says the river is our rain."
+        ],
+        "persona": "Tjeti, an earnest, curious young farmer working his first season alone. Worried about the flood because he doesn't yet understand it. Asks lots of questions and is delighted by clear answers.",
+        "topics": [
+          "c_flood"
+        ]
+      }
+    ],
+    "quest": {
+      "goal": {
+        "title": "Raise the capstone of the Great Pyramid",
+        "description": "Restore the capstone's lost inscription and bring its true words to Hemiunu at the pyramid before sunset.",
+        "landmarkId": "great_pyramid"
+      },
+      "acts": [
+        {
+          "id": "act_river",
+          "title": "The river's gift",
+          "summary": "Learn how the Nile feeds Egypt and how its people and its writing hold the kingdom together.",
+          "encounterIds": [
+            "e1_flood",
+            "e3_signs",
+            "e2_society"
+          ]
+        },
+        {
+          "id": "act_builders",
+          "title": "The builders of Giza",
+          "summary": "Meet the people who raised the pyramid and follow a block from the quarry to the sky.",
+          "encounterIds": [
+            "e6_flood_explain",
+            "e4_builders",
+            "e5_construction"
+          ]
+        },
+        {
+          "id": "act_eternity",
+          "title": "For eternity",
+          "summary": "Learn why Egyptians built for the afterlife, open the causeway and raise the capstone.",
+          "encounterIds": [
+            "e7_mummy",
+            "e8_gods",
+            "e9_review",
+            "e10_capstone"
+          ]
+        }
+      ]
+    },
+    "moments": [
+      {
+        "encounterId": "e1_flood",
+        "anchor": {
+          "npcId": null,
+          "landmarkId": "nilometer"
+        },
+        "objective": "Read the farming year on the Nilometer's wall",
+        "approach": [
+          {
+            "speaker": "ipi",
+            "text": "Every mark on this column is a cubit of river. The whole year is carved here."
+          },
+          {
+            "speaker": "ipi",
+            "text": "Someone chipped the carvings loose. Put the year back in order, scribe."
+          }
+        ],
+        "success": [
+          {
+            "speaker": "ipi",
+            "text": "Flood, silt, planting, harvest. You read the river better than most scribes."
+          }
+        ],
+        "reward": {
+          "kind": "insight",
+          "name": "The river's calendar",
+          "description": "Akhet, Peret, Shemu: the Nile sets the year."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e2_society",
+        "anchor": {
+          "npcId": null,
+          "landmarkId": "valley_temple"
+        },
+        "objective": "Restore the temple relief of all Egypt",
+        "approach": [
+          {
+            "speaker": "narrator",
+            "text": "Inside the temple, a painted relief shows all of Egypt in three bands."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Its figures have flaked from the plaster. Only you can say where each belongs."
+          }
+        ],
+        "success": [
+          {
+            "speaker": "narrator",
+            "text": "The bands are whole again: the god-king above, the farmers wide and many below."
+          }
+        ],
+        "reward": {
+          "kind": "relic",
+          "name": "A painter's brush",
+          "description": "The relief is restored, band by band."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e3_signs",
+        "anchor": {
+          "npcId": "nebet",
+          "landmarkId": null
+        },
+        "objective": "Pass Nebet's test of a scribe's words",
+        "approach": [
+          {
+            "speaker": "nebet",
+            "text": "A scribe who can't name his tools is just a boy with ink on his fingers."
+          },
+          {
+            "speaker": "nebet",
+            "text": "Match my words to their meanings. Quickly now, before it dries!"
+          }
+        ],
+        "success": [
+          {
+            "speaker": "nebet",
+            "text": "Words and sounds, rings and reeds. You'll carve the capstone yet."
+          }
+        ],
+        "reward": {
+          "kind": "tool",
+          "name": "A scribe's palette",
+          "description": "Nebet's own reed pens and ink, for the capstone."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e4_builders",
+        "anchor": {
+          "npcId": "khenu",
+          "landmarkId": null
+        },
+        "objective": "Find the false story Khenu keeps hearing",
+        "approach": [
+          {
+            "speaker": "khenu",
+            "text": "Travellers tell me four stories about the crews I feed. One of them makes me laugh."
+          },
+          {
+            "speaker": "khenu",
+            "text": "Tell me which one is false, and the first loaf is yours."
+          }
+        ],
+        "success": [
+          {
+            "speaker": "khenu",
+            "text": "Slaves! Ha! Slaves don't get my bread, their own doctors and a tomb beside the king."
+          }
+        ],
+        "reward": {
+          "kind": "relic",
+          "name": "A warm loaf",
+          "description": "A builder's ration, fresh from Khenu's oven."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e5_construction",
+        "anchor": {
+          "npcId": "senbi",
+          "landmarkId": null
+        },
+        "objective": "Show Senbi how a block reaches the pyramid",
+        "approach": [
+          {
+            "speaker": "senbi",
+            "text": "Every scribe who writes about this pyramid should know how one block gets up there."
+          },
+          {
+            "speaker": "senbi",
+            "text": "Chain it for me, from the rock to the sky. And don't tell me it came by boat."
+          }
+        ],
+        "success": [
+          {
+            "speaker": "senbi",
+            "text": "Cut, load, wet the sand, haul, set. Two million times over. Now write that down."
+          }
+        ],
+        "reward": {
+          "kind": "tool",
+          "name": "A copper chisel",
+          "description": "Senbi's spare. Sharp enough to carve limestone."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e6_flood_explain",
+        "anchor": {
+          "npcId": "tjeti",
+          "landmarkId": null
+        },
+        "objective": "Explain to Tjeti why a good flood is good news",
+        "approach": [
+          {
+            "speaker": "tjeti",
+            "text": "My father says the flood is a gift. But it drowns our fields every year!"
+          },
+          {
+            "speaker": "tjeti",
+            "text": "Can you explain it to me? In words I'll understand?"
+          }
+        ],
+        "success": [
+          {
+            "speaker": "tjeti",
+            "text": "So the river brings the soil and the water, and the harvest feeds everyone. A gift!"
+          }
+        ],
+        "reward": {
+          "kind": "insight",
+          "name": "Tjeti's thanks",
+          "description": "A farmer who understands the river."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e7_mummy",
+        "anchor": {
+          "npcId": null,
+          "landmarkId": "embalmers"
+        },
+        "objective": "Order the embalmers' paintings on the wall",
+        "approach": [
+          {
+            "speaker": "meryt",
+            "text": "Our wall shows the whole craft, seventy days of it. The new apprentice hung the paintings wrong."
+          },
+          {
+            "speaker": "meryt",
+            "text": "And one of them isn't ours at all. Can you fix it?"
+          }
+        ],
+        "success": [
+          {
+            "speaker": "meryt",
+            "text": "Perfect. And the heart stays inside, always. It has an appointment with a feather."
+          }
+        ],
+        "reward": {
+          "kind": "relic",
+          "name": "A linen amulet",
+          "description": "A protective charm, wrapped in with the dead."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e8_gods",
+        "anchor": {
+          "npcId": "meryt",
+          "landmarkId": null
+        },
+        "objective": "Match the gods to their work for Meryt",
+        "approach": [
+          {
+            "speaker": "meryt",
+            "text": "Before the offerings, every visitor gets my little test. Who does what among the gods?"
+          },
+          {
+            "speaker": "meryt",
+            "text": "Careful with Anubis. Everybody gets him wrong."
+          }
+        ],
+        "success": [
+          {
+            "speaker": "meryt",
+            "text": "Osiris judges, Anubis guides. You'd make a fine priest."
+          }
+        ],
+        "reward": {
+          "kind": "blessing",
+          "name": "Blessing of Thoth",
+          "description": "The god of writing smiles on your carving."
+        },
+        "opens": null
+      },
+      {
+        "encounterId": "e9_review",
+        "anchor": {
+          "npcId": null,
+          "landmarkId": "causeway_gate"
+        },
+        "objective": "Break the false seal on the Causeway Gate",
+        "approach": [
+          {
+            "speaker": "narrator",
+            "text": "Four claims about the people of Egypt are carved into the gate's seal."
+          },
+          {
+            "speaker": "narrator",
+            "text": "Three are true. Strike the false one and the causeway opens."
+          }
+        ],
+        "success": [
+          {
+            "speaker": "narrator",
+            "text": "The false seal cracks. The great doors swing open onto the causeway."
+          }
+        ],
+        "reward": {
+          "kind": "key",
+          "name": "The causeway key",
+          "description": "The way to the pyramid is open."
+        },
+        "opens": "causeway_gate"
+      },
+      {
+        "encounterId": "e10_capstone",
+        "anchor": {
+          "npcId": null,
+          "landmarkId": "great_pyramid"
+        },
+        "objective": "Carve the capstone's true inscription",
+        "approach": [
+          {
+            "speaker": "hemiunu",
+            "text": "Every traveller has a story about who raised this pyramid. Most are wrong."
+          },
+          {
+            "speaker": "hemiunu",
+            "text": "Weigh the evidence of Giza. Then carve the one story that survives it."
+          }
+        ],
+        "success": [
+          {
+            "speaker": "hemiunu",
+            "text": "Paid crews, fed by the Nile, organized by scribes. That is the truth. Raise the capstone!"
+          }
+        ],
+        "reward": {
+          "kind": "blessing",
+          "name": "The capstone raised",
+          "description": "The gilded capstone catches the last of the sun."
+        },
+        "opens": "great_pyramid"
+      }
+    ],
+    "collectibles": {
+      "label": "Scarab amulets",
+      "items": [
+        {
+          "id": "scarab_kemet",
+          "at": {
+            "x": 20,
+            "z": -5
+          },
+          "title": "Scarab of the Black Land",
+          "fact": "Egyptians called their fertile land Kemet, the black land, after the Nile's silt, and the desert Deshret, the red land.",
+          "conceptId": "c_flood"
+        },
+        {
+          "id": "scarab_gift",
+          "at": {
+            "x": 146.1162327302958,
+            "z": -59.04273734284977
+          },
+          "title": "Scarab of Herodotus",
+          "fact": "The Greek historian Herodotus called Egypt \"the gift of the Nile.\"",
+          "conceptId": "c_flood"
+        },
+        {
+          "id": "scarab_signs",
+          "at": {
+            "x": 35,
+            "z": -75
+          },
+          "title": "Scarab of Seven Hundred Signs",
+          "fact": "Hieroglyphic writing used more than 700 different signs.",
+          "conceptId": "c_hieroglyphs"
+        },
+        {
+          "id": "scarab_tallest",
+          "at": {
+            "x": -20,
+            "z": -60
+          },
+          "title": "Scarab of the Heights",
+          "fact": "The Great Pyramid was the tallest human-made structure on Earth for about 3,800 years.",
+          "conceptId": "c_construction"
+        },
+        {
+          "id": "scarab_granite",
+          "at": {
+            "x": -140,
+            "z": 20
+          },
+          "title": "Scarab of Aswan",
+          "fact": "Granite for the king's burial chamber was floated down the Nile from Aswan.",
+          "conceptId": "c_construction"
+        },
+        {
+          "id": "scarab_bakery",
+          "at": {
+            "x": 37,
+            "z": 150
+          },
+          "title": "Scarab of the Ovens",
+          "fact": "The workers' village near the pyramids had its own bakeries, breweries and sleeping halls.",
+          "conceptId": "c_builders"
+        },
+        {
+          "id": "scarab_natron",
+          "at": {
+            "x": -140,
+            "z": 140
+          },
+          "title": "Scarab of Natron",
+          "fact": "Natron, the salt that dried a mummy for about 40 days, is a natural salt.",
+          "conceptId": "c_mummification"
+        },
+        {
+          "id": "scarab_thoth",
+          "at": {
+            "x": 145,
+            "z": 5
+          },
+          "title": "Scarab of the Ibis",
+          "fact": "Thoth, god of writing and wisdom, was shown with the head of an ibis, the wading bird of the Nile.",
+          "conceptId": "c_gods"
+        },
+        {
+          "id": "scarab_papyrus",
+          "at": {
+            "x": 138,
+            "z": -120
+          },
+          "title": "Scarab of the Reeds",
+          "fact": "Papyrus, the scribes' paper, was made from reeds that grew along the Nile.",
+          "conceptId": "c_hieroglyphs"
+        },
+        {
+          "id": "scarab_rosetta",
+          "at": {
+            "x": -175,
+            "z": -10
+          },
+          "title": "Scarab of Rosetta",
+          "fact": "The Rosetta Stone, found in 1799, let Champollion read hieroglyphs in 1822.",
+          "conceptId": "c_hieroglyphs"
+        }
+      ]
+    },
+    "spawn": {
+      "at": {
+        "x": 118,
+        "z": 28
+      },
+      "facing": 239
+    },
+    "opening": {
+      "caption": "Giza · the reign of Khufu · c. 2560 BCE",
+      "flyover": [
+        "valley_temple",
+        "sphinx",
+        "great_pyramid"
+      ]
+    },
+    "ui": {
+      "hudTheme": "papyrus",
+      "accent": "gold"
+    },
+    "audio": {
+      "ambience": "desert"
+    },
+    "provenance": {
+      "source": "fixture",
+      "model": null,
+      "reviews": [],
+      "fixes": [
+        "collectible \"scarab_gift\" moved 4 m to stand on open, dry ground",
+        "collectible \"scarab_bakery\" moved 2 m to stand on open, dry ground"
+      ]
+    }
+  }
+}

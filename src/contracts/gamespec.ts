@@ -15,6 +15,7 @@ import {
 import { IntakeGoal, IntakeMinutes, Mcq } from "./knowledge";
 import { MasteryConfig } from "./telemetry";
 import { WorldOverlay } from "./world";
+import { World3D } from "./world3d";
 
 export { Mcq };
 
@@ -155,5 +156,7 @@ export const GameSpec = z.object({
   lessons: z.array(Lesson).optional(),
   // ---- World Writer + code (optional; absent in every fixture until W8, see docs/design/20 §1.1) ----
   world: WorldOverlay.optional(),
+  // ---- World Architect (gpt-6-astra) + code: the 3D open world; present exactly when genre is "world3d" ----
+  world3d: World3D.optional(),
 });
 export type GameSpec = z.infer<typeof GameSpec>;

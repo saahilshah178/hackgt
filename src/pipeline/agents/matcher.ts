@@ -5,6 +5,7 @@ import type { MatchPick, MatchResult } from "../../contracts/match";
 import { matcherSchema, type MatcherSlice } from "../../contracts/slices";
 import { getCard, retrieveCards, type ScoredCard } from "../../library";
 import { isMockLLM } from "../../server/env";
+import { getMockSample, resolveMockSample } from "../mock/registry";
 import { runAgent } from "../llm";
 import { MATCHER_SYSTEM, matcherPrompt } from "./matcher.prompt";
 
@@ -92,5 +93,15 @@ async function pickForConcept(concept: Concept, km: KnowledgeMap, a: RunMatcherA
 }
 
 export function runMatcher(km: KnowledgeMap, a: RunMatcherArgs): Promise<MatchResult[]> {
-  return Promise.all(km.concepts.map((c) => pickForConcept(c, km, a)));
+  const recorded = isMockLLM() ? recordedShortlist(km) : null;
+  return Promise.all(km.concepts.map((c) => recorded?.get(c.id) ?? pickForConcept(c, km, a)));
+}
+
+/**
+ * Mock mode: a sample that recorded its matcher shortlist (like every other agent's reply) plays with it, so a mock job
+ * on that source reproduces the recorded game instead of the retrieval scorer's top 3. Other samples keep retrieval.
+ */
+function recordedShortlist(km: KnowledgeMap): Map<string, MatchResult> | null {
+  const sample = getMockSample(resolveMockSample({ title: km.title, text: km.subject.topic }));
+  return sample?.matches ? new Map(sample.matches.map((m) => [m.conceptId, m])) : null;
 }

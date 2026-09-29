@@ -25,6 +25,8 @@ export const EnvSchema = z.object({
   SMART_MODEL: z.preprocess(empty, z.string().default("gpt-6-sol")),
   FAST_MODEL: z.preprocess(empty, z.string().default("gpt-6-luna")),
   CODER_MODEL: z.preprocess(empty, z.string().default("gpt-6-astra")),
+  /** The world3d critics' model (docs/design/60 §2.5); unset = SMART_MODEL. A different model from the author catches more. */
+  CRITIC_MODEL: optional(),
   ELEVENLABS_API_KEY: optional(),
   NEXT_PUBLIC_SUPABASE_URL: optional(),
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: optional(),
@@ -43,6 +45,8 @@ export const EnvSchema = z.object({
   ALLOW_MIXED_MODES: z.preprocess(empty, z.enum(["0", "1"]).default("0")),
   /** Expedition's procedural WebAudio cue bank (docs/design/20 §2.12): "off" silences it (Playwright sets it). Not a secret. */
   EXPEDITION_SFX: z.preprocess(empty, z.enum(["on", "off"]).default("on")),
+  /** Free chat with world3d characters (POST /api/games/:id/npc/:npcId/chat, docs/design/60 §2.6): "off" answers 503. */
+  NPC_CHAT: z.preprocess(empty, z.enum(["on", "off"]).default("on")),
 });
 export type Env = z.infer<typeof EnvSchema>;
 

@@ -6,6 +6,7 @@ import { getMockSample, resolveMockSample } from "./registry";
 import "./trig"; // registers the trig sample as a side effect (P5a)
 import "./cell"; // registers the cell-transport sample as a side effect (P5b)
 import "./history"; // registers the civil-rights sample as a side effect (P5b)
+import "./egypt"; // registers the Ancient Egypt 3D demo as a side effect (docs/design/60 §3)
 
 /*
  * The mock model every tier resolves to when LLM_MODE=mock. It dispatches on the system prompt's

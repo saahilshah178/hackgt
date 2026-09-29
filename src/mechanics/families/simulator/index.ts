@@ -18,6 +18,7 @@ export const simulator = defineFamily({
     strategy: { sockets: ["crisis", "policy_dial"], skin: "Run the economy or ecosystem" },
     explorer: { sockets: ["shrine"], skin: "Tend the garden shrine until the system is stable" },
     story: { sockets: ["choice"], skin: "Run the scenario before you decide" },
+    world3d: { sockets: ["device"], skin: "Run the mechanism and watch the world change" },
   },
   modes: {
     intervene,

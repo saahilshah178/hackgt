@@ -52,8 +52,9 @@ export function parseRetryAfterMs(value: string | undefined | null): number | un
 export interface RunAgentOptions<T> {
   jobId: string;
   agent: string;
-  tier: "smart" | "fast";
-  /** Overrides the tier's model (tests inject MockLanguageModelV4 here). */
+  /** "coder" is the World Architect's tier (CODER_MODEL, docs/design/60 §2.5). */
+  tier: Tier;
+  /** Overrides the tier's model (tests inject MockLanguageModelV4 here; the world3d critics pass CRITIC_MODEL). */
   model?: LanguageModel;
   schema: z.ZodType<T>;
   system: string;

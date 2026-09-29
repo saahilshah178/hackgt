@@ -18,6 +18,7 @@ export const explainer = defineFamily({
     strategy: { sockets: ["research_node"], skin: "Brief the council's apprentice; a clear explanation completes the research" },
     explorer: { sockets: ["shrine"], skin: "The shrine keeper listens; each idea you explain lights a lantern" },
     story: { sockets: ["dialogue", "debate"], skin: "Explain it to the character in your own words; convincing them moves the plot forward" },
+    world3d: { sockets: ["conversation"], skin: "Explain it to the character in your own words; convincing them moves the story on" },
   },
   modes: {
     teach_back: teachBack,

@@ -7,6 +7,7 @@ import { trigPlatformerSlices } from "../fixtures/trig-platformer.slices";
 import { wave2Slices } from "../fixtures/wave2.slices";
 import { assembleGameSpec } from "../src/pipeline/assemble";
 import { BOARD_SHOWCASE } from "../fixtures/board-showcase.slices";
+import { buildWorld3DFixture, WORLD3D_SHOWCASE } from "../fixtures/world3d-showcase";
 
 /*
  * Fixture drift guard (reviewer item "Fixture drift"): the hand-authored *.slices.ts files are the source
@@ -44,6 +45,12 @@ describe("fixture JSON matches its slices (no silent drift)", () => {
   for (const { slices, file } of BOARD_SHOWCASE) {
     it(`board showcase ${slices.id} ↔ ${file}`, () => {
       expect(assembleGameSpec(slices)).toEqual(loadJson(file));
+    });
+  }
+
+  for (const f of WORLD3D_SHOWCASE) {
+    it(`world3d showcase ${f.slices.id} ↔ ${f.file}`, () => {
+      expect(buildWorld3DFixture(f)).toEqual(loadJson(f.file));
     });
   }
 });

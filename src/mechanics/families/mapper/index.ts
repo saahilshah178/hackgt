@@ -17,6 +17,7 @@ export const mapper = defineFamily({
     strategy: { sockets: ["market"], skin: "Place goods on the price line" },
     explorer: { sockets: ["terminal"], skin: "Plot the position on the map terminal" },
     story: { sockets: ["journal"], skin: "Pin the moment on the journal map" },
+    world3d: { sockets: ["vista", "inscription"], skin: "From the overlook, place it on the land" },
   },
   modes: {
     number_line: numberLine,

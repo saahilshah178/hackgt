@@ -42,7 +42,7 @@ describe("explainer.teach_back: params and check()", () => {
     expect(teachBack.implemented).toBe(true);
     expect(teachBack.blindSolvable).toBe(false);
     expect(teachBack.widget).toBe("explain");
-    expect(Object.keys(explainer.genres).sort()).toEqual(["dungeon", "explorer", "mystery", "platformer", "puzzle", "story", "strategy"]);
+    expect(Object.keys(explainer.genres).sort()).toEqual(["dungeon", "explorer", "mystery", "platformer", "puzzle", "story", "strategy", "world3d"]);
   });
 
   it("valid params parse and pass check()", () => {
