@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import type { ClothColor, Material, SkinTone } from "../../../contracts/world3d";
+import type { Quality } from "../../core/compose";
+import { albedoTint, loadTextureSet, type TextureSet } from "./textures";
 
 /*
  * The material library: one cached MeshStandardMaterial per (material, options). Structure builders, characters and
@@ -7,14 +9,17 @@ import type { ClothColor, Material, SkinTone } from "../../../contracts/world3d"
  * can be upgraded in one place.
  *
  * API (stable): getWorldMaterial(material, opts), clothMaterial(color), skinMaterial(tone), accentMaterial(kind),
- * MATERIAL_BASE. Textured versions attach CC0 PBR maps asynchronously without changing identity (the flat colour shows
- * until the maps arrive, and on the Low tier).
+ * MATERIAL_BASE, CLOTH_HEX, SKIN_HEX. Textured versions attach the CC0 PBR maps (public/world3d/textures, see
+ * ./textures.ts) asynchronously WITHOUT changing object identity: the flat colour shows until the maps arrive, and on the
+ * Low tier (`setMaterialQuality("low")` detaches them again). When textured, the material colour becomes the multiplier
+ * that moves the photo's average albedo onto MATERIAL_BASE, so a textured wall keeps the palette the builders chose.
+ * Builders emit metre-scaled UVs; `repeat` defaults to the texture's real-world size (one tile per ~1-3 m).
  */
 
 export interface MaterialOptions {
   /** multiply the base colour (sRGB hex), e.g. a painted wall */
   tint?: string;
-  /** texture repeats per metre of UV (builders emit metre-scaled UVs); default 0.5 */
+  /** texture repeats per metre of UV (builders emit metre-scaled UVs); default: the photo's real-world scale */
   repeat?: number;
   /** 0..3: small colour/roughness variation so repeated pieces don't look cloned */
   variant?: number;
@@ -76,6 +81,21 @@ export const SKIN_HEX: Record<SkinTone, string> = {
   tone8: "#4f311f",
 };
 
+/** Materials with a photographic texture set (glass, ice, crystal and gold are shading-only). */
+export const TEXTURED_MATERIALS: ReadonlySet<Material> = new Set<Material>([
+  "sandstone",
+  "limestone",
+  "marble",
+  "granite",
+  "basalt",
+  "brick",
+  "adobe",
+  "plaster",
+  "wood",
+  "thatch",
+  "metal",
+]);
+
 const cache = new Map<string, THREE.MeshStandardMaterial>();
 
 function vary(hex: string, variant: number): THREE.Color {
@@ -88,8 +108,91 @@ function vary(hex: string, variant: number): THREE.Color {
   return c;
 }
 
+// ---------------------------------------------------------------- texture attachment
+
+interface Textured {
+  material: THREE.MeshStandardMaterial;
+  kind: Material;
+  /** the flat (untextured) colour */
+  flat: THREE.Color;
+  repeat: number | null;
+  variant: number;
+  /** per-material clones of the shared maps (same GPU image, own repeat/offset) */
+  maps: { diff: THREE.Texture; nor: THREE.Texture; arm: THREE.Texture; color: THREE.Color } | null;
+  attached: boolean;
+}
+
+const textured: Textured[] = [];
+let texturesOn = true;
+
+function buildMaps(entry: Textured, set: TextureSet) {
+  const perMetre = entry.repeat ?? 1 / Math.max(0.3, set.info.metres);
+  // offset each variant so neighbouring copies of a builder don't show the same blocks in the same place
+  const offset = [0, 0.37, 0.61, 0.83][entry.variant % 4];
+  const clone = (t: THREE.Texture) => {
+    const c = t.clone();
+    c.repeat.set(perMetre, perMetre);
+    c.offset.set(offset, offset * 0.7);
+    c.needsUpdate = true;
+    return c;
+  };
+  const [r, g, b] = albedoTint(`#${entry.flat.getHexString()}`, set.info.avg, 0.9);
+  entry.maps = { diff: clone(set.diff), nor: clone(set.nor), arm: clone(set.arm), color: new THREE.Color(r, g, b) };
+}
+
+function attach(entry: Textured) {
+  if (!entry.maps || entry.attached) return;
+  const m = entry.material;
+  m.map = entry.maps.diff;
+  m.normalMap = entry.maps.nor;
+  m.roughnessMap = entry.maps.arm;
+  m.aoMap = entry.maps.arm;
+  m.aoMapIntensity = 0.85;
+  if (m.metalness > 0.5) m.metalnessMap = entry.maps.arm;
+  m.color.copy(entry.maps.color);
+  entry.attached = true;
+  m.needsUpdate = true;
+}
+
+function detach(entry: Textured) {
+  if (!entry.attached) return;
+  const m = entry.material;
+  m.map = null;
+  m.normalMap = null;
+  m.roughnessMap = null;
+  m.aoMap = null;
+  m.metalnessMap = null;
+  m.color.copy(entry.flat);
+  entry.attached = false;
+  m.needsUpdate = true;
+}
+
+function requestTextures(entry: Textured) {
+  void loadTextureSet(entry.kind).then((set) => {
+    if (!set) return;
+    if (!entry.maps) buildMaps(entry, set);
+    if (texturesOn) attach(entry);
+  });
+}
+
+/**
+ * Called by <WorldScene> with the quality tier: Low shows flat colours (no texture fetches, no extra samplers); Medium
+ * and High attach the photo maps. Identity of every cached material is preserved.
+ */
+export function setMaterialQuality(q: Quality) {
+  const on = q !== "low";
+  if (on === texturesOn) return;
+  texturesOn = on;
+  for (const entry of textured) {
+    if (on) {
+      if (entry.maps) attach(entry);
+      else requestTextures(entry);
+    } else detach(entry);
+  }
+}
+
 export function getWorldMaterial(material: Material, opts: MaterialOptions = {}): THREE.MeshStandardMaterial {
-  const key = `${material}|${opts.tint ?? ""}|${opts.repeat ?? 0.5}|${opts.variant ?? 0}|${opts.emissive ?? ""}|${opts.emissiveIntensity ?? 0}|${opts.side ?? 0}`;
+  const key = `${material}|${opts.tint ?? ""}|${opts.repeat ?? "auto"}|${opts.variant ?? 0}|${opts.emissive ?? ""}|${opts.emissiveIntensity ?? 0}|${opts.side ?? 0}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const base = MATERIAL_BASE[material];
@@ -103,12 +206,18 @@ export function getWorldMaterial(material: Material, opts: MaterialOptions = {})
     transparent: material === "glass" || material === "ice",
     opacity: material === "glass" ? 0.35 : material === "ice" ? 0.85 : 1,
   });
+  if (material === "gold" || material === "metal" || material === "glass" || material === "ice" || material === "crystal") m.envMapIntensity = 1.4;
   if (opts.emissive) {
     m.emissive = new THREE.Color(opts.emissive);
     m.emissiveIntensity = opts.emissiveIntensity ?? 1;
   }
   m.name = `world:${material}`;
   cache.set(key, m);
+  if (TEXTURED_MATERIALS.has(material)) {
+    const entry: Textured = { material: m, kind: material, flat: color.clone(), repeat: opts.repeat ?? null, variant: opts.variant ?? 0, maps: null, attached: false };
+    textured.push(entry);
+    if (texturesOn) requestTextures(entry);
+  }
   return m;
 }
 
