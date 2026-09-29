@@ -30,7 +30,8 @@
     "art:sheet": "tsx scripts/art-contact-sheet.ts",
     "world3d:shot": "tsx scripts/world3d-shot.ts",
     "world3d:critique": "tsx scripts/world3d-critique.ts",
-    "world3d:assets": "tsx scripts/fetch-world3d-assets.ts"
+    "world3d:assets": "tsx scripts/fetch-world3d-assets.ts",
+    "world3d:live": "tsx scripts/world3d-live.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "4.0.78",
