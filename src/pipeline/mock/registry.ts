@@ -17,6 +17,10 @@ export interface MockSampleResponses {
   blindSolver?: unknown;
   /** Challenge Writer replies, keyed by ENCOUNTER_ID (the Director assigns these ids). */
   challenges?: Record<string, unknown>;
+  /** A recorded matcher shortlist (per concept): mock mode uses it instead of the retrieval scorer's top 3. */
+  matches?: import("../../contracts/match").MatchResult[];
+  /** A recorded 3D world for world3d games (docs/design/60): used in mock mode when it covers every encounter. */
+  world3d?: import("../../contracts/world3d").World3D;
 }
 
 const registry = new Map<string, MockSampleResponses>();
@@ -44,6 +48,7 @@ const KEYWORDS: Record<string, string[]> = {
   trig: ["trig", "trigonometric", "sine", "cosine", "radian", "amplitude"],
   cell: ["cell transport", "osmosis", "diffusion", "membrane", "endocytosis", "exocytosis"],
   civil_rights: ["civil rights", "montgomery", "voting rights act", "brown v. board", "selma", "freedom rides"],
+  egypt: ["ancient egypt", "old kingdom", "pharaoh", "hieroglyphs", "mummification", "great pyramid", "khufu", "giza"],
 };
 
 /**

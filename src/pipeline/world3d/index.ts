@@ -7,6 +7,7 @@ import { emit } from "../events";
 import { GenerationError } from "../generate";
 import type { Progress } from "../llm";
 import { getCriticModel, getModel, modelIdOf } from "../models";
+import { getMockSample, resolveMockSample } from "../mock/registry";
 import { repairNote } from "../prompts";
 import { validateGameSpec } from "../validate/validate-gamespec";
 import { runArchitect, type ArchitectResult } from "./architect";
@@ -58,7 +59,7 @@ export async function buildWorld3D(a: BuildWorld3DArgs): Promise<GameSpec> {
 
   let world: World3D;
   if (isMockLLM() && !a.forceArchitect) {
-    world = composerWorld(a, note, "mock mode");
+    world = recordedWorld(a, note) ?? composerWorld(a, note, "mock mode");
   } else {
     try {
       world = await designWorld(a, note);
@@ -77,6 +78,31 @@ export async function buildWorld3D(a: BuildWorld3DArgs): Promise<GameSpec> {
     throw new GenerationError(again.issues);
   }
   throw new GenerationError(result.issues);
+}
+
+/**
+ * Mock mode only: a recorded world for this source (the demo's hand-authored Giza), when it anchors every encounter the
+ * game ended up with. Moments and act entries for encounters the adapted blueprint dropped are removed; the result must
+ * still pass every check, or the composer builds the world instead.
+ */
+function recordedWorld(a: BuildWorld3DArgs, note: (p: Progress) => void): World3D | null {
+  const sample = getMockSample(resolveMockSample({ title: a.km.title, text: `${a.km.subject.topic} ${a.spec.source.title}` }));
+  const recorded = sample?.world3d;
+  if (!recorded) return null;
+  const ids = new Set(a.spec.encounters.map((e) => e.id));
+  if (!a.spec.encounters.every((e) => recorded.moments.some((m) => m.encounterId === e.id))) return null;
+  const trimmed: World3D = {
+    ...recorded,
+    moments: recorded.moments.filter((m) => ids.has(m.encounterId)),
+    quest: {
+      ...recorded.quest,
+      acts: recorded.quest.acts.map((act) => ({ ...act, encounterIds: act.encounterIds.filter((id) => ids.has(id)) })).filter((act) => act.encounterIds.length > 0),
+    },
+  };
+  const checked = checkWorld(a.spec, trimmed);
+  if (checked.issues.length > 0) return null;
+  note({ agent: "world_architect", status: "done", note: `mock mode: using the recorded world for this source (${trimmed.landmarks.length} landmarks, ${trimmed.npcs.length} characters)` });
+  return { ...checked.world, provenance: { source: "fixture", model: null, reviews: [], fixes: checked.composed.fixes } };
 }
 
 /** The deterministic composer's world, with a progress note saying why and how it went. */

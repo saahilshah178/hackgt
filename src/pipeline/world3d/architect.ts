@@ -23,6 +23,7 @@ import { runAgent, type Progress } from "../llm";
 import { sharedContext } from "../prompts";
 import { checkWorld, issueLines, mapSizeFor, walkBudgetMetres, type WorldCheck } from "./checks";
 import { clampText, toId, toRef } from "./text";
+import { architectExemplar } from "./exemplar";
 
 /*
  * S10 World Architect (docs/design/60 §2.5 step 1-2): Astra (the CODER tier, gpt-6-astra) writes the World3D slice from
@@ -141,6 +142,7 @@ export function architectPrompt(spec: GameSpec, km: KnowledgeMap, intake: Intake
     `# Story already written (keep your lines consistent with it)\n${storyLines(spec).join("\n")}`,
     `# Lessons (the big idea per concept: ground personas, dialogue and collectibles in these)\n${lessonLines(spec).join("\n")}`,
     `# Component catalog\n${catalogText()}`,
+    architectExemplar(),
     `# Map\nThe map is ${size} m square: x and z both run from -${half} to ${half} (x east, z SOUTH, origin at the centre). This is a ${spec.targetMinutes}-minute game: the straight-line walk from the spawn through every moment in act order should stay under about ${Math.round(walkBudgetMetres(spec.targetMinutes) * 0.8)} m.`,
     `# Task\nDesign the World3D for this game.${boss ? ` The finale is ${boss.id}: anchor it to the goal landmark and put it in the last act.` : ""}`,
   ].join("\n\n");

@@ -1,4 +1,5 @@
 import type { Intake, KnowledgeMap } from "../src/contracts/knowledge";
+import type { MatchResult } from "../src/contracts/match";
 
 /**
  * Curriculum output for samples/ancient-egypt.pdf (the 3D open-world demo, docs/design/60 §3). Every quote below
@@ -195,3 +196,14 @@ export const egyptIntake: Intake = {
     answers: [0, 1, -1],
   },
 };
+
+/** The matcher's shortlist the demo was designed against (mock mode replays it; see src/pipeline/agents/matcher.ts). */
+export const egyptMatches: MatchResult[] = [
+  { conceptId: "c_flood", picks: [{ teachingMechanicId: "chrono_bridge", score: 7.5, reason: "Flood, silt, planting, harvest has an order.", targetsMisconception: "Egyptian farmers watered their fields with rain." }, { teachingMechanicId: "explain_the_cause", score: 7.0, reason: "Explaining why the flood matters is the concept.", targetsMisconception: "Egyptian farmers watered their fields with rain." }, { teachingMechanicId: "mimic_chest", score: 3.0, reason: "Universal fallback.", targetsMisconception: "A bigger flood was always better." }], wishlist: [] },
+  { conceptId: "c_social_pyramid", picks: [{ teachingMechanicId: "era_sorter", score: 7.0, reason: "Sorting people into levels is the concept.", targetsMisconception: null }, { teachingMechanicId: "mimic_chest", score: 4.5, reason: "Break 'most Egyptians were slaves'.", targetsMisconception: "Most Egyptians were slaves." }], wishlist: [] },
+  { conceptId: "c_hieroglyphs", picks: [{ teachingMechanicId: "who_said_it", score: 6.5, reason: "Match terms to what they are.", targetsMisconception: "Every hieroglyph is a picture of the thing it means." }, { teachingMechanicId: "mimic_chest", score: 3.0, reason: "Universal fallback.", targetsMisconception: null }], wishlist: [] },
+  { conceptId: "c_builders", picks: [{ teachingMechanicId: "mimic_chest", score: 6.0, reason: "Break the slave story with the evidence.", targetsMisconception: "The pyramids were built by slaves." }, { teachingMechanicId: "evidence_board", score: 8.5, reason: "Eliminate stories with the evidence of Giza.", targetsMisconception: "The pyramids were built by slaves." }], wishlist: [] },
+  { conceptId: "c_construction", picks: [{ teachingMechanicId: "domino_engine", score: 7.5, reason: "Quarry to pyramid is a chain.", targetsMisconception: "The blocks were carried from far away to Giza." }, { teachingMechanicId: "evidence_board", score: 6.0, reason: "The quarry clue eliminates the far-away story.", targetsMisconception: null }], wishlist: [] },
+  { conceptId: "c_mummification", picks: [{ teachingMechanicId: "chrono_bridge", score: 8.0, reason: "The steps have a strict order.", targetsMisconception: "Embalmers removed the heart along with the other organs." }, { teachingMechanicId: "mimic_chest", score: 3.0, reason: "Universal fallback.", targetsMisconception: null }], wishlist: [] },
+  { conceptId: "c_gods", picks: [{ teachingMechanicId: "who_said_it", score: 7.0, reason: "Match each god to their role.", targetsMisconception: "Anubis was the god who judged the dead." }, { teachingMechanicId: "mimic_chest", score: 3.0, reason: "Universal fallback.", targetsMisconception: null }], wishlist: [] },
+];
